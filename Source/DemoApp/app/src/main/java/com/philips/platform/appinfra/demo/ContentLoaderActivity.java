@@ -34,7 +34,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_loader);
         EditTextServiceId = (EditText) findViewById(R.id.editTextServiceId);
-        EditTextServiceId.setText("userreg.janrain.api"); //test
+        EditTextServiceId.setText("https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1"); //test
         EditTextMaxHour = (EditText) findViewById(R.id.editTextMaxAgeInHours);
         EditTextContentClass = (EditText) findViewById(R.id.editTextContentClassType);
         EditTextContentType = (EditText) findViewById(R.id.editTextContentType);
@@ -52,7 +52,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                     showAlertDialog("Invalid Input", "Invalid Service ID ");
 
                 } else {
-                    mContentLoader = new ContentLoader(EditTextServiceId.getText().toString().trim(), magAge, ContentArticle.class, "name of content", AppInfraApplication.gAppInfra);
+                    mContentLoader = new ContentLoader(EditTextServiceId.getText().toString().trim(), magAge, ContentArticle.class, "articles", AppInfraApplication.gAppInfra);
 
                     mContentLoader.refresh(new ContentLoaderInterface.OnRefreshListener() {
                         @Override

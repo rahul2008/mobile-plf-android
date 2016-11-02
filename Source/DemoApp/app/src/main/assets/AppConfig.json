@@ -31,7 +31,7 @@
     "appidentity.appState"  : "PRODUCTION",
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
     "tagging.sensitiveData": ["bundleId, language" ],
-    "contentLoader.limitSize":2
+    "contentLoader.limitSize":1000
 
   }
 }

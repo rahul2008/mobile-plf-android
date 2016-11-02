@@ -14,6 +14,7 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -26,6 +27,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by 310209604 on 2016-08-10.
  */
 public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content> {
+
+    private  int requestCount = 0;
+    private int offset = 1;
+    private final int downloadLimit;
+    private int articlesDownloadedCount;
+
     // region public methods
     /**
      * Create a content loader of type Content, loading content from the given service using the given Content class type.
@@ -38,12 +45,14 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mServiceId = serviceId;
         mMaxAgeInHours = maxAgeInHours;
         mClassType = contentClassType;
+        mContentType = contentType;
         mState = STATE.NOT_INITIALIZED;
         mAppInfra=appInfra;
         mRestInterface = mAppInfra.getRestClient();
         mParams= new HashMap<String,String>();
         mHeaders= new HashMap<String,String>();
         downloadInProgress = new AtomicBoolean(false);
+        downloadLimit = getDownloadLimitFromConfig();
     }
     // endregion
 
@@ -51,19 +60,40 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     @Override
     public void refresh(final OnRefreshListener refreshListener) {
 
+
         if (downloadInProgress.compareAndSet(false, true)) {
             try {
 
                // mAppInfra.
-                mRestInterface.jsonObjectRequestWithServiceID(Request.Method.GET, mServiceId, RestManager.LANGUAGE, getOffsetPath(0), new RestInterface.ServiceIDCallback() {
+                mRestInterface.jsonObjectRequestWithServiceID(Request.Method.GET, mServiceId, RestManager.LANGUAGE, getOffsetPath(offset), new RestInterface.ServiceIDCallback() {
+
                             @Override
                             public void onSuccess(Object response) {
                                 JSONObject serviceResponse = (JSONObject) response;
-                                Log.i("CL REFRSH RESP", "" + serviceResponse);
-                                clearParamsAndHeaders();// clear headerd and params from rest client
-                                refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
-                                downloadInProgress.set(false);
+                                if(mClassType.equals(ContentArticle.class)) {// for uGrow
+                                    JSONObject result = serviceResponse.optJSONObject("result");
+                                    if (null != result) {
+                                        JSONArray articleList = result.optJSONArray(mContentType);
+                                        if (null != articleList && articleList.length()>0) {
+                                            articlesDownloadedCount=articleList.length();
+                                        }
+                                    }
+                                }
+                                Log.i("CL REFRSH RESP", "Download in progress" + serviceResponse);
+                                if(articlesDownloadedCount<downloadLimit){ // download is over
+                                    Log.i("CL REFRSH RESP", "Download completed" + serviceResponse);
+                                    clearParamsAndHeaders();// clear headerd and params from rest client
+                                    downloadInProgress.set(false);
+                                    offset=0;
+                                    articlesDownloadedCount=0;
+                                    refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
 
+                                }else{// download next
+                                    downloadInProgress.set(false); // allow same object to call refresh recursively
+                                    articlesDownloadedCount=0;
+                                    offset+=downloadLimit;// next offset
+                                    refresh(refreshListener); // recursive refresh
+                                }
                             }
 
                             @Override
@@ -72,6 +102,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                 clearParamsAndHeaders();// clear headerd and params from rest client
                                 refreshListener.onError(ERROR.SERVER_ERROR, error);
                                 downloadInProgress.set(false);
+                                requestCount=0;
+                                offset=0;
                             }
                         },
                         mHeaders, mParams);
@@ -140,6 +172,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private final String mServiceId;
     private URL mServiceURL;
     private Class<Content> mClassType;
+    private String mContentType;
     private int mMaxAgeInHours;
     private STATE mState;
     private AppInfraInterface mAppInfra;
@@ -156,10 +189,13 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     String getOffsetPath(int offset){
         //https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1
         //https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(100).json
+         String path=".offset.("+offset+").limit.("+downloadLimit+").json";
+        return path;
+    }
 
+    int getDownloadLimitFromConfig(){
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         Integer contentLoaderLimit = (Integer) mAppInfra.getConfigInterface().getPropertyForKey("contentLoader.limitSize", "appinfra",  configError);
-        String path=".offset.("+offset+").limit.("+contentLoaderLimit+").json";
-        return path;
+        return contentLoaderLimit;
     }
 }
