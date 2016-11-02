@@ -68,13 +68,17 @@ public class ImageButton extends AppCompatButton {
         //We allow setting drawable programmatically too, which can be case for vectors.
         if (resourceId != -1) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();
-            drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            setCompoundDrawables(drawable, null, null, null);
+            setImageDrawable(drawable);
         }
     }
 
+    public void setImageResource(int resourceId) {
+        Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId);
+        setImageDrawable(drawable);
+    }
+
     public void setImageDrawable(Drawable drawable) {
-        Drawable wrappedDrawable = drawable;
+        Drawable wrappedDrawable = drawable.mutate();
         if (drawableColorlist != null && drawable != null) {
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
             wrappedDrawable = DrawableCompat.wrap(drawable);

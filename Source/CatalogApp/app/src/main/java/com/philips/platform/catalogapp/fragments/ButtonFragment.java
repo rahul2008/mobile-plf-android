@@ -9,7 +9,7 @@ import android.databinding.ObservableBoolean;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +32,8 @@ public class ButtonFragment extends BaseFragment {
         fragmentBinding.setFrag(this);
         shareDrawable = getShareIcon();
         restoreViews(savedInstanceState);
-        fragmentBinding.imageShare.setImageDrawable(shareDrawable.mutate());
-        fragmentBinding.quietIconOnly.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.ic_theme_setting_entrance_icon, getContext().getTheme()));
+        fragmentBinding.imageShare.setImageDrawable(getShareIcon());
+//        fragmentBinding.quietIconOnly.setImageDrawable(getShareIcon());
         return fragmentBinding.getRoot();
     }
 
@@ -54,7 +54,7 @@ public class ButtonFragment extends BaseFragment {
     }
 
     public Drawable getShareIcon() {
-        return VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
+        return ContextCompat.getDrawable(getContext(), R.drawable.share);
     }
 
     public void toggleIcons(boolean isIconToggleChecked) {

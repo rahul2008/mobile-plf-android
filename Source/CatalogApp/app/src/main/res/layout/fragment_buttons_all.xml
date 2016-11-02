@@ -227,11 +227,13 @@
 
                 <com.philips.platform.uit.view.widget.ImageButton
                     android:id="@+id/imageShare"
+                    style="@style/UITImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:layout_marginStart="24dp"
-                    android:enabled="@{frag.isButtonsEnabled}"/>
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    app:uitImageButtonDrawableSrc="@drawable/ic_hamburger_menu"/>
 
                 <com.philips.platform.uit.view.widget.ImageButton
                     android:id="@+id/quiet_icon_only"
@@ -239,9 +241,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
-                    app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
                     android:layout_marginStart="24dp"
-                    android:enabled="@{frag.isButtonsEnabled}"/>
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    app:uitImageButtonDrawableSrc="@drawable/ic_hamburger_menu"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

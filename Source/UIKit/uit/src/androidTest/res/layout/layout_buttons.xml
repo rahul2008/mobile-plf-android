@@ -104,6 +104,7 @@
                 android:id="@+id/quiet_icon_only"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/UIDQuietIconButton"
                 app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
                 android:layout_marginTop="@dimen/component_bottom_spacing"/>
 
