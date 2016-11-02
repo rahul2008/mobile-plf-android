@@ -14,7 +14,7 @@
 
         <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-
+        <item name="uitQuietButtonTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitNavigationTextColor">@color/uitColorWhite</item>
 
 

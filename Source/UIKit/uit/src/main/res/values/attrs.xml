@@ -19,6 +19,7 @@
         <attr name="uitControlPrimaryEnabledColor" format="reference|color"/>
         <attr name="uitControlPrimaryPressedColor" format="reference|color"/>
         <attr name="uitControlPrimaryTextColor" format="reference|color"/>
+
         <attr name="uitControlPrimaryTextPressedColor" format="reference|color"/>
         <attr name="uitControlPrimaryDisabledAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryTextDisabledAlpha" format="reference|float"/>
