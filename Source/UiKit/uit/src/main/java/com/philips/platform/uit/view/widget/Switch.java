@@ -10,12 +10,11 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
@@ -25,7 +24,8 @@ import com.philips.platform.uit.utils.UIDUtils;
 
 public class Switch extends SwitchCompat {
 
-    int translate = -1;
+    private Drawable trackDrawable;
+    private Rect trackPadding = new Rect();
 
     public Switch(Context context) {
         this(context, null);
@@ -38,32 +38,21 @@ public class Switch extends SwitchCompat {
     public Switch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
+        trackDrawable = getTrackDrawable();
+        saveTrackDrawablePadding(trackDrawable);
     }
 
     @Override
-    public void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int width = ViewCompat.getMeasuredWidthAndState(this);
-        if (widthMode == MeasureSpec.AT_MOST && getSwitchMinWidth() > 0) {
-            width = Math.min(width, getSwitchMinWidth());
-            final Rect inset = DrawableUtils.getOpticalBounds(getThumbDrawable());
-            translate = inset.left;
-        }
-
-        setMeasuredDimension(width, ViewCompat.getMeasuredHeightAndState(this));
+    public void setTrackDrawable(final Drawable trackDrawable) {
+        super.setTrackDrawable(trackDrawable);
+        this.trackDrawable = trackDrawable;
+        saveTrackDrawablePadding(trackDrawable);
     }
 
     @Override
-    public void draw(final Canvas canvas) {
-        if (translate != -1) {
-            canvas.save();
-            canvas.translate(translate, 0);
-        }
-        super.draw(canvas);
-        if (translate != -1) {
-            canvas.restore();
-        }
+    public void onDraw(final Canvas canvas) {
+        applyTrackHorizontalPadding();
+        super.onDraw(canvas);
     }
 
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
@@ -99,6 +88,24 @@ public class Switch extends SwitchCompat {
         int borderColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchBorderColorList, -1);
         if (UIDUtils.isMinLollipop() && (borderColorStateID > -1) && (getBackground() instanceof RippleDrawable)) {
             ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(getResources(), theme, borderColorStateID));
+            int radius = getResources().getDimensionPixelSize(R.dimen.uid_switch_border_ripple_radius);
+            UIDUtils.setRippleMaxRadius(getBackground(),radius);
+        }
+    }
+
+
+    private void saveTrackDrawablePadding(final Drawable trackDrawable) {
+        if (trackDrawable != null) {
+            trackDrawable.getPadding(trackPadding);
+        }
+    }
+
+    protected void applyTrackHorizontalPadding() {
+        if (trackDrawable != null) {
+            Rect bounds = trackDrawable.getBounds();
+            int left = bounds.left + trackPadding.left;
+            int right = bounds.right - trackPadding.right;
+            trackDrawable.setBounds(left, bounds.top, right, bounds.bottom);
         }
     }
 }

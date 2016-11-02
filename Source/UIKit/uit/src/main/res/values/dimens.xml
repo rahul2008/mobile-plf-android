@@ -16,9 +16,8 @@
     <dimen name="uid_switch_track_radius">16dp</dimen>
     <dimen name="uid_switch_track_width">32dp</dimen>
     <dimen name="uid_switch_track_height">16dp</dimen>
-    <dimen name="uid_switch_track_inset_vertical">4dp</dimen>
-    <dimen name="uid_switch_thumb_inset_horizontal">8dp</dimen>
-
+    <dimen name="uid_switch_track_inset">4dp</dimen>
+k
     <!--Text only button-->
     <dimen name="uit_button_min_height">40dp</dimen>
     <dimen name="uit_button_min_width">48dp</dimen> <!-- 24 + 24 dp -->

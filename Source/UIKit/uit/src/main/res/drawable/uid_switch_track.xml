@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-       android:insetBottom="@dimen/uid_switch_track_inset_vertical"
-       android:insetTop="@dimen/uid_switch_track_inset_vertical">
+       android:insetLeft="@dimen/uid_switch_track_inset"
+       android:insetTop="@dimen/uid_switch_track_inset"
+       android:insetRight="@dimen/uid_switch_track_inset"
+       android:insetBottom="@dimen/uid_switch_track_inset">
     <shape
         android:shape="rectangle">
         <solid android:color="@android:color/white"/>

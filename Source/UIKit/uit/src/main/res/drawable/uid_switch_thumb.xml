@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-       android:insetLeft="@dimen/uid_switch_thumb_inset_horizontal"
-       android:insetRight="@dimen/uid_switch_thumb_inset_horizontal">
-    <shape
-        android:shape="oval">
-        <solid android:color="@android:color/white"/>
-        <size
-            android:width="@dimen/uid_switch_thumb_radius"
-            android:height="@dimen/uid_switch_thumb_radius"/>
-    </shape>
-</inset>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="oval">
+    <solid android:color="@android:color/white"/>
+    <size
+        android:width="@dimen/uid_switch_thumb_radius"
+        android:height="@dimen/uid_switch_thumb_radius"/>
+</shape>
