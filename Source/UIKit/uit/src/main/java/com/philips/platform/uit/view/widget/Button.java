@@ -125,7 +125,9 @@ public class Button extends AppCompatButton {
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
             final Drawable[] compoundDrawables = getCompoundDrawables();
             Drawable compat = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTintList(compat, drawableColorlist);
+            if (drawableColorlist != null) {
+                DrawableCompat.setTintList(compat, drawableColorlist);
+            }
             setCompoundDrawables(compat, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
         }
     }
