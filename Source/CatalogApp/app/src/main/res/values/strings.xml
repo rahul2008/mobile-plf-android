@@ -39,4 +39,9 @@
     <string name="content_desc_close">close</string>
     <string name="preview">Preview</string>
     <string name="page_tittle_settings">Settings</string>
+
+    <!--Settings page for ToggleSwitch-->
+    <string name="switch_text">Switch</string>
+    <string name="switch_disabled_on">Disabled Switch(On)</string>
+    <string name="switch_disabled_off">Disabled Switch(Off)</string>
 </resources>

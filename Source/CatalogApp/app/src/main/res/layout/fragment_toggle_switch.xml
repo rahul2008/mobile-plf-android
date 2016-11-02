@@ -1,20 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-  <LinearLayout
-      android:id="@+id/buttons_parent"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="@dimen/button_layout_padding"
-      android:layout_marginStart="@dimen/button_layout_padding">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
 
-    <com.philips.platform.uit.view.widget.Switch
-        android:id="@+id/toggle_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/switch_text"/>
 
-  </LinearLayout>
+            <com.philips.platform.uit.view.widget.Switch
+                android:id="@+id/toggle_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <include layout="@layout/divider_layout"/>
+        <!--Switch disabled on-->
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/switch_disabled_on"/>
+
+            <com.philips.platform.uit.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:checked="true"
+                android:enabled="false"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <include layout="@layout/divider_layout"/>
+
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/switch_disabled_off"/>
+
+            <com.philips.platform.uit.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:checked="false"
+                android:enabled="false"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </ScrollView>
