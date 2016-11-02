@@ -40,7 +40,7 @@ public class ToggleSwitchTest {
     private Resources testResources;
 
     @Before
-    public void setup() {
+    public void setUp() {
 
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uit.test.R.layout.layout_toggle_switch);

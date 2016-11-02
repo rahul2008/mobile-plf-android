@@ -6,11 +6,13 @@ package com.philips.platform.uit.view.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -24,8 +26,10 @@ import com.philips.platform.uit.utils.UIDUtils;
 
 public class Switch extends SwitchCompat {
 
-    private Drawable trackDrawable;
     private Rect trackUIDPadding;
+
+    //We need to extract the drawable from layer list to avoid recursive ondraw call if bounds are set
+    private Drawable uidTrackDrawable;
 
     public Switch(Context context) {
         this(context, null);
@@ -38,19 +42,30 @@ public class Switch extends SwitchCompat {
     public Switch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
-        trackDrawable = getTrackDrawable();
     }
 
     @Override
     public void setTrackDrawable(final Drawable trackDrawable) {
         super.setTrackDrawable(trackDrawable);
-        this.trackDrawable = trackDrawable;
+        setUIDTrackDrawable();
     }
 
     @Override
-    public void onDraw(final Canvas canvas) {
+    public void draw(final Canvas c) {
         applyTrackHorizontalPadding();
-        super.onDraw(canvas);
+        super.draw(c);
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        final int[] state = getDrawableState();
+        if (uidTrackDrawable != null) {
+            boolean changed = uidTrackDrawable.setState(state);
+            if (changed) {
+                invalidate();
+            }
+        }
     }
 
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
@@ -58,6 +73,7 @@ public class Switch extends SwitchCompat {
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         trackUIDPadding = saveUIDTrackPaddings(typedArray, theme, attrs);
+        setUIDTrackDrawable();
         applyThumbTint(typedArray, theme, attrs);
         applyTrackTint(typedArray, theme, attrs);
         applyRippleTint(typedArray, theme, attrs);
@@ -76,9 +92,13 @@ public class Switch extends SwitchCompat {
     private void applyTrackTint(final TypedArray typedArray, final Resources.Theme theme, final AttributeSet attrs) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchTrackColorList, -1);
         if (textColorStateID != -1) {
-            setTrackDrawable(DrawableCompat.wrap(getTrackDrawable()));
-
-            setTrackTintList(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
+            ColorStateList trackTintList = ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID);
+            if (uidTrackDrawable != null) {
+                DrawableCompat.setTintList(uidTrackDrawable, trackTintList);
+            } else {
+                setTrackDrawable(DrawableCompat.wrap(getTrackDrawable()));
+                setTrackTintList(trackTintList);
+            }
         }
     }
 
@@ -88,6 +108,16 @@ public class Switch extends SwitchCompat {
             setThumbDrawable(DrawableCompat.wrap(getThumbDrawable()));
 
             setThumbTintList(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
+        }
+    }
+
+    private void setUIDTrackDrawable() {
+        Drawable trackDrawable = getTrackDrawable();
+        if (trackDrawable instanceof LayerDrawable &&
+                ((LayerDrawable) trackDrawable).findDrawableByLayerId(R.id.uid_id_switch_track) != null) {
+            uidTrackDrawable = DrawableCompat.wrap(((LayerDrawable) getTrackDrawable()).findDrawableByLayerId(R.id.uid_id_switch_track));
+        } else {
+            uidTrackDrawable = null;
         }
     }
 
@@ -102,14 +132,14 @@ public class Switch extends SwitchCompat {
     }
 
     protected void applyTrackHorizontalPadding() {
-        if (trackDrawable != null) {
-            Rect bounds = trackDrawable.getBounds();
+        if (uidTrackDrawable != null) {
+            Rect bounds = getTrackDrawable().getBounds();
             int left = bounds.left + trackUIDPadding.left;
             int right = bounds.right - trackUIDPadding.right;
             int top = bounds.top + trackUIDPadding.top;
             int bottom = bounds.bottom - trackUIDPadding.bottom;
 
-            trackDrawable.setBounds(left, top, right, bottom);
+            uidTrackDrawable.setBounds(left, top, right, bottom);
         }
     }
 }
