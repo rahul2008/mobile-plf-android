@@ -9,8 +9,6 @@ import android.content.Context;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 
-import java.util.Locale;
-
 public class HybrisStore extends AbstractStore {
 
     public static final String WEBROOT = "pilcommercewebservices";
@@ -201,7 +199,7 @@ public class HybrisStore extends AbstractStore {
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
+        builder.append(getCountry()).append(LANG);
         return builder.toString();
     }
 
@@ -222,7 +220,7 @@ public class HybrisStore extends AbstractStore {
                 concat(SUFFIX_ENTRIES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
 
         //Address
-        mRegionsUrl = createRegionsUrl();
+        mRegionsUrl = createRegionsUrl().concat(mStoreConfig.getLocale());
         mGetUserUrl = mBaseURl.concat(LANG) + mStoreConfig.getLocale();
         mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(LANG) + mStoreConfig.getLocale();
         mEditAddressUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();

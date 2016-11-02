@@ -6,30 +6,30 @@
 
     <TextView
         android:id="@+id/delivery_mode_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/tvBoldTitle"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_toLeftOf="@+id/delivery_mode_price"
-        android:layout_marginStart="@dimen/iap_product_detail_left_padding"
-        android:layout_alignParentStart="true"
-        android:text="@string/iap_delivery_via"/>
-    <TextView
-        android:id="@+id/delivery_date"
-        android:layout_below="@id/delivery_mode_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/iap_product_detail_left_padding"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_toLeftOf="@+id/delivery_mode_price" />
+
+    <TextView
+        android:id="@+id/delivery_mode_description"
         style="@style/tvTitle"
-        android:layout_marginTop="@dimen/iap_order_one_spacing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/delivery_mode_name"
+        android:layout_below="@id/delivery_mode_name"
         android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
-        android:layout_alignStart="@id/delivery_mode_name"/>
+        android:layout_marginTop="@dimen/iap_order_one_spacing" />
 
     <TextView
         android:id="@+id/delivery_mode_price"
+        style="@style/tvBoldTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/tvBoldTitle"
-        android:layout_alignParentEnd="true"
         android:layout_alignBaseline="@id/delivery_mode_name"
-        android:layout_marginEnd="@dimen/iap_order_detail_margin_bottom"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/iap_order_detail_margin_bottom" />
 </RelativeLayout>
