@@ -114,6 +114,7 @@
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel85</item>
         <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_70</item>
+        <item name="uitControlPrimaryTextPressedColor">?attr/uitColorLevel85</item>
 
         <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
         <item name="uitControlPrimaryAlternateTextColor">?attr/uitColorLevel75</item>

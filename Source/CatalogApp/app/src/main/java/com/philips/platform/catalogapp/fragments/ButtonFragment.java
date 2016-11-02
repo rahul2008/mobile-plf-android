@@ -33,7 +33,7 @@ public class ButtonFragment extends BaseFragment {
         shareDrawable = getShareIcon();
         restoreViews(savedInstanceState);
         fragmentBinding.imageShare.setImageDrawable(shareDrawable.mutate());
-//        fragmentBinding.quietIconOnly.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.ic_theme_setting_entrance_icon, getContext().getTheme()));
+        fragmentBinding.quietIconOnly.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.ic_theme_setting_entrance_icon, getContext().getTheme()));
         return fragmentBinding.getRoot();
     }
 
