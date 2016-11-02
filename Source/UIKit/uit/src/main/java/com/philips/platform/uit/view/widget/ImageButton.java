@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -72,11 +73,34 @@ public class ImageButton extends AppCompatButton {
         }
     }
 
+    /**
+     * sets icon on button
+     *
+     * @param resourceId Non-vector resource for drawable, it will crash if vector resource id is passed
+     *                   if you have vector then you can use framework api to retrieve drawable as below
+     *                   VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
+     *                   and call setImageDrawable()
+     */
     public void setImageResource(int resourceId) {
         Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId);
         setImageDrawable(drawable);
     }
 
+    /**
+     * sets icon on button
+     *
+     * @param resourceId vector resource to be set as icon on button
+     */
+    public void setVectorResource(int resourceId) {
+        Drawable drawable = VectorDrawableCompat.create(getResources(), resourceId, getContext().getTheme());
+        setImageDrawable(drawable);
+    }
+
+    /**
+     * Sets icon on button with given drawable
+     *
+     * @param drawable drawable to be set as a icon on button
+     */
     public void setImageDrawable(Drawable drawable) {
         Drawable wrappedDrawable = drawable.mutate();
         if (drawableColorlist != null && drawable != null) {

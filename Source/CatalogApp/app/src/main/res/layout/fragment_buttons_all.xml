@@ -233,7 +233,7 @@
                     android:layout_marginEnd="24dp"
                     android:layout_marginStart="24dp"
                     android:enabled="@{frag.isButtonsEnabled}"
-                    app:uitImageButtonDrawableSrc="@drawable/ic_hamburger_menu"/>
+                    app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
 
                 <com.philips.platform.uit.view.widget.ImageButton
                     android:id="@+id/quiet_icon_only"
@@ -243,7 +243,7 @@
                     android:layout_marginEnd="24dp"
                     android:layout_marginStart="24dp"
                     android:enabled="@{frag.isButtonsEnabled}"
-                    app:uitImageButtonDrawableSrc="@drawable/ic_hamburger_menu"/>
+                    app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

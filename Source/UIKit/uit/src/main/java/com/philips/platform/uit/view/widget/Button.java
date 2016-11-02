@@ -119,7 +119,7 @@ public class Button extends AppCompatButton {
 
     private void applyDrawable(TypedArray typedArray) {
         int resourceId = typedArray.getResourceId(R.styleable.UITButton_uitButtonImageDrawableSrc, -1);
-//        We allow setting drawable programmatically too, which can be case for vectors.
+        // We allow setting drawable programmatically too, which can be case for vectors.
         if (resourceId != -1) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
