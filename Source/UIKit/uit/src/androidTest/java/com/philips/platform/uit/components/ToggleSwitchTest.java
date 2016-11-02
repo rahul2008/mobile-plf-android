@@ -12,6 +12,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uit.R;
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.utils.TestConstants;
@@ -54,17 +55,15 @@ public class ToggleSwitchTest {
     public void verifyToggleSwitchTrackWidth() {
         UITTestUtils.waitFor(testResources, 750);
         int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_track_width);
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, expectedWidth)));
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameWidth(trackFunction(), expectedWidth, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchTrackHeight() {
         UITTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_track_height);
-        getToggleSwitch()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, expectedHeight)));
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameHeight(trackFunction(), expectedHeight, trackID())));
     }
-
 
     @Test
     public void verifyToggleSwitchThumbHeight() {
@@ -78,7 +77,7 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchCornerRadius() {
         float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_corner_radius));
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, 0, radius)));
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRadius(trackFunction(), 0, radius)));
     }
 
 
@@ -94,23 +93,24 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchTrackOnColorTest() {
         final int expectedTrackEnabledColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        getToggleSwitch().perform(click());
+        UITTestUtils.waitFor(testResources, 750);
         getToggleSwitch().check(matches(FunctionDrawableMatchers
-                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SWITCH_TRACK_TINT_LIST, android.R.attr.state_enabled, expectedTrackEnabledColor)));
+                .isSameColor(trackFunction(), android.R.attr.enabled, expectedTrackEnabledColor, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchTrackOffColorTest() {
         final int expectedTrackOffEnabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.30f);
-        getToggleSwitch().perform(click());
         getToggleSwitch().check(matches(FunctionDrawableMatchers
-                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SWITCH_TRACK_TINT_LIST, android.R.attr.state_enabled, expectedTrackOffEnabledColor)));
+                .isSameColor(trackFunction(), android.R.attr.state_enabled, expectedTrackOffEnabledColor, trackID())));
 
     }
 
     @Test
     public void verifyDisabledToggleSwitchTrackFillColorTest(){
         final int expectedTrackOffEnabledColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, -android.R.attr.enabled, expectedTrackOffEnabledColor)));
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(trackFunction(), -android.R.attr.enabled, expectedTrackOffEnabledColor, trackID())));
 
     }
 
@@ -122,5 +122,13 @@ public class ToggleSwitchTest {
 
     private ViewInteraction getToggleSwitch() {
         return onView(withId(com.philips.platform.uit.test.R.id.toggle_switch));
+    }
+
+    private String trackFunction() {
+        return TestConstants.FUNCTION_GET_UID_TRACK_DRAWABLE;
+    }
+
+    private int trackID() {
+        return R.id.uid_id_switch_track;
     }
 }

@@ -68,6 +68,14 @@ public class Switch extends SwitchCompat {
         }
     }
 
+    /**
+     * Should be used only for testing.
+     * @return Drawale that is tinted to support current theme
+     */
+    public Drawable getUIDTrackDrawable() {
+        return uidTrackDrawable;
+    }
+
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDSwitch, defStyleAttr, R.style.UIDSwitchStyle);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
