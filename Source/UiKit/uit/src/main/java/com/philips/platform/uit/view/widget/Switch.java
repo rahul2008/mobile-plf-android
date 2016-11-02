@@ -70,25 +70,26 @@ public class Switch extends SwitchCompat {
 
     /**
      * Should be used only for testing.
-     * @return Drawale that is tinted to support current theme
+     * @return Drawable that is tinted to support current theme
      */
+    @SuppressWarnings("unused")
     public Drawable getUIDTrackDrawable() {
         return uidTrackDrawable;
     }
 
-    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
+    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDSwitch, defStyleAttr, R.style.UIDSwitchStyle);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
-        trackUIDPadding = saveUIDTrackPaddings(typedArray, theme, attrs);
+        trackUIDPadding = saveUIDTrackPaddings(typedArray);
         setUIDTrackDrawable();
-        applyThumbTint(typedArray, theme, attrs);
-        applyTrackTint(typedArray, theme, attrs);
-        applyRippleTint(typedArray, theme, attrs);
+        applyThumbTint(typedArray, theme);
+        applyTrackTint(typedArray, theme);
+        applyRippleTint(typedArray, theme);
         typedArray.recycle();
     }
 
-    private Rect saveUIDTrackPaddings(final TypedArray typedArray, final Resources.Theme theme, final AttributeSet attrs) {
+    private Rect saveUIDTrackPaddings(final TypedArray typedArray) {
         Rect paddingRect = new Rect();
         paddingRect.left = typedArray.getDimensionPixelSize(R.styleable.UIDSwitch_uidSwitchTrackLeftPadding, 0);
         paddingRect.top = typedArray.getDimensionPixelSize(R.styleable.UIDSwitch_uidSwitchTrackTopPadding, 0);
@@ -97,7 +98,7 @@ public class Switch extends SwitchCompat {
         return paddingRect;
     }
 
-    private void applyTrackTint(final TypedArray typedArray, final Resources.Theme theme, final AttributeSet attrs) {
+    private void applyTrackTint(final TypedArray typedArray, final Resources.Theme theme) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchTrackColorList, -1);
         if (textColorStateID != -1) {
             ColorStateList trackTintList = ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID);
@@ -110,7 +111,7 @@ public class Switch extends SwitchCompat {
         }
     }
 
-    private void applyThumbTint(final TypedArray typedArray, final Resources.Theme theme, final AttributeSet attrs) {
+    private void applyThumbTint(final TypedArray typedArray, final Resources.Theme theme) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchThumbColorList, -1);
         if (textColorStateID != -1) {
             setThumbDrawable(DrawableCompat.wrap(getThumbDrawable()));
@@ -130,7 +131,7 @@ public class Switch extends SwitchCompat {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme, final AttributeSet attrs) {
+    private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
         int borderColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchBorderColorList, -1);
         if (UIDUtils.isMinLollipop() && (borderColorStateID > -1) && (getBackground() instanceof RippleDrawable)) {
             ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(getResources(), theme, borderColorStateID));
