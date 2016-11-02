@@ -34,4 +34,5 @@
     <dimen name="pr_bottom_padding_sm">33dp</dimen>
     <dimen name="pr_all_button_top_margin">33dp</dimen>
     <dimen name="pr_modal_alert_dialog_width">296dp</dimen>
+    <dimen name="pr_success_image_height">220dp</dimen>
 </resources>

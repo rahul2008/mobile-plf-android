@@ -120,7 +120,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             final PRUiHelper prUiHelper = PRUiHelper.getInstance();
             final PRLaunchInput prLaunchInput = new PRLaunchInput(regProdList, isFirstLaunch);
             prLaunchInput.setProdRegUiListener(prUiHelper.getProdRegUiListener());
-//            prLaunchInput.setFirstScreenImageResourceId(imageResID);
+            prLaunchInput.setBackgroundImageResourceId(imageResID);
             new PRInterface().launch(fragLauncher, prLaunchInput);
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());

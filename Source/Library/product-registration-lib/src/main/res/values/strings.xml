@@ -49,4 +49,5 @@
     <string name="PPR_Register_Next">Register next </string>
     <string name="PPR_Back_To_List">Back to list </string>
     <string name="PPR_OK">OK </string>
+    <string name="PPR_Find_Serial_Number">Where can I find my serial number?</string>
 </resources>

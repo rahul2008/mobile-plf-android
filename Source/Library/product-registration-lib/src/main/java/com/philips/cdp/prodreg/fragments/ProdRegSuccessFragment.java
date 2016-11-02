@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -25,6 +26,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegSuccessFragment.class.getName();
     private ArrayList<RegisteredProduct> regProdList;
+    private ImageView imageBackground;
     private int resId;
 
     @Override
@@ -48,17 +50,11 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public void setImageBackground() {
-        if (getView() != null) {
-            //TODO getView().setBackgroundResource(resId);
-        }
-    }
-
-    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_register_success, container, false);
         ProdRegTagging.getInstance().trackPage("ProductRegistrationSuccessScreen", "trackPage", "ProductRegistrationSuccessScreen");
         Button button = (Button) view.findViewById(R.id.continueButton);
+        imageBackground = (ImageView) view.findViewById(R.id.success_background_image);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -79,6 +75,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
+            setImageBackground();
             if (registeredProduct != null) {
                 ProdRegTagging.getInstance().trackAction("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
             }
@@ -95,5 +92,11 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             return fragmentStack;
         }
         return true;
+    }
+
+    private void setImageBackground() {
+        if (imageBackground != null) {
+            imageBackground.setBackgroundResource(resId);
+        }
     }
 }

@@ -60,13 +60,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     }
 
     @Override
-    public void setImageBackground() {
-        if (getView() != null) {
-            //TODO getView().setBackgroundResource(resId);
-        }
-    }
-
-    @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Bundle arguments = getArguments();

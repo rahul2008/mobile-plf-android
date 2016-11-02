@@ -94,19 +94,19 @@ public class PRUiHelper {
      * <b> Note: </b> Please make sure to set the Locale before invoking this method.
      *
      * @param activityLauncher launcher which includes orientation, start and end animation.
-     * @param PRLaunchInput   product registration configuration.
+     * @param prLaunchInput   product registration configuration.
      */
-    private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final PRLaunchInput PRLaunchInput) {
+    private void invokeProductRegistrationAsActivity(final ActivityLauncher activityLauncher, final PRLaunchInput prLaunchInput) {
         ProdRegTagging.getInstance().trackAction("ProdRegStartEvent", "specialEvents", "startProductRegistration");
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, PRLaunchInput.getProducts());
+        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, prLaunchInput.getProducts());
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, activityLauncher.getEnterAnimation());
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
-        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, PRLaunchInput.isAppLaunchFlow());
+        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prLaunchInput.isAppLaunchFlow());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
         intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
-//        intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, PRLaunchInput.getFirstScreenImageResourceId());
+        intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prLaunchInput.getBackgroundImageResourceId());
         context.startActivity(intent);
     }
 
@@ -123,7 +123,7 @@ public class PRUiHelper {
             final Bundle arguments = new Bundle();
             final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(PRLaunchInput.getProducts());
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
-//            arguments.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, PRLaunchInput.getFirstScreenImageResourceId());
+            arguments.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, PRLaunchInput.getBackgroundImageResourceId());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, PRLaunchInput.isAppLaunchFlow());
             ProdRegTagging.getInstance().trackAction("ProdRegStartEvent", "specialEvents", "startProductRegistration");
             final User user = new User(fragmentLauncher.getFragmentActivity());

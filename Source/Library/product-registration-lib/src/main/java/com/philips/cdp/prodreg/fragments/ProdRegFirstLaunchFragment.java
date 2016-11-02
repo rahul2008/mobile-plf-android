@@ -54,10 +54,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return registeredProducts;
     }
 
-    @Override
-    public void setImageBackground() {
+    private void setImageBackground() {
         if (getView() != null) {
-            //TODO        getView().setBackgroundResource(resId);
+            getView().setBackgroundResource(resId);
         }
     }
 
@@ -80,6 +79,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         if (dependencies != null) {
             registeredProducts = (List<RegisteredProduct>) dependencies.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             resId = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
+            setImageBackground();
         }
     }
 

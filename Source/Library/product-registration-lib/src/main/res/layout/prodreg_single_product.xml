@@ -99,15 +99,21 @@
 
         </com.philips.cdp.uikit.customviews.InlineForms>
 
-        <com.philips.cdp.uikit.customviews.InlineForms
-            android:id="@+id/InlineForms_serial_number"
+        <LinearLayout
+            android:id="@+id/serial_number_parent_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/InlineForms_date"
             android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:orientation="vertical"
             android:visibility="invisible">
 
-            <LinearLayout
+            <com.philips.cdp.uikit.customviews.InlineForms
+                android:id="@+id/InlineForms_serial_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
                 android:id="@+id/serial_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,11 +148,21 @@
             </LinearLayout>
         </com.philips.cdp.uikit.customviews.InlineForms>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/pr_right_padding_sm"
+                android:layout_marginStart="@dimen/pr_left_padding_sm"
+                android:text="@string/PPR_Find_Serial_Number"
+                android:textColor="?attr/uikit_LightColor"/>
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/InlineForms_serial_number"
+            android:layout_below="@+id/serial_number_parent_layout"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="@dimen/pr_right_padding_sm"
             android:layout_marginStart="@dimen/pr_left_padding_sm"

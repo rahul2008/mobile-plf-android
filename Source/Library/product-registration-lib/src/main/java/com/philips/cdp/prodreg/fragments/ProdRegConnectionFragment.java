@@ -56,13 +56,6 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public void setImageBackground() {
-        if (getView() != null) {
-//TODO            getView().setBackgroundResource(resId);
-        }
-    }
-
-    @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         setRetainInstance(true);
         super.onCreate(savedInstanceState);
