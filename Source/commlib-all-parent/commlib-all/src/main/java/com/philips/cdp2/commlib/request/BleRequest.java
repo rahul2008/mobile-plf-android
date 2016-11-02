@@ -13,11 +13,10 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
+import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
-
-import java.nio.ByteBuffer;
 
 public class BleRequest extends Request {
     private final SHNDevice mShnDevice;
@@ -25,14 +24,19 @@ public class BleRequest extends Request {
     private final int mProductId;
     private final LocalRequestType mRequestType;
 
+    private final DiCommByteStreamReader reader = new DiCommByteStreamReader(new DiCommByteStreamReader.DiCommMessageListener() {
+        @Override
+        public void onMessage(DiCommMessage diCommMessage) {
+            final DiCommResponse res = new DiCommResponse(diCommMessage);
+            mResponseHandler.onSuccess(res.getPropertiesAsString());
+        }
+    });
+
     private final ResultListener<SHNDataRaw> mResultListener = new ResultListener<SHNDataRaw>() {
         @Override
         public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
             if (SHNResult.SHNOk.equals(shnResult)) {
-                DiCommMessage message = new DiCommMessage(ByteBuffer.wrap(shnDataRaw.getRawData()));
-                final DiCommResponse res = new DiCommResponse(message);
-
-                mResponseHandler.onSuccess(res.getPropertiesAsString());
+                reader.onBytes(shnDataRaw.getRawData());
             } else {
                 mResponseHandler.onError(Error.REQUESTFAILED, null);
             }
