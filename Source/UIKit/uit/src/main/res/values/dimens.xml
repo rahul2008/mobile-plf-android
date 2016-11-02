@@ -13,7 +13,7 @@
     <!--Switch dimensions-->
     <dimen name="uid_switch_thumb_radius">24dp</dimen>
     <dimen name="uid_switch_border_ripple_radius">20dp</dimen>
-    <dimen name="uid_switch_track_radius">16dp</dimen>
+    <dimen name="uid_switch_track_radius">8dp</dimen>
     <dimen name="uid_switch_track_width">32dp</dimen>
     <dimen name="uid_switch_track_height">16dp</dimen>
     <dimen name="uid_switch_track_inset">4dp</dimen>

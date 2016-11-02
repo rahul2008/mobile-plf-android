@@ -18,6 +18,10 @@
         <item name="uidSwitchThumbColorList">@color/uid_switch_thumb_selector</item>
         <item name="uidSwitchTrackColorList">@color/uid_switch_track_selector</item>
         <item name="uidSwitchBorderColorList">@color/uid_switch_border_selector</item>
+        <item name="uidSwitchTrackLeftPadding">@dimen/uid_switch_track_inset</item>
+        <item name="uidSwitchTrackTopPadding">@dimen/uid_switch_track_inset</item>
+        <item name="uidSwitchTrackRightPadding">@dimen/uid_switch_track_inset</item>
+        <item name="uidSwitchTrackBottomPadding">@dimen/uid_switch_track_inset</item>
     </style>
 
 </resources>

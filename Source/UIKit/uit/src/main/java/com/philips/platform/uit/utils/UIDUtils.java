@@ -15,7 +15,7 @@ public class UIDUtils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
-    //Prior to 6.0.1 version, raidus is automatically decided as per view bounds.
+    //Prior to 6.0.1 version, radius is automatically decided as per view bounds.
     //Call hidden api to set radius
     public static void setRippleMaxRadius(Drawable drawable, int radius) {
         try {
