@@ -43,7 +43,7 @@ public class ProductMetadataRequest extends PrxRequest {
         } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
             mServerInfo = "https://acc.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-            mServerInfo = "https://acc.philips.com/prx/registration/";
+            mServerInfo = "https://dev.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/registration/";
         }

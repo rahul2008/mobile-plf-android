@@ -38,7 +38,7 @@ public class ProductSummaryRequest extends PrxRequest {
         } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
             mServerInfo = "https://acc.philips.com/prx/product/";
         } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-            mServerInfo = "https://acc.philips.com/prx/product/";
+            mServerInfo = "https://dev.philips.com/prx/product/";
         } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/product/";
         }
