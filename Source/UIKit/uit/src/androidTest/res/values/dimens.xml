@@ -41,4 +41,5 @@
     <dimen name="toggleswitch_track_width">40dp</dimen>
     <dimen name="toggleswitch_thumb_height">24dp</dimen>
     <dimen name="toggleswitch_corner_radius">8dp</dimen>
+    <dimen name="toggleswitch_ripple_radius">20dp</dimen>
 </resources>

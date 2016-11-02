@@ -38,6 +38,16 @@ public abstract class BaseStateColorsImpl implements GradientDrawableUtils.State
         return (int) GradientDrawableUtils.getField(state, STROKE_WIDTH);
     }
 
+    @Override
+    public int getRippleRadius() {
+        return 0;
+    }
+
+    @Override
+    public int getRippleColor(final int attr) {
+        return 0;
+    }
+
     protected int getStrokeWidthFromConstantState(Drawable.ConstantState state) {
         return (int) GradientDrawableUtils.getField(state, STROKE_WIDTH);
     }

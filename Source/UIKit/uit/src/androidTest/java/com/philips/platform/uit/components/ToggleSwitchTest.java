@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.R;
 import com.philips.platform.uit.activity.BaseTestActivity;
-import com.philips.platform.uit.matcher.DrawableMatcher;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
@@ -97,7 +96,6 @@ public class ToggleSwitchTest {
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedWidth)));
     }
 
-
     @Test
     public void verifyToggleSwitchCornerRadius() {
         float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_corner_radius));
@@ -118,8 +116,17 @@ public class ToggleSwitchTest {
     }
 
     @Test
-    public void verifyThumbHightlightRadius() {
-        getToggleSwitch().check(matches(DrawableMatcher.isSameBackgroundRippleRadius(40)));
+    public void verifyThumbHighlightRadius() {
+        int radius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_ripple_radius);
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRippleRadius(TestConstants.FUNCTION_GET_BACKGROUND, radius)));
+    }
+
+    @Test
+    public void verifyThumbHighlightColor() {
+        int color = modulateColorAlpha(Color.parseColor("#1474A4"), 0.20f);
+        getToggleSwitch().
+                check(matches(FunctionDrawableMatchers.
+                        isSameRippleColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, color)));
     }
 
     @Test
@@ -142,7 +149,6 @@ public class ToggleSwitchTest {
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SWITCH_THUMB_TINT_LIST, android.R.attr.state_enabled, Color.WHITE)));
     }
 
-
     // TODO: 11/2/2016  How to fix this. Always returns disabled color combination ???
     @Ignore
     @Test
@@ -158,18 +164,16 @@ public class ToggleSwitchTest {
         final int expectedTrackOffEnabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.30f);
         getToggleSwitch().check(matches(FunctionDrawableMatchers
                 .isSameColor(trackFunction(), android.R.attr.state_enabled, expectedTrackOffEnabledColor, trackID())));
-
     }
 
     @Test
-    public void verifyDisabledToggleSwitchTrackFillColorTest(){
+    public void verifyDisabledToggleSwitchTrackFillColorTest() {
         final int expectedTrackOffEnabledColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(trackFunction(), -android.R.attr.enabled, expectedTrackOffEnabledColor, trackID())));
-
     }
 
     @Test
-    public void verifyDisabledToggleSwitchThumbFillColorTest(){
+    public void verifyDisabledToggleSwitchThumbFillColorTest() {
         final int disableThumbColor = ContextCompat.getColor(instrumentationContext, GroupBlue10);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, -android.R.attr.enabled, disableThumbColor)));
     }

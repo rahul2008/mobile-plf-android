@@ -6,12 +6,8 @@ package com.philips.platform.uit.matcher;
 
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
-import android.view.View;
 
 import com.philips.platform.uit.drawableutils.GradientDrawableUtils;
-import com.philips.platform.uit.utils.UIDUtils;
-import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.hamcrest.Matcher;
 
@@ -104,20 +100,27 @@ public class DrawableMatcher {
         };
     }
 
-    public static Matcher<View> isSameBackgroundRippleRadius(final int expectedValue) {
-        return new BaseTypeSafteyMatcher<View>() {
+    public static Matcher<Drawable> isSameRippleRadius(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
             @Override
-            protected boolean matchesSafely(View view) {
-                if (!UIDUtils.isMinLollipop()) {
-                    return true; //Ripple not supported prior lollipop
-                }
-                Drawable background = view.getBackground();
-                if (background instanceof RippleDrawable) {
-                    int maxRippleRadius = UITTestUtils.getMaxRippleRadius((RippleDrawable) background);
-                    setValues(String.valueOf(maxRippleRadius), String.valueOf(expectedValue));
-                    return expectedValue == maxRippleRadius;
-                }
-                throw new RuntimeException("Not a ripple drawable");
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getRippleRadius()), String.valueOf(expectedValue));
+                return stateColors.getRippleRadius() == expectedValue;
+            }
+        };
+    }
+
+
+    public static Matcher<Drawable> isSameRippleColor(final int attr, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getRippleColor(attr)), String.valueOf(expectedValue));
+                return stateColors.getRippleColor(attr) == expectedValue;
             }
         };
     }

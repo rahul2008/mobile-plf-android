@@ -14,6 +14,8 @@ import android.support.v4.graphics.ColorUtils;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 
+import java.lang.reflect.Field;
+
 public class UITTestUtils {
     public static int getAttributeColor(Context context, int attribute) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});
@@ -82,6 +84,16 @@ public class UITTestUtils {
             }
         }
         return radius;
+    }
+
+    public static ColorStateList getRippleColor(Drawable.ConstantState cs) {
+        try {
+            Field colorField = cs.getClass().getDeclaredField("mColor");
+            colorField.setAccessible(true);
+            return (ColorStateList) colorField.get(cs);
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     /**
