@@ -42,13 +42,14 @@
     <ALoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</ALoginButton>
     <ALoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</ALoginContinue>
     <ALoginContinueConfirm>com.philips.platform.referenceapp:id/btn_reg_continue</ALoginContinueConfirm>
-      <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
+    <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
     <VerticalSettings>com.philips.platform.referenceapp:id/ifo</VerticalSettings>
     <WelcomeScreen>com.philips.platform.referenceapp:id/welcome_slide_fragment_layout</WelcomeScreen>
-    <NucleousValue>com.philips.platform.referenceapp:id/nucleous_value_editbox</NucleousValue>
+    <ReferenceIDValue>com.philips.platform.referenceapp:id/reference_device_id_editbox</ReferenceIDValue>
+    <MeasurementValue>com.philips.platform.referenceapp:id/measurement_value_editbox</MeasurementValue>
     <MomentValue>com.philips.platform.referenceapp:id/moment_value_editbox</MomentValue>
-    <NucleousDevice>com.philips.platform.referenceapp:id/start_connectivity_button</NucleousDevice>
-      <MomentValueFromDatacore>com.philips.platform.referenceapp:id/get_momentumvalue_button</MomentValueFromDatacore>
+    <MeasurementValueFromReferenceDevice>com.philips.platform.referenceapp:id/start_connectivity_button</MeasurementValueFromReferenceDevice>
+    <MomentValueFromDatacore>com.philips.platform.referenceapp:id/get_momentumvalue_button</MomentValueFromDatacore>
     <RightArrow>com.philips.platform.referenceapp:id/appframework_rightarrow</RightArrow>
     <LeftArrow>com.philips.platform.referenceapp:id/appframework_leftarrow</LeftArrow>
     <Skip>com.philips.platform.referenceapp:id/welcome_skip_button</Skip>

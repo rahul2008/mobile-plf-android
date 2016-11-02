@@ -45,7 +45,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private EditText editText = null;
     private EditText momentValueEditText = null;
     private EditText deviceID = null;
-    private String editTextValue, momentId, nucleousValue;
+    private String editTextValue;
     private String accessTokenValue;
     private TextView connectionState;
     private SHNCentral shnCentral;
@@ -55,7 +55,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private User user;
     private ProgressDialog dialog = null;
     private TextView dataCoreErrorText;
-    int measValue;
+    private int measValue;
     /**
      * Presenter object for Connectivity
      */
@@ -79,7 +79,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                              Bundle savedInstanceState) {
         connectivityPresenter = new ConnectivityPresenter(this, getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
-        editText = (EditText) rootView.findViewById(R.id.nucleous_value_editbox);
+        editText = (EditText) rootView.findViewById(R.id.measurement_value_editbox);
         deviceID = (EditText) rootView.findViewById(R.id. reference_device_id_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
         dataCoreErrorText = (TextView) rootView.findViewById(R.id.datacre_error_text);

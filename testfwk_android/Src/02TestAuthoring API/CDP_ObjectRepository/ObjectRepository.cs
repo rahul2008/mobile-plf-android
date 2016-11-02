@@ -1285,12 +1285,20 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
             doc.Save("Repository.xml");
         }
 
-        public static string NucleousValue
+        public static string MeasurementValue
         {
             get
             {
-                return GetData("NucleousValue");
+                return GetData("MeasurementValue");
             }
+        }
+        public static string ReferenceIDValue
+        {
+            get
+            {
+                return GetData("ReferenceIDValue");
+            }
+
         }
         public static string MomentValue
         {
@@ -2188,11 +2196,12 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
                 }
 
-                public static string NucleousDevice
+
+                public static string MeasurementValueFromReferenceDevice
                 {
                     get
                     {
-                        return GetData("NucleousDevice");
+                        return GetData("MeasurementValueFromReferenceDevice");
                     }
 
                 }

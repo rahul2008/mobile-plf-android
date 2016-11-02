@@ -52,7 +52,7 @@
             android:layout_marginTop="80dp">
 
         <TextView
-            android:id="@+id/nucleous_value_label"
+            android:id="@+id/measurement_value_label"
             android:layout_weight="1"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="0dp"
@@ -64,7 +64,7 @@
             android:textSize="17sp" />
 
         <EditText
-            android:id="@+id/nucleous_value_editbox"
+            android:id="@+id/measurement_value_editbox"
             android:layout_weight="1"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="0dp"
