@@ -1,2 +1,2 @@
 rootProject.name = "referenceApp"
-include ':appFramework'
+include ':appFramework', ':pluginreferenceboard'
