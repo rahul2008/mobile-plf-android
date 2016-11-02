@@ -113,6 +113,9 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextandIconButtonCompoundPadding() {
+        waitFor(testResources, 750);
+        int expectedCompoundPadding = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconandtextbutton_compoundpadding));
+        getQuietIconandTextButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
 
     /*******************************************************
@@ -143,6 +146,10 @@ public class QuietButtonTest {
 
     private ViewInteraction getQuietIconOnlyButton() {
         return onView(withId(com.philips.platform.uit.test.R.id.quiet_icon_only));
+    }
+
+    private ViewInteraction getQuietIconandTextButton() {
+        return onView(withId(com.philips.platform.uit.test.R.id.quiet_demo_image_text_button));
     }
 }
 
