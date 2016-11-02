@@ -36,6 +36,7 @@
     <dimen name="texteditbox_stroke_height">1dp</dimen>
 
     <!--ToggleSwitch dimens-->
+    <dimen name="toggleswitch_width">48dp</dimen>
     <dimen name="toggleswitch_track_height">16dp</dimen>
     <dimen name="toggleswitch_track_width">40dp</dimen>
     <dimen name="toggleswitch_thumb_height">24dp</dimen>

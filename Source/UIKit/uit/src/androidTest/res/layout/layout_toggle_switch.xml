@@ -7,14 +7,14 @@
     <LinearLayout
         android:id="@+id/buttons_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/button_layout_padding"
-        android:layout_marginStart="@dimen/button_layout_padding">
+        android:layout_height="wrap_content">
 
         <com.philips.platform.uit.view.widget.Switch
             android:id="@+id/toggle_switch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:enabled="true"/>
 
     </LinearLayout>
 </ScrollView>

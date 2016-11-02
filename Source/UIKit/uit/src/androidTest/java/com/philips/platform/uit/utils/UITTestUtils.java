@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.support.v4.graphics.ColorUtils;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -67,6 +68,20 @@ public class UITTestUtils {
             throw new RuntimeException(e.getMessage());
         }
         return colorList;
+    }
+
+    public static int getMaxRippleRadius(RippleDrawable ripple) {
+        int radius = 0;
+        try {
+            radius = (int) MethodUtils.invokeMethod(ripple, "getRadius");
+        } catch (Exception e) {
+            try {
+                radius = (int) MethodUtils.invokeMethod(ripple, "getMaxRadius");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+        return radius;
     }
 
     /**

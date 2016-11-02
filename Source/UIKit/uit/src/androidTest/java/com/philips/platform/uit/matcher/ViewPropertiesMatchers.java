@@ -59,4 +59,14 @@ public class ViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<View> isSameViewHeight(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getHeight()), String.valueOf(expectedValue));
+                return view.getHeight() == expectedValue;
+            }
+        };
+    }
 }
