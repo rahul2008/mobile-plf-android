@@ -37,7 +37,7 @@
 
     <!--ToggleSwitch dimens-->
     <dimen name="toggleswitch_track_height">16dp</dimen>
-    <dimen name="toggleswitch_track_width">36dp</dimen>
+    <dimen name="toggleswitch_track_width">40dp</dimen>
     <dimen name="toggleswitch_thumb_height">24dp</dimen>
     <dimen name="toggleswitch_corner_radius">8dp</dimen>
 </resources>

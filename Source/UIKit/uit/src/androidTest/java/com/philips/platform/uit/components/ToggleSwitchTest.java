@@ -10,29 +10,26 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.utils.TestConstants;
 import com.philips.platform.uit.utils.UITTestUtils;
-import com.philips.platform.uit.view.widget.Switch;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.platform.uit.test.R.color.GroupBlue10;
 import static com.philips.platform.uit.test.R.color.GroupBlue45;
 import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
-@RunWith(AndroidJUnit4.class)
 public class ToggleSwitchTest {
 
     private Context activityContext;
@@ -40,7 +37,6 @@ public class ToggleSwitchTest {
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
-    private Switch toggleSwitch;
     private Resources testResources;
 
     @Before
@@ -51,17 +47,14 @@ public class ToggleSwitchTest {
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
         activityContext = activity;
-
-//        trackDrawable = toggleSwitch.getTrackDrawable();
-//        thumbDrawable = toggleSwitch.getThumbDrawable();
-//        testResources = getInstrumentation().getContext().getResources();
     }
 
     //*********************************Toggle Switch Layout TestScenarios**************************//
-    // TODO: 10/28/2016
     @Test
     public void verifyToggleSwitchTrackWidth() {
-
+        UITTestUtils.waitFor(testResources, 750);
+        int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_track_width);
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, expectedWidth)));
     }
 
     @Test
@@ -69,7 +62,7 @@ public class ToggleSwitchTest {
         UITTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_track_height);
         getToggleSwitch()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_TRACK_BACKGROUND, expectedHeight)));
+                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, expectedHeight)));
     }
 
 
@@ -78,14 +71,14 @@ public class ToggleSwitchTest {
         UITTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_THUMB_BACKGROUND, expectedHeight)));
+                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedHeight)));
     }
 
 
     @Test
     public void verifyToggleSwitchCornerRadius() {
         float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_corner_radius));
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_TRACK_BACKGROUND, 0, radius)));
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, 0, radius)));
     }
 
 
@@ -114,30 +107,18 @@ public class ToggleSwitchTest {
 
     }
 
-    // TODO: 10/28/2016  
     @Test
     public void verifyDisabledToggleSwitchTrackFillColorTest(){
-
+        final int expectedTrackOffEnabledColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_TRACK_DRAWABLE, -android.R.attr.enabled, expectedTrackOffEnabledColor)));
 
     }
 
-    // TODO: 10/28/2016  
     @Test
     public void verifyDisabledToggleSwitchThumbFillColorTest(){
-
+        final int disableThumbColor = ContextCompat.getColor(instrumentationContext, GroupBlue10);
+        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, -android.R.attr.enabled, disableThumbColor)));
     }
-
-    // TODO: 10/28/2016  
-    @Test
-    public void verifyToggleSwitchOrientationChange() {
-//        toggleSwitch.setChecked(true);
-//        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//        Assert.assertTrue(toggleSwitch.isChecked());
-//        toggleSwitch.setChecked(false);
-//        activityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        Assert.assertFalse(toggleSwitch.isChecked());
-    }
-
 
     private ViewInteraction getToggleSwitch() {
         return onView(withId(com.philips.platform.uit.test.R.id.toggle_switch));
