@@ -7,6 +7,10 @@ package com.philips.pins.shinelib.dicommsupport;
 
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,20 +22,22 @@ import java.util.Map;
 
 public class DiCommResponse {
 
-    private static final int MIN_PAYLOAD_SIZE = 1;
+    private static final int MIN_PAYLOAD_SIZE = 3; // status byte + JSON payload + terminator byte
+    private static final byte TERMINATOR_BYTE = 0;
+
     private MessageType mType = MessageType.GenericResponse;
     private StatusCode mStatus;
     private Map<String, Object> mProperties;
     private String mJsonString;
 
-    public DiCommResponse(DiCommMessage diCommMessage) throws IllegalArgumentException {
+    public DiCommResponse(DiCommMessage diCommMessage) throws IllegalArgumentException, InvalidPayloadFormatException, InvalidStatusCodeException, InvalidMessageTerminationException {
         if (MessageType.GenericResponse != diCommMessage.getMessageType()) {
             throw new IllegalArgumentException("Encountered an unexpected DiComm Response Type: " + diCommMessage.getMessageType());
         }
 
         byte[] payload = diCommMessage.getPayload();
         if (payload == null || payload.length < MIN_PAYLOAD_SIZE) {
-            throw new IllegalArgumentException("DiComm message payload is too short!");
+            throw new InvalidPayloadFormatException("DiComm message payload is too short!");
         }
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(payload);
@@ -39,11 +45,7 @@ public class DiCommResponse {
         mStatus = StatusCode.fromDiCommStatusCode(diCommStatusCode);
 
         if (mStatus == null) {
-            throw new IllegalArgumentException("DiComm response contains an unknown mStatus code! Code: " + diCommStatusCode);
-        }
-
-        if (!byteBuffer.hasRemaining()) {
-            throw new IllegalArgumentException("Missing JSON values string!");
+            throw new InvalidStatusCodeException("DiComm response contains an unknown status code: " + diCommStatusCode);
         }
 
         byte[] propertiesData = new byte[byteBuffer.remaining() - 1];
@@ -53,12 +55,12 @@ public class DiCommResponse {
             try {
                 mProperties = convertStringToMap(mJsonString);
             } catch (JSONException e) {
-                throw new IllegalArgumentException("Error evaluating JSON from string: " + mJsonString);
+                throw new InvalidPayloadFormatException("Error evaluating JSON from payload string: " + mJsonString);
             }
         }
 
-        if (byteBuffer.get() != 0) {
-            throw new IllegalArgumentException("Invalid message format!");
+        if (byteBuffer.get() != TERMINATOR_BYTE) {
+            throw new InvalidMessageTerminationException("Message not terminated correctly.");
         }
     }
 

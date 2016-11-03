@@ -31,7 +31,7 @@ public class DiCommMessage {
             }
 
             this.messageType = MessageType.fromDiCommMessageTypeCode(byteBuffer.get());
-            short payloadLength = byteBuffer.getShort();
+            int payloadLength = byteBuffer.getShort() & 0xffff; // convert to unsigned int, no negatives allowed.
 
             mPayload = new byte[payloadLength];
             byteBuffer.get(mPayload);

@@ -9,11 +9,13 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -89,7 +91,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
             DiCommResponse diCommResponse = getDiCommResponse(diCommMessage);
             SHNLogger.d(TAG, "Response status: " + diCommResponse.getStatus() + " properties: " + diCommResponse.getProperties());
             reportToListener(diCommResponse.getProperties(), convertToSHNResult(diCommResponse.getStatus()));
-        } catch (InvalidParameterException ex) {
+        } catch (IllegalArgumentException | InvalidStatusCodeException | InvalidPayloadFormatException | InvalidMessageTerminationException ex) {
             SHNLogger.e(TAG, ex.getMessage());
             reportToListener(null, SHNResult.SHNErrorInvalidParameter);
         }
