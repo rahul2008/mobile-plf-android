@@ -46,14 +46,14 @@ public class Switch extends SwitchCompat {
 
     @Override
     public void setTrackDrawable(final Drawable trackDrawable) {
-        super.setTrackDrawable(trackDrawable);
         setUIDTrackDrawable();
+        super.setTrackDrawable(trackDrawable);
     }
 
     @Override
-    public void draw(final Canvas c) {
+    public void onDraw(final Canvas c) {
         applyTrackHorizontalPadding();
-        super.draw(c);
+        super.onDraw(c);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class Switch extends SwitchCompat {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDSwitch, defStyleAttr, R.style.UIDSwitchStyle);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
-        trackUIDPadding = saveUIDTrackPaddings(typedArray);
+        trackUIDPadding = saveUIDTrackPaddings();
         setUIDTrackDrawable();
         applyThumbTint(typedArray, theme);
         applyTrackTint(typedArray, theme);
@@ -89,12 +89,13 @@ public class Switch extends SwitchCompat {
         typedArray.recycle();
     }
 
-    private Rect saveUIDTrackPaddings(final TypedArray typedArray) {
+    private Rect saveUIDTrackPaddings() {
         Rect paddingRect = new Rect();
-        paddingRect.left = typedArray.getDimensionPixelSize(R.styleable.UIDSwitch_uidSwitchTrackLeftPadding, 0);
-        paddingRect.top = typedArray.getDimensionPixelSize(R.styleable.UIDSwitch_uidSwitchTrackTopPadding, 0);
-        paddingRect.right = typedArray.getDimensionPixelSize(R.styleable.UIDSwitch_uidSwitchTrackRightPadding, 0);
-        paddingRect.bottom = typedArray.getDimensionPixelSize(R.styleable.UIDSwitch_uidSwitchTrackBottomPadding, 0);
+        int padding = getResources().getDimensionPixelSize(R.dimen.uid_switch_track_inset);
+        paddingRect.left = padding;
+        paddingRect.top = padding;
+        paddingRect.right = padding;
+        paddingRect.bottom = padding;
         return paddingRect;
     }
 
@@ -133,14 +134,14 @@ public class Switch extends SwitchCompat {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
         int borderColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchBorderColorList, -1);
-        if (UIDUtils.isMinLollipop() && (borderColorStateID > -1) && (getBackground() instanceof RippleDrawable)) {
+        if (UIDUtils.isMinLollipop() && borderColorStateID == R.drawable.uid_switch_background) {
             ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(getResources(), theme, borderColorStateID));
             int radius = getResources().getDimensionPixelSize(R.dimen.uid_switch_border_ripple_radius);
             UIDUtils.setRippleMaxRadius(getBackground(), radius);
         }
     }
 
-    protected void applyTrackHorizontalPadding() {
+    private void applyTrackHorizontalPadding() {
         if (uidTrackDrawable != null) {
             Rect bounds = getTrackDrawable().getBounds();
             int left = bounds.left + trackUIDPadding.left;

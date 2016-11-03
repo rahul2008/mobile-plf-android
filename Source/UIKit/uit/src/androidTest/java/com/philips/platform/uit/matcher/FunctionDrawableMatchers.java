@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.RippleDrawable;
 import android.view.View;
 
 import com.philips.platform.uit.utils.UIDUtils;
@@ -116,10 +115,7 @@ public class FunctionDrawableMatchers {
 
     private static Drawable getDrawable(final View view, final String funcName, final int drawableID) {
         Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
-        //Should we support for layers in drawable?? like masks
-        if(drawable instanceof RippleDrawable) {
-            return drawable;
-        } else if (drawable instanceof LayerDrawable) {
+        if (drawable instanceof LayerDrawable && drawableID != -1) {
             drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
         }
         return drawable;

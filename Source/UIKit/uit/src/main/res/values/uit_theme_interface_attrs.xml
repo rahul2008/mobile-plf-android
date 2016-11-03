@@ -69,9 +69,5 @@
         <attr name="uidSwitchBorderColor" format="reference|color"/>
         <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
         <attr name="uidSwitchBorderColorList" format="reference|color"/>
-        <attr name="uidSwitchTrackLeftPadding" format="reference|dimension"/>
-        <attr name="uidSwitchTrackTopPadding" format="reference|dimension"/>
-        <attr name="uidSwitchTrackRightPadding" format="reference|dimension"/>
-        <attr name="uidSwitchTrackBottomPadding" format="reference|dimension"/>
     </declare-styleable>
 </resources>
