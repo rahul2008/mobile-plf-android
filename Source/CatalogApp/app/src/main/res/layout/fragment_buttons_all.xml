@@ -31,7 +31,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/with_icon"/>
 
-                <android.support.v7.widget.SwitchCompat
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/extra_wide"/>
 
-                <android.support.v7.widget.SwitchCompat
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleextraWide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/disabled"/>
 
-                <android.support.v7.widget.SwitchCompat
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleDisable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
