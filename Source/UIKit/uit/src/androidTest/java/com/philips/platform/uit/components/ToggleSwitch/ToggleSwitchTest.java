@@ -3,9 +3,10 @@
  * All rights reserved.
  *
  */
-package com.philips.platform.uit.components;
+package com.philips.platform.uit.components.ToggleSwitch;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
@@ -37,6 +38,7 @@ import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class ToggleSwitchTest {
 
+    private Context activityContext;
     private Context instrumentationContext;
 
     @Rule
@@ -49,6 +51,7 @@ public class ToggleSwitchTest {
         activity.switchTo(com.philips.platform.uit.test.R.layout.layout_toggle_switch);
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
+        activityContext = activity;
     }
 
     //*********************************Toggle Switch Layout TestScenarios**************************//
@@ -176,6 +179,14 @@ public class ToggleSwitchTest {
     public void verifyDisabledToggleSwitchThumbFillColorTest() {
         final int disableThumbColor = ContextCompat.getColor(instrumentationContext, GroupBlue10);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, -android.R.attr.enabled, disableThumbColor)));
+    }
+
+    @Test
+    public void verifyChangeOrientation() {
+        getToggleSwitch().perform(ViewActions.swipeRight());
+        mActivityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        UITTestUtils.waitFor(testResources,5000);
+        getToggleSwitch().check(matches(isChecked()));
     }
 
     private ViewInteraction getToggleSwitch() {
