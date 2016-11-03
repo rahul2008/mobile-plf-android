@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.strategy;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.BleDeviceCache;
@@ -20,9 +21,13 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -33,6 +38,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
@@ -54,6 +60,9 @@ public class BleStrategyTestSteps {
     private final Map<String, Set<ResultListener<SHNDataRaw>>> rawDataListeners = new HashMap();
     private final Queue<ResponseHandler> responseQueue = new ArrayDeque<>();
     private BleRequest currentRequest;
+
+    @Captor
+    private ArgumentCaptor<String> successStringCaptor;
 
     @Before
     public void setup() {
@@ -90,9 +99,16 @@ public class BleStrategyTestSteps {
         deviceCache.deviceFound(null, info);
     }
 
-    @When("^the mock device with id '(.*?)' receives data '([0-9A-F]*?)'")
+    @When("^the mock device with id '(.*?)' receives data '([0-9A-F]*?)'$")
     public void mock_device_receives_data_inline(final String id, final String data) {
         mock_device_receives_data(id, data);
+    }
+
+    @When("^the mock device with id '(.*?)' receives data '([0-9A-F]*?)' repeated '(\\d+)' times$")
+    public void mock_device_receives_data_repeatedly(final String id, final String data, int times) {
+        for (int i = 0; i < times; i++) {
+            mock_device_receives_data(id, data);
+        }
     }
 
     @When("^the mock device with id '(.*?)' receives data$")
@@ -191,13 +207,23 @@ public class BleStrategyTestSteps {
     }
 
     @Then("^the result is success with data$")
-    public void theResultIsSuccessWithLongDataTestData(String data) throws Throwable {
-        verify(responseQueue.remove()).onSuccess(data);
+    public void theResultIsSuccessWithLongDataTestData(String expectedJsonString) throws Throwable {
+        verify(responseQueue.remove()).onSuccess(successStringCaptor.capture());
+
+        if (successStringCaptor.getAllValues().isEmpty()) fail("No result captured.");
+
+        List<String> allValues = successStringCaptor.getAllValues();
+        String actualJsonString = allValues.get(allValues.size() - 1);
+
+        JsonElement actualJson = new Gson().fromJson(actualJsonString, JsonElement.class);
+        JsonElement expectedJson = new Gson().fromJson(expectedJsonString, JsonElement.class);
+
+        assertEquals(expectedJson, actualJson);
     }
 
     @Then("^the result is success$")
     public void theResultIsSuccess() throws Throwable {
-        verify(responseQueue.remove()).onSuccess(anyString());
+        verify(responseQueue.remove()).onSuccess(successStringCaptor.capture());
     }
 
     @And("^no write occurred to mock device with id '(.*?)'$")
@@ -221,4 +247,27 @@ public class BleStrategyTestSteps {
         currentRequest.cancel("Timeout occurred.");
     }
 
+    private Map<String, Object> getObjectMapFromLastSuccessfulResult() {
+        if (successStringCaptor.getAllValues().isEmpty()) fail("No result captured.");
+
+        List<String> allValues = successStringCaptor.getAllValues();
+        String jsonString = allValues.get(allValues.size() - 1);
+
+        Map<String, Object> objectMap = new HashMap<>();
+        return new Gson().fromJson(jsonString, objectMap.getClass());
+    }
+
+    @And("^the json result contains the key '(.*?)'$")
+    public void theJsonResultContainsTheKey(String key) throws Throwable {
+        assertTrue(getObjectMapFromLastSuccessfulResult().containsKey(key));
+    }
+
+    @And("^the json value for key '(.*?)' has length '(\\d+)'$")
+    public void theJsonStringValueHasLength(String key, int expectedLength) throws Throwable {
+        Map<String, Object> objectMap = getObjectMapFromLastSuccessfulResult();
+
+        Object object = objectMap.get(key);
+        assertTrue(object instanceof String);
+        assertEquals(expectedLength, ((String) object).length());
+    }
 }

@@ -23,6 +23,9 @@ import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
 import com.philips.pins.shinelib.dicommsupport.StatusCode;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -38,14 +41,20 @@ public class BleRequest extends Request implements Runnable {
     private final DiCommByteStreamReader reader = new DiCommByteStreamReader(new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
         public void onMessage(DiCommMessage diCommMessage) {
-            final DiCommResponse res = new DiCommResponse(diCommMessage);
-            final StatusCode statusCode = res.getStatus();
+            try {
+                final DiCommResponse res = new DiCommResponse(diCommMessage);
+                final StatusCode statusCode = res.getStatus();
 
-            if (statusCode == StatusCode.NoError) {
-                mResponseHandler.onSuccess(res.getPropertiesAsString());
-            } else {
-                final Error error = BleErrorMap.getErrorByStatusCode(statusCode);
-                mResponseHandler.onError(error, res.getPropertiesAsString());
+                if (statusCode == StatusCode.NoError) {
+                    mResponseHandler.onSuccess(res.getPropertiesAsString());
+                } else {
+                    final Error error = BleErrorMap.getErrorByStatusCode(statusCode);
+                    mResponseHandler.onError(error, res.getPropertiesAsString());
+                }
+            } catch (IllegalArgumentException | InvalidMessageTerminationException | InvalidPayloadFormatException e) {
+                mResponseHandler.onError(Error.PROTOCOL_VIOLATION, e.getMessage());
+            } catch (InvalidStatusCodeException e) {
+                mResponseHandler.onError(Error.UNKNOWN, e.getMessage());
             }
             mCountDownLatch.countDown();
         }
