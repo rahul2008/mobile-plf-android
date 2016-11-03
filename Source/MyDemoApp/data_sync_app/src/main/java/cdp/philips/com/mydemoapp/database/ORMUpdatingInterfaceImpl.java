@@ -45,8 +45,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
     }
 
     @Override
-    public int
-    processMomentsReceivedFromBackend(final List<? extends Moment> moments) {
+    public int processMomentsReceivedFromBackend(final List<? extends Moment> moments) {
         int updatedCount = 0;
         for (Moment moment : moments) {
             if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {

@@ -219,18 +219,30 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     if (getContext() != null)
                         Toast.makeText(getContext(), "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-                if(mSwipeRefreshLayout.isRefreshing()){
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
+               dismissRefreshLayout();
             }
         });
     }
 
     @Override
     public void onRefresh() {
+       showRefreshLayout();
+        mTemperaturePresenter.startSync();
+    }
+
+    private void showRefreshLayout(){
         if(!mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(true);
         }
-        mTemperaturePresenter.startSync();
+    }
+    private void dismissRefreshLayout(){
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void finishActivityAffinity() {
+        getActivity().finishAffinity();
     }
 }

@@ -37,7 +37,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private Resources mResources;
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
-    @Inject
+    
     DataServicesManager mDataServices;
     private final TemperaturePresenter mTemperaturePresenter;
 
