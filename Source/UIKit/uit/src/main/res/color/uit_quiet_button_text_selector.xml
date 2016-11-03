@@ -1,0 +1,5 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:alpha="?attr/uitQuietButtonTextDisabledAlpha" android:color="?attr/uitControlPrimaryEnabledColor" android:state_enabled="false"/>
+    <item android:color="?attr/uitControlPrimaryTextPressedColor" android:state_pressed="true"/>
+    <item android:color="?attr/uitControlPrimaryEnabledColor"/>
+</selector>

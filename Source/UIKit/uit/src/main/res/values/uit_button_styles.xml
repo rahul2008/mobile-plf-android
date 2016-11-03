@@ -46,7 +46,45 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="UITImageTextButton.Center" parent="UITDefaultButton">
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="uidButtonCenter">true</item>
+        <item name="android:drawablePadding">@dimen/uit_imagebutton_padding</item>
+    </style>
+
     <style name="UITExtraWideButton.Center">
         <item name="uidButtonCenter">true</item>
     </style>
+
+    <style name="UIDQuietButton" parent="UITDefaultButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingLeft">@dimen/uit_quiet_button_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/uit_quiet_button_padding_left_right</item>
+        <item name="uitButtonTextColorList">@color/uit_quiet_button_text_selector</item>
+        <item name="uitButtonDrawableColorList">@color/uit_quiet_button_text_selector</item>
+        <item name="uitImageButtonDrawableColorList">@color/uit_quiet_button_text_selector</item>
+        <item name="uitImageButtonColorList">@color/uit_quiet_button_text_selector</item>
+    </style>
+
+    <style name="UIDQuietIconButton" parent="UITImageButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingLeft">@dimen/uit_quiet_icon_only_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/uit_quiet_icon_only_padding_left_right</item>
+        <item name="android:maxWidth">@dimen/uit_quiet_button_max_width</item>
+        <item name="uitImageButtonColorList">@color/uit_quiet_button_icon_selector</item>
+        <item name="uitImageButtonDrawableColorList">@color/uit_quiet_button_icon_selector</item>
+    </style>
+
+    <style name="UITExtraWideQuietButton" parent="UIDQuietButton">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="UIDExtraWideIconQuietButton" parent="UIDQuietButton">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="UIDExtraWideIconQuietButton.Center">
+        <item name="uidButtonCenter">true</item>
+    </style>
+
 </resources>

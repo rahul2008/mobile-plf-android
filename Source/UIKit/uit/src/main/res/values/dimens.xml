@@ -25,6 +25,11 @@
     <dimen name="uit_button_text_size">16sp</dimen>
     <item name="uit_button_disabled_alpha" format="float" type="dimen">0.25</item>
 
+    <!-- Quiet button-->
+    <dimen name="uit_quiet_button_padding_left_right">12dp</dimen>
+    <dimen name="uit_quiet_button_min_size">24dp</dimen>
+    <dimen name="uit_quiet_button_max_width">40dp</dimen>
+    <dimen name="uit_quiet_icon_only_padding_left_right">8dp</dimen>
 
     <!--ImageButton-->
     <dimen name="uit_imagebutton_size">40dp</dimen>
@@ -43,6 +48,7 @@
     <dimen name="uit_texteditbox_stroke_width_ultralight">1dp</dimen>
     <dimen name="uit_texteditbox_line_spacing">26dp</dimen>
     <dimen name="uit_texteditbox_vertical_padding">12dp</dimen>
+
     <integer name="uit_texteditbox_font_spacing_multiplier">0</integer>
     <item name="uit_texteditbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
     <item name="uit_texteditbox_border_20_alpha" format="float" type="dimen">0.20</item>

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -22,20 +24,20 @@ public class ImageButton extends AppCompatButton {
     private int drawableWidth;
     private int drawableHeight;
 
-    public ImageButton(Context context) {
+    public ImageButton(@NonNull Context context) {
         this(context, null);
     }
 
-    public ImageButton(Context context, AttributeSet attrs) {
+    public ImageButton(@NonNull Context context, @NonNull AttributeSet attrs) {
         this(context, attrs, android.support.v7.appcompat.R.attr.imageButtonStyle);
     }
 
-    public ImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ImageButton(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
     }
 
-    private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITImageButton, defStyleAttr, R.style.UITImageButton);
         assignDrawableProperties(typedArray);
         applyBackgroundTinting(typedArray);
@@ -45,36 +47,70 @@ public class ImageButton extends AppCompatButton {
         typedArray.recycle();
     }
 
-    private void assignDrawableProperties(TypedArray typedArray) {
+    private void assignDrawableProperties(@NonNull TypedArray typedArray) {
         drawableWidth = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageButtonDrawableWidth, 0.0f);
         drawableHeight = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageButtonDrawableHeight, 0.0f);
 
         //Store the color state list
         int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableColorList, -1);
         if (resourceId != -1) {
-            drawableColorlist = getColorStateListFromResourceID(resourceId);
+            drawableColorlist = ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), resourceId);
         }
     }
 
-    private void applyBackgroundTinting(TypedArray typedArray) {
+    private void applyBackgroundTinting(@NonNull TypedArray typedArray) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            ViewCompat.setBackgroundTintList(this, getColorStateListFromResourceID(backGroundListID));
+            ViewCompat.setBackgroundTintList(this, ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backGroundListID));
         }
     }
 
-    private void applyDrawable(TypedArray typedArray) {
+    private void applyDrawable(@NonNull TypedArray typedArray) {
         int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableSrc, -1);
         //We allow setting drawable programmatically too, which can be case for vectors.
         if (resourceId != -1) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();
-            drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            setCompoundDrawables(drawable, null, null, null);
+            setImageDrawable(drawable);
         }
     }
 
-    public void setImageDrawable(Drawable drawable) {
-        Drawable wrappedDrawable = drawable;
+    /**
+     * sets icon on button with given drawable
+     *
+     * @param resourceId Non-vector resource for drawable. <br> Tt will crash if vector resource id is passed
+     *                   if you have vector then you can use support library api to retrieve drawable as below<br>
+     *                   VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
+     *                   and call setImageDrawable()<br>
+     *                   otherwise you can call setVectorResource(@resourceId - for vector drawable)
+     * @version 1.0.0
+     * @since 1.0.0
+     */
+    public void setImageResource(int resourceId) {
+        Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId);
+        setImageDrawable(drawable);
+    }
+
+    /**
+     * sets icon on button with given drawable
+     *
+     * @param resourceId vector resource to be set as icon on button
+     * @version 1.0.0
+     * @since 1.0.0
+     */
+    public void setVectorResource(int resourceId) {
+        Drawable drawable = VectorDrawableCompat.create(getResources(), resourceId, getContext().getTheme());
+        setImageDrawable(drawable);
+    }
+
+    /**
+     * Sets icon on button with given drawable
+     *
+     * @param drawable drawable to be set as a icon on button
+     * @version 1.0.0
+     * @since 1.0.0
+     */
+    public void setImageDrawable(@NonNull Drawable drawable) {
+        Drawable wrappedDrawable = drawable.mutate();
         if (drawableColorlist != null && drawable != null) {
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
             wrappedDrawable = DrawableCompat.wrap(drawable);
@@ -82,9 +118,5 @@ public class ImageButton extends AppCompatButton {
         }
         setCompoundDrawables(wrappedDrawable, null, null, null);
         invalidate();
-    }
-
-    private ColorStateList getColorStateListFromResourceID(int backgroundColorStateID) {
-        return ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backgroundColorStateID);
     }
 }

@@ -5,13 +5,6 @@
     <dimen name="component_bottom_spacing">10dp</dimen>
     <dimen name="category_divider_width">40dp</dimen>
 
-    <!-- Text size -->
-    <dimen name="switch_togglebutton_width">48dp</dimen>
-    <dimen name="switch_togglebutton_height">24dp</dimen>
-    <dimen name="switch_togglebutton_thumbdiameter">24dp</dimen>
-    <dimen name="switch_togglebutton_cornerradius">12dp</dimen>
-    <dimen name="switch_togglebutton_strokewidth">1dp</dimen>
-
     <dimen name="button_height">40dp</dimen>
     <dimen name="button_left_padding">24dp</dimen>
     <dimen name="button_right_padding">24dp</dimen>
@@ -25,6 +18,20 @@
     <dimen name="iconbutton_left_padding">8dp</dimen>
     <dimen name="iconbutton_right_padding">8dp</dimen>
     <dimen name="iconbutton_cornerradius">2dp</dimen>
+
+    <dimen name="iconandtextbutton_compoundpadding">8dp</dimen>
+
+
+    <dimen name="quietbutton_left_padding">12dp</dimen>
+    <dimen name="quietbutton_right_padding">12dp</dimen>
+
+
+    <!--ToggleSwitch dimens-->
+    <dimen name="switch_togglebutton_width">48dp</dimen>
+    <dimen name="switch_togglebutton_height">24dp</dimen>
+    <dimen name="switch_togglebutton_thumbdiameter">24dp</dimen>
+    <dimen name="switch_togglebutton_cornerradius">12dp</dimen>
+    <dimen name="switch_togglebutton_strokewidth">1dp</dimen>
 
     <!--TextEditBox dimens-->
     <dimen name="texteditbox_corner_radius">2dp</dimen>
