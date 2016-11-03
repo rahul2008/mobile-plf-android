@@ -343,7 +343,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         if (requireDate)
             dateParentLayout.setVisibility(View.VISIBLE);
         if (requireSerialNumber)
-            serialNumberErrorLayout.setVisibility(View.VISIBLE);
+            serialNumberParentLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
