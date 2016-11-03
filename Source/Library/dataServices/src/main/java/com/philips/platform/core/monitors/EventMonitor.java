@@ -22,7 +22,7 @@ public abstract class EventMonitor {
     public void start(@NonNull final Eventing eventing) {
         this.eventing = eventing;
         if (!eventing.isRegistered(this)) {
-            eventing.register(this);
+            eventing.registerSticky(this);
         }
     }
 
