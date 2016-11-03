@@ -134,7 +134,7 @@ public class Switch extends SwitchCompat {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
         int borderColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchBorderColorList, -1);
-        if (UIDUtils.isMinLollipop() && borderColorStateID == R.drawable.uid_switch_background) {
+        if (UIDUtils.isMinLollipop() && (borderColorStateID > -1) && (getBackground() instanceof RippleDrawable)) {
             ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(getResources(), theme, borderColorStateID));
             int radius = getResources().getDimensionPixelSize(R.dimen.uid_switch_border_ripple_radius);
             UIDUtils.setRippleMaxRadius(getBackground(), radius);

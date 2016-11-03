@@ -55,35 +55,35 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchWidth() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_width);
+        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_width);
         getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
     public void verifyToggleSwitchHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
+        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
     @Test
     public void verifyToggleSwitchTrackWidth() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_track_width);
+        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_width);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameWidth(trackFunction(), expectedWidth, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchTrackHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_track_height);
+        int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_height);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameHeight(trackFunction(), expectedHeight, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchThumbHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
+        int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedHeight)));
     }
@@ -91,14 +91,14 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchThumbWidth() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
+        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedWidth)));
     }
 
     @Test
     public void verifyToggleSwitchCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_corner_radius));
+        float radius = (float) Math.floor(testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_corner_radius));
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRadius(trackFunction(), 0, radius)));
     }
 
@@ -117,7 +117,7 @@ public class ToggleSwitchTest {
 
     @Test
     public void verifyThumbHighlightRadius() {
-        int radius = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.toggleswitch_ripple_radius);
+        int radius = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_ripple_radius);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRippleRadius(TestConstants.FUNCTION_GET_BACKGROUND, radius)));
     }
 
