@@ -31,6 +31,8 @@ public class Switch extends SwitchCompat {
     //We need to extract the drawable from layer list to avoid recursive ondraw call if bounds are set
     private Drawable uidTrackDrawable;
 
+    private boolean isMinLollipop;
+
     public Switch(Context context) {
         this(context, null);
     }
@@ -42,6 +44,7 @@ public class Switch extends SwitchCompat {
     public Switch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
+        isMinLollipop = UIDUtils.isMinLollipop();
     }
 
     @Override
@@ -50,9 +53,22 @@ public class Switch extends SwitchCompat {
         super.setTrackDrawable(trackDrawable);
     }
 
+    //Trackdrawable paddings are not correctly applied in Kitkat in this draw.
+    @Override
+    public void draw(final Canvas c) {
+        if (isMinLollipop) {
+            applyTrackHorizontalPadding();
+        }
+        super.draw(c);
+    }
+
+    //Trackdrawable paddings are not correctly applied in Lollipop in this draw.
+    //In several UI rotations, the track is not clipped.
     @Override
     public void onDraw(final Canvas c) {
-        applyTrackHorizontalPadding();
+        if (!isMinLollipop) {
+            applyTrackHorizontalPadding();
+        }
         super.onDraw(c);
     }
 

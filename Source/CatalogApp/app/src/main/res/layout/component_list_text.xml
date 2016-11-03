@@ -5,5 +5,5 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="@dimen/layout_margin_left_right"
           android:gravity="center_vertical"
-          android:textColor="?attr/uitColorLevel75"
-          android:minHeight="@dimen/layout_margin_left_right"/>
+          android:textColor="?attr/uitControlPrimaryTextColor"
+          android:minHeight="48dp"/>
