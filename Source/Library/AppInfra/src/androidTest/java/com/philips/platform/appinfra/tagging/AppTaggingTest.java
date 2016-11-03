@@ -2,7 +2,10 @@ package com.philips.platform.appinfra.tagging;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -38,6 +41,7 @@ public class AppTaggingTest extends MockitoTestCase {
 
     AppTagging mAppTagging;
 
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -48,8 +52,10 @@ public class AppTaggingTest extends MockitoTestCase {
         assertNotNull(mAppInfra);
         testConfig("Staging");
         testAdobeJsonConfig(true);
+
         mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent
                 ("Component name", "Component ID");
+
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
     }
 
@@ -92,7 +98,7 @@ public class AppTaggingTest extends MockitoTestCase {
                             "   \"appidentity.micrositeId\" : \"77000\",\n" +
                             "    \"tagging.sensitiveData\": [\"bundleId\", \"language\"  ],\n" +
                             "  \"appidentity.sector\"  : \"B2C\",\n" +
-                            " \"appidentity.appState\"  : \""+value+"\",\n" +
+                            " \"appidentity.appState\"  : \"" + value + "\",\n" +
                             "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
                             "\"restclient.cacheSizeInKB\"  : 1024 \n" +
                             "} \n" + "}";
@@ -110,7 +116,7 @@ public class AppTaggingTest extends MockitoTestCase {
 
     public void testAdobeJsonConfig(final boolean value) {
 
-        mAppTagging= new AppTagging(mAppInfra) {
+        mAppTagging = new AppTagging(mAppInfra) {
             @Override
             protected JSONObject getMasterADBMobileConfig() {
                 JSONObject result = null;
@@ -123,10 +129,10 @@ public class AppTaggingTest extends MockitoTestCase {
                     e.printStackTrace();
                 }
                 try {
-                    String testJson =   "{\n" +
+                    String testJson = "{\n" +
                             "  \"analytics\": {\n" +
                             "\n" +
-                            " \"ssl\"  : \""+value+"\",\n" +
+                            " \"ssl\"  : \"" + value + "\",\n" +
                             "\n";
 
                     result = new JSONObject();
@@ -139,20 +145,24 @@ public class AppTaggingTest extends MockitoTestCase {
             }
 
         };
+        mAppTagging.mComponentID = "mComponentID";
+        mAppTagging.mComponentVersion = "mComponentVersion";
         mAppInfra = new AppInfra.Builder().setTagging(mAppTagging).build(context);
+        mAppInfra.setConfigInterface(mConfigInterface);
     }
+
+
     public void testPrivacyConsent() {
-        mAIAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-        assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, mAIAppTaggingInterface.getPrivacyConsent());
-        mAIAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-        assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, mAIAppTaggingInterface.getPrivacyConsent());
-        mAIAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.UNKNOWN);
-        //assertEquals(AppTaggingInterface.PrivacyStatus.UNKNOWN, mAIAppTaggingInterface.getPrivacyConsent());
+        mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, mAppTagging.getPrivacyConsent());
+        mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, mAppTagging.getPrivacyConsent());
+        mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.UNKNOWN);
+//        assertEquals(AppTaggingInterface.PrivacyStatus.UNKNOWN, mAppTagging.getPrivacyConsent());
     }
 
     public void testTrackPageWithInfo() {
-
-        mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
+        mAppTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
@@ -168,7 +178,7 @@ public class AppTaggingTest extends MockitoTestCase {
             for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
                 keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
             }
-            mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
+            mAppTagging.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
@@ -180,7 +190,7 @@ public class AppTaggingTest extends MockitoTestCase {
 
     public void testMockTrackActionWithInfo() {
 
-        mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", "key1", "value1");
+        mAppTagging.trackActionWithInfo("AppTaggingDemoPage", "key1", "value1");
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
@@ -196,7 +206,7 @@ public class AppTaggingTest extends MockitoTestCase {
             for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
                 keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
             }
-            mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
+            mAppTagging.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
@@ -207,7 +217,7 @@ public class AppTaggingTest extends MockitoTestCase {
     }
 
     public void testLifecycle() {
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAIAppTaggingInterface);
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppTagging);
         Application mockApplication = mock(Application.class);
 
        /* mockApplication.registerActivityLifecycleCallbacks(handler);
@@ -295,11 +305,11 @@ public class AppTaggingTest extends MockitoTestCase {
             testConfig("Production");
             method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "TestData");
+            method.invoke(mAppTagging, "TestData");
 
             method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "TestData");
+            method.invoke(mAppTagging, "TestData");
 
 
         } catch (NoSuchMethodException e) {
@@ -316,57 +326,56 @@ public class AppTaggingTest extends MockitoTestCase {
         try {
             method = AppTagging.class.getDeclaredMethod("trackVideoStart", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "Start");
+            method.invoke(mAppTagging, "Start");
 
 
             method = AppTagging.class.getDeclaredMethod("trackVideoEnd", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "Start");
+            method.invoke(mAppTagging, "Start");
 
 
             method = AppTagging.class.getDeclaredMethod("trackLinkExternal", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "Start");
+            method.invoke(mAppTagging, "Start");
 
 
             method = AppTagging.class.getDeclaredMethod("trackFileDownload", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "Start");
+            method.invoke(mAppTagging, "Start");
 
             method = AppTagging.class.getDeclaredMethod("setPrivacyConsentForSensitiveData", boolean.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, true);
+            method.invoke(mAppTagging, true);
 
             method = AppTagging.class.getDeclaredMethod("getPrivacyConsentForSensitiveData");
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface);
-            mAIAppTaggingInterface.setPrivacyConsentForSensitiveData(true);
-            assertTrue(mAIAppTaggingInterface.getPrivacyConsentForSensitiveData());
-            assertNotNull(mAIAppTaggingInterface.getPrivacyConsentForSensitiveData());
+            method.invoke(mAppTagging);
+            mAppTagging.setPrivacyConsentForSensitiveData(true);
+            assertTrue(mAppTagging.getPrivacyConsentForSensitiveData());
+            assertNotNull(mAppTagging.getPrivacyConsentForSensitiveData());
 
             method = AppTagging.class.getDeclaredMethod("trackLinkExternal", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "Start");
+            method.invoke(mAppTagging, "Start");
 
             method = AppTagging.class.getDeclaredMethod("setPreviousPage", String.class);
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, "setPreviousPage");
+            method.invoke(mAppTagging, "setPreviousPage");
 
             method = AppTagging.class.getDeclaredMethod("pauseLifecycleInfo");
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface);
+            method.invoke(mAppTagging);
 
             method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", Activity.class);
             method.setAccessible(true);
-            Testclass tTestclass =new Testclass();
-            method.invoke(mAIAppTaggingInterface, (Activity)tTestclass);
+            Testclass tTestclass = new Testclass();
+            method.invoke(mAppTagging, (Activity) tTestclass);
 
-            method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", new Class[]{Activity.class,Map.class});
+            method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", new Class[]{Activity.class, Map.class});
             method.setAccessible(true);
-            Map map =new HashMap();
+            Map map = new HashMap();
             map.put("Test1", "Test2");
-            method.invoke(mAIAppTaggingInterface, new Object[]{(Activity)tTestclass, map});
-
+            method.invoke(mAppTagging, new Object[]{(Activity) tTestclass, map});
 
 
         } catch (NoSuchMethodException e) {
@@ -378,20 +387,21 @@ public class AppTaggingTest extends MockitoTestCase {
         }
 
     }
-    public class Testclass extends Activity{
-        Testclass(){
-            Log.i("Example","Example");
+
+    public class Testclass extends Activity {
+        Testclass() {
+            Log.i("Example", "Example");
         }
     }
 
-    public void testSocialSharing(){
+    public void testSocialSharing() {
         Method method = null;
-        try{
-            method = AppTagging.class.getDeclaredMethod("trackSocialSharing",new Class[]{AppTaggingInterface.SocialMedium.class,String.class});
+        try {
+            method = AppTagging.class.getDeclaredMethod("trackSocialSharing", new Class[]{AppTaggingInterface.SocialMedium.class, String.class});
             method.setAccessible(true);
-            method.invoke(mAIAppTaggingInterface, new Object[]{AppTaggingInterface.SocialMedium.Facebook, "TestSocial"});
+            method.invoke(mAppTagging, new Object[]{AppTaggingInterface.SocialMedium.Facebook, "TestSocial"});
 
-        }catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
@@ -399,4 +409,155 @@ public class AppTaggingTest extends MockitoTestCase {
             e.printStackTrace();
         }
     }
+
+    public void testgetAppState() {
+        Method method = null;
+        try {
+            testConfig(null);
+            method = AppTagging.class.getDeclaredMethod("getAppStateFromConfig");
+            method.setAccessible(true);
+            method.invoke(mAppTagging);
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void testApplicationLifeCycle() {
+        ApplicationLifeCycleHandler mApplicationLifeCycleHandler = new ApplicationLifeCycleHandler(mAppTagging);
+        assertNotNull(mApplicationLifeCycleHandler);
+        mApplicationLifeCycleHandler.isInBackground = true;
+        Testclass tTestclass = new Testclass();
+        Bundle bundle = new Bundle();
+        Configuration mConfiguration = new Configuration();
+
+        Method method = null;
+        try {
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityResumed", new Class[]{Activity.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityPaused", new Class[]{Activity.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityCreated", new Class[]{Activity.class, Bundle.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass, bundle});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityDestroyed", new Class[]{Activity.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivitySaveInstanceState", new Class[]{Activity.class, Bundle.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass, bundle});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStarted", new Class[]{Activity.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStopped", new Class[]{Activity.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onConfigurationChanged", new Class[]{Configuration.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{mConfiguration});
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onLowMemory");
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler);
+
+            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onTrimMemory", new Class[]{int.class});
+            method.setAccessible(true);
+            method.invoke(mApplicationLifeCycleHandler, new Object[]{20});
+
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testTrackActionMethods() {
+        Method method = null;
+        try {
+
+            testConfig("Staging");
+            testAdobeJsonConfig(false);
+
+            method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", new Class[]{String.class});
+            method.setAccessible(true);
+            method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
+
+            testAdobeJsonConfig(true);
+            method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", new Class[]{String.class});
+            method.setAccessible(true);
+            method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
+
+            testConfig("Staging");
+            testAdobeJsonConfig(false);
+
+            method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", new Class[]{String.class});
+            method.setAccessible(true);
+            method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
+
+            testAdobeJsonConfig(true);
+            method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", new Class[]{String.class});
+            method.setAccessible(true);
+            method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
+
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void testCheckStates() {
+        Method method = null;
+        try {
+
+            testConfig("Staging");
+
+            method = AppTagging.class.getDeclaredMethod("checkForProductionState");
+            method.setAccessible(true);
+            method.invoke(mAppTagging);
+
+            testConfig(null);
+
+            method = AppTagging.class.getDeclaredMethod("checkForProductionState");
+            method.setAccessible(true);
+            method.invoke(mAppTagging);
+
+            method = AppTagging.class.getDeclaredMethod("getMasterADBMobileConfig");
+            method.setAccessible(true);
+            method.invoke(mAppTagging);
+
+            testAdobeJsonConfig(false);
+            method = AppTagging.class.getDeclaredMethod("checkForSslConnection");
+            method.setAccessible(true);
+            method.invoke(mAppTagging);
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
