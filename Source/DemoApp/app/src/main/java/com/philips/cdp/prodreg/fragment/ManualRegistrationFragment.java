@@ -218,7 +218,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 prLaunchInput = new PRLaunchInput(products, false);
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
-            prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
+//            prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
             new PRInterface().launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);

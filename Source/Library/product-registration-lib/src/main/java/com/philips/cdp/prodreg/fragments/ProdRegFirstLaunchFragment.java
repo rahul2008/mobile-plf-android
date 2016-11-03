@@ -5,6 +5,7 @@
 */
 package com.philips.cdp.prodreg.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
@@ -31,8 +33,10 @@ import java.util.List;
 public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     public static final String TAG = ProdRegFirstLaunchFragment.class.getName();
     private List<RegisteredProduct> registeredProducts;
-    private int resId;
+    private int resId = 0;
     private Bundle dependencies;
+    private TextView titleTextView, subTitle1, subTitle2;
+    private Button registerLater;
 
     @Override
     public int getActionbarTitleResId() {
@@ -55,16 +59,30 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     }
 
     private void setImageBackground() {
-        if (getView() != null) {
+        if (getView() != null && resId != 0) {
             getView().setBackgroundResource(resId);
+            registerLater.setBackgroundResource(R.drawable.uikit_white_transparent_selector);
+            setWhiteTextColors();
         }
+    }
+
+    private void setWhiteTextColors() {
+        int whiteColor = Color.WHITE;
+        registerLater.setTextColor(whiteColor);
+        titleTextView.setTextColor(whiteColor);
+        subTitle1.setTextColor(whiteColor);
+        subTitle2.setTextColor(whiteColor);
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
         final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
-        final Button registerLater = (Button) view.findViewById(R.id.no_thanks_button);
+        registerLater = (Button) view.findViewById(R.id.no_thanks_button);
+        titleTextView = (TextView) view.findViewById(R.id.conf_action_textview);
+        subTitle1 = (TextView) view.findViewById(R.id.conf_subtext_textview);
+        subTitle2 = (TextView) view.findViewById(R.id.conf_subtext_two_textview);
+
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
         ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage", "ProductRegistrationOfferScreen");
