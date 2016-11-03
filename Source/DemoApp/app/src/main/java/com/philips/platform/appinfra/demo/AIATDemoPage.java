@@ -57,7 +57,7 @@ public class AIATDemoPage extends AppCompatActivity {
         Button TaggFileDownload = (Button) findViewById(R.id.file_download);
 
         Button Setdata = (Button) findViewById(R.id.setdata);
-        Button getData= (Button) findViewById(R.id.getdata);
+        Button getData = (Button) findViewById(R.id.getdata);
 
         Spinner social_share_spinner = (Spinner) findViewById(R.id.Spinner_social_share);
 
@@ -99,7 +99,7 @@ public class AIATDemoPage extends AppCompatActivity {
         getData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("get Sensitive data", ""+AppInfraApplication.mAIAppTaggingInterface.getPrivacyConsentForSensitiveData());
+                Log.i("get Sensitive data", "" + AppInfraApplication.mAIAppTaggingInterface.getPrivacyConsentForSensitiveData());
             }
         });
 
@@ -113,16 +113,15 @@ public class AIATDemoPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
+                intent.putExtra("VideoStart", true);
                 startActivity(intent);
-//                AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
+                AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
             }
         });
         TaggVideoEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
-                startActivity(intent);
-//                AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
+                Toast.makeText(AIATDemoPage.this, "Tracked after video start completion ", Toast.LENGTH_SHORT).show();
             }
         });
         TaggFileDownload.setOnClickListener(new View.OnClickListener() {
@@ -137,16 +136,13 @@ public class AIATDemoPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
                 startActivity(intent);
-//                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionStart("Tagging_trackTimedActionStart");
             }
         });
 
         TaggActionEndBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
-                startActivity(intent);
-//                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedActionStart");
+                Toast.makeText(AIATDemoPage.this, "Tracked after Action start completion", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -157,7 +153,7 @@ public class AIATDemoPage extends AppCompatActivity {
             }
         });
 
-               TaggPageBtn.setOnClickListener(new View.OnClickListener() {
+        TaggPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null == key.getText().toString() || key.getText().toString().isEmpty() || null == value.getText().toString() || value.getText().toString().isEmpty()) {

@@ -35,7 +35,7 @@ public class AndroidMediaPlayerExample extends Activity {
         Uri videoUri = Uri.parse(videoUrl);
         videoView.setVideoURI(videoUri);
         MediaController mediaController = null;
-            mediaController = new MediaController(this);
+        mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
         videoView.start();
@@ -51,8 +51,8 @@ public class AndroidMediaPlayerExample extends Activity {
                     public void onVideoSizeChanged(MediaPlayer mp, int arg1,
                                                    int arg2) {
                         // TODO Auto-generated method stub
-                        Log.i("VedioonVideoSizeChanged", "onVideoSizeChanged"+arg1+" "+arg2);
-                        AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
+                        Log.i("VedioonVideoSizeChanged", "onVideoSizeChanged" + arg1 + " " + arg2);
+//                        AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
                         AppInfraApplication.mAIAppTaggingInterface.trackTimedActionStart("Tagging_trackTimedAction");
                         progressBar.setVisibility(View.GONE);
                         mp.start();
@@ -63,8 +63,13 @@ public class AndroidMediaPlayerExample extends Activity {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         Log.i("VedioonCompletion", "onVideoonCompletion");
-                        AppInfraApplication.mAIAppTaggingInterface.trackVideoEnd("Tagging_trackVideoEnd");
-                        AppInfraApplication.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedAction");
+                        if (getIntent().getBooleanExtra("VideoStart", false)) {
+                            AppInfraApplication.mAIAppTaggingInterface.trackVideoEnd("Tagging_trackVideoEnd");
+                        } else {
+                            AppInfraApplication.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedAction");
+                        }
+
+
                     }
                 });
             }
