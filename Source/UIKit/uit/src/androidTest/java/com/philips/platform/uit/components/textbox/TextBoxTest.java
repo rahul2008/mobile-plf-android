@@ -8,7 +8,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.platform.uit.components.textbox;
+package com.philips.platform.uit.components.Textbox;
 
 import android.content.Context;
 import android.content.res.Resources;

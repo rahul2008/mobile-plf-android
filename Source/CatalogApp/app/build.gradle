@@ -54,11 +54,8 @@ android {
 
         debug {
             signingConfig signingConfigs.debug
-        }
-        jenkins {
             testCoverageEnabled true
         }
-
     }
 
     packagingOptions {
