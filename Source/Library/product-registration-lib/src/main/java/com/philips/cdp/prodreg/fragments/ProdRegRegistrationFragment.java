@@ -40,7 +40,6 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.uikit.customviews.InlineForms;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,11 +51,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
-    private LinearLayout serialNumberParentLayout;
-    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView;
+    private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, serialNumberParentLayout;
+    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView;
     private ImageView productImageView;
     private EditText serial_number_editText, date_EditText;
-    private InlineForms serialLayout, purchaseDateLayout;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private boolean loadingFlag = false;
@@ -118,16 +116,19 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
         productFriendlyNameTextView = (TextView) view.findViewById(R.id.friendly_name);
+        dateParentLayout = (LinearLayout) view.findViewById(R.id.date_edit_text_layout);
+        serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
+        dateErrorLayout = (LinearLayout) view.findViewById(R.id.date_error_layout);
+        serialNumberErrorLayout = (LinearLayout) view.findViewById(R.id.serial_number_error_layout);
         productTitleTextView = (TextView) view.findViewById(R.id.product_title);
         productCtnTextView = (TextView) view.findViewById(R.id.product_ctn);
+        dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
+        serialNumberErrorTextView = (TextView) view.findViewById(R.id.serialErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
-        serialLayout = (InlineForms) view.findViewById(R.id.InlineForms_serial_number);
-        purchaseDateLayout = (InlineForms) view.findViewById(R.id.InlineForms_date);
         imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
         final Button registerButton = (Button) view.findViewById(R.id.btn_register);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
-        serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_number_parent_layout);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnClickListener(onClickPurchaseDate());
@@ -171,42 +172,43 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void handleSerialNumberEditTextOnError() {
-        serialLayout.setValidator(new InlineForms.Validator() {
+        serial_number_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void validate(final View editText, final boolean hasFocus) {
-                if (!hasFocus)
-                    prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
+            public void onFocusChange(final View v, final boolean hasFocus) {
+                prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
             }
         });
     }
 
     private void showErrorMessageSerialNumber(final EditText editTextView, final String format, final String example) {
         if (TextUtils.isEmpty(format)) {
-            serialLayout.setErrorMessage(getActivity().getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
+            serialNumberErrorTextView.setText(getActivity().getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
         } else if (example != null)
-            serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format + ", " + example);
+            serialNumberErrorTextView.setText(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format + ", " + example);
         else
-            serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
-        serialLayout.showError(editTextView);
+            serialNumberErrorTextView.setText(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
+
+        serialNumberErrorLayout.setVisibility(View.VISIBLE);
+//        serialLayout.showError(editTextView);
     }
 
     private void handleDateEditTextOnError() {
-        purchaseDateLayout.setValidator(new InlineForms.Validator() {
+        date_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void validate(final View editText, final boolean hasFocus) {
+            public void onFocusChange(final View v, final boolean hasFocus) {
                 if (!hasFocus)
                     prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
             }
         });
     }
 
-    private void showErrorMessageDate(final EditText editTextView) {
+    private void showErrorMessageDate() {
         final FragmentActivity activity = getActivity();
-        purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
+        dateErrorLayout.setVisibility(View.VISIBLE);
+        dateErrorTextView.setText(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
         final ProdRegCache prodRegCache = new ProdRegCache();
         new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
         ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
-        purchaseDateLayout.showError(editTextView);
     }
 
     private View.OnClickListener onClickPurchaseDate() {
@@ -287,15 +289,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void isValidDate(boolean validDate) {
         if (validDate) {
-            purchaseDateLayout.removeError(date_EditText);
+            dateErrorLayout.setVisibility(View.GONE);
         } else
-            showErrorMessageDate(date_EditText);
+            showErrorMessageDate();
     }
 
     @Override
     public void isValidSerialNumber(boolean validSerialNumber, String format, String example) {
         if (validSerialNumber) {
-            serialLayout.removeError(serial_number_editText);
+            serialNumberErrorLayout.setVisibility(View.GONE);
         } else
             showErrorMessageSerialNumber(serial_number_editText, format, example);
     }
@@ -339,9 +341,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void requireFields(final boolean requireDate, final boolean requireSerialNumber) {
         if (requireDate)
-            purchaseDateLayout.setVisibility(View.VISIBLE);
+            dateParentLayout.setVisibility(View.VISIBLE);
         if (requireSerialNumber)
-            serialNumberParentLayout.setVisibility(View.VISIBLE);
+            serialNumberErrorLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

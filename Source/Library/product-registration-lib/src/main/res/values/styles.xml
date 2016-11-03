@@ -76,25 +76,4 @@
 
     </style>
 
-    <!--<style name="PhilipsTextInputLayoutTextViewStyle">
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
-        <item name="android:textColor">@color/uikit_enricher4</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:ellipsize">marquee</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:layout_marginLeft">19dp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:includeFontPadding">false</item>
-    </style>
-
-    <style name="PhilipsTextInputLayoutStyleEnabled">
-        <item name="android:textColorHint">@color/uikit_enricher4</item>
-        <item name="android:enabled">true</item>
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginRight">20dp</item>
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:layout_marginLeft">-13dp</item>
-    </style>-->
 </resources>
