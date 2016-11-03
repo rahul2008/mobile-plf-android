@@ -38,6 +38,7 @@
     <string name="content_desc_enabled">Enabled</string>
     <string name="content_desc_close">close</string>
     <string name="preview">Preview</string>
+    <string name="buttons_text_quiet">Quiet Button</string>
     <string name="page_tittle_settings">Settings</string>
 
     <!--Settings page for ToggleSwitch-->

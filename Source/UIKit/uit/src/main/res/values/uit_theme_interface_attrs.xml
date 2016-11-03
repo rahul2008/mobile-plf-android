@@ -7,6 +7,7 @@
         <attr name="uitButtonDisabledColor" format="reference|color"/>
         <attr name="uitButtonDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uitButtonTextColor" format="reference|color"/>
+        <attr name="uitButtonTextPressedColor" format="reference|color"/>
         <attr name="uitButtonTextDisabledAlpha" format="reference|float|dimension"/>
         <attr name="uitButtonBackgroundColorList" format="reference"/>
         <attr name="uitButtonTextColorList" format="reference"/>
@@ -16,6 +17,8 @@
         <attr name="uitButtonImageDrawableWidth" format="dimension"/>
         <attr name="uitButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
+        <attr name="uitQuietButtonDisabledAlpha" format="reference|float"/>
+
     </declare-styleable>
 
     <declare-styleable name="UITImageButton">

@@ -12,7 +12,7 @@ node ('Android && 25.0.0 && Ubuntu'){
   stage 'Build Catalog app'
   sh '''
     cd Source/CatalogApp
-    ./gradlew assembleDebug
+    ./gradlew testJenkins lintJenkins assembleDebug
 
   '''
 

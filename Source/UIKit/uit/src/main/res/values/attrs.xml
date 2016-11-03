@@ -19,6 +19,8 @@
         <attr name="uitControlPrimaryEnabledColor" format="reference|color"/>
         <attr name="uitControlPrimaryPressedColor" format="reference|color"/>
         <attr name="uitControlPrimaryTextColor" format="reference|color"/>
+
+        <attr name="uitControlPrimaryTextPressedColor" format="reference|color"/>
         <attr name="uitControlPrimaryDisabledAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryTextDisabledAlpha" format="reference|float"/>
 
@@ -57,9 +59,6 @@
             <enum name="Primary" value="0"/>
             <enum name="AltPrimary" value="1"/>
             <enum name="Secondary" value="2"/>
-            <enum name="Quiet" value="2"/>
-            <enum name="Circular" value="2"/>
-            <enum name="Accent" value="3"/>
         </attr>
     </declare-styleable>
 
