@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>385</y>
+      <x>1755</x>
+      <y>1525</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -15,19 +15,25 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
-      <y>220</y>
-      <w>100</w>
-      <h>25</h>
+      <x>2140</x>
+      <y>1360</y>
+      <w>145</w>
+      <h>115</h>
     </coordinates>
-    <panel_attributes>DiscoveryManager</panel_attributes>
+    <panel_attributes>DiscoveryManager
+--
+get appliances
+add discovery event listeners
+update connected state of networknodes
+manage appliance database
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>235</x>
-      <y>380</y>
+      <x>1970</x>
+      <y>1520</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -37,19 +43,22 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1040</x>
-      <y>175</y>
-      <w>100</w>
-      <h>25</h>
+      <x>2655</x>
+      <y>1360</y>
+      <w>220</w>
+      <h>90</h>
     </coordinates>
-    <panel_attributes>PairingHandler</panel_attributes>
+    <panel_attributes>PairingHandler
+--
+control the entire pairing flow?
+does it then need extending to support BLE?</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>920</x>
-      <y>125</y>
+      <x>2655</x>
+      <y>1265</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -60,8 +69,8 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>235</x>
-      <y>430</y>
+      <x>1970</x>
+      <y>1570</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -71,8 +80,8 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>445</x>
-      <y>380</y>
+      <x>2180</x>
+      <y>1520</y>
       <w>100</w>
       <h>90</h>
     </coordinates>
@@ -89,8 +98,8 @@ protocolversion
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>925</x>
-      <y>370</y>
+      <x>2660</x>
+      <y>1510</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -101,8 +110,8 @@ CloudController</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1040</x>
-      <y>370</y>
+      <x>2775</x>
+      <y>1510</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -112,19 +121,30 @@ CloudController</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>135</x>
-      <y>545</y>
+      <x>1870</x>
+      <y>1615</y>
       <w>425</w>
-      <h>25</h>
+      <h>105</h>
     </coordinates>
-    <panel_attributes>CommunicationStrategy</panel_attributes>
+    <panel_attributes>CommunicationStrategy
+--
+putProperties()
+getProperties()
+addProperties()
+deleteProperties()
+subscribe()
+unsubscribe()
+isAvailable()
+enableCommunication()
+disableCommunication()
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>245</x>
-      <y>675</y>
+      <x>1980</x>
+      <y>1815</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -134,8 +154,8 @@ CloudController</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>375</x>
-      <y>675</y>
+      <x>2110</x>
+      <y>1815</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -145,8 +165,8 @@ CloudController</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>95</x>
-      <y>675</y>
+      <x>1830</x>
+      <y>1815</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -156,8 +176,8 @@ CloudController</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
-      <y>675</y>
+      <x>2235</x>
+      <y>1815</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -168,8 +188,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>205</x>
-      <y>605</y>
+      <x>1940</x>
+      <y>1745</y>
       <w>120</w>
       <h>25</h>
     </coordinates>
@@ -179,63 +199,63 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>335</x>
-      <y>565</y>
+      <x>2070</x>
+      <y>1715</y>
       <w>15</w>
-      <h>120</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>395</x>
-      <y>565</y>
+      <x>2130</x>
+      <y>1715</y>
       <w>15</w>
-      <h>120</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>545</x>
-      <y>565</y>
+      <x>2280</x>
+      <y>1715</y>
       <w>15</w>
-      <h>120</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>140</x>
-      <y>565</y>
+      <x>1875</x>
+      <y>1715</y>
       <w>15</w>
-      <h>120</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>265</x>
-      <y>565</y>
+      <x>2000</x>
+      <y>1715</y>
       <w>15</w>
-      <h>50</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>625</y>
+      <x>1925</x>
+      <y>1765</y>
       <w>60</w>
       <h>60</h>
     </coordinates>
@@ -245,8 +265,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>625</y>
+      <x>2025</x>
+      <y>1765</y>
       <w>15</w>
       <h>60</h>
     </coordinates>
@@ -256,8 +276,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>625</y>
+      <x>2055</x>
+      <y>1765</y>
       <w>75</w>
       <h>60</h>
     </coordinates>
@@ -267,8 +287,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>625</x>
-      <y>545</y>
+      <x>2360</x>
+      <y>1685</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -278,19 +298,19 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>555</x>
-      <y>550</y>
-      <w>80</w>
-      <h>15</h>
+      <x>2075</x>
+      <y>1700</y>
+      <w>295</w>
+      <h>125</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
+    <additional_attributes>10.0;230.0;570.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>810</x>
-      <y>545</y>
+      <x>2545</x>
+      <y>1685</y>
       <w>145</w>
       <h>25</h>
     </coordinates>
@@ -300,8 +320,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>730</x>
-      <y>655</y>
+      <x>2465</x>
+      <y>1795</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -311,8 +331,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>940</x>
-      <y>655</y>
+      <x>2675</x>
+      <y>1795</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -322,8 +342,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>235</x>
-      <y>215</y>
+      <x>1970</x>
+      <y>1355</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -333,8 +353,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>235</y>
+      <x>2065</x>
+      <y>1375</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -344,30 +364,30 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>240</y>
+      <x>2245</x>
+      <y>1470</y>
       <w>15</w>
-      <h>150</h>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>220</y>
-      <w>130</w>
+      <x>2065</x>
+      <y>1360</y>
+      <w>85</w>
       <h>15</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>150.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>265</x>
-      <y>235</y>
+      <x>2000</x>
+      <y>1375</y>
       <w>15</w>
       <h>155</h>
     </coordinates>
@@ -377,19 +397,19 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>240</y>
+      <x>2065</x>
+      <y>1470</y>
       <w>130</w>
-      <h>150</h>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>10.0;280.0;240.0;10.0</additional_attributes>
+    <additional_attributes>10.0;100.0;240.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>610</x>
-      <y>175</y>
+      <x>2345</x>
+      <y>1315</y>
       <w>115</w>
       <h>30</h>
     </coordinates>
@@ -400,8 +420,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>610</x>
-      <y>265</y>
+      <x>2345</x>
+      <y>1405</y>
       <w>115</w>
       <h>30</h>
     </coordinates>
@@ -412,8 +432,8 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>610</x>
-      <y>220</y>
+      <x>2345</x>
+      <y>1360</y>
       <w>115</w>
       <h>30</h>
     </coordinates>
@@ -425,8 +445,8 @@ bg=green
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>610</x>
-      <y>115</y>
+      <x>2345</x>
+      <y>1255</y>
       <w>115</w>
       <h>30</h>
     </coordinates>
@@ -437,8 +457,8 @@ bg=green
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>610</x>
-      <y>55</y>
+      <x>2345</x>
+      <y>1195</y>
       <w>115</w>
       <h>30</h>
     </coordinates>
@@ -448,8 +468,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
-      <y>80</y>
+      <x>2395</x>
+      <y>1220</y>
       <w>15</w>
       <h>45</h>
     </coordinates>
@@ -459,8 +479,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>655</x>
-      <y>140</y>
+      <x>2390</x>
+      <y>1280</y>
       <w>15</w>
       <h>45</h>
     </coordinates>
@@ -470,8 +490,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>545</x>
-      <y>185</y>
+      <x>2280</x>
+      <y>1325</y>
       <w>75</w>
       <h>45</h>
     </coordinates>
@@ -481,8 +501,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>545</x>
-      <y>230</y>
+      <x>2280</x>
+      <y>1370</y>
       <w>75</w>
       <h>15</h>
     </coordinates>
@@ -492,8 +512,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>545</x>
-      <y>240</y>
+      <x>2280</x>
+      <y>1380</y>
       <w>75</w>
       <h>45</h>
     </coordinates>
@@ -503,8 +523,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>290</y>
+      <x>2455</x>
+      <y>1430</y>
       <w>215</w>
       <h>90</h>
     </coordinates>
@@ -514,8 +534,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
-      <y>390</y>
+      <x>2735</x>
+      <y>1530</y>
       <w>15</w>
       <h>275</h>
     </coordinates>
@@ -525,8 +545,8 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>550</y>
+      <x>2455</x>
+      <y>1690</y>
       <w>100</w>
       <h>15</h>
     </coordinates>
@@ -536,8 +556,8 @@ bg=green
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>835</x>
-      <y>655</y>
+      <x>2570</x>
+      <y>1795</y>
       <w>100</w>
       <h>25</h>
     </coordinates>
@@ -548,8 +568,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>875</x>
-      <y>565</y>
+      <x>2610</x>
+      <y>1705</y>
       <w>15</w>
       <h>100</h>
     </coordinates>
@@ -559,8 +579,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>815</x>
-      <y>565</y>
+      <x>2550</x>
+      <y>1705</y>
       <w>15</w>
       <h>100</h>
     </coordinates>
@@ -570,8 +590,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>940</x>
-      <y>565</y>
+      <x>2675</x>
+      <y>1705</y>
       <w>15</w>
       <h>100</h>
     </coordinates>
@@ -581,19 +601,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>430</x>
-      <y>495</y>
-      <w>390</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>760.0;100.0;430.0;10.0;10.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>540</x>
-      <y>425</y>
+      <x>2275</x>
+      <y>1565</y>
       <w>345</w>
       <h>130</h>
     </coordinates>
@@ -603,8 +612,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>445</x>
-      <y>55</y>
+      <x>2180</x>
+      <y>1195</y>
       <w>115</w>
       <h>30</h>
     </coordinates>
@@ -614,8 +623,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>525</x>
-      <y>80</y>
+      <x>2260</x>
+      <y>1220</y>
       <w>95</w>
       <h>150</h>
     </coordinates>
@@ -625,8 +634,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>495</x>
-      <y>80</y>
+      <x>2230</x>
+      <y>1220</y>
       <w>15</w>
       <h>150</h>
     </coordinates>
@@ -636,19 +645,19 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>365</x>
-      <y>80</y>
-      <w>95</w>
+      <x>2100</x>
+      <y>1220</y>
+      <w>115</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>170.0;280.0;10.0;10.0</additional_attributes>
+    <additional_attributes>210.0;280.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>310</x>
-      <y>55</y>
+      <x>2045</x>
+      <y>1195</y>
       <w>115</w>
       <h>30</h>
     </coordinates>
@@ -659,8 +668,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>0</x>
-      <y>45</y>
+      <x>1735</x>
+      <y>1185</y>
       <w>170</w>
       <h>35</h>
     </coordinates>
@@ -671,8 +680,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>0</x>
-      <y>90</y>
+      <x>1735</x>
+      <y>1230</y>
       <w>170</w>
       <h>35</h>
     </coordinates>
@@ -684,8 +693,8 @@ bg=yellow
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>265</x>
-      <y>400</y>
+      <x>2000</x>
+      <y>1540</y>
       <w>15</w>
       <h>40</h>
     </coordinates>
@@ -695,19 +704,19 @@ bg=yellow
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>265</x>
-      <y>450</y>
+      <x>2000</x>
+      <y>1590</y>
       <w>15</w>
-      <h>105</h>
+      <h>35</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>115</x>
-      <y>390</y>
+      <x>1850</x>
+      <y>1530</y>
       <w>130</w>
       <h>15</h>
     </coordinates>
@@ -717,30 +726,30 @@ bg=yellow
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1080</x>
-      <y>195</y>
+      <x>2815</x>
+      <y>1445</y>
       <w>15</w>
-      <h>185</h>
+      <h>75</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>10.0;350.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>990</x>
-      <y>195</y>
-      <w>70</w>
-      <h>185</h>
+      <x>2725</x>
+      <y>1445</y>
+      <w>15</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>10.0;350.0;120.0;10.0</additional_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>235</x>
-      <y>790</y>
+      <x>1970</x>
+      <y>1930</y>
       <w>115</w>
       <h>25</h>
     </coordinates>
@@ -750,9 +759,9 @@ bg=yellow
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>300</x>
-      <y>875</y>
-      <w>255</w>
+      <x>2020</x>
+      <y>2015</y>
+      <w>270</w>
       <h>25</h>
     </coordinates>
     <panel_attributes>SubscriptionHandler</panel_attributes>
@@ -761,8 +770,8 @@ bg=yellow
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>305</x>
-      <y>810</y>
+      <x>2040</x>
+      <y>1950</y>
       <w>15</w>
       <h>75</h>
     </coordinates>
@@ -772,8 +781,8 @@ bg=yellow
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>695</y>
+      <x>2025</x>
+      <y>1835</y>
       <w>15</w>
       <h>105</h>
     </coordinates>
@@ -783,8 +792,8 @@ bg=yellow
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>365</x>
-      <y>790</y>
+      <x>2100</x>
+      <y>1930</y>
       <w>120</w>
       <h>25</h>
     </coordinates>
@@ -794,8 +803,8 @@ bg=yellow
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
-      <y>695</y>
+      <x>2155</x>
+      <y>1835</y>
       <w>15</w>
       <h>105</h>
     </coordinates>
@@ -805,8 +814,8 @@ bg=yellow
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>415</x>
-      <y>810</y>
+      <x>2150</x>
+      <y>1950</y>
       <w>15</w>
       <h>75</h>
     </coordinates>
@@ -816,8 +825,8 @@ bg=yellow
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>495</x>
-      <y>790</y>
+      <x>2230</x>
+      <y>1930</y>
       <w>120</w>
       <h>25</h>
     </coordinates>
@@ -828,8 +837,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>525</x>
-      <y>810</y>
+      <x>2260</x>
+      <y>1950</y>
       <w>15</w>
       <h>75</h>
     </coordinates>
@@ -839,12 +848,2504 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>545</x>
-      <y>695</y>
+      <x>2280</x>
+      <y>1835</y>
       <w>15</w>
       <h>105</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2460</x>
+      <y>1775</y>
+      <w>340</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Request per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2025</x>
+      <y>1170</y>
+      <w>295</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Availability per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1960</x>
+      <y>1795</y>
+      <w>410</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>Strategy per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2315</x>
+      <y>1300</y>
+      <w>165</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Discovery per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1960</x>
+      <y>1905</y>
+      <w>410</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>Subscription implementation per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1715</x>
+      <y>340</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>CurrentApplianceManager</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2145</x>
+      <y>175</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DiscoveryManager</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1930</x>
+      <y>335</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DICommAppliance</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2760</x>
+      <y>805</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>PairingHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2845</x>
+      <y>920</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>SchedulerHandler
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1930</x>
+      <y>385</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DICommPort</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2140</x>
+      <y>335</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>NetworkNode
+--
+connectionState
+ip
+btmac
+cppid
+protocolversion
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2645</x>
+      <y>1000</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>lt=.
+CloudController</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2760</x>
+      <y>1000</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>PairingController</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1830</x>
+      <y>430</y>
+      <w>425</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>CommunicationStrategy
+--
+putProperties()
+getProperties()
+addProperties()
+deleteProperties()
+subscribe()
+unsubscribe()
+isAvailable()
+enableCommunication()
+disableCommunication()
+
+enableDiscovery()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1940</x>
+      <y>630</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DirectHttpStrategy</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2070</x>
+      <y>630</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudStrategy</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1790</x>
+      <y>630</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>NullStrategy</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2195</x>
+      <y>630</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>BleStrategy
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1900</x>
+      <y>560</y>
+      <w>120</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>CommunicationMarshal</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2030</x>
+      <y>530</y>
+      <w>15</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2090</x>
+      <y>530</y>
+      <w>15</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2240</x>
+      <y>530</y>
+      <w>15</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1835</x>
+      <y>530</y>
+      <w>15</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1960</x>
+      <y>530</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1885</x>
+      <y>580</y>
+      <w>60</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1985</x>
+      <y>580</y>
+      <w>15</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2015</x>
+      <y>580</y>
+      <w>75</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2320</x>
+      <y>500</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>RequestQueue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2250</x>
+      <y>505</y>
+      <w>80</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2505</x>
+      <y>500</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>Request</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2425</x>
+      <y>610</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DirectHttpRequest</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2635</x>
+      <y>610</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudRequest</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1930</x>
+      <y>170</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DiCommApplianceFactory</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2025</x>
+      <y>190</y>
+      <w>125</w>
+      <h>155</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>230.0;290.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2085</x>
+      <y>395</y>
+      <w>65</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2025</x>
+      <y>175</y>
+      <w>130</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1960</x>
+      <y>190</y>
+      <w>15</w>
+      <h>155</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2025</x>
+      <y>195</y>
+      <w>130</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;280.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1925</x>
+      <y>875</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SsdpDiscoveryHelper
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2065</x>
+      <y>875</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudDiscoveryHelper
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2200</x>
+      <y>875</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>BleDiscoveryHelper
+bg=green
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1920</x>
+      <y>930</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SsdpService
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1920</x>
+      <y>1005</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DeviceModel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1970</x>
+      <y>955</y>
+      <w>15</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1970</x>
+      <y>900</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1950</x>
+      <y>650</y>
+      <w>15</w>
+      <h>235</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;450.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2265</x>
+      <y>650</y>
+      <w>15</w>
+      <h>235</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;450.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2070</x>
+      <y>650</y>
+      <w>15</w>
+      <h>235</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;450.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2175</x>
+      <y>875</y>
+      <w>480</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>940.0;250.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2670</x>
+      <y>630</y>
+      <w>15</w>
+      <h>380</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;740.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2415</x>
+      <y>505</y>
+      <w>100</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2530</x>
+      <y>610</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>BleRequest
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2570</x>
+      <y>520</y>
+      <w>15</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2510</x>
+      <y>520</y>
+      <w>15</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2635</x>
+      <y>520</y>
+      <w>15</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2250</x>
+      <y>460</y>
+      <w>265</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>510.0;80.0;450.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2235</x>
+      <y>380</y>
+      <w>345</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>670.0;240.0;670.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1485</x>
+      <y>740</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DirectHttpAvailabilityMonitor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1595</x>
+      <y>650</y>
+      <w>355</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>690.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1880</x>
+      <y>650</y>
+      <w>325</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>630.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1770</x>
+      <y>740</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>BleMonitor
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1695</x>
+      <y>0</y>
+      <w>170</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>added to support BLE
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1695</x>
+      <y>45</y>
+      <w>170</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>found in design, but not in implementation
+bg=yellow
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1960</x>
+      <y>355</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1960</x>
+      <y>405</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1810</x>
+      <y>345</y>
+      <w>130</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2800</x>
+      <y>825</y>
+      <w>15</w>
+      <h>185</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;350.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2710</x>
+      <y>825</y>
+      <w>70</w>
+      <h>185</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;350.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1930</x>
+      <y>745</y>
+      <w>115</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DirectHttpSubscriptionHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1995</x>
+      <y>820</y>
+      <w>255</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>SubscriptionHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2000</x>
+      <y>765</y>
+      <w>15</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1985</x>
+      <y>650</y>
+      <w>15</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2060</x>
+      <y>745</y>
+      <w>120</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudSubscriptionHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2115</x>
+      <y>650</y>
+      <w>15</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2110</x>
+      <y>765</y>
+      <w>15</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2190</x>
+      <y>745</y>
+      <w>120</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>BleSubscriptionHandler
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2220</x>
+      <y>765</y>
+      <w>15</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2240</x>
+      <y>650</y>
+      <w>15</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2420</x>
+      <y>590</y>
+      <w>340</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Request per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1475</x>
+      <y>710</y>
+      <w>425</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Availability per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1905</x>
+      <y>610</y>
+      <w>425</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>Strategy per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1890</x>
+      <y>860</y>
+      <w>485</w>
+      <h>185</h>
+    </coordinates>
+    <panel_attributes>Discovery per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1905</x>
+      <y>720</y>
+      <w>425</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>Subscription implementation per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1635</x>
+      <y>1080</y>
+      <w>1480</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>Note..
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2065</x>
+      <y>1530</y>
+      <w>125</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1710</x>
+      <y>1285</y>
+      <w>110</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>App
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1860</x>
+      <y>1300</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DiCommClientWrapper
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1945</x>
+      <y>1310</y>
+      <w>250</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;480.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1815</x>
+      <y>1305</y>
+      <w>55</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1815</x>
+      <y>1360</y>
+      <w>165</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;310.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2150</x>
+      <y>1425</y>
+      <w>130</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>Is DiscoveryManager 
+doing too much?
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2285</x>
+      <y>1520</y>
+      <w>130</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>NetworkNode is currently
+exposed to app in a writable way.
+This is not desirable.
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2065</x>
+      <y>1445</y>
+      <w>600</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>1180.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2205</x>
+      <y>1705</y>
+      <w>165</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;220.0;310.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2305</x>
+      <y>1705</y>
+      <w>70</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;220.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2330</x>
+      <y>1800</y>
+      <w>250</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;480.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2205</x>
+      <y>1805</y>
+      <w>480</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;940.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2075</x>
+      <y>1800</y>
+      <w>400</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;780.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>45</x>
+      <y>1370</y>
+      <w>100</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>CurrentApplianceManager</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>1205</y>
+      <w>145</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>DiscoveryManager
+--
+get appliances
+add discovery event listeners
+update connected state of networknodes
+manage appliance database
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>1365</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DICommAppliance</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>945</x>
+      <y>1205</y>
+      <w>220</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>PairingHandler
+--
+control the entire pairing flow?
+does it then need extending to support BLE?</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>945</x>
+      <y>1110</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>SchedulerHandler
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>1415</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DICommPort</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>1365</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>NetworkNode
+--
+connectionState
+ip
+btmac
+cppid
+protocolversion
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>950</x>
+      <y>1355</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>lt=.
+CloudController</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1065</x>
+      <y>1355</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>PairingController</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>1460</y>
+      <w>425</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>CommunicationStrategy
+--
+putProperties()
+getProperties()
+addProperties()
+deleteProperties()
+subscribe()
+unsubscribe()
+isAvailable()
+enableCommunication()
+disableCommunication()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>1660</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DirectHttpStrategy</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>1660</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>NullStrategy</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>1590</y>
+      <w>120</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>CommunicationMarshal</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>165</x>
+      <y>1560</y>
+      <w>15</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>1560</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>215</x>
+      <y>1610</y>
+      <w>60</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>315</x>
+      <y>1610</y>
+      <w>15</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>1530</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>RequestQueue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>365</x>
+      <y>1550</y>
+      <w>295</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;230.0;570.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>835</x>
+      <y>1530</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>Request</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>755</x>
+      <y>1640</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DirectHttpRequest</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>965</x>
+      <y>1640</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudRequest</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>215</x>
+      <y>1200</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DiCommApplianceFactory</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>1220</y>
+      <w>170</w>
+      <h>155</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>320.0;290.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>535</x>
+      <y>1315</y>
+      <w>15</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>1205</y>
+      <w>130</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>245</x>
+      <y>1220</y>
+      <w>60</w>
+      <h>155</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>355</x>
+      <y>1315</y>
+      <w>130</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;100.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>635</x>
+      <y>1160</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SsdpDiscoveryHelper
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>635</x>
+      <y>1250</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudDiscoveryHelper
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>635</x>
+      <y>1205</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>BleDiscoveryHelper
+bg=green
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>635</x>
+      <y>1100</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SsdpService
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>635</x>
+      <y>1040</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DeviceModel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>685</x>
+      <y>1065</y>
+      <w>15</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>1125</y>
+      <w>15</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>1170</y>
+      <w>75</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>1215</y>
+      <w>75</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>1225</y>
+      <w>75</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>745</x>
+      <y>1275</y>
+      <w>215</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>410.0;160.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1025</x>
+      <y>1375</y>
+      <w>15</w>
+      <h>275</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;530.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>745</x>
+      <y>1535</y>
+      <w>100</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>860</x>
+      <y>1640</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>BleRequest
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>1550</y>
+      <w>15</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>1550</y>
+      <w>15</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>965</x>
+      <y>1550</y>
+      <w>15</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>565</x>
+      <y>1410</y>
+      <w>345</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>670.0;240.0;670.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>1040</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>NetworkMonitor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>550</x>
+      <y>1065</y>
+      <w>95</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>1065</y>
+      <w>15</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>1065</y>
+      <w>115</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>210.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>335</x>
+      <y>1040</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>BleMonitor
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>25</x>
+      <y>1030</y>
+      <w>170</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>added to support BLE
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>25</x>
+      <y>1075</y>
+      <w>170</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>found in design, but not in implementation
+bg=yellow
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>1385</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>1435</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>1375</y>
+      <w>130</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1105</x>
+      <y>1290</y>
+      <w>15</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1015</x>
+      <y>1290</y>
+      <w>15</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>1775</y>
+      <w>115</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DirectHttpSubscriptionHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>310</x>
+      <y>1860</y>
+      <w>270</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>SubscriptionHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>1795</y>
+      <w>15</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>315</x>
+      <y>1680</y>
+      <w>15</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>750</x>
+      <y>1620</y>
+      <w>340</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Request per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>315</x>
+      <y>1015</y>
+      <w>295</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Availability per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>250</x>
+      <y>1640</y>
+      <w>410</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>Strategy per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>605</x>
+      <y>1145</y>
+      <w>165</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Discovery per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>250</x>
+      <y>1750</y>
+      <w>410</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>Subscription implementation per transport
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>355</x>
+      <y>1375</y>
+      <w>125</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>0</x>
+      <y>1130</y>
+      <w>110</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>App
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>150</x>
+      <y>1145</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DiCommClientWrapper
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>235</x>
+      <y>1155</y>
+      <w>250</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;480.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>105</x>
+      <y>1150</y>
+      <w>55</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>105</x>
+      <y>1205</y>
+      <w>120</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>440</x>
+      <y>1270</y>
+      <w>130</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>Is DiscoveryManager 
+doing too much?
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>575</x>
+      <y>1365</y>
+      <w>130</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>NetworkNode is currently
+exposed to app in a writable way.
+This is not desirable.
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>355</x>
+      <y>1290</y>
+      <w>600</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>1180.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>365</x>
+      <y>1645</y>
+      <w>400</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;780.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1425</x>
+      <y>790</y>
+      <w>65</w>
+      <h>1420</h>
+    </coordinates>
+    <panel_attributes>Note..
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>1405</y>
+      <w>120</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red
+1: putProperties()</panel_attributes>
+    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>325</x>
+      <y>1435</y>
+      <w>70</w>
+      <h>235</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red
+2: putProperties()</panel_attributes>
+    <additional_attributes>10.0;450.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>365</x>
+      <y>1655</y>
+      <w>400</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red
+3: create instance</panel_attributes>
+    <additional_attributes>780.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>1540</y>
+      <w>300</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red
+4: add request</panel_attributes>
+    <additional_attributes>580.0;10.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>700</x>
+      <y>1550</y>
+      <w>90</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red
+5: execute()</panel_attributes>
+    <additional_attributes>150.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>355</x>
+      <y>1435</y>
+      <w>410</w>
+      <h>215</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red
+6: onSuccess()</panel_attributes>
+    <additional_attributes>10.0;10.0;800.0;410.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>1425</y>
+      <w>120</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red
+7: notifyListeners()</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>1450</y>
+      <w>140</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;420.0;260.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2055</x>
+      <y>1580</y>
+      <w>135</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;470.0;250.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2185</x>
+      <y>1605</y>
+      <w>15</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2250</x>
+      <y>1605</y>
+      <w>15</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;420.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>305</x>
+      <y>1245</y>
+      <w>135</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=blue
+1: start()</panel_attributes>
+    <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>1065</y>
+      <w>135</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=blue
+2: getLastKnownNetworkState(): WIFI</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>1165</y>
+      <w>85</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=blue
+3: start()</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>565</x>
+      <y>1185</y>
+      <w>85</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=blue
+4: deviceDiscovered()</panel_attributes>
+    <additional_attributes>20.0;60.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>500</x>
+      <y>1315</y>
+      <w>45</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=blue
+5: create()</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>1210</y>
+      <w>130</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=blue
+6: [canCreate()] / create()</panel_attributes>
+    <additional_attributes>10.0;20.0;240.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>305</x>
+      <y>1285</y>
+      <w>135</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=blue
+7: discovered()</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>305</x>
+      <y>1260</y>
+      <w>135</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+1: start()</panel_attributes>
+    <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>1065</y>
+      <w>130</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=2: startNetworkChangedReceiver()</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>1065</y>
+      <w>95</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=3: onNetworkChanged()</panel_attributes>
+    <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>1315</y>
+      <w>65</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=4: markOffline()</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>1390</y>
+      <w>340</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=5: notify()</panel_attributes>
+    <additional_attributes>10.0;10.0;660.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>1380</y>
+      <w>130</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=6: disableCommunication()</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>1385</y>
+      <w>105</w>
+      <h>285</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=7: disableCommunication()</panel_attributes>
+    <additional_attributes>10.0;550.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>1365</y>
+      <w>130</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=8: enableCommunication()</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>395</x>
+      <y>1685</y>
+      <w>100</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudStrategy
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>315</x>
+      <y>1435</y>
+      <w>105</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=9: enableCommunication()</panel_attributes>
+    <additional_attributes>10.0;310.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>345</x>
+      <y>1610</y>
+      <w>125</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=10: isAvailable()</panel_attributes>
+    <additional_attributes>140.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>475</x>
+      <y>1450</y>
+      <w>95</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=magenta
+m1=11: getConnectionState()</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;470.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2070</x>
+      <y>195</y>
+      <w>95</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;470.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2190</x>
+      <y>195</y>
+      <w>15</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1630</x>
+      <y>740</y>
+      <w>115</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DeviceCloudAvailabilityMonitor
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1740</x>
+      <y>650</y>
+      <w>340</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>660.0;10.0;10.0;180.0</additional_attributes>
   </element>
 </diagram>
