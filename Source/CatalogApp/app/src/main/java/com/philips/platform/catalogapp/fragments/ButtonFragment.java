@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.databinding.FragmentButtonsAllBinding;
+import com.philips.platform.catalogapp.databinding.FragmentButtonsBinding;
 import com.philips.platform.uit.view.widget.Button;
 
 public class ButtonFragment extends BaseFragment {
@@ -24,11 +24,11 @@ public class ButtonFragment extends BaseFragment {
 
     private Drawable shareDrawable;
     private boolean showingIcons;
-    private FragmentButtonsAllBinding fragmentBinding;
+    private FragmentButtonsBinding fragmentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
+        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons, container, false);
         fragmentBinding.setFrag(this);
         shareDrawable = getShareIcon();
         restoreViews(savedInstanceState);
