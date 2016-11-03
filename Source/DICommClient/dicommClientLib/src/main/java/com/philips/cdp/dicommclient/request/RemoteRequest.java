@@ -82,7 +82,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         if (mResponse == null) {
             DICommLog.e(DICommLog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
             DICommLog.d(DICommLog.REMOTEREQUEST, "Stop request REMOTE - Failure");
-            return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+            return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
 
         DICommLog.i(DICommLog.REMOTEREQUEST, "Received data: " + mResponse);

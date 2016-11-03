@@ -7,17 +7,32 @@ package com.philips.cdp.dicommclient.request;
 
 public enum Error {
 	
-	NODATA("Request cannot be performed with null or empty data"),
-	REQUESTFAILED("Failed to perform request - check log for more info"),
-	IOEXCEPTION("IOException occurred - check log for more info"),
-	BADREQUEST("HTTP BADREQUEST occurred - check log for more info"),
-	BADGATEWAY("HTTP BADGATEWAY occurred "),
-	NOTCONNECTED("Request cannot be performed - Not connected to an appliance"), 
-	NOWIFIAVAILABLE("Request cannot be performed - No WifiConnection available for local request");
+	NOT_UNDERSTOOD("Request not understood."),
+	REQUEST_FAILED("Failed to perform request."),
+    INVALID_PARAMETER("Invalid parameter."),
+    NO_SUCH_METHOD("No such method."),
+    NO_SUCH_OPERATION("No such operation."),
+    NO_SUCH_PORT("No such port."),
+    NO_SUCH_PRODUCT("No such product."),
+    NO_SUCH_PROPERTY("No such property."),
+    NOT_IMPLEMENTED("Not implemented."),
+    NOT_SUBSCRIBED("Not subscribed."),
+    OUT_OF_MEMORY("Out of memory."),
+    PROPERTY_ALREADY_EXISTS("Property already exists."),
+    PROTOCOL_VIOLATION("Protocol violation."),
+    UNKNOWN("Unknown error."),
+    VERSION_NOT_SUPPORTED("Version not supported."),
+    WRONG_PARAMETERS("Wrong parameters."),
+
+	CANNOT_CONNECT("Cannot connect to appliance."),
+	IOEXCEPTION("I/O exception occurred."),
+	NO_REQUEST_DATA("Request cannot be performed with null or empty data."),
+	NO_TRANSPORT_AVAILABLE("Request cannot be performed - No transport available."),
+	NOT_CONNECTED("Request cannot be performed - Not connected to an appliance.");
 
     private final String mErrorMessage;
-	
-	Error(String errorMessage){		
+
+	Error(String errorMessage){
 		mErrorMessage = errorMessage;		
 	}
 

@@ -77,13 +77,13 @@ public class LocalRequest extends Request {
             conn = LocalRequest.createConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
             if (conn == null) {
                 DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - no wificonnection available");
-                return new Response(null, Error.NOWIFIAVAILABLE, mResponseHandler);
+                return new Response(null, Error.NO_TRANSPORT_AVAILABLE, mResponseHandler);
             }
 
             if (mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
                 if (mDataMap == null || mDataMap.isEmpty()) {
                     DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - no data for Put or Post");
-                    return new Response(null, Error.NODATA, mResponseHandler);
+                    return new Response(null, Error.NO_REQUEST_DATA, mResponseHandler);
                 }
                 out = appendDataToRequestIfAvailable(conn);
             } else if (mRequestType == LocalRequestType.DELETE) {
@@ -106,12 +106,12 @@ public class LocalRequest extends Request {
                 inputStream = conn.getErrorStream();
                 return handleBadRequest(inputStream);
             } else if (responseCode == HttpURLConnection.HTTP_BAD_GATEWAY) {
-                return new Response(null, Error.BADGATEWAY, mResponseHandler);
+                return new Response(null, Error.CANNOT_CONNECT, mResponseHandler);
             } else {
                 inputStream = conn.getErrorStream();
                 result = convertInputStreamToString(inputStream);
-                DICommLog.e(DICommLog.LOCALREQUEST, "REQUESTFAILED - " + result);
-                return new Response(result, Error.REQUESTFAILED, mResponseHandler);
+                DICommLog.e(DICommLog.LOCALREQUEST, "REQUEST_FAILED - " + result);
+                return new Response(result, Error.REQUEST_FAILED, mResponseHandler);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -127,13 +127,13 @@ public class LocalRequest extends Request {
         String cypher = convertInputStreamToString(inputStream);
         if (cypher == null) {
             DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - null reponse");
-            return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+            return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
 
         String data = decryptData(cypher);
         if (data == null) {
             DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - failed to decrypt");
-            return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+            return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
 
         DICommLog.i(DICommLog.LOCALREQUEST, "Received data: " + data);
@@ -149,7 +149,7 @@ public class LocalRequest extends Request {
             mDISecurity.notifyEncryptionFailedListener();
         }
 
-        return new Response(errorMessage, Error.BADREQUEST, mResponseHandler);
+        return new Response(errorMessage, Error.NOT_UNDERSTOOD, mResponseHandler);
     }
 
     private String decryptData(String cypher) {

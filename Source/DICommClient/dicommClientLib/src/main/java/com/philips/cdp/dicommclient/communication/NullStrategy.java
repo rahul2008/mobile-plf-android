@@ -15,33 +15,33 @@ public class NullStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName,
                               int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override

@@ -221,7 +221,7 @@ public class PairingHandlerTest {
         whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
         reset(pairingPortMock);
 
-        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
 
         verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(APP_CPP_ID), stringCaptor.capture());
         verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);
@@ -232,10 +232,10 @@ public class PairingHandlerTest {
         whenParingIsStartedThenItIsTriggeredOnPairingPortWithProperAppTypeAndCPPId();
         reset(pairingPortMock);
 
-        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
-        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
-        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
-        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
 
         verify(pairingListenerMock).onPairingFailed(diCommApplianceMock);
     }
@@ -371,7 +371,7 @@ public class PairingHandlerTest {
         whenUserParingIsStartedThenItIsTriggeredOnPairingPortWithProperUserId();
         reset(pairingPortMock);
 
-        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.BADREQUEST, "");
+        pairingListenerCaptor.getValue().onPortError(pairingPortMock, Error.NOT_UNDERSTOOD, "");
 
         verify(pairingPortMock).triggerPairing(eq(APP_TYPE), eq(USER_ID), anyString());
         verify(pairingListenerMock, never()).onPairingFailed(diCommApplianceMock);

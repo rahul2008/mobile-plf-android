@@ -99,7 +99,7 @@ public class StartDcsRequestTest {
         Response response = startDcsRequest.execute();
         response.notifyResponseHandler();
 
-        verify(responseHandlerMock).onError(Error.REQUESTFAILED, null);
+        verify(responseHandlerMock).onError(Error.REQUEST_FAILED, null);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class StartDcsRequestTest {
         Response response = startDcsRequest.execute();
         response.notifyResponseHandler();
 
-        verify(responseHandlerMock).onError(Error.REQUESTFAILED, null);
+        verify(responseHandlerMock).onError(Error.REQUEST_FAILED, null);
     }
 
     @Test

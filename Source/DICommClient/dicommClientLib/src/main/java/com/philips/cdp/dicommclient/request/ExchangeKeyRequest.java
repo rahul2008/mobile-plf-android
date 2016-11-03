@@ -49,6 +49,6 @@ public class ExchangeKeyRequest extends LocalRequest {
         } catch (Exception e) {
             DICommLog.e(DICommLog.SECURITY, "Exception during key exchange");
         }
-        return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+        return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
     }
 }

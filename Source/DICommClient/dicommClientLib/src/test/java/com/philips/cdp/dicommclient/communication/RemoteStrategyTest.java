@@ -125,7 +125,7 @@ public class RemoteStrategyTest {
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(startRequestArgumentCaptor.capture());
-        capturedResponseHandler.onError(Error.REQUESTFAILED, null);
+        capturedResponseHandler.onError(Error.REQUEST_FAILED, null);
 
         remoteStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
