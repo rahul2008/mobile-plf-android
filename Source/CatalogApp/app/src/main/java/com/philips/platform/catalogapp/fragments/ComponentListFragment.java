@@ -39,7 +39,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
 
     private void setListItems() {
         String[] strings = getDemoItems().values().toArray(new String[1]);
-        listView.setAdapter(new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, strings));
+        listView.setAdapter(new ArrayAdapter<>(this.getContext(), R.layout.component_list_text, strings));
         listView.setOnItemClickListener(this);
     }
 
