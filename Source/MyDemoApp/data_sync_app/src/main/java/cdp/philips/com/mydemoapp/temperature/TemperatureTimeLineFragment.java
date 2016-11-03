@@ -240,9 +240,4 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
-
-    @Override
-    public void finishActivityAffinity() {
-        getActivity().finishAffinity();
-    }
 }

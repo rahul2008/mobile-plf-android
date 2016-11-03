@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -16,20 +15,12 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.core.BaseAppCore;
-import com.philips.platform.core.Eventing;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
-import cdp.philips.com.mydemoapp.database.OrmCreator;
-import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
