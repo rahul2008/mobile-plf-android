@@ -13,7 +13,8 @@
         <ImageView
             android:id="@+id/success_background_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pr_success_image_height"/>
+            android:layout_height="@dimen/pr_success_image_height"
+            android:visibility="gone"/>
 
         <LinearLayout
             style="@style/Prod_Reg_Generic_Style"

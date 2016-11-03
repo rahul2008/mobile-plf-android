@@ -95,7 +95,8 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     }
 
     private void setImageBackground() {
-        if (imageBackground != null) {
+        if (resId != 0) {
+            imageBackground.setVisibility(View.VISIBLE);
             imageBackground.setBackgroundResource(resId);
         }
     }
