@@ -39,7 +39,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
 
     private void setListItems() {
         String[] strings = getDemoItems().values().toArray(new String[1]);
-        listView.setAdapter(new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, strings));
+        listView.setAdapter(new ArrayAdapter<>(this.getContext(), R.layout.component_list_text, strings));
         listView.setOnItemClickListener(this);
     }
 
@@ -47,6 +47,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Buttons");
         itemsMap.put(1, "TextBox");
+        itemsMap.put(2, getString(R.string.page_tittle_settings));
         return sortMap(itemsMap);
     }
 
@@ -77,6 +78,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 1:
                 ((MainActivity) getActivity()).showFragment(new TextEditBoxFragment());
+                break;
+            case 2:
+                ((MainActivity) getActivity()).showFragment(new ToggleSwitchFragment());
                 break;
         }
     }

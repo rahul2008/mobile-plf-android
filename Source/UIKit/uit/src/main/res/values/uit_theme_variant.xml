@@ -40,6 +40,18 @@
         <item name="uitInputTextHintTextColor">@color/uit_gray_level_35</item>
         <item name="uitInputTextHintTextDisabledColor">?attr/uitInputTextTextDisabledColor</item>
         <item name="uitInputTextHintTextDisabledAlpha">?attr/uitInputTextTextDisabledAlpha</item>
+
+
+        <item name="uidSwitchTrackOnColor">?attr/uitColorLevel45</item>
+
+        <item name="uidSwitchThumbColor">@android:color/white</item>
+        <item name="uidSwitchTrackOffColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uit_alpha_per_30</item>
+
+        <item name="uidSwitchTrackDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uidSwitchTrackDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidSwitchBorderColor">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_20</item>
     </style>
 
     <style name="UltraLight">
@@ -72,6 +84,8 @@
         <item name="uitInputTextBorderDisabledColor">@color/uit_gray_level_10</item>
         <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width_ultralight</item>
 
+        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel10</item>
+
     </style>
 
     <style name="VeryLight">
@@ -101,6 +115,8 @@
         <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
 
+        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel25</item>
+
     </style>
 
     <style name="Light">
@@ -128,9 +144,12 @@
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
 
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
-
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
         </item>
+
+        <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel40</item>
+
     </style>
 
 
@@ -160,6 +179,9 @@
         </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
 
+        <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel65</item>
+        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_25</item>
     </style>
 
     <style name="VeryDark">
@@ -188,6 +210,10 @@
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha
         </item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
+
+        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel55</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_35</item>
     </style>
 
 </resources>

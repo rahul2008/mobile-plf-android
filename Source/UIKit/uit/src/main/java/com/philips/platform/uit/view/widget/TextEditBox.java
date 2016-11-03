@@ -41,7 +41,7 @@ public class TextEditBox extends EditText {
     }
 
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITTextEditBox, defStyleAttr, R.style.UITTextEditBoxStyle);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITTextEditBox, defStyleAttr, R.style.UITTextEditBox);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         Rect paddingRect = new Rect(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());

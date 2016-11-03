@@ -7,6 +7,9 @@ package com.philips.platform.uit.drawableutils;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
+
+import com.philips.platform.uit.utils.UITTestUtils;
 
 public class LollipopStateColors extends KitKatStateColors {
     private static final String COLOR_STATE_LIST = "mColorStateList";
@@ -32,6 +35,16 @@ public class LollipopStateColors extends KitKatStateColors {
     public int getStrokeSolidStateColor(int attr) {
         ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getStrokeSolidColorStateListFiledName());
         return getColorBasedOnAttribute(solidColors, attr);
+    }
+
+    @Override
+    public int getRippleRadius() {
+        return UITTestUtils.getMaxRippleRadius((RippleDrawable) drawable);
+    }
+
+    @Override
+    public int getRippleColor(final int attr) {
+        return getColorBasedOnAttribute(UITTestUtils.getRippleColor(constantState), attr);
     }
 
     protected String getSolidColorStateListFiledName() {

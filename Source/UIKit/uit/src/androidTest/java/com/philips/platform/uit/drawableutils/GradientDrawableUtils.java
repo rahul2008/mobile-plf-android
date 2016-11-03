@@ -24,6 +24,8 @@ public class GradientDrawableUtils {
         int getGradientSolidColor();
         int getStrokeSolidColor();
         int getStrokeSolidStateColor(int attr);
+        int getRippleRadius();
+        int getRippleColor(int attr);
     }
 
     public static StateColors getStateColors(Drawable d) {
