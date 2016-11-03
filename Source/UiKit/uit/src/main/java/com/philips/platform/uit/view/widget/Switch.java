@@ -33,6 +33,11 @@ public class Switch extends SwitchCompat {
 
     private boolean isMinLollipop;
 
+    private static final int[] CHECKED_STATE_SET = {
+            android.R.attr.state_checked
+    };
+
+
     public Switch(Context context) {
         this(context, null);
     }
@@ -70,6 +75,15 @@ public class Switch extends SwitchCompat {
             applyTrackHorizontalPadding();
         }
         super.onDraw(c);
+    }
+
+    @Override
+    protected int[] onCreateDrawableState(int extraSpace) {
+        final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
+        if (isChecked()) {
+            mergeDrawableStates(drawableState, CHECKED_STATE_SET);
+        }
+        return drawableState;
     }
 
     @Override
