@@ -68,13 +68,13 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 uiState.setUiStateData(homeStateData);
                 break;
-            case Constants.IAP_PURCHASE_HISTORY:
+            /*case Constants.IAP_PURCHASE_HISTORY:
                 uiState = new IAPState();
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_PURCHASE_HISTORY_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(settingsView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
-                break;
+                break;*/
             case USER_REGISTRATION_STATE:
                 uiState = new UserRegistrationState();
                 break;
