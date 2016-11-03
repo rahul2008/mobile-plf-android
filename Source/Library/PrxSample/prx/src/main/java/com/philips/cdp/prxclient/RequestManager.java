@@ -20,7 +20,7 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 public class RequestManager {
 
     private static final String TAG = RequestManager.class.getSimpleName();
-    public static Context mContext = null;
+    private Context mContext = null;
 
     public void init(Context applicationContext) {
         mContext = applicationContext;
