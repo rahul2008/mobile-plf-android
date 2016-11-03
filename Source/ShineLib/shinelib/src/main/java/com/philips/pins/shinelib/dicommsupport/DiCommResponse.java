@@ -5,12 +5,13 @@
 
 package com.philips.pins.shinelib.dicommsupport;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,69 +19,74 @@ import java.util.Map;
 public class DiCommResponse {
 
     private static final int MIN_PAYLOAD_SIZE = 1;
-    private MessageType type = MessageType.GenericResponse;
-    private StatusCode status;
-    private Map<String, Object> properties;
+    private MessageType mType = MessageType.GenericResponse;
+    private StatusCode mStatus;
+    private Map<String, Object> mProperties;
+    private String mJsonString;
 
-    public DiCommResponse(DiCommMessage diCommMessage) throws InvalidParameterException {
-        if (diCommMessage.getMessageType() != MessageType.GenericResponse) {
-            throw new InvalidParameterException("Encountered an unexpected DiComm Response Type: " + diCommMessage.getMessageType());
+    public DiCommResponse(DiCommMessage diCommMessage) throws IllegalArgumentException {
+        if (MessageType.GenericResponse != diCommMessage.getMessageType()) {
+            throw new IllegalArgumentException("Encountered an unexpected DiComm Response Type: " + diCommMessage.getMessageType());
         }
 
         byte[] payload = diCommMessage.getPayload();
         if (payload == null || payload.length < MIN_PAYLOAD_SIZE) {
-            throw new InvalidParameterException("DiComm message payload is too short!");
+            throw new IllegalArgumentException("DiComm message payload is too short!");
         }
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(payload);
         byte diCommStatusCode = byteBuffer.get();
-        status = StatusCode.fromDiCommStatusCode(diCommStatusCode);
+        mStatus = StatusCode.fromDiCommStatusCode(diCommStatusCode);
 
-        if (status == null) {
-            throw new InvalidParameterException("DiComm response contains an unknown status code! Code: " + diCommStatusCode);
+        if (mStatus == null) {
+            throw new IllegalArgumentException("DiComm response contains an unknown mStatus code! Code: " + diCommStatusCode);
         }
 
         if (!byteBuffer.hasRemaining()) {
-            throw new InvalidParameterException("Missing JSON values string!");
+            throw new IllegalArgumentException("Missing JSON values string!");
         }
 
         byte[] propertiesData = new byte[byteBuffer.remaining() - 1];
         if (propertiesData.length > 0) {
             byteBuffer.get(propertiesData);
-            properties = convertStringToMap(propertiesData);
+            mJsonString = new String(propertiesData, StandardCharsets.UTF_8);
+            try {
+                mProperties = convertStringToMap(mJsonString);
+            } catch (JSONException e) {
+                throw new IllegalArgumentException("Error evaluating JSON from string: " + mJsonString);
+            }
         }
 
         if (byteBuffer.get() != 0) {
-            throw new InvalidParameterException("Invalid message format!");
+            throw new IllegalArgumentException("Invalid message format!");
         }
     }
 
-    private Map<String, Object> convertStringToMap(byte[] propertiesData) {
-        String string = new String(propertiesData, StandardCharsets.UTF_8);
-        try {
-            JSONObject jsonObject = new JSONObject(string);
-            Map<String, Object> properties = new HashMap<>();
-            Iterator<String> keys = jsonObject.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                properties.put(key, jsonObject.get(key));
-            }
+    private Map<String, Object> convertStringToMap(@NonNull String jsonString) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        Map<String, Object> properties = new HashMap<>();
+        Iterator<String> keys = jsonObject.keys();
 
-            return properties;
-        } catch (JSONException e) {
-            throw new InvalidParameterException("JSON string has invalid format " + string);
+        while (keys.hasNext()) {
+            String key = keys.next();
+            properties.put(key, jsonObject.get(key));
         }
+        return properties;
     }
 
     public MessageType getType() {
-        return type;
+        return mType;
     }
 
     public StatusCode getStatus() {
-        return status;
+        return mStatus;
     }
 
     public Map<String, Object> getProperties() {
-        return properties;
+        return mProperties;
+    }
+
+    public String getPropertiesAsString() {
+        return mJsonString;
     }
 }

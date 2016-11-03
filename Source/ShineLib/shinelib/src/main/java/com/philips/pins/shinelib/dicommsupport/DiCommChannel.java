@@ -40,6 +40,11 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
             parseResponse(message);
             executeNextRequest();
         }
+
+        @Override
+        public void onError(String errorMessage) {
+            SHNLogger.e(TAG, errorMessage);
+        }
     };
 
     private final Timer requestTimer;

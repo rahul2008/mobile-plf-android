@@ -8,7 +8,7 @@ package com.philips.pins.shinelib.dicommsupport;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.dicommsupport.exceptions.IncompleteMessageException;
-import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadLengthException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.StartBytesNotFoundException;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -22,8 +22,10 @@ public class DiCommByteStreamReader {
     private final DiCommMessageListener mListener;
     private byte[] mReceiveBuffer = new byte[0];
 
-    interface DiCommMessageListener {
+    public interface DiCommMessageListener {
         void onMessage(DiCommMessage message);
+
+        void onError(String errorMessage);
     }
 
     public DiCommByteStreamReader(@NonNull DiCommMessageListener listener) {
@@ -37,15 +39,18 @@ public class DiCommByteStreamReader {
             ByteBuffer byteBuffer = ByteBuffer.wrap(mReceiveBuffer);
 
             try {
-                DiCommMessage diCommMessage = new DiCommMessage(byteBuffer);
+                final DiCommMessage diCommMessage = new DiCommMessage(byteBuffer);
                 mListener.onMessage(diCommMessage);
 
                 reduceReceivedBuffer(byteBuffer);
             } catch (StartBytesNotFoundException e) {
-                SHNLogger.e(TAG, "Error parsing incoming message, start bytes not found. Some information may be lost.");
+                final String msg = "Error parsing incoming message, start bytes not found. Some information may be lost.";
+                SHNLogger.e(TAG, msg);
                 reduceReceivedBuffer(byteBuffer);
-            } catch (InvalidPayloadLengthException e) {
-                SHNLogger.e(TAG, "Invalid payload length in message.");
+            } catch (InvalidMessageTerminationException e) {
+                final String msg = "Invalid message termination.";
+                SHNLogger.e(TAG, msg);
+                mListener.onError(msg);
                 reduceReceivedBuffer(byteBuffer);
             } catch (IncompleteMessageException e) {
                 SHNLogger.d(TAG, "Incomplete message.");

@@ -8,7 +8,7 @@ package com.philips.pins.shinelib.dicommsupport;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.dicommsupport.exceptions.IncompleteMessageException;
-import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadLengthException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.StartBytesNotFoundException;
 
 import java.nio.BufferUnderflowException;
@@ -24,7 +24,7 @@ public class DiCommMessage {
     private final MessageType messageType;
     private final byte[] mPayload;
 
-    public DiCommMessage(@NonNull ByteBuffer byteBuffer) throws StartBytesNotFoundException, IncompleteMessageException {
+    public DiCommMessage(@NonNull ByteBuffer byteBuffer) throws StartBytesNotFoundException, IncompleteMessageException, InvalidMessageTerminationException {
         try {
             if (byteBuffer.get() != FIRST_START_BYTE || byteBuffer.get() != SECOND_START_BYTE) {
                 throw new StartBytesNotFoundException();
@@ -37,7 +37,7 @@ public class DiCommMessage {
             byteBuffer.get(mPayload);
 
             if (payloadLength > 0 && mPayload[payloadLength - 1] != END_BYTE) {
-                throw new InvalidPayloadLengthException();
+                throw new InvalidMessageTerminationException();
             }
         } catch (BufferUnderflowException e) {
             throw new IncompleteMessageException(e);
