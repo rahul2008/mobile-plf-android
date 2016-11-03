@@ -58,6 +58,7 @@
     <AppPhilipsAccountReg>com.philips.platform.referenceapp:id/tv_reg_provider_name</AppPhilipsAccountReg>
     <AUsername>com.philips.platform.referenceapp:id/et_reg_email</AUsername>
     <APassWord>com.philips.platform.referenceapp:id/et_reg_password</APassWord>
+    <Terms>com.philips.platform.referenceapp:id/rl_x_checkbox</Terms>
     <Alogout>com.philips.platform.referenceapp:id/ifo</Alogout>
   </AppFramework>
 
