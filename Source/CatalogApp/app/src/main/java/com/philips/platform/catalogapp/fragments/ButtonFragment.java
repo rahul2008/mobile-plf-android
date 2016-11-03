@@ -22,8 +22,8 @@ public class ButtonFragment extends BaseFragment {
     public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
 
-    Drawable shareDrawable;
-    boolean showingIcons;
+    private Drawable shareDrawable;
+    private boolean showingIcons;
     private FragmentButtonsAllBinding fragmentBinding;
 
     @Override
