@@ -20,7 +20,8 @@ public enum StatusCode {
     WrongParameters(11),
     InvalidParameter(12),
     NotSubscribed(13),
-    ProtocolViolation(14);
+    ProtocolViolation(14),
+    Unknown(255);
 
     private byte diCommStatusCode;
 
