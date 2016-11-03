@@ -6,35 +6,21 @@
 package com.philips.platform.appinfra.rest;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.widget.ImageView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.rest.request.AIImageRequest;
-import com.philips.platform.appinfra.rest.request.AIJsonObjectRequest;
-import com.philips.platform.appinfra.rest.request.AIStringRequest;
-import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

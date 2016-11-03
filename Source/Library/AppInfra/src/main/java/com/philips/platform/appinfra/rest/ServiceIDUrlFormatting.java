@@ -8,7 +8,7 @@ public class ServiceIDUrlFormatting {
 
     public enum SERVICEPREFERENCE {BYCOUNTRY, BYLANGUAGE}
     private final static String BYCOUNTRYPREFIX = "serviceid://bycountry_/";
-    public final static String BYLANGUAGEPREFIX = "serviceid://bylanguage/";
+    private final static String BYLANGUAGEPREFIX = "serviceid://bylanguage/";
     private final static int PREFIXLENGTH = BYCOUNTRYPREFIX.length();
 
     public static String formatUrl(String serviceID, SERVICEPREFERENCE preference, String urlExtension) {

@@ -18,10 +18,12 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
-import com.philips.platform.appinfra.rest.request.AIStringRequest;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
+import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
+import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import java.util.HashMap;
 
@@ -107,13 +109,14 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("DELETE")) {
                     methodType = Request.Method.DELETE;
                 }
-                AIStringRequest mStringRequest = null;
+                StringRequest mStringRequest = null;
 
 
                 if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[0])) { // string
                     try {
-                        mStringRequest = new AIStringRequest(methodType,
-                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE, ServiceIDUrlFormatting.BYLANGUAGEPREFIX
+                        mStringRequest = new StringRequest(methodType,
+                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
+                                getPathComponentString()
                                 , new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -144,58 +147,44 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                     // mStringRequest.setShouldCache(false); // set false to disable cache
 
                     if (null != mStringRequest) {
-                      //  urlFired.setText(mStringRequest.getUrl());
+                        //  urlFired.setText(mStringRequest.getUrl());
                         mRestInterface.getRequestQueue().add(mStringRequest);
                     }
+                } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])) { //json
+//                    JsonObjectRequest jsonObjectRequest;
+//                    try {
+//
+//                        jsonObjectRequest = new JsonObjectRequest(methodType,
+//                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
+//                                getPathComponentString()
+//                                , new Response.Listener<JsonObject>() {
+//                            @Override
+//                            public void onResponse(JsonObject response) {
+//                                Log.i("LOG", "" + response);
+//                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+//                                showAlertDialog("Success Response", response.toString());
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                Log.i("LOG", "" + error);
+//
+//                                //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+//
+//                                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+//                                showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
+//                            }
+//                        });
+//
+//                    } catch (HttpForbiddenException exception) {
+//
+//                    }
+//
+
+                } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])) { //image
+
+
                 }
-//                else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])){ //json
-//                    try {
-//                        mRestInterface.jsonObjectRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
-//                                    @Override
-//                                    public void onSuccess(Object response) {
-//                                        JSONObject serviceResponse=(JSONObject)response;
-//                                        Log.i("LOG REST SD", "" + serviceResponse);
-//                                        mResponse.setText(serviceResponse.toString());
-//                                        clearParamsAndHeaders();// clear headerd and params from rest client
-//                                    }
-//
-//                                    @Override
-//                                    public void onErrorResponse(String error) {
-//                                        Log.i("LOG REST ", "" + error);
-//                                        mResponse.setText(error);
-//                                        clearParamsAndHeaders();// clear headerd and params from rest client
-//                                    }
-//                                },
-//                                headers,params);
-//                    } catch (HttpForbiddenException e) {
-//                        Log.e("LOG REST SD", e.toString() );
-//                        e.printStackTrace();
-//                    }
-//                } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])){ //image
-//
-//                    try {
-//                        mRestInterface.imageRequestWithServiceID(serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
-//                            @Override
-//                            public void onSuccess(Object response) {
-//                                Bitmap bitmap = (Bitmap)response;
-//                                mImageView.setImageBitmap(bitmap);
-//                                Log.i("LOG REST ", "image downloaded");
-//                                clearParamsAndHeaders();// clear headerd and params from rest client
-//                            }
-//
-//                            @Override
-//                            public void onErrorResponse(String error) {
-//                                mResponse.setText(error);
-//                                Log.i("LOG REST ", "" + error);
-//                                clearParamsAndHeaders();// clear headerd and params from rest client
-//                            }
-//                        },headers,null, Bitmap.Config.RGB_565,0,0
-//                        );
-//                    } catch (HttpForbiddenException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
 
             }
 

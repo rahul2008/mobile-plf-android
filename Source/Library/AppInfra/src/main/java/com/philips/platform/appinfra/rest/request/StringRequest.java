@@ -1,17 +1,15 @@
 package com.philips.platform.appinfra.rest.request;
 
-
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 
 /**
- * Created by 310243577 on 10/26/2016.
+ * Created by 310243577 on 11/3/2016.
  */
 
-public class AIStringRequest extends StringRequest {
 
-    public AIStringRequest(int method, String url, Response.Listener<String> listener,
+public class StringRequest extends com.android.volley.toolbox.StringRequest {
+    public StringRequest(int method, String url, Response.Listener<String> listener,
                            Response.ErrorListener errorListener) throws HttpForbiddenException {
         super(method, url, listener, errorListener);
 //        if (!url.contains("https")) {
@@ -19,9 +17,9 @@ public class AIStringRequest extends StringRequest {
 //        }
     }
 
-    public AIStringRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
+    public StringRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
                            String urlExtension, Response.Listener<String> listener,
-                         Response.ErrorListener errorListener) throws HttpForbiddenException {
+                           Response.ErrorListener errorListener) throws HttpForbiddenException {
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), listener, errorListener);
     }
 
