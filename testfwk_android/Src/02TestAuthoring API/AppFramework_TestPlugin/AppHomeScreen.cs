@@ -41,10 +41,11 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             NucleousDevice,
             AlogoutConfirm,
             ALoginButton,
-                ALoginContinue,
+            ALoginContinue,
             ALoginContinueConfirm,
             MomentValueFromDatacore,
-            Terms
+            Terms,
+            Support
 
         }
 
@@ -73,6 +74,8 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                  _instance.ClickById(AppFrameWork.Android.HomeScreen.MomentValueFromDatacore);
             if (btn == Button.Terms)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.Terms);
+            if (btn == Button.Support)
+                _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Support).Click();
         }
 
         public enum EditText
@@ -168,6 +171,25 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                     break;
             }
         }
+
+        public static bool IsVisibleScreenTitleText(string TitleText)
+        {
+            bool IsVisible1 = false;
+            try
+            {
+
+                if (GetScreenTitleAppFameworkHomeScreen() == TitleText)
+                    IsVisible1 = true;
+
+            }
+            catch (Exception)
+            {
+                IsVisible1 = false;
+            }
+            return IsVisible1;
+        }
+
+    
     }
 }
 
