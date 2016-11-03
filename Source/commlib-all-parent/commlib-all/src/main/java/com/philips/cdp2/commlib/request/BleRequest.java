@@ -1,3 +1,7 @@
+/*
+ * © Koninklijke Philips N.V., 2015, 2016.
+ *   All rights reserved.
+ */
 package com.philips.cdp2.commlib.request;
 
 import android.support.annotation.NonNull;
@@ -7,6 +11,7 @@ import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp2.commlib.error.BleErrorMap;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -17,28 +22,53 @@ import com.philips.pins.shinelib.dicommsupport.DiCommByteStreamReader;
 import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommRequest;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
+import com.philips.pins.shinelib.dicommsupport.StatusCode;
 
-public class BleRequest extends Request {
-    private final SHNDevice mShnDevice;
-    private final String mPortName;
+import java.util.concurrent.CountDownLatch;
+
+public class BleRequest extends Request implements Runnable {
+    private boolean mIsExecuting;
+    private CapabilityDiComm mCapability;
+    private final CountDownLatch mCountDownLatch;
     private final int mProductId;
     private final LocalRequestType mRequestType;
+    private final Object mLock = new Object();
+    private final String mPortName;
 
     private final DiCommByteStreamReader reader = new DiCommByteStreamReader(new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
         public void onMessage(DiCommMessage diCommMessage) {
             final DiCommResponse res = new DiCommResponse(diCommMessage);
-            mResponseHandler.onSuccess(res.getPropertiesAsString());
+            final StatusCode statusCode = res.getStatus();
+
+            if (statusCode == StatusCode.NoError) {
+                mResponseHandler.onSuccess(res.getPropertiesAsString());
+            } else {
+                final Error error = BleErrorMap.getErrorByStatusCode(statusCode);
+                mResponseHandler.onError(error, res.getPropertiesAsString());
+            }
+            mCountDownLatch.countDown();
+        }
+
+        @Override
+        public void onError(String message) {
+            mResponseHandler.onError(Error.NO_REQUEST_DATA, message);
+            mCountDownLatch.countDown();
         }
     });
 
     private final ResultListener<SHNDataRaw> mResultListener = new ResultListener<SHNDataRaw>() {
         @Override
         public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
-            if (SHNResult.SHNOk.equals(shnResult)) {
-                reader.onBytes(shnDataRaw.getRawData());
-            } else {
-                mResponseHandler.onError(Error.REQUESTFAILED, null);
+            synchronized (mLock) {
+                if (SHNResult.SHNOk.equals(shnResult)) {
+                    if (mIsExecuting) {
+                        reader.onBytes(shnDataRaw.getRawData());
+                    }
+                } else {
+                    mResponseHandler.onError(Error.NOT_UNDERSTOOD, shnResult.name());
+                    mCountDownLatch.countDown();
+                }
             }
         }
     };
@@ -46,28 +76,58 @@ public class BleRequest extends Request {
     public BleRequest(SHNDevice shnDevice, String portName, int productId, LocalRequestType requestType, ResponseHandler responseHandler) {
         super(null, responseHandler);
 
-        mShnDevice = shnDevice;
+        mCapability = (CapabilityDiComm) shnDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
         mPortName = portName;
         mProductId = productId;
         mRequestType = requestType;
+        mCountDownLatch = new CountDownLatch(1);
     }
 
     @Override
     public Response execute() {
-        switch (mRequestType) {
-            case GET:
-                final CapabilityDiComm capability = (CapabilityDiComm) mShnDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
-                capability.addDataListener(mResultListener);
+        synchronized (mLock) {
+            mIsExecuting = true;
 
-                DiCommMessage m = new DiCommRequest().getPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName);
-                capability.writeData(m.toData());
-                break;
-            case POST:
-            case DELETE:
-            case PUT:
-            default:
-                throw new IllegalStateException("Not implemented yet.");
+            if (mPortName.isEmpty()) {
+                mResponseHandler.onError(Error.NO_SUCH_PORT, "Port name is empty.");
+                mCountDownLatch.countDown();
+
+                return null;
+            }
+
+            switch (mRequestType) {
+                case GET:
+                    mCapability.addDataListener(mResultListener);
+
+                    DiCommMessage message = new DiCommRequest().getPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName);
+                    mCapability.writeData(message.toData());
+                    break;
+                case POST:
+                case DELETE:
+                case PUT:
+                default:
+                    throw new IllegalStateException("Not implemented yet.");
+            }
+            return null;
         }
-        return null;
+    }
+
+    public void cancel(String reason) {
+        synchronized (mLock) {
+            mIsExecuting = false;
+            mCapability.removeDataListener(mResultListener);
+            mResponseHandler.onError(Error.REQUEST_FAILED, reason);
+            mCountDownLatch.countDown();
+        }
+    }
+
+    @Override
+    public void run() {
+        execute();
+
+        try {
+            mCountDownLatch.await();
+        } catch (InterruptedException ignored) {
+        }
     }
 }

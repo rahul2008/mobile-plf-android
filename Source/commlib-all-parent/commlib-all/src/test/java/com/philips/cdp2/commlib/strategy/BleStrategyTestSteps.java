@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.BleDeviceCache;
+import com.philips.cdp2.commlib.request.BleRequest;
 import com.philips.cdp2.datatypes.DatatypeConverter;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -19,9 +20,9 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -39,16 +40,20 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleStrategyTestSteps {
+    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
+
     private final BleDeviceCache deviceCache = new BleDeviceCache();
     private BleStrategy strategy;
     private final Map<String, Set<ResultListener<SHNDataRaw>>> rawDataListeners = new HashMap();
-    private final Queue<ResponseHandler> responseQueue = new LinkedList<>();
+    private final Queue<ResponseHandler> responseQueue = new ArrayDeque<>();
+    private BleRequest currentRequest;
 
     @Before
     public void setup() {
@@ -112,12 +117,17 @@ public class BleStrategyTestSteps {
 
         final byte[] dataBytes = DatatypeConverter.parseHexBinary(data);
 
-        verify(capability).writeData(dataBytes);
+        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(dataBytes);
     }
 
     @Given("^the BleStrategy is initialized with id '(.*?)'$")
     public void the_BleStrategy_is_initialized_with_id(String deviceId) throws Throwable {
-        strategy = new BleStrategy(deviceId, deviceCache);
+        strategy = new BleStrategy(deviceId, deviceCache) {
+            @Override
+            protected void addTimeoutToRequest(BleRequest request) {
+                currentRequest = request;
+            }
+        };
     }
 
     @Then("^the BleStrategy is available$")
@@ -160,7 +170,7 @@ public class BleStrategyTestSteps {
         verify(responseQueue.remove()).onError(Error.valueOf(error), data);
     }
 
-    @Then("^the result is an error '(.*?)'$")
+    @Then("^the result is an error '(.*?) with any data'$")
     public void theResultIsAnErrorThisError(String error) throws Throwable {
         verify(responseQueue.remove()).onError(Error.valueOf(error), anyString());
     }
@@ -168,6 +178,11 @@ public class BleStrategyTestSteps {
     @Then("^the result is an error$")
     public void theResultIsAnError() throws Throwable {
         verify(responseQueue.remove()).onError(any(Error.class), anyString());
+    }
+
+    @Then("^the result is an error '(.*?)' without data$")
+    public void theResultIsAnErrorWithoutData(String error) throws Throwable {
+        verify(responseQueue.remove()).onError(Error.valueOf(error), null);
     }
 
     @Then("^the result is success with data '(.*?)'$")
@@ -192,4 +207,18 @@ public class BleStrategyTestSteps {
 
         verify(capability, times(0)).writeData((byte[]) any());
     }
+
+    @And("^write occurred to mock device with id '(.*?)' with any data$")
+    public void writeOccurredToMockDeviceWithIdP(String deviceId) throws Throwable {
+        CapabilityDiComm capability = (CapabilityDiComm) deviceCache
+                .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+
+        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData((byte[]) any());
+    }
+
+    @And("^the request times out$")
+    public void theRequestTimesOut() throws Throwable {
+        currentRequest.cancel("Timeout occurred.");
+    }
+
 }
