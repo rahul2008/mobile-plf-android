@@ -6,7 +6,6 @@
 package com.philips.platform.uit.components.ToggleSwitch;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
@@ -58,35 +57,35 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchWidth() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_width);
+        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_width);
         getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
     public void verifyToggleSwitchHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
+        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
     @Test
     public void verifyToggleSwitchTrackWidth() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_width);
+        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_width);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameWidth(trackFunction(), expectedWidth, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchTrackHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_height);
+        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_height);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameHeight(trackFunction(), expectedHeight, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchThumbHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
+        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedHeight)));
     }
@@ -94,7 +93,7 @@ public class ToggleSwitchTest {
     @Test
     public void verifyToggleSwitchThumbWidth() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
+        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedWidth)));
     }
@@ -120,7 +119,7 @@ public class ToggleSwitchTest {
 
     @Test
     public void verifyThumbHighlightRadius() {
-        int radius = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_ripple_radius);
+        int radius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_ripple_radius);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRippleRadius(TestConstants.FUNCTION_GET_BACKGROUND, radius)));
     }
 
@@ -179,14 +178,6 @@ public class ToggleSwitchTest {
     public void verifyDisabledToggleSwitchThumbFillColorTest() {
         final int disableThumbColor = ContextCompat.getColor(instrumentationContext, GroupBlue10);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, -android.R.attr.enabled, disableThumbColor)));
-    }
-
-    @Test
-    public void verifyChangeOrientation() {
-        getToggleSwitch().perform(ViewActions.swipeRight());
-        mActivityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        UITTestUtils.waitFor(testResources,5000);
-        getToggleSwitch().check(matches(isChecked()));
     }
 
     private ViewInteraction getToggleSwitch() {
