@@ -45,4 +45,12 @@
     <string name="switch_text">Switch</string>
     <string name="switch_disabled_on">Disabled Switch(On)</string>
     <string name="switch_disabled_off">Disabled Switch(Off)</string>
+    <string name="page_tittle_alertDialog">Dialog</string>
+    <string name="dialog_screen_text_short_content">Short contents</string>
+    <string name="dialog_screen_text_long_content">Long contents</string>
+    <string name="dialog_screen_text_with_title">With tittle</string>
+    <string name="dialog_screen_text_title_with_icon">Title with icon</string>
+    <string name="dialog_screen_text_dialogs">Dialogs</string>
+    <string name="dialog_screen_button_text_dialog_with_text">Dialog with text</string>
+    <string name="dialog_screen_button_text_dialog_with_list">Dialog with list</string>
 </resources>
