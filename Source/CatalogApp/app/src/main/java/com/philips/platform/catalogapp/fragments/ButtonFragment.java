@@ -32,8 +32,8 @@ public class ButtonFragment extends BaseFragment {
         fragmentBinding.setFrag(this);
         shareDrawable = getShareIcon();
         restoreViews(savedInstanceState);
-        fragmentBinding.imageShare.setImageResource(R.drawable.share);
-        fragmentBinding.quietIconOnly.setImageResource(R.drawable.share);
+        fragmentBinding.imageShare.setImageDrawable(getShareIcon());
+        fragmentBinding.quietIconOnly.setImageDrawable(getShareIcon());
         return fragmentBinding.getRoot();
     }
 
