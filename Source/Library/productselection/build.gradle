@@ -38,12 +38,12 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 3
         generatedDensities = []
         versionName objcdp.getVersionWithHash()
@@ -110,25 +110,29 @@ group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory' /* I
-am working to fetch this url also via api */
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
+        }
+        defaults {
             publishIvy = false
-            publishBuildInfo = true
-            maven = true
+            publishPom = true
+            publishArtifacts = true
         }
     }
+
     resolve {
         repository {
-            repoKey = 'libs-release-local-android'
+            repoKey = 'libs-release-local'
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
+
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
