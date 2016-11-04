@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.fragments.FindSerialNumberFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
@@ -237,5 +238,16 @@ public class ProdRegRegistrationController {
             registeredProducts.remove(registeredProduct);
             registeredProducts.add(registeredProduct);
         }
+    }
+
+    public void onClickFindSerialNumber() {
+        registerControllerCallBacks.showFragment(getFindSerialNumberFragment());
+    }
+
+    @NonNull
+    private FindSerialNumberFragment getFindSerialNumberFragment() {
+        final FindSerialNumberFragment findSerialNumberFragment = new FindSerialNumberFragment();
+        findSerialNumberFragment.setArguments(dependencyBundle);
+        return findSerialNumberFragment;
     }
 }

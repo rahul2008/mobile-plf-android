@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/pr_right_padding_sm"
+        android:paddingStart="@dimen/pr_left_padding_sm">
+
+        <ImageView
+            android:id="@+id/device_image"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="@dimen/pr_top_padding_sm"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pr_top_padding_sm"
+            android:text="@string/PPR_Find_Serial_Number"
+            android:textColor="?attr/uikit_verydarkBaseColor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pr_d_value_sm"
+            android:text="@string/PPR_find_serial_number_help_message"
+            android:textColor="?attr/uikit_baseColor"/>
+
+        <TextView
+            android:id="@+id/serial_number_guide_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pr_d_value_sm"
+            android:textColor="?attr/uikit_baseColor"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/pr_d_value_sm"
+            android:text="@string/PPR_ok_i_found_it"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -139,7 +139,17 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
+        serialNumberErrorLayout.setOnClickListener(onClickFindSerialNumber());
         return view;
+    }
+
+    private View.OnClickListener onClickFindSerialNumber() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                prodRegRegistrationController.onClickFindSerialNumber();
+            }
+        };
     }
 
     @Override
