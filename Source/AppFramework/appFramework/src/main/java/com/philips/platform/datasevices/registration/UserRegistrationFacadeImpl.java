@@ -14,8 +14,11 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.datasevices.listener.EventHelper;
 import com.philips.platform.datasevices.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.Eventing;
@@ -226,7 +229,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        Object propertyForKey = gAppInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
+        Object propertyForKey = AppFrameworkApplication.appInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
         return propertyForKey.toString();
     }
 

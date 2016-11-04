@@ -16,6 +16,7 @@ import com.philips.platform.datasevices.database.table.OrmMoment;
 import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
 
 import java.io.File;
+import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
