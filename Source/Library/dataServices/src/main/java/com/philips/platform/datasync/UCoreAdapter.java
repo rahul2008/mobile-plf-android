@@ -12,6 +12,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
@@ -65,8 +67,9 @@ public class UCoreAdapter {
 
 
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
-        //String baseUrl = "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com";
-        String baseUrl = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+        DataServicesManager dataServicesManager = DataServicesManager.getInstance();
+        UserRegistrationFacade userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
+        String baseUrl = userRegistrationImpl.getHSDHsdpUrl();
         if (baseUrl == null || baseUrl.isEmpty()) {
             return null;
         }

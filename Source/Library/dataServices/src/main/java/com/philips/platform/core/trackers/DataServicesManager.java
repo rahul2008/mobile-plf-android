@@ -103,6 +103,7 @@ public class DataServicesManager {
 
     private static DataServicesManager mDataServicesManager;
     private Context mContext;
+    private UserRegistrationFacade mUserRegistrationFacadeImpl;
 
     @Singleton
     private DataServicesManager() {
@@ -222,6 +223,7 @@ public class DataServicesManager {
 
         mContext = context;
         this.mDataCreater = creator;
+        this.mUserRegistrationFacadeImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
@@ -246,5 +248,9 @@ public class DataServicesManager {
 
     public void stopCore() {
         mCore.stop();
+    }
+
+    public UserRegistrationFacade getUserRegistrationImpl() {
+        return mUserRegistrationFacadeImpl;
     }
 }

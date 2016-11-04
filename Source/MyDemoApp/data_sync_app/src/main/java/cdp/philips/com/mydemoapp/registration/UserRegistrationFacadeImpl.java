@@ -14,8 +14,12 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.datatypes.UserCredentials;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.events.DataClearRequest;
@@ -30,9 +34,12 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
 import retrofit.RetrofitError;
+
+import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -220,6 +227,15 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     private void clearPreferences() {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
+    }
+
+    @Override
+    public String getHSDHsdpUrl(){
+
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        Object propertyForKey = gAppInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
+        return propertyForKey.toString();
     }
 
     @Override
