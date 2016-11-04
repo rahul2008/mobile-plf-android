@@ -71,7 +71,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 #line 5
 this.ScenarioSetup(scenarioInfo);
 #line 6
-  testRunner.And("I am on the AppFramework Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.Given("I am on the AppFramework Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 7
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
