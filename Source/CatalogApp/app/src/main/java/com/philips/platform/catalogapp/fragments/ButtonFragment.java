@@ -4,33 +4,28 @@
  */
 package com.philips.platform.catalogapp.fragments;
 
-import android.annotation.SuppressLint;
-import android.databinding.DataBindingUtil;
-import android.databinding.ObservableBoolean;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.databinding.FragmentButtonsBinding;
 import com.philips.platform.uit.view.widget.Button;
+import com.philips.platform.uit.view.widget.ImageButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 
 public class ButtonFragment extends BaseFragment {
-    public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
-
     private Drawable shareDrawable;
     private boolean showingIcons;
-    private FragmentButtonsBinding fragmentBinding;
+    private View fragmentBinding;
 
     @Bind(R.id.toggleicon)
     SwitchCompat toggleIcons;
@@ -41,50 +36,33 @@ public class ButtonFragment extends BaseFragment {
     @Bind(R.id.toggleDisable)
     SwitchCompat toggleDisable;
 
-    @SuppressLint("WrongViewCast")
+    @Bind(R.id.imageShare)
+    ImageButton imageShare;
+
+    @Bind(R.id.quiet_icon_only)
+    ImageButton quietIconOnly;
+
+    @Bind(R.id.groupExtraWide)
+    ViewGroup groupExtraWide;
+
+    @Bind(R.id.groupDefault)
+    ViewGroup groupDefault;
+
+    @Bind(R.id.groupIconOnly)
+    ViewGroup groupIconOnly;
+
+    @Bind(R.id.groupLeftAlignedExtraWide)
+    ViewGroup groupLeftAlignedExtraWide;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons, container, false);
-        fragmentBinding.setFrag(this);
+        final View root = inflater.inflate(R.layout.fragment_buttons, container, false);
         shareDrawable = getShareIcon();
-        restoreViews(savedInstanceState);
-        fragmentBinding.imageShare.setImageDrawable(getShareIcon());
-        fragmentBinding.quietIconOnly.setImageDrawable(getShareIcon());
-        final View root = fragmentBinding.getRoot();
         ButterKnife.bind(this, root);
-        initToggleIcon();
-
-        initExtrawide();
-
-        initDisable();
+        restoreViews(savedInstanceState);
+        imageShare.setImageDrawable(getShareIcon());
+        quietIconOnly.setImageDrawable(getShareIcon());
         return root;
-    }
-
-    private void initDisable() {
-        toggleDisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                disableButtons(isChecked);
-            }
-        });
-    }
-
-    private void initExtrawide() {
-        toggleExtrawide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                toggleExtraWideButtons(isChecked);
-            }
-        });
-    }
-
-    private void initToggleIcon() {
-        toggleIcons.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                toggleIcons(isChecked);
-            }
-        });
     }
 
     private void restoreViews(Bundle savedInstance) {
@@ -98,8 +76,8 @@ public class ButtonFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         outState.putBoolean("showingIcons", showingIcons);
-        outState.putBoolean("showExtraWideButtons", showExtraWideButtons.get());
-        outState.putBoolean("isButtonsEnabled", isButtonsEnabled.get());
+        outState.putBoolean("showExtraWideButtons", toggleExtrawide.isChecked());
+        outState.putBoolean("isButtonsEnabled", toggleDisable.isChecked());
         super.onSaveInstanceState(outState);
     }
 
@@ -107,12 +85,13 @@ public class ButtonFragment extends BaseFragment {
         return VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
     }
 
+    @OnCheckedChanged(R.id.toggleicon)
     public void toggleIcons(boolean isIconToggleChecked) {
         showingIcons = isIconToggleChecked;
         Drawable drawable = isIconToggleChecked ? shareDrawable : null;
-        setIcons(fragmentBinding.groupExtraWide, drawable);
-        setIcons(fragmentBinding.groupDefault, drawable);
-        setIcons(fragmentBinding.groupLeftAlignedExtraWide, drawable);
+        setIcons(groupExtraWide, drawable);
+        setIcons(groupDefault, drawable);
+        setIcons(groupLeftAlignedExtraWide, drawable);
     }
 
     private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
@@ -128,12 +107,28 @@ public class ButtonFragment extends BaseFragment {
         }
     }
 
+    @OnCheckedChanged(R.id.toggleextraWide)
     public void toggleExtraWideButtons(boolean toggle) {
-        showExtraWideButtons.set(toggle);
+        groupDefault.setVisibility(toggle ? View.GONE : View.VISIBLE);
+        groupExtraWide.setVisibility(toggle ? View.VISIBLE : View.GONE);
+        groupLeftAlignedExtraWide.setVisibility(toggle ? View.VISIBLE : View.GONE);
     }
 
+    @OnCheckedChanged(R.id.toggleDisable)
     public void disableButtons(boolean isChecked) {
-        isButtonsEnabled.set(!isChecked);
+        final boolean checked = !toggleDisable.isChecked();
+        disableEnableButtons(checked, groupDefault, groupExtraWide, groupIconOnly, groupLeftAlignedExtraWide);
+    }
+
+    private void disableEnableButtons(final boolean checked, final ViewGroup... viewGroup) {
+        for (final ViewGroup group : viewGroup) {
+            for (int j = 0; j < group.getChildCount(); j++) {
+                View view = group.getChildAt(j);
+                if (view instanceof AppCompatButton) {
+                    view.setEnabled(checked);
+                }
+            }
+        }
     }
 
     @Override

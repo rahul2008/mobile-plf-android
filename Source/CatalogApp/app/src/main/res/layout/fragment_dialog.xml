@@ -1,79 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <RadioGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_margin_left_right"
-        android:layout_marginEnd="@dimen/layout_margin_left_right"
-        android:layout_marginBottom="14dp"
-        android:layout_marginTop="14dp">
+        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/short_content"
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
+            android:layout_marginStart="@dimen/layout_margin_left_right"
+            android:layout_marginTop="14dp">
+
+            <RadioButton
+                android:id="@+id/short_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/dialog_screen_text_short_content"/>
+
+            <RadioButton
+                android:id="@+id/long_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_screen_text_long_content"/>
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:background="?attr/uitApplicationBackground"/>
+
+        <com.philips.platform.uit.view.widget.Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
+            android:layout_marginStart="@dimen/layout_margin_left_right"
+            android:layout_marginTop="12dp"
             android:checked="true"
-            android:text="@string/dialog_screen_text_short_content"/>
+            android:text="@string/dialog_screen_text_with_title"/>
 
-        <RadioButton
-            android:id="@+id/long_content"
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin_left_right"
+            android:checked="true"
+            android:text="@string/dialog_screen_text_title_with_icon"/>
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp"
+            android:paddingEnd="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingStart="20dp"
+            android:text="@string/dialog_screen_text_dialogs"/>
+
+
+        <com.philips.platform.uit.view.widget.Button
+            style="@style/UITExtraWideButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_screen_text_long_content"/>
-    </RadioGroup>
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="@dimen/layout_margin_left_right"
+            android:layout_marginRight="@dimen/layout_margin_left_right"
+            android:layout_marginTop="@dimen/layout_margin_left_right"
+            android:text="@string/dialog_screen_button_text_dialog_with_text"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_layout_divider"
-        android:background="?attr/uitApplicationBackground"/>
-
-    <com.philips.platform.uit.view.widget.Switch
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/layout_margin_left_right"
-        android:layout_marginStart="@dimen/layout_margin_left_right"
-        android:layout_marginTop="12dp"
-        android:checked="true"
-        android:text="@string/dialog_screen_text_with_title"/>
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin_left_right"
-        android:checked="true"
-        android:text="@string/dialog_screen_text_title_with_icon"/>
-
-    <TextView
-        style="@style/ButtonsCategoryStyle"
-        android:layout_height="32dp"
-        android:layout_marginTop="12dp"
-        android:paddingEnd="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingStart="20dp"
-        android:text="@string/dialog_screen_text_dialogs"/>
-
-
-    <com.philips.platform.uit.view.widget.Button
-        style="@style/UITExtraWideButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginLeft="@dimen/layout_margin_left_right"
-        android:layout_marginRight="@dimen/layout_margin_left_right"
-        android:layout_marginTop="@dimen/layout_margin_left_right"
-        android:text="@string/dialog_screen_button_text_dialog_with_text"/>
-
-    <com.philips.platform.uit.view.widget.Button
-        style="@style/UITExtraWideButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/layout_margin_left_right"
-        android:layout_marginLeft="@dimen/layout_margin_left_right"
-        android:layout_marginRight="@dimen/layout_margin_left_right"
-        android:text="@string/dialog_screen_button_text_dialog_with_list"/>
-</LinearLayout>
+        <com.philips.platform.uit.view.widget.Button
+            style="@style/UITExtraWideButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layout_margin_left_right"
+            android:layout_marginLeft="@dimen/layout_margin_left_right"
+            android:layout_marginRight="@dimen/layout_margin_left_right"
+            android:text="@string/dialog_screen_button_text_dialog_with_list"/>
+    </LinearLayout>
+</layout>
