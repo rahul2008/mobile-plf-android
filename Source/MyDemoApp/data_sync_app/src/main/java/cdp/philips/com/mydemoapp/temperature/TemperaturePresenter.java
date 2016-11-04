@@ -99,12 +99,6 @@ public class TemperaturePresenter {
         }
     }
 
-    public void startSync() {
-        Log.i("***SPO***", "In Presenter");
-        mDataServices.synchchronize();
-    }
-
-
     public void createAndSaveMoment(final String phaseInput, final String temperatureInput, final String locationInput) {
         createMoment(phaseInput, temperatureInput, locationInput);
         saveRequest();

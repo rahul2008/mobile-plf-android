@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -59,7 +58,7 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener, SwipeRefreshLayout.OnRefreshListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -67,7 +66,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
-    SwipeRefreshLayout mSwipeRefreshLayout;
     TemperaturePresenter mTemperaturePresenter;
 
 
@@ -75,6 +73,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setUpBackendSynchronizationLoop();
     }
 
     @Override
@@ -92,10 +96,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAddButton = (ImageButton) view.findViewById(R.id.add);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
@@ -110,7 +112,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
         mTemperaturePresenter.fetchData();
-        setUpBackendSynchronizationLoop();
     }
 
     void injectDBInterfacesToCore() {
@@ -188,9 +189,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
-                if(mSwipeRefreshLayout.isRefreshing()){
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
             }
         });
 
@@ -219,25 +217,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     if (getContext() != null)
                         Toast.makeText(getContext(), "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-               dismissRefreshLayout();
             }
         });
-    }
-
-    @Override
-    public void onRefresh() {
-       showRefreshLayout();
-        mTemperaturePresenter.startSync();
-    }
-
-    private void showRefreshLayout(){
-        if(!mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-    }
-    private void dismissRefreshLayout(){
-        if(mSwipeRefreshLayout.isRefreshing()){
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
     }
 }
