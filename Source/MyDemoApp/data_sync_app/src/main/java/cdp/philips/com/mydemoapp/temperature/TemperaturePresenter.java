@@ -178,6 +178,16 @@ public class TemperaturePresenter {
             @Override
             public void onClick(final View v) {
 
+
+                boolean isValid = validateInputFields(phase.getText().toString(),
+                        temperature.getText().toString(), location.getText().toString());
+
+                if (!isValid) {
+                    temperature.setText("");
+                    Toast.makeText(mContext, R.string.invalid_temperature, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 switch (addOrUpdate){
                     case ADD:
                         createAndSaveMoment(phase.getText().toString(),
@@ -258,7 +268,15 @@ public class TemperaturePresenter {
         dialog.show();
     }
 
-
+    private boolean validateInputFields(String phase, String temperature, String locations) {
+        //validate temperature
+        try {
+            Double.valueOf(temperature);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
 
 }
