@@ -150,6 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/pr_registration_margin_bottom"
                 android:layout_marginTop="@dimen/pr_registration_margin_top"
+                android:drawableEnd="@drawable/ic_launcher"
                 android:ellipsize="end"
                 android:hint="@string/PPR_Please_Enter_Date_Lbltxt"
                 android:maxLines="1"

@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -54,7 +55,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, serialNumberParentLayout;
     private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView;
     private ImageView productImageView;
-    private EditText serial_number_editText, date_EditText;
+    private EditText serial_number_editText;
+    private EditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private boolean loadingFlag = false;
@@ -112,6 +114,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         dismissLoadingDialog();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
@@ -126,12 +129,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serialNumberErrorTextView = (TextView) view.findViewById(R.id.serialErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
+        final int resId = R.drawable.ic_calendar_inverted;
+//        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(getActivity().getResources(), resId, getActivity().getTheme());
+//        date_EditText.setCompoundDrawables(null, null, vectorDrawableCompat, null);
         imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
         final Button registerButton = (Button) view.findViewById(R.id.btn_register);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
-        date_EditText.setOnClickListener(onClickPurchaseDate());
+        date_EditText.setOnTouchListener(onClickPurchaseDate());
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
         return view;
     }
@@ -211,29 +217,36 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
     }
 
-    private View.OnClickListener onClickPurchaseDate() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                int mYear;
-                int mMonthInt;
-                int mDay;
-                if (!date_EditText.getText().toString().equalsIgnoreCase("")) {
-                    final String[] mEditDisplayDate = date_EditText.getText().toString().split("-");
-                    mYear = Integer.parseInt(mEditDisplayDate[0]);
-                    mMonthInt = Integer.parseInt(mEditDisplayDate[1]) - 1;
-                    mDay = Integer.parseInt(mEditDisplayDate[2]);
-                } else {
-                    final Calendar mCalendar = Calendar.getInstance();
-                    mYear = mCalendar.get(Calendar.YEAR);
-                    mMonthInt = mCalendar.get(Calendar.MONTH);
-                    mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+    private View.OnTouchListener onClickPurchaseDate() {
+        return new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (date_EditText.getRight() - date_EditText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        int mYear;
+                        int mMonthInt;
+                        int mDay;
+                        if (!date_EditText.getText().toString().equalsIgnoreCase("")) {
+                            final String[] mEditDisplayDate = date_EditText.getText().toString().split("-");
+                            mYear = Integer.parseInt(mEditDisplayDate[0]);
+                            mMonthInt = Integer.parseInt(mEditDisplayDate[1]) - 1;
+                            mDay = Integer.parseInt(mEditDisplayDate[2]);
+                        } else {
+                            final Calendar mCalendar = Calendar.getInstance();
+                            mYear = mCalendar.get(Calendar.YEAR);
+                            mMonthInt = mCalendar.get(Calendar.MONTH);
+                            mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+                        }
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), myDateListener, mYear, mMonthInt, mDay);
+                        final ProdRegUtil prodRegUtil = new ProdRegUtil();
+                        datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
+                        datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
+                        datePickerDialog.show();
+                        return true;
+                    }
                 }
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), myDateListener, mYear, mMonthInt, mDay);
-                final ProdRegUtil prodRegUtil = new ProdRegUtil();
-                datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
-                datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
-                datePickerDialog.show();
+                return false;
             }
         };
     }

@@ -166,6 +166,7 @@
                 android:layout_marginEnd="@dimen/pr_right_padding_sm"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="@dimen/pr_registration_margin_top"
+                android:drawableEnd="@drawable/ic_launcher"
                 android:ellipsize="end"
                 android:hint="@string/PPR_Please_Enter_Date_Lbltxt"
                 android:maxLines="1"
