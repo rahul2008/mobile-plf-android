@@ -17,13 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/short_content"/>
+            android:text="@string/dialog_screen_text_short_content"/>
 
         <RadioButton
             android:id="@+id/long_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/long_content"/>
+            android:text="@string/dialog_screen_text_long_content"/>
     </RadioGroup>
 
     <View
@@ -38,14 +38,14 @@
         android:layout_marginStart="@dimen/layout_margin_left_right"
         android:layout_marginTop="12dp"
         android:checked="true"
-        android:text="@string/with_title"/>
+        android:text="@string/dialog_screen_text_with_title"/>
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/layout_margin_left_right"
         android:checked="true"
-        android:text="@string/title_with_icon"/>
+        android:text="@string/dialog_screen_text_title_with_icon"/>
 
     <TextView
         style="@style/ButtonsCategoryStyle"
@@ -55,7 +55,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingStart="20dp"
-        android:text="@string/header_dialogs"/>
+        android:text="@string/dialog_screen_text_dialogs"/>
 
 
     <com.philips.platform.uit.view.widget.Button
@@ -66,7 +66,7 @@
         android:layout_marginLeft="@dimen/layout_margin_left_right"
         android:layout_marginRight="@dimen/layout_margin_left_right"
         android:layout_marginTop="@dimen/layout_margin_left_right"
-        android:text="@string/dialog_with_text"/>
+        android:text="@string/dialog_screen_button_text_dialog_with_text"/>
 
     <com.philips.platform.uit.view.widget.Button
         style="@style/UITExtraWideButton"
@@ -75,5 +75,5 @@
         android:layout_marginBottom="@dimen/layout_margin_left_right"
         android:layout_marginLeft="@dimen/layout_margin_left_right"
         android:layout_marginRight="@dimen/layout_margin_left_right"
-        android:text="@string/dialog_with_text"/>
+        android:text="@string/dialog_screen_button_text_dialog_with_list"/>
 </LinearLayout>
