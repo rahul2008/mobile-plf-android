@@ -43,7 +43,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public SettingsFragmentPresenter(final SettingsView settingsView) {
         super(settingsView);
         this.settingsView = settingsView;
-        setState(BaseState.UI_SETTINGS_FRAGMENT_STATE);
+        setState(BaseAppState.SETTINGS);
     }
 
     /**

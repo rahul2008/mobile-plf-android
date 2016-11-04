@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.homefragment.HomeFragment;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -16,7 +17,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class HomeFragmentState extends BaseState {
 
     public HomeFragmentState() {
-        super(BaseState.UI_HOME_FRAGMENT_STATE);
+        super(BaseAppState.HOME_FRAGMENT);
     }
 
     /**

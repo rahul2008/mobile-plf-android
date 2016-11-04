@@ -8,15 +8,16 @@ package com.philips.platform.appframework.stateimpl;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class HomeActivityState extends BaseState {
+public class HamburgerActivityState extends BaseState {
 
-    public HomeActivityState() {
-        super(BaseState.UI_HOME_STATE);
+    public HamburgerActivityState() {
+        super(HamburgerAppState.HAMBURGER_HOME);
     }
 
     /**

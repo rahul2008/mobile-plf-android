@@ -24,7 +24,7 @@ public class SplashPresenter extends UIBasePresenter {
     public SplashPresenter(WelcomeView uiView) {
         super(uiView);
         this.uiView = uiView;
-        setState(BaseState.UI_SPLASH_STATE);
+        setState(BaseAppState.SPLASH);
     }
 
     @Override

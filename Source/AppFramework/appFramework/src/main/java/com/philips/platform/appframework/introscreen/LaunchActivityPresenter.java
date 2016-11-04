@@ -47,7 +47,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        if (baseState.getStateID() != BaseState.UI_USER_REGISTRATION_STATE) {
+        if (!baseState.getStateID().equals(BaseAppState.REGISTRATION)) {
             welcomeView.finishActivityAffinity();
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);
@@ -76,7 +76,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     public void onLoad() {
         appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.hideActionBar();
-        baseState = appFrameworkApplication.getTargetFlowManager().getFirstState();
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(null,null);
         fragmentLauncher = getFragmentLauncher();
         UIStateData homeStateData = new UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);

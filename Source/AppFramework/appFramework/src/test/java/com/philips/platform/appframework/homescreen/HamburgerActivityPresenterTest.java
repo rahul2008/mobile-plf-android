@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.BaseState;
+import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.statecontroller.FragmentView;
+import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
@@ -56,18 +59,18 @@ public class HamburgerActivityPresenterTest extends TestCase {
     }
 
     public void testGetUiState() {
-        assertEquals(true, hamburgerActivityPresenter.setStateData(0) instanceof HomeFragmentState);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(1) instanceof SettingsFragmentState);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof IAPState);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof SupportFragmentState);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(4) instanceof AboutScreenState);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(5) instanceof DebugTestFragmentState);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof HomeFragmentState);
-        assertFalse(hamburgerActivityPresenter.setStateData(5) instanceof AboutScreenState);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(0) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(1) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof IAPState.InAppStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof SupportFragmentState.ConsumerCareData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(4) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(5) instanceof IAPState.InAppStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof UIStateData);
+        assertFalse(hamburgerActivityPresenter.setStateData(5) instanceof SupportFragmentState.ConsumerCareData);
     }
 
     public void testOnClick() {
-        final BaseState baseStateMock = mock(BaseState.class);
+        final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
             @Override
@@ -77,8 +80,8 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected BaseState setStateData(final int componentID) {
-                return baseStateMock;
+            protected UIStateData setStateData(final int componentID) {
+                return uiStateData;
             }
 
             @Override
@@ -87,11 +90,12 @@ public class HamburgerActivityPresenterTest extends TestCase {
             }
         };
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
-        UIFlowManager uiFlowManagerMock = mock(UIFlowManager.class);
-        when(appFrameworkApplicationMock.getFlowManager()).thenReturn(uiFlowManagerMock);
+        BaseUiFlowManager uiFlowManagerMock = mock(BaseUiFlowManager.class);
+        FlowManager uiFlowManager = mock(FlowManager.class);
+        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         hamburgerActivityPresenter.onClick(0);
-        verify(baseStateMock).setPresenter(hamburgerActivityPresenter);
+        verify(uiStateData).setPresenter(hamburgerActivityPresenter);
         verify(uiFlowManagerMock).navigateToState(baseStateMock, fragmentLauncherMock);
     }
 

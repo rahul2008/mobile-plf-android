@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.stateimpl.HomeActivityState;
+import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
@@ -133,6 +133,6 @@ public class SettingsFragmentPresenterTest extends TestCase {
     public void testGetUIState() {
         assertTrue(settingsFragmentPresenter.setStateData(Constants.LOGOUT_BUTTON_CLICK_CONSTANT) instanceof HomeFragmentState);
         assertTrue(settingsFragmentPresenter.setStateData(999) instanceof UserRegistrationState);
-        assertTrue(settingsFragmentPresenter.setStateData(998) instanceof HomeActivityState);
+        assertTrue(settingsFragmentPresenter.setStateData(998) instanceof HamburgerActivityState);
     }
 }

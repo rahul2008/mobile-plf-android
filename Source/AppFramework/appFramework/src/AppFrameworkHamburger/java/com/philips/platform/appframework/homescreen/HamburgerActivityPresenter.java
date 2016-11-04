@@ -39,7 +39,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(BaseState.UI_HOME_STATE);
+        setState(HamburgerAppState.HAMBURGER_HOME);
     }
 
     /**

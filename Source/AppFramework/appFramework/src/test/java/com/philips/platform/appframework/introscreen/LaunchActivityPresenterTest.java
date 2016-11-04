@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.stateimpl.HomeActivityState;
+import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -106,7 +106,7 @@ public class LaunchActivityPresenterTest extends TestCase {
     }
 
     public void testGetUiState() {
-        assertTrue(launchActivityPresenter.getUiState(Constants.BACK_BUTTON_CLICK_CONSTANT) instanceof HomeActivityState);
+        assertTrue(launchActivityPresenter.getUiState(Constants.BACK_BUTTON_CLICK_CONSTANT) instanceof HamburgerActivityState);
     }
 
     public void testOnLoad() {

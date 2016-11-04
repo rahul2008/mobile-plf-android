@@ -6,7 +6,7 @@
 
 package com.philips.platform.flowmanager.pojo;
 @SuppressWarnings("serial")
-public class AppFlowModel implements java.io.Serializable {
+public class AppFlowModel{
 
     private AppFlow appflow;
 

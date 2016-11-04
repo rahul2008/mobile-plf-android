@@ -1,6 +1,6 @@
 package com.philips.platform.appframework.flowmanager;
 
-import com.philips.platform.appframework.stateimpl.HomeActivityState;
+import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
@@ -28,7 +28,7 @@ public class HamburgerAppState extends BaseAppState {
         uiStateMap.put(WELCOME, new WelcomeState());
         uiStateMap.put(REGISTRATION, new UserRegistrationState());
         uiStateMap.put(HOME_FRAGMENT, new HomeFragmentState());
-        uiStateMap.put(HAMBURGER_HOME, new HomeActivityState());
+        uiStateMap.put(HAMBURGER_HOME, new HamburgerActivityState());
         uiStateMap.put(ABOUT, new AboutScreenState());
         uiStateMap.put(DEBUG, new DebugTestFragmentState());
         uiStateMap.put(SETTINGS, new SettingsFragmentState());

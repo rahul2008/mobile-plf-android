@@ -40,7 +40,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     public TabbedActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(BaseState.UI_HOME_TABBED_STATE);
+        setState(TabbedAppState.TAB_HOME);
     }
 
     /**

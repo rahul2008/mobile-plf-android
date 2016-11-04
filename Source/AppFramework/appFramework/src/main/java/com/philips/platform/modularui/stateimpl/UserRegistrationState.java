@@ -24,6 +24,7 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -45,7 +46,7 @@ public class UserRegistrationState extends BaseState implements UserRegistration
     private Context applicationContext;
 
     public UserRegistrationState() {
-        super(BaseState.UI_USER_REGISTRATION_STATE);
+        super(BaseAppState.REGISTRATION);
     }
 
     /**
