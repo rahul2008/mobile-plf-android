@@ -13,9 +13,11 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
 
 package com.philips.cdp.digitalcare.productdetails;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -549,9 +551,25 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
-                    DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
+
+                    if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1){
+                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                                WRITE_EXTERNAL_STORAGE);
+                        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.
+                                            WRITE_EXTERNAL_STORAGE},
+                                    123);
+                        }
+                        else {
+                            DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
+                            downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
+                        }
+                    }
+                    else {
+                        DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
+                        downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
 //                    showFragment(new ProductManualFragment());
+                    }
                 }
             } else {
                 showAlert(getResources().getString(R.string.no_data));
