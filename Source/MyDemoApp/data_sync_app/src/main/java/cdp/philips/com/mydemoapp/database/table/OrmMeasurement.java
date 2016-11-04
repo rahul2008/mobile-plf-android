@@ -45,7 +45,7 @@ public class OrmMeasurement implements Measurement, Serializable {
     private DateTime dateTime = new DateTime();
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
-    private cdp.philips.com.mydemoapp.database.table.OrmMoment ormMoment;
+    private OrmMoment ormMoment;
 
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmMeasurementDetail> ormMeasurementDetails = new EmptyForeignCollection<>();
@@ -90,13 +90,13 @@ public class OrmMeasurement implements Measurement, Serializable {
     }
 
     @Override
-    public Collection<? extends cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail> getMeasurementDetails() {
+    public Collection<? extends OrmMeasurementDetail> getMeasurementDetails() {
         return ormMeasurementDetails;
     }
 
     @Override
     public void addMeasurementDetail(final MeasurementDetail measurementDetail) {
-        ormMeasurementDetails.add((cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail) measurementDetail);
+        ormMeasurementDetails.add((OrmMeasurementDetail) measurementDetail);
     }
 
     @Override

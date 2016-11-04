@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.core.datatypes.Moment;
@@ -102,6 +103,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void init() {
+        Stetho.initializeWithDefaults(getActivity().getApplicationContext());
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();

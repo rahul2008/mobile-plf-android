@@ -33,9 +33,9 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
  */
 public class Database implements BaseAppDataCreator {
     @NonNull
-    private cdp.philips.com.mydemoapp.database.OrmCreator creator;
+    private OrmCreator creator;
 
-    public Database(@NonNull cdp.philips.com.mydemoapp.database.OrmCreator creator) {
+    public Database(@NonNull OrmCreator creator) {
         this.creator = creator;
     }
 

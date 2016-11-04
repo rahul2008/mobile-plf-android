@@ -1,7 +1,6 @@
 package cdp.philips.com.mydemoapp.temperature;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,15 +10,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -32,23 +28,19 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<? extends Moment> mData;
     Context mContext;
-    private UIKitListPopupWindow mPopupWindow;
     private Drawable mOptionsDrawable;
-    private Resources mResources;
-    private static final int DELETE = 0;
-    private static final int UPDATE = 1;
-    
+
+
     DataServicesManager mDataServices;
     private final TemperaturePresenter mTemperaturePresenter;
 
 
-    public
-    TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data, TemperaturePresenter mTemperaturePresenter) {
+    public TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data, TemperaturePresenter mTemperaturePresenter) {
+
         this.mTemperaturePresenter = mTemperaturePresenter;
         mDataServices = DataServicesManager.getInstance();
         mData = data;
         mContext = context;
-        mResources = context.getResources();
         initDrawables();
     }
 

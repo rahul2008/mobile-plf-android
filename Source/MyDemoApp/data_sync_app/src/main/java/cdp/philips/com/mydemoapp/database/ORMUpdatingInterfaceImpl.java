@@ -3,7 +3,6 @@ package cdp.philips.com.mydemoapp.database;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.registration.HttpClient;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;

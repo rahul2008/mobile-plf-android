@@ -2,8 +2,6 @@ package cdp.philips.com.mydemoapp.listener;
 
 import java.util.ArrayList;
 
-import retrofit.RetrofitError;
-
 public interface DBChangeListener {
 
     public void onSuccess(ArrayList<? extends Object> data);
