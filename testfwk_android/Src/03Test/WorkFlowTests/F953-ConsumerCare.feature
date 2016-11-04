@@ -1,6 +1,7 @@
 ﻿Feature: F953 - Continuation: Extend the e2e automated test suite of the reference platform with reference to Consumer Care
 US11725 Automate consumer care module in Reference App context for Android
 
+@DailyTest
 Scenario: 01 Viewing Product Information
 
 	Given I am on the AppFramework Screen
@@ -11,6 +12,7 @@ Scenario: 01 Viewing Product Information
 	Then verify selected product "Sonicare DiamondClean Standard sonic toothbrush heads" detail in view product information with CTN "HX6064/33" 
 	Then verify product information (on Philips.com) button
 
+@DailyTest
 Scenario: 02 Verify Live Chat and Email option
 	
 	Given the user is on Mobile App Home page
@@ -21,6 +23,7 @@ Scenario: 02 Verify Live Chat and Email option
 	Then verify live chat option
 	Then verify send email option
 
+@DailyTest
 Scenario: 03 Verify Find Philips near you feature
 
 	Given the user is on Mobile App Home page
@@ -29,6 +32,7 @@ Scenario: 03 Verify Find Philips near you feature
 	Then select "Find Philips near you" from support screen
 	Then verify find philips near you option
 
+@DailyTest
 Scenario: 04 Verify Facebook and Twitter feature
 	Given the user is on Mobile App Home page
 	Then I click on Hamburger Menu Icon
@@ -36,7 +40,8 @@ Scenario: 04 Verify Facebook and Twitter feature
 	Then select "Contact us" from support screen
 	Then verify on Twitter option
 	Then verify on facebook option
-	
+
+@DailyTest	
 Scenario: 05 Verify Read FAQs
 	Given the user is on Mobile App Home page
 	Then I click on Hamburger Menu Icon
@@ -45,6 +50,7 @@ Scenario: 05 Verify Read FAQs
 	Then verify each FAQ is clickable and readable
 	Then come back to support screen
 
+@DailyTest
 Scenario: 06 Verify Tell us What you think
 	Given the user is on Mobile App Home page
 	Then I click on Hamburger Menu Icon
