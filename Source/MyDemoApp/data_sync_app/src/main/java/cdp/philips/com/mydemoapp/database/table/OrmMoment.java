@@ -48,7 +48,7 @@ public class OrmMoment implements Moment, Serializable {
     private String subjectId;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private cdp.philips.com.mydemoapp.database.table.OrmMomentType type;
+    private OrmMomentType type;
 
     @DatabaseField(canBeNull = false)
     private DateTime dateTime = new DateTime();
@@ -60,16 +60,16 @@ public class OrmMoment implements Moment, Serializable {
     ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();
 
     @ForeignCollectionField(eager = true)
-    ForeignCollection< cdp.philips.com.mydemoapp.database.table.OrmMomentDetail> ormMomentDetails = new EmptyForeignCollection<>();
+    ForeignCollection<OrmMomentDetail> ormMomentDetails = new EmptyForeignCollection<>();
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
-    private  cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData synchronisationData;
+    private OrmSynchronisationData synchronisationData;
 
     @DatabaseConstructor
     OrmMoment() {
     }
 
-    public OrmMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final  cdp.philips.com.mydemoapp.database.table.OrmMomentType type) {
+    public OrmMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final OrmMomentType type) {
         this.creatorId = creatorId;
         this.subjectId = subjectId;
         this.type = type;
@@ -87,7 +87,7 @@ public class OrmMoment implements Moment, Serializable {
     @Override
     @NonNull
     public String getAnalyticsId() {
-        for ( cdp.philips.com.mydemoapp.database.table.OrmMomentDetail d : ormMomentDetails) {
+        for ( OrmMomentDetail d : ormMomentDetails) {
             if (d.getType() == MomentDetailType.TAGGING_ID) {
                 return d.getValue();
             }
@@ -133,24 +133,24 @@ public class OrmMoment implements Moment, Serializable {
     }
 
     @Override
-    public Collection<? extends cdp.philips.com.mydemoapp.database.table.OrmMomentDetail> getMomentDetails() {
+    public Collection<? extends OrmMomentDetail> getMomentDetails() {
         return ormMomentDetails;
     }
 
     @Override
     public void addMomentDetail(final MomentDetail momentDetail) {
-        ormMomentDetails.add((cdp.philips.com.mydemoapp.database.table.OrmMomentDetail) momentDetail);
+        ormMomentDetails.add((OrmMomentDetail) momentDetail);
     }
 
     @Override
     @Nullable
-    public cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData getSynchronisationData() {
+    public OrmSynchronisationData getSynchronisationData() {
         return synchronisationData;
     }
 
     @Override
     public void setSynchronisationData(SynchronisationData synchronisationData) {
-        this.synchronisationData = (cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData) synchronisationData;
+        this.synchronisationData = (OrmSynchronisationData) synchronisationData;
     }
 
     @Override

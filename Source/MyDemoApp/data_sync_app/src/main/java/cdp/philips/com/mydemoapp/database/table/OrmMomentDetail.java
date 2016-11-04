@@ -28,7 +28,7 @@ public class OrmMomentDetail implements MomentDetail, Serializable {
     private int id;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType type;
+    private OrmMomentDetailType type;
 
     @DatabaseField(canBeNull = false)
     private String value;
@@ -40,7 +40,7 @@ public class OrmMomentDetail implements MomentDetail, Serializable {
     OrmMomentDetail() {
     }
 
-    public OrmMomentDetail(final cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType type, final OrmMoment ormMoment) {
+    public OrmMomentDetail(final OrmMomentDetailType type, final OrmMoment ormMoment) {
         this.type = type;
         this.ormMoment = ormMoment;
     }

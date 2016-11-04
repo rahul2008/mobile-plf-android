@@ -71,9 +71,9 @@ import de.greenrobot.event.EventBus;
 public class DataServicesManager {
 
     @NonNull
-    private final Eventing eventing;
+    private final Eventing mEventing;
 
-    private BaseAppDataCreator dataCreator;
+    private BaseAppDataCreator mDataCreater;
 
     @Inject
     DataPullSynchronise mDataPullSynchronise;
@@ -92,19 +92,21 @@ public class DataServicesManager {
 
     @Inject
     Backend mBackend;
-    AppComponent appComponent;
 
-    private BackendIdProvider backendIdProvider;
-    BaseAppCore core;
+    AppComponent mAppComponent;
 
-    DBMonitors mDbMonitors;
+    private BackendIdProvider mBackendIdProvider;
+    private BaseAppCore mCore;
+
+    private DBMonitors mDbMonitors;
+    private List<EventMonitor> mMonitors = new ArrayList<>();
 
     private static DataServicesManager mDataServicesManager;
     private Context mContext;
 
     @Singleton
     private DataServicesManager() {
-        this.eventing = new EventingImpl(new EventBus(), new Handler());
+        this.mEventing = new EventingImpl(new EventBus(), new Handler());
     }
 
     public static DataServicesManager getInstance() {
@@ -115,46 +117,46 @@ public class DataServicesManager {
     }
 
     public UCoreAccessProvider getUCoreAccessProvider(){
-        return (UCoreAccessProvider) backendIdProvider;
+        return (UCoreAccessProvider) mBackendIdProvider;
     }
 
     public BaseAppDataCreator getDataCreater(){
-        return dataCreator;
+        return mDataCreater;
     }
 
     @NonNull
     public Moment save(@NonNull final Moment moment) {
-        eventing.post(new MomentSaveRequest(moment));
+        mEventing.post(new MomentSaveRequest(moment));
         return moment;
     }
     public Moment update(@NonNull final Moment moment) {
-        eventing.post(new MomentUpdateRequest(moment));
+        mEventing.post(new MomentUpdateRequest(moment));
         return moment;
     }
 
     public void fetch(final @NonNull MomentType... type){
-        eventing.post(new LoadMomentsRequest(type[0]));
+        mEventing.post(new LoadMomentsRequest(type[0]));
     }
 
     public void fetchAllData(){
-        eventing.post(new LoadMomentsRequest());
+        mEventing.post(new LoadMomentsRequest());
     }
 
     @NonNull
     public Moment createMoment(@NonNull final MomentType type) {
-        return dataCreator.createMoment(backendIdProvider.getUserId(), backendIdProvider.getSubjectId(), type);
+        return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type);
     }
 
     @NonNull
     public MomentDetail createMomentDetail(@NonNull final MomentDetailType type, @NonNull final Moment moment) {
-        MomentDetail momentDetail = dataCreator.createMomentDetail(type, moment);
+        MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
         return momentDetail;
     }
 
     @NonNull
     public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment) {
-        Measurement measurement = dataCreator.createMeasurement(type, moment);
+        Measurement measurement = mDataCreater.createMeasurement(type, moment);
         moment.addMeasurement(measurement);
         return measurement;
     }
@@ -162,17 +164,17 @@ public class DataServicesManager {
     @NonNull
     public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
                                                      @NonNull final Measurement measurement) {
-        MeasurementDetail measurementDetail = dataCreator.createMeasurementDetail(type, measurement);
+        MeasurementDetail measurementDetail = mDataCreater.createMeasurementDetail(type, measurement);
         measurement.addMeasurementDetail(measurementDetail);
         return measurementDetail;
     }
 
     public void deleteMoment(final Moment moment) {
-        eventing.post(new MomentDeleteRequest(moment));
+        mEventing.post(new MomentDeleteRequest(moment));
     }
 
     public void updateMoment(Moment moment){
-        eventing.post((new MomentUpdateRequest(moment)));
+        mEventing.post((new MomentUpdateRequest(moment)));
     }
 
     public void synchchronize(){
@@ -182,7 +184,7 @@ public class DataServicesManager {
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
-        monitor.start(eventing);
+        monitor.start(mEventing);
     }
 
  /*   private void sendPushEvent() {
@@ -190,7 +192,7 @@ public class DataServicesManager {
             @Override
             public void run() {
                 Log.i("***SPO***", "In DataServicesManager.sendPushEvent");
-                eventing.post(new WriteDataToBackendRequest());
+                mEventing.post(new WriteDataToBackendRequest());
             }
         }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
 
@@ -198,7 +200,13 @@ public class DataServicesManager {
 
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
-        eventing.post(new ReadDataFromBackendRequest(null));
+        if(mCore !=null) {
+            mCore.start();
+        }
+        else{
+            mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        }
+        mEventing.post(new ReadDataFromBackendRequest(null));
     }
 
     public void initializeDBMonitors(DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
@@ -213,30 +221,30 @@ public class DataServicesManager {
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
 
         mContext = context;
-        this.dataCreator = creator;
-        this.backendIdProvider = new UCoreAccessProvider(facade);
+        this.mDataCreater = creator;
+        this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
-        appComponent.injectApplication(this);
-        backendIdProvider.injectSaredPrefs(mSharedPreferences);
+        mAppComponent.injectApplication(this);
+        mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
 
-        List<EventMonitor> monitors = new ArrayList<>();
-        monitors.add(mLoggingMonitor);
-        monitors.add(mExceptionMonitor);
+        mMonitors = new ArrayList<>();
+        mMonitors.add(mLoggingMonitor);
+        mMonitors.add(mExceptionMonitor);
 
-        core = new BaseAppCore(eventing,dataCreator,mBackend,monitors,mDbMonitors);
-        core.start();
+        mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        mCore.start();
     }
 
     protected void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(eventing);
+        BackendModule backendModule = new BackendModule(mEventing);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
-        appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
     }
 
     public void stopCore() {
-        core.stop();
+        mCore.stop();
     }
 }
