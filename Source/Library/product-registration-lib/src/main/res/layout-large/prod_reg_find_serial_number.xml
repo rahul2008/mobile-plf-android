@@ -51,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/pr_d_value_tablet"
             android:layout_marginTop="@dimen/pr_d_value_tablet"
             android:text="@string/PPR_ok_i_found_it"
             android:textAllCaps="false"/>

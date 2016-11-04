@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/pr_d_value_sm"
             android:layout_marginTop="@dimen/pr_d_value_sm"
             android:text="@string/PPR_ok_i_found_it"
             android:textAllCaps="false"/>
