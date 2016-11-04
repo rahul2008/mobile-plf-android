@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 /**
  * Created by 310238655 on 6/2/2016.
@@ -16,6 +17,7 @@ import com.philips.platform.appinfra.internationalization.InternationalizationIn
 public class InternationalizationDemoPage extends AppCompatActivity {
 
     InternationalizationInterface mappIdentityinterface = null;
+    AppTaggingInterface mAppTaggingInterface= null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,8 +25,9 @@ public class InternationalizationDemoPage extends AppCompatActivity {
         setContentView(R.layout.activity_localmain);
         AppInfraInterface appInfra = AppInfraApplication.gAppInfra;
         mappIdentityinterface = appInfra.getInternationalization();
+        mAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("I18n", "I18nVersion");
 
-        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("InternationalizationDemoPage", "SDKEy", "SDValue");
+        mAppTaggingInterface.trackPageWithInfo("InternationalizationDemoPage", "I18NKEy", "I18NValue");
 //        ((TextView)findViewById(R.id.countryValue)).setText(mappIdentityinterface.getCountry());
         ((TextView)findViewById(R.id.localValue)).setText(mappIdentityinterface.getUILocale().toString());
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,11 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         setContentView(R.layout.activity_appidentity);
         AppInfraInterface appInfra = AppInfraApplication.gAppInfra;
         mAppIdentityInterface = appInfra.getAppIdentity();
+        AppTaggingInterface mAppTaggingInterface;
+        mAppTaggingInterface = AppInfraApplication.gAppInfra.getTagging().createInstanceForComponent("AppIndentityID", "AppIndentityIDVersion");
+
+        mAppTaggingInterface.trackPageWithInfo("AppIndentityPageDemoPage", "AppIndentityKEy", "AppIndentityValue");
+
 
         try {
             ((TextView) findViewById(R.id.appNameValue)).setText(mAppIdentityInterface.getAppName());
