@@ -22,6 +22,7 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -104,8 +105,10 @@ public class MomentsDataSender implements DataSender<Moment> {
             return true;
         }
         boolean conflictHappened = false;
-        String BASE = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
-        //String BASE = "https://referenceplatform-ds-platforminfradev.cloud.pcftest.com";
+        DataServicesManager dataServicesManager = DataServicesManager.getInstance();
+        UserRegistrationFacade userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
+        String BASE = userRegistrationImpl.getHSDHsdpUrl();
+
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, BASE,
                 accessProvider.getAccessToken(), momentGsonConverter);
 

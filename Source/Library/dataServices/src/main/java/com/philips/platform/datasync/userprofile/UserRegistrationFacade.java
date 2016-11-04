@@ -24,4 +24,5 @@ public interface UserRegistrationFacade {
     boolean isSameUser();
 
     UserCredentials getUserCredentials();
+    String getHSDHsdpUrl();
 }
