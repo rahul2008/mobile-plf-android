@@ -1,7 +1,8 @@
 {
     "version" : "1.0",
     "acquisition": {
-        "server": "c00.adobe.com"
+        "server": "c00.adobe.com",
+      "appid": "f87cdac546d694b52ca155d98a74a213422c2368d08a8e8dc5ade531bf3e01e3"
     },
 
     "analytics" : {
@@ -18,7 +19,7 @@
   ]
     },
     "target" : {
-        "clientCode" : "amsdk",
+        "clientCode" : "philipselectronicsne",
          "timeout" : 5
       },
     "audienceManager" : {

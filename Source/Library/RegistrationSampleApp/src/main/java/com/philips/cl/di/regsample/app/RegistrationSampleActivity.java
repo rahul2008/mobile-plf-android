@@ -326,8 +326,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-
-
+                if (RegUtility.isUiFirstFlow()){
+                    Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                }else {
+                    Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                }
                 //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 

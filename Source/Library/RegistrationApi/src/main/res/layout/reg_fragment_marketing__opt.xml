@@ -78,8 +78,8 @@
                     style="@style/reg_text_description"
                     android:text="@string/Opt_In_Join_Now"
                     android:textColor="@color/reg_social_to_social_ui_blocker_bg"
-                    android:visibility="visible"
                     android:textSize="@dimen/reg_title_text_size_medium"
+                    android:visibility="visible"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
             </LinearLayout>
 
@@ -124,14 +124,6 @@
                     android:text="@string/Opt_In_Count_Me_In"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
-                <ProgressBar
-                    android:id="@+id/pb_reg_countme_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:padding="@dimen/reg_pb_padding"
-                    android:visibility="gone"/>
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -152,17 +144,21 @@
                     android:textColor="@drawable/reg_btn_secondary_text_selector"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
-                <ProgressBar
-                    android:id="@+id/pb_reg_nothanks_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:padding="@dimen/reg_pb_padding"
-                    android:visibility="gone"/>
-
 
             </RelativeLayout>
 
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_reg_activate_acct"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_scroll_margin"/>
         </LinearLayout>
     </ScrollView>
 

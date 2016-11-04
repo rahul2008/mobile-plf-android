@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -31,11 +31,14 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
-public class MarketingAccountFragment extends RegistrationBaseFragment implements View.OnClickListener,
-        NetworStateListener, UpdateUserDetailsHandler {
+public class MarketingAccountFragment extends RegistrationBaseFragment implements
+        View.OnClickListener,NetworStateListener, UpdateUserDetailsHandler {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -61,9 +64,9 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private long mTrackCreateAccountTime;
 
-    private ProgressBar mPbCountSpinner;
+    private ProgressDialog mProgressDialog;
 
-    private ProgressBar mPbNoThanksSpinner;
+    private XRegError mRegError;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,44 +180,36 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_reg_count_me) {
-            showSpinner();
+            showRefreshProgress();
             mUser.updateReceiveMarketingEmail(this, true);
         } else if (v.getId() == R.id.btn_reg_no_thanks) {
-            showSpinnerNoThanks();
+            showRefreshProgress();
             mUser.updateReceiveMarketingEmail(this, false);
         }
     }
 
     private void initUI(View view) {
         consumeTouch(view);
-
         mLlCreateAccountFields = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_fields);
         mLlCreateAccountContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
-
         mRlCountBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_count_options);
         mRlNoThanksBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_nothanks_options);
-
         mBtnCountMe = (Button) view.findViewById(R.id.btn_reg_count_me);
         mBtnNoThanks = (Button) view.findViewById(R.id.btn_reg_no_thanks);
         mTvJoinNow = (TextView) view.findViewById(R.id.tv_reg_Join_now);
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) +" "+"<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
+        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
         mTvJoinNow.setText(Html.fromHtml(sourceString));
-
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
-        RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
+        RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsView,
+                getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         mBtnCountMe.setOnClickListener(this);
         mBtnNoThanks.setOnClickListener(this);
-
-        mPbCountSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_countme_spinner);
-        mPbCountSpinner.setClickable(false);
-        mPbCountSpinner.setEnabled(true);
-        mPbNoThanksSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_nothanks_spinner);
-        mPbNoThanksSpinner.setClickable(false);
-        mPbNoThanksSpinner.setEnabled(true);
         mViewLine = view.findViewById(R.id.reg_accept_terms_line);
         handleUiAcceptTerms();
+        handleUiState();
         mUser = new User(mContext);
     }
 
@@ -226,24 +221,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     };
 
-    private void showSpinner() {
-
-        mPbCountSpinner.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSpinner() {
-        mPbCountSpinner.setVisibility(View.INVISIBLE);
-    }
-
-    private void showSpinnerNoThanks() {
-
-        mPbNoThanksSpinner.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSpinnerNoThanks() {
-        mPbNoThanksSpinner.setVisibility(View.INVISIBLE);
-    }
-
     private void handleUiAcceptTerms() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mViewLine.setVisibility(View.VISIBLE);
@@ -254,11 +231,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
-        /*if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            RegPreferenceUtility.storePreference(mContext, mEmail, true);
-        }*/
-        hideSpinner();
-        hideSpinnerNoThanks();
+        hideRefreshProgress();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
@@ -266,13 +239,14 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         } else {
             launchWelcomeFragment();
         }
-
         if (mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0) {
-            mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime()) / 1000;
+            mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.
+                    getCreateAccountStartTime()) / 1000;
         } else {
             mTrackCreateAccountTime = (System.currentTimeMillis() - mTrackCreateAccountTime) / 1000;
         }
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT, String.valueOf(mTrackCreateAccountTime));
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.
+                TOTAL_TIME_CREATE_ACCOUNT, String.valueOf(mTrackCreateAccountTime));
         mTrackCreateAccountTime = 0;
     }
 
@@ -294,18 +268,56 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
+        handleUiState();
     }
 
     @Override
     public void onUpdateSuccess() {
-        hideSpinner();
-        hideSpinnerNoThanks();
+        hideRefreshProgress();
         handleRegistrationSuccess();
     }
 
     @Override
     public void onUpdateFailedWithError(final int error) {
-        mPbCountSpinner.setVisibility(View.INVISIBLE);
+        hideRefreshProgress();
+    }
+
+    private void showRefreshProgress() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+        } else {
+            mProgressDialog.show();
+        }
+    }
+
+    private void hideRefreshProgress() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
+    private void handleUiState() {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                mRegError.hideError();
+                mBtnCountMe.setEnabled(true);
+                mBtnNoThanks.setEnabled(true);
+            } else {
+                mBtnCountMe.setEnabled(false);
+                mBtnNoThanks.setEnabled(false);
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            }
+        } else {
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            mBtnCountMe.setEnabled(false);
+            mBtnNoThanks.setEnabled(false);
+            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+            scrollViewAutomatically(mRegError, mSvRootLayout);
+        }
     }
 }
 
