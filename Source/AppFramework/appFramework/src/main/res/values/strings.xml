@@ -100,6 +100,11 @@
     <string name="af_iap_authentication_failure">Authentication failure</string>
     <string name="af_iap_prod_out_of_stock">Product out of stock</string>
 
+    <string name="example_title">Example Title</string>
+    <string name="example_body">Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit.</string>
+    <string name="change_configuration">Change Configuration: </string>
+    <string name="current_configuration">Current Configuration: </string>
+
     <!-- Data Sync related Strings-->
     <string name="data_sync">Data Sync</string>
     <string name="data_sync_title">Data Sync</string>

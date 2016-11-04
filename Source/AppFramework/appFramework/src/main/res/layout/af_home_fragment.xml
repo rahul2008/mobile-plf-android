@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/homescreen_left_margin"
         android:layout_marginTop="15dp"
-        android:text="Example Title"
+        android:text="@string/example_title"
         android:textColor="@color/uikit_white"
         android:textSize="21sp" />
 
@@ -28,7 +28,7 @@
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="@dimen/homescreen_left_margin"
         android:layout_marginTop="20dp"
-        android:text="Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit."
+        android:text="@string/example_body"
         android:textColor="@color/uikit_white"
         android:textSize="14sp" />
 </RelativeLayout>
