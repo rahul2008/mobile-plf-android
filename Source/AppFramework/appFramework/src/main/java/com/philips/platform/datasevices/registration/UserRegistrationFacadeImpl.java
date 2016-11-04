@@ -226,7 +226,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     @Override
     public String getHSDHsdpUrl(){
-
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = AppFrameworkApplication.appInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
