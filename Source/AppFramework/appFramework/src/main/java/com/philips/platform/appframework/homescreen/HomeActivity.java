@@ -50,7 +50,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HomeActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, FragmentView {
+public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HomeActivity.class.getSimpleName();
     private static HamburgerUtil hamburgerUtil;
     protected TextView actionBarTitle;
@@ -333,19 +333,19 @@ public class HomeActivity extends AppFrameworkBaseActivity implements FragmentMa
                 cartCount.setVisibility(View.GONE);
         }
     }*/
- /*   @Override
+    @Override
     public void onGetCartCount(int cartCount) {
-        *//*setCartItemCount(cartCount);
+        /*setCartItemCount(cartCount);
         if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
             cartIconVisibility(true);
-        }*//*
+        }*/
     }
 
     @Override
     public void onUpdateCartCount() {
-        *//*if(userRegistrationState.getUserObject(this).isUserSignIn()){
+        /*if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
-        }*//*
+        }*/
     }
 
     @Override
@@ -365,8 +365,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements FragmentMa
 
     @Override
     public void onFailure(int i) {
-        showToast(i);
-    }*/
+     //   showToast(i);
+    }
 
     private void showToast(int errorCode) {
         String errorText = getResources().getString(R.string.af_iap_server_error);

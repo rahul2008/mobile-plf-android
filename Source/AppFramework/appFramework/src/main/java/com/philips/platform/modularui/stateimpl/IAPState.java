@@ -68,7 +68,7 @@ public class IAPState extends UIState{
         IAPFlowInput iapFlowInput = new IAPFlowInput(((InAppStateData)getUiStateData()).getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getIAPFlowType(((InAppStateData)getUiStateData()).getIapFlow()), iapFlowInput);
-     //   iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
+         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
