@@ -44,6 +44,8 @@ public class ProdRegRegistrationController {
         void logEvents(String tag, String data);
 
         void tagEvents(String event, String key, String value);
+
+        void showSuccessLayout();
     }
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
@@ -189,10 +191,11 @@ public class ProdRegRegistrationController {
                     final ProdRegCache prodRegCache = getProdRegCache();
                     prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
                     registerControllerCallBacks.tagEvents("RegistrationSuccessEvent", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
-                    final ProdRegSuccessFragment fragment = getSuccessFragment();
+//                    final ProdRegSuccessFragment fragment = getSuccessFragment();
                     updateRegisteredProductsList(registeredProduct);
-                    fragment.setArguments(dependencyBundle);
-                    registerControllerCallBacks.showFragment(fragment);
+//                    fragment.setArguments(dependencyBundle);
+//                    registerControllerCallBacks.showFragment(fragment);
+                    registerControllerCallBacks.showSuccessLayout();
                 }
             }
 

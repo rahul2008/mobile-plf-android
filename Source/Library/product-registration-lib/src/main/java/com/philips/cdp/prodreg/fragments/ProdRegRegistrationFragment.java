@@ -52,7 +52,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
-    private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, serialNumberParentLayout;
+    private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, serialNumberParentLayout, successLayout;
     private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView;
     private ImageView productImageView;
     private EditText serial_number_editText;
@@ -85,6 +85,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             }
         }
     };
+    private Button registerButton;
 
     @Override
     public int getActionbarTitleResId() {
@@ -123,6 +124,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
         dateErrorLayout = (LinearLayout) view.findViewById(R.id.date_error_layout);
         serialNumberErrorLayout = (LinearLayout) view.findViewById(R.id.serial_number_error_layout);
+        successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
         productTitleTextView = (TextView) view.findViewById(R.id.product_title);
         productCtnTextView = (TextView) view.findViewById(R.id.product_ctn);
         dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
@@ -132,14 +134,28 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 //        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(getActivity().getResources(), resId, getActivity().getTheme());
 //        date_EditText.setCompoundDrawables(null, null, vectorDrawableCompat, null);
         imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-        final Button registerButton = (Button) view.findViewById(R.id.btn_register);
+        registerButton = (Button) view.findViewById(R.id.btn_register);
+        final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
+        continueButton.setOnClickListener(onClickContinue());
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
         serialNumberErrorLayout.setOnClickListener(onClickFindSerialNumber());
         return view;
+    }
+
+    @NonNull
+    private View.OnClickListener onClickContinue() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                clearFragmentStack();
+                handleCallBack(false);
+                unRegisterProdRegListener();
+            }
+        };
     }
 
     private View.OnClickListener onClickFindSerialNumber() {
@@ -368,6 +384,20 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void tagEvents(final String event, final String key, final String value) {
         ProdRegTagging.getInstance().trackAction(event, key, value);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void showSuccessLayout() {
+        serialNumberParentLayout.setVisibility(View.GONE);
+        dateParentLayout.setVisibility(View.GONE);
+        registerButton.setVisibility(View.GONE);
+        successLayout.setVisibility(View.VISIBLE);
+        TextView tickIcon = (TextView) getActivity().findViewById(R.id.tick_icon);
+        tickIcon.setVisibility(View.VISIBLE);
+        productCtnTextView.setText(getString(R.string.PPR_registered));
+        final int baseColor = getActivity().getResources().getColor(R.color.uikit_philips_dark_blue);
+        productCtnTextView.setTextColor(baseColor);
     }
 
     @Override
