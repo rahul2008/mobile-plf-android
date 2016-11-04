@@ -33,7 +33,7 @@ public class ProdRegRegistrationController {
     public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
         void isValidDate(boolean validDate);
 
-        void isValidSerialNumber(boolean validSerialNumber, String format, String example);
+        void isValidSerialNumber(boolean validSerialNumber);
 
         void setSummaryView(Data summaryData);
 
@@ -120,9 +120,9 @@ public class ProdRegRegistrationController {
         final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), serialNumber);
         final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
         if (serialNumberSampleContent != null)
-            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat, serialNumberSampleContent.getSnExample());
+            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber);
         else
-            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat, null);
+            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber);
         return isValidSerialNumber;
     }
 

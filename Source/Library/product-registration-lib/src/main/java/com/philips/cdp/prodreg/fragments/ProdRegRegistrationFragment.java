@@ -53,7 +53,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, serialNumberParentLayout;
-    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView;
+    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView;
     private ImageView productImageView;
     private EditText serial_number_editText;
     private EditText date_EditText;
@@ -126,7 +126,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         productTitleTextView = (TextView) view.findViewById(R.id.product_title);
         productCtnTextView = (TextView) view.findViewById(R.id.product_ctn);
         dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
-        serialNumberErrorTextView = (TextView) view.findViewById(R.id.serialErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         final int resId = R.drawable.ic_calendar_inverted;
@@ -196,14 +195,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         });
     }
 
-    private void showErrorMessageSerialNumber(final EditText editTextView, final String format, final String example) {
-       /* if (TextUtils.isEmpty(format)) {
-            serialNumberErrorTextView.setText(getActivity().getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
-        } else if (example != null)
-            serialNumberErrorTextView.setText(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format + ", " + example);
-        else
-            serialNumberErrorTextView.setText(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
-*/
+    private void showErrorMessageSerialNumber() {
         serialNumberErrorLayout.setVisibility(View.VISIBLE);
     }
 
@@ -317,11 +309,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     @Override
-    public void isValidSerialNumber(boolean validSerialNumber, String format, String example) {
+    public void isValidSerialNumber(boolean validSerialNumber) {
         if (validSerialNumber) {
             serialNumberErrorLayout.setVisibility(View.GONE);
         } else
-            showErrorMessageSerialNumber(serial_number_editText, format, example);
+            showErrorMessageSerialNumber();
     }
 
     @Override
