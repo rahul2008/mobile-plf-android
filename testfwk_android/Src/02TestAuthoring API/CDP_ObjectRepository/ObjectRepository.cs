@@ -1285,12 +1285,20 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
             doc.Save("Repository.xml");
         }
 
-        public static string NucleousValue
+        public static string MeasurementValue
         {
             get
             {
-                return GetData("NucleousValue");
+                return GetData("MeasurementValue");
             }
+        }
+        public static string ReferenceDeviceIDValue
+        {
+            get
+            {
+                return GetData("ReferenceDeviceIDValue");
+            }
+
         }
         public static string MomentValue
         {
@@ -2074,6 +2082,8 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
+
+
                 public static string AppFrameworkHomeScreen
                 {
                     get
@@ -2082,6 +2092,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
+
                 public static string HamburgerList
                 {
                     get
@@ -2089,6 +2100,8 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("HamburgerList");
                     }
                 }
+
+                
                 public static string LoginSettings
                 {
                     get
@@ -2096,6 +2109,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("LoginSettings");
                     }
                 }
+
                 public static string VerticalSettings
                 {
                     get
@@ -2110,6 +2124,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("WelcomeScreen");
                     }
                 }
+
                 public static string RightArrow
                 {
                     get
@@ -2117,6 +2132,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("RightArrow");
                     }
                 }
+
                 public static string LeftArrow
                 {
                     get
@@ -2124,6 +2140,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("LeftArrow");
                     }
                 }
+               
                 public static string Skip
                 {
                     get
@@ -2131,6 +2148,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Skip");
                     }
                 }
+
                 public static string Done
                 {
                     get
@@ -2145,6 +2163,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("AUsername");
                     }
                 }
+
                 public static string PassWord
                 {
                     get
@@ -2152,6 +2171,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("APassWord");
                     }
                 }
+
                 public static string PhilipsAccountReg
                 {
                     get
@@ -2159,6 +2179,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("AppPhilipsAccountReg");
                     }
                 }
+
                 public static string Settings
                 {
                     get
@@ -2166,6 +2187,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Settings");
                     }
                 }
+
                 public static string Connectivity
                 {
                     get
@@ -2173,11 +2195,13 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("Connectivity");
                     }
                 }
-                public static string NucleousDevice
+
+
+                public static string MeasurementValueFromReferenceDevice
                 {
                     get
                     {
-                        return GetData("NucleousDevice");
+                        return GetData("MeasurementValueFromReferenceDevice");
                     }
 
                 }
@@ -3536,8 +3560,8 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("PRRegister");
                     }
 
-                }  
-                
+                }
+
             }
         }
 

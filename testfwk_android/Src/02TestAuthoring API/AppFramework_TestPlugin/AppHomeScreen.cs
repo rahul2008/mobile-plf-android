@@ -37,12 +37,12 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             Alogout,
             HamburgerIcon,
             Settings,
-            Connectivity,
-            NucleousDevice,
+            Connectivity,     
             AlogoutConfirm,
             ALoginButton,
             ALoginContinue,
             ALoginContinueConfirm,
+            MeasurementValueFromReferenceDevice,
             MomentValueFromDatacore,
             Terms,
             Support
@@ -57,13 +57,12 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Settings).Click();
             else if (btn == Button.Connectivity)
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Connectivity).Click();
-            if (btn == Button.NucleousDevice)
-                _instance.ClickById(AppFrameWork.Android.HomeScreen.NucleousDevice);
+            if (btn == Button.MeasurementValueFromReferenceDevice)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.MeasurementValueFromReferenceDevice);
             if (btn == Button.Alogout)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.Alogout);
             if (btn == Button.AlogoutConfirm)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.AlogoutConfirm);
-
             if (btn == Button.ALoginButton)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.ALoginButton);
             if (btn == Button.ALoginContinue)
@@ -80,7 +79,8 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
 
         public enum EditText
         {
-            Nucleus,
+            ReferenceDeviceIDValue,
+            MeasurementValue,
             Moment
         }
 
@@ -99,8 +99,10 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         {
             switch (et)
             {
-                case EditText.Nucleus:
-                    return _instance.GetElement(SearchBy.Id, ObjectRepository.NucleousValue).Text;
+                case EditText.ReferenceDeviceIDValue:
+                    return _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceDeviceIDValue).Text;
+                case EditText.MeasurementValue:
+                    return _instance.GetElement(SearchBy.Id, ObjectRepository.MeasurementValue).Text;
                 case EditText.Moment:
                     return _instance.GetElement(SearchBy.Id, ObjectRepository.MomentValue).Text;
                 default:
@@ -163,8 +165,11 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         {
             switch (editText)
             {
-                case EditText.Nucleus:
-                    _instance.GetElement(SearchBy.Id, ObjectRepository.NucleousValue).SetText(value);
+                case EditText.ReferenceDeviceIDValue:
+                    _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceDeviceIDValue).SetText(value);
+                    break;
+                case EditText.MeasurementValue:
+                    _instance.GetElement(SearchBy.Id, ObjectRepository.MeasurementValue).SetText(value);
                     break;
                 default:
                     Logger.Info("Error: AppHomeScreen.GetText not implemented for " + editText.ToString());

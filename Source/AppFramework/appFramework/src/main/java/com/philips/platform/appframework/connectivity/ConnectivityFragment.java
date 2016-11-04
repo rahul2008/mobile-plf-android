@@ -9,6 +9,7 @@ package com.philips.platform.appframework.connectivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,30 +25,38 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
-import com.philips.pins.shinelib.SHNIntegerResultListener;
+import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.capabilities.CapabilityFirmwareUpdateDiComm;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
+import com.philips.pins.shinelib.dicommsupport.DiCommChannel;
+import com.philips.pins.shinelib.dicommsupport.DiCommPort;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
-import com.philips.pins.shineplugincopperlib.ShinePluginCopper;
+import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
+import com.philips.pins.shinelib.wrappers.SHNCapabilityFirmwareUpdateWrapper;
 import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
     private EditText editText = null;
     private EditText momentValueEditText = null;
-    private String editTextValue, momentId, nucleousValue;
+    private EditText deviceID = null;
+    private String editTextValue;
     private String accessTokenValue;
-
     private TextView connectionState;
     private SHNCentral shnCentral;
     private SHNDevice shineDevice;
-    private SHNDeviceDefinitionInfo shnDeviceDefinitionInfo;
+    private DicommDeviceMeasurementPort measPort = null;
+    private DeviceDefinitionInfoReferenceBoard deviceDefinitionInfoReferenceBoard;
     private User user;
     private ProgressDialog dialog = null;
     private TextView dataCoreErrorText;
-
+    private int measValue;
+	
     /**
      * Presenter object for Connectivity
      */
@@ -71,7 +80,8 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                              Bundle savedInstanceState) {
         connectivityPresenter = new ConnectivityPresenter(this, getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
-        editText = (EditText) rootView.findViewById(R.id.nucleous_value_editbox);
+        editText = (EditText) rootView.findViewById(R.id.measurement_value_editbox);
+        deviceID = (EditText) rootView.findViewById(R.id. reference_device_id_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
         dataCoreErrorText = (TextView) rootView.findViewById(R.id.datacre_error_text);
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
@@ -84,8 +94,8 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         try {
             Handler mainHandler = new Handler(getActivity().getMainLooper());
             shnCentral = new SHNCentral.Builder(getActivity().getApplicationContext()).setHandler(mainHandler).create();
-            shnDeviceDefinitionInfo = ShinePluginCopper.getSHNDeviceDefinitionInfo();//new SHNDeviceDefinitionInfoCopper();
-            shnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
+            deviceDefinitionInfoReferenceBoard = new DeviceDefinitionInfoReferenceBoard();
+            shnCentral.registerDeviceDefinition(deviceDefinitionInfoReferenceBoard);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             e.printStackTrace();
         }
@@ -141,14 +151,35 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
             public void onStateUpdated(SHNDevice shnDevice) {
                 connectionState.setText(shnDevice.getState().toString());
                 if (shnDevice.getState().toString() == "Connected") {
-                    SHNCapabilityBattery shnCapabilityBattery = setListenerAndReturnSHNCapabilityBattery();
-                    if (shnCapabilityBattery != null) {
-                        shnCapabilityBattery.getBatteryLevel(new SHNIntegerResultListener() {
-                            @Override
-                            public void onActionCompleted(int value, SHNResult result) {
-                                editText.setText(String.valueOf(value));
-                            }
-                        });
+                    try{
+                        SHNCapabilityFirmwareUpdateWrapper shnCapabilityFirmwareUpdate = (SHNCapabilityFirmwareUpdateWrapper) shineDevice.getCapabilityForType(SHNCapabilityType.FIRMWARE_UPDATE);
+                        Field fui = SHNCapabilityFirmwareUpdateWrapper.class.getDeclaredField("wrappedCapability");
+                        fui.setAccessible(true);
+                        Field firmwarePort = CapabilityFirmwareUpdateDiComm.class.getDeclaredField("firmwareDiCommPort");
+                        firmwarePort.setAccessible(true);
+                        DiCommPort port = (DiCommPort) firmwarePort.get(fui.get(shnCapabilityFirmwareUpdate));
+                        Field channel = DiCommPort.class.getDeclaredField("diCommChannel");
+                        channel.setAccessible(true);
+                        DiCommChannel diCommChannel = (DiCommChannel) channel.get(port);
+                        measPort = new DicommDeviceMeasurementPort(new Handler());
+                        diCommChannel.addPort(measPort);
+                        if (measPort != null) {
+                            measPort.reloadProperties(new SHNMapResultListener<String, Object>() {
+                                @Override
+                                public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
+                                    measValue = measPort.GetMeasurementValue();
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            editText.setText(String.valueOf((measValue)));
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                       e.printStackTrace();
                     }
                 }
             }
@@ -163,7 +194,8 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
             }
         };
-        shineDevice = shnCentral.createSHNDeviceForAddressAndDefinition("06:05:04:03:02:AB", shnDeviceDefinitionInfo);
+
+        shineDevice = shnCentral.createSHNDeviceForAddressAndDefinition( deviceID.getText().toString(), deviceDefinitionInfoReferenceBoard);
         shineDevice.registerSHNDeviceListener(shineDeviceListener);
         shineDevice.connect();
         connectionState.setText(shineDevice.getState().toString());

@@ -303,9 +303,9 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-SNAPSHOT', ext: 'aar', changing: true){
           transitive=true
     }
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.2.2', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.0', ext: 'aar')
-    compile(group: 'com.philips.cdp.shine', name: 'shineplugincopper', version: '0.3.2', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.0.1-SNAPSHOT', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.4-SNAPSHOT', ext: 'aar')
+    compile project(':pluginreferenceboard')
     testCompile 'junit:junit:4.12'
 
     testCompile 'junit:junit:4.12'
