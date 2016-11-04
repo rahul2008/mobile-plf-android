@@ -76,7 +76,7 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
 
         public enum EditText
         {
-            ReferenceIDValue,
+            ReferenceDeviceIDValue,
             MeasurementValue,
             Moment
         }
@@ -96,8 +96,8 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         {
             switch (et)
             {
-                case EditText.ReferenceIDValue:
-                    return _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceIDValue).Text;
+                case EditText.ReferenceDeviceIDValue:
+                    return _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceDeviceIDValue).Text;
                 case EditText.MeasurementValue:
                     return _instance.GetElement(SearchBy.Id, ObjectRepository.MeasurementValue).Text;
                 case EditText.Moment:
@@ -162,8 +162,8 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         {
             switch (editText)
             {
-                case EditText.ReferenceIDValue:
-                    _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceIDValue).SetText(value);
+                case EditText.ReferenceDeviceIDValue:
+                    _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceDeviceIDValue).SetText(value);
                     break;
                 case EditText.MeasurementValue:
                     _instance.GetElement(SearchBy.Id, ObjectRepository.MeasurementValue).SetText(value);

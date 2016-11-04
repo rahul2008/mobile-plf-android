@@ -1292,11 +1292,11 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                 return GetData("MeasurementValue");
             }
         }
-        public static string ReferenceIDValue
+        public static string ReferenceDeviceIDValue
         {
             get
             {
-                return GetData("ReferenceIDValue");
+                return GetData("ReferenceDeviceIDValue");
             }
 
         }

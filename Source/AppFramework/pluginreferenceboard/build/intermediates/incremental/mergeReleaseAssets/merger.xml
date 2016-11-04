@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\dev\reference_app_android\Source\AppFramework\pluginreferenceboard\src\main\assets"/><source path="C:\dev\reference_app_android\Source\AppFramework\pluginreferenceboard\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="C:\dev\reference_app_android\Source\AppFramework\pluginreferenceboard\src\release\assets"/></dataSet></merger>

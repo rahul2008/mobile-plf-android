@@ -56,6 +56,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private ProgressDialog dialog = null;
     private TextView dataCoreErrorText;
     private int measValue;
+	
     /**
      * Presenter object for Connectivity
      */
@@ -178,7 +179,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     }
                     catch (Exception e)
                     {
-                        int i = 0;
+                       e.printStackTrace();
                     }
                 }
             }

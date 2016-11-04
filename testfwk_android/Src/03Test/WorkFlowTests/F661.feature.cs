@@ -71,7 +71,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 #line 5
 this.ScenarioSetup(scenarioInfo);
 #line 6
-   testRunner.And("I am on the AppFramework Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("I am on the AppFramework Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 7
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
@@ -83,7 +83,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 11
  testRunner.Then("I am on end to end smoke test screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
- testRunner.Then("I enter reference device ID of \'70:5A:0F:EC:CF:35\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I enter ID of Reference Device as \'70:5A:0F:EC:CF:35\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
  testRunner.When("I connect to the BLE reference device and retrieve measurement value", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14

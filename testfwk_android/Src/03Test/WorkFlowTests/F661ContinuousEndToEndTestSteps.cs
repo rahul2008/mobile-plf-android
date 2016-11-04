@@ -31,10 +31,10 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             Thread.Sleep(2000);
         }
 
-        [Then(@"I enter reference device ID of '(.*)'")]
-        public void ThenIEnterReferenceDeviceIDOf(string p0)
+        [Then(@"I enter ID of Reference Device as '(.*)'")]
+        public void ThenIEnterIDOfReferenceDeviceAs(string p0)
         {
-            AppHomeScreen.EnterText(AppHomeScreen.EditText.ReferenceIDValue, p0);
+            AppHomeScreen.EnterText(AppHomeScreen.EditText.ReferenceDeviceIDValue, p0);
             Thread.Sleep(2000);
         }
 
@@ -47,9 +47,9 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             Thread.Sleep(10000);
            //AppHomeScreen.EnterText(AppHomeScreen.EditText.MeasurementValue, "30");
            //Thread.Sleep(2000);
-            string measurement_nucleus = AppHomeScreen.GetText(AppHomeScreen.EditText.MeasurementValue).Trim();
-            Logger.Info("Measurement value info: " + measurement_nucleus);
-            IapReport.Message("Measurement value info: " + measurement_nucleus);
+            string measurement_referencedevice = AppHomeScreen.GetText(AppHomeScreen.EditText.MeasurementValue).Trim();
+            Logger.Info("Measurement value info: " + measurement_referencedevice);
+            IapReport.Message("Measurement value info: " + measurement_referencedevice);
         }
 
         [Then(@"I verify the measurement value on screen shows '(.*)'")]
@@ -68,7 +68,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         {
             AppHomeScreen.Click(AppHomeScreen.Button.MomentValueFromDatacore);
             Thread.Sleep(5000);
-            string measurement_nucleus = AppHomeScreen.GetText(AppHomeScreen.EditText.MeasurementValue).Trim();
+            string measurement_referencedevice = AppHomeScreen.GetText(AppHomeScreen.EditText.MeasurementValue).Trim();
             string moment_value = AppHomeScreen.GetText(AppHomeScreen.EditText.Moment).Trim();
             Logger.Info("Moment measurement info: " + moment_value);
 
@@ -77,27 +77,27 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
                 Assert.Fail(AppHomeScreen.GetDatacoreErrorMsg());
             }
 
-            if (moment_value.Equals(measurement_nucleus))
+            if (moment_value.Equals(measurement_referencedevice))
             {
-                Logger.Info("Passed: measurement values are the same: " + measurement_nucleus);
-                IapReport.Message("Passed: measurement values are the same: " + measurement_nucleus);
+                Logger.Info("Passed: measurement values are the same: " + measurement_referencedevice);
+                IapReport.Message("Passed: measurement values are the same: " + measurement_referencedevice);
             }
             else
             {
-                Logger.Info("Failed: measurement values are not the same: " + measurement_nucleus + " : " + moment_value);
-                IapReport.Message("Failed: measurement values are not the same: " + measurement_nucleus + " : " + moment_value);
+                Logger.Info("Failed: measurement values are not the same: " + measurement_referencedevice + " : " + moment_value);
+                IapReport.Message("Failed: measurement values are not the same: " + measurement_referencedevice + " : " + moment_value);
             }
         }
 
         [Then(@"I verify the moment on screen shows '(.*)'")]
         public void ThenIVerifyTheMomentOnScreenShows(int p0)
         {
-            string measurement_nucleus = AppHomeScreen.GetText(AppHomeScreen.EditText.MeasurementValue).Trim();
+            string measurement_referencedevice = AppHomeScreen.GetText(AppHomeScreen.EditText.MeasurementValue).Trim();
             string moment_value = AppHomeScreen.GetText(AppHomeScreen.EditText.Moment).Trim();
             Assert.AreEqual(
                 p0, Convert.ToInt32(moment_value),
                 "Failed: Measurement values are not the same - " +
-                "Measurment value is: " + measurement_nucleus + ", Moment value is : " + moment_value
+                "Measurment value is: " + measurement_referencedevice + ", Moment value is : " + moment_value
             );
         }
 

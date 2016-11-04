@@ -45,7 +45,7 @@
     <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
     <VerticalSettings>com.philips.platform.referenceapp:id/ifo</VerticalSettings>
     <WelcomeScreen>com.philips.platform.referenceapp:id/welcome_slide_fragment_layout</WelcomeScreen>
-    <ReferenceIDValue>com.philips.platform.referenceapp:id/reference_device_id_editbox</ReferenceIDValue>
+    <ReferenceDeviceIDValue>com.philips.platform.referenceapp:id/reference_device_id_editbox</ReferenceDeviceIDValue>
     <MeasurementValue>com.philips.platform.referenceapp:id/measurement_value_editbox</MeasurementValue>
     <MomentValue>com.philips.platform.referenceapp:id/moment_value_editbox</MomentValue>
     <MeasurementValueFromReferenceDevice>com.philips.platform.referenceapp:id/start_connectivity_button</MeasurementValueFromReferenceDevice>
