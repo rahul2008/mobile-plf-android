@@ -25,7 +25,6 @@ import butterknife.OnCheckedChanged;
 public class ButtonFragment extends BaseFragment {
     private Drawable shareDrawable;
     private boolean showingIcons;
-    private View fragmentBinding;
 
     @Bind(R.id.toggleicon)
     SwitchCompat toggleIcons;
