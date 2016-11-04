@@ -31,6 +31,7 @@
     <PhilipsAnnouncementLink>com.philips.cdp.di.iapdemo:id/tv_reg_philips_news</PhilipsAnnouncementLink>
     <BackButton>com.philips.cdp.di.iapdemo:id/reg_btn_back</BackButton>
   </AccountSettings>
+  
   <AppFramework>
     <AppFrameworkHomeScreen>com.philips.platform.referenceapp:id/af_actionbar_title</AppFrameworkHomeScreen>
     <!--<HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon> -->

@@ -3401,6 +3401,148 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
         }
     }
 
+    public class ProductRegistration
+    {
+        static XmlDocument doc = new XmlDocument();
+        static string GetData(string element)
+        {
+            string retVal = string.Empty;
+            if (doc.BaseURI == "")
+            {
+                string filepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Repository_ProductRegistration.xml");
+                doc.Load(filepath);
+            }
+            XmlNode n1 = doc.GetElementsByTagName(element)[0];
+            if (n1 != null)
+                retVal = n1.InnerText;
+            return retVal;
+
+        }
+        public static class Android
+        {
+            public static class HomeScreen
+            {
+                public static string ProductReg
+                {
+                    get
+                    {
+                        return GetData("ProductReg");
+                    }
+
+                }
+
+
+                public static string PR_shopicon
+                {
+                    get
+                    {
+                        return GetData("PR_shopicon");
+                    }
+
+                }
+
+                public static string PR_Hamburgericon
+                {
+                    get
+                    {
+                        return GetData("PR_Hamburgericon");
+                    }
+
+                }
+
+                public static string PROK
+                {
+                    get
+                    {
+                        return GetData("PROK");
+                    }
+
+                }
+
+                public static string PRCancel
+                {
+                    get
+                    {
+                        return GetData("PRCancel");
+                    }
+
+                }
+
+
+                public static string PRSuccess
+                {
+                    get
+                    {
+                        return GetData("PRSuccess");
+                    }
+
+                }
+
+                public static string AuroraCTN
+                {
+                    get
+                    {
+                        return GetData("AuroraCTN");
+                    }
+
+                }
+
+                public static string PRContinue
+                {
+                    get
+                    {
+                        return GetData("PRContinue");
+                    }
+
+                }
+                public static string PRBack
+                {
+                    get
+                    {
+                        return GetData("PRBack");
+                    }
+
+                }
+                public static string RepeatPRText
+                {
+                    get
+                    {
+                        return GetData("RepeatPRText");
+                    }
+
+                }
+                public static string PRheader
+                {
+                    get
+                    {
+                        return GetData("PRheader");
+                    }
+
+                }
+
+                public static string DatePurchase
+                {
+                    get
+                    {
+                        return GetData("DatePurchase");
+                    }
+
+                }
+
+                public static string PRRegister
+                {
+                    get
+                    {
+                        return GetData("PRRegister");
+                    }
+
+                }  
+                
+            }
+        }
+
+    }
+
 
 }
 
