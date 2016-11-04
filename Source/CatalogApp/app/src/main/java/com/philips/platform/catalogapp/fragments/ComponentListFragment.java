@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.platform.catalogapp.MainActivity;
+import com.philips.platform.catalogapp.NavigationController;
 import com.philips.platform.catalogapp.R;
 
 import java.util.Comparator;
@@ -27,19 +28,21 @@ import java.util.TreeMap;
 public class ComponentListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
     ListView listView;
+    private NavigationController navigationController;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_component_list, container, false);
         listView = (ListView) view.findViewById(R.id.componentList);
+        navigationController = ((MainActivity) getActivity()).getNavigationController();
         setListItems();
         return view;
     }
 
     private void setListItems() {
         String[] strings = getDemoItems().values().toArray(new String[1]);
-        listView.setAdapter(new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, strings));
+        listView.setAdapter(new ArrayAdapter<>(this.getContext(), R.layout.component_list_text, strings));
         listView.setOnItemClickListener(this);
     }
 
@@ -47,6 +50,8 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Buttons");
         itemsMap.put(1, "TextBox");
+        itemsMap.put(2, getString(R.string.page_tittle_settings));
+        itemsMap.put(3, getString(R.string.page_tittle_alertDialog));
         return sortMap(itemsMap);
     }
 
@@ -73,10 +78,16 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         // TODO: 9/13/2016 : Handle this properly with enums. Right now enable so that we can test buttons
         switch (key) {
             case 0:
-                ((MainActivity) getActivity()).showFragment(new ButtonFragment());
+                navigationController.switchFragment(new ButtonFragment());
                 break;
             case 1:
-                ((MainActivity) getActivity()).showFragment(new TextEditBoxFragment());
+                navigationController.switchFragment(new TextEditBoxFragment());
+                break;
+            case 2:
+                navigationController.switchFragment(new ToggleSwitchFragment());
+                break;
+            case 3:
+                navigationController.switchFragment(new AlertDialogFragment());
                 break;
         }
     }

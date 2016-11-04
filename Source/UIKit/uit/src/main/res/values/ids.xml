@@ -2,4 +2,5 @@
 <resources>
     <item name="uit_texteditbox_stroke_drawable" type="id"/>
     <item name="uit_texteditbox_fill_drawable" type="id"/>
+    <item name="uid_id_switch_track" type="id"/>
 </resources>

@@ -15,25 +15,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.databinding.FragmentButtonsAllBinding;
+import com.philips.platform.catalogapp.databinding.FragmentButtonsBinding;
 import com.philips.platform.uit.view.widget.Button;
 
 public class ButtonFragment extends BaseFragment {
     public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean showExtraWideButtons = new ObservableBoolean(Boolean.TRUE);
 
-    Drawable shareDrawable;
-    FragmentButtonsAllBinding fragmentBinding;
-    boolean showingIcons;
+    private Drawable shareDrawable;
+    private boolean showingIcons;
+    private FragmentButtonsBinding fragmentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons_all, container, false);
+        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons, container, false);
         fragmentBinding.setFrag(this);
         shareDrawable = getShareIcon();
         restoreViews(savedInstanceState);
-        fragmentBinding.imageShare.setImageDrawable(shareDrawable);
-        fragmentBinding.quietIconOnly.setVectorResource(R.drawable.share);
+        fragmentBinding.imageShare.setImageDrawable(getShareIcon());
+        fragmentBinding.quietIconOnly.setImageDrawable(getShareIcon());
         return fragmentBinding.getRoot();
     }
 

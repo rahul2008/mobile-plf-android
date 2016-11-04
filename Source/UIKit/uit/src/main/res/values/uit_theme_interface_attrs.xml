@@ -59,4 +59,18 @@
     <declare-styleable name="UITActionBar">
         <attr name="uitActionBarBackground" format="reference|color"/>
     </declare-styleable>
+    <declare-styleable name="UIDSwitch">
+        <attr name="uidSwitchThumbColor" format="reference|color"/>
+        <attr name="uidSwitchThumbColorList" format="reference|color"/>
+        <attr name="uidSwitchThumbDisabledColor" format="reference|color"/>
+        <attr name="uidSwitchTrackOnColor" format="reference|color"/>
+        <attr name="uidSwitchTrackOffColor" format="reference|color"/>
+        <attr name="uidSwitchTrackOffAlpha" format="reference|float"/>
+        <attr name="uidSwitchTrackColorList" format="reference|color"/>
+        <attr name="uidSwitchTrackDisabledColor" format="reference|color"/>
+        <attr name="uidSwitchTrackDisabledAlpha" format="reference|float"/>
+        <attr name="uidSwitchBorderColor" format="reference|color"/>
+        <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
+        <attr name="uidSwitchBorderColorList" format="reference|color"/>
+    </declare-styleable>
 </resources>

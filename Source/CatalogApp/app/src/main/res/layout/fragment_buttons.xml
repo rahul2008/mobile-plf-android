@@ -31,7 +31,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/with_icon"/>
 
-                <Switch
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/extra_wide"/>
 
-                <Switch
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleextraWide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,12 +78,13 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/disabled"/>
 
-                <Switch
+                <com.philips.platform.uit.view.widget.Switch
                     android:id="@+id/toggleDisable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
+                    android:checked="false"
                     android:gravity="center_vertical|end"
                     android:onCheckedChanged="@{(v, isChecked) -> frag.disableButtons(isChecked)}"/>
 

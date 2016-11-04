@@ -8,11 +8,13 @@
     <style name="BaseLayoutMargins">
         <item name="android:background">?attr/uitContentPrimary</item>
     </style>
+
     <style name="BaseLayoutMargins.Dimens">
         <item name="android:layout_height">@dimen/layout_height</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
     <style name="TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?attr/uitColorLevel75</item>

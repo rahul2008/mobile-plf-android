@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 
+import com.philips.platform.uit.utils.UIDUtils;
 import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.hamcrest.Matcher;
@@ -40,12 +41,18 @@ public class FunctionDrawableMatchers {
             }
         };
     }
+
     public static Matcher<View> isSameWidth(final String funcName, final int expectedValue) {
+        return isSameWidth(funcName, expectedValue, -1);
+    }
+
+    public static Matcher<View> isSameWidth(final String funcName, final int expectedValue, final int drawableID) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
+                Drawable drawable = getDrawable(view, funcName, drawableID);
                 BaseTypeSafteyMatcher<Drawable> widthMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameWidth(expectedValue);
-                boolean matches = widthMatcher.matches(UITTestUtils.getDrawableWithReflection(view, funcName));
+                boolean matches = widthMatcher.matches(drawable);
                 setValues(widthMatcher.actual, widthMatcher.expected);
                 return matches;
             }
@@ -108,7 +115,7 @@ public class FunctionDrawableMatchers {
 
     private static Drawable getDrawable(final View view, final String funcName, final int drawableID) {
         Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
-        if (drawable instanceof LayerDrawable) {
+        if (drawable instanceof LayerDrawable && drawableID != -1) {
             drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
         }
         return drawable;
@@ -144,6 +151,40 @@ public class FunctionDrawableMatchers {
                 BaseTypeSafteyMatcher<Drawable> strokeMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameStrokeWidth(expectedValue);
                 boolean matches = strokeMatcher.matches(drawable);
                 setValues(strokeMatcher.actual, strokeMatcher.expected);
+                return matches;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameRippleRadius(final String funcName, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if(!UIDUtils.isMinLollipop()) {
+                    return true; //RippleDrawable not supported before 5.0
+                }
+
+                Drawable drawable = getDrawable(view, funcName, -1);
+                BaseTypeSafteyMatcher<Drawable> radMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameRippleRadius(expectedValue);
+                boolean matches = radMatcher.matches(drawable);
+                setValues(radMatcher.actual, radMatcher.expected);
+                return matches;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameRippleColor(final String funcName, final int attr, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if(!UIDUtils.isMinLollipop()) {
+                    return true; //RippleDrawable not supported before 5.0
+                }
+
+                Drawable drawable = getDrawable(view, funcName, -1);
+                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameRippleColor(attr, expectedValue);
+                boolean matches = colorMatcher.matches(drawable);
+                setValues(colorMatcher.actual, colorMatcher.expected);
                 return matches;
             }
         };

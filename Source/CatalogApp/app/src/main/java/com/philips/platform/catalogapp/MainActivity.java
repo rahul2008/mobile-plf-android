@@ -158,4 +158,8 @@ public class MainActivity extends AppCompatActivity {
     public void showFragment(final BaseFragment fragment) {
         navigationController.switchFragment(fragment);
     }
+
+    public NavigationController getNavigationController() {
+        return navigationController;
+    }
 }

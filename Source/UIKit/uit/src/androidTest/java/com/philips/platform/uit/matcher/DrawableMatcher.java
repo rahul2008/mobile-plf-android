@@ -99,4 +99,29 @@ public class DrawableMatcher {
             }
         };
     }
+
+    public static Matcher<Drawable> isSameRippleRadius(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getRippleRadius()), String.valueOf(expectedValue));
+                return stateColors.getRippleRadius() == expectedValue;
+            }
+        };
+    }
+
+
+    public static Matcher<Drawable> isSameRippleColor(final int attr, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                setValues(String.valueOf(stateColors.getRippleColor(attr)), String.valueOf(expectedValue));
+                return stateColors.getRippleColor(attr) == expectedValue;
+            }
+        };
+    }
 }

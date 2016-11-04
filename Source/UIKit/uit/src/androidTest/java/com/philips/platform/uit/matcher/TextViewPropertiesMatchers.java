@@ -60,8 +60,7 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     setValues(String.valueOf(((TextView) view).getCompoundDrawablePadding()), String.valueOf(expectedValue));
-                    return ((TextView) view).getCompoundDrawablePadding()== expectedValue;
-
+                    return ((TextView) view).getCompoundDrawablePadding() == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
@@ -77,7 +76,7 @@ public class TextViewPropertiesMatchers {
                     Drawable[] drawables = ((TextView) view).getCompoundDrawables();
                     if (drawables != null && drawables[index] != null) {
                         final BaseTypeSafteyMatcher<Drawable> heightMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameHeight(expectedValue);
-                        boolean result =  heightMatcher.matches(drawables[index]);
+                        boolean result = heightMatcher.matches(drawables[index]);
                         setValues(heightMatcher.actual, heightMatcher.expected);
                         return result;
                     }
@@ -97,7 +96,7 @@ public class TextViewPropertiesMatchers {
                     Drawable[] drawables = ((TextView) view).getCompoundDrawables();
                     if (drawables != null && drawables[index] != null) {
                         final BaseTypeSafteyMatcher<Drawable> widthMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameWidth(expectedValue);
-                        boolean result =  widthMatcher.matches(drawables[index]);
+                        boolean result = widthMatcher.matches(drawables[index]);
                         setValues(widthMatcher.actual, widthMatcher.expected);
                         return result;
                     }
@@ -108,23 +107,23 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameCompoundDrawableColor(final int index,  final int state, final int expectedValue) {
+    public static Matcher<View> isSameCompoundDrawableColor(final int index, final int state, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     Drawable[] drawables = ((TextView) view).getCompoundDrawables();
-                    if (drawables != null && drawables[index] != null){
+                    if (drawables != null && drawables[index] != null) {
                         final BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
-                        boolean result =  colorMatcher.matches(drawables[index]);
+                        boolean result = colorMatcher.matches(drawables[index]);
 
                         setValues(colorMatcher.actual, colorMatcher.expected);
                         return result;
                     }
-                    return false;}
-                throw new RuntimeException("expected TextView got " +view.getClass().getName());
+                    return false;
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
         };
     }
-
 }
