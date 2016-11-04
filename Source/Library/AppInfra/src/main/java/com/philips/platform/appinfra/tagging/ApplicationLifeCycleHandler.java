@@ -36,7 +36,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
         if (isInBackground) {
 
-        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in ForeGround");
+        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "ForeGround");
         Log.i("onResumed", "Resumed");
 
             isInBackground = false;
@@ -76,7 +76,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onTrimMemory(int i) {
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             Log.i("AppBackground", "AppisInBackground "+i+"  "+ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN);
-            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in Background");
+            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "Background");
             isInBackground = true;
         }
     }
