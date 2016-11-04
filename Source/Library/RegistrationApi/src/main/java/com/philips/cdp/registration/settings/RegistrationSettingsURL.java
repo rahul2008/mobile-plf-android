@@ -79,21 +79,26 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());
         RLog.d(RLog.SERVICE_DISCOVERY, "Locale : " + locale);
 
-        if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.STAGING)) ||
-                appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.EVALUATION))) {
-            jumpConfig.engageAppId = "jgehpoggnhbagolnihge";
-            jumpConfig.captureAppId = "nt5dqhp6uck5mcu57snuy8uk6c";
-        } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.PRODUCTION))) {
-            jumpConfig.engageAppId = "ddjbpmgpeifijdlibdio";
-            jumpConfig.captureAppId = "hffxcm638rna8wrxxggx2gykhc";
-        } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.DEVELOPMENT))) {
-            jumpConfig.engageAppId = "bdbppnbjfcibijknnfkk";
-            jumpConfig.captureAppId = "euwkgsf83m56hqknjxgnranezh";
-            // previews it was "eupac7ugz25x8dwahvrbpmndf8"
-        } else if (appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.TESTING)) ||
-                appIdentity.getAppState().toString().equalsIgnoreCase(String.valueOf(Configuration.TEST))) {
-            jumpConfig.engageAppId = "fhbmobeahciagddgfidm";
-            jumpConfig.captureAppId = "vdgkb3z57jpv93mxub34x73mqu";
+        switch (appIdentity.getAppState()) {
+            case STAGING:
+            case ACCEPTANCE:
+                jumpConfig.engageAppId = "jgehpoggnhbagolnihge";
+                jumpConfig.captureAppId = "nt5dqhp6uck5mcu57snuy8uk6c";
+                break;
+            case PRODUCTION:
+                jumpConfig.engageAppId = "ddjbpmgpeifijdlibdio";
+                jumpConfig.captureAppId = "hffxcm638rna8wrxxggx2gykhc";
+                break;
+            case DEVELOPMENT:
+                jumpConfig.engageAppId = "bdbppnbjfcibijknnfkk";
+                jumpConfig.captureAppId = "eupac7ugz25x8dwahvrbpmndf8";
+                break;
+            case TEST:
+                jumpConfig.engageAppId = "fhbmobeahciagddgfidm";
+                jumpConfig.captureAppId = "x7nftvwfz8e8vcutz49p8eknqp";
+                break;
+            default:
+                throw new RuntimeException("Invalid app state " + appIdentity.getAppState());
         }
 
         initServiceDiscovery(locale);
