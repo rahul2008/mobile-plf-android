@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+    >
 
 
     <LinearLayout
@@ -13,34 +14,41 @@
 
         <ImageView
             android:id="@+id/device_image"
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_marginTop="@dimen/pr_top_padding_sm"/>
 
         <TextView
+            fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_top_padding_sm"
             android:text="@string/PPR_Find_Serial_Number"
-            android:textColor="?attr/uikit_verydarkBaseColor"/>
+            android:textColor="?attr/uikit_verydarkBaseColor"
+            android:textSize="18sp"/>
 
         <TextView
+            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_d_value_sm"
             android:text="@string/PPR_find_serial_number_help_message"
-            android:textColor="?attr/uikit_baseColor"/>
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/serial_number_guide_text"
+            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_d_value_sm"
             android:textColor="?attr/uikit_baseColor"
+            android:textSize="16sp"
             />
 
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/ok_found_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/pr_d_value_sm"

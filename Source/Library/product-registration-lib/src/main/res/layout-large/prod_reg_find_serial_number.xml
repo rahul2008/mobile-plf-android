@@ -13,33 +13,41 @@
 
         <ImageView
             android:id="@+id/device_image"
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="170dp"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/pr_top_padding_sm_tablet"/>
 
         <TextView
+            fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_top_padding_sm_tablet"
             android:text="@string/PPR_Find_Serial_Number"
-            android:textColor="?attr/uikit_verydarkBaseColor"/>
+            android:textColor="?attr/uikit_verydarkBaseColor"
+            android:textSize="22sp"/>
 
         <TextView
+            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_d_value_tablet"
             android:text="@string/PPR_find_serial_number_help_message"
-            android:textColor="?attr/uikit_baseColor"/>
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/serial_number_guide_text"
+            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_d_value_tablet"
             android:textColor="?attr/uikit_baseColor"
+            android:textSize="20sp"
             />
 
         <Button
+            android:id="@+id/ok_found_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
