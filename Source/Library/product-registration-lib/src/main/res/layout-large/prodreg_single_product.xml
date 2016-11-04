@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_image"
-            android:layout_marginTop="@dimen/pr_c_value_tablet"
+            android:layout_marginTop="@dimen/pr_top_padding_sm"
             android:orientation="vertical">
 
 
@@ -78,35 +78,12 @@
                 android:textColor="?attr/uikit_LightColor"
                 android:textSize="16sp"/>
 
+
             <LinearLayout
                 android:id="@+id/serial_number_error_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <com.shamanland.fonticon.FontIconTextView
-                    fontPath="fonts/puicon.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="19dp"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/uikit_fonticon_cross"
-                    android:textColor="?attr/uikit_erroriconcolorinlineforms"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/serialErrorTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/uikit_erroriconcolorinlineforms"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/pr_registration_margin_top"
                 android:orientation="horizontal">
 
                 <TextView
@@ -118,6 +95,7 @@
                     android:textColor="@color/uikit_white"/>
 
                 <TextView
+                    android:id="@+id/serialErrorTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"

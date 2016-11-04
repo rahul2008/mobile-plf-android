@@ -31,6 +31,7 @@
     <dimen name="pr_left_padding_sm">33dp</dimen>
     <dimen name="pr_right_padding_sm">33dp</dimen>
     <dimen name="pr_top_padding_sm">33dp</dimen>
+    <dimen name="pr_top_padding_sm_tablet">53dp</dimen>
     <dimen name="pr_bottom_padding_sm">33dp</dimen>
     <dimen name="pr_registration_margin_top">12dp</dimen>
     <dimen name="pr_registration_margin_bottom">12dp</dimen>
