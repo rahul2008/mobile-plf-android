@@ -37,8 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
-                    android:gravity="center_vertical|end"
-                    android:onCheckedChanged="@{(v, isChecked) -> frag.toggleIcons(isChecked)}"/>
+                    android:gravity="center_vertical|end"/>
             </LinearLayout>
 
             <include layout="@layout/divider_layout"/>
@@ -61,8 +60,7 @@
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:gravity="center_vertical|end"
-                    android:onCheckedChanged="@{(v, isChecked) -> frag.toggleExtraWideButtons(isChecked)}"/>
+                    android:gravity="center_vertical|end"/>
             </LinearLayout>
 
             <include layout="@layout/divider_layout"/>
@@ -85,8 +83,7 @@
                     android:layout_marginRight="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:checked="false"
-                    android:gravity="center_vertical|end"
-                    android:onCheckedChanged="@{(v, isChecked) -> frag.disableButtons(isChecked)}"/>
+                    android:gravity="center_vertical|end"/>
 
             </LinearLayout>
 

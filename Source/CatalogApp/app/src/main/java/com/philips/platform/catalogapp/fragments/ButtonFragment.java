@@ -4,19 +4,25 @@
  */
 package com.philips.platform.catalogapp.fragments;
 
+import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentButtonsBinding;
 import com.philips.platform.uit.view.widget.Button;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ButtonFragment extends BaseFragment {
     public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
@@ -26,6 +32,16 @@ public class ButtonFragment extends BaseFragment {
     private boolean showingIcons;
     private FragmentButtonsBinding fragmentBinding;
 
+    @Bind(R.id.toggleicon)
+    SwitchCompat toggleIcons;
+
+    @Bind(R.id.toggleextraWide)
+    SwitchCompat toggleExtrawide;
+
+    @Bind(R.id.toggleDisable)
+    SwitchCompat toggleDisable;
+
+    @SuppressLint("WrongViewCast")
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_buttons, container, false);
@@ -34,7 +50,41 @@ public class ButtonFragment extends BaseFragment {
         restoreViews(savedInstanceState);
         fragmentBinding.imageShare.setImageDrawable(getShareIcon());
         fragmentBinding.quietIconOnly.setImageDrawable(getShareIcon());
-        return fragmentBinding.getRoot();
+        final View root = fragmentBinding.getRoot();
+        ButterKnife.bind(this, root);
+        initToggleIcon();
+
+        initExtrawide();
+
+        initDisable();
+        return root;
+    }
+
+    private void initDisable() {
+        toggleDisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                disableButtons(isChecked);
+            }
+        });
+    }
+
+    private void initExtrawide() {
+        toggleExtrawide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                toggleExtraWideButtons(isChecked);
+            }
+        });
+    }
+
+    private void initToggleIcon() {
+        toggleIcons.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                toggleIcons(isChecked);
+            }
+        });
     }
 
     private void restoreViews(Bundle savedInstance) {
