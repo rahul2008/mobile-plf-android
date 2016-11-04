@@ -61,8 +61,6 @@ public class AppFrameworkApplication extends Application {
         iapState.init(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
-
-
     }
 
     public IAPState getIap() {

@@ -222,6 +222,15 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     }
 
     @Override
+    public String getHSDHsdpUrl(){
+
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        Object propertyForKey = gAppInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
+        return propertyForKey.toString();
+    }
+
+    @Override
     public void onFailure(final RetrofitError error) {
         if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
             Log.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");

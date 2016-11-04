@@ -228,7 +228,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface{
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers;
 
-        if (status == 401 || status == 400) {
+        if (status == HttpURLConnection.HTTP_UNAUTHORIZED || status == HttpURLConnection.HTTP_FORBIDDEN) {
             integers = urMap.keySet();
             if (integers.contains(EventHelper.UR)) {
                 ArrayList<UserRegistrationFailureListener> dbChangeListeners = EventHelper.getInstance().getURMap().get(EventHelper.UR);

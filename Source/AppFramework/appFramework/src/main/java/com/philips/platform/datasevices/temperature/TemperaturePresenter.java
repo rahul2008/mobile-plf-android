@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -99,11 +98,6 @@ public class TemperaturePresenter extends UIBasePresenter {
         } else {
             mDataServices.save(mMoment);
         }
-    }
-
-    public void startSync() {
-        Log.i("***SPO***", "In Presenter");
-        mDataServices.synchchronize();
     }
 
 
