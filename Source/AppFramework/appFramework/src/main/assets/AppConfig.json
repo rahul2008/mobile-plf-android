@@ -6,7 +6,7 @@
     "JanRainConfiguration.RegistrationClientID.STAGING": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
     "JanRainConfiguration.RegistrationClientID.PRODUCTION": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
     "PILConfiguration.MicrositeID": "11400",
-    "PILConfiguration.RegistrationEnvironment": "TESTING",
+    "PILConfiguration.RegistrationEnvironment": "STAGING",
     "Flow.EmailVerificationRequired" : "true",
     "Flow.TermsAndConditionsAcceptanceRequired" : "true",
     "Flow.MinimumAgeLimit" :  "{ \"NL\":12 ,\"GB\":0,\"default\": 16}",
@@ -20,7 +20,7 @@
   "appinfra": {
     "appidentity.micrositeId" : "11400",
     "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "TEST",
+    "appidentity.appState"  : "STAGING",
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION"
 
   }
