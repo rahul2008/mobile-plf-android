@@ -36,7 +36,7 @@ import java.util.TimeZone;
 public class AppTagging implements AppTaggingInterface {
 
     private String mLanguage;
-    private String prevPage;
+    private static String prevPage;
 
     private final AppInfra mAppInfra;
     protected String mComponentID;
