@@ -25,7 +25,7 @@ import java.util.Locale;
  */
 public class AppFrameworkApplication extends Application {
     public UIFlowManager flowManager;
-    private static Context context;
+    private Context context;
     public static AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
     UserRegistrationState userRegistrationState;
@@ -84,9 +84,4 @@ public class AppFrameworkApplication extends Application {
         return flowManager;
     }
 
-    public static Context getContext() {
-        return context;
-    }
-
-
-    }
+       }
