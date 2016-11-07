@@ -43,7 +43,6 @@ import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
 import java.util.ArrayList;
 /**
  * This is the Main activity which host the main hamburger menu
@@ -114,7 +113,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                     adapter.notifyDataSetChanged();
                     sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
-                    
+
                 }
             }
         });
