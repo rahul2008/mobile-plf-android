@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
-import cdp.philips.com.mydemoapp.database.ORMDeletingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.OrmDeletingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.ORMUpdatingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmCreator;
@@ -128,7 +128,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     measurementDetailDao, synchronisationDataDao);
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving,updating,fetching,deleting,uGrowDateTime);
-            ORMDeletingInterfaceImpl ORMDeletingInterfaceImpl = new ORMDeletingInterfaceImpl(deleting,saving);
+            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting,saving);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving,updating,fetching,deleting);
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao);
 
