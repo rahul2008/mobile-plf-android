@@ -69,7 +69,7 @@ namespace UserRegistration_TestPlugin
             try
             {
                 if (btn == Button.Logout)
-                    isVisibe = _instance.GetElement(SearchBy.Name, "Log Out").Displayed;
+                    isVisibe = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.LogoutName).Displayed;
             }
             catch (Exception e)
             {
@@ -85,7 +85,7 @@ namespace UserRegistration_TestPlugin
             try
             {
                 if (btn == Button.Logout)
-                    isEnable = _instance.GetElement(SearchBy.Name, "Log Out").Enabled;
+                    isEnable = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.LogoutName).Enabled;
             }
             catch (Exception e)
             {
@@ -120,7 +120,7 @@ namespace UserRegistration_TestPlugin
             if (btn == Button.Back_Home)
                 _instance.GetElement(SearchBy.Id, UserRegistration.Android.AccountSetting.Back).Click();
             else if (btn == Button.Logout)
-                _instance.GetElement(SearchBy.Name, "Log Out").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.LogoutName).Click();
         }
 
         public static void Click(CheckBox chkBox)

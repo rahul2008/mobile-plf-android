@@ -142,7 +142,7 @@ namespace UserRegistration_TestPlugin
         public static bool Setting_Login_Screen()
         {
             bool bVisible = false;
-            if (Setting_GetHeader() == "Log In")
+            if (Setting_GetHeader() == UserRegistration.Android.HomeScreen.LogInHeader)
                 bVisible = true;
             return bVisible;
         }
@@ -172,11 +172,11 @@ namespace UserRegistration_TestPlugin
                 if (btn == Button.Create_PhilipsAccount)
                     isVisible = _instance.GetElement(SearchBy.Id, UserRegistration.Android.Registration.CreatePhilipsAccount).Displayed;
                 if (btn == Button.Philips_Account)
-                    isVisible = _instance.GetElement(SearchBy.Name, "Philips account").Displayed;
+                    isVisible = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.PhilipsAccountName).Displayed;
                 if (btn == Button.Facebook)
-                    isVisible = _instance.GetElement(SearchBy.Name, "Facebook").Displayed;
+                    isVisible = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.FacebookName).Displayed;
                 if (btn == Button.Google_plus)
-                    isVisible = _instance.GetElement(SearchBy.Name, "Google+").Displayed;
+                    isVisible = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.GoogleName).Displayed;
                 if (btn == Button.Logout)
                     isVisible = _instance.GetElement(SearchBy.Id, UserRegistration.Android.Registration.Logout).Displayed;
                 if (btn == Button.Merge)
@@ -205,11 +205,11 @@ namespace UserRegistration_TestPlugin
                 if (btn == Button.Create_PhilipsAccount)
                     isEnable = _instance.GetElement(SearchBy.Id, UserRegistration.Android.Registration.CreatePhilipsAccount).Enabled;
                 if (btn == Button.Philips_Account)
-                    isEnable = _instance.GetElement(SearchBy.Name, "Philips account").Enabled;
+                    isEnable = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.PhilipsAccountName).Enabled;
                 if (btn == Button.Facebook)
-                    isEnable = _instance.GetElement(SearchBy.Name, "Facebook").Enabled;
+                    isEnable = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.FacebookName).Enabled;
                 if (btn == Button.Google_plus)
-                    isEnable = _instance.GetElement(SearchBy.Name, "Google+").Enabled;
+                    isEnable = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.GoogleName).Enabled;
                 if (btn == Button.TermsConditions)
                     isEnable = _instance.GetElement(SearchBy.Id, UserRegistration.Android.CreateAccount.Checkbox).Enabled;
             }
@@ -239,11 +239,11 @@ namespace UserRegistration_TestPlugin
             if (btn == Button.Create_PhilipsAccount)
                 _instance.GetElement(SearchBy.Id, UserRegistration.Android.Registration.CreatePhilipsAccount).Click();
             if (btn == Button.Philips_Account)
-                _instance.GetElement(SearchBy.Name, "Philips account").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.PhilipsAccountName).Click();
             if (btn == Button.Facebook)
-                _instance.GetElement(SearchBy.Name, "Facebook").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.FacebookName).Click();
             if (btn == Button.Google_plus)
-                _instance.GetElement(SearchBy.Name, "Google+").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.GoogleName).Click();
             if (btn == Button.Back_Home)
                 _instance.ClickById(UserRegistration.Android.Registration.LoginBack);
             if (btn == Button.Logout)
@@ -256,7 +256,7 @@ namespace UserRegistration_TestPlugin
                 _instance.GetElementByXpath(UserRegistration.Android.HomeScreen.SocialMergeGoogle).Click();
             if (btn == Button.LogintoGoogle)
             {
-                List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.Button");
+                List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.LogintoGoogle);
                 if (control != null)
                 {
                     control[0].Click();
@@ -354,7 +354,7 @@ namespace UserRegistration_TestPlugin
             try
             {
                 if (txt == TextBox.Enter_Email)
-                    editable = _instance.GetElement(SearchBy.Name, "Please enter your email address").Enabled;
+                    editable = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.EmailEnterText).Enabled;
             }
             catch (Exception e)
             {
@@ -402,7 +402,7 @@ namespace UserRegistration_TestPlugin
         /// <param name="email"></param>
         public static void Entry_Email(string email)
         {
-            IMobilePageControl cnt = _instance.GetElement(SearchBy.Name, "Please enter your email address");
+            IMobilePageControl cnt = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.EmailEnterText);
             if (cnt != null)
             {
                 cnt.Clear();
@@ -436,7 +436,7 @@ namespace UserRegistration_TestPlugin
 
         public static void Continue_Facebook()
         {
-            List<IMobilePageControl> cnt2 = _instance.GetElements(SearchBy.ClassName, "android.widget.Button");
+            List<IMobilePageControl> cnt2 = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.LogintoGoogle);
             for (var m = 0; m < cnt2.Count; m++)
             {
                 string a1 = cnt2[m].GetAttribute("name");
@@ -453,7 +453,7 @@ namespace UserRegistration_TestPlugin
             IMobilePageControl homeScreenElement = null;
             while (homeScreenElement == null)
             {
-                homeScreenElement = _instance.GetElement(SearchBy.ClassName, "android.widget.Button");
+                homeScreenElement = _instance.GetElement(SearchBy.ClassName, UserRegistration.Android.HomeScreen.LogintoGoogle);
                 loopCount++;
                 if (homeScreenElement != null)
                     break;
@@ -478,7 +478,7 @@ namespace UserRegistration_TestPlugin
         }
         public static void Enter_FBEmail(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -488,7 +488,7 @@ namespace UserRegistration_TestPlugin
         }
         public static void Enter_FbPassword(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control.Skip(1))
             {
                 cnt.Click();
@@ -500,7 +500,7 @@ namespace UserRegistration_TestPlugin
         public static void Click(Button btn)
         {
             if (btn == Button.LogIn)
-                _instance.GetElement(SearchBy.ClassName, "android.widget.Button").Click();
+                _instance.GetElement(SearchBy.ClassName, UserRegistration.Android.HomeScreen.LogintoGoogle).Click();
         }
 
         public static string GetSocialMergeTxt()
@@ -512,7 +512,7 @@ namespace UserRegistration_TestPlugin
         public static bool GetSocialMerge_Screen()
         {
             bool bVisible = false;
-            if (GetSocialMergeTxt() == "Welcome!")
+            if (GetSocialMergeTxt() == UserRegistration.Android.HomeScreen.WelcomeTextMerge)
                 bVisible = true;
             return bVisible;
         }
@@ -555,7 +555,7 @@ namespace UserRegistration_TestPlugin
             IMobilePageControl homeScreenElement = null;
             while (homeScreenElement == null)
             {
-                homeScreenElement = _instance.GetElement(SearchBy.Name, "Enter your email");
+                homeScreenElement = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.EnterEmail);
                 loopCount++;
                 if (homeScreenElement != null)
                     break;
@@ -581,7 +581,7 @@ namespace UserRegistration_TestPlugin
         }
         public static void Enter_Email(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -600,7 +600,7 @@ namespace UserRegistration_TestPlugin
             bool isEnable = false;
             try
             {
-                isEnable = _instance.GetElement(SearchBy.Name, "Next").Displayed;
+                isEnable = _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.NextEmail).Displayed;
             }
             catch (Exception e)
             {
@@ -611,7 +611,7 @@ namespace UserRegistration_TestPlugin
 
         public static void Enter_Password(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -623,19 +623,19 @@ namespace UserRegistration_TestPlugin
         public static void Click(Button btn)
         {
             if (btn == Button.Next)
-                _instance.ClickByName("Next");
+                _instance.ClickByName(UserRegistration.Android.HomeScreen.NextEmail);
             else if (btn == Button.SignIn)
-                _instance.ClickByName("Sign in");
+                _instance.ClickByName(UserRegistration.Android.HomeScreen.SigninName);
             else if (btn == Button.Allow)
-                _instance.ClickById("Allow");
+                _instance.ClickById(UserRegistration.Android.HomeScreen.AllowName);
             else if (btn == Button.SignOut)
-                _instance.ClickByName("Sign out");
+                _instance.ClickByName(UserRegistration.Android.HomeScreen.Signout);
             
         }
 
         public static void ClickToLogout()
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.Button");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.LogintoGoogle);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -651,7 +651,7 @@ namespace UserRegistration_TestPlugin
         public static bool GetMerge_Screen()
         {
             bool bVisible = false;
-            if (GetMergeTxt() == "Merge your accounts")
+            if (GetMergeTxt() == UserRegistration.Android.HomeScreen.GetMergeHeader)
                 bVisible = true;
             return bVisible;
         }
@@ -712,17 +712,17 @@ namespace UserRegistration_TestPlugin
         public static void Click(TextView txt)
         {
             if (txt == TextView.AOL)
-                _instance.GetElement(SearchBy.Name, "AOL").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.AOL).Click();
             if (txt == TextView.GooglePlus)
-                _instance.GetElement(SearchBy.Name, "Google+").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.GoogleName).Click();
             if (txt == TextView.Yahoo)
-                _instance.GetElement(SearchBy.Name, "Yahoo!").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.Yahoo).Click();
             if (txt == TextView.OpenID)
-                _instance.GetElement(SearchBy.Name, "OpenID").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.OpenID).Click();
             if (txt == TextView.LinkedIn)
-                _instance.GetElement(SearchBy.Name, "LinkedIn").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.LinkedIn).Click();
             if (txt == TextView.Flicker)
-                _instance.GetElement(SearchBy.Name, "Flickr").Click();
+                _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.Flickr).Click();
         }
 
         public static void Click(Button btn)
@@ -740,11 +740,11 @@ namespace UserRegistration_TestPlugin
         {
             Enter_AOLEmail(email);
             Enter_AOLPassword(pwd);
-            _instance.GetElement(SearchBy.ClassName, "android.widget.Button").Click();
+            _instance.GetElement(SearchBy.ClassName, UserRegistration.Android.HomeScreen.LogintoGoogle).Click();
         }
         public static void Enter_AOLEmail(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -754,7 +754,7 @@ namespace UserRegistration_TestPlugin
         }
         public static void Enter_AOLPassword(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control.Skip(1))
             {
                 cnt.Click();
@@ -771,16 +771,16 @@ namespace UserRegistration_TestPlugin
         public static void Enter_YahooDetails(string email, string pwd)
         {
             Enter_YahooEmail(email);
-            _instance.GetElement(SearchBy.Name, "Next").Click();
+            _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.NextEmail).Click();
             Enter_YahooPassword(pwd);
-            _instance.GetElement(SearchBy.Name, "Sign in").Click();
+            _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.SignInText).Click();
             Thread.Sleep(5000);
             _instance.GetElement(SearchBy.Name, "Agree").Click();
 
         }
         public static void Enter_YahooEmail(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -791,7 +791,7 @@ namespace UserRegistration_TestPlugin
         }
         public static void Enter_YahooPassword(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -808,12 +808,12 @@ namespace UserRegistration_TestPlugin
         public static void Enter_OpenIDDetails(string url)
         {
             Enter_OpenIdURL(url);
-            _instance.GetElement(SearchBy.Name, "Sign In").Click();
+            _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.SignInText).Click();
 
         }
         public static void Enter_OpenIdURL(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Clear();
@@ -833,11 +833,11 @@ namespace UserRegistration_TestPlugin
         {
             Enter_LinkedInEmail(email);
             Enter_LinkedInPassword(pwd);
-            _instance.GetElement(SearchBy.Name, "Sign in and allow").Click();
+            _instance.GetElement(SearchBy.Name, UserRegistration.Android.HomeScreen.SignInAndAllow).Click();
         }
         public static void Enter_LinkedInEmail(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control)
             {
                 cnt.Click();
@@ -847,7 +847,7 @@ namespace UserRegistration_TestPlugin
         }
         public static void Enter_LinkedInPassword(string str)
         {
-            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, "android.widget.EditText");
+            List<IMobilePageControl> control = _instance.GetElements(SearchBy.ClassName, UserRegistration.Android.HomeScreen.EditTextClass);
             foreach (IMobilePageControl cnt in control.Skip(1))
             {
                 cnt.Click();

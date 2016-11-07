@@ -3563,6 +3563,185 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
         {
             public static class HomeScreen
             {
+                public static string LogoutName
+                {
+                    get
+                    {
+                        return GetData("LogoutName");
+                    }
+
+                }
+                public static string PhilipsAccountName
+                {
+                    get
+                    {
+                        return GetData("PhilipsAccountName");
+                    }
+
+                }
+                public static string WelcomeTextMerge
+                {
+                    get
+                    {
+                        return GetData("WelcomeTextMerge");
+                    }
+
+                }
+                public static string EnterEmail
+                {
+                    get
+                    {
+                        return GetData("EnterEmail");
+                    }
+
+                }
+                public static string SignInText
+                {
+                    get
+                    {
+                        return GetData("SignInText");
+                    }
+
+                }
+                public static string AOL
+                {
+                    get
+                    {
+                        return GetData("AOL");
+                    }
+
+                }
+                public static string Yahoo
+                {
+                    get
+                    {
+                        return GetData("Yahoo");
+                    }
+
+                }
+                public static string OpenID
+                {
+                    get
+                    {
+                        return GetData("OpenID");
+                    }
+
+                }
+                public static string LinkedIn
+                {
+                    get
+                    {
+                        return GetData("LinkedIn");
+                    }
+
+                }
+                public static string SignInAndAllow
+                {
+                    get
+                    {
+                        return GetData("SignInAndAllow");
+                    }
+
+                }
+
+                public static string SigninName
+                {
+                    get
+                    {
+                        return GetData("SigninName");
+                    }
+
+                }
+
+                public static string AllowName
+                {
+                    get
+                    {
+                        return GetData("AllowName");
+                    }
+
+                }
+                public static string Signout
+                {
+                    get
+                    {
+                        return GetData("Signout");
+                    }
+
+                }
+                public static string Flickr
+                {
+                    get
+                    {
+                        return GetData("Flickr");
+                    }
+
+                }
+                public static string GetMergeHeader
+                {
+                    get
+                    {
+                        return GetData("GetMergeHeader");
+                    }
+
+                }
+                public static string NextEmail
+                {
+                    get
+                    {
+                        return GetData("NextEmail");
+                    }
+
+                }
+                public static string LogInHeader
+                {
+                    get
+                    {
+                        return GetData("LogInHeader");
+                    }
+
+                }
+                public static string FacebookName
+                {
+                    get
+                    {
+                        return GetData("FacebookName");
+                    }
+
+                }
+                public static string LogintoGoogle
+                {
+                    get
+                    {
+                        return GetData("LogintoGoogle");
+                    }
+
+                }
+                public static string EmailEnterText
+                {
+                    get
+                    {
+                        return GetData("EmailEnterText");
+                    }
+
+                }
+                public static string EditTextClass
+                {
+                    get
+                    {
+                        return GetData("EditTextClass");
+                    }
+
+                }
+                
+                public static string GoogleName
+                {
+                    get
+                    {
+                        return GetData("GoogleName");
+                    }
+
+                }
                 public static string EmailError
                 {
                     get

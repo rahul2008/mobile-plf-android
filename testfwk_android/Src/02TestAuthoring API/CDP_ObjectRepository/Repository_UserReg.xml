@@ -7,6 +7,33 @@
     <Refresh_User>com.philips.platform.referenceapp:id/btn_refresh_user</Refresh_User>
     <Header>com.philips.platform.referenceapp:id/af_actionbar_title</Header>
   </HomeScreen>
+  <Name>
+    <LogoutName>Log Out</LogoutName>
+    <PhilipsAccountName>Philips account</PhilipsAccountName>
+    <FacebookName>Facebook</FacebookName>
+    <GoogleName>Google+</GoogleName>
+    <EmailEnterText>Please enter your email address</EmailEnterText>
+    <AOL>AOL</AOL>
+    <Yahoo>Yahoo!</Yahoo>
+    <OpenID>OpenID</OpenID>
+    <LinkedIn>LinkedIn</LinkedIn>
+    <Flickr>Flickr</Flickr>
+    <SignInAndAllow>Sign in and allow</SignInAndAllow>
+    <SigninName>Sign in</SigninName>
+    <AllowName>Allow</AllowName>
+    <Signout>Sign out</Signout>
+  </Name>
+  
+  <ClassName>
+    <LogintoGoogle>android.widget.Button</LogintoGoogle>
+    <EditTextClass>android.widget.EditText</EditTextClass>
+    <LogInHeader>Log In</LogInHeader>
+    <WelcomeTextMerge>Welcome!</WelcomeTextMerge>
+    <EnterEmail>Enter your email</EnterEmail>
+    <NextEmail>Next</NextEmail>
+    <GetMergeHeader>Merge your accounts</GetMergeHeader>
+    <SignInText>Sign In</SignInText>
+  </ClassName>
   <LoginScreen>
     <SocialMergeGoogle>//android.widget.TextView[@text='Google+']</SocialMergeGoogle>
     <Login_Title>com.philips.platform.referenceapp:id/home_action_bar_text</Login_Title>
