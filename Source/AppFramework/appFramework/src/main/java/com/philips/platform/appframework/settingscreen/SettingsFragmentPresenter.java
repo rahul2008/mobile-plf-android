@@ -121,7 +121,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public void onLogoutSuccess() {
         final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-            ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
+          //  ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
             appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
             uiState = getUiState(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
             fragmentLauncher = getFragmentLauncher();
