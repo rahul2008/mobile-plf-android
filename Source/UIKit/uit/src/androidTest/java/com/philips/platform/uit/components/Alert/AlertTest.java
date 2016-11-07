@@ -6,15 +6,27 @@ package com.philips.platform.uit.components.Alert;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
+import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
+import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uit.utils.TestConstants;
+import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
 public class AlertTest {
 
@@ -26,7 +38,7 @@ public class AlertTest {
 
     @Before
     public void setUp() {
-        mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_buttons);
+        mActivityTestRule.getActivity().switchTo(com.philips.platform.uit.test.R.layout.layout_alert);
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
     }
@@ -47,37 +59,49 @@ public class AlertTest {
 
     @Test
     public void verifyAlertCornerRadius() {
-
+        float expectedCornerRadius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.alert_corner_radius));
+        getAlert().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedCornerRadius)));
     }
 
-    /***** Alert title layout scenarios ******/
+    /******************************
+     * Alert title layout scenarios
+     ******************************/
 
     @Test
     public void verifyAlertTitleFontSize() {
-
+        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alert_font_size));
+        getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
     @Test
-    public void verifyAlertTitleBottomPadding() {
-
+    public void verifyAlertTitleIconHeight() {
+        waitFor(testResources, 750);
+        int expectedIconHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
+        getAlertTitleIcon().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
-    public void verifyAlertTitleIconSize() {
-
+    public void verifyAlertTitleIconWidth() {
+        waitFor(testResources, 750);
+        int expectedIconWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
+        getAlertTitleIcon().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
 
     @Test
     public void verifyAlertTitleIconRightPadding() {
-
+        waitFor(testResources, 750);
+        int expectedRightPadding = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_icon_rightpadding));
+        getAlertTitleIcon().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedRightPadding)));
     }
 
-
-    /***** Alert content layout scenarios ******/
+    /******************************
+     * Alert content layout scenarios
+     ******************************/
 
     @Test
     public void verifyAlertContentFontSize() {
-
+        int expectedFontSize = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alert_font_size));
+        getAlertContent().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
     @Test
@@ -86,49 +110,63 @@ public class AlertTest {
     }
 
     @Test
-    public void verifyAlertContentLeftPadding() {
+    public void verifyAlertContentTopPadding() {
+        int expectedBottomPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_top_padding);
+        getAlertTitle().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedBottomPadding)));
+    }
 
+    @Test
+    public void verifyAlertContentLeftPadding() {
+        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyAlertContentRightPadding() {
-
-    }
-
-    @Test
-    public void verifyAlertContentTopPadding() {
-
+        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyAlertContentBottomPadding() {
-
+        int expectedBottomPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedBottomPadding)));
     }
 
-    /***** Alert action button layout scenarios ******/
+    /******************************
+     * Alert action button layout scenarios
+     ******************************/
 
     @Test
     public void verifyPaddingBetweenActionButtons() {
-
+        int expectedButtonsPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertaction_buttons_padding);
+        getAlertDismissiveButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedButtonsPadding)));
     }
 
     @Test
     public void verifyRightPaddingOfActionButtonView() {
-
+        int expectedButtonRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertaction_button_rightpadding);
+        getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedButtonRightPadding)));
     }
 
     @Test
     public void verifyActionAreaHeight() {
-
+        UITTestUtils.waitFor(testResources, 750);
+        int expectedActionareaHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertactionarea_height);
+        getAlertActionArea()
+                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedActionareaHeight)));
     }
 
     @Test
     public void verifyFunctionalityOfConfirmativeButton() {
-
+        onView(withId(com.philips.platform.uit.test.R.id.uid_alert_positive_button)).perform(ViewActions.click());
+        onView(withId(com.philips.platform.uit.test.R.id.uid_alert)).check(doesNotExist());
     }
 
     @Test
     public void verifyFunctionalityOfDismissiveButton() {
+        onView(withId(com.philips.platform.uit.test.R.id.uid_alert_negative_button)).perform(ViewActions.click());
+        onView(withId(com.philips.platform.uit.test.R.id.uid_alert)).check(doesNotExist());
 
     }
 
@@ -166,10 +204,32 @@ public class AlertTest {
 
     }
 
-//    private ViewInteraction getPrimaryButton() {
-//        return onView(withId(com.philips.platform.uit.test.R.id.primary_button));
-//    }
+    private ViewInteraction getAlert(){
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert));
+    }
 
+    private ViewInteraction getAlertTitle() {
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_title));
+    }
 
+    private ViewInteraction getAlertTitleIcon() {
+        return onView(withId(com.philips.platform.uit.test.R.id.demo_image_button));
+    }
+
+    private ViewInteraction getAlertContent() {
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_message));
+    }
+
+    private ViewInteraction getAlertActionArea() {
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_control_area));
+    }
+
+    private ViewInteraction getAlertConfirmativeButton() {
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_positive_button));
+    }
+
+    private ViewInteraction getAlertDismissiveButton() {
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_negative_button));
+    }
 }
 
