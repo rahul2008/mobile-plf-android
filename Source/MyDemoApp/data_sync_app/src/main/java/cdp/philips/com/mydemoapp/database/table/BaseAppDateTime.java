@@ -31,12 +31,11 @@ public class BaseAppDateTime {
 
     public DateTime newDateTime(String dateString, final String format) {
         DateTime dateTime = DateTime.now();
-        DateTimeZone dateTimeZone = DateTimeZone.getDefault();
         DateFormat dateFormat = new SimpleDateFormat(format);
         try {
             Date date = dateFormat.parse(dateString);
             LocalDateTime localDateTime = LocalDateTime.fromDateFields(date);
-            dateTime = localDateTime.toDateTime(dateTimeZone);
+            dateTime = localDateTime.toDateTime(DateTimeZone.getDefault());
         } catch (Exception e) {
             e.printStackTrace();
         }
