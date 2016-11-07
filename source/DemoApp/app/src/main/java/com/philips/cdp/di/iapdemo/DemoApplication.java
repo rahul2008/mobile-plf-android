@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -32,7 +30,7 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initAppInfra();
-        initIAP();
+        setLocale();
         initRegistration(Configuration.PRODUCTION);
     }
 
@@ -41,11 +39,13 @@ public class DemoApplication extends Application {
         RegistrationHelper.getInstance().setAppInfraInstance(mAppInfra);
     }
 
-    private void initIAP() {
-        new IAPDependencies(mAppInfra);
-        new IAPSettings(this);
-    }
+    private void setLocale() {
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
 
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode, countryCode);
+    }
 
     public AppInfra getAppInfra() {
         return mAppInfra;
@@ -122,12 +122,7 @@ public class DemoApplication extends Application {
                 UR,
                 minAge,
                 configError);
-      /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
-        System.out.println("GB age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("GB"));
-        System.out.println("default age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("default"));
-        System.out.println("unknown age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("unknown"));
-*/
-        ArrayList<String> providers = new ArrayList<String>();
+        ArrayList<String> providers = new ArrayList<>();
         providers.add("facebook");
         providers.add("googleplus");
         getAppInfra().

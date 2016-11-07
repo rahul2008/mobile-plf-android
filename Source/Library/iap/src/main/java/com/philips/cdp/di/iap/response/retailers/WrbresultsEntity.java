@@ -1,20 +1,19 @@
-package com.philips.cdp.di.iap.response.retailers;
-
-import java.util.List;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+package com.philips.cdp.di.iap.response.retailers;
+
 public class WrbresultsEntity {
+    private String Ctn;
     private String storeLocatorUrl;
     private String EloquaSiteURL;
     private String ShowBuyButton;
-    private TextsEntity Texts;
-    private String Ctn;
-    private OnlineStoresForProductEntity OnlineStoresForProduct;
     private int EloquaSiteId;
     private boolean RetailStoreAvailableFlag;
+
+    private TextsEntity Texts;
+    private OnlineStoresForProductEntity OnlineStoresForProduct;
 
     public String getStoreLocatorUrl() {
         return storeLocatorUrl;
@@ -28,16 +27,8 @@ public class WrbresultsEntity {
         return ShowBuyButton;
     }
 
-    public TextsEntity getTexts() {
-        return Texts;
-    }
-
     public String getCtn() {
         return Ctn;
-    }
-
-    public OnlineStoresForProductEntity getOnlineStoresForProduct() {
-        return OnlineStoresForProduct;
     }
 
     public int getEloquaSiteId() {
@@ -47,4 +38,14 @@ public class WrbresultsEntity {
     public boolean isRetailStoreAvailableFlag() {
         return RetailStoreAvailableFlag;
     }
+
+    public TextsEntity getTexts() {
+        return Texts;
+    }
+
+    public OnlineStoresForProductEntity getOnlineStoresForProduct() {
+        return OnlineStoresForProduct;
+    }
+
+
 }

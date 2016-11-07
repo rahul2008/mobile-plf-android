@@ -9,6 +9,7 @@ import android.content.Context;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -21,10 +22,19 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
+        loadCofigParams();
+//        initServiceDiscovery();
+    }
 
-        if (!isUseLocalData()) {
-            mHostPort = "https://acc.occ.shop.philips.com/";
-            mProposition = "Tuscany2016";
+    private void loadCofigParams() {
+        AppConfigurationInterface mConfigInterface = RegistrationHelper.getInstance().getAppInfraInstance().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+
+        mHostPort = (String) mConfigInterface.getPropertyForKey("hostport", "IAP", configError);
+        mProposition = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
+
+        if (configError.getErrorCode() != null) {
+            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
     }
 
@@ -32,8 +42,8 @@ public class IAPSettings extends UappSettings {
         return mUseLocalData;
     }
 
-    public void setUseLocalData(boolean mUseLocalData) {
-        this.mUseLocalData = mUseLocalData;
+    public void setUseLocalData(boolean isLocalData) {
+        mUseLocalData = isLocalData;
     }
 
     public String getProposition() {
@@ -55,13 +65,13 @@ public class IAPSettings extends UappSettings {
     }
 
     private void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.getbaseurl", new
+        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
-                        IAPLog.d("Baseurl onError", s);
-                        //Throw Runtime exception so that vertical can handle
+                        setUseLocalData(true);
+//                        throw new RuntimeException("Cannot fetch base url");
                     }
 
                     @Override
@@ -69,9 +79,8 @@ public class IAPSettings extends UappSettings {
                         if (url.toString().isEmpty()) {
                             setUseLocalData(true);
                         } else {
-                            IAPLog.d("Baseurl onSuccess URL = ", url.toString());
                             setUseLocalData(false);
-                            String urlPort = "https://acc.occ.shop.philips.com/en_US"; // has to be removed once the xls is uploaded add url.toString()
+                            String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
                             mHostPort = urlPort.substring(0, urlPort.length() - 5);
                         }
                     }

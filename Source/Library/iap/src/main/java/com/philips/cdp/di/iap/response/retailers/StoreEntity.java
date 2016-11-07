@@ -1,11 +1,11 @@
-package com.philips.cdp.di.iap.response.retailers;
-
-import java.io.Serializable;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+package com.philips.cdp.di.iap.response.retailers;
+
+import java.io.Serializable;
+
 public class StoreEntity implements Serializable{
     static final long serialVersionUID = 7L;
     private String name;

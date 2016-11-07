@@ -30,7 +30,6 @@ import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -43,7 +42,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
@@ -81,10 +79,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
-        IAPLog.enableLogging(true);
 
+        IAPLog.enableLogging(true);
         mApplicationContext = (DemoApplication) getApplicationContext();
-        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
 
         addActionBar();
         setContentView(R.layout.demo_app_layout);
@@ -121,16 +118,18 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
-        setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
+        mCategorizedProductList = new ArrayList<>();
 
+        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
+
+        //Integration interface
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
-        mIAPSettings.setProposition("Tuscany2016");
+        mIAPSettings.setUseLocalData(true);
 
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
-        mCategorizedProductList = new ArrayList<>();
     }
 
     @Override
@@ -274,11 +273,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         }
     }
 
-    private void setLocale(String languageCode, String countryCode) {
-        PILLocaleManager localeManager = new PILLocaleManager(DemoAppActivity.this);
-        localeManager.setInputLocale(languageCode, countryCode);
-    }
-
     private void updateCartIcon() {
         if (mIAPSettings.isUseLocalData()) {
             mShoppingCart.setVisibility(View.INVISIBLE);
@@ -402,9 +396,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (count > 0) {
             mCountText.setText(String.valueOf(count));
             mCountText.setVisibility(View.VISIBLE);
-        } else {
+        } else if(count == 0){
             mCountText.setVisibility(View.GONE);
+        } else if (count == -1) {
+            //Plan B
+            mShoppingCart.setVisibility(View.GONE);
         }
+
         dismissProgressDialog();
         mIapInterface.getCompleteProductList(this);
     }

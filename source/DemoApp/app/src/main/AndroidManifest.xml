@@ -9,11 +9,11 @@
 
     <application
         android:name=".DemoApplication"
-        android:allowBackup="false"
         android:icon="@drawable/app_icon"
+        android:allowBackup="false"
         android:label="@string/demo_app_name"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup, android:label">
+        tools:replace="android:allowBackup, android:label, android:supportsRtl">
         <activity
             android:name=".DemoAppActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"

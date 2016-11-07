@@ -9,8 +9,6 @@ import android.content.Context;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 
-import java.util.Locale;
-
 public class HybrisStore extends AbstractStore {
 
     public static final String WEBROOT = "pilcommercewebservices";
@@ -34,8 +32,8 @@ public class HybrisStore extends AbstractStore {
     private static final String SUFFIX_ENTRIES = "/entries";
 
     /*ToDO : using lang=en instead of locale as backend not support*/
-    private static final String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign"
-            + "&lang=en" + "&currentPage=%s&pageSize=%s";
+    private static final String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign&lang=";
+
     private static final String SUFFIX_PRODUCTS = "products";
     private static final String SUFFIX_CURRENT_PAGE = "&currentPage=%s";
     private static final String SUFFIX_STRING_PARAM = "/%s";
@@ -201,7 +199,7 @@ public class HybrisStore extends AbstractStore {
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANG + Locale.getDefault().getLanguage());
+        builder.append(getCountry()).append(LANG);
         return builder.toString();
     }
 
@@ -216,13 +214,13 @@ public class HybrisStore extends AbstractStore {
         mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(LANG) + mStoreConfig.getLocale();
 
         //Product
-        mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG);
+        mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG).concat(mStoreConfig.getLocale()).concat("&currentPage=%s&pageSize=%s");
         mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCTS).concat(SUFFIX_STRING_PARAM);
         mUpdateProductUrl = baseCartUrl.concat(SUFFIX_CURRENT).
                 concat(SUFFIX_ENTRIES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
 
         //Address
-        mRegionsUrl = createRegionsUrl();
+        mRegionsUrl = createRegionsUrl().concat(mStoreConfig.getLocale());
         mGetUserUrl = mBaseURl.concat(LANG) + mStoreConfig.getLocale();
         mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(LANG) + mStoreConfig.getLocale();
         mEditAddressUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
@@ -242,7 +240,7 @@ public class HybrisStore extends AbstractStore {
 
         //Orders
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
-        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG) + Locale.getDefault().getLanguage();
+        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(LANG) + mStoreConfig.getLocale();
         mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/" +
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }

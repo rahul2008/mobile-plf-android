@@ -83,21 +83,18 @@ public class ProductCatalogFragment extends InAppBaseFragment
         String currentCountryCode = HybrisDelegate.getInstance().getStore().getCountry();
         String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
-
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
-        if (!isLocalData || currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical)) {
-            if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-                displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
-            } else if (CartModelContainer.getInstance().getProductList() != null
+
+        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+            displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
+        } else {
+            if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
+                    CartModelContainer.getInstance().getProductList() != null
                     && CartModelContainer.getInstance().getProductList().size() != 0) {
                 onLoadFinished(getCachedProductList(), null);
             } else {
                 fetchProductList();
             }
-        } else if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-            displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
-        } else {
-            fetchProductList();
         }
     }
 
