@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -24,6 +25,7 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.uikit.customviews.UIKitRatingBar;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -62,6 +64,12 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
+        if(productCatalogData.getReviewStatistics() != null)
+        {
+            productHolder.mRating.setRating((float)productCatalogData.getReviewStatistics().getAverageOverallRating());
+            if(productCatalogData.getReviewStatistics().getTotalReviewCount() > 0)
+                productHolder.mNoOfReview.setText("(" + productCatalogData.getReviewStatistics().getTotalReviewCount() + ")");
+        }
 
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
@@ -137,6 +145,8 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView mPrice;
         FontIconTextView mArrow;
         TextView mDiscountedPrice;
+        UIKitRatingBar mRating;
+        TextView mNoOfReview;
 
         ProductCatalogViewHolder(View itemView) {
             super(itemView);
@@ -146,7 +156,10 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             mPrice = (TextView) itemView.findViewById(R.id.tv_price);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.arrow);
             mDiscountedPrice = (TextView) itemView.findViewById(R.id.tv_discounted_price);
+            mRating = (UIKitRatingBar) itemView.findViewById(R.id.tv_rating);
+            mNoOfReview = (TextView) itemView.findViewById(R.id.tv_review);
             itemView.setOnClickListener(this);
+            mRating.setIsIndicator(true);
         }
 
         @Override

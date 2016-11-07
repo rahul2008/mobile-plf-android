@@ -545,12 +545,10 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     @Override
     public void onGetRegions(Message msg) {
-
     }
 
     @Override
     public void onGetUser(Message msg) {
-
     }
 
     @Override

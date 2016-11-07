@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.di.iap.products;
 
+import com.philips.cdp.prxclient.datamodels.summary.ReviewStatistics;
+
 public class ProductCatalogData {
     private int mTotalItems;
     private int mStockLevel;
@@ -17,6 +19,7 @@ public class ProductCatalogData {
     private String mFormattedPrice;
     private String mPriceValue;
     private String mMarketingTextHeader;
+    private ReviewStatistics mReviewStatistics;
 
     public ProductCatalogData() {
     }
@@ -107,5 +110,13 @@ public class ProductCatalogData {
 
     public void setFormattedTotalPrice(String mFormattedTotalPrice) {
         this.mFormattedTotalPrice = mFormattedTotalPrice;
+    }
+
+    public ReviewStatistics getReviewStatistics() {
+        return mReviewStatistics;
+    }
+
+    public void setReviewStatistics(ReviewStatistics mReviewStatistics) {
+        this.mReviewStatistics = mReviewStatistics;
     }
 }
