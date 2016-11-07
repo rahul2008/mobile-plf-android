@@ -117,6 +117,7 @@ public class BleRequest extends Request implements Runnable {
 
                     DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
                     mCapability.writeData(putPropsMessage.toData());
+                    break;
                 case POST:
                 case DELETE:
                 default:
