@@ -342,4 +342,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     }
 
+    public void unregisterUserRegistrationListener() {
+        userObject.unRegisterUserRegistrationListener(this);
+    }
 }

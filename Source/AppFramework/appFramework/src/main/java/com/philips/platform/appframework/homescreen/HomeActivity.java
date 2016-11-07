@@ -249,6 +249,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        userRegistrationState.unregisterUserRegistrationListener();
     }
 
 
