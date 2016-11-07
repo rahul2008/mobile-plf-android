@@ -39,7 +39,7 @@ buildscript {
 }
 
 apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 allprojects {
@@ -190,6 +190,7 @@ artifactory {
             repoKey = 'libs-release-local-android'
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============

@@ -9,6 +9,7 @@
     <application
         android:allowBackup="true"
         android:label="@string/iap_app_name"
+        android:resizeableActivity="true"
         android:supportsRtl="true">
         <activity
             android:name=".activity.IAPActivity"
