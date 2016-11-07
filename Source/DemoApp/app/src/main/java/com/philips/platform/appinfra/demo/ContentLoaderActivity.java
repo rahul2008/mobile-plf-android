@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.contentloader.ContentArticle;
+import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.ContentLoaderInterface;
 

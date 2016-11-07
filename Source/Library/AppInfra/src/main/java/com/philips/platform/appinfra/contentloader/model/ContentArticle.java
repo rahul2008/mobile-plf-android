@@ -4,8 +4,10 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.appinfra.contentloader;
+package com.philips.platform.appinfra.contentloader.model;
 
+
+import com.philips.platform.appinfra.contentloader.ContentInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,14 +82,4 @@ public class ContentArticle implements ContentInterface {
     private long modDate;
     private String uid;
 
-   public class Tag {
-       public Boolean isVisibleOnWeb;
-
-       public String name;
-
-       public String key;
-
-       public String id;
-
-   }
 }
