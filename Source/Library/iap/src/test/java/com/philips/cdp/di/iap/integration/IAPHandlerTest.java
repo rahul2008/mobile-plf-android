@@ -119,7 +119,7 @@ public class IAPHandlerTest {
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
     }
 
-    @Test
+   /* @Test
     public void launchIAPAsFragment() throws Exception {
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
         mMockIAPHandler.launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
@@ -133,7 +133,7 @@ public class IAPHandlerTest {
 
             }
         }), new IAPLaunchInput());
-    }
+    }*/
 
     @Test
     public void getFragmentFromScreenID() throws Exception {
