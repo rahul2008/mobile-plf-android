@@ -260,24 +260,6 @@
                     android:layout_marginTop="@dimen/pr_d_value_sm"
                     android:text="@string/PPR_Continue"
                     android:textAllCaps="false"/>
-
-                <Button
-                    android:id="@+id/register_next_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/pr_c_value_sm"
-                    android:text="@string/PPR_Register_Next"
-                    android:textAllCaps="false"
-                    android:visibility="gone"/>
-
-                <Button
-                    android:id="@+id/back_to_list_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/pr_c_value_sm"
-                    android:text="@string/PPR_Back_To_List"
-                    android:textAllCaps="false"
-                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

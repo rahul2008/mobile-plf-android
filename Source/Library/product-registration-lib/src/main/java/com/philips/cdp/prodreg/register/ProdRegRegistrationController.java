@@ -117,7 +117,6 @@ public class ProdRegRegistrationController {
     }
 
     public boolean isValidSerialNumber(final String serialNumber) {
-        final String serialNumberFormat = productMetadataResponseData.getSerialNumberFormat();
         final boolean requiredSerialNumber = productMetadataResponseData != null && productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
         final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), serialNumber);
         final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
