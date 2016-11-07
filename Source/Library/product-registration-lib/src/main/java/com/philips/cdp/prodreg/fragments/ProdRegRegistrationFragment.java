@@ -6,9 +6,11 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -131,8 +133,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         final int resId = R.drawable.ic_calendar_inverted;
-//        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(getActivity().getResources(), resId, getActivity().getTheme());
+        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(getActivity().getResources(), resId, getActivity().getTheme());
 //        date_EditText.setCompoundDrawables(null, null, vectorDrawableCompat, null);
+        date_EditText.setCompoundDrawablesWithIntrinsicBounds(null, null, vectorDrawableCompat, null);
         imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
@@ -398,6 +401,13 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         productCtnTextView.setText(getString(R.string.PPR_registered));
         final int baseColor = getActivity().getResources().getColor(R.color.uikit_philips_dark_blue);
         productCtnTextView.setTextColor(baseColor);
+    }
+
+    @Override
+    public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.prod_reg_already_registered_dialog);
+        dialog.show();
     }
 
     @Override

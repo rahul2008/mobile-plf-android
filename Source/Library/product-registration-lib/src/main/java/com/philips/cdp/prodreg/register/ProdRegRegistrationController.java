@@ -14,7 +14,6 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.fragments.FindSerialNumberFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
-import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.MetadataSerNumbSampleContent;
@@ -46,6 +45,8 @@ public class ProdRegRegistrationController {
         void tagEvents(String event, String key, String value);
 
         void showSuccessLayout();
+
+        void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
     }
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
@@ -64,16 +65,12 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
-            final ProdRegSuccessFragment successFragment = getSuccessFragment();
+//            final ProdRegSuccessFragment successFragment = getSuccessFragment();
+            registerControllerCallBacks.showAlreadyRegisteredDialog(getRegisteredProduct());
             updateRegisteredProductsList(registeredProduct);
-            successFragment.setArguments(dependencyBundle);
-            registerControllerCallBacks.showFragment(successFragment);
+//            successFragment.setArguments(dependencyBundle);
+//            registerControllerCallBacks.showFragment(successFragment);
         }
-    }
-
-    @NonNull
-    protected ProdRegSuccessFragment getSuccessFragment() {
-        return new ProdRegSuccessFragment();
     }
 
     @NonNull
@@ -207,10 +204,11 @@ public class ProdRegRegistrationController {
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        final ProdRegConnectionFragment prodRegConnectionFragment = getConnectionFragment();
+//                        final ProdRegConnectionFragment prodRegConnectionFragment = getConnectionFragment();
+                        registerControllerCallBacks.showAlreadyRegisteredDialog(registeredProduct);
                         updateRegisteredProductsList(registeredProduct);
-                        prodRegConnectionFragment.setArguments(dependencyBundle);
-                        registerControllerCallBacks.showFragment(prodRegConnectionFragment);
+//                        prodRegConnectionFragment.setArguments(dependencyBundle);
+//                        registerControllerCallBacks.showFragment(prodRegConnectionFragment);
                     }
                 }
             }
