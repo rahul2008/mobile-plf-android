@@ -35,6 +35,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 class IAPHandler {
@@ -142,6 +143,12 @@ class IAPHandler {
             case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                 fragment = new BuyDirectFragment();
                 bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapFlowInput.getProductCTN());
+                break;
+            case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
+                ArrayList<String> CTNs = iapFlowInput.getProductCTNs();
+                fragment = new ProductCatalogFragment();
+                bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
+                fragment.setArguments(bundle);
                 break;
             default:
                 //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:

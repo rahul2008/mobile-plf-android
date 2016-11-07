@@ -82,6 +82,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private String mCTNValue;
     private String mProductTitle;
     private ErrorDialogFragment mErrorDialogFragment;
+    private boolean mIsFromVertical;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -150,6 +151,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mBundle = getArguments();
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+                mIsFromVertical = true;
                 mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
@@ -534,14 +536,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public boolean handleBackEvent() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
-            int count = getFragmentManager().getBackStackEntryCount();
-            for (int i = 0; i < count; i++) {
+        if (mIsFromVertical) {
+            if (getActivity() != null && getActivity() instanceof IAPActivity) {
+                int count = getFragmentManager().getBackStackEntryCount();
+                for (int i = 0; i < count; i++) {
+                    getFragmentManager().popBackStack();
+                }
+                finishActivity();
+            } else {
                 getFragmentManager().popBackStack();
             }
-            finishActivity();
-        }else{
-            getFragmentManager().popBackStack();
         }
         return super.handleBackEvent();
     }
