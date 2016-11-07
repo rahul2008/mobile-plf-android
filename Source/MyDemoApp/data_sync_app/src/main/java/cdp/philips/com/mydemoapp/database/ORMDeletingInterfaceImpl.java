@@ -29,6 +29,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @NonNull
     private final OrmDeleting ormDeleting;
 
+    //SPOOO
     @NonNull
     private final OrmSaving ormSaving;
 
