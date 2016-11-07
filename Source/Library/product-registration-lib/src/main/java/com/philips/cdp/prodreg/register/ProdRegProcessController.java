@@ -13,12 +13,9 @@ import android.text.TextUtils;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
-import com.philips.cdp.prodreg.constants.RegistrationState;
-import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
-import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
@@ -36,7 +33,6 @@ public class ProdRegProcessController {
         void showAlertOnError(int responseCode);
     }
 
-    private int resId = 0;
     private RegisteredProduct currentProduct;
     private ProcessControllerCallBacks processControllerCallBacks;
     private Bundle dependencyBundle;
@@ -54,11 +50,16 @@ public class ProdRegProcessController {
         if (arguments != null) {
             registeredProducts = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             dependencyBundle = arguments;
-            resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
-            if (registeredProducts != null) {
+            if (registeredProducts != null && registeredProducts.size() > 0) {
                 currentProduct = registeredProducts.get(0);
                 if (!isApiCallingProgress) {
-                    getRemoteRegisteredProducts();
+                    if (!TextUtils.isEmpty(currentProduct.getCtn())) {
+                        currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
+                    } else {
+                        currentProduct.setProdRegError(ProdRegError.MISSING_CTN);
+                        processControllerCallBacks.dismissLoadingDialog();
+                        processControllerCallBacks.showAlertOnError(ProdRegError.MISSING_CTN.getCode());
+                    }
                 }
             } else {
                 processControllerCallBacks.exitProductRegistration();
@@ -67,48 +68,11 @@ public class ProdRegProcessController {
         }
     }
 
-    private void getRemoteRegisteredProducts() {
+    private void doSummaryRequest() {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
-            ProdRegHelper prodRegHelper = getProdRegHelper();
-            isApiCallingProgress = true;
-            prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
+            dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
+            currentProduct.getProductSummary(fragmentActivity, currentProduct, getSummaryListener());
         }
-    }
-
-    @NonNull
-    protected ProdRegHelper getProdRegHelper() {
-        return new ProdRegHelper();
-    }
-
-    @NonNull
-    protected RegisteredProductsListener getRegisteredProductsListener() {
-        return new RegisteredProductsListener() {
-            @Override
-            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                if (!isCtnRegistered(registeredProducts, currentProduct) && fragmentActivity != null && !fragmentActivity.isFinishing()) {
-                    if (!TextUtils.isEmpty(currentProduct.getCtn()))
-                        currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
-                    else {
-                        currentProduct.setProdRegError(ProdRegError.MISSING_CTN);
-                        processControllerCallBacks.dismissLoadingDialog();
-                        processControllerCallBacks.showAlertOnError(ProdRegError.MISSING_CTN.getCode());
-                    }
-                } else {
-                    processControllerCallBacks.dismissLoadingDialog();
-                    final ProdRegConnectionFragment connectionFragment = getConnectionFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, ProdRegProcessController.this.registeredProducts);
-                    bundle.putInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, resId);
-                    connectionFragment.setArguments(bundle);
-                    processControllerCallBacks.showFragment(connectionFragment);
-                }
-            }
-        };
-    }
-
-    @NonNull
-    protected ProdRegConnectionFragment getConnectionFragment() {
-        return new ProdRegConnectionFragment();
     }
 
     @NonNull
@@ -128,13 +92,6 @@ public class ProdRegProcessController {
                 processControllerCallBacks.showAlertOnError(responseCode);
             }
         };
-    }
-
-    private void doSummaryRequest() {
-        if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
-            dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
-            currentProduct.getProductSummary(fragmentActivity, currentProduct, getSummaryListener());
-        }
     }
 
     @NonNull
@@ -164,15 +121,6 @@ public class ProdRegProcessController {
     @NonNull
     protected ProdRegRegistrationFragment getProdRegRegistrationFragment() {
         return new ProdRegRegistrationFragment();
-    }
-
-    private boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct product) {
-        for (RegisteredProduct result : registeredProducts) {
-            if (product.getCtn().equalsIgnoreCase(result.getCtn()) && product.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean isLaunchedRegistration() {
