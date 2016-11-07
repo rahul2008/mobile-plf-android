@@ -27,6 +27,7 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminat
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 public class BleRequest extends Request implements Runnable {
@@ -82,8 +83,8 @@ public class BleRequest extends Request implements Runnable {
         }
     };
 
-    public BleRequest(SHNDevice shnDevice, String portName, int productId, LocalRequestType requestType, ResponseHandler responseHandler) {
-        super(null, responseHandler);
+    public BleRequest(SHNDevice shnDevice, String portName, int productId, LocalRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler) {
+        super(dataMap, responseHandler);
 
         mCapability = (CapabilityDiComm) shnDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
         mPortName = portName;
@@ -108,12 +109,16 @@ public class BleRequest extends Request implements Runnable {
                 case GET:
                     mCapability.addDataListener(mResultListener);
 
-                    DiCommMessage message = new DiCommRequest().getPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName);
-                    mCapability.writeData(message.toData());
+                    DiCommMessage getPropsMessage = new DiCommRequest().getPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName);
+                    mCapability.writeData(getPropsMessage.toData());
                     break;
+                case PUT:
+                    mCapability.addDataListener(mResultListener);
+
+                    DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
+                    mCapability.writeData(putPropsMessage.toData());
                 case POST:
                 case DELETE:
-                case PUT:
                 default:
                     throw new IllegalStateException("Not implemented yet.");
             }

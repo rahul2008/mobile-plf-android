@@ -38,23 +38,12 @@ public class BleStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleRequest(mDeviceCache.getDeviceMap().get(mCppId), portName, productId, LocalRequestType.GET, responseHandler);
-        addTimeoutToRequest(request);
-        mExecutor.execute(request);
-    }
-
-    protected void addTimeoutToRequest(final BleRequest request) {
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                request.cancel("Timeout occurred.");
-            }
-        }, DICOMM_MESSAGE_TIMEOUT_MS);
+        dispatchRequest(LocalRequestType.GET, portName, productId, responseHandler);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
+        dispatchRequest(LocalRequestType.PUT, dataMap, portName, productId, responseHandler);
     }
 
     @Override
@@ -84,5 +73,30 @@ public class BleStrategy extends CommunicationStrategy {
 
     @Override
     public void disableCommunication() {
+    }
+
+    private void dispatchRequest(LocalRequestType requestType, final String portName, final int productId, ResponseHandler responseHandler) {
+        final BleRequest request = new BleRequest(mDeviceCache.getDeviceMap().get(mCppId), portName, productId, requestType, null, responseHandler);
+        addTimeoutToRequest(request);
+        mExecutor.execute(request);
+    }
+
+    private void dispatchRequest(LocalRequestType requestType, Map<String, Object> dataMap, final String portName, final int productId, ResponseHandler responseHandler) {
+        final BleRequest request = new BleRequest(mDeviceCache.getDeviceMap().get(mCppId), portName, productId, requestType, dataMap, responseHandler);
+        addTimeoutToRequest(request);
+        mExecutor.execute(request);
+    }
+
+
+    protected Timer addTimeoutToRequest(final BleRequest request) {
+        final Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                request.cancel("Timeout occurred.");
+            }
+        }, DICOMM_MESSAGE_TIMEOUT_MS);
+
+        return t;
     }
 }

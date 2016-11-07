@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Timer;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -140,8 +141,10 @@ public class BleStrategyTestSteps {
     public void the_BleStrategy_is_initialized_with_id(String deviceId) throws Throwable {
         strategy = new BleStrategy(deviceId, deviceCache) {
             @Override
-            protected void addTimeoutToRequest(BleRequest request) {
+            protected Timer addTimeoutToRequest(BleRequest request) {
                 currentRequest = request;
+
+                return null;
             }
         };
     }
@@ -186,7 +189,7 @@ public class BleStrategyTestSteps {
         verify(responseQueue.remove()).onError(Error.valueOf(error), data);
     }
 
-    @Then("^the result is an error '(.*?) with any data'$")
+    @Then("^the result is an error '(.*?)' with any data$")
     public void theResultIsAnErrorThisError(String error) throws Throwable {
         verify(responseQueue.remove()).onError(Error.valueOf(error), anyString());
     }
