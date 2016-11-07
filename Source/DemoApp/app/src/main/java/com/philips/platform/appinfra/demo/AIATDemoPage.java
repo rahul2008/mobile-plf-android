@@ -74,13 +74,13 @@ public class AIATDemoPage extends AppCompatActivity {
                 switch (parent.getAdapter().getItem(position).toString()) {
 
                     case "facebook":
-                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Tagging_trackLinkExternal");
+                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Tagging_trackSocial_FacceBook");
                         break;
                     case "mail":
-                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Mail, "Tagging_trackLinkExternal");
+                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Mail, "Tagging_trackSocial_Mail");
                         break;
                     case "twitter":
-                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Twitter, "Tagging_trackLinkExternal");
+                        AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(AppTaggingInterface.SocialMedium.Twitter, "Tagging_trackSocial_Twitter");
                         break;
                 }
             }
@@ -114,7 +114,7 @@ public class AIATDemoPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
                 startActivity(intent);
-                AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
+//                AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
             }
         });
         TaggVideoEnd.setOnClickListener(new View.OnClickListener() {
@@ -122,16 +122,9 @@ public class AIATDemoPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
                 startActivity(intent);
-                AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
+//                AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
             }
         });
-//        TaggSocialTrack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AppTaggingInterface.SocialMedium.Facebook.toString();
-//                AppInfraApplication.mAIAppTaggingInterface.trackSocialSharing(null,"Tagging_trackSocialSharing");
-//            }
-//        });
         TaggFileDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +137,7 @@ public class AIATDemoPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
                 startActivity(intent);
-                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionStart("Tagging_trackTimedActionStart");
+//                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionStart("Tagging_trackTimedActionStart");
             }
         });
 
@@ -153,7 +146,7 @@ public class AIATDemoPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
                 startActivity(intent);
-                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedActionStart");
+//                AppInfraApplication.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedActionStart");
             }
         });
 

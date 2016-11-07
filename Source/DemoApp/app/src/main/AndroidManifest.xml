@@ -77,20 +77,15 @@
             android:label="AppConfigurationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".AndroidMediaPlayerExample"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".RestClientActivity"
-            android:label="LocalMainDemo"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".RestClientServiceIdActivity"
-            android:label="LocalMainDemo"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".RestMenuActivity"
             android:label="LocalMainDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -102,14 +97,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ContentLoaderActivity"
-            android:label="ContentLoader"
+            android:name=".RestMenuActivity"
+            android:label="LocalMainDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+
         <activity
-            android:name=".AndroidMediaPlayerExample"
-            android:label="AndroidMediaPlayerExample"
+            android:name=".RestClientServiceIdActivity"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
+        <activity
+            android:name=".AbTestingDemo"
+            android:label="AbTestDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 

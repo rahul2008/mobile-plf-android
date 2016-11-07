@@ -11,6 +11,7 @@ import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,6 +42,7 @@ public class AppInfraLogging implements LoggingInterface {
     private FileHandler fileHandler;
     //private Properties mProperties = new Properties();
     private InputStream mInputStream = null;
+    private AppConfigurationInterface appConfigurationInterface;
 
 
     public AppInfraLogging(AppInfra aAppInfra) {
@@ -114,9 +116,13 @@ public class AppInfraLogging implements LoggingInterface {
         }
     }
 
-
-    @Override
+    /**
+     * @param isEnabled
+     * @deprecated
+     */
+    @Deprecated
     public void enableConsoleLog(boolean isEnabled) {
+
         if (isEnabled) {
             if (null == consoleHandler) {
                 consoleHandler = new ConsoleHandler();
@@ -142,6 +148,7 @@ public class AppInfraLogging implements LoggingInterface {
 
 
     @Override
+    @Deprecated
     public void enableFileLog(boolean pFileLogEnabled) {
         if (pFileLogEnabled) {
             if (null == fileHandler) {// add file log
