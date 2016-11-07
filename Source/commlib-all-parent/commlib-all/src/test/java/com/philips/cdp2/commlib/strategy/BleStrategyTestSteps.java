@@ -25,6 +25,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Matchers;
 
+import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -73,7 +74,7 @@ public class BleStrategyTestSteps {
     }
 
     @Given("^a mock device is found with id '(.*?)'$")
-    public void a_mock_device_is_found_with_id(final String deviceId) throws Throwable {
+    public void a_mock_device_is_found_with_id(final String deviceId) {
         SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
         SHNDevice device = mock(SHNDevice.class);
         rawDataListeners.put(deviceId, new HashSet<ResultListener<SHNDataRaw>>());
@@ -136,11 +137,13 @@ public class BleStrategyTestSteps {
 
         final byte[] dataBytes = DatatypeConverter.parseHexBinary(data);
 
+        System.out.println("Verify data : " + new String(dataBytes, Charset.forName("UTF-8")));
+
         verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(dataBytes);
     }
 
     @Given("^the BleStrategy is initialized with id '(.*?)'$")
-    public void the_BleStrategy_is_initialized_with_id(String deviceId) throws Throwable {
+    public void the_BleStrategy_is_initialized_with_id(String deviceId) {
         strategy = new BleStrategy(deviceId, deviceCache) {
             @Override
             protected Timer addTimeoutToRequest(BleRequest request) {
@@ -152,24 +155,24 @@ public class BleStrategyTestSteps {
     }
 
     @Then("^the BleStrategy is available$")
-    public void theBleStrategyIsAvailable() throws Throwable {
+    public void theBleStrategyIsAvailable() {
         assertTrue(strategy.isAvailable());
     }
 
     @Then("^the BleStrategy is not available$")
-    public void theBleStrategyIsNotAvailable() throws Throwable {
+    public void theBleStrategyIsNotAvailable() {
         assertFalse(strategy.isAvailable());
     }
 
     @SuppressWarnings("unchecked")
     @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' without data$")
-    public void doingAPutPropertiesForProductidAndPortWithoutData(int productId, String port) throws Throwable {
+    public void doingAPutPropertiesForProductidAndPortWithoutData(int productId, String port) {
         doingAPutPropertiesForProductidAndPortWithData(productId, port, "{}");
     }
 
     @SuppressWarnings("unchecked")
     @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with data$")
-    public void doingAPutPropertiesForProductidAndPortWithData(int productId, String port, String data) throws Throwable {
+    public void doingAPutPropertiesForProductidAndPortWithData(int productId, String port, String data) {
         ResponseHandler handler = mock(ResponseHandler.class);
         responseQueue.add(handler);
 
@@ -187,32 +190,32 @@ public class BleStrategyTestSteps {
     }
 
     @Then("^the result is an error '(.*?)' with data '(.*?)'$")
-    public void theResultIsAnErrorWithData(String error, String data) throws Throwable {
+    public void theResultIsAnErrorWithData(String error, String data) {
         verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), eq(data));
     }
 
     @Then("^the result is an error '(.*?)' with any data$")
-    public void theResultIsAnErrorWithAnyData(String error) throws Throwable {
+    public void theResultIsAnErrorWithAnyData(String error) {
         verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), anyString());
     }
 
     @Then("^the result is an error$")
-    public void theResultIsAnError() throws Throwable {
+    public void theResultIsAnError() {
         verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(any(Error.class), anyString());
     }
 
     @Then("^the result is an error '(.*?)' without data$")
-    public void theResultIsAnErrorWithoutData(String error) throws Throwable {
+    public void theResultIsAnErrorWithoutData(String error) {
         verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), Matchers.isNull(String.class));
     }
 
     @Then("^the result is success with data '(.*?)'$")
-    public void theResultIsSuccessWithDataTestData(String data) throws Throwable {
+    public void theResultIsSuccessWithDataTestData(String data) {
         verify(responseQueue.remove()).onSuccess(data);
     }
 
     @Then("^the result is success with data$")
-    public void theResultIsSuccessWithLongDataTestData(String expectedJsonString) throws Throwable {
+    public void theResultIsSuccessWithLongDataTestData(String expectedJsonString) {
         verify(responseQueue.remove()).onSuccess(successStringCaptor.capture());
 
         if (successStringCaptor.getAllValues().isEmpty()) fail("No result captured.");
@@ -227,12 +230,12 @@ public class BleStrategyTestSteps {
     }
 
     @Then("^the result is success$")
-    public void theResultIsSuccess() throws Throwable {
+    public void theResultIsSuccess() {
         verify(responseQueue.remove()).onSuccess(successStringCaptor.capture());
     }
 
     @And("^no write occurred to mock device with id '(.*?)'$")
-    public void noWriteOccurredToMockDeviceWithIdP(String deviceId) throws Throwable {
+    public void noWriteOccurredToMockDeviceWithIdP(String deviceId) {
         CapabilityDiComm capability = (CapabilityDiComm) deviceCache
                 .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
 
@@ -240,7 +243,7 @@ public class BleStrategyTestSteps {
     }
 
     @And("^write occurred to mock device with id '(.*?)' with any data$")
-    public void writeOccurredToMockDeviceWithIdP(String deviceId) throws Throwable {
+    public void writeOccurredToMockDeviceWithIdP(String deviceId) {
         CapabilityDiComm capability = (CapabilityDiComm) deviceCache
                 .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
 
@@ -248,7 +251,7 @@ public class BleStrategyTestSteps {
     }
 
     @And("^the request times out$")
-    public void theRequestTimesOut() throws Throwable {
+    public void theRequestTimesOut() {
         currentRequest.cancel("Timeout occurred.");
     }
 
@@ -263,12 +266,12 @@ public class BleStrategyTestSteps {
     }
 
     @And("^the json result contains the key '(.*?)'$")
-    public void theJsonResultContainsTheKey(String key) throws Throwable {
+    public void theJsonResultContainsTheKey(String key) {
         assertTrue(getObjectMapFromLastSuccessfulResult().containsKey(key));
     }
 
     @And("^the json value for key '(.*?)' has length '(\\d+)'$")
-    public void theJsonStringValueHasLength(String key, int expectedLength) throws Throwable {
+    public void theJsonStringValueHasLength(String key, int expectedLength) {
         Map<String, Object> objectMap = getObjectMapFromLastSuccessfulResult();
 
         Object object = objectMap.get(key);

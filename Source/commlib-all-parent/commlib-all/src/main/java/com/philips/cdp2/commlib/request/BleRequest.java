@@ -27,6 +27,7 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminat
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -104,11 +105,10 @@ public class BleRequest extends Request implements Runnable {
 
                 return null;
             }
+            mCapability.addDataListener(mResultListener);
 
             switch (mRequestType) {
                 case GET:
-                    mCapability.addDataListener(mResultListener);
-
                     DiCommMessage getPropsMessage = new DiCommRequest().getPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName);
                     mCapability.writeData(getPropsMessage.toData());
                     break;
@@ -119,10 +119,8 @@ public class BleRequest extends Request implements Runnable {
 
                         return null;
                     }
-
-                    mCapability.addDataListener(mResultListener);
-
                     DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
+                    System.out.println("Request data: " + new String(putPropsMessage.toData(), Charset.forName("UTF-8")));
                     mCapability.writeData(putPropsMessage.toData());
                     break;
                 case POST:
