@@ -99,6 +99,12 @@
     <Compile Include="UJ04.cs" />
     <Compile Include="UJ05.cs" />
     <Compile Include="UJ06.cs" />
+    <Compile Include="UR_Binding.cs" />
+    <Compile Include="UserRegistration.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserRegistration.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -128,6 +134,10 @@
     </None>
     <None Include="SpecRunTestProfile_2011_09.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="UserRegistration.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UserRegistration.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +179,10 @@
     <ProjectReference Include="..\..\02TestAuthoring API\ProdReg.Android.TestPlugin\ProdReg.Android.TestPlugin.csproj">
       <Project>{338c442a-af5c-4560-8ccd-d9a51e8b591c}</Project>
       <Name>ProdReg.Android.TestPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\02TestAuthoring API\UserRegistration_TestPlugin\UserRegistration_TestPlugin.csproj">
+      <Project>{9c8b883c-1f05-4384-b748-494edfd31f93}</Project>
+      <Name>UserRegistration_TestPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ST_Nucleo\ST_Nucleo.csproj">
       <Project>{5afb3739-118d-482d-bc42-8c08c1004dd6}</Project>

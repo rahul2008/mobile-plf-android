@@ -34,7 +34,8 @@ namespace UserRegistration_TestPlugin
             Create_Account,
             Activated_Account,
             Resend,
-            URContinue
+            URContinue,
+            LoogedIn_Continue
         }
 
         public enum TextBox
@@ -177,6 +178,10 @@ namespace UserRegistration_TestPlugin
                 _instance.ClickById(UserRegistration.Android.CreateAccount.Resend);
             if (btn == Button.URContinue)
                 _instance.ClickById(UserRegistration.Android.CreateAccount.URContinue);
+            if (btn == Button.LoogedIn_Continue)
+                _instance.ClickById(UserRegistration.Android.HomeScreen.Loggedin_Continue);                
+                
+
         }
 
         /// <summary>
