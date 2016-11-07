@@ -14,13 +14,6 @@
     "SigninProviders.default": ["facebook","googleplus"],
     "SigninProviders.NL": ["facebook","googleplus"]
   },
-  "AI": {
-    "MicrositeID": "77000",
-    "RegistrationEnvironment": "PRODUCTION",
-    "NL": ["googleplus", "facebook"  ],
-    "US": ["facebook","googleplus" ],
-    "EE": [123,234 ]
-  },
   "IAP": {
     "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
@@ -31,7 +24,7 @@
     "appidentity.appState"  : "PRODUCTION",
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
     "tagging.sensitiveData": ["bundleId, language" ],
-    "contentLoader.limitSize":1000
+    "contentLoader.limitSize":100
 
   }
 }

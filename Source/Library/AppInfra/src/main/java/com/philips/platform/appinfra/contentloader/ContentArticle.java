@@ -7,8 +7,7 @@
 package com.philips.platform.appinfra.contentloader;
 
 
-
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -30,7 +29,7 @@ public class ContentArticle implements ContentInterface {
     }
 
     @Override
-    public List<String> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
@@ -52,7 +51,7 @@ public class ContentArticle implements ContentInterface {
     // endregion ContentInterface
 
     // region sub types
-    private enum RENDERTYPE {XS, S, M, L};
+  /*  private enum RENDERTYPE {XS, S, M, L};
     private enum ASSETTYPE {IMAGE, YOUTUBEVIDEO, SCENE7VIDEO};
     private class ASSET {
         private RENDERTYPE Rendition;
@@ -62,22 +61,33 @@ public class ContentArticle implements ContentInterface {
         private String caption;
         private String youtubeid;
         private String Scene7id;
-    }
+    }*/
     // endregion sub types
 
     // region private members
     private String overlay;
-    private URL linkurl;
+    private String linkurl;
     private String text;
     private String description;
     private String title;
-    private URL previewimage;
-    private URL portraitimage;
-    private URL imageUrl;
-    private List<String> tags;
-    private URL link;
-    private ASSET[] assets;
+   // private URL previewimage;
+   // private URL portraitimage;
+    private String imageUrl;
+    public List<Tag> tags = new ArrayList<Tag>();
+    //private List<Map<String,String>> tags;
+    private String link;
+   // private ASSET[] assets;
     private long modDate;
     private String uid;
-    // endregion private members
+
+   public class Tag {
+       public Boolean isVisibleOnWeb;
+
+       public String name;
+
+       public String key;
+
+       public String id;
+
+   }
 }

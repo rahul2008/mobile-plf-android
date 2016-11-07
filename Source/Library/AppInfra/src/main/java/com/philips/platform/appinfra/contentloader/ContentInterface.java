@@ -27,7 +27,7 @@ public interface ContentInterface {
     /**
      * @return array of Tags set for this article
      */
-    List<String> getTags();
+    List<ContentArticle.Tag> getTags();
 
     /**
      * @return version number of this article
