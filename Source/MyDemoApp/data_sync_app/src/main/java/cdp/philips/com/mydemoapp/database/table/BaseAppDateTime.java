@@ -29,9 +29,9 @@ public class BaseAppDateTime {
 
     public final static String DEFAULT_DATE_FORMATTER = "yyyy-MM-dd";
 
-    public DateTime newDateTime(String dateString, final String format) {
+    public DateTime newDateTime(String dateString) {
         DateTime dateTime = DateTime.now();
-        DateFormat dateFormat = new SimpleDateFormat(format);
+        DateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMATTER);
         try {
             Date date = dateFormat.parse(dateString);
             LocalDateTime localDateTime = LocalDateTime.fromDateFields(date);
@@ -46,10 +46,9 @@ public class BaseAppDateTime {
         Calendar calender = Calendar.getInstance();
         Date date = calender.getTime();
         DateTime plusDateTime = new DateTime(localDate).plusDays(1);
-        final DateTimeZone dateTimeZone = DateTimeZone.getDefault();
         try {
-            LocalDateTime localDateTime = newDateTime(plusDateTime.toString(), DEFAULT_DATE_FORMATTER).plusMinutes(30).toLocalDateTime();
-            return localDateTime.toDateTime(dateTimeZone).toDate();
+            LocalDateTime localDateTime = newDateTime(plusDateTime.toString()).plusMinutes(30).toLocalDateTime();
+            return localDateTime.toDateTime(DateTimeZone.getDefault()).toDate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,10 +58,9 @@ public class BaseAppDateTime {
     public DateTime getNextDayDateTime(final Date localDate) {
         DateTime dateTime = new DateTime(localDate);
         DateTime plusDateTime = new DateTime(localDate).plusDays(1);
-        final DateTimeZone dateTimeZone = DateTimeZone.getDefault();
         try {
-            LocalDateTime localDateTime = newDateTime(plusDateTime.toString(), DEFAULT_DATE_FORMATTER).toLocalDateTime();
-            return localDateTime.toDateTime(dateTimeZone).toDateTime();
+            LocalDateTime localDateTime = newDateTime(plusDateTime.toString()).toLocalDateTime();
+            return localDateTime.toDateTime(DateTimeZone.getDefault()).toDateTime();
         } catch (Exception e) {
             e.printStackTrace();
         }
