@@ -1,4 +1,4 @@
-package cdp.philips.com.mydemoapp.database.table;
+package cdp.philips.com.mydemoapp.database;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -18,6 +18,8 @@ import javax.inject.Inject;
 import cdp.philips.com.mydemoapp.database.OrmDeleting;
 import cdp.philips.com.mydemoapp.database.OrmSaving;
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
+import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 
