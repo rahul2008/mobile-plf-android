@@ -30,7 +30,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing"};
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,7 +205,15 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 10 :
                 Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestingDemo.class );
                 startActivity(abTesting);
+                break;
+
+            case 11:
+                Intent contentLoaderActivity = new Intent(AppInfraMainActivity.this,
+                        ContentLoaderActivity.class);
+                startActivity(contentLoaderActivity);
+                break;
         }
+
     }
 
     class AppInfraListAdapter extends BaseAdapter {
