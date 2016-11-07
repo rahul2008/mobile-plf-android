@@ -1,9 +1,8 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +36,16 @@ public class DialogComponentFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final AlertDialogFragment wtf = (AlertDialogFragment) getFragmentManager().findFragmentByTag("WTF");
+        if (wtf != null) {
+            wtf.setCancelListener(getOnClickListener(wtf));
+        }
+    }
+
     @OnClick(R.id.dialog_with_text)
     public void onDialogWithTextClicked() {
         isLargeContent();
@@ -47,23 +56,17 @@ public class DialogComponentFragment extends BaseFragment {
     @OnClick(R.id.dialog_with_list)
     public void onDialogWithListClicked() {
         final AlertDialogFragment alertDialog = new AlertDialogFragment();
-        alertDialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.UIDAlertDialogStyle);
         alertDialog.setTitle(getString(R.string.dialog_screen_title_text));
         alertDialog.setMessage(getString(R.string.dialog_screen_short_content_text));
-        alertDialog.setPositiveButton(R.string.dialog_screen_positive_button_text, new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.setNegativeButton(R.string.dialog_screen_negative_button_text, new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show(getFragmentManager(), "Blah");
-        alertDialog.setIconDrawable(VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme()).mutate());
+        alertDialog.setPositiveButton(R.string.dialog_screen_positive_button_text, getOnClickListener(alertDialog));
+        alertDialog.setNegativeButton(R.string.dialog_screen_negative_button_text, getOnClickListener(alertDialog));
+        alertDialog.setIconResourceId(android.R.drawable.ic_menu_mylocation, true);
+        alertDialog.show(getFragmentManager(), "WTF");
+    }
+
+    @NonNull
+    private View.OnClickListener getOnClickListener(final AlertDialogFragment alertDialog) {
+        return new MyOnClickListener(alertDialog);
     }
 
     @Override
@@ -81,5 +84,18 @@ public class DialogComponentFragment extends BaseFragment {
 
     public boolean isLargeContent() {
         return (contentSize.getCheckedRadioButtonId() == R.id.long_content) ? true : false;
+    }
+
+    private static class MyOnClickListener implements View.OnClickListener {
+        private final AlertDialogFragment alertDialog;
+
+        public MyOnClickListener(final AlertDialogFragment alertDialog) {
+            this.alertDialog = alertDialog;
+        }
+
+        @Override
+        public void onClick(final View v) {
+            alertDialog.dismiss();
+        }
     }
 }

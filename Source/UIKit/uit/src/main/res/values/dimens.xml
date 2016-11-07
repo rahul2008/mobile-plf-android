@@ -51,7 +51,15 @@
     <dimen name="uit_texteditbox_stroke_width_ultralight">1dp</dimen>
     <dimen name="uit_texteditbox_line_spacing">26dp</dimen>
     <dimen name="uit_texteditbox_vertical_padding">12dp</dimen>
+
+    <!-- alert dialog -->
     <dimen name="uid_alert_dialog_control_area_height">64dp</dimen>
+    <dimen name="uid_alert_dialog_title_icon_padding">8dp</dimen>
+    <dimen name="uid_alert_dialog_title_text_size">20sp</dimen>
+    <dimen name="uid_alert_dialog_message_text_size">16sp</dimen>
+    <dimen name="uid_alert_positive_button_margin_end">12dp</dimen>
+    <dimen name="uid_alert_positive_button_margin_start">8dp</dimen>
+    <integer name="uid_alert_dialog_title_max_lines">2</integer>
 
 
     <integer name="uit_texteditbox_font_spacing_multiplier">0</integer>
