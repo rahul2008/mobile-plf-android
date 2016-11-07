@@ -89,6 +89,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiState = new IAPState();
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
+               iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 uiState.setUiStateData(iapStateData);
                 break;
