@@ -37,14 +37,14 @@ public class NetworkURLConstants {
 
     //Product
     public static final String PRODUCT_CATALOG_URL = "https://acc.occ.shop.philips" +
-            ".com/pilcommercewebservices/v2/US_TUSCANY/products/search?query=::category:Tuscany_Campaign&lang=en&currentPage=0&pageSize=1";
+            ".com/pilcommercewebservices/v2/US_TUSCANY/products/search?query=::category:Tuscany_Campaign&lang=en_US&currentPage=0&pageSize=1";
     public static final String PRODUCT_CATALOG_BASE_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE;
     public static final String CART_MODIFY_PRODUCT_URL = BASE_URL + "/carts/current/entries/" + DUMMY_PRODUCT_NUMBER + "?fields=FULL&lang=en_US";
     public static final String PRODUCT_DETAIL_URL = PRODUCT_CATALOG_BASE_URL + "/products/" + DUMMY_PRODUCT_ID;
     public static final String GET_RETAILERS_URL = "https://www.philips.com/api/wtb/v1/B2C/en_US/online-retailers?product=code&lang=en";
 
     //Address
-    public static final String GET_REGIONS_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/metainfo/regions/US?fields=FULL&lang=en";
+    public static final String GET_REGIONS_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/metainfo/regions/US?fields=FULL&lang=en_US";
     public static final String GET_ADDRESSES_URL = BASE_URL + "/addresses?fields=FULL&lang=en_US";
     public static final String EDIT_ADDRESS_URL = BASE_URL + "/addresses/" + DUMMY_PRODUCT_ID + "?fields=FULL&lang=en_US";
     public static final String GET_UPDATE_ADDRESS_URL = BASE_URL + "/addresses/" + ADDRESS_ID + "?fields=FULL&lang=en_US";
@@ -61,7 +61,7 @@ public class NetworkURLConstants {
     public static final String PLACE_ORDER_URL = BASE_URL + "/orders?fields=FULL&lang=en_US";
 
     //Orders
-    public static final String ORDER_DETAIL_URL = BASE_URL + "/orders/" + DUMMY_ORDER_ID + "?fields=FULL&lang=en";
+    public static final String ORDER_DETAIL_URL = BASE_URL + "/orders/" + DUMMY_ORDER_ID + "?fields=FULL&lang=en_US";
     public static final String ORDER_HISTORY_URL = BASE_URL + "/orders?fields=FULL&lang=en_US&currentPage=" + DUMMY_PAGE_NUMBER;
     public static final String PHONE_CONTACT_URL = "http://www.philips.com/prx/cdls/B2C/en_US/CARE/" + SAMPLE_PRODUCT_CATEGORY + ".querytype.(fallback)";
 }
