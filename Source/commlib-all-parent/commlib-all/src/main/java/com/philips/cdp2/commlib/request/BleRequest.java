@@ -113,6 +113,13 @@ public class BleRequest extends Request implements Runnable {
                     mCapability.writeData(getPropsMessage.toData());
                     break;
                 case PUT:
+                    if (mDataMap.isEmpty()) {
+                        mResponseHandler.onError(Error.NO_REQUEST_DATA, "No request data supplied.");
+                        mCountDownLatch.countDown();
+
+                        return null;
+                    }
+
                     mCapability.addDataListener(mResultListener);
 
                     DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
