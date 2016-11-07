@@ -367,7 +367,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
      //   showToast(i);
     }
 
-    private void showToast(int errorCode) {
+    /*private void showToast(int errorCode) {
         String errorText = getResources().getString(R.string.af_iap_server_error);
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = getResources().getString(R.string.af_iap_no_connection);
@@ -381,12 +381,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
-    }
+    }*/
     @Override
     public void onBackStackChanged() {
-        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        /*if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
-            /*String str = backEntry.getName();
+            String str = backEntry.getName();
             if(null != str){
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(str);
                 if(fragment instanceof InAppBaseFragment){
@@ -395,8 +395,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                 else {
                     cartIconVisibility(true);
                 }
-            }*/
-        }
+            }
+        }*/
     }
 
     @Override
