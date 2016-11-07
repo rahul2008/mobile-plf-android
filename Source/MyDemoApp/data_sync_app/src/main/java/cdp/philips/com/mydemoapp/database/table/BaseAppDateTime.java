@@ -6,11 +6,14 @@
 
 package cdp.philips.com.mydemoapp.database.table;
 
+import android.util.Log;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,20 +35,20 @@ public class BaseAppDateTime {
 
     public DateTime newDateTime(String dateString) {
         DateTime dateTime = DateTime.now();
-        final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         try {
-           // final Date date = dateFormat.parse(dateString);
-            final LocalDateTime localDateTime = LocalDateTime.fromDateFields(dateFormat.parse(dateString));
+            final LocalDateTime localDateTime = LocalDateTime.
+                    fromDateFields(new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).
+                            parse(dateString));
             dateTime = localDateTime.toDateTime(DateTimeZone.getDefault());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParseException e) {
+            if (e.getMessage() != null)
+                Log.i("***SPO***", "exception = " + e.getMessage());
         }
         return dateTime;
     }
 
-    public Date getMaximumDate(final Date localDate) {
-        Calendar calender = Calendar.getInstance();
-        Date date = calender.getTime();
+/*    public Date getMaximumDate(final Date localDate) {
+        Date date = Calendar.getInstance().getTime();
         DateTime plusDateTime = new DateTime(localDate).plusDays(1);
         try {
             LocalDateTime localDateTime = newDateTime(plusDateTime.toString()).plusMinutes(30).toLocalDateTime();
@@ -54,9 +57,9 @@ public class BaseAppDateTime {
             e.printStackTrace();
         }
         return date;
-    }
+    }*/
 
-    public DateTime getNextDayDateTime(final Date localDate) {
+   /* public DateTime getNextDayDateTime(final Date localDate) {
         DateTime dateTime = new DateTime(localDate);
         DateTime plusDateTime = new DateTime(localDate).plusDays(1);
         try {
@@ -66,5 +69,5 @@ public class BaseAppDateTime {
             e.printStackTrace();
         }
         return dateTime;
-    }
+    }*/
 }
