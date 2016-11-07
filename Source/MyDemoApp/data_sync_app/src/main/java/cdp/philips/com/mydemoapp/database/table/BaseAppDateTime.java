@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -31,10 +32,10 @@ public class BaseAppDateTime {
 
     public DateTime newDateTime(String dateString) {
         DateTime dateTime = DateTime.now();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         try {
-            Date date = dateFormat.parse(dateString);
-            LocalDateTime localDateTime = LocalDateTime.fromDateFields(date);
+           // final Date date = dateFormat.parse(dateString);
+            final LocalDateTime localDateTime = LocalDateTime.fromDateFields(dateFormat.parse(dateString));
             dateTime = localDateTime.toDateTime(DateTimeZone.getDefault());
         } catch (Exception e) {
             e.printStackTrace();
