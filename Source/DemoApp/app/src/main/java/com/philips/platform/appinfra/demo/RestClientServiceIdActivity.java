@@ -60,7 +60,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         pathComponentInput= (EditText)findViewById(R.id.editTextPathComponent);
         mResponse= (TextView) findViewById(R.id.textViewResponse);
         mImageView = (ImageView) findViewById(R.id.responseImageId);
-        serviceIdString= serviceIDInput.getText().toString();
+        //serviceIdString= serviceIDInput.getText().toString();
 
 
         final Button setHeaders = (Button)findViewById(R.id.buttonSetHeadersSID);
@@ -110,7 +110,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
                 if(requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[0])){ // string
                      try {
-                        mRestInterface.stringRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
+                        mRestInterface.stringRequestWithServiceID(methodType, getServiceId(), RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
                             @Override
                             public void onSuccess(Object response) {
                                 String serviceResponse=(String)response;
@@ -133,7 +133,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                     }
                 }else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])){ //json
                     try {
-                        mRestInterface.jsonObjectRequestWithServiceID(methodType, serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
+                        mRestInterface.jsonObjectRequestWithServiceID(methodType, getServiceId(), RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
                                     @Override
                                     public void onSuccess(Object response) {
                                         JSONObject serviceResponse=(JSONObject)response;
@@ -157,7 +157,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])){ //image
 
                     try {
-                        mRestInterface.imageRequestWithServiceID(serviceIdString, RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
+                        mRestInterface.imageRequestWithServiceID(getServiceId(), RestManager.LANGUAGE, getPathComponentString(), new RestInterface.ServiceIDCallback() {
                             @Override
                             public void onSuccess(Object response) {
                                 Bitmap bitmap = (Bitmap)response;
@@ -257,5 +257,8 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     private void clearParamsAndHeaders(){
         headers.clear();
         params.clear();
+    }
+    String getServiceId(){
+        return serviceIDInput.getText().toString().trim();
     }
 }
