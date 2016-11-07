@@ -10,6 +10,7 @@
     <item name="uit_alpha_per_35" format="float" type="dimen">0.35</item>
     <item name="uit_alpha_per_50" format="float" type="dimen">0.50</item>
     <item name="uit_alpha_per_70" format="float" type="dimen">0.70</item>
+    <item name="uit_alpha_per_80" format="float" type="dimen">0.80</item>
 
     <!--Switch dimensions-->
     <dimen name="uid_switch_thumb_radius">24dp</dimen>

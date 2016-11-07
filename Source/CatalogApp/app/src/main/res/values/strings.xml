@@ -55,4 +55,6 @@
     <string name="dialog_screen_button_text_dialog_with_list">Dialog with list</string>
     <string name="dialog_screen_short_content_text">This app would like to use phone\'s location to show personalized contents.</string>
     <string name="dialog_screen_title_text">Allow access to your location</string>
+    <string name="dialog_screen_positive_button_text">Delete</string>
+    <string name="dialog_screen_negative_button_text">Cancel</string>
 </resources>

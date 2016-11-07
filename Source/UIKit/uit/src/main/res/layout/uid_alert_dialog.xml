@@ -17,9 +17,7 @@
         style="@style/UIDAlertDialogMessageTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="100dp"
-        android:layout_above="@+id/uid_alert_control_area"
-        android:layout_below="@+id/uid_alert_title"/>
+        android:maxHeight="100dp"/>
 
     <LinearLayout
         android:id="@id/uid_alert_control_area"
