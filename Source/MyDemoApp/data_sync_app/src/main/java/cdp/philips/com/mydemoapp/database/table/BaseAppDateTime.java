@@ -31,7 +31,7 @@ public class BaseAppDateTime {
 
     public DateTime newDateTime(String dateString, final String format) {
         DateTime dateTime = DateTime.now();
-        final DateTimeZone dateTimeZone = DateTimeZone.getDefault();
+        DateTimeZone dateTimeZone = DateTimeZone.getDefault();
         DateFormat dateFormat = new SimpleDateFormat(format);
         try {
             Date date = dateFormat.parse(dateString);
