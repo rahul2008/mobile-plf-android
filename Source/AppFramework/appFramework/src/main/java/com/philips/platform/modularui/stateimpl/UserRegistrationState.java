@@ -25,6 +25,7 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -32,6 +33,10 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.platform.appframework.AppFrameworkApplication.appInfra;
+
 /**
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
@@ -64,7 +69,41 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     public void init(Context context) {
         this.applicationContext = context;
         initializeUserRegistrationLibrary(Configuration.STAGING);
+        initHSDP();
+    }
 
+    public void initHSDP() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.ApplicationName",
+                UR,
+               // "Datacore",
+                "uGrow",
+                configError);
+
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.Secret",
+                UR,
+                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+                configError);
+
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.Shared",
+                UR,
+                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+                configError);
+
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.BaseURL",
+                UR,
+                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+                configError);
     }
 
     /**
@@ -109,6 +148,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void onUserLogoutSuccess() {
         userRegistrationListener.onLogoutSuccess();
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, getUserObject(activityContext));
+        userRegistrationFacade.clearUserData();
     }
 
     @Override
@@ -119,6 +160,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         userRegistrationListener.onLogoutSuccess();
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, getUserObject(activityContext));
+        userRegistrationFacade.clearUserData();
     }
 
 

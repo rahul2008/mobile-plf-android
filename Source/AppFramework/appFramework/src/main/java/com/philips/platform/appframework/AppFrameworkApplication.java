@@ -13,6 +13,8 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasevices.database.DatabaseHelper;
 import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
@@ -56,6 +58,8 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState.init(this);
         iapState = new IAPState();
         iapState.init(this);
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
+        databaseHelper.getWritableDatabase();
     }
 
     public IAPState getIap(){
@@ -85,3 +89,6 @@ public class AppFrameworkApplication extends Application {
     }
 
        }
+
+
+
