@@ -45,7 +45,8 @@
                 fontPath="fonts/puicon.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/pr_circle"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/prodreg_circle_tick"
                 android:gravity="center"
                 android:text="@string/uikit_fonticon_tick_bold"
                 android:textColor="@color/uikit_white"
@@ -85,7 +86,7 @@
             android:layout_marginStart="@dimen/pr_left_padding_sm"
             android:layout_marginTop="@dimen/pr_top_padding_sm"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="gone">
 
 
             <TextView
@@ -119,7 +120,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/pr_circle"
+                    android:background="@drawable/prodreg_circle"
                     android:gravity="center"
                     android:text="@string/uikit_question_mark"
                     android:textColor="@color/uikit_white"/>
@@ -146,7 +147,7 @@
             android:layout_marginStart="@dimen/pr_left_padding_sm"
             android:layout_marginTop="@dimen/pr_c_value_sm"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="gone">
 
 
             <TextView
