@@ -73,4 +73,13 @@
         <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
         <attr name="uidSwitchBorderColorList" format="reference|color"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDDialog">
+        <attr name="uitDialogTitleColor" format="reference|color"/>
+        <attr name="uitDialogBodyColor" format="reference|color"/>
+        <attr name="uitDialogBackgroundColor" format="reference|color"/>
+        <attr name="uitDialogShadowColor" format="reference|color"/>
+        <attr name="uitDialogDimSubtleLayerColor" format="reference|color"/>
+        <attr name="uitDialogDimStringColor" format="reference|color"/>
+    </declare-styleable>
 </resources>

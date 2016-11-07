@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:textColorPrimary">?attr/uitControlSecondaryTextColor</item>
+        <item name="android:background">?attr/uitContentPrimary</item>
+        <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+    </style>
+
+    <style name="UIDAlertDialogTitleTextStyle">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:layout_marginBottom">-4dp</item>
+        <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
+        <item name="android:textColor">?attr/uitControlPrimaryTextColor</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="UIDAlertDialogMessageTextStyle">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
+        <item name="android:textColor">?attr/uitControlSecondaryTextColor</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="UIDAlertDialogActionAreaStyle">
+        <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_marginBottom">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_height">@dimen/uid_alert_dialog_control_area_height</item>
+        <item name="android:gravity">end|center_vertical</item>
+    </style>
+</resources>
