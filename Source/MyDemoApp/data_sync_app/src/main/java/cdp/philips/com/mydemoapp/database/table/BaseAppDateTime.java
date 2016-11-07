@@ -28,7 +28,6 @@ public class BaseAppDateTime {
     }
 
     public final static String DEFAULT_DATE_FORMATTER = "yyyy-MM-dd";
-    public final String DATE_FORMATTER = "dd MMMM yyyy";
 
     public DateTime newDateTime(String dateString, final String format) {
         DateTime dateTime = DateTime.now();
