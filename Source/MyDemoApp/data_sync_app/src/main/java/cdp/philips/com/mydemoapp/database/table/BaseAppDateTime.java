@@ -27,11 +27,11 @@ public class BaseAppDateTime {
 
     }
 
-    public final static String DEFAULT_DATE_FORMATTER = "yyyy-MM-dd";
+  //  public final static String DEFAULT_DATE_FORMATTER = "yyyy-MM-dd";
 
     public DateTime newDateTime(String dateString) {
         DateTime dateTime = DateTime.now();
-        DateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMATTER);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = dateFormat.parse(dateString);
             LocalDateTime localDateTime = LocalDateTime.fromDateFields(date);
