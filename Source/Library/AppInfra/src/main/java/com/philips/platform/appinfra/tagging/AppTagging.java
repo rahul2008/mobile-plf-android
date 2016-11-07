@@ -355,6 +355,7 @@ public class AppTagging implements AppTaggingInterface {
         boolean consentValue;
         String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
         consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
+        Log.i("consentValue", ""+consentValue);
         return consentValue;
     }
 

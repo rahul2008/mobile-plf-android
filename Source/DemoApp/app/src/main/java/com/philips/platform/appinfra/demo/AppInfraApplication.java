@@ -32,7 +32,6 @@ public class AppInfraApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
-        mAIAppTaggingInterface.setPrivacyConsentForSensitiveData(true);
         gAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
