@@ -59,10 +59,12 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void loadfromDisk() {
         ArrayList<String> testList = new ArrayList<>();
-        if (getCachefromPreference() != null && getCachefromPreference().getTestValues() != null
-                && getCachefromPreference().getTestValues().size() > 0) {
+        if (getCachefromPreference() != null) {
             mCacheModel = getCachefromPreference();
-            mCacheStatusValue = mCacheModel.getTestValues();
+            if(mCacheModel.getTestValues() != null
+                    && mCacheModel.getTestValues().size() > 0){
+                mCacheStatusValue = mCacheModel.getTestValues();
+            }
         }
 
         //if there are mbox name present in app config and not in cache

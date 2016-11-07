@@ -26,8 +26,12 @@ public class RequestQueue extends com.android.volley.RequestQueue {
     @Override
     public <T> Request<T> add(Request<T> request) {
         String url = request.getUrl();
-        if (!url.toLowerCase().startsWith("https://") && !isValidURL(url)) {
-            mHttpErrorDelivery.postError(request, new VolleyError("HttpForbiddenException"));
+        if (!url.trim().toLowerCase().startsWith("https://")) {
+            mHttpErrorDelivery.postError(request, new VolleyError("HttpForbiddenException-http calls are" +
+                    " deprecated use https calls only"));
+            return null;
+        } else if (!isValidURL(url.trim())) {
+            mHttpErrorDelivery.postError(request, new VolleyError("URL is not valid"));
             return null;
         }
         return super.add(request);

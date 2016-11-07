@@ -17,22 +17,13 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
 
     public JsonObjectRequest(int method, String url, JSONObject jsonRequest,
                              Response.Listener<JSONObject> listener,
-                             Response.ErrorListener errorListener) throws HttpForbiddenException {
+                             Response.ErrorListener errorListener)  {
         super(method, url, jsonRequest, listener, errorListener);
     }
 
 
     public JsonObjectRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref, String urlExtension, JSONObject jsonRequest,
-                             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) throws HttpForbiddenException {
+                             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener)  {
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), jsonRequest, listener, errorListener);
-    }
-
-    @Override
-    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-        if (response != null && response.data != null) {
-            return super.parseNetworkResponse(response);
-        } else {
-            return Response.error(new VolleyError("Response is null"));
-        }
     }
 }

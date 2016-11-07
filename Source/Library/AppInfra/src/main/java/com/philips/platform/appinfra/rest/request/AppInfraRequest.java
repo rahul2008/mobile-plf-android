@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -29,13 +30,22 @@ public class AppInfraRequest<T> extends Request<T> {
     /**
      * Make a GET request and return a parsed object from JSON.
      *
-     * @param url URL of the request to make
-     * @param clazz Relevant class object, for Gson's reflection
+     * @param url     URL of the request to make
+     * @param clazz   Relevant class object, for Gson's reflection
      * @param headers Map of request headers
      */
-    public AppInfraRequest(int method,String url, Class<T> clazz, Map<String, String> headers,
-                           Response.Listener<T> listener, Response.ErrorListener errorListener) throws HttpForbiddenException {
+    public AppInfraRequest(int method, String url, Class<T> clazz, Map<String, String> headers,
+                           Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
+        this.clazz = clazz;
+        this.headers = headers;
+        this.listener = listener;
+    }
+
+    public AppInfraRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
+                           String urlExtension, Class<T> clazz, Map<String, String> headers,
+                           Response.Listener<T> listener, Response.ErrorListener errorListener) {
+        super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), errorListener);
         this.clazz = clazz;
         this.headers = headers;
         this.listener = listener;
@@ -50,6 +60,7 @@ public class AppInfraRequest<T> extends Request<T> {
     protected void deliverResponse(T response) {
         listener.onResponse(response);
     }
+
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
@@ -65,6 +76,4 @@ public class AppInfraRequest<T> extends Request<T> {
             return Response.error(new ParseError(e));
         }
     }
-
-
 }

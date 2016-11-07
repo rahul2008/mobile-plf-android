@@ -7,7 +7,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
+
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 
@@ -54,7 +54,7 @@ public class RestDemo extends AppCompatActivity {
                     Log.i("LOG", "" + error);
                 }
             });
-        } catch (HttpForbiddenException e) {
+        } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
 

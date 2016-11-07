@@ -9,9 +9,7 @@ package com.philips.platform.appinfra.rest.request;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 
 public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
@@ -22,17 +20,8 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
     }
 
     public ImageRequest(String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref, String urlExtension, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
-                        ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, Response.ErrorListener errorListener) throws HttpForbiddenException {
+                        ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, Response.ErrorListener errorListener)  {
         super(ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), listener, maxWidth, maxHeight, scaleType, decodeConfig, errorListener);
     }
 
-
-    @Override
-    protected Response<Bitmap> parseNetworkResponse(NetworkResponse response) {
-        if (response != null && response.data != null) {
-            return super.parseNetworkResponse(response);
-        } else {
-            return Response.error(new VolleyError("Response is null"));
-        }
-    }
 }

@@ -22,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
-import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import org.json.JSONException;
@@ -149,15 +148,15 @@ public class RestClientActivity extends AppCompatActivity {
 
                             @Override
                             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                                if (response != null) {
-                                    int mStatusCode = response.statusCode;
+                                if (response != null && response.data != null) {
                                     return super.parseNetworkResponse(response);
+                                } else {
+                                    return Response.error(new VolleyError("Response is null"));
                                 }
-                                return null;
                             }
 
                         };
-                    } catch (HttpForbiddenException e) {
+                    } catch (Exception e) {
                         Log.i("LOG", "" + e.toString());
                         showAlertDialog("HttpForbiddenException", e.toString());
                     }
@@ -189,8 +188,17 @@ public class RestClientActivity extends AppCompatActivity {
                                 String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                 showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                             }
-                        });
-                    } catch (HttpForbiddenException e) {
+                        }) {
+                            @Override
+                            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                                if (response != null && response.data != null) {
+                                    return super.parseNetworkResponse(response);
+                                } else {
+                                    return Response.error(new VolleyError("Response is null"));
+                                }
+                            }
+                        };
+                    } catch (Exception e) {
                         Log.i("LOG", "" + e.toString());
                         showAlertDialog("HttpForbiddenException", e.toString());
                     }
@@ -265,8 +273,17 @@ public class RestClientActivity extends AppCompatActivity {
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                         }
-                    });
-                } catch (HttpForbiddenException e) {
+                    }){
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            if (response != null && response.data != null) {
+                                return super.parseNetworkResponse(response);
+                            } else {
+                                return Response.error(new VolleyError("Response is null"));
+                            }
+                        }
+                    };
+                } catch (Exception e) {
                     Log.i("LOG", "" + e.toString());
                     showAlertDialog("HttpForbiddenException", e.toString());
                 }
@@ -308,8 +325,6 @@ public class RestClientActivity extends AppCompatActivity {
                                     showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                                 }
                             }
-
-
                     ) {
 
                         @Override
@@ -344,12 +359,14 @@ public class RestClientActivity extends AppCompatActivity {
 
                         @Override
                         protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                            int mStatusCode = response.statusCode;
-                            return super.parseNetworkResponse(response);
+                            if (response != null && response.data != null) {
+                                return super.parseNetworkResponse(response);
+                            } else {
+                                return Response.error(new VolleyError("Response is null"));
+                            }
                         }
-
                     };
-                } catch (HttpForbiddenException e) {
+                } catch (Exception e) {
                     Log.i("LOG", "" + e.toString());
                     showAlertDialog("HttpForbiddenException", e.toString());
                 }

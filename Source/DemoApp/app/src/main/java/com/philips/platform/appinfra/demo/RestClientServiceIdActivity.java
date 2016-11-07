@@ -21,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
-import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
 import com.philips.platform.appinfra.rest.request.ImageRequest;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.rest.request.StringRequest;
@@ -124,8 +123,10 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
                                 Log.i("LOG", "" + response);
-                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+
                                 showAlertDialog("Success Response", response);
+                                clearParamsAndHeaders();// clear headerd and params from rest client
+
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -136,10 +137,12 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
                                 String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                 showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
+                                clearParamsAndHeaders();// clear headerd and params from rest client
+
                             }
                         });
 
-                    } catch (HttpForbiddenException e) {
+                    } catch (Exception e) {
                         Log.e("LOG REST SD", e.toString());
                         e.printStackTrace();
                     }
@@ -163,8 +166,8 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Log.i("LOG", "" + response);
-                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
                                 showAlertDialog("Success Response", response.toString());
+                                clearParamsAndHeaders();// clear headerd and params from rest client
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -174,9 +177,10 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
                                 String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                 showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
+                                clearParamsAndHeaders();// clear headerd and params from rest client
                             }
                         });
-                    } catch (HttpForbiddenException e) {
+                    } catch (Exception e) {
                         Log.e("LOG REST SD", e.toString());
                         e.printStackTrace();
                     }
@@ -185,28 +189,35 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                         mRestInterface.getRequestQueue().add(jsonRequest);
                     }
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])) { //image
-                    ImageRequest imageRequest;
+                    ImageRequest imageRequest = null;
                     try {
                         imageRequest = new ImageRequest(serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
                                 getPathComponentString(), new Response.Listener<Bitmap>() {
 
                             @Override
                             public void onResponse(Bitmap response) {
-
+                                Log.i("LOG", "" + response);
+                                showAlertDialog("Success Response", response.toString());
+                                clearParamsAndHeaders();// clear headerd and params from rest client
                             }
                         }, 0, 0, null, Bitmap.Config.RGB_565, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Log.i("LOG", "" + error);
+                                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+                                clearParamsAndHeaders();// clear headerd and params from rest client
 
+                                showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                             }
                         });
-
-                    } catch (HttpForbiddenException e) {
-
+                    } catch (Exception e) {
+                        Log.e("LOG REST SD", e.toString());
+                        e.printStackTrace();
                     }
-
+                    if (null != imageRequest) {
+                        mRestInterface.getRequestQueue().add(imageRequest);
+                    }
                 }
-
             }
 
         });

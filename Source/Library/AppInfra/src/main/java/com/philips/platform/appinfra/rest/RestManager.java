@@ -10,7 +10,6 @@ import android.content.Context;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;

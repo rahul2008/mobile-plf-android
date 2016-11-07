@@ -93,7 +93,7 @@ public class ImageRequestTest {
         try {
             request = new ImageRequest("", null, maxWidth, maxHeight, scaleType,
                     Config.RGB_565, null);
-        } catch (HttpForbiddenException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
       /*  Response<Bitmap> response = request.parseNetworkResponse(networkResponse);
