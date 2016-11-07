@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="UIDAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="android:textColorPrimary">?attr/uitControlSecondaryTextColor</item>
+    <style name="UIDAlertDialogStyle" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:textColorPrimary">?attr/uitDialogTitleTextColor</item>
         <item name="android:background">?attr/uitContentPrimary</item>
         <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
         <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
         <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:colorBackground">?attr/uitDialogDimStrongColor</item>
+        <item name="android:windowBackground">?attr/uitDialogDimStrongColor</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+        <item name="android:windowFrame">@null</item>
     </style>
 
     <style name="UIDAlertDialogTitleTextStyle">
@@ -16,7 +25,7 @@
         <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
-        <item name="android:textColor">?attr/uitControlPrimaryTextColor</item>
+        <item name="android:textColor">?attr/uitDialogTitleTextColor</item>
         <item name="android:textSize">20sp</item>
     </style>
 
@@ -25,11 +34,10 @@
         <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
-        <item name="android:textColor">?attr/uitControlSecondaryTextColor</item>
+        <item name="android:textColor">?attr/uitDialogBodyTextColor</item>
         <item name="android:scrollbars">vertical</item>
         <item name="android:textSize">16sp</item>
     </style>
-
 
     <style name="UIDAlertDialogActionAreaStyle">
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>

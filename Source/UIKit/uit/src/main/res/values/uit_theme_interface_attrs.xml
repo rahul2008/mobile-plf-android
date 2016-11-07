@@ -75,11 +75,14 @@
     </declare-styleable>
 
     <declare-styleable name="UIDDialog">
-        <attr name="uitDialogTitleColor" format="reference|color"/>
-        <attr name="uitDialogBodyColor" format="reference|color"/>
+        <attr name="uitDialogTitleTextColor" format="reference|color"/>
+        <attr name="uitDialogBodyTextColor" format="reference|color"/>
         <attr name="uitDialogBackgroundColor" format="reference|color"/>
         <attr name="uitDialogShadowColor" format="reference|color"/>
+        <attr name="uitDialogShadowAlpha" format="reference|float"/>
         <attr name="uitDialogDimSubtleLayerColor" format="reference|color"/>
-        <attr name="uitDialogDimStringColor" format="reference|color"/>
+        <attr name="uitDialogDimSubtleLayerAlpha" format="reference|float"/>
+        <attr name="uitDialogDimStrongColor" format="reference|color"/>
+        <attr name="uitDialogDimStrongColorAlpha" format="reference|float"/>
     </declare-styleable>
 </resources>

@@ -2,6 +2,9 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +13,6 @@ import android.widget.RadioGroup;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.uit.view.widget.AlertDialogFragment;
-import com.philips.platform.uit.view.widget.Switch;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,7 +24,7 @@ public class DialogComponentFragment extends BaseFragment {
     RadioGroup contentSize;
 
     @Bind(R.id.switch_with_title)
-    Switch switchWithTitle;
+    SwitchCompat switchWithTitle;
 
     @Bind(R.id.checkbox_title_with_icon)
     CheckBox checkBoxWithIcon;
@@ -44,11 +46,24 @@ public class DialogComponentFragment extends BaseFragment {
 
     @OnClick(R.id.dialog_with_list)
     public void onDialogWithListClicked() {
-        AlertDialogFragment alertDialog = new AlertDialogFragment();
+        final AlertDialogFragment alertDialog = new AlertDialogFragment();
+        alertDialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.UIDAlertDialogStyle);
         alertDialog.setTitle(getString(R.string.dialog_screen_title_text));
         alertDialog.setMessage(getString(R.string.dialog_screen_short_content_text));
-        alertDialog.setIconResourceId(android.R.drawable.ic_menu_mylocation);
+        alertDialog.setPositiveButton(R.string.dialog_screen_positive_button_text, new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.setNegativeButton(R.string.dialog_screen_negative_button_text, new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                alertDialog.dismiss();
+            }
+        });
         alertDialog.show(getFragmentManager(), "Blah");
+        alertDialog.setIconDrawable(VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme()).mutate());
     }
 
     @Override

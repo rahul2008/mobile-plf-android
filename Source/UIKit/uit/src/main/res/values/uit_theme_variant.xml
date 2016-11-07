@@ -52,6 +52,16 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uidSwitchBorderColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_20</item>
+
+        <item name="uitDialogTitleTextColor">@color/uitColorWhite</item>
+        <item name="uitDialogBodyTextColor">?attr/uitColorLevel05</item>
+        <item name="uitDialogBackgroundColor">@color/uitColorWhite</item>
+        <item name="uitDialogShadowColor">@android:color/black</item>
+        <item name="uitDialogDimSubtleLayerColor">?attr/uitColorLevel90</item>
+        <item name="uitDialogDimStrongColor">?attr/uitColorLevel90</item>
+        <item name="uitDialogShadowAlpha">@dimen/uit_alpha_per_20</item>
+        <item name="uitDialogDimSubtleLayerAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uitDialogDimStrongColorAlpha">@dimen/uit_alpha_per_80</item>
     </style>
 
     <style name="UltraLight">
@@ -86,6 +96,9 @@
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel10</item>
 
+        <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
+        <item name="uitDialogBodyTextColor">@color/uit_gray_level_75</item>
+
     </style>
 
     <style name="VeryLight">
@@ -116,6 +129,9 @@
         <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel25</item>
+
+        <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
+        <item name="uitDialogBodyTextColor">?attr/uitColorLevel75</item>
 
     </style>
 
@@ -149,6 +165,8 @@
 
         <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel40</item>
+
+        <item name="uitDialogBodyTextColor">@color/uitColorWhite</item>
 
     </style>
 

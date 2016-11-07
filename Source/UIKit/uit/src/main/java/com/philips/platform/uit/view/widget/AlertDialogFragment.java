@@ -1,10 +1,10 @@
 package com.philips.platform.uit.view.widget;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,12 @@ public class AlertDialogFragment extends DialogFragment {
     private
     @DrawableRes
     int iconResourceId = -1;
+    private Button positiveButton;
+    private Button negativeButton;
+    private int positiveButtonText;
+    private int negativeButtonText;
+    private View.OnClickListener positiveButtonLister;
+    private View.OnClickListener negativeButtonListener;
 
     public void setIconResourceId(final int iconResourceId) {
         this.iconResourceId = iconResourceId;
@@ -45,17 +51,17 @@ public class AlertDialogFragment extends DialogFragment {
             title = savedInstanceState.getString(UID_ALERT_DAILOG_TITLE_KEY);
             iconResourceId = savedInstanceState.getInt(UID_ALERT_DAILOG_TITLE_ICON_KEY, -1);
         }
-        android.widget.Button justOnce = (android.widget.Button) view.findViewById(R.id.uid_alert_negative_button);
-        android.widget.Button always = (android.widget.Button) view.findViewById(R.id.uid_alert_positive_button);
+        positiveButton = (Button) view.findViewById(R.id.uid_alert_positive_button);
+        negativeButton = (Button) view.findViewById(R.id.uid_alert_negative_button);
         final TextView messageContent = (TextView) view.findViewById(R.id.uid_alert_message);
         messageContent.setText(message);
         final TextView titleContent = (TextView) view.findViewById(R.id.uid_alert_title);
         titleContent.setText(title);
-        if (iconResourceId != -1) {
-            titleContent.setCompoundDrawables(ContextCompat.getDrawable(getContext(), iconResourceId).mutate(), null, null, null);
-        }
-        justOnce.setOnClickListener(dismissDialog());
-        always.setOnClickListener(dismissDialog());
+
+        positiveButton.setText(getString(positiveButtonText));
+        positiveButton.setOnClickListener(positiveButtonLister);
+        negativeButton.setText(negativeButtonText);
+        negativeButton.setOnClickListener(negativeButtonListener);
         return view;
     }
 
@@ -86,5 +92,20 @@ public class AlertDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.UIDAlertDialogStyle;
+        getDialog().getWindow().setBackgroundDrawableResource(R.color.uit_purple_level_90);
+    }
+
+    public void setPositiveButton(final int text, final View.OnClickListener onClickListener) {
+        positiveButtonText = text;
+        positiveButtonLister = onClickListener;
+    }
+
+    public void setNegativeButton(final int text, final View.OnClickListener onClickListener) {
+        negativeButtonText = text;
+        negativeButtonListener = onClickListener;
+    }
+
+    public void setIconDrawable(final Drawable drawable) {
+
     }
 }
