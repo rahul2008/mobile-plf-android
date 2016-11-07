@@ -23,6 +23,7 @@ import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.Matchers;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.timeout;
@@ -176,7 +178,7 @@ public class BleStrategyTestSteps {
         strategy.putProperties(objData, port, productId, handler);
     }
 
-    @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'")
+    @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'$")
     public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
         ResponseHandler handler = mock(ResponseHandler.class);
         responseQueue.add(handler);
@@ -185,23 +187,23 @@ public class BleStrategyTestSteps {
     }
 
     @Then("^the result is an error '(.*?)' with data '(.*?)'$")
-    public void theResultIsAnErrorThisErrorWithDataTestData(String error, String data) throws Throwable {
-        verify(responseQueue.remove()).onError(Error.valueOf(error), data);
+    public void theResultIsAnErrorWithData(String error, String data) throws Throwable {
+        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), eq(data));
     }
 
     @Then("^the result is an error '(.*?)' with any data$")
-    public void theResultIsAnErrorThisError(String error) throws Throwable {
-        verify(responseQueue.remove()).onError(Error.valueOf(error), anyString());
+    public void theResultIsAnErrorWithAnyData(String error) throws Throwable {
+        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), anyString());
     }
 
     @Then("^the result is an error$")
     public void theResultIsAnError() throws Throwable {
-        verify(responseQueue.remove()).onError(any(Error.class), anyString());
+        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(any(Error.class), anyString());
     }
 
     @Then("^the result is an error '(.*?)' without data$")
     public void theResultIsAnErrorWithoutData(String error) throws Throwable {
-        verify(responseQueue.remove()).onError(Error.valueOf(error), null);
+        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), Matchers.isNull(String.class));
     }
 
     @Then("^the result is success with data '(.*?)'$")
