@@ -22,7 +22,10 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
-        loadCofigParams();
+
+        mHostPort = "https://acc.occ.shop.philips.com/";
+        mProposition = "Tuscany2016";
+//        loadCofigParams();
 //        initServiceDiscovery();
     }
 
