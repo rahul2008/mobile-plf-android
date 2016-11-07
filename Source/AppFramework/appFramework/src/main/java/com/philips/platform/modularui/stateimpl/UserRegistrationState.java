@@ -25,6 +25,7 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -147,6 +148,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void onUserLogoutSuccess() {
         userRegistrationListener.onLogoutSuccess();
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, getUserObject(activityContext));
+        userRegistrationFacade.clearUserData();
     }
 
     @Override
@@ -157,6 +160,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         userRegistrationListener.onLogoutSuccess();
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, getUserObject(activityContext));
+        userRegistrationFacade.clearUserData();
     }
 
 

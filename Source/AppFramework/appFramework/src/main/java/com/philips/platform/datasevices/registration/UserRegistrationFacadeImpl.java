@@ -19,6 +19,7 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasevices.listener.EventHelper;
 import com.philips.platform.datasevices.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.Eventing;
@@ -82,6 +83,15 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
             });
         }
     };
+
+    public void clearUserData() {
+        DataServicesManager manager = DataServicesManager.getInstance();
+        manager.deleteAll();
+        clearPreferences();
+        email = null;
+        accessToken = "";
+    }
+
     private RegistrationConfiguration registrationConfiguration;
 
     @Nullable
@@ -133,12 +143,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
         return userProfile;
     }
-
-    @Override
-    public void setUserSkippedOrAddedPhoto() {
-        sharedPreferences.edit().putBoolean(KEY_PROFILE_PHOTO_SET, true).apply();
-    }
-
 
     @NonNull
     private UserProfile getUserProfileUserRegistrationPart() {
@@ -220,6 +224,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     }
 
     private void clearPreferences() {
+        sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
     }
