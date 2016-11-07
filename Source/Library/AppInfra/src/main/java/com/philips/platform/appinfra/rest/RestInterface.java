@@ -5,14 +5,9 @@
  */
 package com.philips.platform.appinfra.rest;
 
-import android.graphics.Bitmap;
-import android.widget.ImageView;
-
-import com.android.volley.RequestQueue;
-import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
 
 import java.util.HashMap;
-import java.util.Map;
 
 
 public interface RestInterface {
@@ -46,7 +41,5 @@ public interface RestInterface {
         }
         void onError(ERRORVALUES error, String message);
     }
-
-
 
 }

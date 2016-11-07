@@ -10,16 +10,20 @@ import android.content.Context;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.io.File;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -37,18 +41,21 @@ public class RestManager implements RestInterface {
 
     @Override
     public RequestQueue getRequestQueue() {
+        Integer cacheSizeinKB = null;
+
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone ,passes one in.
             // Instantiate the cache
-            AppConfigurationInterface mAppConfigurationInterface;
-            mAppConfigurationInterface = mAppInfra.getConfigInterface();
+            ;
+            AppConfigurationInterface mAppConfigurationInterface = mAppInfra.getConfigInterface();
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-            Integer cacheSizeinKB = null;
-            try {
-                cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
-            } catch (IllegalArgumentException i) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "CONFIG ERROR", i.toString());
+            if (mAppInfra.getConfigInterface() != null) {
+                try {
+                    cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
+                } catch (IllegalArgumentException i) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "CONFIG ERROR", i.toString());
+                }
             }
             if (cacheSizeinKB == null) {
                 cacheSizeinKB = 1024; // default fall back
@@ -65,7 +72,13 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        return new BasicNetwork(new HurlStack(new ServiceIDResolver()));
+        HttpStack stack = null;
+        try {
+            stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return new BasicNetwork(stack);
     }
 
     @Override
@@ -84,7 +97,6 @@ public class RestManager implements RestInterface {
     }
 
 
-
     private File getCacheDir() {
         return mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
     }
@@ -93,16 +105,7 @@ public class RestManager implements RestInterface {
         getRequestQueue().add(req);
     }
 
-    private boolean isValidURL(String url) {
-        boolean isValidurl = false;
-        String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-        if (null != url && url.matches(regex)) {
-            isValidurl = true;
-        }
-        return isValidurl;
-    }
-
-    protected class ServiceIDResolver implements HurlStack.UrlRewriter {
+    private class ServiceIDResolver implements HurlStack.UrlRewriter {
 
         public String rewriteUrl(String originalUrl) {
             if (!ServiceIDUrlFormatting.isServiceIDUrl(originalUrl))
@@ -123,11 +126,10 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR , "REST" , error.toString());
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
                         }
                     });
-                }
-                else {
+                } else {
                     mAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(sid, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                         @Override
                         public void onSuccess(URL url) {
@@ -136,23 +138,22 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
                         }
                     });
                 }
                 waitResult.await();
+            } catch (InterruptedException e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "RESTERROR",
+                        e.toString());
+            } finally {
+                if (resultURL.length() > 0) {
+                    resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
+                }
             }
-            catch (InterruptedException e) {
-
-            }
-            finally {
-                if (resultURL.length()==0)
-                    return null;
-                resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
-                return resultURL.toString();
-            }
+            if (resultURL.length() == 0)
+                return null;
+            return resultURL.toString();
         }
-
     }
-
-
 }

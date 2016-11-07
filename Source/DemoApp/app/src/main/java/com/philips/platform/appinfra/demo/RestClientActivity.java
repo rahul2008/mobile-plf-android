@@ -19,6 +19,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
@@ -56,7 +57,7 @@ public class RestClientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rest_client);
         params = new HashMap<String, String>();
         headers = new HashMap<String, String>();
-        mRestInterface = AppInfraApplication.gAppInfra.getRestClient();
+        mRestInterface = new AppInfra.Builder().build(getApplicationContext()).getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         urlInput = (EditText) findViewById(R.id.editTextURL);
         idInput = (EditText) findViewById(R.id.editTextID);
@@ -134,8 +135,6 @@ public class RestClientActivity extends AppCompatActivity {
                                         showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                                     }
                                 }
-
-
                         ) {
 
                             @Override
@@ -150,8 +149,11 @@ public class RestClientActivity extends AppCompatActivity {
 
                             @Override
                             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                                int mStatusCode = response.statusCode;
-                                return super.parseNetworkResponse(response);
+                                if (response != null) {
+                                    int mStatusCode = response.statusCode;
+                                    return super.parseNetworkResponse(response);
+                                }
+                                return null;
                             }
 
                         };

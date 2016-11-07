@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.demo;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,12 +19,14 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
+import com.philips.platform.appinfra.rest.request.ImageRequest;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.rest.request.StringRequest;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -151,38 +154,56 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                         mRestInterface.getRequestQueue().add(mStringRequest);
                     }
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])) { //json
-//                    JsonObjectRequest jsonObjectRequest;
-//                    try {
-//
-//                        jsonObjectRequest = new JsonObjectRequest(methodType,
-//                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
-//                                getPathComponentString()
-//                                , new Response.Listener<JsonObject>() {
-//                            @Override
-//                            public void onResponse(JsonObject response) {
-//                                Log.i("LOG", "" + response);
-//                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
-//                                showAlertDialog("Success Response", response.toString());
-//                            }
-//                        }, new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                Log.i("LOG", "" + error);
-//
-//                                //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-//
-//                                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-//                                showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
-//                            }
-//                        });
-//
-//                    } catch (HttpForbiddenException exception) {
-//
-//                    }
-//
+                    JsonObjectRequest jsonRequest = null;
+                    try {
+                        jsonRequest = new JsonObjectRequest(methodType,
+                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
+                                getPathComponentString(), null
+                                , new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.i("LOG", "" + response);
+                                //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                showAlertDialog("Success Response", response.toString());
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("LOG", "" + error);
+                                //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
 
+                                String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+                                showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
+                            }
+                        });
+                    } catch (HttpForbiddenException e) {
+                        Log.e("LOG REST SD", e.toString());
+                        e.printStackTrace();
+                    }
+                    if (null != jsonRequest) {
+                        //  urlFired.setText(mStringRequest.getUrl());
+                        mRestInterface.getRequestQueue().add(jsonRequest);
+                    }
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])) { //image
+                    ImageRequest imageRequest;
+                    try {
+                        imageRequest = new ImageRequest(serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
+                                getPathComponentString(), new Response.Listener<Bitmap>() {
 
+                            @Override
+                            public void onResponse(Bitmap response) {
+
+                            }
+                        }, 0, 0, null, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        });
+
+                    } catch (HttpForbiddenException e) {
+
+                    }
 
                 }
 

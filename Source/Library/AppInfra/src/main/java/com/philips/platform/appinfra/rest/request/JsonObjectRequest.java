@@ -5,8 +5,9 @@
  */
 package com.philips.platform.appinfra.rest.request;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
-import com.google.gson.JsonObject;
+import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 
 import org.json.JSONObject;
@@ -26,5 +27,12 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), jsonRequest, listener, errorListener);
     }
 
-    
+    @Override
+    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+        if (response != null && response.data != null) {
+            return super.parseNetworkResponse(response);
+        } else {
+            return Response.error(new VolleyError("Response is null"));
+        }
+    }
 }

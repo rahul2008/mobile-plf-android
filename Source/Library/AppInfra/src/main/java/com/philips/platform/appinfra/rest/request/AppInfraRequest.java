@@ -26,8 +26,6 @@ public class AppInfraRequest<T> extends Request<T> {
     private final Class<T> clazz;
     private final Map<String, String> headers;
 
-
-
     /**
      * Make a GET request and return a parsed object from JSON.
      *
