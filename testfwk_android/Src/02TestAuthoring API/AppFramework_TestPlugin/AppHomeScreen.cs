@@ -114,7 +114,12 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
 
         public static string GetDatacoreErrorMsg()
         {
-            return _instance.GetElement(SearchBy.Id, ObjectRepository.DatacoreErrorMsg).Text;
+            string msg = "Datacore is not reachable";
+            if (_instance.GetElement(SearchBy.Id, ObjectRepository.DatacoreErrorMsg) != null)
+            {
+                msg = _instance.GetElement(SearchBy.Id, ObjectRepository.DatacoreErrorMsg).Text;
+            }
+            return msg;
         }
 
         public static bool IsVisible1()
