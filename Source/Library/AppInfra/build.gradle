@@ -16,11 +16,11 @@ buildscript {
                 username = "readonly"
                 password = "readonly"
             }
-        }       
+        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
@@ -33,12 +33,13 @@ apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 
 allprojects {
-	repositories {
+    repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -56,7 +57,9 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }  
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
 
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.platform.appinfra'
@@ -67,22 +70,24 @@ allprojects {
     }
 }
 
-    
-    group = 'com.philips.cdp'
-	version = objcdp.getVersion()
-	
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-			defaults {
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-			          }
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+            }
         }
     }
     resolve {
@@ -90,6 +95,7 @@ artifactory {
             repoKey = 'libs-release-local'
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -100,7 +106,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
@@ -110,8 +116,8 @@ task zipDocuments(type: Zip) {
 
 android {
     signingConfigs {
-       release
-         }
+        release
+    }
 //    signingConfigs {
 //        config {
 //            keyAlias 'AppInfra'
@@ -120,8 +126,8 @@ android {
 //            storePassword 'AppInfra'
 //        }
 //    }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 23
@@ -191,18 +197,18 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
-	
-	compile(group: 'com.philips.cdp', name: 'prx', version: '2.4.0-SNAPSHOT', ext: 'aar', changing: true)
-    {
-           transitive = true
-    }	
-	
-	compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.2.0-SNAPSHOT', ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
+
+    compile(group: 'com.philips.cdp', name: 'prx', version: '2.4.0-SNAPSHOT', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.2.0-SNAPSHOT', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
 
     compile 'com.android.volley:volley:1.0.0'
 
