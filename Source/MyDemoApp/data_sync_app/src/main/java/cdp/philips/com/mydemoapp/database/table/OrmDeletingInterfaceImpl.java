@@ -1,4 +1,4 @@
-package cdp.philips.com.mydemoapp.database;
+package cdp.philips.com.mydemoapp.database.table;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -15,8 +15,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.database.OrmDeleting;
+import cdp.philips.com.mydemoapp.database.OrmSaving;
+import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 
@@ -59,7 +60,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             } else {
                 moment.setSynchronisationData(
                         new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
-                        DateTime.now(), 0));
+                                DateTime.now(), 0));
                 saveMoment(moment);
             }
             //notifyAllSuccess(moment);
