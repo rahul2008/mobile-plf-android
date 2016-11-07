@@ -3567,6 +3567,837 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
 
     }
 
+    public class UserRegistration
+    {
+        static XmlDocument doc = new XmlDocument();
+        public static string GetData(string element)
+        {
+            string retVal = string.Empty;
+            if (doc.BaseURI == "")
+            {
+                string filepath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Repository_UserReg.xml");
+                doc.Load(filepath);
+            }
+            XmlNode n1 = doc.GetElementsByTagName(element)[0];
+            if (n1 != null)
+                retVal = n1.InnerText;
+            return retVal;
+        }
+        public static class Android
+        {
+            public static class HomeScreen
+            {
+                public static string LogoutName
+                {
+                    get
+                    {
+                        return GetData("LogoutName");
+                    }
+
+                }
+                public static string PhilipsAccountName
+                {
+                    get
+                    {
+                        return GetData("PhilipsAccountName");
+                    }
+
+                }
+                public static string WelcomeTextMerge
+                {
+                    get
+                    {
+                        return GetData("WelcomeTextMerge");
+                    }
+
+                }
+                public static string EnterEmail
+                {
+                    get
+                    {
+                        return GetData("EnterEmail");
+                    }
+
+                }
+                public static string SignInText
+                {
+                    get
+                    {
+                        return GetData("SignInText");
+                    }
+
+                }
+                public static string AOL
+                {
+                    get
+                    {
+                        return GetData("AOL");
+                    }
+
+                }
+                public static string Yahoo
+                {
+                    get
+                    {
+                        return GetData("Yahoo");
+                    }
+
+                }
+                public static string OpenID
+                {
+                    get
+                    {
+                        return GetData("OpenID");
+                    }
+
+                }
+                public static string LinkedIn
+                {
+                    get
+                    {
+                        return GetData("LinkedIn");
+                    }
+
+                }
+                public static string SignInAndAllow
+                {
+                    get
+                    {
+                        return GetData("SignInAndAllow");
+                    }
+
+                }
+
+                public static string SigninName
+                {
+                    get
+                    {
+                        return GetData("SigninName");
+                    }
+
+                }
+
+                public static string AllowName
+                {
+                    get
+                    {
+                        return GetData("AllowName");
+                    }
+
+                }
+                public static string Signout
+                {
+                    get
+                    {
+                        return GetData("Signout");
+                    }
+
+                }
+                public static string Flickr
+                {
+                    get
+                    {
+                        return GetData("Flickr");
+                    }
+
+                }
+                public static string GetMergeHeader
+                {
+                    get
+                    {
+                        return GetData("GetMergeHeader");
+                    }
+
+                }
+                public static string NextEmail
+                {
+                    get
+                    {
+                        return GetData("NextEmail");
+                    }
+
+                }
+                public static string LogInHeader
+                {
+                    get
+                    {
+                        return GetData("LogInHeader");
+                    }
+
+                }
+                public static string FacebookName
+                {
+                    get
+                    {
+                        return GetData("FacebookName");
+                    }
+
+                }
+                public static string LogintoGoogle
+                {
+                    get
+                    {
+                        return GetData("LogintoGoogle");
+                    }
+
+                }
+                public static string EmailEnterText
+                {
+                    get
+                    {
+                        return GetData("EmailEnterText");
+                    }
+
+                }
+                public static string EditTextClass
+                {
+                    get
+                    {
+                        return GetData("EditTextClass");
+                    }
+
+                }
+                
+                public static string GoogleName
+                {
+                    get
+                    {
+                        return GetData("GoogleName");
+                    }
+
+                }
+                public static string EmailError
+                {
+                    get
+                    {
+                        return GetData("EmailError");
+                    }
+
+                }
+                public static string Header
+                {
+                    get
+                    {
+                        return GetData("Header");
+                    }
+
+                }
+
+                public static string SwitchAccount
+                {
+                    get
+                    {
+                        return GetData("SwitchAccount");
+                    }
+
+                }
+                public static string FacebookSign
+                {
+                    get
+                    {
+                        return GetData("FacebookSign");
+                    }
+
+                }
+                public static string SocialMergeGoogle
+                {
+                    get
+                    {
+                        return GetData("SocialMergeGoogle");
+                    }
+
+                }
+                public static string GetMergeTxt
+                {
+                    get
+                    {
+                        return GetData("GetMergeTxt");
+                    }
+
+                }
+                public static string User_LoginConfirm
+                {
+                    get
+                    {
+                        return GetData("User_LoginConfirm");
+                    }
+
+                }
+                
+                public static string Terms_ConditionsErrorMsg
+                {
+                    get
+                    {
+                        return GetData("Terms_ConditionsErrorMsg");
+                    }
+
+                }
+                public static string PasswordErrMsg
+                {
+                    get
+                    {
+                        return GetData("PasswordErrMsg");
+                    }
+
+                }
+                public static string EmailInvalidErrorMsg
+                {
+                    get
+                    {
+                        return GetData("EmailInvalidErrorMsg");
+                    }
+
+                }
+                public static string AccountSetting
+                {
+                    get
+                    {
+                        return GetData("AccountSetting");
+                    }
+
+                }
+                public static string Registration
+                {
+                    get
+                    {
+                        return GetData("Registration");
+                    }
+
+                }
+                public static string RefreshUser
+                {
+                    get
+                    {
+                        return GetData("Refresh_User");
+                    }
+
+                }
+                public static string Parental_Consent
+                {
+                    get
+                    {
+                        return GetData("HSDP_Refresh");
+                    }
+
+                }
+
+            }
+            public static class Registration
+            {
+                public static string LoginwithPhilips
+                {
+                    get
+                    {
+                        return GetData("LoginPhilipsAccount");
+                    }
+                }
+
+                public static string LoginwithFacebook
+                {
+                    get
+                    {
+                        return GetData("LoginFaceBook");
+                    }
+                }
+
+                public static string LoginwithGoogleplus
+                {
+                    get
+                    {
+                        return GetData("LoginGooglePlus");
+                    }
+                }
+
+                public static string CreatePhilipsAccount
+                {
+                    get
+                    {
+                        return GetData("CreatePhilipsAccount");
+                    }
+                }
+                public static string LoginBack
+                {
+                    get
+                    {
+                        return GetData("Login_Back");
+                    }
+                }
+                public static string Merge
+                {
+                    get
+                    {
+                        return GetData("Merge");
+                    }
+                }
+                public static string Cancel
+                {
+                    get
+                    {
+                        return GetData("Cancel");
+                    }
+                }
+                public static string Logout
+                {
+                    get
+                    {
+                        return GetData("LogOut");
+                    }
+                }
+                public static string Loggedin_Continue
+                {
+                    get
+                    {
+                        return GetData("LoogedIn_Continue");
+                    }
+                }
+                static string title = null;
+                public static string Login_Header
+                {
+                    get
+                    {
+                        return GetData("Login_Title");
+                    }
+                    set
+                    {
+                        title = value;
+                    }
+                }
+            }
+            public static class LoginScreen
+            {
+                static string title = null;
+                public static string Welcome_Title
+                {
+                    get
+                    {
+                        return GetData("Welcome_Text");
+                    }
+                    set
+                    {
+                        title = value;
+                    }
+                }
+                public static string Email
+                {
+                    get
+                    {
+                        return GetData("Philips_Email");
+                    }
+                }
+                public static string Password
+                {
+                    get
+                    {
+                        return GetData("Philips_Password");
+                    }
+                }
+                public static string Login
+                {
+                    get
+                    {
+                        return GetData("Login");
+                    }
+                }
+                public static string Merge
+                {
+                    get
+                    {
+                        return GetData("Merge");
+                    }
+                }
+                public static string Cancel
+                {
+                    get
+                    {
+                        return GetData("Cancel");
+                    }
+                }
+                public static string Forgotten_Password
+                {
+                    get
+                    {
+                        return GetData("Forgotten_Password");
+                    }
+                }
+                public static string Login_BackButton
+                {
+                    get
+                    {
+                        return GetData("Back_Up");
+                    }
+                }
+
+            }
+
+            public static class Forgot_Password
+            {
+                static string title = null;
+                public static string Forgot_Title
+                {
+                    get
+                    {
+                        return GetData("Forgot_Title");
+                    }
+                    set
+                    {
+                        title = value;
+                    }
+                }
+                public static string Enter_Email
+                {
+                    get
+                    {
+                        return GetData("Enter_Email");
+                    }
+                }
+                public static string Continue
+                {
+                    get
+                    {
+                        return GetData("Continue");
+                    }
+                }
+            }
+            public static class CreateAccount
+            {
+                static string title = null;
+                public static string CreateAccount_Header
+                {
+                    get
+                    {
+                        return GetData("CreateAccount_Title");
+                    }
+                    set
+                    {
+                        title = value;
+                    }
+                }
+                public static string Back_Login
+                {
+                    get
+                    {
+                        return GetData("Back_Login");
+                    }
+                }
+                public static string FirstName
+                {
+                    get
+                    {
+                        return GetData("URFirstName");
+                    }
+                }
+                public static string Email
+                {
+                    get
+                    {
+                        return GetData("UREmail");
+                    }
+                }
+                public static string Password
+                {
+                    get
+                    {
+                        return GetData("URPassword");
+                    }
+                }
+                public static string Checkbox
+                {
+                    get
+                    {
+                        return GetData("Check_box");
+                    }
+                }
+                public static string Create_Account
+                {
+                    get
+                    {
+                        return GetData("Create_Button");
+                    }
+                }
+                public static string Activated_Account
+                {
+                    get
+                    {
+                        return GetData("Activated_Button");
+                    }
+                }
+                public static string Resend
+                {
+                    get
+                    {
+                        return GetData("Resend");
+                    }
+                }
+                public static string URContinue
+                {
+                    get
+                    {
+                        return GetData("URContinue");
+                    }
+                }
+               
+                static string title1 = null;
+                public static string Verification_Title
+                {
+                    get
+                    {
+                        return GetData("Verification_Title");
+                    }
+                    set
+                    {
+                        title1 = value;
+                    }
+                }
+            }
+
+            public static class UR_Dialogs
+            {
+                static string title1 = null;
+                public static string Resent_Title
+                {
+                    get
+                    {
+                        return GetData("Resent_Confirm");
+                    }
+                    set
+                    {
+                        title1 = value;
+                    }
+                }
+                static string title2 = null;
+                public static string Reset_Password
+                {
+                    get
+                    {
+                        return GetData("Reset_Password");
+                    }
+                    set
+                    {
+                        title2 = value;
+                    }
+                }
+                public static string Continue_Button
+                {
+                    get
+                    {
+                        return GetData("Continue_Button");
+                    }
+                }
+                static string title = null;
+                public static string ParentalMessage
+                {
+                    get
+                    {
+                        return GetData("Parental_message");
+                    }
+                    set
+                    {
+                        title = value;
+                    }
+                }
+                public static string OK
+                {
+                    get
+                    {
+                        return GetData("OK");
+                    }
+                }
+                static string num = null;
+                public static string Picker_Text
+                {
+                    get
+                    {
+                        return GetData("Picker_text");
+                    }
+                    set
+                    {
+                        num = value;
+                    }
+                }
+                public static string Picker_text_birth
+                {
+                    get
+                    {
+                        return GetData("Picker_text_birth");
+                    }
+                    set
+                    {
+                        num = value;
+                    }
+                }
+                public static string Coppa_Ok
+                {
+                    get
+                    {
+                        return GetData("Coppa_Ok");
+                    }
+                }
+                public static string Coppa_Cancel
+                {
+                    get
+                    {
+                        return GetData("Coppa_Cancel");
+                    }
+                }
+                public static string Enter_Digit
+                {
+                    get
+                    {
+                        return GetData("Enter_Digit");
+                    }
+                }
+                static string title3 = null;
+                public static string Age_YearMismatch
+                {
+                    get
+                    {
+                        return GetData("Age_year_mismatch");
+                    }
+                    set
+                    {
+                        title3 = value;
+                    }
+                }
+            }
+            public static class AccountSetting
+            {
+                static string title1 = null;
+                public static string AccountSetting_Title
+                {
+                    get
+                    {
+                        return GetData("AccountSetting_Title");
+                    }
+                    set
+                    {
+                        title1 = value;
+                    }
+                }
+                static string title2 = null;
+                public static string Welcome_Title
+                {
+                    get
+                    {
+                        return GetData("Welcome_Title");
+                    }
+                    set
+                    {
+                        title2 = value;
+                    }
+                }
+                public static string Back
+                {
+                    get
+                    {
+                        return GetData("Back_To_home");
+                    }
+                }
+            }
+
+            public static class ParentalAccess
+            {
+                static string title1 = null;
+                public static string ParentalConsent_Title
+                {
+                    get
+                    {
+                        return GetData("Parental_Title");
+                    }
+                    set
+                    {
+                        title1 = value;
+                    }
+                }
+                public static string BackHome
+                {
+                    get
+                    {
+                        return GetData("Backto_home");
+                    }
+                }
+                public static string Under_16
+                {
+                    get
+                    {
+                        return GetData("Under_16");
+                    }
+                }
+                public static string Above_16
+                {
+                    get
+                    {
+                        return GetData("Above_16");
+                    }
+                }
+                public static string How_Old
+                {
+                    get
+                    {
+                        return GetData("How_Old");
+                    }
+                }
+                public static string Birth_Year
+                {
+                    get
+                    {
+                        return GetData("Birth_Year");
+                    }
+                }
+                public static string Continue
+                {
+                    get
+                    {
+                        return GetData("Parental_Continue");
+                    }
+                }
+                public static string Parental_Access_Continue
+                {
+                    get
+                    {
+                        return GetData("Parental_Access_Continue");
+                    }
+                }
+                public static string Agree
+                {
+                    get
+                    {
+                        return GetData("Agree");
+                    }
+                }
+                public static string DisAgree
+                {
+                    get
+                    {
+                        return GetData("DisAgree");
+                    }
+                }
+
+            }
+
+            public static class Philips_Registreation
+            {
+                static string title1 = null;
+                public static string Philps_Title
+                {
+                    get
+                    {
+                        return GetData("Heading");
+                    }
+                    set
+                    {
+                        title1 = value;
+                    }
+                }
+                public static string Back_Login
+                {
+                    get
+                    {
+                        return GetData("Back_toLogin");
+                    }
+                }
+            }
+        }
+    }
 
 }
 
