@@ -30,6 +30,7 @@
         <attr name="uitControlPrimaryAltDisabledAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryAltTextDisabledAlpha" format="reference|float"/>
         <attr name="uitApplicationBackground" format="reference|color"/>
+
     </declare-styleable>
 
 

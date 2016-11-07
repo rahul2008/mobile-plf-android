@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="uit_page_marging_left_right">24dp</dimen>
     <!--Percentage for opacity-->
     <item name="uit_alpha_per_100" format="float" type="dimen">1</item>
     <item name="uit_alpha_per_20" format="float" type="dimen">0.20</item>
@@ -49,6 +50,8 @@
     <dimen name="uit_texteditbox_stroke_width_ultralight">1dp</dimen>
     <dimen name="uit_texteditbox_line_spacing">26dp</dimen>
     <dimen name="uit_texteditbox_vertical_padding">12dp</dimen>
+    <dimen name="uid_alert_dialog_control_area_height">64dp</dimen>
+
 
     <integer name="uit_texteditbox_font_spacing_multiplier">0</integer>
     <item name="uit_texteditbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>

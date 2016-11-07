@@ -3,4 +3,9 @@
     <item name="uit_texteditbox_stroke_drawable" type="id"/>
     <item name="uit_texteditbox_fill_drawable" type="id"/>
     <item name="uid_id_switch_track" type="id"/>
+    <item name="uid_alert_positive_button" type="id"/>
+    <item name="uid_alert_negative_button" type="id"/>
+    <item name="uid_alert_title" type="id"/>
+    <item name="uid_alert_message" type="id"/>
+    <item name="uid_alert_control_area" type="id"/>
 </resources>
