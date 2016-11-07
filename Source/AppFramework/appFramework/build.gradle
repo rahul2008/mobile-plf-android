@@ -25,6 +25,7 @@ buildscript {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
@@ -242,6 +243,18 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:+'
 
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // Module projects
+//    compile project(':dataServices')
+    // DEBUG
+    debugCompile 'com.facebook.stetho:stetho:1.2.0'
+
+    compile "com.j256.ormlite:ormlite-core:4.48"
+    compile "com.j256.ormlite:ormlite-android:4.48"
+
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
@@ -252,6 +265,11 @@ dependencies {
 
     compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-SNAPSHOT', ext: 'aar', changing: true){
           transitive=true
+    }
+
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.1.0-SNAPSHOT', ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
     }
 	
     compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.2.2', ext: 'aar')

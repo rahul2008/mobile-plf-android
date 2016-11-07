@@ -5,8 +5,12 @@
 */
 package com.philips.platform.appframework.homescreen;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -14,6 +18,7 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
+import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
@@ -37,7 +42,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
-    private final int PRODUCT_REGISTRATION = 6;
+    private final int PRODUCT_REGISTRATION = 7;
+    private final int MENU_OPTION_DATA_SYNC = 6;
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
@@ -112,6 +118,12 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
                 break;
+            case MENU_OPTION_DATA_SYNC:
+                uiState = new DataSyncScreenState();
+                UIStateData syncStateData = new UIStateData();
+                syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                uiState.setUiStateData(syncStateData);
+                break;
             case PRODUCT_REGISTRATION:
                 uiState = new ProductRegistrationState();
                 break;
@@ -119,6 +131,19 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiState = new HomeFragmentState();
         }
         return uiState;
+    }
+
+    public void showFragment(Fragment fragment, String fragmentTag) {
+        int containerId = R.id.frame_container;
+
+        try {
+            FragmentTransaction fragmentTransaction = fragmentView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(containerId, fragment, fragmentTag);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            //Logger.e(TAG, "IllegalStateException" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     protected FragmentLauncher getFragmentLauncher() {
