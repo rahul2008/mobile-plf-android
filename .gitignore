@@ -25,3 +25,5 @@ testfwk_android/Src/ST_Nucleo/bin/
 testfwk_android/Src/ST_Nucleo/obj/
 TestReports/
 testfwk_android/Src/bin/
+testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/bin/
