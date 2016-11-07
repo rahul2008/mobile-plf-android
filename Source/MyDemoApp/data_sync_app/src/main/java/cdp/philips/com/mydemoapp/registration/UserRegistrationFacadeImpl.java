@@ -9,32 +9,23 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.datatypes.UserCredentials;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
-import org.joda.time.DateTime;
-
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
 import retrofit.RetrofitError;
@@ -47,7 +38,6 @@ import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
  */
 @Singleton
 public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
-    static final String KEY_PROFILE_PHOTO_SET = "PROFILE_PHOTO_SET";
 
     // TODO: This I do not want
     @NonNull
@@ -87,6 +77,15 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
             });
         }
     };
+
+    public void clearUserData() {
+        DataServicesManager manager = DataServicesManager.getInstance();
+        manager.deleteAll();
+        clearPreferences();
+        email = null;
+        accessToken = "";
+    }
+
     private RegistrationConfiguration registrationConfiguration;
 
     @Nullable
@@ -138,12 +137,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
         return userProfile;
     }
-
-    @Override
-    public void setUserSkippedOrAddedPhoto() {
-        sharedPreferences.edit().putBoolean(KEY_PROFILE_PHOTO_SET, true).apply();
-    }
-
 
     @NonNull
     private UserProfile getUserProfileUserRegistrationPart() {
@@ -225,6 +218,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     }
 
     private void clearPreferences() {
+        sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
     }

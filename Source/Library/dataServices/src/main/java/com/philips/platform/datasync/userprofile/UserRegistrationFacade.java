@@ -19,8 +19,6 @@ public interface UserRegistrationFacade {
     @NonNull
     UserProfile getUserProfile();
 
-    void setUserSkippedOrAddedPhoto();
-
     boolean isSameUser();
 
     UserCredentials getUserCredentials();

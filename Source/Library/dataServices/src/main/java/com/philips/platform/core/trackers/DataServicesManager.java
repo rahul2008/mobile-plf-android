@@ -28,6 +28,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -236,6 +237,10 @@ public class DataServicesManager {
 
         mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
         mCore.start();
+    }
+
+    public void deleteAll(){
+        mEventing.post(new DataClearRequest());
     }
 
     protected void prepareInjectionsGraph(Context context) {
