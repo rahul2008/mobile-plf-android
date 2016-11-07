@@ -64,7 +64,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     @Override
     public void init(Context context) {
         this.applicationContext = context;
-        initializeUserRegistrationLibrary(Configuration.STAGING);
+        initializeUserRegistrationLibrary();
 
     }
 
@@ -157,12 +157,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     /**
      * For doing dynamic initialisation Of User registration
      */
-    public void initializeUserRegistrationLibrary(Configuration configuration) {
-        SharedPreferences.Editor editor = applicationContext.getSharedPreferences("reg_dynamic_config", applicationContext.MODE_PRIVATE).edit();
-        editor.putString("reg_environment", configuration.getValue());
-        editor.commit();
-
-
+    public void initializeUserRegistrationLibrary() {
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 

@@ -1,12 +1,12 @@
 {
   "UserRegistration": {
     "JanRainConfiguration.RegistrationClientID.DEVELOPMENT": "24z7ty7eepty8bbjgkrd8m54twtxz4wa",
-    "JanRainConfiguration.RegistrationClientID.TESTING": "g52bfma28yjbd24hyjcswudwedcmqy7c",
-    "JanRainConfiguration.RegistrationClientID.EVALUATION": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+    "JanRainConfiguration.RegistrationClientID.TESTING": "bar943vh96bt9cuk5zzy8wxtq2f2hmgd",
+    "JanRainConfiguration.RegistrationClientID.EVALUATION": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
     "JanRainConfiguration.RegistrationClientID.STAGING": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
     "JanRainConfiguration.RegistrationClientID.PRODUCTION": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
     "PILConfiguration.MicrositeID": "11400",
-    "PILConfiguration.RegistrationEnvironment": "STAGING",
+    "PILConfiguration.RegistrationEnvironment": "TESTING",
     "Flow.EmailVerificationRequired" : "true",
     "Flow.TermsAndConditionsAcceptanceRequired" : "true",
     "Flow.MinimumAgeLimit" :  "{ \"NL\":12 ,\"GB\":0,\"default\": 16}",
@@ -20,7 +20,7 @@
   "appinfra": {
     "appidentity.micrositeId" : "11400",
     "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "STAGING",
+    "appidentity.appState"  : "TEST",
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION"
 
   }
