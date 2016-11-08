@@ -23,6 +23,7 @@ import java.net.URL;
 public class AppInfraApplication extends Application {
      public static AppTaggingInterface mAIAppTaggingInterface;
      public static AppInfraInterface gAppInfra;
+    public static AppInfra mAppInfra;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -30,6 +31,8 @@ public class AppInfraApplication extends Application {
         LeakCanary.install(this);
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        mAppInfra = (AppInfra)gAppInfra;
+        new AppInfra(getApplicationContext());
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
         mAIAppTaggingInterface.setPrivacyConsentForSensitiveData(true);
@@ -45,7 +48,7 @@ public class AppInfraApplication extends Application {
             }
         });
 
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAIAppTaggingInterface);
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
 
