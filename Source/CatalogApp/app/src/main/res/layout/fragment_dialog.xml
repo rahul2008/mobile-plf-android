@@ -39,7 +39,7 @@
             android:background="?attr/uitApplicationBackground"/>
 
         <com.philips.platform.uit.view.widget.Switch
-            android:id="@+id/switch_with_title"
+            android:id="@+id/toggle_switch_with_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/layout_margin_left_right"
