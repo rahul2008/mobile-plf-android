@@ -172,7 +172,6 @@ public class AlertTest {
     public void verifyFunctionalityOfDismissiveButton() {
         onView(withId(com.philips.platform.uit.test.R.id.uid_alert_negative_button)).perform(ViewActions.click());
         onView(withId(com.philips.platform.uit.test.R.id.uid_alert)).check(doesNotExist());
-
     }
 
     /*******************************************************
@@ -192,28 +191,26 @@ public class AlertTest {
     @Test
     public void verifyTextColorofAlertTitle() {
         final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray75);
-        getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled,expectedColor)));
-
+        getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyTextColorofAlertContent() {
         final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray65);
-        getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled,expectedColor)));
+        getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyIconColorofAlertTitle() {
-            //Cannot be automated
+        //Cannot be automated
     }
 
     @Test
     public void verifyColorofDimLayer() {
-        final int disabledTextColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#0A0C1E"), 0.80f);
-
+        final int expecteddimLayerColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#0A0C1E"), 0.80f);
     }
 
-    private ViewInteraction getAlert(){
+    private ViewInteraction getAlert() {
         return onView(withId(com.philips.platform.uit.test.R.id.uid_alert));
     }
 
