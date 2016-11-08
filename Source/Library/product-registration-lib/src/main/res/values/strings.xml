@@ -53,4 +53,11 @@
     <string name="PPR_find_serial_number_help_message">Engraved on the back of the product, in the compartment under the plastic cover, under the trimmer or under the shaving head</string>
     <string name="PPR_ok_i_found_it">ok, I found it</string>
     <string name="PPR_registered">Registered</string>
+    <string name="PPR_registered_on">Registered on</string>
+    <string name="PPR_warranty_until">Warranty until</string>
+    <string name="PPR_registered_serial">You have registered serial</string>
+    <string name="PPR_before">before</string>
+    <string name="PPR_serial_number_consists">"The serial number consists of"</string>
+    <string name="PPR_number_starting">" numbers, starting with"</string>
+    <string name="PPR_eg">.E.g.</string>
 </resources>

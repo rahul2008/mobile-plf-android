@@ -10,7 +10,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -34,9 +33,7 @@ import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
-import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
-import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -115,6 +112,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mActivity = getActivity();
         setRetainInstance(true);
         prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity);
         dismissLoadingDialog();
@@ -124,7 +122,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
-        mActivity = getActivity();
         productFriendlyNameTextView = (TextView) view.findViewById(R.id.friendly_name);
         dateParentLayout = (LinearLayout) view.findViewById(R.id.date_edit_text_layout);
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
@@ -136,10 +133,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
-        final int resId = R.drawable.ic_calendar_inverted;
-        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(mActivity.getResources(), resId, mActivity.getTheme());
+//        final int resId = R.drawable.ic_calendar_inverted;
+//        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(mActivity.getResources(), resId, mActivity.getTheme());
 //        date_EditText.setCompoundDrawables(null, null, vectorDrawableCompat, null);
-        date_EditText.setCompoundDrawablesWithIntrinsicBounds(null, null, vectorDrawableCompat, null);
+//        date_EditText.setCompoundDrawablesWithIntrinsicBounds(null, null, vectorDrawableCompat, null);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
@@ -407,51 +404,23 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
-        showAlreadyRegisteredApproach1(registeredProduct);
-    }
-
-    private void showAlreadyRegisteredApproach1(final RegisteredProduct registeredProduct) {
         final Dialog dialog = new Dialog(mActivity);
         dialog.setContentView(R.layout.prod_reg_already_registered_dialog);
-        dialog.show();
-        dialog.setCancelable(false);
-        TextView serialNumberMessage = (TextView) dialog.findViewById(R.id.serial_number_message);
-        serialNumberMessage.setText("Please check if " + registeredProduct.getSerialNumber() + " is really your serial number.");
-        Button changeSerialNumber = (Button) dialog.findViewById(R.id.button_change_serial_number);
-        Button contactCustomerCare = (Button) dialog.findViewById(R.id.button_contact_customer_care);
-        changeSerialNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                dialog.dismiss();
-            }
-        });
-
-        contactCustomerCare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                dialog.dismiss();
-                clearFragmentStack();
-                final ProdRegUiListener prodRegUiListener = PRUiHelper.getInstance().getProdRegUiListener();
-                if (prodRegUiListener != null) {
-                    prodRegUiListener.onTapContactCustomerCare();
-                }
-                unRegisterProdRegListener();
-            }
-        });
-    }
-
-    private void showAlreadyRegisteredApproach2(final RegisteredProduct registeredProduct) {
-        final Dialog dialog = new Dialog(mActivity);
-        dialog.setContentView(R.layout.prod_reg_already_registered_dialog_2);
         dialog.show();
         dialog.setCancelable(false);
         TextView serialNumberTitle = (TextView) dialog.findViewById(R.id.serial_number_title_message);
         TextView serialNumberRegisteredOn = (TextView) dialog.findViewById(R.id.serial_number_registered_message);
         TextView serialNumberWarranty = (TextView) dialog.findViewById(R.id.serial_number_warranty_message);
-        serialNumberTitle.setText("You have registered serial " + registeredProduct.getSerialNumber() + " before");
+        serialNumberTitle.setText(getString(R.string.PPR_registered_serial).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PPR_before)));
         Button changeSerialNumber = (Button) dialog.findViewById(R.id.button_continue);
-        serialNumberRegisteredOn.setText("Registered on " + registeredProduct.getPurchaseDate());
-        serialNumberWarranty.setText("Warranty untill " + registeredProduct.getEndWarrantyDate());
+        if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
+            serialNumberRegisteredOn.setVisibility(View.VISIBLE);
+            serialNumberRegisteredOn.setText(getString(R.string.PPR_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
+        }
+        if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
+            serialNumberWarranty.setVisibility(View.VISIBLE);
+            serialNumberWarranty.setText(getString(R.string.PPR_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
+        }
         changeSerialNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

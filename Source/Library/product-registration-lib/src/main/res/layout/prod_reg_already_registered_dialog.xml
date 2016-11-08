@@ -6,38 +6,35 @@
               android:padding="@dimen/uikit_modal_alert_button_left_margin">
 
     <TextView
+        android:id="@+id/serial_number_title_message"
         style="@style/ProductRegistrationProductHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Serial has been registered before"/>
-
-    <TextView
-        android:id="@+id/serial_number_message"
-        style="@style/ProductRegistrationProductSubTitleTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pr_registration_margin_top"
         android:text=""/>
 
     <TextView
+        android:id="@+id/serial_number_registered_message"
         style="@style/ProductRegistrationProductSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_registration_margin_top"
-        android:text="If this number is correct and your product is brand new, please contact customer care for further assistance."/>
+        android:text=""
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/serial_number_warranty_message"
+        style="@style/ProductRegistrationProductSubTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"/>
 
     <Button
-        android:id="@+id/button_change_serial_number"
+        android:id="@+id/button_continue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_registration_margin_top"
-        android:text="Change serial number"/>
+        android:text="@string/PPR_Continue"/>
 
-    <Button
-        android:id="@+id/button_contact_customer_care"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pr_registration_margin_top"
-        android:text="Contact customer care"/>
 
 </LinearLayout>

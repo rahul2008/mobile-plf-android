@@ -52,7 +52,7 @@ public class ProdRegProcessController {
             dependencyBundle = arguments;
             if (registeredProducts != null && registeredProducts.size() > 0) {
                 currentProduct = registeredProducts.get(0);
-                if (!isApiCallingProgress) {
+                if (!isApiCallingProgress && fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     if (!TextUtils.isEmpty(currentProduct.getCtn())) {
                         currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
                     } else {

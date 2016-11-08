@@ -65,11 +65,8 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
-//            final ProdRegSuccessFragment successFragment = getSuccessFragment();
             registerControllerCallBacks.showAlreadyRegisteredDialog(getRegisteredProduct());
             updateRegisteredProductsList(registeredProduct);
-//            successFragment.setArguments(dependencyBundle);
-//            registerControllerCallBacks.showFragment(successFragment);
         }
     }
 
@@ -108,7 +105,7 @@ public class ProdRegRegistrationController {
         if (productMetadataResponseData != null) {
             final boolean requiredSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
             final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), registeredProduct.getSerialNumber());
-            final boolean requireSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true") & !isValidSerialNumber;
+            final boolean requireSerialNumber = requiredSerialNumber & !isValidSerialNumber;
             registerControllerCallBacks.requireFields(productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true"), requireSerialNumber);
         }
     }
