@@ -33,19 +33,20 @@ buildscript {
         classpath 'com.shamanland:fonticon:0.1.+'
         classpath 'com.google.code.gson:gson:2.2.+'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2"
-        classpath 'com.philips.cdp:cdpSCM:0.1.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
 apply plugin: 'com.jfrog.artifactory-upload'
-//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
@@ -62,7 +63,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-		
+
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
@@ -153,14 +154,14 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
     //Coco
-	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.5.0-SNAPSHOT', ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.1.0-SNAPSHOT', ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.5.0-SNAPSHOT', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.1.0-SNAPSHOT', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
@@ -179,10 +180,11 @@ artifactory {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-//            publishPom = true
-//            publishIvy = false
-//            publishBuildInfo = true
-//            publishArtifacts = true
+        }
+        defaults {
+            publishIvy = false
+            publishPom = true
+            publishArtifacts = true
         }
     }
     resolve {
@@ -190,7 +192,8 @@ artifactory {
             repoKey = 'libs-release-local-android'
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
