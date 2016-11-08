@@ -28,6 +28,9 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.Locale;
 
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.platform.appframework.AppFrameworkApplication.appInfra;
+
 /**
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
@@ -60,7 +63,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     public void init(Context context) {
         this.applicationContext = context;
         initializeUserRegistrationLibrary();
-        initHSDP();
+       // initHSDP();
     }
 
     public void initHSDP() {
