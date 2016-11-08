@@ -8,7 +8,8 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.BleDeviceCache;
@@ -22,8 +23,6 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Matchers;
@@ -32,7 +31,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -275,7 +273,6 @@ public class BleStrategyTestSteps {
         Object object = objectMap.get(key);
         assertTrue(object instanceof String);
         assertEquals(expectedLength, ((String) object).length());
-
     }
 
     @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to$")
@@ -290,17 +287,13 @@ public class BleStrategyTestSteps {
         ArgumentCaptor<byte[]> argCaptor = ArgumentCaptor.forClass(byte[].class);
 
         CapabilityDiComm capability = getCapabilityForDevice(deviceId);
-
         verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture());
 
         String hexData = DatatypeConverter.printHexBinary(argCaptor.getValue());
-
         Matcher m = pattern.matcher(hexData);
-
         assertTrue(m.matches());
 
         String payload = m.group(1);
-
         String payloadString = new String(DatatypeConverter.parseHexBinary(payload), Charset.forName("UTF-8"));
 
         assertEqualsJson(expectedPayload, payloadString);
@@ -318,26 +311,17 @@ public class BleStrategyTestSteps {
         String jsonString = allValues.get(allValues.size() - 1);
 
         Map<String, Object> objectMap = new HashMap<>();
+        objectMap = mGson.fromJson(jsonString, objectMap.getClass());
 
-        JSONObject jsonObject;
-        try {
-            jsonObject = new JSONObject(jsonString);
-            Iterator<String> keys = jsonObject.keys();
-
-            while (keys.hasNext()) {
-                String key = keys.next();
-                objectMap.put(key, jsonObject.get(key));
-            }
-        } catch (JSONException e) {
-            fail(e.getMessage());
-        }
         return objectMap;
     }
 
     private void assertEqualsJson(String expectedJsonString, String actualJsonString) {
-        JsonObject o1 = mGson.fromJson(expectedJsonString, JsonObject.class);
-        JsonObject o2 = mGson.fromJson(actualJsonString, JsonObject.class);
+        JsonParser parser = new JsonParser();
 
-        assertEquals(o1, o2);
+        JsonElement expected = parser.parse(expectedJsonString);
+        JsonElement actual = parser.parse(actualJsonString);
+
+        assertEquals(expected, actual);
     }
 }
