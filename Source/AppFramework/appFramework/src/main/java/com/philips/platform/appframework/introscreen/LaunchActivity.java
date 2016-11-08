@@ -125,8 +125,11 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBa
         if (fragment != null && fragment instanceof BackEventListener) {
             isConsumed = ((BackEventListener) fragment).handleBackEvent();
         }
-        if (!isConsumed) {
 
+        if(fragment != null && fragment instanceof WelcomeFragment) {
+            ((WelcomeFragment)fragment).onBackPressed();
+        }
+        else if(!isConsumed) {
             presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT);
         }
     }

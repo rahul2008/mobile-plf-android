@@ -53,6 +53,7 @@
         <item>Philips Shop</item>
         <item>Support</item>
         <item>About</item>
+        <item>Data Sync</item>
     </string-array>
 
     <!--<array name="hamburger_drawer_icons">-->
@@ -96,5 +97,29 @@
     <string name="af_iap_connection_time_out">Connection time out</string>
     <string name="af_iap_authentication_failure">Authentication failure</string>
     <string name="af_iap_prod_out_of_stock">Product out of stock</string>
+
+    <string name="example_title">Example Title</string>
+    <string name="example_body">Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit.</string>
+    <string name="change_configuration">Change Configuration: </string>
+    <string name="current_configuration">Current Configuration: </string>
+
+    <!-- Data Sync related Strings-->
+    <string name="data_sync">Data Sync</string>
+    <string name="data_sync_title">Data Sync</string>
+    <string name="add">Add</string>
+    <string name="sync">Sync</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="registration">Registration</string>
+    <string name="phase">Time Of the Day</string>
+    <string name="temperature">Temperature</string>
+    <string name="temperature_hint">Temperature of the Baby</string>
+    <string name="location">Notes</string>
+    <string name="location_hint">Location Name</string>
+    <string name="save">Save</string>
+    <string name="synced">Not Synced</string>
+    <string name="ds_screen_title">Data Services</string>
+    <string name="create_moment">Create moment</string>
+    <string name="invalid_temperature">Invalid temperature entry</string>
 
 </resources>

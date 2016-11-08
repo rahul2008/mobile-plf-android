@@ -45,6 +45,16 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
     private TextView skipButton;
     private CircleIndicator indicator;
     private UIBasePresenter presenter;
+    private ViewPager pager;
+
+    public void onBackPressed() {
+        if(pager.getCurrentItem() == 0) {
+            getActivity().finishAffinity();
+        }
+        else{
+            pager.arrowScroll(View.FOCUS_LEFT);
+        }
+    }
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -59,9 +69,8 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
                 " IntroductionScreen Activity Created ");
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
-        final ViewPager pager = (ViewPager) view.findViewById(R.id.welcome_pager);
+        pager = (ViewPager) view.findViewById(R.id.welcome_pager);
         pager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
-
         leftArrow = (FontIconView) view.findViewById(R.id.welcome_leftarrow);
         rightArrow = (FontIconView) view.findViewById(R.id.welcome_rightarrow);
         doneButton = (TextView) view.findViewById(R.id.welcome_start_registration_button);

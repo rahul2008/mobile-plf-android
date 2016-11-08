@@ -5,8 +5,12 @@
 */
 package com.philips.platform.appframework.tabbedscreen;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.appframework.flowmanager.TabbedAppState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
@@ -15,6 +19,10 @@ import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
+import com.philips.platform.modularui.stateimpl.AboutScreenState;
+import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
+import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
+import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
@@ -61,13 +69,12 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         baseState.navigate(fragmentLauncher);
     }
 
-    // TODO: Deepthi, when we already know that we need to set certain data for each menu click and that too for which component, why do we ask flow manager to give only state?
-    // So here atleast i see launch type is already causing problems + data models was anyways a concern.
     protected UIStateData setStateData(final int componentID) {
         final int MENU_OPTION_SETTINGS = 1;
         final int MENU_OPTION_SHOP = 2;
         final int MENU_OPTION_SUPPORT = 3;
         final int MENU_OPTION_ABOUT = 4;
+        final int MENU_OPTION_DATA_SYNC = 7;
         switch (componentID) {
             case MENU_OPTION_HOME:
                 UIStateData homeStateData = new UIStateData();
@@ -96,10 +103,27 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 return uiStateDataModel;
+            case MENU_OPTION_DATA_SYNC:
+                UIStateData syncStateData = new UIStateData();
+                syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return syncStateData;
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
+        }
+    }
+
+    public void showFragment(Fragment fragment, String fragmentTag) {
+        int containerId = R.id.frame_container;
+
+        try {
+            FragmentTransaction fragmentTransaction = fragmentView.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(containerId, fragment, fragmentTag);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            //Logger.e(TAG, "IllegalStateException" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -113,8 +137,6 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
 
     }
 
-    // TODO: Deepthi, This seems to be hardcoded without even checking the uistate, we are taking decision here.
-    // cant we move this to json ?
     @Override
     public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
@@ -132,6 +154,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         final int MENU_OPTION_SHOP = 2;
         final int MENU_OPTION_SUPPORT = 3;
         final int MENU_OPTION_ABOUT = 4;
+        final int MENU_OPTION_DATA_SYNC = 7;
 
         final String HOME_SETTINGS = "settings";
         final String HOME_IAP = "iap";
@@ -140,6 +163,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         final String HOME_ABOUT = "about";
         final int PRODUCT_REGISTRATION = 6;
         final String HOME_FRAGMENT = "home_fragment";
+        final String HOME_DATA_DYNC = "data_sync";
 
         switch (componentID) {
             case MENU_OPTION_HOME:
@@ -156,6 +180,8 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 return SHOPPING_CART;
             case PRODUCT_REGISTRATION:
                 return SUPPORT_PR;
+            case MENU_OPTION_DATA_SYNC:
+                return  HOME_DATA_DYNC
             default:
                 return HOME_FRAGMENT;
         }

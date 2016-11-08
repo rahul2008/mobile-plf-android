@@ -43,7 +43,6 @@ import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
 import java.util.ArrayList;
 
 /**
@@ -115,6 +114,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                     adapter.notifyDataSetChanged();
                     sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
+
                 }
             }
         });
@@ -128,6 +128,12 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
         philipsDrawerLayout.closeDrawer(navigationView);
         presenter.onClick(position);
     }
+
+    public HamburgerAdapter getHamburgerAdapter()
+    {
+        return this.adapter;
+    }
+
 
     /**
      * To set the actionbar
