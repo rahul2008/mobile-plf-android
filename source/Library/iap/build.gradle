@@ -28,7 +28,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.shamanland:fonticon:0.1.+'
         classpath 'com.google.code.gson:gson:2.2.+'
@@ -85,7 +85,7 @@ objcdp.setProjectDir(projectDir)
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "24.0.2"
     lintOptions {
         abortOnError false
     }
@@ -184,6 +184,7 @@ artifactory {
         defaults {
             publishIvy = false
             publishPom = true
+            publishBuildInfo = true
             publishArtifacts = true
         }
     }
@@ -213,7 +214,7 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS===========
 
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
@@ -232,7 +233,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     }
 }
 
-task pmd(type: Pmd, dependsOn: assembleDebug) {
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
     description 'Run pmd'
     group 'verification'

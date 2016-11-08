@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '24.0.2'
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
@@ -69,7 +69,7 @@ allprojects {
 }
 dependencies {
     compile project(':iap')
-    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
@@ -80,7 +80,7 @@ dependencies {
 }
 
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
@@ -99,7 +99,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     }
 }
 
-task pmd(type: Pmd, dependsOn: assembleDebug) {
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
     description 'Run pmd'
     group 'verification'
