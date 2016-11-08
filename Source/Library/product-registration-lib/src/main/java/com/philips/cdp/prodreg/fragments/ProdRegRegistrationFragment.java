@@ -116,7 +116,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        prodRegRegistrationController = new ProdRegRegistrationController(this, getActivity());
+        prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity);
         dismissLoadingDialog();
     }
 
@@ -411,7 +411,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showAlreadyRegisteredApproach1(final RegisteredProduct registeredProduct) {
-        final Dialog dialog = new Dialog(getActivity());
+        final Dialog dialog = new Dialog(mActivity);
         dialog.setContentView(R.layout.prod_reg_already_registered_dialog);
         dialog.show();
         dialog.setCancelable(false);
@@ -441,7 +441,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showAlreadyRegisteredApproach2(final RegisteredProduct registeredProduct) {
-        final Dialog dialog = new Dialog(getActivity());
+        final Dialog dialog = new Dialog(mActivity);
         dialog.setContentView(R.layout.prod_reg_already_registered_dialog_2);
         dialog.show();
         dialog.setCancelable(false);
