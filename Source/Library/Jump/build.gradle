@@ -51,7 +51,7 @@ artifactory {
     publish {
 	contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = "libs-snapshot-local-ios"
+            repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
           //  publishPom = true
