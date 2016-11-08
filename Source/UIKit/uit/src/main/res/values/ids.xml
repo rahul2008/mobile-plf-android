@@ -9,4 +9,5 @@
     <item name="uid_alert_message" type="id"/>
     <item name="uid_alert_control_area" type="id"/>
     <item name="uid_alert_icon" type="id"/>
+    <item name="uid_alert_dialog_header" type="id"/>
 </resources>
