@@ -64,6 +64,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private boolean loadingFlag = false;
+    private Button registerButton;
+    private FragmentActivity mActivity;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -89,7 +91,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             }
         }
     };
-    private Button registerButton;
 
     @Override
     public int getActionbarTitleResId() {
@@ -123,6 +124,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
+        mActivity = getActivity();
         productFriendlyNameTextView = (TextView) view.findViewById(R.id.friendly_name);
         dateParentLayout = (LinearLayout) view.findViewById(R.id.date_edit_text_layout);
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
@@ -135,10 +137,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         final int resId = R.drawable.ic_calendar_inverted;
-        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(getActivity().getResources(), resId, getActivity().getTheme());
+        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(mActivity.getResources(), resId, mActivity.getTheme());
 //        date_EditText.setCompoundDrawables(null, null, vectorDrawableCompat, null);
         date_EditText.setCompoundDrawablesWithIntrinsicBounds(null, null, vectorDrawableCompat, null);
-        imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
+        imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
@@ -231,9 +233,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
-        final FragmentActivity activity = getActivity();
         dateErrorLayout.setVisibility(View.VISIBLE);
-        dateErrorTextView.setText(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
+        dateErrorTextView.setText(new ErrorHandler().getError(mActivity, ProdRegError.INVALID_DATE.getCode()).getDescription());
         final ProdRegCache prodRegCache = new ProdRegCache();
         new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
         ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
@@ -260,7 +261,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                             mMonthInt = mCalendar.get(Calendar.MONTH);
                             mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
                         }
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), myDateListener, mYear, mMonthInt, mDay);
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity, myDateListener, mYear, mMonthInt, mDay);
                         final ProdRegUtil prodRegUtil = new ProdRegUtil();
                         datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
                         datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
@@ -285,8 +286,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public boolean handleBackEvent() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
+        if (mActivity != null && !mActivity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
             handleCallBack(true);
             unRegisterProdRegListener();
@@ -398,10 +398,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         dateParentLayout.setVisibility(View.GONE);
         registerButton.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
-        TextView tickIcon = (TextView) getActivity().findViewById(R.id.tick_icon);
+        TextView tickIcon = (TextView) mActivity.findViewById(R.id.tick_icon);
         tickIcon.setVisibility(View.VISIBLE);
         productCtnTextView.setText(getString(R.string.PPR_registered));
-        final int baseColor = getActivity().getResources().getColor(R.color.uikit_philips_dark_blue);
+        final int baseColor = mActivity.getResources().getColor(R.color.uikit_philips_dark_blue);
         productCtnTextView.setTextColor(baseColor);
     }
 
@@ -429,6 +429,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         contactCustomerCare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                dialog.dismiss();
                 clearFragmentStack();
                 final ProdRegUiListener prodRegUiListener = PRUiHelper.getInstance().getProdRegUiListener();
                 if (prodRegUiListener != null) {
@@ -462,7 +463,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void dismissLoadingDialog() {
         loadingFlag = false;
-        final FragmentActivity activity = getActivity();
+        final FragmentActivity activity = mActivity;
         if (activity != null && !activity.isFinishing()) {
             Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
             if (prev != null && prev instanceof DialogFragment) {
@@ -481,9 +482,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 ft.commitAllowingStateLoss();
             }
             DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Registering_Products_Lbltxt));
-            newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+            newFragment.show(mActivity.getSupportFragmentManager(), "dialog");
             loadingFlag = true;
-            getActivity().getSupportFragmentManager().executePendingTransactions();
+            mActivity.getSupportFragmentManager().executePendingTransactions();
         }
     }
 }
