@@ -407,6 +407,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
+        showAlreadyRegisteredApproach1(registeredProduct);
+    }
+
+    private void showAlreadyRegisteredApproach1(final RegisteredProduct registeredProduct) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.prod_reg_already_registered_dialog);
         dialog.show();
@@ -431,6 +435,26 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     prodRegUiListener.onTapContactCustomerCare();
                 }
                 unRegisterProdRegListener();
+            }
+        });
+    }
+
+    private void showAlreadyRegisteredApproach2(final RegisteredProduct registeredProduct) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.prod_reg_already_registered_dialog_2);
+        dialog.show();
+        dialog.setCancelable(false);
+        TextView serialNumberTitle = (TextView) dialog.findViewById(R.id.serial_number_title_message);
+        TextView serialNumberRegisteredOn = (TextView) dialog.findViewById(R.id.serial_number_registered_message);
+        TextView serialNumberWarranty = (TextView) dialog.findViewById(R.id.serial_number_warranty_message);
+        serialNumberTitle.setText("You have registered serial " + registeredProduct.getSerialNumber() + " before");
+        Button changeSerialNumber = (Button) dialog.findViewById(R.id.button_continue);
+        serialNumberRegisteredOn.setText("Registered on " + registeredProduct.getPurchaseDate());
+        serialNumberWarranty.setText("Warranty untill " + registeredProduct.getEndWarrantyDate());
+        changeSerialNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialog.dismiss();
             }
         });
     }
