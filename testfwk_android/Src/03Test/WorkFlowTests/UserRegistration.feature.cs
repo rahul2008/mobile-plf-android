@@ -66,184 +66,89 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             testRunner.CollectScenarioErrors();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Verify Create Philip Account", new string[] {
+        [TechTalk.SpecRun.ScenarioAttribute("Login using My Philips Account", new string[] {
                 "URtag"}, SourceLine=5)]
-        public virtual void VerifyCreatePhilipAccount()
+        public virtual void LoginUsingMyPhilipsAccount()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify Create Philip Account", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login using My Philips Account", new string[] {
                         "URtag"});
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
- testRunner.Given("the user is on Reference App Welcome Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
  testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
- testRunner.Then("I click on Create Philips Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 11
- testRunner.Then("enter valid name as \"manjula\" email as \"app32622@gmail.com\" and password as \"Phil" +
-                    "ips123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 12
- testRunner.Then("accept terms conditions and create philips account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
- testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
- testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
- testRunner.Then("I click on Account Settings from Hamburger Menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 16
- testRunner.Then("I verify that the My Account has Logout button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Login using My Philips Account", new string[] {
-                "URtag"}, SourceLine=18)]
-        public virtual void LoginUsingMyPhilipsAccount()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login using My Philips Account", new string[] {
-                        "URtag"});
-#line 19
-this.ScenarioSetup(scenarioInfo);
-#line 20
-    testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 21
- testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 22
- testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 23
  testRunner.Then("I click on Philips Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 24
+#line 11
  testRunner.Then("enter email as \"eno55465@gmail.com\" and password as \"Philips123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 25
+#line 12
  testRunner.Then("I click on Log In button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 26
+#line 13
  testRunner.Then("accept terms conditions and click on continue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 27
+#line 14
  testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 28
+#line 15
  testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 29
+#line 16
  testRunner.Then("I click on Account Settings from Hamburger Menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 30
+#line 17
  testRunner.Then("I click on Logout in Account Setting Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Login using Gmail and verify traditional merge", new string[] {
-                "URtag"}, SourceLine=32)]
-        public virtual void LoginUsingGmailAndVerifyTraditionalMerge()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login using Gmail and verify traditional merge", new string[] {
-                        "URtag"});
-#line 33
-this.ScenarioSetup(scenarioInfo);
-#line 34
- testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 35
- testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 36
- testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 37
- testRunner.Then("I click on google+ to login with gmail account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 38
- testRunner.Then("I enter email as \" app81209@gmail.com\" and password as \"Philips123\" in gmail webv" +
-                    "iew screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 39
- testRunner.Then("Verify the traditional merge funtional by entering the gmail password \"Philips123" +
-                    "\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 40
- testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 41
- testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 42
- testRunner.Then("I click on Account Settings from Hamburger Menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 43
- testRunner.Then("I click on Logout in Account Setting Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [TechTalk.SpecRun.ScenarioAttribute("Login using Facebook and verify social merge", new string[] {
-                "URtag"}, SourceLine=45)]
-        public virtual void LoginUsingFacebookAndVerifySocialMerge()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login using Facebook and verify social merge", new string[] {
-                        "URtag"});
-#line 46
-this.ScenarioSetup(scenarioInfo);
-#line 47
-    testRunner.Given("the user is on Reference App Welcome Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 48
- testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 49
- testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 50
- testRunner.Then("I click on Facebook to login with Facebook account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 51
- testRunner.Then("login to facebook account with name \"app32622@gmail.com\" and password as \"Philips" +
-                    "123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 52
- testRunner.Then("Verify the social merge functionality by entering the gmail username as \"app32622" +
-                    "@gmail.com\" and password \"Philips123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 53
- testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("Login using Gmail Account", new string[] {
-                "URtag"}, SourceLine=55)]
+                "URtag"}, SourceLine=19)]
         public virtual void LoginUsingGmailAccount()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login using Gmail Account", new string[] {
                         "URtag"});
-#line 56
+#line 20
 this.ScenarioSetup(scenarioInfo);
-#line 57
+#line 21
     testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 58
+#line 22
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 59
+#line 23
  testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 60
+#line 24
  testRunner.Then("I click on google+ to login with gmail account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 61
+#line 25
  testRunner.Then("I enter email as \"app32622@gmail.com\" and password as \"Philips123\" in gmail webvi" +
                     "ew screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 62
+#line 26
  testRunner.Then("verify the accept and terms condition in google plus", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 63
+#line 27
  testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("Login using Facebook Account", new string[] {
-                "URtag"}, SourceLine=65)]
+                "URtag"}, SourceLine=29)]
         public virtual void LoginUsingFacebookAccount()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login using Facebook Account", new string[] {
                         "URtag"});
-#line 66
+#line 30
 this.ScenarioSetup(scenarioInfo);
-#line 67
+#line 31
     testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 68
+#line 32
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 69
+#line 33
  testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 70
+#line 34
  testRunner.Then("I click on Facebook to login with Facebook account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 71
+#line 35
  testRunner.Then("login to facebook account with name \"urautomation1@gmail.com\" and password as \"AB" +
                     "CD12345\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 72
+#line 36
  testRunner.Then("verify the accept and terms condition in Facebook", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 73
+#line 37
  testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

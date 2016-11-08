@@ -43,7 +43,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
            }
            else
            {
-               IapReport.Message("The user could not be logged out of the application");
+               IapReport.Message("App is in launch Screen");
            }
        }
 
@@ -125,7 +125,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
                 Registration.Wait();
                 Registration.Click(Registration.Button.Philips_Account);
                 URLoginScreen.WaitForLogin_with_PhilipsAccount();
-                IapReport.Message("Pass : Reached philips account login screen");
+                Logger.Info("Pass : Reached philips account login screen");
             }
             catch (Exception e)
             {
@@ -138,8 +138,6 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         {
             URLoginScreen.Entry_Details(p0, p1);
             MobileDriver.FireKeyEvent(4);
-
-
         }
 
         [Then(@"I click on Log In button")]
@@ -215,11 +213,11 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             Registration.Click(Registration.Button.Google_plus);
             Thread.Sleep(2000);
             LoginGooglePlus.Wait();
-            IapReport.Message("Pass : successfuly reached login to facebook web page");
+            IapReport.Message("Pass : successfuly reached login to Google web page");
             }
             catch (Exception e)
             {
-                IapReport.Fail("Fail : failed to reach facebook login page", e);
+                IapReport.Fail("Fail : failed to reach Google login page", e);
             }
 
         }

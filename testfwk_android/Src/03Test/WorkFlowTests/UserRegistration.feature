@@ -3,19 +3,6 @@
 	PostCondition:Registered User needs to be deleted after the scenarios are executed.
 
 @URtag
-Scenario: Verify Create Philip Account
-	Given the user is on Reference App Welcome Screen
-	Then I click on Skip
-	Then Verify that the user is in User Registration screen
-	Then I click on Create Philips Account
-	Then enter valid name as "manjula" email as "app32622@gmail.com" and password as "Philips123"
-	Then accept terms conditions and create philips account
-	Then Verify that the user should land to home screen
-	Then I click on Hamburger Menu Icon
-	Then I click on Account Settings from Hamburger Menu
-	Then I verify that the My Account has Logout button 
-	
-@URtag
 Scenario: Login using My Philips Account
     Given the user should not be registered user 
 	Then I click on Skip
@@ -28,29 +15,6 @@ Scenario: Login using My Philips Account
 	Then I click on Hamburger Menu Icon
 	Then I click on Account Settings from Hamburger Menu
 	Then I click on Logout in Account Setting Screen 
-
-@URtag
-Scenario: Login using Gmail and verify traditional merge	 
-	Given the user should not be registered user
-	Then I click on Skip
-	Then Verify that the user is in User Registration screen 
-	Then I click on google+ to login with gmail account 
-	Then I enter email as " app81209@gmail.com" and password as "Philips123" in gmail webview screen 
-	Then Verify the traditional merge funtional by entering the gmail password "Philips123"
-	Then Verify that the user should land to home screen
-	Then I click on Hamburger Menu Icon
-	Then I click on Account Settings from Hamburger Menu
-	Then I click on Logout in Account Setting Screen
-
-@URtag
-Scenario: Login using Facebook and verify social merge
-    Given the user is on Reference App Welcome Screen
-	Then I click on Skip
-	Then Verify that the user is in User Registration screen 
-	Then I click on Facebook to login with Facebook account
-	Then login to facebook account with name "app32622@gmail.com" and password as "Philips123"
-	Then Verify the social merge functionality by entering the gmail username as "app32622@gmail.com" and password "Philips123"
-	Then Verify that the user should land to home screen
 
 @URtag
 Scenario: Login using Gmail Account
