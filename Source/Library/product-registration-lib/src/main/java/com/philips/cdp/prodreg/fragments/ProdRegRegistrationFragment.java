@@ -34,7 +34,9 @@ import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
+import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -408,6 +410,29 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.prod_reg_already_registered_dialog);
         dialog.show();
+        dialog.setCancelable(false);
+        TextView serialNumberMessage = (TextView) dialog.findViewById(R.id.serial_number_message);
+        serialNumberMessage.setText("Please check if " + registeredProduct.getSerialNumber() + " is really your serial number.");
+        Button changeSerialNumber = (Button) dialog.findViewById(R.id.button_change_serial_number);
+        Button contactCustomerCare = (Button) dialog.findViewById(R.id.button_contact_customer_care);
+        changeSerialNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                dialog.dismiss();
+            }
+        });
+
+        contactCustomerCare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                clearFragmentStack();
+                final ProdRegUiListener prodRegUiListener = PRUiHelper.getInstance().getProdRegUiListener();
+                if (prodRegUiListener != null) {
+                    prodRegUiListener.onTapContactCustomerCare();
+                }
+                unRegisterProdRegListener();
+            }
+        });
     }
 
     @Override

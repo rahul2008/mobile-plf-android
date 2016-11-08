@@ -50,7 +50,7 @@ public class RegisteredProductsRequest extends PrxRequest {
         } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
             mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
         } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-            mServerInfo = "https://dev.philips.com/prx/registration.registeredProducts";
+            mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
         } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/registration.registeredProducts";
         }

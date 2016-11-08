@@ -18,4 +18,6 @@ public interface ProdRegUiListener {
     void onProdRegBack(List<RegisteredProduct> registeredProducts, UserWithProducts userWithProduct);
 
     void onProdRegFailed(ProdRegError prodRegError);
+
+    void onTapContactCustomerCare();
 }

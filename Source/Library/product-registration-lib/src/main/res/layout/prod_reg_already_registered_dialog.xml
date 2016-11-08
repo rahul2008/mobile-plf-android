@@ -9,10 +9,10 @@
         style="@style/ProductRegistrationProductHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pr_top_padding_sm"
         android:text="Your Serial has been registered before"/>
 
     <TextView
+        android:id="@+id/serial_number_message"
         style="@style/ProductRegistrationProductSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,12 +27,14 @@
         android:text="If this number is correct and your product is brand new, please contact customer care for further assistance."/>
 
     <Button
+        android:id="@+id/button_change_serial_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_registration_margin_top"
         android:text="Change serial number"/>
 
     <Button
+        android:id="@+id/button_contact_customer_care"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_registration_margin_top"
