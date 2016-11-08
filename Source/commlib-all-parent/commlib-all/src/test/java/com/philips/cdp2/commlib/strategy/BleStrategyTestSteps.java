@@ -7,7 +7,8 @@ package com.philips.cdp2.commlib.strategy;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.BleDeviceCache;
@@ -21,6 +22,8 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Matchers;
@@ -29,11 +32,14 @@ import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Timer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -64,6 +70,7 @@ public class BleStrategyTestSteps {
     private final Map<String, Set<ResultListener<SHNDataRaw>>> rawDataListeners = new HashMap();
     private final Queue<ResponseHandler> responseQueue = new ArrayDeque<>();
     private BleRequest currentRequest;
+    private Gson mGson;
 
     @Captor
     private ArgumentCaptor<String> successStringCaptor;
@@ -71,6 +78,8 @@ public class BleStrategyTestSteps {
     @Before
     public void setup() {
         initMocks(this);
+
+        mGson = new GsonBuilder().serializeNulls().create();
     }
 
     @Given("^a mock device is found with id '(.*?)'$")
@@ -132,8 +141,7 @@ public class BleStrategyTestSteps {
 
     @Then("^write occurred to mock device with id '(.*?)' with data '([0-9A-F]*?)'$")
     public void mock_device_data_written(final String deviceId, final String data) {
-        CapabilityDiComm capability = (CapabilityDiComm) deviceCache
-                .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
 
         final byte[] dataBytes = DatatypeConverter.parseHexBinary(data);
 
@@ -181,6 +189,11 @@ public class BleStrategyTestSteps {
         strategy.putProperties(objData, port, productId, handler);
     }
 
+    @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with data '(.*?)'$")
+    public void doingAPutPropertiesForProductidAndPortWithDataInline(int productId, String port, String data) {
+        doingAPutPropertiesForProductidAndPortWithData(productId, port, data);
+    }
+
     @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'$")
     public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
         ResponseHandler handler = mock(ResponseHandler.class);
@@ -223,10 +236,7 @@ public class BleStrategyTestSteps {
         List<String> allValues = successStringCaptor.getAllValues();
         String actualJsonString = allValues.get(allValues.size() - 1);
 
-        JsonElement actualJson = new Gson().fromJson(actualJsonString, JsonElement.class);
-        JsonElement expectedJson = new Gson().fromJson(expectedJsonString, JsonElement.class);
-
-        assertEquals(expectedJson, actualJson);
+        assertEqualsJson(expectedJsonString, actualJsonString);
     }
 
     @Then("^the result is success$")
@@ -236,16 +246,14 @@ public class BleStrategyTestSteps {
 
     @And("^no write occurred to mock device with id '(.*?)'$")
     public void noWriteOccurredToMockDeviceWithIdP(String deviceId) {
-        CapabilityDiComm capability = (CapabilityDiComm) deviceCache
-                .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
 
         verify(capability, times(0)).writeData((byte[]) any());
     }
 
     @And("^write occurred to mock device with id '(.*?)' with any data$")
     public void writeOccurredToMockDeviceWithIdP(String deviceId) {
-        CapabilityDiComm capability = (CapabilityDiComm) deviceCache
-                .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
 
         verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData((byte[]) any());
     }
@@ -253,16 +261,6 @@ public class BleStrategyTestSteps {
     @And("^the request times out$")
     public void theRequestTimesOut() {
         currentRequest.cancel("Timeout occurred.");
-    }
-
-    private Map<String, Object> getObjectMapFromLastSuccessfulResult() {
-        if (successStringCaptor.getAllValues().isEmpty()) fail("No result captured.");
-
-        List<String> allValues = successStringCaptor.getAllValues();
-        String jsonString = allValues.get(allValues.size() - 1);
-
-        Map<String, Object> objectMap = new HashMap<>();
-        return new Gson().fromJson(jsonString, objectMap.getClass());
     }
 
     @And("^the json result contains the key '(.*?)'$")
@@ -277,5 +275,69 @@ public class BleStrategyTestSteps {
         Object object = objectMap.get(key);
         assertTrue(object instanceof String);
         assertEquals(expectedLength, ((String) object).length());
+
+    }
+
+    @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to$")
+    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentTo(String deviceId, String message, String jsonPayload) {
+        writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(deviceId, message, jsonPayload);
+    }
+
+    @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to '(.*?)'$")
+    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(String deviceId, String message, String expectedPayload) {
+        Pattern pattern = Pattern.compile(message);
+
+        ArgumentCaptor<byte[]> argCaptor = ArgumentCaptor.forClass(byte[].class);
+
+        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
+
+        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture());
+
+        String hexData = DatatypeConverter.printHexBinary(argCaptor.getValue());
+
+        Matcher m = pattern.matcher(hexData);
+
+        assertTrue(m.matches());
+
+        String payload = m.group(1);
+
+        String payloadString = new String(DatatypeConverter.parseHexBinary(payload), Charset.forName("UTF-8"));
+
+        assertEqualsJson(expectedPayload, payloadString);
+    }
+
+    private CapabilityDiComm getCapabilityForDevice(String deviceId) {
+        return (CapabilityDiComm) deviceCache
+                .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+    }
+
+    private Map<String, Object> getObjectMapFromLastSuccessfulResult() {
+        if (successStringCaptor.getAllValues().isEmpty()) fail("No result captured.");
+
+        List<String> allValues = successStringCaptor.getAllValues();
+        String jsonString = allValues.get(allValues.size() - 1);
+
+        Map<String, Object> objectMap = new HashMap<>();
+
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            Iterator<String> keys = jsonObject.keys();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                objectMap.put(key, jsonObject.get(key));
+            }
+        } catch (JSONException e) {
+            fail(e.getMessage());
+        }
+        return objectMap;
+    }
+
+    private void assertEqualsJson(String expectedJsonString, String actualJsonString) {
+        JsonObject o1 = mGson.fromJson(expectedJsonString, JsonObject.class);
+        JsonObject o2 = mGson.fromJson(actualJsonString, JsonObject.class);
+
+        assertEquals(o1, o2);
     }
 }
