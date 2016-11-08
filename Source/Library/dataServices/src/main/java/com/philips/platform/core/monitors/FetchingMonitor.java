@@ -29,6 +29,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class FetchingMonitor extends EventMonitor {
 
     @NonNull

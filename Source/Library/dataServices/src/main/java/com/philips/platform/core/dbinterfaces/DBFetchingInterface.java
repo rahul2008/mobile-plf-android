@@ -12,6 +12,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings("rawtypes")
 public interface DBFetchingInterface {
     void fetchMoments() throws SQLException;
     void fetchMoments(final @NonNull MomentType type) throws SQLException;

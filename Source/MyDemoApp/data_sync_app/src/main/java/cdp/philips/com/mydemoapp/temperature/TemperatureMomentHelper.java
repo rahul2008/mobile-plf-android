@@ -7,6 +7,11 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
+
+import cdp.philips.com.mydemoapp.listener.DBChangeListener;
+import cdp.philips.com.mydemoapp.listener.EventHelper;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -50,6 +55,35 @@ public class TemperatureMomentHelper {
             return "default";
         }catch (IndexOutOfBoundsException e){
             return "default";
+        }
+    }
+
+    public void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
+        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+        if (dbChangeListeners != null) {
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onSuccess(ormMoments);
+            }
+        }
+    }
+
+    public void notifyAllSuccess(Object ormMoments) {
+        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+        if (dbChangeListeners != null) {
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onSuccess(ormMoments);
+            }
+        }
+    }
+
+    public void notifyAllFailure(Exception e) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if(integers.contains(EventHelper.MOMENT)){
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onFailure(e);
+            }
         }
     }
 

@@ -19,6 +19,7 @@ import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
+import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface{
 
@@ -28,6 +29,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
     private OrmFetchingInterfaceImpl fetching;
     private OrmDeleting deleting;
     private BaseAppDateTime baseAppDateTime;
+    private TemperatureMomentHelper mTemperatureMomentHelper;
 
     public ORMSavingInterfaceImpl(OrmSaving saving, OrmUpdating updating, final OrmFetchingInterfaceImpl fetching, final OrmDeleting deleting, final BaseAppDateTime baseAppDateTime) {
         this.saving = saving;
@@ -35,6 +37,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
         this.fetching = fetching;
         this.deleting = deleting;
         this.baseAppDateTime = baseAppDateTime;
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -45,36 +48,14 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
 
-            notifyAllSuccess(ormMoment);
+            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
 
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
-            notifyAllFailure(e);
+            mTemperatureMomentHelper.notifyAllFailure(e);
             return false;
         }
 
-    }
-
-    private void notifyAllSuccess(Object ormMoments) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
-
-    private void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
-            }
-        }
     }
 }

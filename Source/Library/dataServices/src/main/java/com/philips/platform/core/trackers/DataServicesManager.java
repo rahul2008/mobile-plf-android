@@ -69,6 +69,7 @@ import de.greenrobot.event.EventBus;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
     @NonNull
@@ -183,6 +184,7 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
+    @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);

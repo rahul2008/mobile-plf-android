@@ -13,6 +13,7 @@ package cdp.philips.com.mydemoapp.database;
 public class OrmTypeChecking {
 
     public static class OrmTypeException extends Exception {
+        final long serialVersionUID = 12L;
         public OrmTypeException(final String detailMessage) {
             super(detailMessage);
         }

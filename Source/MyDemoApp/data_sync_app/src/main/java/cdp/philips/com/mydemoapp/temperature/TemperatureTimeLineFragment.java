@@ -53,6 +53,7 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;

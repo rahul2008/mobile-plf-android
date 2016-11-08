@@ -7,6 +7,7 @@
 package com.philips.platform.core;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -49,11 +50,16 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     public void start() {
-        dbMonitors.start(eventing);
-        appBackend.start(eventing);
+        try {
+            dbMonitors.start(eventing);
+            appBackend.start(eventing);
 
-        for (EventMonitor eventMonitor : eventMonitors) {
-            eventMonitor.start(eventing);
+            for (EventMonitor eventMonitor : eventMonitors) {
+                eventMonitor.start(eventing);
+            }
+        }catch (NullPointerException e){
+            if (e.getMessage() != null)
+                Log.i("***SPO***", "e = " + e.getMessage());
         }
     }
 

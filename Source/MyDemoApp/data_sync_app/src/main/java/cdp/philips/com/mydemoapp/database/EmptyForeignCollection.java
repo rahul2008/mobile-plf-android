@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * All rights reserved.
  */
 public class EmptyForeignCollection<T> extends ArrayList<T> implements ForeignCollection<T> {
+    final long serialVersionUID = 11L;
     @Override
     public CloseableIterator<T> iterator(final int flags) {
         return null;

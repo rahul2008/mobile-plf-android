@@ -46,6 +46,10 @@ public class TemperaturePresenter {
     private static final int UPDATE = 1;
     public static final int ADD = 2;
 
+    EditText mTemperature;
+    EditText mLocation;
+    EditText mPhase;
+    Button mDialogButton;
 
     TemperaturePresenter(Context context, MomentType momentType){
         mDataServices = DataServicesManager.getInstance();
@@ -101,9 +105,9 @@ public class TemperaturePresenter {
         }
     }
 
-    public void createAndSaveMoment(final String phaseInput,
-                                    final String temperatureInput, final String locationInput) {
-        createMoment(phaseInput, temperatureInput, locationInput);
+    public void createAndSaveMoment() {
+        createMoment(mPhase.getText().toString(),
+                mTemperature.getText().toString(), mLocation.getText().toString());
         saveRequest();
     }
 
@@ -156,13 +160,11 @@ public class TemperaturePresenter {
     }
 
 
-    private void updateAndSaveMoment(Moment moment,
-                                     final String phaseInput, final String temperatureInput,
-                                     final String locationInput) {
+    private void updateAndSaveMoment(Moment moment) {
 
         try {
             mDataServices.update(new TemperatureMomentHelper().updateMoment(moment,
-                    phaseInput, temperatureInput, locationInput));
+                    mPhase.getText().toString(), mTemperature.getText().toString(), mLocation.getText().toString()));
         } catch (Exception ArrayIndexOutOfBoundsException) {
             if(ArrayIndexOutOfBoundsException.getMessage()!=null){
                 Log.i("***SPO***","e = " + ArrayIndexOutOfBoundsException.getMessage());
@@ -174,29 +176,27 @@ public class TemperaturePresenter {
         final Dialog dialog = new Dialog(mContext);
         dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
         dialog.setTitle(mContext.getResources().getString(R.string.create_moment));
-        final EditText temperature = (EditText) dialog.findViewById(R.id.temperature_detail);
-        final EditText location = (EditText) dialog.findViewById(R.id.location_detail);
-        final EditText phase = (EditText) dialog.findViewById(R.id.phase_detail);
-        final Button dialogButton = (Button) dialog.findViewById(R.id.save);
-        dialogButton.setEnabled(false);
 
-        if(moment!=null){
+        mTemperature = (EditText) dialog.findViewById(R.id.temperature_detail);
+        mLocation = (EditText) dialog.findViewById(R.id.location_detail);
+        mPhase = (EditText) dialog.findViewById(R.id.phase_detail);
+        mDialogButton = (Button) dialog.findViewById(R.id.save);
+        mDialogButton.setEnabled(false);
+
+        if(addOrUpdate == UPDATE){
             final TemperatureMomentHelper helper = new TemperatureMomentHelper();
-            temperature.setText(String.valueOf(helper.getTemperature(moment)));
-            location.setText(helper.getNotes(moment));
-            phase.setText(helper.getTime(moment));
+            mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
+            mLocation.setText(helper.getNotes(moment));
+            mPhase.setText(helper.getTime(moment));
         }
 
-        dialogButton.setOnClickListener(new View.OnClickListener() {
+        mDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
-
-                final boolean isValid = validateInputFields(phase.getText().toString(),
-                        temperature.getText().toString(), location.getText().toString());
-
+                final boolean isValid = validateInputFields();
                 if (!isValid) {
-                    temperature.setText("");
+                    mTemperature.setText("");
                     Toast.makeText(mContext,
                             R.string.invalid_temperature, Toast.LENGTH_SHORT).show();
                     return;
@@ -204,20 +204,25 @@ public class TemperaturePresenter {
 
                 switch (addOrUpdate){
                     case ADD:
-                        createAndSaveMoment(phase.getText().toString(),
-                                temperature.getText().toString(), location.getText().toString());
+                        createAndSaveMoment();
                         break;
                     case UPDATE:
-                        updateAndSaveMoment(moment,phase.getText().toString(),
-                                temperature.getText().toString(),
-                                location.getText().toString());
+                        updateAndSaveMoment(moment);
                         break;
                 }
                 dialog.dismiss();
             }
         });
 
-        phase.addTextChangedListener(new TextWatcher() {
+        textChageListener(mPhase);
+        textChageListener(mTemperature);
+        textChageListener(mLocation);
+
+        dialog.show();
+    }
+
+    private void textChageListener(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(final CharSequence s,
                                           final int start, final int count, final int after) {
@@ -227,12 +232,10 @@ public class TemperaturePresenter {
             @Override
             public void onTextChanged(final CharSequence s,
                                       final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() &&
-                        temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() &&
-                        location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
+                if(isDialogButtonEnabled()){
+                    mDialogButton.setEnabled(true);
                 }else{
-                    dialogButton.setEnabled(false);
+                    mDialogButton.setEnabled(false);
                 }
             }
 
@@ -241,61 +244,16 @@ public class TemperaturePresenter {
 
             }
         });
-
-        temperature.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s,
-                                      final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null &&
-                        !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null &&
-                        !temperature.getText().toString().isEmpty() && location.getText().toString()!=null &&
-                        !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        location.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s,
-                                      final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null &&
-                        !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null &&
-                        !temperature.getText().toString().isEmpty() &&
-                        location.getText().toString()!=null && !location.getText().toString().isEmpty()){
-                    dialogButton.setEnabled(true);
-                }else{
-                    dialogButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-
-            }
-        });
-
-        dialog.show();
     }
 
-    private boolean validateInputFields(String phase, String temperature, String locations) {
+    private boolean isDialogButtonEnabled() {
+        return mPhase.getText().toString()!=null && !mPhase.getText().toString().isEmpty() &&
+                mTemperature.getText().toString()!=null && !mTemperature.getText().toString().isEmpty() &&
+                mLocation.getText().toString()!=null && !mLocation.getText().toString().isEmpty();
+    }
+
+    private boolean validateInputFields() {
+        String temperature = mTemperature.getText().toString();
         //validate temperature
         try {
             Double.valueOf(temperature);
