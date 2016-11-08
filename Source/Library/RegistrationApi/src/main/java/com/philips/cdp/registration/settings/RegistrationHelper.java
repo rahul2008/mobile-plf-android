@@ -33,11 +33,6 @@ import java.util.Locale;
  */
 public class RegistrationHelper {
 
-
-    private Context mContext;
-
-    private boolean isJsonRead;
-
     private String countryCode;
 
     private static volatile RegistrationHelper mRegistrationHelper = null;
@@ -67,15 +62,14 @@ public class RegistrationHelper {
                     mRegistrationHelper = new RegistrationHelper();
                 }
             }
-
         }
         return mRegistrationHelper;
     }
 
-    private AppInfraInterface appInfra ;
+    private AppInfraInterface appInfra;
 
     public void setAppInfraInstance(AppInfraInterface appInfra) {
-        this.appInfra =appInfra;
+        this.appInfra = appInfra;
     }
 
     public AppInfraInterface getAppInfraInstance() {
@@ -92,8 +86,6 @@ public class RegistrationHelper {
         }
         return mAppTaggingInterface;
     }
-
-
     /*
      * Initialize Janrain
      * {code @initializeUserRegistration} method represents endpoint for integrating
@@ -111,22 +103,20 @@ public class RegistrationHelper {
             throw new RuntimeException("Please set the locale in LocaleMatch");
         }
 
-        mContext = context.getApplicationContext();
         countryCode = mLocale.getCountry();
 
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-        generateKeyAndMigrateData();
-
+        generateKeyAndMigrateData(context);
         final Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
 
-                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                if (NetworkUtility.isNetworkAvailable(context)) {
                     refreshNTPOffset();
                     UserRegistrationInitializer.getInstance().initializeEnvironment(
-                            mContext, mLocale);
+                            context, mLocale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().
                             getJumpFlowDownloadStatusListener() != null) {
@@ -145,19 +135,16 @@ public class RegistrationHelper {
         });
         thread.start();
     }
-
-
-    private void generateKeyAndMigrateData() {
-        SecureStorage.init(mContext);
+    private void generateKeyAndMigrateData(final Context context) {
+        SecureStorage.init(context);
         SecureStorage.generateSecretKey();
-        new DataMigration(mContext).checkFileEncryptionStatus();
+        new DataMigration(context).checkFileEncryptionStatus();
     }
 
     private void refreshNTPOffset() {
         ServerTime.init(getAppInfraInstance().getTime());
         ServerTime.refreshOffset();
     }
-
 
     public synchronized String getCountryCode() {
         return countryCode;
@@ -223,20 +210,15 @@ public class RegistrationHelper {
         if (null != mLocale) {
             return mLocale;
         }
-
-        String locale = (new PILLocaleManager(mContext)).getInputLocale();
+        String locale = (new PILLocaleManager(context)).getInputLocale();
         RLog.i("Locale", "Locale from LOcale match" + locale);
-
         if (locale == null) {
             return Locale.getDefault();
         }
-
         return new Locale(locale);
     }
 
     public synchronized static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
     }
-
-
 }
