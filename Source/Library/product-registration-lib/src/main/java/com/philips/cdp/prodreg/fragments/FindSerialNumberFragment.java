@@ -86,7 +86,7 @@ public class FindSerialNumberFragment extends ProdRegBaseFragment {
             try {
                 final String serialNumberExampleData = snExample.substring(snExample.indexOf(" "), snExample.length());
                 final int exampleLength = serialNumberExampleData.length() - 1;
-                String serialErrorText = getString(R.string.PPR_serial_number_consists).concat(" ") + exampleLength
+                String serialErrorText = getString(R.string.PPR_serial_number_consists).concat(" ") + exampleLength + " "
                         + getString(R.string.PPR_number_starting).concat(" ")
                         + serialNumberExampleData.charAt(1) + " " + getString(R.string.PPR_eg) + serialNumberExampleData;
                 serialNumberTextView.setText(serialErrorText);
