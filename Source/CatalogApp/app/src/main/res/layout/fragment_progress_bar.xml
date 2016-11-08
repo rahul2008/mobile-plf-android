@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/progress_bar_linear_subtitle"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:background="?attr/uitApplicationBackground"/>
+
+        <com.philips.platform.uit.view.widget.ProgressBar
+            android:id="@+id/progress_bar_indeterminate"
+            style="@style/Philips.ProgressBar.Horizontal.WithMargins"
+            android:layout_marginTop="@dimen/uit_progress_bar_margin_top"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat"/>
+
+        <com.philips.platform.uit.view.widget.ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Philips.ProgressBar.Horizontal.WithMargins"
+            android:layout_marginTop="@dimen/uit_progress_bar_margin_top"/>
+
+        <com.philips.platform.uit.view.widget.ProgressBar
+            android:id="@+id/progress_bar_secondary"
+            style="@style/Philips.ProgressBar.Horizontal.WithMargins"
+            android:layout_marginTop="@dimen/uit_progress_bar_margin_top"
+            app:uit_secondary_progress="true"/>
+
+        <com.philips.platform.uit.view.widget.ProgressBar
+            android:id="@+id/progress_bar_wide"
+            style="@style/Philips.ProgressBar.Horizontal"
+            android:layout_marginTop="@dimen/uit_progress_bar_margin_top"
+            app:uit_secondary_progress="true"/>
+    </LinearLayout>
+</ScrollView>

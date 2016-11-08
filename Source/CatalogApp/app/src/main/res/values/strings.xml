@@ -53,4 +53,10 @@
     <string name="dialog_screen_text_dialogs">Dialogs</string>
     <string name="dialog_screen_button_text_dialog_with_text">Dialog with text</string>
     <string name="dialog_screen_button_text_dialog_with_list">Dialog with list</string>
+
+    <!--Settings page for ProgressBar-->
+    <string name="progress_bar_linear_subtitle">Linear progress indicators</string>
+    <string name="page_title_progress_bar">Progress indicator</string>
+
+
 </resources>
