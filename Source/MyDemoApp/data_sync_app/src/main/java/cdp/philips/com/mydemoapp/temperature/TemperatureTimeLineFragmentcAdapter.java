@@ -64,7 +64,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    mTemperaturePresenter.bindDeleteOrUpdatePopUP(TemperatureTimeLineFragmentcAdapter.this,mData,view, position);
+                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(TemperatureTimeLineFragmentcAdapter.this,mData,view, position);
                 }
             });
         }
