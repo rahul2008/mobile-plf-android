@@ -75,7 +75,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
-    testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+     testRunner.Given("that the application is in logout state", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
@@ -109,7 +109,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 20
 this.ScenarioSetup(scenarioInfo);
 #line 21
-    testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given("that the application is in logout state", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 22
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 23
@@ -136,7 +136,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 30
 this.ScenarioSetup(scenarioInfo);
 #line 31
-    testRunner.Given("the user should not be registered user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+     testRunner.Given("that the application is in logout state", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 32
  testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 33

@@ -23,10 +23,8 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
    [Binding]
     public class UR_Binding
     {
-
-
-       [Given(@"the user should not be registered user")]
-       public void GivenTheUserShouldNotBeRegisteredUser()
+       [Given(@"that the application is in logout state")]
+       public void GivenThatTheApplicationIsInLogoutState()
        {
           bool title = AppHomeScreen.IsVisibleScreenTitleText("Mobile App Home");
            

@@ -4,7 +4,7 @@
 
 @URtag
 Scenario: Login using My Philips Account
-    Given the user should not be registered user 
+     Given that the application is in logout state 
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen 
 	Then I click on Philips Account
@@ -18,7 +18,7 @@ Scenario: Login using My Philips Account
 
 @URtag
 Scenario: Login using Gmail Account
-    Given the user should not be registered user 
+    Given that the application is in logout state 
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen
 	Then I click on google+ to login with gmail account
@@ -28,7 +28,7 @@ Scenario: Login using Gmail Account
 
 @URtag
 Scenario: Login using Facebook Account
-    Given the user should not be registered user 
+     Given that the application is in logout state 
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen
 	Then I click on Facebook to login with Facebook account
