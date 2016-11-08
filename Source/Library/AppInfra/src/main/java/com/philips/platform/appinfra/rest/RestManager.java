@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -150,6 +151,7 @@ public class RestManager implements RestInterface {
 
     @Override
     public void jsonObjectRequestWithServiceID(final int requestType, String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, final Map<String, String> headers, final Map<String, String> params) throws HttpForbiddenException {
+        final String urlTemp= serviceID;
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         if (serviceDiscoveryPreference.equalsIgnoreCase(LANGUAGE)) {
             mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -169,8 +171,17 @@ public class RestManager implements RestInterface {
 
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
+                   /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
                     listener.onErrorResponse(error.toString() + " " + message);
+                    //commenting till service id for Content Loader is ready
+                    */
+                    String finalurl = urlTemp+ pathComponent;
+                    try {
+                        jsonObjectRequestWithURL(requestType, finalurl, listener, headers, params);
+                    } catch (HttpForbiddenException e) {
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
+                        listener.onErrorResponse(e.toString());
+                    }
                 }
             });
         } else if (serviceDiscoveryPreference.equalsIgnoreCase(COUNTRY)) {
@@ -253,8 +264,7 @@ public class RestManager implements RestInterface {
     private void stringRequestWithURL(final int requestType, String urlString, final ServiceIDCallback listener, final Map<String, String> headers, final Map<String, String> params) throws HttpForbiddenException {
         StringRequest request = null;
         try {
-            // request= new StringRequest(requestType, urlString, new Response.Listener<String>() {
-            request = new StringRequest(requestType, "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json", new Response.Listener<String>() {
+            request= new StringRequest(requestType, urlString, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     listener.onSuccess(response); // pass back response to caller method
@@ -307,7 +317,7 @@ public class RestManager implements RestInterface {
         if (null != params && params.size() > 0) {
             jsonObjectParams = new JSONObject(params);
         }
-        urlString = "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json";
+       // urlString = "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json";
         JsonObjectRequest jsObjRequest = null;
         try {
             jsObjRequest = new JsonObjectRequest
@@ -335,7 +345,10 @@ public class RestManager implements RestInterface {
                     return headerList;
                 }
             };
-
+            jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         } catch (HttpForbiddenException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
         }

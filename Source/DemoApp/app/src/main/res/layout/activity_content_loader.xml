@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Content Loader"
+        android:id="@+id/textViewCLtitle"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:hint="Service Id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextServiceId" />
+    <EditText
+        android:hint="Max age in hours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/editTextMaxAgeInHours"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:hint="content class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextContentClassType"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:hint="content type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextContentType"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:id="@+id/buttonInvokeCL"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Response"
+        android:id="@+id/textViewResponseCL"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>
