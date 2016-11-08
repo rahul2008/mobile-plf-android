@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/uid_alert"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@id/uid_alert_title"
+        style="@style/UIDAlertDialogTitleTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.philips.platform.uit.view.widget.ImageButton
+        android:id="@+id/demo_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@id/uid_alert_message"
+        style="@style/UIDAlertDialogMessageTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="100dp"
+        android:layout_above="@+id/uid_alert_control_area"
+        android:layout_below="@+id/uid_alert_title"/>
+
+    <LinearLayout
+        android:id="@id/uid_alert_control_area"
+        style="@style/UIDAlertDialogActionAreaStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_alert_dialog_control_area_height"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal">
+
+        <com.philips.platform.uit.view.widget.Button
+            android:id="@id/uid_alert_negative_button"
+            style="@style/UIDQuietButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.philips.platform.uit.view.widget.Button
+            android:id="@id/uid_alert_positive_button"
+            style="@style/UITDefaultButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+</LinearLayout>
