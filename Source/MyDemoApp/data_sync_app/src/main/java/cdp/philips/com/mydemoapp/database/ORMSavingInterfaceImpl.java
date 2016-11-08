@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package cdp.philips.com.mydemoapp.database;
 
 import android.util.Log;
@@ -15,10 +20,6 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ORMSavingInterfaceImpl implements DBSavingInterface{
 
     private static final String TAG = ORMSavingInterfaceImpl.class.getSimpleName();

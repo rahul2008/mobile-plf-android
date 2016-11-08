@@ -1,9 +1,15 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package cdp.philips.com.mydemoapp.temperature;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,17 +35,13 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class TemperaturePresenter {
-   DataServicesManager mDataServices;
+   private DataServicesManager mDataServices;
 
-    Moment mMoment;
-    Measurement mMeasurement;
-    MomentType mMomentType;
-    Context mContext;
+    private Moment mMoment;
+    private Measurement mMeasurement;
+    private MomentType mMomentType;
+    private Context mContext;
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
     public static final int ADD = 2;
@@ -78,7 +80,8 @@ public class TemperaturePresenter {
     }
 
     public void createMomentDetail(String value){
-        MomentDetail momentDetail = mDataServices.createMomentDetail(MomentDetailType.PHASE, mMoment);
+        MomentDetail momentDetail = mDataServices.
+                createMomentDetail(MomentDetailType.PHASE, mMoment);
         momentDetail.setValue(value);
     }
 
@@ -98,61 +101,72 @@ public class TemperaturePresenter {
         }
     }
 
-    public void createAndSaveMoment(final String phaseInput, final String temperatureInput, final String locationInput) {
+    public void createAndSaveMoment(final String phaseInput,
+                                    final String temperatureInput, final String locationInput) {
         createMoment(phaseInput, temperatureInput, locationInput);
         saveRequest();
     }
 
-    public void bindDeleteOrUpdatePopUP(final TemperatureTimeLineFragmentcAdapter adapter, final List<? extends Moment> mData, final View view, final int selectedItem) {
+    public void bindDeleteOrUpdatePopUp(final TemperatureTimeLineFragmentcAdapter adapter,
+                                        final List<? extends Moment> data, final View view,
+                                        final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<>();
 
         final String delete =mContext.getResources().getString(R.string.delete);
-        String update = mContext.getResources().getString(R.string.update);
+        final String update = mContext.getResources().getString(R.string.update);
         final String[] descriptions = new String[]{delete, update};
 
         rowItems.add(new RowItem(descriptions[0]));
         rowItems.add(new RowItem(descriptions[1]));
-        final UIKitListPopupWindow mPopupWindow = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+        final UIKitListPopupWindow popupWindow = new UIKitListPopupWindow(mContext,
+                view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
-        mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        popupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+            public void onItemClick(final AdapterView<?> parent,
+                                    final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        removeMoment(adapter,mData,selectedItem);
-                        mPopupWindow.dismiss();
+                        removeMoment(adapter,data,selectedItem);
+                        popupWindow.dismiss();
                         break;
                     case UPDATE:
-                        addOrUpdateMoment(UPDATE,mData.get(selectedItem));
-                        mPopupWindow.dismiss();
+                        addOrUpdateMoment(UPDATE,data.get(selectedItem));
+                        popupWindow.dismiss();
                         break;
                     default:
                 }
             }
         });
-        mPopupWindow.show();
+        popupWindow.show();
     }
 
-    private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter, final List<? extends Moment> mData, int adapterPosition) {
+    private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter,
+                              final List<? extends Moment> data, int adapterPosition) {
         try {
-            mDataServices.deleteMoment(mData.get(adapterPosition));
-            mData.remove(adapterPosition);
+            mDataServices.deleteMoment(data.get(adapterPosition));
+            data.remove(adapterPosition);
             adapter.notifyItemRemoved(adapterPosition);
             adapter.notifyDataSetChanged();
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            if(e.getMessage()!=null){
+                Log.i("***SPO***","e = " + e.getMessage());
+            }
         }
     }
 
 
-    private void updateAndSaveMoment(Moment moment, final String phaseInput, final String temperatureInput, final String locationInput) {
+    private void updateAndSaveMoment(Moment moment,
+                                     final String phaseInput, final String temperatureInput,
+                                     final String locationInput) {
 
         try {
-            TemperatureMomentHelper helper = new TemperatureMomentHelper();
-            moment = helper.updateMoment(moment, phaseInput, temperatureInput, locationInput);
-            mDataServices.update(moment);
+            mDataServices.update(new TemperatureMomentHelper().updateMoment(moment,
+                    phaseInput, temperatureInput, locationInput));
         } catch (Exception ArrayIndexOutOfBoundsException) {
-
+            if(ArrayIndexOutOfBoundsException.getMessage()!=null){
+                Log.i("***SPO***","e = " + ArrayIndexOutOfBoundsException.getMessage());
+            }
         }
     }
 
@@ -167,7 +181,7 @@ public class TemperaturePresenter {
         dialogButton.setEnabled(false);
 
         if(moment!=null){
-            TemperatureMomentHelper helper = new TemperatureMomentHelper();
+            final TemperatureMomentHelper helper = new TemperatureMomentHelper();
             temperature.setText(String.valueOf(helper.getTemperature(moment)));
             location.setText(helper.getNotes(moment));
             phase.setText(helper.getTime(moment));
@@ -178,12 +192,13 @@ public class TemperaturePresenter {
             public void onClick(final View v) {
 
 
-                boolean isValid = validateInputFields(phase.getText().toString(),
+                final boolean isValid = validateInputFields(phase.getText().toString(),
                         temperature.getText().toString(), location.getText().toString());
 
                 if (!isValid) {
                     temperature.setText("");
-                    Toast.makeText(mContext, R.string.invalid_temperature, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,
+                            R.string.invalid_temperature, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -193,7 +208,8 @@ public class TemperaturePresenter {
                                 temperature.getText().toString(), location.getText().toString());
                         break;
                     case UPDATE:
-                        updateAndSaveMoment(moment,phase.getText().toString(), temperature.getText().toString(),
+                        updateAndSaveMoment(moment,phase.getText().toString(),
+                                temperature.getText().toString(),
                                 location.getText().toString());
                         break;
                 }
@@ -203,13 +219,17 @@ public class TemperaturePresenter {
 
         phase.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
+            public void beforeTextChanged(final CharSequence s,
+                                          final int start, final int count, final int after) {
 
             }
 
             @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
+            public void onTextChanged(final CharSequence s,
+                                      final int start, final int before, final int count) {
+                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() &&
+                        temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() &&
+                        location.getText().toString()!=null && !location.getText().toString().isEmpty()){
                     dialogButton.setEnabled(true);
                 }else{
                     dialogButton.setEnabled(false);
@@ -229,8 +249,12 @@ public class TemperaturePresenter {
             }
 
             @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
+            public void onTextChanged(final CharSequence s,
+                                      final int start, final int before, final int count) {
+                if(phase.getText().toString()!=null &&
+                        !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null &&
+                        !temperature.getText().toString().isEmpty() && location.getText().toString()!=null &&
+                        !location.getText().toString().isEmpty()){
                     dialogButton.setEnabled(true);
                 }else{
                     dialogButton.setEnabled(false);
@@ -250,8 +274,12 @@ public class TemperaturePresenter {
             }
 
             @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-                if(phase.getText().toString()!=null && !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null && !temperature.getText().toString().isEmpty() && location.getText().toString()!=null && !location.getText().toString().isEmpty()){
+            public void onTextChanged(final CharSequence s,
+                                      final int start, final int before, final int count) {
+                if(phase.getText().toString()!=null &&
+                        !phase.getText().toString().isEmpty() && temperature.getText().toString()!=null &&
+                        !temperature.getText().toString().isEmpty() &&
+                        location.getText().toString()!=null && !location.getText().toString().isEmpty()){
                     dialogButton.setEnabled(true);
                 }else{
                     dialogButton.setEnabled(false);
