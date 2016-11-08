@@ -14,7 +14,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
@@ -60,24 +60,7 @@ allprojects {
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 	
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local'
-        }
-    }
-}
+
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -102,14 +85,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
 
         testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -188,7 +171,7 @@ dependencies {
     compile project(':coppa')
 }
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
