@@ -68,13 +68,13 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 uiState.setUiStateData(homeStateData);
                 break;
-            case Constants.IAP_PURCHASE_HISTORY:
+            /*case Constants.IAP_PURCHASE_HISTORY:
                 uiState = new IAPState();
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_PURCHASE_HISTORY_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(settingsView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
-                break;
+                break;*/
             case USER_REGISTRATION_STATE:
                 uiState = new UserRegistrationState();
                 break;
@@ -121,7 +121,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public void onLogoutSuccess() {
         final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-            ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
+          //  ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
             appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
             uiState = getUiState(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
             fragmentLauncher = getFragmentLauncher();

@@ -73,7 +73,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 UR,
-               // "Datacore",
+                // "Datacore",
                 "uGrow",
                 configError);
 
