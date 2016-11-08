@@ -16,13 +16,15 @@
         <item name="android:layout_gravity">top</item>
         <item name="android:textColor">?attr/uitDialogTitleTextColor</item>
         <item name="android:maxLines">@integer/uid_alert_dialog_title_max_lines</item>
+        <item name="android:paddingTop">@dimen/uid_alert_dialog_title_icon_padding</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textSize">@dimen/uid_alert_dialog_title_text_size</item>
     </style>
 
     <style name="UIDDialogTitleIconStyle">
-        <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_gravity">top</item>
         <item name="android:paddingBottom">@dimen/uid_alert_dialog_title_icon_padding</item>
+        <item name="android:paddingRight">@dimen/uid_alert_dialog_title_icon_padding</item>
         <item name="android:paddingTop">@dimen/uid_alert_dialog_title_icon_padding</item>
         <item name="android:tint">?attr/uitDialogTitleTextColor</item>
     </style>
@@ -32,6 +34,7 @@
         <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
+        <item name="android:layout_marginBottom">@dimen/uit_page_marging_left_right</item>
         <item name="android:textColor">?attr/uitDialogBodyTextColor</item>
         <item name="android:scrollbars">vertical</item>
         <item name="android:maxHeight">100dp</item>

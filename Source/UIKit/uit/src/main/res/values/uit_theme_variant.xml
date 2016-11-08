@@ -53,8 +53,8 @@
         <item name="uidSwitchBorderColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_20</item>
 
-        <item name="uitDialogTitleTextColor">@color/uitColorWhite</item>
-        <item name="uitDialogBodyTextColor">?attr/uitColorLevel05</item>
+        <item name="uitDialogTitleTextColor">@color/uit_gray_level_75</item>
+        <item name="uitDialogBodyTextColor">@color/uit_gray_level_65</item>
         <item name="uitDialogBackgroundColor">@color/uitColorWhite</item>
         <item name="uitDialogShadowColor">@android:color/black</item>
         <item name="uitDialogDimSubtleLayerColor">?attr/uitColorLevel90</item>
@@ -96,8 +96,8 @@
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel10</item>
 
-        <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
-        <item name="uitDialogBodyTextColor">@color/uit_gray_level_75</item>
+        <!--<item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
+        <item name="uitDialogBodyTextColor">@color/uit_gray_level_75</item>-->
 
     </style>
 
@@ -130,8 +130,8 @@
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel25</item>
 
-        <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
-        <item name="uitDialogBodyTextColor">?attr/uitColorLevel75</item>
+        <!-- <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
+         <item name="uitDialogBodyTextColor">?attr/uitColorLevel75</item>-->
 
     </style>
 
@@ -166,7 +166,7 @@
         <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel40</item>
 
-        <item name="uitDialogBodyTextColor">@color/uitColorWhite</item>
+        <!--<item name="uitDialogBodyTextColor">@color/uitColorWhite</item>-->
 
     </style>
 
