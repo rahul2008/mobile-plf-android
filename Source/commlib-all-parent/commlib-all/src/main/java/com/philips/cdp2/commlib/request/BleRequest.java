@@ -27,11 +27,12 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminat
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
-import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 public class BleRequest extends Request implements Runnable {
+    private static final int MAX_PAYLOAD_LENGTH = (int) Math.pow(2, 16) - 1;
+
     private boolean mIsExecuting;
     private CapabilityDiComm mCapability;
     private final CountDownLatch mCountDownLatch;
@@ -120,7 +121,13 @@ public class BleRequest extends Request implements Runnable {
                         return null;
                     }
                     DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
-                    System.out.println("Request data: " + new String(putPropsMessage.toData(), Charset.forName("UTF-8")));
+
+                    if (putPropsMessage.getPayload().length > MAX_PAYLOAD_LENGTH) {
+                        mResponseHandler.onError(Error.INVALID_PARAMETER, "Payload too big.");
+                        mCountDownLatch.countDown();
+
+                        return null;
+                    }
                     mCapability.writeData(putPropsMessage.toData());
                     break;
                 case POST:

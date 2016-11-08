@@ -80,6 +80,28 @@ public class BleStrategyTestSteps {
         mGson = new GsonBuilder().serializeNulls().create();
     }
 
+    @Given("^the BleStrategy is initialized with id '(.*?)'$")
+    public void the_BleStrategy_is_initialized_with_id(String deviceId) {
+        strategy = new BleStrategy(deviceId, deviceCache) {
+            @Override
+            protected Timer addTimeoutToRequest(BleRequest request) {
+                currentRequest = request;
+
+                return null;
+            }
+        };
+    }
+
+    @Then("^the BleStrategy is available$")
+    public void theBleStrategyIsAvailable() {
+        assertTrue(strategy.isAvailable());
+    }
+
+    @Then("^the BleStrategy is not available$")
+    public void theBleStrategyIsNotAvailable() {
+        assertFalse(strategy.isAvailable());
+    }
+
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
         SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
@@ -137,37 +159,12 @@ public class BleStrategyTestSteps {
         }
     }
 
-    @Then("^write occurred to mock device with id '(.*?)' with data '([0-9A-F]*?)'$")
-    public void mock_device_data_written(final String deviceId, final String data) {
-        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
+    @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'$")
+    public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
+        ResponseHandler handler = mock(ResponseHandler.class);
+        responseQueue.add(handler);
 
-        final byte[] dataBytes = DatatypeConverter.parseHexBinary(data);
-
-        System.out.println("Verify data : " + new String(dataBytes, Charset.forName("UTF-8")));
-
-        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(dataBytes);
-    }
-
-    @Given("^the BleStrategy is initialized with id '(.*?)'$")
-    public void the_BleStrategy_is_initialized_with_id(String deviceId) {
-        strategy = new BleStrategy(deviceId, deviceCache) {
-            @Override
-            protected Timer addTimeoutToRequest(BleRequest request) {
-                currentRequest = request;
-
-                return null;
-            }
-        };
-    }
-
-    @Then("^the BleStrategy is available$")
-    public void theBleStrategyIsAvailable() {
-        assertTrue(strategy.isAvailable());
-    }
-
-    @Then("^the BleStrategy is not available$")
-    public void theBleStrategyIsNotAvailable() {
-        assertFalse(strategy.isAvailable());
+        strategy.getProperties(port, productId, handler);
     }
 
     @SuppressWarnings("unchecked")
@@ -192,12 +189,75 @@ public class BleStrategyTestSteps {
         doingAPutPropertiesForProductidAndPortWithData(productId, port, data);
     }
 
-    @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'$")
-    public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
-        ResponseHandler handler = mock(ResponseHandler.class);
-        responseQueue.add(handler);
+    @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with any data with size '(\\d+)'$")
+    public void doingAPutPropertiesForProductidAndPortWithAnyDataWithSize(int productId, String port, int jsonSize) {
+        final String startString = "{\"chiquita\":\"ba";
+        final String endString = "\"}";
+        int remainingSize = jsonSize;
 
-        strategy.getProperties(port, productId, handler);
+        remainingSize -= startString.length();
+        remainingSize -= endString.length();
+
+        StringBuilder b = new StringBuilder();
+        b.append(startString);
+
+        for (; remainingSize > 1; remainingSize -= 2) {
+            b.append("na");
+        }
+
+        if (remainingSize == 1) {
+            b.append("!");
+        }
+        b.append(endString);
+
+        final String jsonData = b.toString();
+        doingAPutPropertiesForProductidAndPortWithData(productId, port, jsonData);
+    }
+
+    @And("^no write occurred to mock device with id '(.*?)'$")
+    public void noWriteOccurredToMockDeviceWithIdP(String deviceId) {
+        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
+
+        verify(capability, times(0)).writeData((byte[]) any());
+    }
+
+    @And("^write occurred to mock device with id '(.*?)' with any data$")
+    public void writeOccurredToMockDeviceWithIdP(String deviceId) {
+        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
+
+        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData((byte[]) any());
+    }
+
+    @Then("^write occurred to mock device with id '(.*?)' with data '([0-9A-F]*?)'$")
+    public void mock_device_data_written(final String deviceId, final String data) {
+        writeOccurredToMockDeviceWithIdWithPattern(deviceId, data);
+    }
+
+    @Then("^write occurred to mock device with id '(.*?)' with pattern '(.*?)'$")
+    public void writeOccurredToMockDeviceWithIdWithPattern(String deviceId, String pattern) {
+        Matcher m = getMatcherForWrite(deviceId, pattern);
+        assertTrue(m.matches());
+    }
+
+    @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to$")
+    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentTo(String deviceId, String message, String jsonPayload) {
+        writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(deviceId, message, jsonPayload);
+    }
+
+    @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to '(.*?)'$")
+    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(String deviceId, String message, String expectedPayload) {
+        Matcher m = getMatcherForWrite(deviceId, message);
+        assertTrue(m.matches());
+
+        String payload = m.group(1);
+        String payloadString = new String(DatatypeConverter.parseHexBinary(payload), Charset.forName("UTF-8"));
+
+        assertEqualsJson(expectedPayload, payloadString);
+    }
+
+    @And("^the request times out$")
+    public void theRequestTimesOut() {
+        currentRequest.cancel("Timeout occurred.");
     }
 
     @Then("^the result is an error '(.*?)' with data '(.*?)'$")
@@ -242,25 +302,6 @@ public class BleStrategyTestSteps {
         verify(responseQueue.remove()).onSuccess(successStringCaptor.capture());
     }
 
-    @And("^no write occurred to mock device with id '(.*?)'$")
-    public void noWriteOccurredToMockDeviceWithIdP(String deviceId) {
-        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
-
-        verify(capability, times(0)).writeData((byte[]) any());
-    }
-
-    @And("^write occurred to mock device with id '(.*?)' with any data$")
-    public void writeOccurredToMockDeviceWithIdP(String deviceId) {
-        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
-
-        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData((byte[]) any());
-    }
-
-    @And("^the request times out$")
-    public void theRequestTimesOut() {
-        currentRequest.cancel("Timeout occurred.");
-    }
-
     @And("^the json result contains the key '(.*?)'$")
     public void theJsonResultContainsTheKey(String key) {
         assertTrue(getObjectMapFromLastSuccessfulResult().containsKey(key));
@@ -275,14 +316,9 @@ public class BleStrategyTestSteps {
         assertEquals(expectedLength, ((String) object).length());
     }
 
-    @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to$")
-    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentTo(String deviceId, String message, String jsonPayload) {
-        writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(deviceId, message, jsonPayload);
-    }
-
-    @Then("^write occurred to mock device with id '(.*?)' with packet '(.*?)' and payload equivalent to '(.*?)'$")
-    public void writeOccurredToMockDeviceWithPacketAndPayloadEquivalentToInline(String deviceId, String message, String expectedPayload) {
-        Pattern pattern = Pattern.compile(message);
+    @NonNull
+    private Matcher getMatcherForWrite(String deviceId, String regex) {
+        Pattern pattern = Pattern.compile(regex);
 
         ArgumentCaptor<byte[]> argCaptor = ArgumentCaptor.forClass(byte[].class);
 
@@ -290,13 +326,7 @@ public class BleStrategyTestSteps {
         verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture());
 
         String hexData = DatatypeConverter.printHexBinary(argCaptor.getValue());
-        Matcher m = pattern.matcher(hexData);
-        assertTrue(m.matches());
-
-        String payload = m.group(1);
-        String payloadString = new String(DatatypeConverter.parseHexBinary(payload), Charset.forName("UTF-8"));
-
-        assertEqualsJson(expectedPayload, payloadString);
+        return pattern.matcher(hexData);
     }
 
     private CapabilityDiComm getCapabilityForDevice(String deviceId) {
