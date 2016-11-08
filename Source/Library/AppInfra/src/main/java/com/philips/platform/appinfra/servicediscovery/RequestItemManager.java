@@ -17,6 +17,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
@@ -150,8 +151,11 @@ public class RequestItemManager {
 //                }
                 if(localeList.size() > 0){
                     Locale mLocale = mAppInfra.getInternationalization().getUILocale();
+                    String localString = mLocale.getLanguage()+"_"+mLocale.getCountry();
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Locale",
+                            localString);
                     for (int i = 0; i < localeList.size(); i++) {
-                            if (mLocale.getDefault().toString().equals(localeList.get(i))) {
+                            if (localString.equals(localeList.get(i))) {
                                 matchByCountry.setLocale(localeList.get(i));
                                 configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
                                 break;
