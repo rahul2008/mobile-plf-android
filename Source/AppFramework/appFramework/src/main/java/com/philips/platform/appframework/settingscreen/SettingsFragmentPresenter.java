@@ -33,7 +33,6 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     private static final int HOME_ACTIVITY_STATE = 998;
     private static final String SETTINGS_LOGIN = "login";
     private final SettingsView settingsView;
-    private AppFrameworkApplication appFrameworkApplication;
     private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
     private String SETTINGS_REGISTRATION = "settings_registration";
@@ -56,10 +55,9 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
      */
     @Override
     public void onClick(int componentID) {
-        appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SETTINGS, eventState);
+        baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SETTINGS, eventState);
         if (baseState != null) {
             baseState.setPresenter(this);
             baseState.setUiStateData(uiStateData);
@@ -105,12 +103,15 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
      */
     @Override
     public void onStateComplete(BaseState baseState) {
-        appFrameworkApplication = (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_REGISTRATION);
+        this.baseState =getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_REGISTRATION);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);
         settingsView.finishActivityAffinity();
         this.baseState.navigate(fragmentLauncher);
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
     }
 
     @Override
@@ -118,8 +119,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
-            appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
-            baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_LOGOUT);
+            baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);
