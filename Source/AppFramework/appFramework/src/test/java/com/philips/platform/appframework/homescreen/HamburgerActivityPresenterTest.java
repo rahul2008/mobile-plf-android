@@ -1,47 +1,30 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.util.ArrayMap;
-
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.HamburgerAppState;
-import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.flowmanager.pojo.AppFlowEvent;
-import com.philips.platform.flowmanager.pojo.AppFlowNextState;
-import com.philips.platform.modularui.statecontroller.BaseAppState;
-import com.philips.platform.modularui.statecontroller.BaseState;
-import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIStateData;
-import com.philips.platform.modularui.stateimpl.AboutScreenState;
-import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
-import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-
 import junit.framework.TestCase;
-
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -89,7 +72,6 @@ public class HamburgerActivityPresenterTest extends TestCase {
         final Resources resourcesMock = mock(Resources.class);
         when(fragmentViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getResources()).thenReturn(resourcesMock);
-        final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
         assertEquals(true, hamburgerActivityPresenter.setStateData(0) instanceof UIStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(1) instanceof UIStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof IAPState.InAppStateData);
@@ -131,7 +113,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
         JUnitFlowManager uiFlowManager = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
-        when(uiFlowManager.getNextState(HamburgerAppState.HAMBURGER_HOME,"home_fragment")).thenReturn(homeFragmentStateMock);
+        when(uiFlowManager.getNextState(HamburgerAppState.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
         hamburgerActivityPresenter.onClick(0);
         verify(homeFragmentStateMock, atLeastOnce()).setPresenter(hamburgerActivityPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
@@ -158,6 +140,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
             protected FragmentLauncher getFragmentLauncher() {
                 return fragmentLauncherMock;
             }
+
             @Override
             protected AppFrameworkApplication getApplicationContext() {
                 return appFrameworkApplicationMock;
@@ -166,7 +149,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(HamburgerAppState.SUPPORT,"pr")).thenReturn(productRegistrationStateMock);
+        when(uiFlowManagerMock.getNextState(HamburgerAppState.SUPPORT, "pr")).thenReturn(productRegistrationStateMock);
         hamburgerActivityPresenter.onStateComplete(productRegistrationStateMock);
         verify(productRegistrationStateMock, atLeastOnce()).setPresenter(hamburgerActivityPresenter);
         verify(productRegistrationStateMock, atLeastOnce()).setUiStateData(prStateData);

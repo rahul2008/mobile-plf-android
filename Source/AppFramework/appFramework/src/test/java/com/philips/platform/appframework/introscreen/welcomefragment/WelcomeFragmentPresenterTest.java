@@ -1,26 +1,24 @@
-
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.introscreen.welcomefragment;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
-import com.philips.platform.modularui.statecontroller.BaseState;
-import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-
 import junit.framework.TestCase;
-
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
