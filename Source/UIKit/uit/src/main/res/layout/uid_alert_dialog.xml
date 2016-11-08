@@ -19,8 +19,10 @@
         <ImageView
             android:id="@id/uid_alert_icon"
             style="@style/UIDDialogTitleIconStyle"
-            android:layout_width="@dimen/uid_alert_icon_width_height"
-            android:layout_height="@dimen/uid_alert_icon_width_height"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/uid_alert_icon_width_height"
+            android:minWidth="@dimen/uid_alert_icon_width_height"/>
 
         <TextView
             android:id="@id/uid_alert_title"

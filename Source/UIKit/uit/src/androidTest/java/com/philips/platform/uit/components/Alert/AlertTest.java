@@ -84,14 +84,14 @@ public class AlertTest {
     public void verifyAlertTitleIconHeight() {
         waitFor(testResources, 750);
         int expectedIconHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
-        getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedIconHeight)));
+        getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedIconHeight)));
     }
 
     @Test
     public void verifyAlertTitleIconWidth() {
         waitFor(testResources, 750);
         int expectedIconWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
-        getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedIconWidth)));
+        getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewMinWidth(expectedIconWidth)));
     }
 
     @Test

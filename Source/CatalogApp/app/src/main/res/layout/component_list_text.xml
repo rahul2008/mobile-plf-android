@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView android:id="@android:id/text1"
+          style="@style/TestButtonTexts"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -7,5 +8,4 @@
           android:gravity="center_vertical"
           android:minHeight="48dp"
           android:paddingEnd="@dimen/layout_margin_left_right"
-          android:paddingStart="@dimen/layout_margin_left_right"
-          android:textColor="?attr/uitControlPrimaryTextColor"/>
+          android:paddingStart="@dimen/layout_margin_left_right"/>

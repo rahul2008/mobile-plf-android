@@ -113,4 +113,24 @@ public class ViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<? super View> isSameViewMinHeight(final int expectedIconHeight) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedIconHeight));
+                return view.getMinimumHeight() == expectedIconHeight;
+            }
+        };
+    }
+
+    public static Matcher<? super View> isSameViewMinWidth(final int expectedIconWidth) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedIconWidth));
+                return view.getMinimumWidth() == expectedIconWidth;
+            }
+        };
+    }
 }

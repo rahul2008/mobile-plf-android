@@ -22,7 +22,6 @@
     </style>
 
     <style name="UIDDialogTitleIconStyle">
-        <item name="android:layout_gravity">top</item>
         <item name="android:paddingBottom">@dimen/uid_alert_dialog_title_icon_padding</item>
         <item name="android:paddingRight">@dimen/uid_alert_dialog_title_icon_padding</item>
         <item name="android:paddingTop">@dimen/uid_alert_dialog_title_icon_padding</item>
