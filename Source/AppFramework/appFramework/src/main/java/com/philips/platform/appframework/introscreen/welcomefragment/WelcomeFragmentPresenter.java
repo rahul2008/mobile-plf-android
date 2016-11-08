@@ -36,7 +36,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
 
     @Override
     public void onClick(final int componentID) {
-        appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
+        appFrameworkApplication = getApplicationContext();
         welcomeFragmentView.showActionBar();
         String eventState = getEventState(componentID);
         if (eventState.equals(WELCOME_DONE)) {
@@ -54,13 +54,17 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         }
     }
 
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
+    }
+
     @NonNull
     protected FragmentLauncher getFragmentLauncher() {
         return new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
     }
 
     // TODO: Deepthi, revisit this switch
-    private String getEventState(final int componentID) {
+    protected String getEventState(final int componentID) {
         switch (componentID) {
             case R.id.welcome_skip_button:
                 return WELCOME_SKIP;
@@ -80,9 +84,8 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     // TODO: Deepthi, check for condition and event and then take decision, can we move to json, pls check.
     @Override
     public void onStateComplete(final BaseState baseState) {
-        appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
         String eventState = getEventState(MENU_OPTION_HOME);
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
+        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();

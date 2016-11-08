@@ -5,6 +5,8 @@
 */
 package com.philips.platform.appframework.introscreen;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
@@ -41,20 +43,26 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
      */
     @Override
     public void onClick(int componentID) {
-        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
-        welcomeView.showActionBar();
+        showActionBar();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
+        baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
-        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         if (!baseState.getStateID().equals(BaseAppState.REGISTRATION)) {
-            welcomeView.finishActivityAffinity();
+            finishActivity();
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);
         }
     }
 
-    private String getEventState(final int componentID) {
+    protected void finishActivity() {
+        welcomeView.finishActivityAffinity();
+    }
+
+    protected void showActionBar() {
+        welcomeView.showActionBar();
+    }
+
+    protected String getEventState(final int componentID) {
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return WELCOME_HOME;
@@ -74,24 +82,31 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
      */
     @Override
     public void onLoad() {
-        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         welcomeView.hideActionBar();
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(null,null);
+        baseState = getApplicationContext().getTargetFlowManager().getNextState(null,null);
         fragmentLauncher = getFragmentLauncher();
-        UIStateData homeStateData = new UIStateData();
-        homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
-        baseState.setUiStateData(homeStateData);
+        baseState.setPresenter(this);
+        baseState.setUiStateData(getUiStateData());
         baseState.navigate(fragmentLauncher);
     }
 
+    @NonNull
+    protected UIStateData getUiStateData() {
+        UIStateData homeStateData = new UIStateData();
+        homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
+        return homeStateData;
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
+    }
     @Override
     public void onStateComplete(BaseState baseState) {
-        appFrameworkApplication = (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
         String eventId = getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT);
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventId);
+        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventId);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);
-        welcomeView.finishActivityAffinity();
+        finishActivity();
         this.baseState.navigate(fragmentLauncher);
     }
 

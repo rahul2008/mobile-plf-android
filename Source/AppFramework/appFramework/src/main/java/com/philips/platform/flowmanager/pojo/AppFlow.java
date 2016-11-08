@@ -26,7 +26,7 @@ public class AppFlow {
      * @param firstState
      *     The firstState
      */
-    public void setFirstState(String firstState) {
+    private void setFirstState(String firstState) {
         this.firstState = firstState;
     }
 

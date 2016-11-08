@@ -5,6 +5,8 @@
 */
 package com.philips.platform.appframework.homescreen;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.HamburgerAppState;
@@ -31,10 +33,10 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
 
     public static final int MENU_OPTION_HOME = 0;
     private FragmentView fragmentView;
-    private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
     private String SUPPORT_PR = "pr";
+    final int MENU_OPTION_PR = 6;
 
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
@@ -48,7 +50,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
      */
     @Override
     public void onClick(int componentID) {
-        appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
+        AppFrameworkApplication appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.HAMBURGER_HOME, eventState);
         baseState.setPresenter(this);
@@ -58,6 +60,10 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
             ((SupportFragmentState) baseState).registerUIStateListener(this);
         }
         baseState.navigate(fragmentLauncher);
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
     // TODO: Deepthi, when we already know that we need to set certain data for each menu click and that too for which component, why do we ask flow manager to give only state?
@@ -93,13 +99,22 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
-                uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
+                uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;
+            case MENU_OPTION_PR:
+                ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
+                prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                return prStateDataModel;
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
         }
+    }
+
+    @NonNull
+    protected ArrayList<String> getCtnList() {
+        return new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist)));
     }
 
     protected FragmentLauncher getFragmentLauncher() {
@@ -116,12 +131,10 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     // cant we move this to json ?
     @Override
     public void onStateComplete(BaseState baseState) {
-        appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SUPPORT, SUPPORT_PR);
-        ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
-        uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
-        this.baseState.setUiStateData(uiStateDataModel);
+        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SUPPORT, SUPPORT_PR);
+        this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
         this.baseState.setPresenter(this);
+        fragmentLauncher = getFragmentLauncher();
         this.baseState.navigate(fragmentLauncher);
     }
 

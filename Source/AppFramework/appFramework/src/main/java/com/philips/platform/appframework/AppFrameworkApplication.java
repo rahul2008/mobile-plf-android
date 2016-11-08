@@ -13,6 +13,7 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
@@ -74,7 +75,7 @@ public class AppFrameworkApplication extends Application {
      * Initializing Product registration
      */
 
-    public FlowManager getTargetFlowManager() {
+    public BaseUiFlowManager getTargetFlowManager() {
         return targetFlowManager;
     }
 }

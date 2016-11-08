@@ -25,6 +25,7 @@ public abstract class BaseUiFlowManager {
     private Map<String, List<AppFlowEvent>> appFlowMap;
     private Context context;
     private AppFlowModel appFlowModel;
+    private List<AppFlowEvent> appFlowEvents;
 
     public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
         this.context = context;
@@ -37,12 +38,13 @@ public abstract class BaseUiFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public final BaseState getNextState(String currentState, String event) {
+    public BaseState getNextState(String currentState, String event) {
+        String string;
         if(null != currentState && null != event) {
-            final List<AppFlowEvent> appFlowEvents = appFlowMap.get(currentState);
+            appFlowEvents = getAppFlowEvents(currentState);
             if (appFlowEvents != null) {
                 for (final AppFlowEvent appFlowEvent : appFlowEvents) {
-                    final String string = appFlowEvent.getEventId();
+                    string = appFlowEvent.getEventId();
                     if (appFlowEvent.getEventId() != null && string.equals(event)) {
                         final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                         BaseState appFlowNextState = getUiState(appFlowNextStates);
@@ -56,6 +58,10 @@ public abstract class BaseUiFlowManager {
             return getFirstState();
         }
         return null;
+    }
+
+    public List<AppFlowEvent> getAppFlowEvents(String currentState) {
+        return appFlowMap.get(currentState);
     }
 
     @Nullable
