@@ -6,9 +6,11 @@
     <color name="GroupBlue35">#431AC1</color>
     <color name="GroupBlue15">#BFE2EB</color>
     <color name="GroupBlue10">#DAF1F7</color>
+    <color name="GroupBlue90">#0A0C1E</color>
     <color name="White">#FFFFFF</color>
     <color name="Gray20">#C4C4C4</color>
     <color name="Gray75">#212121</color>
+    <color name="Gray65">#383838</color>
     <color name="Gray35">#8C8C8C</color>
     <color name="Gray30">#9E9E9E</color>
     <color name="Gray10">#E8E8E8</color>

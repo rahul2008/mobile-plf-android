@@ -6,9 +6,11 @@ package com.philips.platform.uit.components.Alert;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
+import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
@@ -26,6 +28,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.platform.uit.test.R.color.Gray65;
+import static com.philips.platform.uit.test.R.color.Gray75;
+import static com.philips.platform.uit.test.R.color.White;
 import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
 public class AlertTest {
@@ -77,21 +82,21 @@ public class AlertTest {
     public void verifyAlertTitleIconHeight() {
         waitFor(testResources, 750);
         int expectedIconHeight = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
-        getAlertTitleIcon().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
+        getAlertTitleIcon().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedIconHeight)));
     }
 
     @Test
     public void verifyAlertTitleIconWidth() {
         waitFor(testResources, 750);
         int expectedIconWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
-        getAlertTitleIcon().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
+        getAlertTitleIcon().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedIconWidth)));
     }
 
     @Test
     public void verifyAlertTitleIconRightPadding() {
         waitFor(testResources, 750);
         int expectedRightPadding = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_icon_rightpadding));
-        getAlertTitleIcon().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedRightPadding)));
+        getAlertTitleIcon().check(matches((ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding))));
     }
 
     /******************************
@@ -176,31 +181,35 @@ public class AlertTest {
 
     @Test
     public void verifyFillColorofAlert() {
+        final int expectedFillColor = ContextCompat.getColor(instrumentationContext, White);
+    }
 
+    @Test
+    public void verifyShadowColorofAlert() {
+        final int shadowColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#000000"), 0.20f);
     }
 
     @Test
     public void verifyTextColorofAlertTitle() {
+        final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray75);
+        getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled,expectedColor)));
 
     }
 
     @Test
     public void verifyTextColorofAlertContent() {
-
+        final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray65);
+        getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled,expectedColor)));
     }
 
     @Test
     public void verifyIconColorofAlertTitle() {
-
-    }
-
-    @Test
-    public void verifyIconColorofAlertContent() {
-
+            //Cannot be automated
     }
 
     @Test
     public void verifyColorofDimLayer() {
+        final int disabledTextColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#0A0C1E"), 0.80f);
 
     }
 
