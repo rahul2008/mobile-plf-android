@@ -63,7 +63,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     public void init(Context context) {
         this.applicationContext = context;
         initializeUserRegistrationLibrary();
-       // initHSDP();
+        initHSDP();
     }
 
     public void initHSDP() {
