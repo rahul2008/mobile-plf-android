@@ -141,6 +141,10 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(type[0]));
     }
 
+    public void fetchMomentById(final int momentID){
+        mEventing.post(new LoadMomentsRequest(momentID));
+    }
+
     public void fetchAllData(){
         mEventing.post(new LoadMomentsRequest());
     }
@@ -241,9 +245,15 @@ public class DataServicesManager {
         mCore.start();
     }
 
+    //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
     public void deleteAll(){
         mEventing.post(new DataClearRequest());
     }
+
+    public void deleteAllMoment(){
+        mEventing.post(new DataClearRequest());
+    }
+
 
     protected void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(mEventing);

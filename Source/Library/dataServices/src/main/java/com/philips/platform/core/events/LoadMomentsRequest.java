@@ -18,22 +18,36 @@ import com.philips.platform.core.datatypes.MomentType;
 public class LoadMomentsRequest extends Event {
 
     private final MomentType type;
+    private final int momentID;
     private MomentType[] types;
 
     public LoadMomentsRequest() {
         types = null;
         type = null;
+        momentID = -1;
     }
 
     public LoadMomentsRequest(final @NonNull MomentType... type) {
         this.type = type[0];
         this.types = type;
+        momentID = -1;
     }
 
+    public LoadMomentsRequest(int momentID) {
+        this.momentID = momentID;
+        this.type = null;
+    }
 
+    public int getMomentID(){
+        return momentID;
+    }
 
     public boolean hasType() {
         return type != null;
+    }
+
+    public boolean hasID() {
+        return momentID != -1;
     }
 
     public MomentType getType() {

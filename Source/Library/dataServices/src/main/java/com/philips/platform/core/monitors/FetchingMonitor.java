@@ -73,6 +73,8 @@ public class FetchingMonitor extends EventMonitor {
         try {
             if (event.hasType()) {
                 dbInterface.fetchMoments(event.getTypes());
+            } else if (event.hasID()) {
+                dbInterface.fetchMomentById(event.getMomentID());
             } else {
                 dbInterface.fetchMoments();
             }
