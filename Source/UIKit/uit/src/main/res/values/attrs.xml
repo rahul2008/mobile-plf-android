@@ -4,6 +4,7 @@
         <attr name="uitContentPrimary" format="reference|color"/>
         <attr name="uitContentSecondary" format="reference|color"/>
         <attr name="uitContentTextColor" format="reference|color"/>
+        <attr name="uitTextPrimaryColor" format="reference|color"/>
 
         <attr name="uitNavigationPrimaryColor" format="reference|color"/>
         <attr name="uitNavigationSecondaryColor" format="reference|color"/>

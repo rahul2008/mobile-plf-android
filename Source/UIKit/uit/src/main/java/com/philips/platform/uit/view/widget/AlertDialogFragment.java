@@ -57,7 +57,8 @@ public class AlertDialogFragment extends DialogFragment {
         titleTextView = (TextView) view.findViewById(R.id.uid_alert_title);
         titleTextView.setText(dialogParams.title);
 
-        setTitleIcon((ImageView) view.findViewById(R.id.uid_alert_icon));
+        final ViewGroup headerView = (ViewGroup) view.findViewById(R.id.uid_alert_dialog_header);
+        setTitleIcon((ImageView) view.findViewById(R.id.uid_alert_icon), headerView);
         setPositiveButtonProperties();
         setNegativeButtonProperties();
         setCancelable(dialogParams.cancelable);
@@ -82,7 +83,7 @@ public class AlertDialogFragment extends DialogFragment {
         }
     }
 
-    private void setTitleIcon(final ImageView mIconView) {
+    private void setTitleIcon(final ImageView mIconView, final ViewGroup headerView) {
 
         if (mIconView != null) {
             if (dialogParams.iconId != 0) {
@@ -97,6 +98,7 @@ public class AlertDialogFragment extends DialogFragment {
             titleTextView.setVisibility(View.VISIBLE);
             titleTextView.setText(dialogParams.title);
         } else {
+            headerView.setVisibility(View.GONE);
             titleTextView.setVisibility(View.GONE);
         }
     }

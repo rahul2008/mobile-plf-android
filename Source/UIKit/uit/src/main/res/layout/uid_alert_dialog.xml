@@ -4,7 +4,8 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="?attr/uitDialogBackgroundColor">
 
     <LinearLayout
         android:id="@id/uid_alert_dialog_header"
@@ -53,9 +54,9 @@
         <com.philips.platform.uit.view.widget.Button
             android:id="@id/uid_alert_positive_button"
             style="@style/UITDefaultButton"
+            android:layout_marginEnd="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/uid_alert_positive_button_margin_end"
             android:layout_marginStart="@dimen/uid_alert_positive_button_margin_start"/>
     </LinearLayout>
 </LinearLayout>
