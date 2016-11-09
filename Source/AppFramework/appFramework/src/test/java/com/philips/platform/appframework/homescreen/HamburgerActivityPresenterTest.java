@@ -77,7 +77,6 @@ public class HamburgerActivityPresenterTest extends TestCase {
         assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof IAPState.InAppStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof SupportFragmentState.ConsumerCareData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(4) instanceof UIStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(Constants.UI_SHOPPING_CART_BUTTON_CLICK) instanceof IAPState.InAppStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof UIStateData);
         assertFalse(hamburgerActivityPresenter.setStateData(5) instanceof SupportFragmentState.ConsumerCareData);
     }
