@@ -6,7 +6,8 @@
         <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
         <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
         <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
-        <item name="android:windowBackground">?attr/uitDialogBackgroundColor</item>
+        <item name="android:windowBackground">@drawable/uid_alert_bg</item>
+        <item name="android:backgroundDimAmount">@dimen/uit_alpha_per_80</item>
     </style>
 
     <style name="UIDAlertDialogTitleTextStyle">
