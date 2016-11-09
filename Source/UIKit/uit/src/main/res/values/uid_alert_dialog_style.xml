@@ -3,12 +3,10 @@
 
     <style name="UIDAlertDialogStyle" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:textColorPrimary">?attr/uitDialogTitleTextColor</item>
-        <item name="android:background">?attr/uitContentPrimary</item>
         <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
         <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
         <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:colorBackground">?attr/uitDialogDimStrongColor</item>
+        <item name="android:windowBackground">?attr/uitDialogBackgroundColor</item>
     </style>
 
     <style name="UIDAlertDialogTitleTextStyle">
@@ -33,18 +31,15 @@
         <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
-        <item name="android:layout_marginBottom">@dimen/uit_page_marging_left_right</item>
         <item name="android:textColor">?attr/uitDialogBodyTextColor</item>
         <item name="android:scrollbars">vertical</item>
-        <item name="android:maxHeight">100dp</item>
         <item name="android:textSize">@dimen/uid_alert_dialog_message_text_size</item>
     </style>
 
-    <style name="UIDAlertDialogActionAreaStyle">
+    <style name="UIDAlertDialogActionAreaStyle" parent="UITDefaultButton">
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginBottom">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_height">@dimen/uid_alert_dialog_control_area_height</item>
-        <item name="android:orientation">horizontal</item>
         <item name="android:gravity">end|center_vertical</item>
     </style>
 
