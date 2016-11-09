@@ -59,7 +59,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     final String SHOPPING_CART = "shopping_cart";
     final String HOME_ABOUT = "about";
     final String HOME_FRAGMENT = "home_fragment";
-    final String DATA_SYNC = "data_sync";
+    final String HOME_DATA_SYNC = "data_sync";
     final String SUPPORT_PR = "pr";
 
     public TabbedActivityPresenter(final FragmentView fragmentView) {
@@ -181,7 +181,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
             case MENU_OPTION_PR:
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
-                return  HOME_DATA_DYNC
+                return  HOME_DATA_SYNC;
             default:
                 return HOME_FRAGMENT;
         }
