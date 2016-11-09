@@ -103,28 +103,6 @@
                     android:layout_centerInParent="true"
                     android:text="Update Gender"
                     android:visibility="visible" />
-                <RadioGroup
-                    android:id="@+id/abTestingRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/text"
-                    android:checkedButton="@+id/Evalution">
-
-                    <RadioButton
-                        android:id="@+id/Atesting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="A Testing"
-                        android:checked="true"/>
-
-                    <RadioButton
-                        android:id="@+id/Btesting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="AB Testing"
-                        android:checked="false"/>
-
-                </RadioGroup>
 
                 <Button
                     android:id="@+id/btn_change_configuration"

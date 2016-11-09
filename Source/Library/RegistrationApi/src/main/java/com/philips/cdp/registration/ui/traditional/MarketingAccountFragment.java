@@ -38,7 +38,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
-        View.OnClickListener,NetworStateListener, UpdateUserDetailsHandler {
+        View.OnClickListener, NetworStateListener, UpdateUserDetailsHandler {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -234,8 +234,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         hideRefreshProgress();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !mUser.getEmailVerificationStatus()) {
             launchAccountActivateFragment();
+        } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && mUser.getEmailVerificationStatus()) {
+            launchWelcomeFragment();
         } else {
             launchWelcomeFragment();
         }

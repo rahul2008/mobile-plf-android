@@ -25,7 +25,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -81,10 +80,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private RadioGroup mRadioGroup;
     private CheckBox mCheckBox;
     private User mUser;
-    private RadioGroup mABTestingRadioGroup;
-    private RadioButton radioABButton;
-
-    private boolean abtesting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,30 +122,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
-
-        mABTestingRadioGroup= (RadioGroup) findViewById(R.id.abTestingRadio);
-
-        mABTestingRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton abtesting=(RadioButton)findViewById(R.id.Atesting);
-                if (abtesting.isChecked()){
-                    RegConstants.AB_TESTING=true;
-                }
-                else{
-                    RegConstants.AB_TESTING=false;
-                }
-            }
-        });
-
-
-        /*if (mABTestingRadioGroup.getCheckedRadioButtonId() == R.id.Atesting) {
-            abtesting = RegConstants.A_TESTING;
-        } else {
-            abtesting = RegConstants.B_TESTING;
-        }*/
-
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         final String restoredText = prefs.getString("reg_environment", null);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
