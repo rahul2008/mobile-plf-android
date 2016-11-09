@@ -26,9 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.Fragments.InAppBaseFragment;
+import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.di.iap.integration.IAPInterface;
-import com.philips.cdp.di.iap.session.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -43,7 +43,6 @@ import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
 import java.util.ArrayList;
 /**
  * This is the Main activity which host the main hamburger menu
@@ -114,6 +113,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                     adapter.notifyDataSetChanged();
                     sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
                     showNavigationDrawerItem(position);
+
                 }
             }
         });
@@ -127,6 +127,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         philipsDrawerLayout.closeDrawer(navigationView);
         presenter.onClick(position);
     }
+
+    public HamburgerAdapter getHamburgerAdapter()
+    {
+        return this.adapter;
+    }
+
 
     /**
      * To set the actionbar

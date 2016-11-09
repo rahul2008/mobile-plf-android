@@ -15,4 +15,8 @@
     <dimen name="welcome_button_text_size">14sp</dimen>
     <dimen name="welcome_arrow_size">18sp</dimen>
 
+    <dimen name="pop_up_image_margin_top">20dp</dimen>
+    <dimen name="pop_up_dots_margin_left">12dp</dimen>
+
+
 </resources>
