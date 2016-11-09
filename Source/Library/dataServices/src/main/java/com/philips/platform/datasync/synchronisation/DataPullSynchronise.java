@@ -50,6 +50,9 @@ public class DataPullSynchronise {
     private final Executor executor;
 
     @NonNull
+    private final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers;
+
+    @NonNull
     private final Eventing eventing;
 
     private volatile RetrofitError fetchResult;
@@ -60,12 +63,12 @@ public class DataPullSynchronise {
     DataServicesManager mDataServicesManager;
 
     @Inject
-    public DataPullSynchronise(@NonNull final MomentsDataFetcher fetcher,
+    public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
                                @NonNull final Executor executor,
                                @NonNull final Eventing  eventing) {
         mDataServicesManager = DataServicesManager.getInstance();
         this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
-        this.mMomentsDataFetcher = fetcher;
+        this.fetchers = fetchers;
         this.executor = executor;
         this.eventing = eventing;
     }
@@ -170,7 +173,14 @@ public class DataPullSynchronise {
     private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments) {
         Log.i("**SPO**","In Data Pull Synchronize fetchData");
         initFetch();
-        startFetching(lastSyncDateTime, referenceId, mMomentsDataFetcher);
+        for(DataFetcher fetcher:fetchers){
+            if(fetcher instanceof MomentsDataFetcher){
+                startFetching(lastSyncDateTime, referenceId, fetcher);
+            }else{
+                startFetching(lastSyncDateTime, referenceId, fetcher);
+            }
+        }
+
     }
 
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {

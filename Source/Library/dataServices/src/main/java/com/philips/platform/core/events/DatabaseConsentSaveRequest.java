@@ -11,8 +11,7 @@ public class DatabaseConsentSaveRequest extends Event {
 
     private Consent consent;
 
-    public DatabaseConsentSaveRequest(final int referenceId, Consent consent) {
-        super(referenceId);
+    public DatabaseConsentSaveRequest(Consent consent) {
         this.consent = consent;
     }
 

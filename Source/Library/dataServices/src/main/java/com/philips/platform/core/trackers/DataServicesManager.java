@@ -268,7 +268,7 @@ public class DataServicesManager {
     }
 
     public void save(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(1, consent));
+        mEventing.post(new DatabaseConsentSaveRequest(consent));
     }
 
     @NonNull

@@ -59,6 +59,9 @@ public class ConsentsMonitor extends EventMonitor {
         if (event.getRequestType() == ConsentBackendSaveRequest.RequestType.SAVE) {
             saveConsent(event);
         }// There is no updateConsent for this UserStory, will be implemented when we take this story
+
+        //For tesing
+        //eventing.post(new ConsentBackendGetRequest(1));
     }
 
     public void onEventAsync(ConsentBackendListSaveRequest event) {

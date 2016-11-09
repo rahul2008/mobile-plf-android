@@ -1,8 +1,7 @@
 package cdp.philips.com.mydemoapp.consents;
 
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,16 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.ConsentDetailType;
+import com.philips.platform.core.trackers.DataServicesManager;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperaturePresenter;
@@ -37,6 +35,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     private Button mBtnOk;
     private Button mBtnCancel;
     private ConsentDialogAdapter lConsentAdapter;
+    ProgressDialog mProgressBar;
 
     public ConsentDialogFragment() {
         mTemperaturePresenter = new TemperaturePresenter(getActivity());
@@ -50,6 +49,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
                 false);
         EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
         mTemperaturePresenter.fetchConsents();
+        showProgressBar();
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
         mBtnOk=(Button)rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
@@ -58,35 +58,43 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         mBtnCancel.setOnClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
+        mProgressBar = new ProgressDialog(getActivity());
         return rootView;
 
     }
 
     @Override
     public void onSuccess(ArrayList<? extends Object> data) {
-        List<OrmConsent> ormConsents = (List<OrmConsent>) data;
-        if(ormConsents==null || ormConsents.size()==0){
-            mTemperaturePresenter.createDefaultConsent();
-        }
-        lConsentAdapter = new ConsentDialogAdapter(getActivity(),ormConsents, mTemperaturePresenter);
-        mRecyclerView.setAdapter(lConsentAdapter);
-        mBtnOk.setEnabled(true);
+        dismissProgressBar();
+      if(data==null){
+          showProgressBar();
+          createDefaultConsent();
+      }
     }
 
     @Override
     public void onSuccess(Object data) {
+        dismissProgressBar();
+        OrmConsent ormConsent = (OrmConsent) data;
+        if(ormConsent!=null){
+            lConsentAdapter = new ConsentDialogAdapter(getActivity(),ormConsent, mTemperaturePresenter);
+            mRecyclerView.setAdapter(lConsentAdapter);
+            lConsentAdapter.notifyDataSetChanged();
+            mBtnOk.setEnabled(true);
+        }
+
     }
 
     @Override
     public void onFailure(Exception exception) {
-
+     dismissProgressBar();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnOK:
-                lConsentAdapter.updateConsents();
+                lConsentAdapter.updateConsentDetails();
                 getDialog().dismiss();
                 break;
             case R.id.btnCancel:
@@ -95,4 +103,46 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
         }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
+        dismissProgressBar();
+    }
+
+    public void createDefaultConsent(){
+        DataServicesManager mDataServices=DataServicesManager.getInstance();
+        Consent consent = mDataServices.createConsent();
+        ConsentHelper consentHelper = new ConsentHelper(mDataServices);
+        consentHelper.addConsent
+                (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+        consentHelper.addConsent
+                (consent,ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+        consentHelper.addConsent
+                (consent,ConsentDetailType.CRY_DURATION, ConsentDetailStatusType.REFUSED,
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+
+        consentHelper.addConsent
+                (consent,ConsentDetailType.HEIGHT, ConsentDetailStatusType.REFUSED,
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+
+        consentHelper.sendUpdateRequest(consent);
+    }
+
+    private void showProgressBar(){
+        if(mProgressBar!=null) {
+            mProgressBar.setCancelable(true);
+            mProgressBar.setMessage("Fetching consents ...");
+        }
+    }
+
+    private void dismissProgressBar(){
+        if(mProgressBar!=null) {
+            mProgressBar.dismiss();
+        }
+    }
+
 }

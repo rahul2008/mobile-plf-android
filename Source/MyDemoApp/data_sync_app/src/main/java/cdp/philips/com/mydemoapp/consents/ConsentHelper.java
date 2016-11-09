@@ -49,12 +49,21 @@ public class ConsentHelper {
         dataServicesManager.save(consent);
     }
 
+    public void addConsentDetails(@NonNull final Consent consent, @NonNull final ConsentDetail consentDetail) {
+        createAndAddConsentDetail(consent, consentDetail.getType(), consentDetail.getStatus(), consentDetail.getDeviceIdentificationNumber());
+    }
+
     private void addConsentDetails(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
         createAndAddConsentDetail(consent, detailType, consentDetailStatusType, deviceIdentificationNumber);
     }
 
     private void createAndAddConsentDetail(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
         ConsentDetail consentDetail = mDataCreator.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, consent);
+        consent.addConsentDetails(consentDetail);
+    }
+
+    private void createAndAddConsentDetail(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final String consentDetailStatusType, final String deviceIdentificationNumber) {
+        ConsentDetail consentDetail = mDataCreator.createConsentDetail(detailType, consentDetailStatusType, Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, consent);
         consent.addConsentDetails(consentDetail);
     }
 

@@ -271,6 +271,5 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
-        mDataServicesManager.fetchConsent();
     }
 }

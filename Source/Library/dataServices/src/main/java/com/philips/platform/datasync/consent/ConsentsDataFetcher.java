@@ -65,5 +65,7 @@ public class ConsentsDataFetcher extends DataFetcher {
         return super.fetchAllData();
     }
 
+
+
 }
 

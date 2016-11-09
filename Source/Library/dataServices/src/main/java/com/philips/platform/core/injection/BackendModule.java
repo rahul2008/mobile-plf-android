@@ -28,6 +28,7 @@ import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -81,7 +82,8 @@ public class BackendModule {
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final Eventing eventing, @NonNull final ExecutorService executor) {
-        return new DataPullSynchronise(momentsDataFetcher, executor, eventing);
+
+        return new DataPullSynchronise(Arrays.asList(momentsDataFetcher,consentsDataFetcher), executor, eventing);
     }
 
     @Provides

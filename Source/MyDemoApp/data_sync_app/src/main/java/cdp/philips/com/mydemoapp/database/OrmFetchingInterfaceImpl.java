@@ -75,10 +75,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     public void fetchConsents() throws SQLException {
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
-        if(ormConsents==null || ormConsents.size()==0){
-
-        }
         notifySucessConsentChange(ormConsents);
+    }
+
+    @Override
+    public List<?> fetchConsentsToSync() throws SQLException {
+        QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
+        ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
+        return ormConsents;
     }
 
     @Override
@@ -198,7 +202,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         if(integers.contains(EventHelper.CONSENT)) {
             ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
             for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormConsents);
+                if(ormConsents.size()!=0){
+                    listener.onSuccess(ormConsents.get(0));
+                }else{
+                    listener.onSuccess(null);
+                }
             }
         }
     }

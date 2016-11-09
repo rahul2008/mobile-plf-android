@@ -288,45 +288,11 @@ public class TemperaturePresenter {
         dialog.show();
     }
 
-    public void updateConsent(Consent consent,LinkedHashMap<ConsentDetailType, ConsentDetailStatusType> consentDetailMap) {
-        addConsentDetailsAndSendUpdate(consent, consentDetailMap);
+
+    public void updateConsentDetails(Consent consent) {
+         ConsentHelper consentHelper = new ConsentHelper(mDataServices);
+         mDataServices.save(consent);
     }
-
-    public void updateConsentDetails(LinkedList<ConsentDetail> consentDetails, LinkedHashMap<ConsentDetailType,ConsentDetailStatusType> consentDetailMap) {
-        Consent consent = mDataServices.createConsent();
-        addConsentDetailsAndSendUpdate(consent, consentDetailMap);
-        mDataServices.updateConsentDetails(consentDetails);
-    }
-
-    private void addConsentDetailsAndSendUpdate(Consent consent, LinkedHashMap<ConsentDetailType, ConsentDetailStatusType> consentDetailMap) {
-
-        ConsentHelper consentHelper = new ConsentHelper(mDataServices);
-
-        Iterator it = consentDetailMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            consentHelper.addConsent
-                    (consent, (ConsentDetailType) pair.getKey(), (ConsentDetailStatusType) pair.getValue(),
-                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-
-        consentHelper.sendUpdateRequest(consent);
-
-    }
-
-    public void createDefaultConsent(){
-        Consent consent = mDataServices.createConsent();
-        ConsentHelper consentHelper = new ConsentHelper(mDataServices);
-        ConsentDetailType[] values = ConsentDetailType.values();
-        for(ConsentDetailType consentDetailType:values){
-            consentHelper.addConsent
-                    (consent,consentDetailType, ConsentDetailStatusType.REFUSED,
-                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        }
-        consentHelper.sendUpdateRequest(consent);
-    }
-
 
     public void fetchConsents() {
         mDataServices.fetchConsent();

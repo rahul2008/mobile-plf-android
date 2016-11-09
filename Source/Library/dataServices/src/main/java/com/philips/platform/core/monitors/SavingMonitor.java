@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
+import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.ExceptionEvent;
 import com.philips.platform.core.events.MomentChangeEvent;
@@ -40,5 +41,14 @@ public class SavingMonitor extends EventMonitor{
         } else {
             eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
         }
+    }
+
+    public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
+        if(consentBackendSaveResponse.getConsent()!=null){
+         dbInterface.saveConsent(consentBackendSaveResponse.getConsent());
+        }else{
+          //  eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
+        }
+
     }
 }
