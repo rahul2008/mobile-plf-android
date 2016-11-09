@@ -168,8 +168,14 @@ public class BleStrategyTestSteps {
     }
 
     @SuppressWarnings("unchecked")
-    @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' without data$")
-    public void doingAPutPropertiesForProductidAndPortWithoutData(int productId, String port) {
+    @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with null data$")
+    public void doingAPutPropertiesForProductidAndPortWithNullData(int productId, String port) {
+        doingAPutPropertiesForProductidAndPortWithData(productId, port, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with empty data$")
+    public void doingAPutPropertiesForProductidAndPortWithEmptyData(int productId, String port) {
         doingAPutPropertiesForProductidAndPortWithData(productId, port, "{}");
     }
 
