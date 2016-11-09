@@ -4,39 +4,50 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:background="?attr/uitDialogBackgroundColor">
+              android:background="?attr/uitDialogBackgroundColor"
+              android:orientation="vertical">
 
     <LinearLayout
-        android:id="@id/uid_alert_dialog_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-4dp"
-        android:layout_marginEnd="@dimen/uit_page_marging_left_right"
-        android:layout_marginStart="@dimen/uit_page_marging_left_right"
-        android:layout_marginTop="@dimen/uit_page_marging_left_right"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@id/uid_alert_icon"
-            style="@style/UIDDialogTitleIconStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/uid_alert_icon_width_height"
-            android:minWidth="@dimen/uid_alert_icon_width_height"/>
-
-        <TextView
-            android:id="@id/uid_alert_title"
-            style="@style/UIDAlertDialogTitleTextStyle"
+        <LinearLayout
+            android:id="@id/uid_alert_dialog_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/uit_page_marging_left_right"
+            android:layout_marginStart="@dimen/uit_page_marging_left_right"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@id/uid_alert_message"
-        style="@style/UIDAlertDialogMessageTextStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@id/uid_alert_icon"
+                style="@style/UIDDialogTitleIconStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/uid_alert_icon_width_height"
+                android:minWidth="@dimen/uid_alert_icon_width_height"/>
+
+            <TextView
+                android:id="@id/uid_alert_title"
+                style="@style/UIDAlertDialogTitleTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <com.philips.platform.uit.utils.MaxHeightScrollView
+            android:id="@id/uid_alert_message_scroll_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@id/uid_alert_message"
+                style="@style/UIDAlertDialogMessageTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.philips.platform.uit.utils.MaxHeightScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@id/uid_alert_control_area"
@@ -54,9 +65,10 @@
         <com.philips.platform.uit.view.widget.Button
             android:id="@id/uid_alert_positive_button"
             style="@style/UITDefaultButton"
-            android:layout_marginEnd="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:layout_marginStart="@dimen/uid_alert_positive_button_margin_start"/>
+
     </LinearLayout>
 </LinearLayout>
