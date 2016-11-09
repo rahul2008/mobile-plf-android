@@ -81,7 +81,7 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
                 ctnList[i] = MicroAppLauncher.mList.get(i);
 
             ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-            productsSelection.setCatalog(Catalog.CARE);
+            productsSelection.setCatalog(Catalog.CONSUMER);
             productsSelection.setSector(Sector.B2C);
 
 

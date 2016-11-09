@@ -561,13 +561,15 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                                     123);
                         }
                         else {
-                            DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                            downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
+                            callDownloadPDFMethod(mFilePath, pdfName);
+                            //DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
+                            //downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
                         }
                     }
                     else {
-                        DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                        downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
+                        callDownloadPDFMethod(mFilePath, pdfName);
+                        //DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
+                        //downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
 //                    showFragment(new ProductManualFragment());
                     }
                 }
@@ -581,6 +583,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 showFragment(new ProductInformationFragment());
             }
         }
+    }
+
+    private void callDownloadPDFMethod(String filePath, String pdfName){
+        DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
+        downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), filePath, pdfName, isConnectionAvailable());
     }
 
     @Override
