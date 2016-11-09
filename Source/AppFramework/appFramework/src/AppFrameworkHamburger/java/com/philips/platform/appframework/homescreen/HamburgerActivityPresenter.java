@@ -98,6 +98,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
             case MENU_OPTION_SHOP:
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
+                iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
@@ -109,11 +110,12 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
-            case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
+            // Commented as part of Plan A removal.
+            /*case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(getCtnList());
-                return uiStateDataModel;
+                return uiStateDataModel;*/
             case MENU_OPTION_PR:
                 ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
                 prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
@@ -169,8 +171,9 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 return HOME_SUPPORT;
             case MENU_OPTION_ABOUT:
                 return HOME_ABOUT;
-            case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return SHOPPING_CART;
+            // Commented as part of Plan A removal.
+           /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
+                return SHOPPING_CART;*/
             case MENU_OPTION_PR:
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:

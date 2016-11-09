@@ -120,7 +120,6 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
           //  ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
-            appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
             baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
             baseState.setPresenter(this);

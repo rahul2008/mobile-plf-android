@@ -35,6 +35,7 @@ public class IAPState extends BaseState {
     public static final int IAP_CATALOG_VIEW = 4001;
     // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
     // public static final int IAP_SHOPPING_CART_VIEW = 4003;
+    private Context activityContext;
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
