@@ -17,6 +17,9 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.consent.ConsentDataSender;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
+import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
@@ -67,24 +70,27 @@ public class BackendModule {
     @Provides
     @Singleton
     Backend providesBackend(
-            @NonNull final MomentsMonitor momentsMonitor) {
-        return new Backend(momentsMonitor);
+            @NonNull final MomentsMonitor momentsMonitor,
+            @NonNull final ConsentsMonitor consentsMonitor) {
+        return new Backend(momentsMonitor, consentsMonitor);
     }
 
     @Provides
     @Singleton
     DataPullSynchronise providesDataSynchronise(
             @NonNull final MomentsDataFetcher momentsDataFetcher,
+            @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final Eventing eventing, @NonNull final ExecutorService executor) {
-        return new DataPullSynchronise(momentsDataFetcher,executor,eventing);
+        return new DataPullSynchronise(momentsDataFetcher, executor, eventing);
     }
 
     @Provides
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
+            @NonNull final ConsentDataSender consentDataSender,
             @NonNull final Eventing eventing) {
-        return new DataPushSynchronise(Arrays.asList(momentsDataSender),
+        return new DataPushSynchronise(Arrays.asList(momentsDataSender,consentDataSender),
                 null, eventing);
     }
 
@@ -101,7 +107,7 @@ public class BackendModule {
 
     @Provides
     UCoreAdapter providesUCoreAdapter(OkClientFactory okClientFactory, RestAdapter.Builder restAdapterBuilder, Context context) {
-        return new UCoreAdapter(okClientFactory, restAdapterBuilder,context);
+        return new UCoreAdapter(okClientFactory, restAdapterBuilder, context);
     }
 
     @Provides

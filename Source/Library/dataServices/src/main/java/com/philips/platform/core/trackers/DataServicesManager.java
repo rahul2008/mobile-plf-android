@@ -16,6 +16,10 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -28,6 +32,11 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.ConsentDetailsUpdateRequest;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.LoadConsentDetailsRequest;
+import com.philips.platform.core.events.LoadConsentDetailsTypesRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -57,7 +66,11 @@ import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -253,4 +266,41 @@ public class DataServicesManager {
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;
     }
+
+    public void save(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(1, consent));
+    }
+
+    @NonNull
+    public void fetchConsent() {
+        mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public void fetchConsentDetails() {
+        mEventing.post(new LoadConsentDetailsRequest());
+    }
+
+    @NonNull
+    public void fetchConsentDetailTypes() {
+        mEventing.post(new LoadConsentDetailsTypesRequest());
+    }
+
+
+
+    @NonNull
+    public Consent createConsent() {
+        return mDataCreater.createConsent(mBackendIdProvider.getUserId());
+    }
+
+    @NonNull
+    public void createDefaultConsent() {
+        Consent consent = mDataCreater.createConsent(mBackendIdProvider.getUserId());
+    }
+
+    public void updateConsentDetails(List<ConsentDetail> consentDetails) {
+        mEventing.post(new ConsentDetailsUpdateRequest(consentDetails));
+    }
+
+
 }

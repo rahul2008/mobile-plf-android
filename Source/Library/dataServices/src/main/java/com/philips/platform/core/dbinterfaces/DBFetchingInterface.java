@@ -21,4 +21,8 @@ public interface DBFetchingInterface {
     List<?> fetchNonSynchronizedMoments() throws SQLException;
     Object fetchMomentById(final int id) throws SQLException;
     Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
+
+    void fetchConsents() throws SQLException;
+    List<?> fetchConsentDetails() throws SQLException;
+    List<?> fetchConsentDetailTypes() throws SQLException;
 }

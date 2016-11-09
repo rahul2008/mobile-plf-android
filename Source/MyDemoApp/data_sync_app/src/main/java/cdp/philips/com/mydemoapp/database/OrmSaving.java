@@ -10,9 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
+
 import java.sql.SQLException;
 import java.util.Collection;
 
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -40,19 +44,33 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
 
+    @NonNull
+    private final Dao<OrmConsent, Integer> consentDao;
+
+    @NonNull
+    private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
+
+    @NonNull
+    private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
 
 
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
                      @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                      @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                     @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao) {
+                     @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
+                     @NonNull final Dao<OrmConsent, Integer> constentDao,
+                     @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
+                     @NonNull final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.synchronisationDataDao = synchronisationDataDao;
 
+        this.consentDao = constentDao;
+        this.consentDetailsDao = constentDetailsDao;
+        this.consentDetailTypeDao = constentDetailTypeDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
@@ -106,5 +124,19 @@ public class OrmSaving {
         }
     }
 
+    public void saveConsent(OrmConsent consent) throws SQLException {
+        consentDao.createOrUpdate(consent);
+        assureConsentDetailsAreSaved((Collection<? extends OrmConsentDetail>) consent.getConsentDetails());
+    }
+
+    private void assureConsentDetailsAreSaved(Collection<? extends OrmConsentDetail> consentDetails) throws SQLException {
+        for (OrmConsentDetail consentDetail : consentDetails) {
+            saveConsentDetail(consentDetail);
+        }
+    }
+
+    public void saveConsentDetail(OrmConsentDetail consentDetail) throws SQLException {
+        consentDetailsDao.createOrUpdate(consentDetail);
+    }
 
 }

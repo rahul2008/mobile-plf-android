@@ -8,6 +8,9 @@ package com.philips.platform.core;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -97,6 +100,18 @@ public class BaseAppCore implements BaseAppDataCreator {
     @Override
     public SynchronisationData createSynchronisationData(@NonNull String guid, boolean inactive, @NonNull DateTime lastModifiedTime, int version) {
         return database.createSynchronisationData(guid, inactive, lastModifiedTime, version);
+    }
+
+    @NonNull
+    @Override
+    public Consent createConsent(@NonNull String creatorId) {
+        return database.createConsent(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull Consent consent) {
+       return database.createConsentDetail(type, status, version, deviceIdentificationNumber, consent);
     }
 
 

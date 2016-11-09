@@ -2,6 +2,7 @@ package cdp.philips.com.mydemoapp.database;
 
 import android.util.Log;
 
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
@@ -53,6 +55,32 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
             return false;
         }
 
+    }
+
+    @Override
+    public boolean saveConsent(Consent consent) throws SQLException {
+        OrmConsent ormConsent = null;
+        try {
+            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            deleteConsentAndSetIdIfConsentExists(ormConsent);
+            saving.saveConsent(ormConsent);
+            notifyAllSuccess(ormConsent);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            notifyAllFailure(e);
+            return false;
+        }
+
+    }
+
+    private void deleteConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+            deleting.deleteConsent(consentInDatabase);
+            ormConsent.setId(id);
+        }
     }
 
     private void notifyAllSuccess(Object ormMoments) {

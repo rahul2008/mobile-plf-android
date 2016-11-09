@@ -9,6 +9,9 @@ package cdp.philips.com.mydemoapp.database;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -23,6 +26,9 @@ import org.joda.time.DateTime;
 
 import javax.inject.Singleton;
 
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -96,6 +102,20 @@ public class OrmCreator implements BaseAppDataCreator {
     }
 
     @NonNull
+    @Override
+    public Consent createConsent(@NonNull String creatorId) {
+        return new OrmConsent(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull Consent consent) {
+        OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
+        boolean isSynchronized=false;
+        return new OrmConsentDetail(ormConsentDetailType, status, version, deviceIdentificationNumber, (OrmConsent) consent,isSynchronized);
+    }
+
+    @NonNull
     public OrmMomentDetail createMomentDetail(@NonNull final MomentDetailType type,
                                               @NonNull final OrmMoment moment) {
         OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(type);
@@ -115,8 +135,5 @@ public class OrmCreator implements BaseAppDataCreator {
         OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(type);
         return new OrmMeasurementDetail(ormMeasurementDetailType, measurement);
     }
-
-
-
 
 }

@@ -24,6 +24,7 @@ public class EventHelper {
 
     private static EventHelper eventHelper;
     public static final int MOMENT = 1;
+    public static final int CONSENT = 2;
     public static final int UR = 1;
 
     private Map<Integer, ArrayList<DBChangeListener>> eventMap;

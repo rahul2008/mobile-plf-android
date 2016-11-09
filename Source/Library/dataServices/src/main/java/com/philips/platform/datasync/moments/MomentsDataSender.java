@@ -64,6 +64,7 @@ public class MomentsDataSender implements DataSender<Moment> {
 
     DataServicesManager mDataServicesManager;
     private int eTagIndex=2;
+    private final String Etag="Etag";
 
     @Inject
     public MomentsDataSender(
@@ -175,17 +176,19 @@ public class MomentsDataSender implements DataSender<Moment> {
             String momentGuid = getMomentGuid(moment.getSynchronisationData());
             Response response = client.updateMoment(moment.getSubjectId(), momentGuid, moment.getCreatorId(),
                     momentsConverter.convertToUCoreMoment(moment));
-            List<Header> responseHeaders = response.getHeaders();
-
-
-            Header eTag=responseHeaders.get(eTagIndex);
             if (isResponseSuccess(response)) {
-                //int currentVersion = moment.getSynchronisationData().getVersion();
-                if(!TextUtils.isEmpty(eTag.getValue())) {
-                    moment.getSynchronisationData().setVersion(Integer.parseInt(eTag.getValue()));
+                List<Header> responseHeaders = response.getHeaders();
+
+                for (Header header : responseHeaders) {
+                    if (header.getName().equalsIgnoreCase(Etag) &&
+                            !TextUtils.isEmpty(header.getValue())){
+
+                        moment.getSynchronisationData().setVersion(Integer.parseInt(header.getValue()));
+                    }
                 }
                 postOk(Collections.singletonList(moment));
             }
+
             return false;
         } catch (RetrofitError error) {
             eventing.post(new BackendResponse(1, error));

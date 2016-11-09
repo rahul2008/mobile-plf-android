@@ -7,17 +7,25 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -27,6 +35,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.database.ORMDeletingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
@@ -37,6 +46,9 @@ import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmSaving;
 import cdp.philips.com.mydemoapp.database.OrmUpdating;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -53,27 +65,26 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener, SwipeRefreshLayout.OnRefreshListener,CompoundButton.OnCheckedChangeListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
+    ArrayList<? extends ConsentDetail> mConsentDetails = new ArrayList();
     private TemperatureTimeLineFragmentcAdapter mAdapter ;
     AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
+    Switch mConsentSwitch;
+    //SwipeRefreshLayout mSwipeRefreshLayout;
     TemperaturePresenter mTemperaturePresenter;
+    private TextView mTvSetCosents;
+    private OrmFetchingInterfaceImpl fetching;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        setUpBackendSynchronizationLoop();
     }
 
     @Override
@@ -91,13 +102,16 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAddButton = (ImageButton) view.findViewById(R.id.add);
+        mConsentSwitch=(Switch)view.findViewById(R.id.switch_consents);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
+        mConsentSwitch.setOnCheckedChangeListener(this);
+        mTvSetCosents=(TextView)view.findViewById(R.id.tv_set_consents);
+        mTvSetCosents.setOnClickListener(this);
         return view;
     }
 
     private void init() {
-        //Stetho.initializeWithDefaults(getActivity().getApplicationContext());
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
@@ -108,6 +122,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
         mTemperaturePresenter.fetchData();
+        setUpBackendSynchronizationLoop();
     }
 
     void injectDBInterfacesToCore() {
@@ -119,18 +134,22 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
             Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
 
+            Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
+            Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
+            Dao<OrmConsentDetailType, Integer> consentDetailTypeDao = databaseHelper.getConsentDetailsTypeDao();
+
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao);
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao);
+                    synchronisationDataDao, consentDao,consentDetailsDao,consentDetailTypeDao);
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao, consentDetailsDao, consentDetailTypeDao);
+            fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao,consentDetailsDao,consentDetailTypeDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao);
+                    measurementDetailDao, synchronisationDataDao, consentDao, consentDetailsDao, consentDetailTypeDao);
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving,updating,fetching,deleting,uGrowDateTime);
             ORMDeletingInterfaceImpl ORMDeletingInterfaceImpl = new ORMDeletingInterfaceImpl(deleting,saving);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving,updating,fetching,deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao, consentDao, consentDetailsDao, consentDetailTypeDao);
 
             mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl,dbInterfaceOrmFetchingInterface,ORMSavingInterfaceImpl,dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
@@ -172,6 +191,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             case R.id.add:
                 mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD,null);
                 break;
+            case R.id.tv_set_consents:
+                //mTemperaturePresenter.showConsentSettingsDialog(fetching);
+
+                ConsentDialogFragment dFragment = new ConsentDialogFragment();
+                // Show DialogFragment
+                dFragment.show(getFragmentManager(),"Dialog");
+                break;
         }
     }
 
@@ -185,6 +211,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
+
             }
         });
 
@@ -199,6 +226,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onFailure(final Exception exception) {
         onFailureRefresh(exception);
     }
+
 
     private void onFailureRefresh(final Exception e) {
         getActivity().runOnUiThread(new Runnable() {
@@ -215,5 +243,34 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 }
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        mTemperaturePresenter.startSync();
+    }
+
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        switch (buttonView.getId()) {
+            case R.id.switch_consents:
+
+                if(isChecked){
+                    Log.d(TAG,"Switch is currently ON");
+                }else{
+                    Log.d(TAG,"Switch is currently OFF");
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mDataServicesManager.fetchConsent();
     }
 }

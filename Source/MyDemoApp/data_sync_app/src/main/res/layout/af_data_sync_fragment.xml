@@ -62,5 +62,30 @@
             android:overScrollFooter="@android:color/transparent"
             android:scrollbars="none"></android.support.v7.widget.RecyclerView>
 
+        <Switch
+            android:text="Consents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="end"
+            android:checked="true"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:layout_marginStart="10dp"
+            android:id="@+id/switch_consents" />
+
+    <TextView
+        android:text="Set Consents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="end"
+        android:checked="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/tv_set_consents" />
+
 
     </RelativeLayout>

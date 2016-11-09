@@ -9,6 +9,9 @@ package cdp.philips.com.mydemoapp.database;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
@@ -19,6 +22,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 
 import org.joda.time.DateTime;
 
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -91,6 +95,23 @@ public class Database implements BaseAppDataCreator {
     @Override
     public SynchronisationData createSynchronisationData(@NonNull String guid, boolean inactive, @NonNull DateTime lastModifiedTime, int version) {
         return creator.createSynchronisationData(guid, inactive, lastModifiedTime, version);
+    }
+
+    @NonNull
+    @Override
+    public Consent createConsent(@NonNull String creatorId) {
+        return creator.createConsent(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull Consent consent) {
+        try {
+            OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            return creator.createConsentDetail(type, status, version, deviceIdentificationNumber, ormConsent);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            throw new IllegalArgumentException("Consent was not OrmConsent");
+        }
     }
 
 
