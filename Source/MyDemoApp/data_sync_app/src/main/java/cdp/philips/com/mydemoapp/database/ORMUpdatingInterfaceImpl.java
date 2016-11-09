@@ -29,6 +29,7 @@ import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
 
+import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import retrofit.RetrofitError;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
@@ -37,6 +38,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     private final OrmUpdating updating;
     final private OrmFetchingInterfaceImpl fetching;
     final private OrmDeleting deleting;
+    private TemperatureMomentHelper mTemperatureMomentHelper;
 
     public ORMUpdatingInterfaceImpl(OrmSaving saving,
                                     OrmUpdating updating,
@@ -46,6 +48,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         this.updating = updating;
         this.fetching = fetching;
         this.deleting = deleting;
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -161,6 +164,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
+            mTemperatureMomentHelper.notifyAllFailure(e);
             Log.e(TAG, "Eror while type checking");
         }
         return null;

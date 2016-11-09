@@ -31,6 +31,7 @@ import retrofit.RetrofitError;
  * All rights reserved.
  */
 @Singleton
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
 
     @NonNull

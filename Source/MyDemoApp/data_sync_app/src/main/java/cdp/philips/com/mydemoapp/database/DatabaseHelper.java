@@ -32,6 +32,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 /**
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
@@ -53,11 +54,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
     private Dao<OrmMeasurementDetailType, Integer> measurementDetailTypeDao;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
+    TemperatureMomentHelper mTemperatureMomentHelper;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.uuidGenerator = uuidGenerator;
         this.packageName = context.getPackageName();
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -68,6 +71,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             insertDictionaries();
         } catch (SQLException e) {
             Log.e(TAG, "Unable to create databases", e);
+            mTemperatureMomentHelper.notifyAllFailure(e);
         }
     }
 

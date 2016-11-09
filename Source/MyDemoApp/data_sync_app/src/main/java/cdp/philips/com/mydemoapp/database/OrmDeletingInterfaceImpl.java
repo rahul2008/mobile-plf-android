@@ -22,6 +22,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
+import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -32,15 +33,17 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @NonNull
     private final OrmDeleting ormDeleting;
 
-    //SPOOO
     @NonNull
     private final OrmSaving ormSaving;
+
+    TemperatureMomentHelper mTemperatureMomentHelper;
 
     @Inject
     public OrmDeletingInterfaceImpl(@NonNull final OrmDeleting ormDeleting,
                                     final OrmSaving ormSaving) {
         this.ormDeleting = ormDeleting;
         this.ormSaving = ormSaving;
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -48,6 +51,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         try {
             ormDeleting.deleteAll();
         } catch (SQLException e) {
+            mTemperatureMomentHelper.notifyAllFailure(e);
             if(e.getMessage()!=null){
                 Log.i("***SPO***","exception = " + e.getMessage());
             }
@@ -67,7 +71,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             }
             //notifyAllSuccess(moment);
         }catch (SQLException e){
-            notifyAllFailure(e);
+            mTemperatureMomentHelper.notifyAllFailure(e);
         }
     }
 
@@ -77,6 +81,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             ormDeleting.ormDeleteMoment((OrmMoment) moment);
             //  notifyAllSuccess(moment);
         } catch (SQLException e) {
+            mTemperatureMomentHelper.notifyAllFailure(e);
             if(e.getMessage()!=null){
                 Log.i("***SPO***","exception = " + e.getMessage());
             }
@@ -95,6 +100,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
+            mTemperatureMomentHelper.notifyAllFailure(e);
             if(e.getMessage()!=null){
                 Log.i("***SPO***","Exception = " + e.getMessage());
             }
@@ -107,30 +113,4 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         moment.getSynchronisationData().setInactive(true);
         saveMoment(moment);
     }
-
-
-    private void notifyAllFailure(Exception e) {
-        final Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        final Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().
-                    getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
-            }
-        }
-    }
-
-    /*private void notifyAllSuccess(Object ormMoments) {
-        final Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        final Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().
-                    getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }*/
-
 }

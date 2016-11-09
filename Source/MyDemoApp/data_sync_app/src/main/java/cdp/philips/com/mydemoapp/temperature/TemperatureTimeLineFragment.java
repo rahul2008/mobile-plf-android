@@ -63,6 +63,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
+    TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     @Override
@@ -99,6 +100,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     private void init() {
         //Stetho.initializeWithDefaults(getActivity().getApplicationContext());
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
@@ -135,6 +137,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
             mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl,dbInterfaceOrmFetchingInterface,ORMSavingInterfaceImpl,dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
+            mTemperatureMomentHelper.notifyAllFailure(exception);
             throw new IllegalStateException("Can not instantiate database");
         }
     }
