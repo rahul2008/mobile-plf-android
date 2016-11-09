@@ -5,19 +5,16 @@
 
 package com.philips.pins.shinelib.dicommsupport;
 
-import android.support.annotation.NonNull;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class DiCommResponse {
@@ -27,8 +24,10 @@ public class DiCommResponse {
 
     private MessageType mType = MessageType.GenericResponse;
     private StatusCode mStatus;
-    private Map<String, Object> mProperties;
+    private Map<String, Object> mProperties = new HashMap<>();
     private String mJsonString;
+
+    private final Gson mGson = new GsonBuilder().serializeNulls().create();
 
     public DiCommResponse(DiCommMessage diCommMessage) throws IllegalArgumentException, InvalidPayloadFormatException, InvalidStatusCodeException, InvalidMessageTerminationException {
         if (MessageType.GenericResponse != diCommMessage.getMessageType()) {
@@ -51,10 +50,11 @@ public class DiCommResponse {
         byte[] propertiesData = new byte[byteBuffer.remaining() - 1];
         if (propertiesData.length > 0) {
             byteBuffer.get(propertiesData);
+
             mJsonString = new String(propertiesData, StandardCharsets.UTF_8);
             try {
-                mProperties = convertStringToMap(mJsonString);
-            } catch (JSONException e) {
+                mProperties = mGson.fromJson(mJsonString, mProperties.getClass());
+            } catch (JsonSyntaxException e) {
                 throw new InvalidPayloadFormatException("Error evaluating JSON from payload string: " + mJsonString);
             }
         }
@@ -62,18 +62,6 @@ public class DiCommResponse {
         if (byteBuffer.get() != TERMINATOR_BYTE) {
             throw new InvalidMessageTerminationException("Message not terminated correctly.");
         }
-    }
-
-    private Map<String, Object> convertStringToMap(@NonNull String jsonString) throws JSONException {
-        JSONObject jsonObject = new JSONObject(jsonString);
-        Map<String, Object> properties = new HashMap<>();
-        Iterator<String> keys = jsonObject.keys();
-
-        while (keys.hasNext()) {
-            String key = keys.next();
-            properties.put(key, jsonObject.get(key));
-        }
-        return properties;
     }
 
     public MessageType getType() {
