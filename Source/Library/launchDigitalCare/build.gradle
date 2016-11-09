@@ -12,14 +12,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         //applicationId "com.philips.cdp.sampledigitalcare"
         applicationId "com.philips.cl.di.dev.pa"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 23
         generatedDensities = []
         multiDexEnabled true
         targetSdkVersion 23

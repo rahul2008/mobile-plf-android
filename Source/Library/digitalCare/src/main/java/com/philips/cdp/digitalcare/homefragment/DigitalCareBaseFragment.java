@@ -141,10 +141,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-/*        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
+        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
                 .getDimension(R.dimen.activity_margin_port);
         mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
-                .getDimension(R.dimen.activity_margin_land);*/
+                .getDimension(R.dimen.activity_margin_land);
     }
 
     @Override
