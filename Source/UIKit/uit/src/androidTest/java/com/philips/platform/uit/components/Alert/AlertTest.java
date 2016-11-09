@@ -15,10 +15,8 @@ import android.view.View;
 
 import com.philips.platform.uit.DialogTestFragment;
 import com.philips.platform.uit.activity.BaseTestActivity;
-import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uit.utils.TestConstants;
 import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.junit.Before;
@@ -55,21 +53,22 @@ public class AlertTest {
     /*****************************************
      * Alert Layout Scenarios
      *********************************************/
-
+    // TODO: 11/9/2016 responsive rules are not implemented
     @Test
     public void verifyAlertMinWidth() {
 
     }
+    // TODO: 11/9/2016 responsive rules are not implemented
 
     @Test
     public void verifyAlertMaxWidth() {
 
     }
 
+    // TODO: 11/9/2016 Cannot be tested, because png is used
     @Test
     public void verifyAlertCornerRadius() {
-        float expectedCornerRadius = (float) Math.floor(testResources.getDimension(com.philips.platform.uit.test.R.dimen.alert_corner_radius));
-        getAlert().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedCornerRadius)));
+
     }
 
     /******************************
@@ -103,6 +102,24 @@ public class AlertTest {
         getAlertTitleIcon().check(matches((ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding))));
     }
 
+    @Test
+    public void verifyAlertHeaderTopMargin() {
+        int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
+        getAlertHeader().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
+    }
+
+    @Test
+    public void verifyAlertHeaderRightMargin() {
+        int expectedRightMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
+        getAlertHeader().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
+    }
+
+    @Test
+    public void verifyAlertHeaderLeftMargin() {
+        int expectedLeftMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
+        getAlertHeader().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
+    }
+
     /******************************
      * Alert content layout scenarios
      ******************************/
@@ -119,36 +136,46 @@ public class AlertTest {
     }
 
     @Test
-    public void VerifyAlertIsDisplayedWithNoTitle() throws Exception {
-        mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
-
-        getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
-    }
-
-    @Test
-    public void verifyAlertContentTopPadding() {
+    public void verifyAlertContentTopMargin() {
         int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_top_padding);
         getAlertContent().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
     @Test
-    public void verifyAlertContentLeftPadding() {
+    public void verifyAlertContentLeftMargin() {
         UITTestUtils.waitFor(testResources, 750);
-
-        int expectedLeftPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
-        getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftPadding)));
+        int expectedLeftMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
 
     @Test
-    public void verifyAlertContentRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
-        getAlertContent().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightPadding)));
+    public void verifyAlertContentRightMargin() {
+        int expectedRightMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        getAlertContent().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
     @Test
-    public void verifyAlertContentBottomPadding() {
-        int expectedBottomPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
-        getAlertContent().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedBottomPadding)));
+    public void verifyAlertContentBottomMargin() {
+        int expectedBottomMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        getAlertActionArea().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedBottomMargin)));
+    }
+
+    /******************************
+     * Alert content layout scenarios without title
+     ******************************/
+    @Test
+    public void VerifyAlertIsDisplayedWithNoTitle() {
+        mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
+        getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
+    }
+
+    @Test
+    public void VerifyContentTopMarginWithNoTitle() {
+        mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
+        getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
+
+        int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
+        getAlertContent().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
     /******************************
@@ -157,14 +184,14 @@ public class AlertTest {
 
     @Test
     public void verifyPaddingBetweenActionButtons() {
-        int expectedButtonsPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertaction_buttons_padding);
-        getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedButtonsPadding)));
+        int expectedButtonsMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertaction_buttons_padding);
+        getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedButtonsMargin)));
     }
 
     @Test
     public void verifyRightPaddingOfActionButtonView() {
-        int expectedButtonRightPadding = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertaction_button_rightpadding);
-        getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedButtonRightPadding)));
+        int expectedButtonRightMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertaction_button_rightpadding);
+        getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedButtonRightMargin)));
     }
 
     @Test
@@ -198,6 +225,7 @@ public class AlertTest {
         final int expectedFillColor = ContextCompat.getColor(instrumentationContext, White);
     }
 
+    // TODO: 11/9/2016 Not implemented 
     @Test
     public void verifyShadowColorofAlert() {
         final int shadowColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#000000"), 0.20f);
@@ -215,11 +243,7 @@ public class AlertTest {
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
-    @Test
-    public void verifyIconColorofAlertTitle() {
-        //Cannot be automated
-    }
-
+    // TODO: 11/9/2016 Not implemented
     @Test
     public void verifyColorofDimLayer() {
         final int expecteddimLayerColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#0A0C1E"), 0.80f);
@@ -231,6 +255,10 @@ public class AlertTest {
 
     private ViewInteraction getAlertTitle() {
         return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_title));
+    }
+
+    private ViewInteraction getAlertHeader() {
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_dialog_header));
     }
 
     private ViewInteraction getAlertTitleIcon() {

@@ -25,7 +25,7 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
                         setPositiveButton("Positive", this).
                         setNegativeButton("Negative", this);
         final Bundle arguments = getArguments();
-        if (arguments != null && arguments.getBoolean(SHOW_TITLE, false) != true) {
+        if (arguments == null ) {
             builder.setTitle("dialog_screen_title_text");
             final boolean showIcon = true;
             if (showIcon) {
