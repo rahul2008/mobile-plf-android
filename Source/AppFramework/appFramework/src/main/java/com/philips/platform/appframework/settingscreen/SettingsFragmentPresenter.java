@@ -75,11 +75,12 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
                 UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
-            case Constants.IAP_PURCHASE_HISTORY:
+            // Commented the order history/purchase history code.
+            /*case Constants.IAP_PURCHASE_HISTORY:
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_PURCHASE_HISTORY_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(settingsView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
-                return uiStateDataModel;
+                return uiStateDataModel;*/
         }
         return null;
     }
@@ -118,7 +119,8 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public void onLogoutSuccess() {
         final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-            ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
+          //  ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
+            appFrameworkApplication = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
             baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SETTINGS, SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
             baseState.setPresenter(this);

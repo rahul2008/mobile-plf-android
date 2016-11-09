@@ -20,8 +20,8 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
+  //  private int cartItemCount = 0;
     int containerId;
-    private int cartItemCount = 0;
     private FragmentTransaction fragmentTransaction;
 
     public abstract int getContainerId();
@@ -73,13 +73,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
         fragmentTransaction.commit();
     }
 
-    public int getCartItemCount() {
+    /*public int getCartItemCount() {
         return cartItemCount;
     }
 
     public void setCartItemCount(int cartItemCount) {
         this.cartItemCount = cartItemCount;
-    }
+    }*/
 
     public abstract void updateActionBarIcon(boolean b);
 }

@@ -37,20 +37,19 @@ import java.util.Arrays;
  */
 public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener {
 
-    private final int MENU_OPTION_HOME = 0;
-    private String SUPPORT_PR = "pr";
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
 
     /*Event ID */
-    final int MENU_OPTION_SETTINGS = 1;
-    final int MENU_OPTION_SHOP = 2;
-    final int MENU_OPTION_SUPPORT = 3;
-    final int MENU_OPTION_ABOUT = 4;
-    final int MENU_OPTION_DATA_SYNC = 5;
-    final int MENU_OPTION_PR = 6;
+    private final int MENU_OPTION_HOME = 0;
+    private final int MENU_OPTION_SETTINGS = 1;
+    private final int MENU_OPTION_SHOP = 2;
+    private final int MENU_OPTION_SUPPORT = 3;
+    private final int MENU_OPTION_ABOUT = 4;
+    private final int MENU_OPTION_DATA_SYNC = 5;
+    private final int MENU_OPTION_PR = 6;
 
     /* event to state map */
     final String HOME_SETTINGS = "settings";
@@ -99,6 +98,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
             case MENU_OPTION_SHOP:
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
+                iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
@@ -110,11 +110,12 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
-            case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
+            //Commented as part of removing the Flow A for IAP.
+            /*case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
-                return uiStateDataModel;
+                return uiStateDataModel;*/
             case MENU_OPTION_PR:
                 ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
                 prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));

@@ -33,9 +33,8 @@ public class IAPState extends BaseState {
      IAP flow constants, values for IAP views should start from 4000 series
      */
     public static final int IAP_CATALOG_VIEW = 4001;
-    public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
-    public static final int IAP_SHOPPING_CART_VIEW = 4003;
-    private Context activityContext;
+    // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
+    // public static final int IAP_SHOPPING_CART_VIEW = 4003;
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
@@ -59,8 +58,8 @@ public class IAPState extends BaseState {
     private int getIAPFlowType(int iapFlowType){
         switch (iapFlowType){
             case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-            case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
-            case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
+           // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
+          //  case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
             default:return IAPState.IAP_CATALOG_VIEW;
         }
     }
@@ -85,7 +84,7 @@ public class IAPState extends BaseState {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
-        iapSettings.setUseLocalData(false);
+        iapSettings.setUseLocalData(true);
         iapInterface.init(iapDependencies, iapSettings);
     }
 
