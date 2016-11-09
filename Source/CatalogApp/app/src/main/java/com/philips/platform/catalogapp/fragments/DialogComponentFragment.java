@@ -54,7 +54,7 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
 
     @OnClick(R.id.dialog_with_text)
     public void onDialogWithTextClicked() {
-        showDialog(isLargeContent(), isWithTitle(), isWithTitleWithIcon());
+        showDialog(isLargeContent(), isWithTitle(), isWithIcon());
     }
 
     @OnClick(R.id.dialog_with_list)
@@ -69,10 +69,10 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
         if (isWithTitle) {
             builder.setTitle(R.string.dialog_screen_title_text);
             if (showIcon) {
-                builder.setIcon(R.drawable.share);
+                builder.setIcon(R.drawable.ic_location);
             }
         }
-        alertDialogFragment = builder.setCancelable(false).create();
+        alertDialogFragment = builder.setCancelable(true).create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
     }
 
@@ -85,8 +85,8 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
         return switchWithTitle.isChecked();
     }
 
-    public boolean isWithTitleWithIcon() {
-        return switchWithTitle.isChecked() && checkBoxWithIcon.isChecked();
+    public boolean isWithIcon() {
+        return checkBoxWithIcon.isChecked();
     }
 
     @OnCheckedChanged(R.id.toggle_switch_with_title)

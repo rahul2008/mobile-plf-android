@@ -17,7 +17,7 @@
 
     <style name="TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/uitColorLevel75</item>
+        <item name="android:textColor">?attr/uitTextPrimaryColor</item>
         <item name="android:textSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/layout_margin_left_right</item>
