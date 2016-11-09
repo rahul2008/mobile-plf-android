@@ -5,7 +5,7 @@
         <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
         <item name="uitControlPrimaryTextPressedColor">?attr/uitColorLevel55</item>
         <item name="uitControlPrimaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
-
+        <item name="uitTextPrimaryColor">@color/uitColorWhite</item>
         <item name="uitControlPrimaryAlternateTextColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
         <!--todo white+10? -->
@@ -70,6 +70,7 @@
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
         <item name="uitNavigationTextColor">@color/uit_gray_level_75</item>
+        <item name="uitTextPrimaryColor">@color/uit_gray_level_75</item>
 
         <item name="uitApplicationBackground">?attr/uitColorLevel05</item>
 
@@ -107,6 +108,7 @@
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
         <item name="uitNavigationTextColor">?attr/uitColorLevel75</item>
+        <item name="uitTextPrimaryColor">?attr/uitColorLevel75</item>
 
         <item name="uitApplicationBackground">?attr/uitColorLevel25</item>
 
