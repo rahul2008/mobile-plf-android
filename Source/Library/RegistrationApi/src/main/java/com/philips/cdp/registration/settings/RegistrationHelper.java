@@ -22,6 +22,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -51,7 +52,6 @@ public class RegistrationHelper {
 
     private RegistrationHelper() {
     }
-
     /**
      * @return instance of this class
      */
@@ -116,7 +116,21 @@ public class RegistrationHelper {
                 if (NetworkUtility.isNetworkAvailable(context)) {
                     refreshNTPOffset();
                     UserRegistrationInitializer.getInstance().initializeEnvironment(
+
                             context, mLocale);
+                    //AB Testing initialization
+                    getAppInfraInstance().getAbTesting().updateCache(new ABTestClientInterface.
+                            OnRefreshListener() {
+                        @Override
+                        public void onSuccess() {
+                            RLog.d(RLog.AB_TESTING, "SUCESS ");
+                        }
+
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            RLog.d(RLog.AB_TESTING, "ERROR AB : " + message);
+                        }
+                    });
                 } else {
                     if (UserRegistrationInitializer.getInstance().
                             getJumpFlowDownloadStatusListener() != null) {

@@ -128,7 +128,7 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.11', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.12', ext: 'aar', changing: true)
     compile 'com.squareup.okio:okio:1.6.0'
 //    compile project(':servertime')
 }

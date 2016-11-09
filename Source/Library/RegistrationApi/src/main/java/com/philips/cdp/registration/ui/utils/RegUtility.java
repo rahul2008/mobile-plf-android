@@ -25,7 +25,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +77,31 @@ public class RegUtility {
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_Receive_Philips_News_lbltxt);
+        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
+        receivePhilipsNewsView.setText(receivePhilipsNews);
+        String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        SpannableString spanableString = new SpannableString(receivePhilipsNews);
+
+        int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
+                link.toLowerCase());
+        spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex
+                + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removeUnderlineFromLink(spanableString);
+
+        receivePhilipsNewsView.setText(spanableString);
+        receivePhilipsNewsView.setMovementMethod(LinkMovementMethod.getInstance());
+        receivePhilipsNewsView.setLinkTextColor(ContextCompat.getColor(activity,
+                R.color.reg_hyperlink_highlight_color));
+        receivePhilipsNewsView.setHighlightColor
+                (ContextCompat.getColor(activity,android.R.color.transparent));
+
+    }
+
+    public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
+                                          final Activity activity, ClickableSpan
+                                                  receivePhilipsNewsClickListener) {
+        String receivePhilipsNews = activity.getString(R.string.Opt_In_Receive_Promotional);
         String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
         receivePhilipsNewsView.setText(receivePhilipsNews);
@@ -169,6 +194,21 @@ public class RegUtility {
         return Configuration.EVALUATION;
     }
 
+    public static boolean isUiFirstFlow() {
+        String flowType =
+        RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
+                getTestValue("philipsmobileappabtest1content", "Experience A",
+                        ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
+        final String EXPERIENCE_A = "Experience A";
+        if(flowType.equalsIgnoreCase(EXPERIENCE_A)){
+            return true;
+        }
+        final String EXPERIENCE_B = "Experience B";
+        if(flowType.equalsIgnoreCase(EXPERIENCE_B)){
+            return false;
+        }
+        return false;
+    }
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
         if(providers!=null){
             for (Map.Entry<String, ArrayList<String>> entry : providers.entrySet()) {

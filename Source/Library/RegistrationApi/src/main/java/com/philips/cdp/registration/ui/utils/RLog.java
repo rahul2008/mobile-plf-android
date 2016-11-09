@@ -46,6 +46,7 @@ public class RLog {
 
     public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
+    public static final String AB_TESTING= "AB Testing";
 
     public static void enableLogging() {
         isLoggingEnabled = true;
