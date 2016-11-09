@@ -11,6 +11,10 @@ import com.philips.platform.uit.view.widget.AlertDialogFragment;
 
 public class DialogTestFragment extends Fragment implements View.OnClickListener {
     private static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
+    public static final String SHOW_TITLE = "SHOW_TITLE";
+
+    public DialogTestFragment() {
+    }
 
     @Nullable
     @Override
@@ -20,8 +24,8 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
                 .setMessage("Hello").
                         setPositiveButton("Positive", this).
                         setNegativeButton("Negative", this);
-        final boolean isWithTitle = true;
-        if (isWithTitle) {
+        final Bundle arguments = getArguments();
+        if (arguments != null && arguments.getBoolean(SHOW_TITLE, false) != true) {
             builder.setTitle("dialog_screen_title_text");
             final boolean showIcon = true;
             if (showIcon) {
@@ -36,5 +40,13 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(final View v) {
         ((AlertDialogFragment) getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG)).dismiss();
+    }
+
+    public static DialogTestFragment create() {
+        final Bundle bundle = new Bundle();
+        bundle.putBoolean(SHOW_TITLE, true);
+        final DialogTestFragment dialogTestFragment = new DialogTestFragment();
+        dialogTestFragment.setArguments(bundle);
+        return dialogTestFragment;
     }
 }

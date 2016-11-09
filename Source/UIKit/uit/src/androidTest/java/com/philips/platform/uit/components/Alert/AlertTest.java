@@ -11,6 +11,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.philips.platform.uit.DialogTestFragment;
 import com.philips.platform.uit.activity.BaseTestActivity;
@@ -36,6 +37,7 @@ import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
 public class AlertTest {
 
+    private static final String NOTITLE = "NOTITLE";
     private Resources testResources;
     private Context instrumentationContext;
 
@@ -114,6 +116,13 @@ public class AlertTest {
     @Test
     public void verifyAlertContentTextLeading() {
 
+    }
+
+    @Test
+    public void VerifyAlertIsDisplayedWithNoTitle() throws Exception {
+        mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
+
+        getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
     }
 
     @Test

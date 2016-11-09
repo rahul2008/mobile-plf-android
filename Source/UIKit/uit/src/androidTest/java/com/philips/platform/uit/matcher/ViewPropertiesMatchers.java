@@ -133,4 +133,14 @@ public class ViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<? super View> isVisible(final int gone) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                setValues(String.valueOf(view.getVisibility()), String.valueOf(gone));
+                return view.getVisibility() == gone;
+            }
+        };
+    }
 }
