@@ -63,11 +63,11 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class BleStrategyTestSteps {
     private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
 
-    private final BleDeviceCache deviceCache = new BleDeviceCache();
-    private BleStrategy strategy;
-    private final Map<String, Set<ResultListener<SHNDataRaw>>> rawDataListeners = new HashMap();
-    private final Queue<ResponseHandler> responseQueue = new ArrayDeque<>();
-    private BleRequest currentRequest;
+    private BleDeviceCache mDeviceCache;
+    private BleStrategy mStrategy;
+    private Map<String, Set<ResultListener<SHNDataRaw>>> mRawDataListeners;
+    private Queue<ResponseHandler> mResponseQueue;
+    private BleRequest mCurrentRequest;
     private Gson mGson;
 
     @Captor
@@ -77,15 +77,18 @@ public class BleStrategyTestSteps {
     public void setup() {
         initMocks(this);
 
+        mDeviceCache = new BleDeviceCache();
+        mRawDataListeners = new HashMap<>();
+        mResponseQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
     }
 
     @Given("^the BleStrategy is initialized with id '(.*?)'$")
     public void the_BleStrategy_is_initialized_with_id(String deviceId) {
-        strategy = new BleStrategy(deviceId, deviceCache) {
+        mStrategy = new BleStrategy(deviceId, mDeviceCache) {
             @Override
             protected Timer addTimeoutToRequest(BleRequest request) {
-                currentRequest = request;
+                mCurrentRequest = request;
 
                 return null;
             }
@@ -94,19 +97,19 @@ public class BleStrategyTestSteps {
 
     @Then("^the BleStrategy is available$")
     public void theBleStrategyIsAvailable() {
-        assertTrue(strategy.isAvailable());
+        assertTrue(mStrategy.isAvailable());
     }
 
     @Then("^the BleStrategy is not available$")
     public void theBleStrategyIsNotAvailable() {
-        assertFalse(strategy.isAvailable());
+        assertFalse(mStrategy.isAvailable());
     }
 
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
         SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
         SHNDevice device = mock(SHNDevice.class);
-        rawDataListeners.put(deviceId, new HashSet<ResultListener<SHNDataRaw>>());
+        mRawDataListeners.put(deviceId, new HashSet<ResultListener<SHNDataRaw>>());
 
         CapabilityDiComm capability = spy(new CapabilityDiComm() {
             @Override
@@ -116,12 +119,12 @@ public class BleStrategyTestSteps {
 
             @Override
             public void addDataListener(@NonNull final ResultListener<SHNDataRaw> resultListener) {
-                rawDataListeners.get(deviceId).add(resultListener);
+                mRawDataListeners.get(deviceId).add(resultListener);
             }
 
             @Override
             public void removeDataListener(@NonNull final ResultListener<SHNDataRaw> resultListener) {
-                rawDataListeners.get(deviceId).remove(resultListener);
+                mRawDataListeners.get(deviceId).remove(resultListener);
             }
         });
 
@@ -129,7 +132,7 @@ public class BleStrategyTestSteps {
         when(device.getAddress()).thenReturn(deviceId);
         when(device.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(capability);
 
-        deviceCache.deviceFound(null, info);
+        mDeviceCache.deviceFound(null, info);
     }
 
     @When("^the mock device with id '(.*?)' receives data '([0-9A-F]*?)'$")
@@ -146,7 +149,7 @@ public class BleStrategyTestSteps {
 
     @When("^the mock device with id '(.*?)' receives data$")
     public void mock_device_receives_data(final String id, final String data) {
-        final Set<ResultListener<SHNDataRaw>> listeners = rawDataListeners.get(id);
+        final Set<ResultListener<SHNDataRaw>> listeners = mRawDataListeners.get(id);
 
         if (listeners == null) {
             fail("Mock device '" + id + "' was not yet created");
@@ -162,9 +165,9 @@ public class BleStrategyTestSteps {
     @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'$")
     public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
         ResponseHandler handler = mock(ResponseHandler.class);
-        responseQueue.add(handler);
+        mResponseQueue.add(handler);
 
-        strategy.getProperties(port, productId, handler);
+        mStrategy.getProperties(port, productId, handler);
     }
 
     @SuppressWarnings("unchecked")
@@ -183,11 +186,11 @@ public class BleStrategyTestSteps {
     @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with data$")
     public void doingAPutPropertiesForProductidAndPortWithData(int productId, String port, String data) {
         ResponseHandler handler = mock(ResponseHandler.class);
-        responseQueue.add(handler);
+        mResponseQueue.add(handler);
 
         Map<String, Object> objData = new Gson().fromJson(data, HashMap.class);
 
-        strategy.putProperties(objData, port, productId, handler);
+        mStrategy.putProperties(objData, port, productId, handler);
     }
 
     @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with data '(.*?)'$")
@@ -263,37 +266,37 @@ public class BleStrategyTestSteps {
 
     @And("^the request times out$")
     public void theRequestTimesOut() {
-        currentRequest.cancel("Timeout occurred.");
+        mCurrentRequest.cancel("Timeout occurred.");
     }
 
     @Then("^the result is an error '(.*?)' with data '(.*?)'$")
     public void theResultIsAnErrorWithData(String error, String data) {
-        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), eq(data));
+        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), eq(data));
     }
 
     @Then("^the result is an error '(.*?)' with any data$")
     public void theResultIsAnErrorWithAnyData(String error) {
-        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), anyString());
+        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), anyString());
     }
 
     @Then("^the result is an error$")
     public void theResultIsAnError() {
-        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(any(Error.class), anyString());
+        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(any(Error.class), anyString());
     }
 
     @Then("^the result is an error '(.*?)' without data$")
     public void theResultIsAnErrorWithoutData(String error) {
-        verify(responseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), Matchers.isNull(String.class));
+        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), Matchers.isNull(String.class));
     }
 
     @Then("^the result is success with data '(.*?)'$")
     public void theResultIsSuccessWithDataTestData(String data) {
-        verify(responseQueue.remove()).onSuccess(data);
+        verify(mResponseQueue.remove()).onSuccess(data);
     }
 
     @Then("^the result is success with data$")
     public void theResultIsSuccessWithLongDataTestData(String expectedJsonString) {
-        verify(responseQueue.remove()).onSuccess(successStringCaptor.capture());
+        verify(mResponseQueue.remove()).onSuccess(successStringCaptor.capture());
 
         if (successStringCaptor.getAllValues().isEmpty()) fail("No result captured.");
 
@@ -305,7 +308,7 @@ public class BleStrategyTestSteps {
 
     @Then("^the result is success$")
     public void theResultIsSuccess() {
-        verify(responseQueue.remove()).onSuccess(successStringCaptor.capture());
+        verify(mResponseQueue.remove()).onSuccess(successStringCaptor.capture());
     }
 
     @And("^the json result contains the key '(.*?)'$")
@@ -336,7 +339,7 @@ public class BleStrategyTestSteps {
     }
 
     private CapabilityDiComm getCapabilityForDevice(String deviceId) {
-        return (CapabilityDiComm) deviceCache
+        return (CapabilityDiComm) mDeviceCache
                 .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
     }
 
@@ -359,5 +362,10 @@ public class BleStrategyTestSteps {
         JsonElement actual = parser.parse(actualJsonString);
 
         assertEquals(expected, actual);
+    }
+
+    @And("^the BleStrategy becomes unavailable$")
+    public void theBleStrategyBecomesUnavailable() {
+        mDeviceCache = new BleDeviceCache();
     }
 }
