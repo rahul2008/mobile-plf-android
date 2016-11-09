@@ -17,8 +17,6 @@ public class AlertDialogController {
         public String message;
         public String title;
 
-        public Button positiveButton;
-        public Button negativeButton;
         public View.OnClickListener positiveButtonLister;
         public View.OnClickListener negativeButtonListener;
         public Context context;

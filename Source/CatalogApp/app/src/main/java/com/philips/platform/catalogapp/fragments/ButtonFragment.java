@@ -60,7 +60,7 @@ public class ButtonFragment extends BaseFragment {
         ButterKnife.bind(this, root);
         restoreViews(savedInstanceState);
         imageShare.setImageDrawable(getShareIcon());
-        quietIconOnly.setImageDrawable(getShareIcon());
+        quietIconOnly.setImageResource(R.drawable.ic_share_icon);
         return root;
     }
 
@@ -81,7 +81,7 @@ public class ButtonFragment extends BaseFragment {
     }
 
     public Drawable getShareIcon() {
-        return VectorDrawableCompat.create(getResources(), R.drawable.share, getContext().getTheme());
+        return VectorDrawableCompat.create(getResources(), R.drawable.ic_share_icon, getContext().getTheme());
     }
 
     @OnCheckedChanged(R.id.toggleicon)

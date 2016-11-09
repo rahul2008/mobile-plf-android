@@ -105,7 +105,7 @@ public class AlertTest {
     @Test
     public void verifyAlertHeaderTopMargin() {
         int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
-        getAlertHeader().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
+        getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
     @Test
@@ -225,7 +225,7 @@ public class AlertTest {
         final int expectedFillColor = ContextCompat.getColor(instrumentationContext, White);
     }
 
-    // TODO: 11/9/2016 Not implemented 
+    // TODO: 11/9/2016 Not implemented
     @Test
     public void verifyShadowColorofAlert() {
         final int shadowColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#000000"), 0.20f);

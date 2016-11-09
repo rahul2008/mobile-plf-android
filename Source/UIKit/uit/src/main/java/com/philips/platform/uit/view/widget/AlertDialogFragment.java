@@ -16,15 +16,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.uit.R;
+import com.philips.platform.uit.utils.MaxHeightScrollView;
 
-/**
- *
- */
 public class AlertDialogFragment extends DialogFragment {
 
     private final int theme;
     private AlertDialogController.DialogParams dialogParams;
     private TextView titleTextView;
+    private MaxHeightScrollView messageContainer;
+    private Button negativeButton;
+    private Button positiveButton;
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogController.DialogParams();
@@ -50,15 +51,18 @@ public class AlertDialogFragment extends DialogFragment {
             dialogParams.positiveButtonText = savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, null);
             dialogParams.negativeButtonText = savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, null);
         }
-        dialogParams.positiveButton = (Button) view.findViewById(R.id.uid_alert_positive_button);
-        dialogParams.negativeButton = (Button) view.findViewById(R.id.uid_alert_negative_button);
+        positiveButton = (Button) view.findViewById(R.id.uid_alert_positive_button);
+        negativeButton = (Button) view.findViewById(R.id.uid_alert_negative_button);
         final TextView messageContent = (TextView) view.findViewById(R.id.uid_alert_message);
         messageContent.setText(dialogParams.message);
+
+        messageContainer = (MaxHeightScrollView) view.findViewById(R.id.uid_alert_message_scroll_container);
+
         titleTextView = (TextView) view.findViewById(R.id.uid_alert_title);
         titleTextView.setText(dialogParams.title);
-
         final ViewGroup headerView = (ViewGroup) view.findViewById(R.id.uid_alert_dialog_header);
         setTitleIcon((ImageView) view.findViewById(R.id.uid_alert_icon), headerView);
+
         setPositiveButtonProperties();
         setNegativeButtonProperties();
         setCancelable(dialogParams.cancelable);
@@ -67,19 +71,19 @@ public class AlertDialogFragment extends DialogFragment {
 
     private void setNegativeButtonProperties() {
         if (dialogParams.negativeButtonText != null) {
-            dialogParams.negativeButton.setText(dialogParams.negativeButtonText);
-            dialogParams.negativeButton.setOnClickListener(dialogParams.negativeButtonListener);
+            negativeButton.setText(dialogParams.negativeButtonText);
+            negativeButton.setOnClickListener(dialogParams.negativeButtonListener);
         } else {
-            dialogParams.negativeButton.setVisibility(View.GONE);
+            negativeButton.setVisibility(View.GONE);
         }
     }
 
     private void setPositiveButtonProperties() {
         if (dialogParams.positiveButtonText != null) {
-            dialogParams.positiveButton.setText(dialogParams.positiveButtonText);
-            dialogParams.positiveButton.setOnClickListener(dialogParams.positiveButtonLister);
+            positiveButton.setText(dialogParams.positiveButtonText);
+            positiveButton.setOnClickListener(dialogParams.positiveButtonLister);
         } else {
-            dialogParams.positiveButton.setVisibility(View.GONE);
+            positiveButton.setVisibility(View.GONE);
         }
     }
 
@@ -94,12 +98,19 @@ public class AlertDialogFragment extends DialogFragment {
             }
         }
 
+        setTitle(headerView);
+    }
+
+    private void setTitle(final ViewGroup headerView) {
         if (dialogParams.title != null) {
             titleTextView.setVisibility(View.VISIBLE);
             titleTextView.setText(dialogParams.title);
         } else {
             headerView.setVisibility(View.GONE);
             titleTextView.setVisibility(View.GONE);
+            final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) messageContainer.getLayoutParams();
+            final int margintop = (int) getResources().getDimension(R.dimen.uid_alert_message_top_margin);
+            layoutParams.setMargins(layoutParams.leftMargin, margintop, layoutParams.rightMargin, layoutParams.bottomMargin);
         }
     }
 
@@ -136,8 +147,8 @@ public class AlertDialogFragment extends DialogFragment {
      */
     public void setPositiveButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.positiveButtonLister = listener;
-        if (dialogParams.positiveButton != null) {
-            dialogParams.positiveButton.setOnClickListener(listener);
+        if (positiveButton != null) {
+            positiveButton.setOnClickListener(listener);
         }
     }
 
@@ -148,8 +159,8 @@ public class AlertDialogFragment extends DialogFragment {
      */
     public void setNegativeButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.negativeButtonListener = listener;
-        if (dialogParams.negativeButton != null) {
-            dialogParams.negativeButton.setOnClickListener(listener);
+        if (negativeButton != null) {
+            negativeButton.setOnClickListener(listener);
         }
     }
 
