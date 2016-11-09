@@ -27,8 +27,6 @@ public class UCoreAccessProvider implements BackendIdProvider {
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
-    public static final String ACTIVE_BABY_ID_KEY = "ACTIVE_BABY_ID_KEY";
-
     SharedPreferences sharedPreferences;
 
     @NonNull
