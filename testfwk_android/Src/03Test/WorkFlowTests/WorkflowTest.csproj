@@ -38,9 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\automation1\Src_old\Src\Reference\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="SpecRun.SpecFlowPlugin, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SpecRun.SpecFlow.1-9-0.1.5.2\lib\net35\SpecRun.SpecFlowPlugin.dll</HintPath>
@@ -66,12 +66,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BleApplianceSteps.cs" />
+    <Compile Include="CC_Bindings.cs" />
     <Compile Include="F661.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>F661.feature</DependentUpon>
     </Compile>
     <Compile Include="F661ContinuousEndToEndTestSteps.cs" />
+    <Compile Include="F953-ConsumerCare.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>F953-ConsumerCare.feature</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSteps.cs" />
     <Compile Include="IapReport.cs" />
     <Compile Include="MyPhilips.cs" />
@@ -79,6 +85,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MyPhilips.feature</DependentUpon>
+    </Compile>
+    <Compile Include="PRBinding.cs" />
+    <Compile Include="ProductRegistration.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductRegistration.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UJ01.cs" />
@@ -97,11 +109,19 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>F661.feature.cs</LastGenOutput>
     </None>
+    <None Include="F953-ConsumerCare.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>F953-ConsumerCare.feature.cs</LastGenOutput>
+    </None>
     <None Include="MyPhilips.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MyPhilips.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="ProductRegistration.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ProductRegistration.feature.cs</LastGenOutput>
+    </None>
     <None Include="runtests.cmd" />
     <None Include="SpecRunTestProfile.xsd">
       <SubType>Designer</SubType>
@@ -132,6 +152,10 @@
       <Project>{61879128-714e-4b66-a3e3-f3a3218b8254}</Project>
       <Name>AppFramework_TestPlugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\02TestAuthoring API\CC.Android.TestPlugin\CC.Android.TestPlugin.csproj">
+      <Project>{a6f48442-b970-47ab-b4d4-dca58a2ed294}</Project>
+      <Name>CC.Android.TestPlugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\02TestAuthoring API\CDP_ObjectRepository\ObjectRepository.csproj">
       <Project>{298a63ca-64db-44a2-bcf3-9cb7ff65ff21}</Project>
       <Name>ObjectRepository</Name>
@@ -141,6 +165,10 @@
       <Project>{c8793df7-650d-459a-8f6e-9cf621e745cf}</Project>
       <Name>IAP_Plugin</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\02TestAuthoring API\ProdReg.Android.TestPlugin\ProdReg.Android.TestPlugin.csproj">
+      <Project>{338c442a-af5c-4560-8ccd-d9a51e8b591c}</Project>
+      <Name>ProdReg.Android.TestPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ST_Nucleo\ST_Nucleo.csproj">
       <Project>{5afb3739-118d-482d-bc42-8c08c1004dd6}</Project>

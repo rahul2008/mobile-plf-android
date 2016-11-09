@@ -1,2 +1,29 @@
 Source/MicroApp/
-*.xml
+testfwk_android/Src/packages/
+testfwk_android/Src/02TestAuthoring API/CDP_TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/CDP_ObjectRepository/obj/
+testfwk_android/Src/02TestAuthoring API/CC.Android.TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/AppFramework_TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/ProdReg.Android.TestPlugin/bin/
+testfwk_android/Src/01Foundation/SIGAutomationPortal/SIGAutomationPortal/obj/
+testfwk_android/Src/01Foundation/MobileTestCore/obj/
+testfwk_android/Src/01Foundation/StatusIndicator/obj/
+testfwk_android/Src/01Foundation/FrameworkCore/obj/
+testfwk_android/Src/01Foundation/Deployment/obj/
+testfwk_android/Src/01Foundation/LoggingUtility/obj/
+testfwk_android/Src/01Foundation/CrashNotifier/obj/
+testfwk_android/Src/01Foundation/TimerNotifier/obj/
+testfwk_android/Src/01Foundation/ConsoleRunner/obj/
+testfwk_android/Src/01Foundation/WinEventHook/obj/
+testfwk_android/Src/01Foundation/Common/obj/
+testfwk_android/Src/02TestAuthoring API/ProdReg.Android.TestPlugin/obj/
+testfwk_android/Bin/adjustments.xml
+testfwk_android/Bin/
+testfwk_android/Src/TestResults/
+testfwk_android/Src/03Test/WorkFlowTests/obj/
+testfwk_android/Src/ST_Nucleo/bin/
+testfwk_android/Src/ST_Nucleo/obj/
+TestReports/
+testfwk_android/Src/bin/
+testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/bin/

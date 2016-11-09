@@ -37,14 +37,15 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             Alogout,
             HamburgerIcon,
             Settings,
-            Connectivity,
-            NucleousDevice,
+            Connectivity,     
             AlogoutConfirm,
             ALoginButton,
-                ALoginContinue,
+            ALoginContinue,
             ALoginContinueConfirm,
+            MeasurementValueFromReferenceDevice,
             MomentValueFromDatacore,
-            Terms
+            Terms,
+            Support
 
         }
 
@@ -56,13 +57,12 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Settings).Click();
             else if (btn == Button.Connectivity)
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Connectivity).Click();
-            if (btn == Button.NucleousDevice)
-                _instance.ClickById(AppFrameWork.Android.HomeScreen.NucleousDevice);
+            if (btn == Button.MeasurementValueFromReferenceDevice)
+                _instance.ClickById(AppFrameWork.Android.HomeScreen.MeasurementValueFromReferenceDevice);
             if (btn == Button.Alogout)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.Alogout);
             if (btn == Button.AlogoutConfirm)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.AlogoutConfirm);
-
             if (btn == Button.ALoginButton)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.ALoginButton);
             if (btn == Button.ALoginContinue)
@@ -73,11 +73,14 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                  _instance.ClickById(AppFrameWork.Android.HomeScreen.MomentValueFromDatacore);
             if (btn == Button.Terms)
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.Terms);
+            if (btn == Button.Support)
+                _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Support).Click();
         }
 
         public enum EditText
         {
-            Nucleus,
+            ReferenceDeviceIDValue,
+            MeasurementValue,
             Moment
         }
 
@@ -96,8 +99,10 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         {
             switch (et)
             {
-                case EditText.Nucleus:
-                    return _instance.GetElement(SearchBy.Id, ObjectRepository.NucleousValue).Text;
+                case EditText.ReferenceDeviceIDValue:
+                    return _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceDeviceIDValue).Text;
+                case EditText.MeasurementValue:
+                    return _instance.GetElement(SearchBy.Id, ObjectRepository.MeasurementValue).Text;
                 case EditText.Moment:
                     return _instance.GetElement(SearchBy.Id, ObjectRepository.MomentValue).Text;
                 default:
@@ -107,6 +112,15 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             return String.Empty;
         }
 
+        public static string GetDatacoreErrorMsg()
+        {
+            string msg = "Datacore is not reachable";
+            if (_instance.GetElement(SearchBy.Id, ObjectRepository.DatacoreErrorMsg) != null)
+            {
+                msg = _instance.GetElement(SearchBy.Id, ObjectRepository.DatacoreErrorMsg).Text;
+            }
+            return msg;
+        }
 
         public static bool IsVisible1()
         {
@@ -156,14 +170,36 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         {
             switch (editText)
             {
-                case EditText.Nucleus:
-                    _instance.GetElement(SearchBy.Id, ObjectRepository.NucleousValue).SetText(value);
+                case EditText.ReferenceDeviceIDValue:
+                    _instance.GetElement(SearchBy.Id, ObjectRepository.ReferenceDeviceIDValue).SetText(value);
+                    break;
+                case EditText.MeasurementValue:
+                    _instance.GetElement(SearchBy.Id, ObjectRepository.MeasurementValue).SetText(value);
                     break;
                 default:
                     Logger.Info("Error: AppHomeScreen.GetText not implemented for " + editText.ToString());
                     break;
             }
         }
+
+        public static bool IsVisibleScreenTitleText(string TitleText)
+        {
+            bool IsVisible1 = false;
+            try
+            {
+
+                if (GetScreenTitleAppFameworkHomeScreen() == TitleText)
+                    IsVisible1 = true;
+
+            }
+            catch (Exception)
+            {
+                IsVisible1 = false;
+            }
+            return IsVisible1;
+        }
+
+    
     }
 }
 

@@ -33,21 +33,28 @@
   </AccountSettings>
 
   <AppFramework>
-    <AppFrameworkHomeScreen>com.philips.platform.referenceapp:id/hamburger_title</AppFrameworkHomeScreen>
+    <AppFrameworkHomeScreen>com.philips.platform.referenceapp:id/af_actionbar_title</AppFrameworkHomeScreen>
+    <!--<HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon> -->
+    <!--<Settings>//android.widget.TextView[@text='Settings']</Settings> -->
     <HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon>
+    <Support>//android.widget.TextView[@text='Support']</Support>
     <Settings>//android.widget.TextView[@text='Settings']</Settings>
     <Connectivity>//android.widget.TextView[@text='Connectivity']</Connectivity>
+    <DatacoreErrorMsg>com.philips.platform.referenceapp:id/datacre_error_text</DatacoreErrorMsg>
     <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
     <ALoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</ALoginButton>
     <ALoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</ALoginContinue>
     <ALoginContinueConfirm>com.philips.platform.referenceapp:id/btn_reg_continue</ALoginContinueConfirm>
-      <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
+    <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
     <VerticalSettings>com.philips.platform.referenceapp:id/ifo</VerticalSettings>
     <WelcomeScreen>com.philips.platform.referenceapp:id/welcome_slide_fragment_layout</WelcomeScreen>
+    <ReferenceDeviceIDValue>com.philips.platform.referenceapp:id/reference_device_id_editbox</ReferenceDeviceIDValue>
+    <MeasurementValue>com.philips.platform.referenceapp:id/measurement_value_editbox</MeasurementValue>
+    <WelcomeScreen>com.philips.platform.referenceapp:id/decor_content_parent</WelcomeScreen>
     <NucleousValue>com.philips.platform.referenceapp:id/nucleous_value_editbox</NucleousValue>
     <MomentValue>com.philips.platform.referenceapp:id/moment_value_editbox</MomentValue>
-    <NucleousDevice>com.philips.platform.referenceapp:id/start_connectivity_button</NucleousDevice>
-      <MomentValueFromDatacore>com.philips.platform.referenceapp:id/get_momentumvalue_button</MomentValueFromDatacore>
+    <MeasurementValueFromReferenceDevice>com.philips.platform.referenceapp:id/start_connectivity_button</MeasurementValueFromReferenceDevice>
+    <MomentValueFromDatacore>com.philips.platform.referenceapp:id/get_momentumvalue_button</MomentValueFromDatacore>
     <RightArrow>com.philips.platform.referenceapp:id/appframework_rightarrow</RightArrow>
     <LeftArrow>com.philips.platform.referenceapp:id/appframework_leftarrow</LeftArrow>
     <Skip>com.philips.platform.referenceapp:id/welcome_skip_button</Skip>
@@ -55,10 +62,11 @@
     <AppPhilipsAccountReg>com.philips.platform.referenceapp:id/tv_reg_provider_name</AppPhilipsAccountReg>
     <AUsername>com.philips.platform.referenceapp:id/et_reg_email</AUsername>
     <APassWord>com.philips.platform.referenceapp:id/et_reg_password</APassWord>
-    <Alogout>com.philips.platform.referenceapp:id/btn_settings_logout</Alogout>
     <Terms>com.philips.platform.referenceapp:id/rl_x_checkbox</Terms>
-    <AlogoutConfirm>android:id/button1</AlogoutConfirm>
-    </AppFramework>
+    <Alogout>com.philips.platform.referenceapp:id/ifo</Alogout>
+  </AppFramework>
+
+  <!--IAP-->
   
   <homeScreen>
     <DemoTitle>com.philips.cdp.di.iapdemo:id/demo_title</DemoTitle>
@@ -207,8 +215,6 @@
     <AddNewPayment>com.philips.cdp.di.iapdemo:id/btn_add_new_payment</AddNewPayment>
     <PaymentScroll>android.webkit.WebView</PaymentScroll>
   </PaymentScreen>
-
-
   <Confirmation>
     <Thankyou_TV>com.philips.cdp.di.iapdemo:id/tv_thank</Thankyou_TV>
     <YourOrderNumber>com.philips.cdp.di.iapdemo:id/tv_your_order_num</YourOrderNumber>
@@ -216,4 +222,156 @@
     <ConfirmEmail>com.philips.cdp.di.iapdemo:id/tv_confirm_email</ConfirmEmail>
     <OKButton>com.philips.cdp.di.iapdemo:id/tv_confirm_ok</OKButton>
   </Confirmation>
+
+  <!-- Consumer Care-->
+
+  <SupportScreen>
+    <ViewProductInfo>View product information</ViewProductInfo>
+    <ReadFAQ>Read FAQs</ReadFAQ>
+    <ContactUs>Contact us</ContactUs>
+    <FindPhilips>Find Philips near you</FindPhilips>
+    <TellUs>Tell us what you think</TellUs>
+    <MyPhilipsAccount>MyPhilips account</MyPhilipsAccount>
+    <ChangeSelectedProduct>Change selected product</ChangeSelectedProduct>
+    <DemoTitle>com.philips.platform.referenceapp:id/af_actionbar_title</DemoTitle>
+    <ReturnToHomeScreen>com.philips.platform.referenceapp:id/home_icon</ReturnToHomeScreen>
+  </SupportScreen>
+  <ProductInformation>
+    <Product_Manual>Download product manual</Product_Manual>
+    <Product_Information>Product information (on Philips.com)</Product_Information>
+    <Back_to_Support>com.philips.platform.referenceapp:id/af_hamburger_imageview</Back_to_Support>
+    <ProductDetail>com.philips.platform.referenceapp:id/name</ProductDetail>
+    <ProductInfoTitle>com.philips.platform.referenceapp:id/af_actionbar_title</ProductInfoTitle>
+    <ProductImage>com.philips.platform.referenceapp:id/productimage</ProductImage>
+    <VideoHeading>com.philips.platform.referenceapp:id/productVideoText</VideoHeading>
+    <VideoPlayButton>com.philips.platform.referenceapp:id/videoPlay</VideoPlayButton>
+    <WebViewofProductInfo>com.philips.platform.referenceapp:id/webView</WebViewofProductInfo>
+    <ProductVariant>com.philips.platform.referenceapp:id/variant</ProductVariant>
+    <OK>android:id/button1</OK>
+    <Image>com.philips.platform.referenceapp:id/productImageTablet</Image>
+  </ProductInformation>
+  <FAQScreen>
+    <Back_to_FAQHomePage>com.philips.platform.referenceapp:id/af_hamburger_imageview</Back_to_FAQHomePage>
+    <FAQHeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</FAQHeaderText>
+  </FAQScreen>
+  <QuestionAnswerScreen>
+    <QAHeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</QAHeaderText>
+    <BacktoFAQpage>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktoFAQpage>
+  </QuestionAnswerScreen>
+  <ContactUs>
+    <OnTwitter>On Twitter</OnTwitter>
+    <OnFacebook>On Facebook</OnFacebook>
+    <LiveChat>com.philips.platform.referenceapp:id/contactUsChat</LiveChat>
+    <SendEmail>com.philips.platform.referenceapp:id/contactUsEmail</SendEmail>
+    <Call>com.philips.platform.referenceapp:id/contactUsCall</Call>
+    <HeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderText>
+    <BackToHomePage>com.philips.platform.referenceapp:id/af_hamburger_imageview</BackToHomePage>
+    <Ok>android:id/button1</Ok>
+  </ContactUs>
+  <ChatWithPhilipsScreen>
+    <BacktoContactUs>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktoContactUs>
+    <HeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderText>
+    <ChatNow>com.philips.platform.referenceapp:id/chatNow</ChatNow>
+    <Cancel>com.philips.platform.referenceapp:id/chatNoThanks</Cancel>
+  </ChatWithPhilipsScreen>
+  <LocationAccess>
+    <Allow>com.android.packageinstaller:id/permission_allow_button</Allow>
+  </LocationAccess>
+  <ChatNowScreen>
+    <BacktoHomeScreen>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktoHomeScreen>
+    <HeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderText>
+    <FirstName>LC_h1g58krm</FirstName>
+    <LastName>com.philips.platform.referenceapp:id/LC_h1g59yxo</LastName>
+    <Email>com.philips.platform.referenceapp:id/LC_h1g5b1cm</Email>
+    <MobileNo>com.philips.platform.referenceapp:id/LC_hcsnriw4</MobileNo>
+    <CheckBox>com.philips.platform.referenceapp:id/LC_fsx4xhpb_0</CheckBox>
+    <StartChat>com.philips.platform.referenceapp:id/FORMSUBMIT</StartChat>
+    <QueryTextBox>com.philips.platform.referenceapp:id/inputBody</QueryTextBox>
+    <Send>com.philips.platform.referenceapp:id/android.view.View</Send>
+    <ChatFrame>com.philips.platform.referenceapp:id/chat-frame</ChatFrame>
+    <ChatBusy>com.philips.platform.referenceapp:id/webView</ChatBusy>
+    <Close>closebutton</Close>
+  </ChatNowScreen>
+  <SendEmailScreen>
+    <BacktohomeScrn>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktohomeScrn>
+    <Header>com.philips.platform.referenceapp:id/af_actionbar_title</Header>
+  </SendEmailScreen>
+  <FindPhilips>
+    <HeaderFindPhilips>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderFindPhilips>
+    <BackToHome>com.philips.platform.referenceapp:id/af_hamburger_imageview</BackToHome>
+    <Search>com.philips.platform.referenceapp:id/search_box</Search>
+    <SearchButton>com.philips.platform.referenceapp:id/search_icon</SearchButton>
+    <!--<ParentLayout>com.philips.cdp.sampledigitalcare:id/locateDialogParent</ParentLayout>-->
+  </FindPhilips>
+  <DialogsFindPhilips1>
+    <TextDesc>com.philips.platform.referenceapp:id/dialogTextViewDesc</TextDesc>
+    <GotoContactPage>com.philips.platform.referenceapp:id/dialogTextViewSupportPage</GotoContactPage>
+    <NoServiceAvailableOKButton>com.philips.platform.referenceapp:id/dialogTextViewOk</NoServiceAvailableOKButton>
+  </DialogsFindPhilips1>
+  <DialogsFindPhilips2>
+    <NoDataOK>android:id/button1</NoDataOK>
+    <NoDataAvailable>android:id/message</NoDataAvailable>
+  </DialogsFindPhilips2>
+  <DialogsFindPhilips3>
+    <GPSErrorMsg>android:id/message</GPSErrorMsg>
+    <GPSOKButton>android:id/button1</GPSOKButton>
+    <GPSCancleButton>android:id/button2</GPSCancleButton>
+  </DialogsFindPhilips3>
+  <DialogsFindPhilips4>
+    <ShareLocationToPhilipsOKButton>android:id/button1</ShareLocationToPhilipsOKButton>
+  </DialogsFindPhilips4>
+  <TellUsScreen>
+    <BackTo_Homescreen>com.philips.platform.referenceapp:id/af_hamburger_imageview</BackTo_Homescreen>
+    <AppReview>com.philips.platform.referenceapp:id/tellus_PlayStoreReviewButton</AppReview>
+    <ProductReview>com.philips.platform.referenceapp:id/tellus_PhilipsReviewButton</ProductReview>
+    <TellUsHeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</TellUsHeaderText>
+    <RetryButton>com.android.vending:id/retry_button</RetryButton>
+    <PlayStore_View>com.android.vending:id/recycler_view</PlayStore_View>
+    <PlayStoreRetryButton>com.android.vending:id/retry_button</PlayStoreRetryButton>
+  </TellUsScreen>
+  <ProductScreen>
+    <Backto_Home_old>com.philips.platform.referenceapp:id/productselection_arrow</Backto_Home_old>
+    <Backto_Home>com.philips.platform.referenceapp:id/action_bar_icon_parent</Backto_Home>
+    <ProductHeadertxt>com.philips.platform.referenceapp:id/productselection_actionbarTitle</ProductHeadertxt>
+    <Product_List_View>com.philips.platform.referenceapp:id/productListView</Product_List_View>
+    <Product_name>com.philips.platform.referenceapp:id/text1Name</Product_name>
+    <Product_Id>com.philips.platform.referenceapp:id/text2value</Product_Id>
+    <!--<SelectedProduct>Lumea Prestige IPL - Hair regrowth prevention</SelectedProduct>
+    <BluetouchProduct>BlueTouch App-controlled pain relief patch</BluetouchProduct>-->
+  </ProductScreen>
+  <SelectedProdutScreen>
+    <BacktoHome>com.philips.platform.referenceapp:id/productselection_arrow</BacktoHome>
+    <SelectProductButton>com.philips.platform.referenceapp:id/detailedscreen_select_button</SelectProductButton>
+    <TextHeader>com.philips.platform.referenceapp:id/af_actionbar_title</TextHeader>
+    <ProductCTN>com.philips.platform.referenceapp:id/detailed_screen_productctn</ProductCTN>
+    <ProductName>com.philips.platform.referenceapp:id/detailed_screen_productname</ProductName>
+  </SelectedProdutScreen>
+  <ConfirmationScreen>
+    <Backto_Home>com.philips.platform.referenceapp:id/productselection_UpButton</Backto_Home>
+    <Changeutton>com.philips.platform.referenceapp:id/savedscreen_button_settings</Changeutton>
+    <ContinueButton>com.philips.platform.referenceapp:id/savedscreen_button_continue</ContinueButton>
+    <TextHeader>com.philips.platform.referenceapp:id/productselection_actionbarTitle</TextHeader>
+    <ProductVrnt>com.philips.platform.referenceapp:id/savedscreen_productvariant</ProductVrnt>
+  </ConfirmationScreen>
+  <GPSLocation>
+    <Header>android:id/af_actionbar_title</Header>
+    <SwitchButton>android.widget.Switch</SwitchButton>
+  </GPSLocation>
+  <FacebookViewScreen>
+    <UserName>com.facebook.katana:id/login_username</UserName>
+    <Password>com.facebook.katana:id/login_password</Password>
+    <LogInButton>Log In</LogInButton>
+    <Join>Join</Join>
+  </FacebookViewScreen>
+  <TwitterViewScreen>
+    <SignUpButton>com.twitter.android:id/sign_up</SignUpButton>
+    <LogInButton>com.twitter.android:id/log_in</LogInButton>
+  </TwitterViewScreen>
+  <SelectProductScreen>
+    <HeaderText>com.philips.cdp.sampledigitalcare:id/productselection_actionbarTitle</HeaderText>
+    <Search>Find product</Search>
+    <Backto_Home>com.philips.cdp.sampledigitalcare:id/productselection_arrow</Backto_Home>
+  </SelectProductScreen>
+
+
 </GeneralConfiguration>
