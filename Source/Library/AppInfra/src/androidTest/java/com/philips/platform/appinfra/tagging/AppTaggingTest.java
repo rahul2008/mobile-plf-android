@@ -207,7 +207,7 @@ public class AppTaggingTest extends MockitoTestCase {
     }
 
     public void testLifecycle() {
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAIAppTaggingInterface);
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         Application mockApplication = mock(Application.class);
 
        /* mockApplication.registerActivityLifecycleCallbacks(handler);
