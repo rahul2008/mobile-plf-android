@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2016 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.cdp2.commlib.request;
 
@@ -30,18 +30,27 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeExcep
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * The type BleRequest.
+ * <p>
+ * This type is used by {@link com.philips.cdp2.commlib.strategy.BleStrategy} to perform DiComm
+ * requests to a BLE device. The request uses a {@link CountDownLatch} to block the thread on
+ * which it is running until a call to either {@link ResponseHandler#onSuccess(String)} or
+ * {@link ResponseHandler#onError(Error, String)} is made to ensure that all requests that are
+ * dispatched in a queue are processed sequentially.
+ */
 public class BleRequest extends Request implements Runnable {
     private static final int MAX_PAYLOAD_LENGTH = (int) Math.pow(2, 16) - 1;
 
     private boolean mIsExecuting;
-    private CapabilityDiComm mCapability;
+    private final CapabilityDiComm mCapability;
     private final CountDownLatch mCountDownLatch;
     private final int mProductId;
     private final LocalRequestType mRequestType;
     private final Object mLock = new Object();
     private final String mPortName;
 
-    private final DiCommByteStreamReader reader = new DiCommByteStreamReader(new DiCommByteStreamReader.DiCommMessageListener() {
+    private final DiCommByteStreamReader mDiCommByteStreamReader = new DiCommByteStreamReader(new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
         public void onMessage(DiCommMessage diCommMessage) {
             try {
@@ -75,7 +84,7 @@ public class BleRequest extends Request implements Runnable {
             synchronized (mLock) {
                 if (SHNResult.SHNOk.equals(shnResult)) {
                     if (mIsExecuting) {
-                        reader.onBytes(shnDataRaw.getRawData());
+                        mDiCommByteStreamReader.onBytes(shnDataRaw.getRawData());
                     }
                 } else {
                     mResponseHandler.onError(Error.NOT_UNDERSTOOD, shnResult.name());
@@ -85,7 +94,22 @@ public class BleRequest extends Request implements Runnable {
         }
     };
 
-    public BleRequest(SHNDevice shnDevice, String portName, int productId, LocalRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler) {
+    /**
+     * Instantiates a new BleRequest.
+     *
+     * @param shnDevice       the shn device
+     * @param portName        the port name
+     * @param productId       the product id
+     * @param requestType     the request type
+     * @param dataMap         the optional data map
+     * @param responseHandler the response handler
+     */
+    public BleRequest(@NonNull SHNDevice shnDevice,
+                      @NonNull String portName,
+                      @NonNull int productId,
+                      @NonNull LocalRequestType requestType,
+                      Map<String, Object> dataMap,
+                      @NonNull ResponseHandler responseHandler) {
         super(dataMap, responseHandler);
 
         mCapability = (CapabilityDiComm) shnDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
@@ -114,13 +138,20 @@ public class BleRequest extends Request implements Runnable {
                     mCapability.writeData(getPropsMessage.toData());
                     break;
                 case PUT:
-                    if (mDataMap.isEmpty()) {
-                        mResponseHandler.onError(Error.NO_REQUEST_DATA, "No request data supplied.");
+                    if (mDataMap == null) {
+                        mResponseHandler.onError(Error.INVALID_PARAMETER, "No request data supplied.");
                         mCountDownLatch.countDown();
 
                         return null;
                     }
-                    DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
+
+                    if (mDataMap.isEmpty()) {
+                        mResponseHandler.onError(Error.NO_REQUEST_DATA, "Request data is empty.");
+                        mCountDownLatch.countDown();
+
+                        return null;
+                    }
+                    final DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
 
                     if (putPropsMessage.getPayload().length > MAX_PAYLOAD_LENGTH) {
                         mResponseHandler.onError(Error.INVALID_PARAMETER, "Payload too big.");
@@ -133,12 +164,19 @@ public class BleRequest extends Request implements Runnable {
                 case POST:
                 case DELETE:
                 default:
-                    throw new IllegalStateException("Not implemented yet.");
+                    throw new UnsupportedOperationException("Not implemented yet.");
             }
             return null;
         }
     }
 
+    /**
+     * Cancel.
+     * <p>
+     * This cancels the current request and notifies the {@link ResponseHandler} for this request.
+     *
+     * @param reason the reason
+     */
     public void cancel(String reason) {
         synchronized (mLock) {
             mIsExecuting = false;

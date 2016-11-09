@@ -1,8 +1,7 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2016 Koninklijke Philips N.V.
+ * All rights reserved.
  */
-
 package com.philips.cdp2.commlib.strategy;
 
 import android.support.annotation.NonNull;
@@ -19,8 +18,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+/**
+ * The type BleStrategy.
+ */
 public class BleStrategy extends CommunicationStrategy {
 
+    /**
+     * The constant DICOMM_MESSAGE_TIMEOUT_MS.
+     * <p>
+     * This defines the default duration for a request timeout as 5000 ms.
+     */
     public static final long DICOMM_MESSAGE_TIMEOUT_MS = 5000L;
 
     @NonNull
@@ -30,6 +37,12 @@ public class BleStrategy extends CommunicationStrategy {
     @NonNull
     private final ScheduledThreadPoolExecutor mExecutor;
 
+    /**
+     * Instantiates a new BleStrategy.
+     *
+     * @param cppId       the cpp id
+     * @param deviceCache the device cache
+     */
     public BleStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache) {
         mCppId = cppId;
         mDeviceCache = deviceCache;
@@ -87,7 +100,15 @@ public class BleStrategy extends CommunicationStrategy {
         mExecutor.execute(request);
     }
 
-
+    /**
+     * Add timeout to request.
+     * <p>
+     * When set, {@link BleRequest#cancel(String)} will be invoked as soon as the number of
+     * milliseconds have passed as defined in {@link BleStrategy#DICOMM_MESSAGE_TIMEOUT_MS}.
+     *
+     * @param request the request
+     * @return the timer
+     */
     protected Timer addTimeoutToRequest(final BleRequest request) {
         final Timer t = new Timer();
         t.schedule(new TimerTask() {

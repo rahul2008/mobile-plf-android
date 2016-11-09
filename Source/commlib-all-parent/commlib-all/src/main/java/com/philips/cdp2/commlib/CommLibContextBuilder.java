@@ -1,8 +1,7 @@
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
 package com.philips.cdp2.commlib;
 
 import android.content.Context;
@@ -38,11 +37,14 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
         mContext = context;
     }
 
+    /**
+     * Create CommLibContext.
+     *
+     * @return the CommLibContext
+     */
     public final CommLibContext create() {
-
         // TODO register DiComm plugin
-
-        // TODO Fire up BLEStrategy
+        // TODO initialize BLEStrategy
 
         try {
             initBlueLib();
@@ -57,9 +59,9 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
     }
 
     /**
-     * Create a discovery manager.
+     * Create a DiscoveryManager.
      *
-     * @return the discovery manager
+     * @return the DiscoveryManager
      */
     private void createDiscoveryManager() {
         if (DICommClientWrapper.getContext() == null) {
@@ -76,10 +78,6 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
         // FIXME Use DiComm plugin
         // SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
         // mShnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
-    }
-
-    public SHNCentral getShnCentral() {
-        return mShnCentral;
     }
 
     /**

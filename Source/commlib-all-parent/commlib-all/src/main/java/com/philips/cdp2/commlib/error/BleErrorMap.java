@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2016 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.cdp2.commlib.error;
 
@@ -10,6 +10,12 @@ import com.philips.pins.shinelib.dicommsupport.StatusCode;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type BleErrorMap.
+ * <p>
+ * This provides a mapping between all BlueLib {@link StatusCode} values to
+ * request {@link Error} values.
+ */
 public final class BleErrorMap {
     private static final Map<StatusCode, Error> MAPPING = new HashMap<StatusCode, Error>() {{
         put(StatusCode.NotUnderstood, Error.NOT_UNDERSTOOD);
@@ -32,6 +38,15 @@ public final class BleErrorMap {
     private BleErrorMap() {
     }
 
+    /**
+     * Gets error by status code.
+     *
+     * @param statusCode the status code
+     * @return the error by status code
+     * <p>
+     * If a mapping exists, this will return the corresponding error value,
+     * or {@link Error#UNKNOWN} if none is found.
+     */
     public static Error getErrorByStatusCode(StatusCode statusCode) {
         return MAPPING.containsKey(statusCode) ? MAPPING.get(statusCode) : Error.UNKNOWN;
     }
