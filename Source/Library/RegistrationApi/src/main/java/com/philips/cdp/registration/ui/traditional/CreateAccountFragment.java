@@ -446,7 +446,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             }
         }else {
             RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-            getRegistrationFragment().replaceWelcomeFragmentOnLogin(new MarketingAccountFragment());
+            getRegistrationFragment().addFragment(new MarketingAccountFragment());
         }
         if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
             mTrackCreateAccountTime =  (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000;

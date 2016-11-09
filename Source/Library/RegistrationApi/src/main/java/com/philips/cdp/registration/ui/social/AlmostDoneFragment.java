@@ -644,7 +644,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         }else {
             RLog.d(RLog.AB_TESTING,"UI Flow Type B");
-            getRegistrationFragment().replaceWelcomeFragmentOnLogin(new MarketingAccountFragment());
+            getRegistrationFragment().addFragment(new MarketingAccountFragment());
         }
         hideSpinner();
     }
