@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -18,8 +17,8 @@ import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
-import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
 import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
+import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
@@ -43,7 +42,8 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DEBUG = 5;
-    private final int PRODUCT_REGISTRATION = 7;
+    private final int PRODUCT_REGISTRATION = 8;
+    private final int MENU_OPTION_CONNECTIVITY=7;
     private final int MENU_OPTION_DATA_SYNC = 6;
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
