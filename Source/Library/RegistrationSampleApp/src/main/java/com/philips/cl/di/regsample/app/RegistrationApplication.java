@@ -230,7 +230,7 @@ public class RegistrationApplication extends Application {
                         URConfigurationConstants.
                                 HSDP_CONFIGURATION_BASE_URL,
                         URConfigurationConstants.UR,
-                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
                         configError);
 
                 editor.putString("reg_hsdp_environment", configuration.getValue());
@@ -266,7 +266,7 @@ public class RegistrationApplication extends Application {
                         URConfigurationConstants.
                                 HSDP_CONFIGURATION_BASE_URL,
                         URConfigurationConstants.UR,
-                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com/",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
@@ -303,7 +303,7 @@ public class RegistrationApplication extends Application {
                         URConfigurationConstants.
                                 HSDP_CONFIGURATION_BASE_URL,
                         URConfigurationConstants.UR,
-                        "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com/",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
@@ -413,7 +413,6 @@ public class RegistrationApplication extends Application {
         appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
 
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppLocalizedNAme : " + appIdentityInfo.getAppLocalizedNAme());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity Sector : " + appIdentityInfo.getSector());
