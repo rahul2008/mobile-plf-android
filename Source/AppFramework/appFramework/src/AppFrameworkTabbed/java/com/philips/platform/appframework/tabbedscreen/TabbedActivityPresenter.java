@@ -39,11 +39,28 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
 
     private final int MENU_OPTION_HOME = 0;
     private String SUPPORT_PR = "pr";
-
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
+
+    /*Event ID */
+    final int MENU_OPTION_SETTINGS = 1;
+    final int MENU_OPTION_SHOP = 2;
+    final int MENU_OPTION_SUPPORT = 3;
+    final int MENU_OPTION_ABOUT = 4;
+    final int MENU_OPTION_DATA_SYNC = 5;
+    final int MENU_OPTION_PR = 6;
+
+    /* event to state map */
+    final String HOME_SETTINGS = "settings";
+    final String HOME_IAP = "iap";
+    final String HOME_SUPPORT = "support";
+    final String SHOPPING_CART = "shopping_cart";
+    final String HOME_ABOUT = "about";
+    final String HOME_FRAGMENT = "home_fragment";
+    final String DATA_SYNC = "data_sync";
+    final String SUPPORT_PR = "pr";
 
     public TabbedActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
@@ -70,11 +87,6 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     }
 
     protected UIStateData setStateData(final int componentID) {
-        final int MENU_OPTION_SETTINGS = 1;
-        final int MENU_OPTION_SHOP = 2;
-        final int MENU_OPTION_SUPPORT = 3;
-        final int MENU_OPTION_ABOUT = 4;
-        final int MENU_OPTION_DATA_SYNC = 7;
         switch (componentID) {
             case MENU_OPTION_HOME:
                 UIStateData homeStateData = new UIStateData();
@@ -103,6 +115,10 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 return uiStateDataModel;
+            case MENU_OPTION_PR:
+                ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
+                prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                return prStateDataModel;
             case MENU_OPTION_DATA_SYNC:
                 UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
@@ -141,29 +157,13 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SUPPORT, SUPPORT_PR);
-        ProductRegistrationState.ProductRegistrationData uiStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
-        uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
-        this.baseState.setUiStateData(uiStateDataModel);
+        this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
         this.baseState.setPresenter(this);
         this.baseState.navigate(fragmentLauncher);
     }
 
     // TODO: Deepthi, is this expected? deviation from ios i think.
     private String getEventState(int componentID) {
-        final int MENU_OPTION_SETTINGS = 1;
-        final int MENU_OPTION_SHOP = 2;
-        final int MENU_OPTION_SUPPORT = 3;
-        final int MENU_OPTION_ABOUT = 4;
-        final int MENU_OPTION_DATA_SYNC = 7;
-
-        final String HOME_SETTINGS = "settings";
-        final String HOME_IAP = "iap";
-        final String HOME_SUPPORT = "support";
-        final String SHOPPING_CART = "shopping_cart";
-        final String HOME_ABOUT = "about";
-        final int PRODUCT_REGISTRATION = 6;
-        final String HOME_FRAGMENT = "home_fragment";
-        final String HOME_DATA_DYNC = "data_sync";
 
         switch (componentID) {
             case MENU_OPTION_HOME:
@@ -178,7 +178,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 return HOME_ABOUT;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;
-            case PRODUCT_REGISTRATION:
+            case MENU_OPTION_PR:
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return  HOME_DATA_DYNC

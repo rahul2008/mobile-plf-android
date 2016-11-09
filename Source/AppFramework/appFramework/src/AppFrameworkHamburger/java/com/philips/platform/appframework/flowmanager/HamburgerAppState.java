@@ -4,6 +4,7 @@ import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
+import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
 import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
@@ -36,5 +37,6 @@ public class HamburgerAppState extends BaseAppState {
         uiStateMap.put(PR, new ProductRegistrationState());
         uiStateMap.put(SUPPORT, new SupportFragmentState());
         uiStateMap.put(SPLASH, new SplashState());
+        uiStateMap.put(DATA_SYNC, new DataSyncScreenState());
     }
 }

@@ -35,8 +35,25 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     private FragmentView fragmentView;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
-    private String SUPPORT_PR = "pr";
+
+
+    /*Event ID */
+    final int MENU_OPTION_SETTINGS = 1;
+    final int MENU_OPTION_SHOP = 2;
+    final int MENU_OPTION_SUPPORT = 3;
+    final int MENU_OPTION_ABOUT = 4;
+    final int MENU_OPTION_DATA_SYNC = 5;
     final int MENU_OPTION_PR = 6;
+
+    /* event to state map */
+    final String HOME_SETTINGS = "settings";
+    final String HOME_IAP = "iap";
+    final String HOME_SUPPORT = "support";
+    final String SHOPPING_CART = "shopping_cart";
+    final String HOME_ABOUT = "about";
+    final String HOME_FRAGMENT = "home_fragment";
+    final String DATA_SYNC = "data_sync";
+    final String SUPPORT_PR = "pr";
 
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
@@ -69,10 +86,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     // TODO: Deepthi, when we already know that we need to set certain data for each menu click and that too for which component, why do we ask flow manager to give only state?
     // So here atleast i see launch type is already causing problems + data models was anyways a concern.
     protected UIStateData setStateData(final int componentID) {
-        final int MENU_OPTION_SETTINGS = 1;
-        final int MENU_OPTION_SHOP = 2;
-        final int MENU_OPTION_SUPPORT = 3;
-        final int MENU_OPTION_ABOUT = 4;
         switch (componentID) {
             case MENU_OPTION_HOME:
                 UIStateData homeStateData = new UIStateData();
@@ -105,6 +118,10 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
                 prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 return prStateDataModel;
+            case MENU_OPTION_DATA_SYNC:
+                UIStateData syncStateData = new UIStateData();
+                syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return syncStateData;
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
@@ -140,18 +157,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
 
     // TODO: Deepthi, is this expected? deviation from ios i think.
     public String getEventState(int componentID) {
-        final int MENU_OPTION_SETTINGS = 1;
-        final int MENU_OPTION_SHOP = 2;
-        final int MENU_OPTION_SUPPORT = 3;
-        final int MENU_OPTION_ABOUT = 4;
-
-        final String HOME_SETTINGS = "settings";
-        final String HOME_IAP = "iap";
-        final String HOME_SUPPORT = "support";
-        final String SHOPPING_CART = "shopping_cart";
-        final String HOME_ABOUT = "about";
-        final int PRODUCT_REGISTRATION = 6;
-        final String HOME_FRAGMENT = "home_fragment";
 
         switch (componentID) {
             case MENU_OPTION_HOME:
@@ -166,8 +171,10 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 return HOME_ABOUT;
             case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;
-            case PRODUCT_REGISTRATION:
+            case MENU_OPTION_PR:
                 return SUPPORT_PR;
+            case MENU_OPTION_DATA_SYNC:
+                return DATA_SYNC;
             default:
                 return HOME_FRAGMENT;
         }

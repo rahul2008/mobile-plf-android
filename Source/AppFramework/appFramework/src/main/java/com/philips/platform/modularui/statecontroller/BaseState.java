@@ -23,7 +23,7 @@ abstract public class BaseState {
      */
 
     @StringDef({BaseAppState.ABOUT, BaseAppState.DEBUG,BaseAppState.HOME_FRAGMENT,BaseAppState.IAP,BaseAppState.PR,BaseAppState.REGISTRATION,BaseAppState.SETTINGS,
-            BaseAppState.SPLASH, BaseAppState.SUPPORT,BaseAppState.WELCOME})
+            BaseAppState.SPLASH, BaseAppState.SUPPORT,BaseAppState.WELCOME,BaseAppState.DATA_SYNC})
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIStateDef {}
 

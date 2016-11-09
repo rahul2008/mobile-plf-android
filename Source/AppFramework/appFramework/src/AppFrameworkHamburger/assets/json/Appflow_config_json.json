@@ -131,6 +131,15 @@
                 "nextState": "iap"
               }
             ]
+          },
+          {
+            "eventId": "data_sync",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "data_sync"
+              }
+            ]
           }
         ]
       },

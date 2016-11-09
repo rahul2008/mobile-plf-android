@@ -15,6 +15,7 @@ public class BaseAppState {
     public static final String IAP = "iap";
     public static final String PR = "pr";
     public static final String SETTINGS = "settings";
+    public static final String DATA_SYNC = "data_sync";
 
     protected Map<String, BaseState> stateMap;
 

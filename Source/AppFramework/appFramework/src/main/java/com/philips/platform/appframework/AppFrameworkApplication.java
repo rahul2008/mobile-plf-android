@@ -13,6 +13,8 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasevices.database.DatabaseHelper;
 import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
