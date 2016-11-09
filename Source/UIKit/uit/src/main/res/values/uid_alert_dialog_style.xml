@@ -36,8 +36,6 @@
         <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
-        <item name="android:paddingTop">@dimen/uid_alert_dialog_title_icon_padding</item>
-        <item name="android:paddingBottom">@dimen/uid_alert_dialog_title_icon_padding</item>
         <item name="android:textColor">?attr/uitDialogBodyTextColor</item>
         <item name="android:scrollbars">vertical</item>
         <item name="android:scrollIndicators" tools:targetApi="m">right</item>
