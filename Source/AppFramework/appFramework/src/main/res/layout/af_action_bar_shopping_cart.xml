@@ -42,7 +42,7 @@
         android:paddingRight="15dp"
         android:visibility="visible">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/af_shoppng_cart_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,15 +50,15 @@
             android:layout_marginLeft="10dp"
             android:paddingRight="@dimen/network_margin_left_right"
             android:visibility="visible" />
-
-        <com.philips.cdp.uikit.customviews.BadgeView
+-->
+        <!--<com.philips.cdp.uikit.customviews.BadgeView
             android:id="@+id/af_cart_count_view"
             style="@style/NotificationLabel.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|left"
             android:layout_marginBottom="15dp"
-            android:visibility="visible" />
+            android:visibility="visible" />-->
     </FrameLayout>
 
     <View
