@@ -12,6 +12,12 @@
         <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel85</item>
         <item name="uitControlPrimaryAltDisabledAlpha">@dimen/uit_alpha_per_35</item>
 
+        <item name="uitControlPrimaryTrackOff">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitControlPrimaryTrackOffAlpha">@dimen/uit_alpha_per_15</item>
+        <item name="uitControlPrimaryBuffer">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitControlPrimaryBufferAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uitControlPrimaryDisabled">?attr/uitControlPrimaryEnabledColor</item>
+
         <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
         <item name="uitQuietButtonDisabledAlpha">@dimen/uit_alpha_per_35</item>

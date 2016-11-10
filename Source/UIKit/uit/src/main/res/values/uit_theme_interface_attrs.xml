@@ -73,4 +73,11 @@
         <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
         <attr name="uidSwitchBorderColorList" format="reference|color"/>
     </declare-styleable>
+    <declare-styleable name="UITProgressBar">
+        <attr name="uitControlPrimaryTrackOff" format="reference|color"/>
+        <attr name="uitControlPrimaryBuffer" format="reference|color"/>
+        <attr name="uitControlPrimaryDisabled" format="reference|color"/>
+        <attr name="uitControlPrimaryTrackOffAlpha" format="reference|float"/>
+        <attr name="uitControlPrimaryBufferAlpha" format="reference|float"/>
+    </declare-styleable>
 </resources>
