@@ -65,7 +65,7 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener, CompoundButton.OnCheckedChangeListener {
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -110,7 +110,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mConsentSwitch.setOnCheckedChangeListener(this);
         mTvSetCosents=(TextView)view.findViewById(R.id.tv_set_consents);
         mTvSetCosents.setOnClickListener(this);
         return view;
@@ -245,22 +244,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 }
             }
         });
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        switch (buttonView.getId()) {
-            case R.id.switch_consents:
-
-                if (isChecked) {
-                    Log.d(TAG, "Switch is currently ON");
-                } else {
-                    Log.d(TAG, "Switch is currently OFF");
-                }
-
-                break;
-        }
     }
 
     @Override
