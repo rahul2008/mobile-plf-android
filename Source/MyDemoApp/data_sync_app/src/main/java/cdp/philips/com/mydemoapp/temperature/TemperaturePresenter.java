@@ -288,17 +288,4 @@ public class TemperaturePresenter {
         dialog.show();
     }
 
-
-    public void updateConsentDetails(Consent consent) {
-         ConsentHelper consentHelper = new ConsentHelper(mDataServices);
-         mDataServices.save(consent);
-    }
-
-    public void fetchConsent() {
-        mDataServices.fetchConsent();
-    }
-
-    public void fetchBackendConsent() {
-        mDataServices.fetchBackendConsent();
-    }
 }

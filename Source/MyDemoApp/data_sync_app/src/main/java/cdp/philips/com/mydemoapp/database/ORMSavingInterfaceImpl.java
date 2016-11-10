@@ -13,6 +13,7 @@ import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
@@ -21,7 +22,7 @@ import cdp.philips.com.mydemoapp.listener.EventHelper;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ORMSavingInterfaceImpl implements DBSavingInterface{
+public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     private static final String TAG = ORMSavingInterfaceImpl.class.getSimpleName();
     private final OrmSaving saving;
@@ -62,7 +63,8 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            deleteConsentAndSetIdIfConsentExists(ormConsent);
+            //deleteConsentAndSetIdIfConsentExists(ormConsent);
+            ormConsent=getModifiedConsent(ormConsent);
             saving.saveConsent(ormConsent);
             notifyAllSuccess(ormConsent);
             return true;
@@ -92,10 +94,37 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
         }
     }
 
+    private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+
+            for (OrmConsentDetail ormConsentDetail : ormConsent.getConsentDetails()) {
+
+                for (OrmConsentDetail ormConsentDetailInDB : consentInDatabase.getConsentDetails()) {
+
+                     if(ormConsentDetail.getType()==ormConsentDetailInDB.getType()){
+
+                         if( ormConsentDetail.getBackEndSynchronized() && !ormConsentDetailInDB.getBackEndSynchronized()){
+                             ormConsentDetail.setStatus(ormConsentDetailInDB.getStatus());
+                             ormConsentDetail.setBackEndSynchronized(false);
+                         }
+                     }
+                }
+
+            }
+
+            deleting.deleteConsent(consentInDatabase);
+            ormConsent.setId(id);
+        }
+        return ormConsent;
+    }
+
     private void notifyAllSuccess(Object ormMoments) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
+        if (integers.contains(EventHelper.MOMENT)) {
             ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onSuccess(ormMoments);
@@ -106,7 +135,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
     private void notifyAllSuccess(Consent ormConsent) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.CONSENT)){
+        if (integers.contains(EventHelper.CONSENT)) {
             ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onSuccess(ormConsent);
@@ -117,7 +146,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
     private void notifyAllFailure(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
+        if (integers.contains(EventHelper.MOMENT)) {
             ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onFailure(e);
