@@ -11,6 +11,7 @@ import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.ConsentDetailType;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,15 +29,13 @@ import cdp.philips.com.mydemoapp.temperature.TemperaturePresenter;
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     final ArrayList<? extends ConsentDetail> consentDetails;
-    private final TemperaturePresenter mPresenter;
     private Consent mConsent;
     private LinkedHashMap<ConsentDetailType, ConsentDetailStatusType> mConsentMap;
 
-    public ConsentDialogAdapter(final Context context, OrmConsent ormConsent, TemperaturePresenter mPresenter) {
+    public ConsentDialogAdapter(final Context context, OrmConsent ormConsent) {
         mContext = context;
         mConsent = ormConsent;
         this.consentDetails = new ArrayList(ormConsent.getConsentDetails());
-        this.mPresenter = mPresenter;
         mConsentMap = new LinkedHashMap<>();
     }
 
@@ -88,7 +87,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void updateConsentDetails() {
-        mPresenter.updateConsentDetails(mConsent);
+        updateConsentDetails(mConsent);
     }
 
 
@@ -101,5 +100,8 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public void updateConsentDetails(Consent consent) {
+        DataServicesManager.getInstance().save(consent);
+    }
 
 }

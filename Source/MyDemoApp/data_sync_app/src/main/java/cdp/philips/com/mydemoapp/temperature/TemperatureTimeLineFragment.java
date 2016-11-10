@@ -192,11 +192,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD,null);
                 break;
             case R.id.tv_set_consents:
-                //mTemperaturePresenter.showConsentSettingsDialog(fetching);
-
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                // Show DialogFragment
                 dFragment.show(getFragmentManager(),"Dialog");
+                EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
                 break;
         }
     }

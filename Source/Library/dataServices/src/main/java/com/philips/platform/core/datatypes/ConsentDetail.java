@@ -21,4 +21,5 @@ public interface ConsentDetail extends BaseAppData, Serializable {
     String getDeviceIdentificationNumber();
 
     void setBackEndSynchronized(boolean b);
+    boolean getBackEndSynchronized();
 }
