@@ -4,8 +4,8 @@
     <style name="UIDAlertDialogStyle" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:textColorPrimary">?attr/uitDialogTitleTextColor</item>
         <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
-        <item name="android:windowMinWidthMajor">60%</item>
-        <item name="android:windowMinWidthMinor">60%</item>
+        <item name="android:windowMinWidthMajor">0%</item>
+        <item name="android:windowMinWidthMinor">0%</item>
         <item name="android:windowBackground">@drawable/uid_alert_bg</item>
         <item name="android:backgroundDimAmount">@dimen/uit_alpha_per_80</item>
         <item name="android:windowIsTranslucent">true</item>
