@@ -3,12 +3,12 @@
     <style name="Philips.ProgressBar.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minWidth">@dimen/uit_progress_bar_min_width</item>
+        <item name="android:minWidth">@dimen/uid_progress_bar_min_width</item>
     </style>
 
     <style name="Philips.ProgressBar.Horizontal.WithMargins" parent="Philips.ProgressBar.Horizontal">
-        <item name="android:layout_marginLeft">@dimen/uit_progress_bar_margin_left</item>
-        <item name="android:layout_marginRight">@dimen/uit_progress_bar_margin_right</item>
+        <item name="android:layout_marginLeft">@dimen/uid_progress_bar_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/uid_progress_bar_margin_right</item>
     </style>
 
     <declare-styleable name="UIKitProgressBar">

@@ -5,10 +5,12 @@
 package com.philips.platform.uit.view.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 
 import com.philips.platform.uit.R;
@@ -40,72 +42,44 @@ public class ProgressBar extends android.widget.ProgressBar {
     }
 
     private void init() {
-        setBackgroundColor();
+        LayerDrawable progressBar = initSecondaryProgressBarDrawable();
+
+        Drawable background = progressBar.findDrawableByLayerId(android.R.id.background);
+        Drawable progress = progressBar.findDrawableByLayerId(android.R.id.progress);
+        Drawable secondaryProgress = progressBar.findDrawableByLayerId(android.R.id.secondaryProgress);
+
+        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uit_progress_bar_background_selector);
+        final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uit_progress_bar_progress_selector);
+        final Drawable secondaryProgressDrawable = setTintOnDrawable(secondaryProgress, R.color.uit_progress_bar_secondary_progress_selector);
+
+        LayerDrawable layer = new LayerDrawable(new Drawable[]{background, secondaryProgress, progressDrawable});
+        layer.setId(0, android.R.id.background);
+        layer.setId(1, android.R.id.secondaryProgress);
+        layer.setId(2, android.R.id.progress);
+
+        setProgressDrawable(layer);
+        setBackground(backgroundDrawable);
+
+        setProgress(50);
 
         if (isSecondaryProgressBarEnabled) {
-            setProgressDrawable(initSecondaryProgressDrawable());
             setSecondaryProgress(70);
         } else if (isIndeterminate()) {
-            setIndeterminateDrawable(initIndeterminateProgressDrawable());
-        } else {
-            setProgressDrawable(initProgressDrawable());
+            setIndeterminateDrawable(progressDrawable);
         }
-        setProgress(50);
     }
 
-    private LayerDrawable initProgressDrawable() {
-        LayerDrawable progressBar = (LayerDrawable) getResources().getDrawable(R.drawable.uit_progress_bar);
-        progressBar.getConstantState().newDrawable().mutate();
-
-        setProgressColor();
-
-        return progressBar;
-    }
-
-    private LayerDrawable initIndeterminateProgressDrawable() {
-        LayerDrawable progressBar = (LayerDrawable) getResources().getDrawable(R.drawable.uit_progress_bar);
-        progressBar.getConstantState().newDrawable().mutate();
-
-        setIndeterminateProgressColor();
-
-        return progressBar;
-    }
-
-    private LayerDrawable initSecondaryProgressDrawable() {
+    private LayerDrawable initSecondaryProgressBarDrawable() {
         LayerDrawable secondaryProgressbar = (LayerDrawable) getResources().getDrawable(R.drawable.uit_secondary_progress_bar);
         secondaryProgressbar.getConstantState().newDrawable().mutate();
-
-        setProgressColor();
-        setSecondaryProgressColor();
 
         return secondaryProgressbar;
     }
 
-    private void setBackgroundColor() {
-        int backgroundTint = R.color.uit_progress_bar_background_selector;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setBackgroundTintList(ThemeUtils.buildColorStateList(getResources(), theme, backgroundTint));
-        }
-    }
-
-    private void setProgressColor() {
-        int progressTint = R.color.uit_progress_bar_progress_selector;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setProgressTintList(ThemeUtils.buildColorStateList(getResources(), theme, progressTint));
-        }
-    }
-
-    private void setIndeterminateProgressColor() {
-        int progressTint = R.color.uit_progress_bar_progress_selector;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setIndeterminateTintList(ThemeUtils.buildColorStateList(getResources(), theme, progressTint));
-        }
-    }
-
-    private void setSecondaryProgressColor() {
-        int secondaryProgressTint = R.color.uit_progress_bar_secondary_progress_selector;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setSecondaryProgressTintList(ThemeUtils.buildColorStateList(getResources(), theme, secondaryProgressTint));
-        }
+    private Drawable setTintOnDrawable(Drawable drawable, int tintId) {
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(getResources(), theme, tintId);
+        Drawable compatDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(compatDrawable, colorStateList);
+        return compatDrawable;
     }
 }
