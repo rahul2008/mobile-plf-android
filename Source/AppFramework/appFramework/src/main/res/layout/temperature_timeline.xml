@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp">
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true">
+
+    <ImageView
+        android:id="@+id/dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="@dimen/pop_up_image_margin_top"
+        android:layout_marginEnd="@dimen/pop_up_image_margin_top"
+        android:layout_marginStart="@dimen/pop_up_dots_margin_left"
+        android:layout_marginTop="@dimen/pop_up_image_margin_top" />
+</FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/temperature_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_toLeftOf="@id/frame"
+    >
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:text="Temperature"
+        style="@style/centralesansBoldFont"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/time_line_data"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="default"
+        android:gravity="left|bottom"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="14sp"
+        style="@style/centralesansBookFont"
+        android:layout_toRightOf="@id/temperature"
+    />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/phase_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/temperature_container"
+        android:orientation="horizontal"
+        android:layout_toLeftOf="@id/frame"
+    >
+    <TextView
+        android:id="@+id/phase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Phase"
+        android:textSize="16sp"
+        style="@style/centralesansBoldFont"
+        android:textColor="?attr/uikit_baseColor"
+    />
+
+    <TextView
+        android:id="@+id/phasedata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/phase"
+        android:layout_weight="1"
+        android:text="Phase"
+        android:textSize="14sp"
+        android:textColor="?attr/uikit_baseColor"
+        style="@style/centralesansBookFont"
+    />
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/location_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phase_container"
+        android:orientation="horizontal"
+        android:layout_toLeftOf="@id/frame"
+    >
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="16sp"
+        android:text="Location"
+        style="@style/centralesansBoldFont"
+    />
+
+    <TextView
+        android:id="@+id/location_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/location"
+        android:text="Location"
+        android:textSize="14sp"
+        android:textColor="?attr/uikit_baseColor"
+        android:layout_weight="1"
+        style="@style/centralesansBookFont"
+    />
+</LinearLayout>
+
+    <TextView
+        android:id="@+id/is_synced"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/uikit_enricher_red"
+        android:visibility="gone"
+        android:text="@string/synced"
+        android:layout_below="@id/location_container"
+        android:layout_alignParentEnd="true"
+    />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/is_synced"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/uikit_listDividerColor" />
+
+</RelativeLayout>

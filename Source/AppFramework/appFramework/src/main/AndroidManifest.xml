@@ -51,6 +51,18 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyABLxPKwgjrCBnnLvP55yAYnhpAHZmhLvY" />
 
+        <receiver android:name="com.philips.platform.datasevices.reciever.BaseAppBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="ACTION_USER_DATA_FETCH"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
