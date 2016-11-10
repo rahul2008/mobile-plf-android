@@ -13,16 +13,20 @@ import android.util.Log;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
+import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -107,7 +111,7 @@ public class DataPullSynchronise {
             Log.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             Log.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.postSticky(new GetNonSynchronizedMomentsRequest());
+            eventing.postSticky(new GetNonSynchronizedDataRequest(referenceId));
         }
     }
 
@@ -170,23 +174,27 @@ public class DataPullSynchronise {
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments) {
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Object> nonSynchronizedMoments) {
         Log.i("**SPO**","In Data Pull Synchronize fetchData");
         initFetch();
         for(DataFetcher fetcher:fetchers){
-            if(fetcher instanceof MomentsDataFetcher){
-                startFetching(lastSyncDateTime, referenceId, fetcher);
-            }else{
-                startFetching(lastSyncDateTime, referenceId, fetcher);
+            if ((fetcher instanceof MomentsDataFetcher || fetcher instanceof ConsentsDataFetcher && nonSynchronizedMoments != null && !nonSynchronizedMoments.isEmpty())) {
+                numberOfRunningFetches.decrementAndGet();
+                continue;
             }
+            startFetching(lastSyncDateTime, referenceId, fetcher);
         }
 
     }
 
-    public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
+    public void onEventAsync(GetNonSynchronizedDataResponse response) {
         Log.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
-        final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments);
+        final Map<Class, List<?>> nonSynchronizedMoments = response.getDataToSync();
+        for (Map.Entry<Class, List<?>> entry : nonSynchronizedMoments.entrySet())
+        {
+            fetchData(lastSyncDateTime, referenceId, entry.getValue());
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+        }
        // unRegisterEvent();
     }
 }

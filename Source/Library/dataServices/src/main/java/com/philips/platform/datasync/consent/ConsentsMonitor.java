@@ -1,6 +1,7 @@
 package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 
 import com.philips.platform.core.datatypes.Consent;
@@ -81,12 +82,14 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     private void getConsent(ConsentBackendGetRequest event) {
+        Log.i("***SPO***","Get Consent called");
         if (isUserInvalid()) {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
+        Log.i("***SPO***","Get Consent called before ConsentsClient");
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, accessProvider.getAccessToken(), gsonConverter);
-
+        Log.i("***SPO***","Get Consent called After ConsentsClient");
         try {
             List<UCoreConsentDetail> consentDetailList = client.getConsent(accessProvider.getUserId(), ConsentDetailType.getDescriptionAsList(),
                     consentsConverter.getDeviceIdentificationNumberList(), consentsConverter.getDocumentVersionList());
@@ -96,7 +99,7 @@ public class ConsentsMonitor extends EventMonitor {
                     consentDetail.setBackEndSynchronized(true);
                 }
                 consent.setBackEndSynchronized(true);
-
+                Log.i("***SPO***","Get Consent called After ConsentsClient before sending consents response");
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
             } else {
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));

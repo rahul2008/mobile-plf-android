@@ -249,6 +249,20 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         return dataToSync;
     }
 
+    @Override
+    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        List<? extends Consent> consentList = fetchNonSynchronizedConsents();
+        dataToSync.put(Consent.class, consentList);
+        return dataToSync;
+    }
+
+    public List<OrmConsent> fetchNonSynchronizedConsents() throws SQLException {
+        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
+        consentQueryBuilder.where().eq("beSynchronized", false);
+
+        return consentQueryBuilder.query();
+    }
+
     public OrmConsent fetchConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         consentQueryBuilder.where().eq("creatorId", creatorId);
