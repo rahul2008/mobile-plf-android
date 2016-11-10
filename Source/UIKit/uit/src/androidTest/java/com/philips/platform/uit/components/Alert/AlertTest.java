@@ -126,14 +126,14 @@ public class AlertTest {
 
     @Test
     public void verifyAlertContentTextLeading() {
-        int expectedTextLeading = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontentText_height));
-        getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextHeight(expectedTextLeading)));
+        int expectedTextLeading = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontenttext_linespacing));
+        getAlertContent().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(expectedTextLeading)));
     }
 
     @Test
     public void verifyAlertTitleTextLeading() {
-        int expectedTextLeading = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertTitleText_height));
-        getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextHeight(expectedTextLeading)));
+        int expectedTextLeading = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitletext_linespacing));
+        getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(expectedTextLeading)));
     }
 
     @Test

@@ -54,13 +54,13 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameTextHeight(final float expectedValue) {
+    public static Matcher<View> isSameLineSpacing(final float expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    setValues(String.valueOf(((TextView) view).getLineHeight()), String.valueOf(expectedValue));
-                    return ((TextView) view).getLineHeight() == expectedValue;
+                    setValues(String.valueOf(((TextView) view).getLineSpacingExtra()), String.valueOf(expectedValue));
+                    return ((TextView) view).getLineSpacingExtra() == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
