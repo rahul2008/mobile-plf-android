@@ -4,8 +4,10 @@
  */
 package com.philips.platform.uit.utils;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.graphics.ColorUtils;
 
 import java.lang.reflect.Method;
 
@@ -25,5 +27,10 @@ public class UIDUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static int modulateColorAlpha(int color, float alphaMod) {
+        return ColorUtils.setAlphaComponent(color, Math.round(Color.alpha(color) * alphaMod));
     }
 }
