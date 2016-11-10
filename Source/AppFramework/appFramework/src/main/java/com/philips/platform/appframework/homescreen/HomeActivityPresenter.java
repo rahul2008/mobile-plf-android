@@ -89,6 +89,7 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiState = new IAPState();
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
+               iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 uiState.setUiStateData(iapStateData);
                 break;
@@ -111,13 +112,13 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 uiState.setUiStateData(debugStateData);
                 break;
-            case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
+            /*case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 uiState = new IAPState();
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
                 uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
                 uiState.setUiStateData(uiStateDataModel);
-                break;
+                break;*/
             case MENU_OPTION_DATA_SYNC:
                 uiState = new DataSyncScreenState();
                 UIStateData syncStateData = new UIStateData();

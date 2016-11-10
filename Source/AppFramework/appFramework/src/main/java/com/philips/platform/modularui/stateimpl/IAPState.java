@@ -36,8 +36,8 @@ public class IAPState extends UIState{
      IAP flow constants, values for IAP views should start from 4000 series
      */
     public static final int IAP_CATALOG_VIEW = 4001;
-    public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
-    public static final int IAP_SHOPPING_CART_VIEW = 4003;
+   // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
+ //   public static final int IAP_SHOPPING_CART_VIEW = 4003;
 
     public IAPState() {
         super(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
@@ -58,8 +58,8 @@ public class IAPState extends UIState{
     private int getIAPFlowType(int iapFlowType){
         switch (iapFlowType){
             case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-            case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
-            case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
+           // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
+          //  case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
             default:return IAPState.IAP_CATALOG_VIEW;
         }
     }
@@ -68,7 +68,7 @@ public class IAPState extends UIState{
         IAPFlowInput iapFlowInput = new IAPFlowInput(((InAppStateData)getUiStateData()).getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getIAPFlowType(((InAppStateData)getUiStateData()).getIapFlow()), iapFlowInput);
-        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
+         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
@@ -84,7 +84,7 @@ public class IAPState extends UIState{
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
-        iapSettings.setUseLocalData(false);
+        iapSettings.setUseLocalData(true);
         iapInterface.init(iapDependencies, iapSettings);
 
     }

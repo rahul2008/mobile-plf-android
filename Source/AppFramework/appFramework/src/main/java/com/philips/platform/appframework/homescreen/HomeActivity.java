@@ -63,12 +63,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     private ImageView footerView;
     private HamburgerAdapter adapter;
     private ImageView hamburgerIcon;
-    private FrameLayout hamburgerClick = null,shoppingCartLayout;
+    private FrameLayout hamburgerClick = null;//shoppingCartLayout;
     private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
-    private ImageView cartIcon;
+   /* private ImageView cartIcon;
     private TextView cartCount;
-    private boolean isCartVisible = true;
+    private boolean isCartVisible = true;*/
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -146,7 +146,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
+     View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
         hamburgerIcon = (ImageView) mCustomView.findViewById(R.id.af_hamburger_imageview);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.af_hamburger_frame_layout);
@@ -158,7 +158,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         });
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
         setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
-        cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
+       /* cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
         cartIcon.setBackground(mCartIconDrawable);
@@ -170,7 +170,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
-        cartCount.setVisibility(View.GONE);
+        cartCount.setVisibility(View.GONE);*/
         actionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
@@ -251,20 +251,20 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     }
 
 
-    private void addIapCartCount() {
+   /* private void addIapCartCount() {
         try {
 
             IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
             iapInterface.getProductCartCount(this);
         }catch (RuntimeException e){
         }
-    }
+    }*/
     @Override
     protected void onResume() {
         super.onResume();
         userRegistrationState = new UserRegistrationState();
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
-            addIapCartCount();
+           // addIapCartCount();
         }
 
     }
@@ -317,7 +317,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         }
     }
 
-    public void cartIconVisibility(boolean shouldShow) {
+    /*public void cartIconVisibility(boolean shouldShow) {
         if(shouldShow){
             cartIcon.setVisibility(View.VISIBLE);
             int cartItemsCount = getCartItemCount();
@@ -331,25 +331,25 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                 cartIcon.setVisibility(View.GONE);
                 cartCount.setVisibility(View.GONE);
         }
-    }
+    }*/
     @Override
     public void onGetCartCount(int cartCount) {
-        setCartItemCount(cartCount);
+        /*setCartItemCount(cartCount);
         if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
             cartIconVisibility(true);
-        }
+        }*/
     }
 
     @Override
     public void onUpdateCartCount() {
-        if(userRegistrationState.getUserObject(this).isUserSignIn()){
+        /*if(userRegistrationState.getUserObject(this).isUserSignIn()){
             addIapCartCount();
-        }
+        }*/
     }
 
     @Override
     public void updateCartIconVisibility(boolean shouldShow) {
-        isCartVisible = shouldShow;
+      //  isCartVisible = shouldShow;
     }
 
     @Override
@@ -364,10 +364,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
 
     @Override
     public void onFailure(int i) {
-        showToast(i);
+     //   showToast(i);
     }
 
-    private void showToast(int errorCode) {
+    /*private void showToast(int errorCode) {
         String errorText = getResources().getString(R.string.af_iap_server_error);
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = getResources().getString(R.string.af_iap_no_connection);
@@ -381,10 +381,10 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
         Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
-    }
+    }*/
     @Override
     public void onBackStackChanged() {
-        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        /*if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();
             if(null != str){
@@ -396,7 +396,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                     cartIconVisibility(true);
                 }
             }
-        }
+        }*/
     }
 
     @Override
