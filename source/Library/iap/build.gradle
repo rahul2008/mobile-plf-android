@@ -85,7 +85,7 @@ objcdp.setProjectDir(projectDir)
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "23.0.3"
     lintOptions {
         abortOnError false
     }
