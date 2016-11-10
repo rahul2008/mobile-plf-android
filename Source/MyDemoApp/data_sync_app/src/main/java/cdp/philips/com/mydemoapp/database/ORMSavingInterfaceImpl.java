@@ -63,14 +63,30 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            //deleteConsentAndSetIdIfConsentExists(ormConsent);
+            deleteConsentAndSetIdIfConsentExists(ormConsent);
+            saving.saveConsent(ormConsent);
+            notifyAllSuccess(ormConsent);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            notifyFailConsent(e);
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean saveBackEndConsent(Consent consent) throws SQLException {
+        OrmConsent ormConsent = null;
+        try {
+            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             ormConsent=getModifiedConsent(ormConsent);
             saving.saveConsent(ormConsent);
             notifyAllSuccess(ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
-            notifyAllFailure(e);
+            notifyFailConsent(e);
             return false;
         }
 
@@ -106,8 +122,9 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
                      if(ormConsentDetail.getType()==ormConsentDetailInDB.getType()){
 
-                         if( ormConsentDetail.getBackEndSynchronized() && !ormConsentDetailInDB.getBackEndSynchronized()){
+                         if( !ormConsentDetailInDB.getBackEndSynchronized()){
                              ormConsentDetail.setStatus(ormConsentDetailInDB.getStatus());
+                             Log.d("dirty","dirty match");
                              ormConsentDetail.setBackEndSynchronized(false);
                          }
                      }
@@ -142,6 +159,18 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             }
         }
     }
+
+    private void notifyFailConsent(Exception e) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onFailure(e);
+            }
+        }
+    }
+
 
     private void notifyAllFailure(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();

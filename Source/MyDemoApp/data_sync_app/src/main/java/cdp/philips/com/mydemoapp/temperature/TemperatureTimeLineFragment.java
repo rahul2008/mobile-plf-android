@@ -199,7 +199,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
                 dFragment.show(getFragmentManager(),"Dialog");
-                //EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
                 break;
         }
     }

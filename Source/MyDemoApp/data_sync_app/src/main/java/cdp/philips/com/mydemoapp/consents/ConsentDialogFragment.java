@@ -69,7 +69,15 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     @Override
     public void onSuccess(ArrayList<? extends Object> data) {
-        dismissProgressBar();
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dismissProgressBar();
+            }
+        });
+
+
       if(data==null){
           showProgressBar();
           createDefaultConsent();
@@ -78,7 +86,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     @Override
     public void onSuccess(Object data) {
-        dismissProgressBar();
+
         final OrmConsent ormConsent = (OrmConsent) data;
         if(ormConsent!=null){
             getActivity().runOnUiThread(new Runnable() {
@@ -88,6 +96,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
                     mRecyclerView.setAdapter(lConsentAdapter);
                     lConsentAdapter.notifyDataSetChanged();
                     mBtnOk.setEnabled(true);
+                    dismissProgressBar();
                 }
             });
         }
@@ -96,7 +105,15 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     @Override
     public void onFailure(Exception exception) {
-     dismissProgressBar();
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                dismissProgressBar();
+            }
+        });
+
     }
 
     @Override

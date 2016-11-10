@@ -76,32 +76,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
         notifySucessConsentChange(ormConsents);
-       /* QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
-        ArrayList<OrmConsentDetail> ormConsentDetails =(ArrayList<OrmConsentDetail>)consentDetailsDao.query(queryBuilder.prepare());
-        notifySucessConsentDetailsChange(ormConsentDetails);*/
     }
-
-    @Override
-    public List<?> fetchConsentsToSync() throws SQLException {
-        QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
-        ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
-        return ormConsents;
-    }
-
-    @Override
-    public List<OrmConsentDetail> fetchConsentDetails() throws SQLException {
-        QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
-        List<OrmConsentDetail> ormConsentDetails =consentDetailsDao.query(queryBuilder.prepare());
-        return ormConsentDetails;
-    }
-
-    @Override
-    public List<OrmConsentDetailType> fetchConsentDetailTypes() throws SQLException {
-        QueryBuilder<OrmConsentDetailType, Integer> queryBuilder = consentDetailTypeDao.queryBuilder();
-        List<OrmConsentDetailType> ormConsentDetailTypes =consentDetailTypeDao.query(queryBuilder.prepare());
-        return ormConsentDetailTypes;
-    }
-
 
     @Override
     public void fetchMoments(@NonNull final MomentType type) throws SQLException {
