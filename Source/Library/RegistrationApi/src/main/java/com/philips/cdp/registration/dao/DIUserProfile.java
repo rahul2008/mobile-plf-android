@@ -8,7 +8,10 @@
 
 package com.philips.cdp.registration.dao;
 
+import com.philips.cdp.registration.ui.utils.Gender;
+
 import java.io.Serializable;
+import java.util.Date;
 
 public class DIUserProfile implements Serializable {
     //Warning : Don't alter this file which cause the security migration issues
@@ -53,6 +56,41 @@ public class DIUserProfile implements Serializable {
     private String hsdpAccessToken;
 
     /**
+     * Get Birth date
+     * @return Date
+     */
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    /**
+     *  Set date of birth
+     * @param dateOfBirth Date of birth
+     */
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    /**
+     *
+     * @return Get
+     */
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    /* Gender */
+    private Gender gender;
+
+    /* Date of birth */
+    private Date dateOfBirth;
+
+
+    /**
      * Class constructor
      */
     public DIUserProfile() {
@@ -60,6 +98,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get email
+     *
      * @return email address
      */
     public String getEmail() {
@@ -68,6 +107,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set email
+     *
      * @param email email address
      */
     public void setEmail(String email) {
@@ -94,6 +134,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get password
+     *
      * @return password
      */
     public String getPassword() {
@@ -102,6 +143,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set password
+     *
      * @param password password
      */
     public void setPassword(String password) {
@@ -110,6 +152,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get name
+     *
      * @return name
      */
     public String getGivenName() {
@@ -118,7 +161,8 @@ public class DIUserProfile implements Serializable {
 
     /**
      * Set given name
-     * @param givenName  given name
+     *
+     * @param givenName given name
      */
     public void setGivenName(String givenName) {
         this.givenName = givenName;
@@ -126,6 +170,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * Validation  result older than age limit
+     *
      * @return true if user is older than age limit else false
      */
     public boolean getOlderThanAgeLimit() {
@@ -134,7 +179,8 @@ public class DIUserProfile implements Serializable {
 
     /**
      * Validate older than age limit
-     * @param isOlderThanAgeLimit  to validate the age limit
+     *
+     * @param isOlderThanAgeLimit to validate the age limit
      */
     public void setOlderThanAgeLimit(boolean isOlderThanAgeLimit) {
         this.isOlderThanAgeLimit = isOlderThanAgeLimit;
@@ -142,6 +188,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get receive market email
+     *
      * @return true if marketing email available else false
      */
     public boolean getReceiveMarketingEmail() {
@@ -150,6 +197,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set receive market email
+     *
      * @param isReceiveMarketingEmail receive market email
      */
     public void setReceiveMarketingEmail(boolean isReceiveMarketingEmail) {
@@ -158,6 +206,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get display name
+     *
      * @return display name
      */
     public String getDisplayName() {
@@ -166,6 +215,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set display name
+     *
      * @param displayName display name
      */
     public void setDisplayName(String displayName) {
@@ -174,7 +224,8 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get famil name
-     * @return  family name
+     *
+     * @return family name
      */
     public String getFamilyName() {
         return familyName;
@@ -182,6 +233,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set family name
+     *
      * @param mFamilyName family name
      */
     public void setFamilyName(String mFamilyName) {
@@ -190,6 +242,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get janrain uuid
+     *
      * @return janrain uuid
      */
     public String getJanrainUUID() {
@@ -198,6 +251,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set janrain uuid
+     *
      * @param janrainUUID janrain uuid
      */
     public void setJanrainUUID(String janrainUUID) {
@@ -206,6 +260,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get hsdp uuid
+     *
      * @return hsdpUUID hsdp uuid
      */
     public String getHsdpUUID() {
@@ -214,6 +269,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * set hsdp uuid
+     *
      * @param hsdpUUID hsdp uuid
      */
     public void setHsdpUUID(String hsdpUUID) {
@@ -222,6 +278,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * get hspd access token
+     *
      * @return hsdpAccessToken hsdp access token
      */
     public String getHsdpAccessToken() {
@@ -229,7 +286,8 @@ public class DIUserProfile implements Serializable {
     }
 
     /**
-     *  Set hsdp access token
+     * Set hsdp access token
+     *
      * @param hsdpAccessToken hsdp access token
      */
     public void setHsdpAccessToken(String hsdpAccessToken) {
@@ -238,6 +296,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * {@code getLanguageCode} method to get language code
+     *
      * @return language code of the user
      */
     public String getLanguageCode() {
@@ -246,6 +305,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * {@code setLanguageCode} method to set language code
+     *
      * @param languageCode language code of the user
      */
     public void setLanguageCode(String languageCode) {
@@ -254,6 +314,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * {@code getCountryCode} method to get country code
+     *
      * @return country code of the user
      */
     public String getCountryCode() {
@@ -262,6 +323,7 @@ public class DIUserProfile implements Serializable {
 
     /**
      * {@code setCountryCode} method to set country code
+     *
      * @param countryCode country code of the user
      */
     public void setCountryCode(String countryCode) {

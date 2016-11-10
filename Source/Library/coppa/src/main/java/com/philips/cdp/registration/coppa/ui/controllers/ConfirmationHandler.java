@@ -24,7 +24,6 @@ import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragment;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
-import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -67,9 +66,9 @@ public class ConfirmationHandler implements RefreshUserHandler {
                                 mUser.refreshUser(new RefreshUserHandler() {
                                     @Override
                                     public void onRefreshUserSuccess() {
-                                        if ( RegistrationCoppaHelper.getInstance().
+                                        if ( mParentalConsentFragment.getRegistrationFragment().
                                                 getUserRegistrationUIEventListener() != null) {
-                                            RegistrationCoppaHelper.getInstance().
+                                            mParentalConsentFragment.getRegistrationFragment().
                                                     getUserRegistrationUIEventListener().
                                                     onUserRegistrationComplete(
                                                             mParentalConsentFragment.getActivity());
@@ -126,9 +125,9 @@ public class ConfirmationHandler implements RefreshUserHandler {
                             public void onSuccess() {
                                 mParentalConsentFragment.hideRefreshProgress();
                                 mCoppaExtension.buildConfiguration();
-                                if ( RegistrationCoppaHelper.getInstance().
+                                if (  mParentalConsentFragment.getRegistrationFragment().
                                         getUserRegistrationUIEventListener() != null) {
-                                    RegistrationCoppaHelper.getInstance().
+                                    mParentalConsentFragment.getRegistrationFragment().
                                             getUserRegistrationUIEventListener().
                                             onUserRegistrationComplete(
                                                     mParentalConsentFragment.getActivity());
@@ -182,9 +181,9 @@ public class ConfirmationHandler implements RefreshUserHandler {
             //show thank you and 24 hour screen
             addParentalConsentFragment(coppaStatus);
         } else {
-            if ( RegistrationCoppaHelper.getInstance().
+            if ( mParentalConsentFragment.getRegistrationFragment().
                     getUserRegistrationUIEventListener() != null) {
-                RegistrationCoppaHelper.getInstance().
+                mParentalConsentFragment.getRegistrationFragment().
                         getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(
                                 mParentalConsentFragment.getActivity());

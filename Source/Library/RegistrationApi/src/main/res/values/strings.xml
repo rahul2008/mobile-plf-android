@@ -160,6 +160,7 @@
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="LegalNoticeForPrivacy">Please read our %s</string>
 
+
     <!--China flow-->
     <string name="PhoneNumberPlaceHolder_txtField">Enter your phonenumber</string>
     <string name="InvalidPhoneNumber_ErrorMsg">Invalid Phone Number</string>
@@ -199,5 +200,17 @@
     <string name="Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
     <string name="reg_merge_validate_password_mismatch_errortxt">The password is incorrect</string>
 
+
+
+    <!--New add for Marketing -->
+
+    <string name="Opt_In_No_Thanks">No thanks</string>
+    <string name="Opt_In_Count_Me_In">Ok, count me in</string>
+    <string name="Opt_In_Join_Now">Join now </string>
+    <string name="Opt_In_Over_Peers">over 140,000 of your peers!</string>
+    <string name="Opt_In_Be_The_First">Be the first to know!</string>
+    <string name="Opt_In_What_Are_You_Going_To_Get">What are you going to get?</string>
+    <string name="Opt_In_Special_Offers">Special offers, promotions and first hand information about new product releases. Tailored for you!</string>
+    <string name="Opt_In_Receive_Promotional">Receive promotional communications of Philips based on my preferences and online behavior\n%s</string>
 
 </resources>

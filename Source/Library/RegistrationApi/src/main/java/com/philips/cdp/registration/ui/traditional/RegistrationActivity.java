@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -52,6 +53,18 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             AppTagging.collectLifecycleData(RegistrationActivity.this);
         }
     };
+
+    public static UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationUIEventListener;
+    }
+
+    public static void setUserRegistrationUIEventListener(
+            UserRegistrationUIEventListener userRegistrationUIEventListener) {
+        RegistrationActivity.userRegistrationUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private static UserRegistrationUIEventListener userRegistrationUIEventListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +154,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener," +
                 "Context");
+        RegistrationActivity.setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 
@@ -169,6 +183,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setAccountSettings(isAccountSettings);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this,R.id.fl_reg_fragment_container,this);
         URInterface urInterface = new URInterface();

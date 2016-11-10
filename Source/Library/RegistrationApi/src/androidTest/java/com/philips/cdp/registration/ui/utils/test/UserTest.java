@@ -337,14 +337,14 @@ public class UserTest extends InstrumentationTestCase {
             }
             catch(Exception e){}
 
-//            UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail = new UpdateReceiveMarketingEmailHandler() {
+//            UpdateUserDetailsHandler updateReceiveMarketingEmail = new UpdateUserDetailsHandler() {
 //                @Override
-//                public void onUpdateReceiveMarketingEmailSuccess() {
+//                public void onUpdateSuccess() {
 //
 //                }
 //
 //                @Override
-//                public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
+//                public void onUpdateFailedWithError(int error) {
 //
 //                }
 //            };

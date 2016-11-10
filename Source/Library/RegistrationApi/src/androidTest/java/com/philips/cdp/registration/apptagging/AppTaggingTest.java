@@ -34,13 +34,13 @@ public class AppTaggingTest extends InstrumentationTestCase{
                             setAppInfraInstance(new AppInfra.Builder().build(mContext));
                 }catch(Exception e){System.out.println(e);}
             }
-
-        AppTagging.trackPage("hello");
-        AppTagging.trackFirstPage("hello");
-        AppTagging.trackAction("hello","sample","sample");
-        Map<String,String> str = new HashMap<String, String>();
-        AppTagging.trackMultipleActions("sample",str);
-        AppTagging.pauseCollectingLifecycleData();
+//
+//        AppTagging.trackPage("hello");
+//        AppTagging.trackFirstPage("hello");
+//        AppTagging.trackAction("hello","sample","sample");
+//        Map<String,String> str = new HashMap<String, String>();
+//        AppTagging.trackMultipleActions("sample",str);
+//        AppTagging.pauseCollectingLifecycleData();
         assertNotNull(AppTagging.getCommonGoalsMap());
     }
 }

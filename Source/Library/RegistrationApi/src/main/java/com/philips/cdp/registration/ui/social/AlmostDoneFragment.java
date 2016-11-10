@@ -40,9 +40,8 @@ import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
+import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -109,7 +108,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private boolean isSavedCbAcceptTermsChecked;
 
     private boolean isTermsAndConditionVisible;
-
 
 
     @Override
@@ -189,26 +187,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private Bundle mSavedBundle;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         mSavedBundle = outState;
         super.onSaveInstanceState(mSavedBundle);
-        if(mCbAcceptTerms!=null){
-            if(mCbTerms.isChecked()){
+        if (mCbAcceptTerms != null) {
+            if (mCbTerms.isChecked()) {
                 isSavedCBTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
                 mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
-        if(mCbAcceptTerms!=null){
-            if(mCbAcceptTerms.isChecked()){
+        if (mCbAcceptTerms != null) {
+            if (mCbAcceptTerms.isChecked()) {
                 isSavedCbAcceptTermsChecked = true;
                 mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
                 mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
-        if(mRegAccptTermsError!=null){
-            if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+        if (mRegAccptTermsError != null) {
+            if (mRegAccptTermsError.getVisibility() == View.VISIBLE) {
                 isTermsAndConditionVisible = true;
                 mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
                 mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -219,14 +218,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null){
-            if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean("isSavedCBTermsChecked")) {
                 mCbTerms.setChecked(true);
             }
-            if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
+            if (savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")) {
                 mCbAcceptTerms.setChecked(true);
             }
-            if(savedInstanceState.getString("saveTermsAndConditionErrText")!=null && savedInstanceState.getBoolean("isTermsAndConditionVisible")){
+            if (savedInstanceState.getString("saveTermsAndConditionErrText") != null && savedInstanceState.getBoolean("isTermsAndConditionVisible")) {
                 mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
             }
         }
@@ -369,7 +368,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegUtility.handleTermsCondition(getRegistrationFragment().getParentActivity());
+            getRegistrationFragment().getUserRegistrationUIEventListener()
+                    .onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
         }
     };
 
@@ -388,7 +388,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
-                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                if (RegUtility.isUiFirstFlow()){
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                }else {
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                    mLlPeriodicOffersCheck.setVisibility(View.GONE);
+                    view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
+                }
             }
         } else {
             View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
@@ -417,10 +425,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (NetworkUtility.isNetworkAvailable(mContext) && mEtEmail.isValidEmail() && mEtEmail.isShown()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
-            }else if(NetworkUtility.isNetworkAvailable(mContext)){
+            } else if (NetworkUtility.isNetworkAvailable(mContext)) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
-            }else {
+            } else {
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
@@ -494,14 +502,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             User user = new User(mContext);
             String email = user.getEmail();
-            System.out.println("email *****: "+email.length());
-
-            if (email != null && !email.equalsIgnoreCase("null")) {
-                System.out.println("email **: "+email);
+            if (email != null) {
                 RegPreferenceUtility.storePreference(mContext, email, true);
-            }else {
-                RegPreferenceUtility.storePreference(mContext, user.getMobile(), true);
-                System.out.println("Mobile  **: "+user.getMobile());
             }
         }
     }
@@ -632,15 +634,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         User user = new User(mContext);
-        if (user.getEmailVerificationStatus()) {
-            launchWelcomeFragment();
-        } else {
-            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())){
-                launchAccountActivateFragment();
-            }else {
-                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
-            }
 
+        if (RegUtility.isUiFirstFlow()){
+            RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+            if (user.getEmailVerificationStatus()) {
+                launchWelcomeFragment();
+            } else {
+                launchAccountActivateFragment();
+            }
+        }else {
+            RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+            getRegistrationFragment().addFragment(new MarketingAccountFragment());
         }
         hideSpinner();
     }
@@ -686,11 +690,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         } else {
-            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
-            } else {
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.CreateAccount_Using_Phone_Alreadytxt));
-            }
+            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
     }

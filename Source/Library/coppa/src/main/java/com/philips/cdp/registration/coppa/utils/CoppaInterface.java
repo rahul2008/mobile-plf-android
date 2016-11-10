@@ -13,7 +13,6 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -26,12 +25,6 @@ public class CoppaInterface implements UappInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        if (null != uappLaunchInput && null != ((CoppaLaunchInput) uappLaunchInput).
-                getUserRegistrationUIEventListener()) {
-            RegistrationCoppaHelper.getInstance().setUserRegistrationUIEventListener
-                    (((CoppaLaunchInput) uappLaunchInput).
-                            getUserRegistrationUIEventListener());
-        }
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
         } else {
@@ -53,11 +46,17 @@ public class CoppaInterface implements UappInterface {
                     uappLaunchInput).isParentalFragment());
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
+            if (null != uappLaunchInput && null != ((CoppaLaunchInput) uappLaunchInput).
+                    getUserRegistrationUIEventListener()) {
+                registrationFragment.setUserRegistrationUIEventListener
+                        (((CoppaLaunchInput) uappLaunchInput).
+                                getUserRegistrationUIEventListener());
+            }
             final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     registrationFragment,
                     RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
-            if(((CoppaLaunchInput)
+            if (((CoppaLaunchInput)
                     uappLaunchInput).isAddtoBackStack()) {
                 fragmentTransaction.addToBackStack(RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
             }
@@ -80,6 +79,8 @@ public class CoppaInterface implements UappInterface {
                         (registrationFunction);
             }
 
+            RegistrationCoppaActivity.setUserRegistrationUIEventListener(((CoppaLaunchInput) uappLaunchInput).
+                    getUserRegistrationUIEventListener());
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationCoppaActivity.class);
             Bundle bundle = new Bundle();
@@ -90,19 +91,17 @@ public class CoppaInterface implements UappInterface {
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
                     uappLaunchInput).isParentalFragment());
             registrationIntent.putExtras(bundle);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             RegistrationHelper.getInstance().
                     getUrSettings().getContext().startActivity(registrationIntent);
         }
 
     }
 
-
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        RegistrationHelper.getInstance().setAppInfraInstance(((CoppaDependancies)uappDependencies).getAppInfra());
+        RegistrationHelper.getInstance().setAppInfraInstance(((CoppaDependancies) uappDependencies).getAppInfra());
         RegistrationHelper.getInstance().setUrSettings(((CoppaSettings) uappSettings));
-        RegistrationHelper.getInstance().initializeUserRegistration(((CoppaSettings)uappSettings).getContext());
+        RegistrationHelper.getInstance().initializeUserRegistration(((CoppaSettings) uappSettings).getContext());
     }
-
 }

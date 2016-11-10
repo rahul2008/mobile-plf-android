@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -23,22 +24,15 @@ public class URInterface implements UappInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        if (null != uappLaunchInput && null != ((URLaunchInput) uappLaunchInput).
-                getUserRegistrationUIEventListener()) {
-            RegistrationHelper.getInstance().setUserRegistrationUIEventListener
-                    (((URLaunchInput) uappLaunchInput).
-                    getUserRegistrationUIEventListener());
-        }
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
-        } else {
+        } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         }
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
                                   UappLaunchInput uappLaunchInput) {
-
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
@@ -49,11 +43,19 @@ public class URInterface implements UappInterface {
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
+
+            if (null != uappLaunchInput && null != ((URLaunchInput) uappLaunchInput).
+                    getUserRegistrationUIEventListener()) {
+                registrationFragment.setUserRegistrationUIEventListener
+                        (((URLaunchInput) uappLaunchInput).
+                                getUserRegistrationUIEventListener());
+            }
+
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
-            if(((URLaunchInput)
+            if (((URLaunchInput)
                     uappLaunchInput).isAddtoBackStack()) {
                 fragmentTransaction.addToBackStack(RegConstants.REGISTRATION_FRAGMENT_TAG);
             }
@@ -76,7 +78,8 @@ public class URInterface implements UappInterface {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction
                         (registrationFunction);
             }
-
+            RegistrationActivity.setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
+                    getUserRegistrationUIEventListener());
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationActivity.class);
             Bundle bundle = new Bundle();
@@ -84,21 +87,23 @@ public class URInterface implements UappInterface {
                     uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
+
             registrationIntent.putExtras(bundle);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             RegistrationHelper.getInstance().
                     getUrSettings().getContext().startActivity(registrationIntent);
         }
-
-
     }
-
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        RegistrationHelper.getInstance().setAppInfraInstance(((URDependancies)uappDependencies).getAppInfra());
-        RegistrationHelper.getInstance().setUrSettings(((URSettings)uappSettings));
-        RegistrationHelper.getInstance().initializeUserRegistration(((URSettings)uappSettings).getContext());
+        RegistrationHelper.getInstance().setAppInfraInstance(((URDependancies)
+                uappDependencies).getAppInfra());
+        RegistrationHelper.getInstance().setUrSettings(((URSettings) uappSettings));
+        RegistrationHelper.getInstance().initializeUserRegistration(((URSettings)
+                uappSettings).getContext());
+        Jump.init(((URDependancies)
+                uappDependencies).getAppInfra().getSecureStorage());
     }
-
 }

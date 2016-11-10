@@ -25,6 +25,7 @@ import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.coppa.utils.CoppaLaunchInput;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -56,6 +57,17 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     private boolean isAccountSettings = true;
     private boolean isParentalConsent;
     private TextView ivBack;
+
+    public static UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationUIEventListener;
+    }
+
+    public static void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
+                                                                  userRegistrationUIEventListener) {
+        RegistrationCoppaActivity.userRegistrationUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private static UserRegistrationUIEventListener userRegistrationUIEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +159,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onDestroy");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity Unregister:" +
                 " NetworStateListener,Context");
+        RegistrationCoppaActivity.setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 
@@ -179,6 +192,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         urLaunchInput.setAccountSettings(isAccountSettings);
         urLaunchInput.setParentalFragment(isParentalConsent);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.
+                getUserRegistrationUIEventListener());
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this, R.id.fl_reg_fragment_container,this);
         CoppaInterface urInterface = new CoppaInterface();

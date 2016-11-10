@@ -11,6 +11,7 @@ package com.philips.cdp.registration.hsdp;
 import android.content.Context;
 import android.os.Handler;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -26,11 +27,11 @@ import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.security.SecureRandom;
 import java.util.Map;
 
 /**
@@ -235,15 +236,13 @@ public class HsdpUser {
      * @param userFileWriteListener user file write listener
      */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
+        String objectPlainString = SecureStorage.objectToString(mHsdpUserRecord);
         try {
-            FileOutputStream fos = mContext.openFileOutput(HSDP_RECORD_FILE, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureStorage.objectToString(mHsdpUserRecord);
-            byte[] ectext = SecureStorage.encrypt(objectPlainString);
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
+            mContext.deleteFile(HSDP_RECORD_FILE);
+            Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
+                    new String(objectPlainString) ,new SecureStorageInterface.SecureStorageError());
             userFileWriteListener.onFileWriteSuccess();
+
         } catch (Exception e) {
             userFileWriteListener.onFileWriteFailure();
         }
@@ -258,14 +257,25 @@ public class HsdpUser {
         if(mHsdpUserRecord!=null){
             return mHsdpUserRecord;
         }
+
         try {
-            FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-           byte[] enctText = (byte[]) ois.readObject();
-           byte[] decrtext = SecureStorage.decrypt(enctText);
-           mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(new String(decrtext));
+            //Read from file
+            final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
+            final ObjectInputStream ois = new ObjectInputStream(fis);
+            final Object object = ois.readObject();
+            byte[] plainBytes = null;
+            if (object instanceof byte[]) {
+                plainBytes = (byte[]) object;
+            }
+            mContext.deleteFile(HSDP_RECORD_FILE);
+            fis.close();
+            ois.close();
+            Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,new String(plainBytes), new SecureStorageInterface.SecureStorageError());
+            mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE, new SecureStorageInterface.SecureStorageError()));
         } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return mHsdpUserRecord;
     }
 
@@ -291,7 +301,7 @@ public class HsdpUser {
                 @Override
                 public void run() {
                     DhpAuthenticationManagementClient authenticationManagementClient = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.loginSocialProviders(email, accessToken);
+                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.loginSocialProviders(email, accessToken ,generateRefreshSecret());
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override
@@ -323,7 +333,9 @@ public class HsdpUser {
 
                             @Override
                             public void onFileWriteFailure() {
-                                handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
+                                handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE +
+                                        RegConstants.HSDP_LOWER_ERROR_BOUND,
+                                        mContext.getString(R.string.reg_NoNetworkConnection));
                             }
                         });
 
@@ -376,6 +388,18 @@ public class HsdpUser {
     private interface UserFileWriteListener {
         void onFileWriteSuccess();
         void onFileWriteFailure();
+    }
+
+    private  String generateRefreshSecret() {
+        final int SECRET_LENGTH = 40;
+        SecureRandom random = new SecureRandom();
+        StringBuilder buffer = new StringBuilder();
+
+        while (buffer.length() < SECRET_LENGTH) {
+            buffer.append(Integer.toHexString(random.nextInt()));
+        }
+        String refreshSecret = buffer.toString().substring(0, SECRET_LENGTH);
+        return refreshSecret;
     }
 
     /**

@@ -2,23 +2,12 @@ package com.philips.cdp.registration.coppa.utils;
 
 import android.test.InstrumentationTestCase;
 
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.appinfra.timesync.TimeInterface;
-
 /**
  * Created by 310243576 on 8/24/2016.
  */
 public class CoppaDependanciesTest extends InstrumentationTestCase {
 
-    CoppaDependancies mCoppaDependancies;
+  /* CoppaDependancies mCoppaDependancies;
 
 
 
@@ -78,5 +67,5 @@ public class CoppaDependanciesTest extends InstrumentationTestCase {
     }
     public void testCoppaDependencies(){
         assertNotNull(mCoppaDependancies);
-    }
+    }*/
 }

@@ -25,6 +25,8 @@ import com.philips.cdp.registration.controller.RefreshUserSession;
 import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.controller.ResendVerificationEmail;
+import com.philips.cdp.registration.controller.UpdateDateOfBirth;
+import com.philips.cdp.registration.controller.UpdateGender;
 import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
 import com.philips.cdp.registration.controller.UpdateUserRecord;
 import com.philips.cdp.registration.dao.ConsumerArray;
@@ -41,32 +43,38 @@ import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  */
 public class User {
+
+    private boolean mEmailVerified;
 
     private Context mContext;
 
@@ -75,10 +83,6 @@ public class User {
     private JSONArray mConsumerInterestArray;
 
     private String USER_EMAIL = "email";
-
-    private String USER_MOBILE = "mobileNumber";
-
-    private String USER_MOBILE_VERIFIED = "mobileNumberVerified";
 
     private String USER_GIVEN_NAME = "givenName";
 
@@ -342,7 +346,6 @@ public class User {
 
         try {
             diUserProfile.setEmail(captureRecord.getString(USER_EMAIL));
-            diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
             diUserProfile.setGivenName(captureRecord.getString(USER_GIVEN_NAME));
             diUserProfile.setDisplayName(captureRecord.getString(USER_DISPLAY_NAME));
             diUserProfile
@@ -351,30 +354,48 @@ public class User {
             JSONObject userAddress = new JSONObject(captureRecord.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(captureRecord.getString(CONSUMER_PREFERED_LANGUAGE));
+            String gender = captureRecord.getString(UpdateGender.USER_GENDER);
+            if (null != gender) {
+                if (gender.equalsIgnoreCase(Gender.MALE.toString())) {
+                    diUserProfile.setGender(Gender.MALE);
+                } else {
+                    diUserProfile.setGender(Gender.FEMALE);
+                }
+            }
 
+            String dob = captureRecord.getString(UpdateDateOfBirth.USER_DATE_OF_BIRTH);
+            if(null!= dob){
+                DateFormat formatter = new SimpleDateFormat(UpdateDateOfBirth.DATE_FORMAT_FOR_DOB, Locale.ROOT);
+                Date date = formatter.parse(dob);
+                diUserProfile.setDateOfBirth(date);
+            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return diUserProfile;
     }
 
     // For checking email verification
     public boolean getEmailVerificationStatus() {
+        mEmailVerified = false;
         CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
 
         if (captured == null)
             return false;
         try {
             JSONObject mObject = new JSONObject(captured.toString());
-            if (!mObject.isNull(USER_EMAIL_VERIFIED)){
-                return true;
-            } else if(!mObject.isNull(USER_MOBILE_VERIFIED)){
-                return true;
+            if (mObject.isNull(USER_EMAIL_VERIFIED)) {
+                mEmailVerified = false;
+            } else {
+                mEmailVerified = true;
             }
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getEmailVerificationStatus,Caught JSON Exception");
         }
-        return false;
+        return mEmailVerified;
     }
 
     /**
@@ -393,7 +414,7 @@ public class User {
 
         boolean signedIn = true;
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            signedIn = signedIn && (!capturedRecord.isNull(USER_EMAIL_VERIFIED)||!capturedRecord.isNull(USER_MOBILE_VERIFIED));
+            signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
         }
         if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
             if (!RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
@@ -408,13 +429,8 @@ public class User {
         }
 
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            boolean isTermAccepted;
-            if (FieldsValidator.isValidEmail(getEmail())){
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
-            }else {
-                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getMobile());
-            }
-           if (!isTermAccepted) {
+            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            if (!isTermAccepted) {
                 signedIn = false;
                 clearData();
             }
@@ -442,13 +458,40 @@ public class User {
 
     // For update receive marketing email
     public void updateReceiveMarketingEmail(
-            final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
+            final UpdateUserDetailsHandler updateReceiveMarketingEmail,
             final boolean receiveMarketingEmail) {
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
                 UpdateReceiveMarketingEmail(
                 mContext);
         updateReceiveMarketingEmailHandler.
                 updateMarketingEmailStatus(updateReceiveMarketingEmail, receiveMarketingEmail);
+    }
+
+    /**
+     * Update Date of bith of user.
+     *
+     * @param updateUserDetailsHandler
+     * @param date
+     */
+    public void updateDateOfBirth(
+            final UpdateUserDetailsHandler updateUserDetailsHandler,
+            final Date date) {
+        UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
+        updateDateOfBirth.updateDateOfBirth(updateUserDetailsHandler, date);
+    }
+
+
+    /**
+     * Update Date of bith of user.
+     *
+     * @param updateUserDetailsHandler
+     * @param gender
+     */
+    public void updateGender(
+            final UpdateUserDetailsHandler updateUserDetailsHandler,
+            final Gender gender) {
+        UpdateGender updateGender = new UpdateGender(mContext);
+        updateGender.updateGender(updateUserDetailsHandler, gender);
     }
 
 
@@ -598,18 +641,6 @@ public class User {
         return diUserProfile.getEmail();
     }
 
-    /**
-     * {@code getMobile} method returns the Mobile Number of a logged in user.
-     *
-     * @return String
-     */
-    public String getMobile() {
-        DIUserProfile diUserProfile = getUserInstance();
-        if (diUserProfile == null) {
-            return null;
-        }
-        return diUserProfile.getMobile();
-    }
 
     public String getPassword() {
         DIUserProfile diUserProfile = getUserInstance();
@@ -653,6 +684,34 @@ public class User {
         }
         return diUserProfile.getReceiveMarketingEmail();
     }
+
+
+    /**
+     * Get Date of birth
+     *
+     * @return Date object
+     */
+    public Date getDateOfBirth() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getDateOfBirth();
+    }
+
+    /**
+     * Get Date of birth
+     *
+     * @return Date object
+     */
+    public Gender getGender() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getGender();
+    }
+
 
     /**
      * {@code getGivenName} method returns the display name of a logged in user.
@@ -748,17 +807,14 @@ public class User {
 
 
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
+        diUserProfile.setPassword(null);
+        String objectPlainString = SecureStorage.objectToString(diUserProfile);
         try {
-            diUserProfile.setPassword(null);
-            FileOutputStream fos = mContext.openFileOutput(RegConstants.DI_PROFILE_FILE, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureStorage.objectToString(diUserProfile);
-            byte[] ectext = SecureStorage.encrypt(objectPlainString);
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
+            mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+            Jump.getSecureStorageInterface().storeValueForKey(RegConstants.DI_PROFILE_FILE,
+                    new String(objectPlainString) ,new SecureStorageInterface.SecureStorageError());
         } catch (Exception e) {
-            RLog.d("Expetion :", e.getMessage());
+            RLog.d("Exception :", e.getMessage());
         }
     }
 

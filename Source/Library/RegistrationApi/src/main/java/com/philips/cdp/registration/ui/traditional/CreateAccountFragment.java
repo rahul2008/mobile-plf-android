@@ -293,6 +293,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mLlCreateAccountContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
 
+        if (RegUtility.isUiFirstFlow()){
+            RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+            mLlCreateAccountContainer.setVisibility(View.VISIBLE);
+        }else {
+            RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+            mLlCreateAccountContainer.setVisibility(View.GONE);
+        }
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
         mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
@@ -349,7 +356,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegUtility.handleTermsCondition(getRegistrationFragment().getParentActivity());
+            getRegistrationFragment().getUserRegistrationUIEventListener().
+                    onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
         }
     };
 
@@ -401,7 +409,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     private void handleUiAcceptTerms() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-            mViewLine.setVisibility(View.VISIBLE);
+            if (RegUtility.isUiFirstFlow()){
+                RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                mViewLine.setVisibility(View.VISIBLE);
+            }else {
+                RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                mViewLine.setVisibility(View.GONE);
+            }
         } else {
             mLlAcceptTermsContainer.setVisibility(View.GONE);
             mViewLine.setVisibility(View.GONE);
@@ -427,17 +441,21 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         trackCheckMarketing();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+        if (RegUtility.isUiFirstFlow()){
+            RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+            if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
                 if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())){
                     launchAccountActivateFragment();
                 }else {
                     getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
                 }
-
-        } else {
-            launchWelcomeFragment();
+            } else {
+                launchWelcomeFragment();
+            }
+        }else {
+            RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+            getRegistrationFragment().addFragment(new MarketingAccountFragment());
         }
-
         if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
             mTrackCreateAccountTime =  (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000;
         }else{

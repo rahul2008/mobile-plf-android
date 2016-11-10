@@ -20,10 +20,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+
 public class RegistrationConfiguration {
-
-    public static final String UR = "UserRegistration";
-
 
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
@@ -37,10 +37,8 @@ public class RegistrationConfiguration {
             synchronized (RegistrationConfiguration.class) {
                 if (registrationConfiguration == null) {
                     registrationConfiguration = new RegistrationConfiguration();
-
                 }
             }
-
         }
         return registrationConfiguration;
     }
@@ -76,8 +74,8 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String micrositeId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("PILConfiguration." +
-                        "MicrositeID", UR, configError);
+                getPropertyForKey(URConfigurationConstants.PILCONFIGURATION_MICROSITE_ID,
+                        UR, configError);
         if (null == micrositeId) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
@@ -96,8 +94,8 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String campaignId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("Flow.PILConfiguration." +
-                        "CampaignID", UR, configError);
+                getPropertyForKey(URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID, UR,
+                        configError);
         if (null == campaignId) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
@@ -115,8 +113,8 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String registrationEnvironment = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("PILConfiguration." +
-                        "RegistrationEnvironment", UR, configError);
+                getPropertyForKey(URConfigurationConstants.PILCONFIGURATION_REGISTRATION_ENVIRONMENT
+                        , UR, configError);
         if (null == registrationEnvironment) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
@@ -137,8 +135,8 @@ public class RegistrationConfiguration {
         Object obj = RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("Flow." +
-                        "EmailVerificationRequired", UR, configError);
+                getPropertyForKey(URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED
+                        , UR, configError);
         if (obj != null) {
             return Boolean.parseBoolean((String) obj);
         }
@@ -158,12 +156,11 @@ public class RegistrationConfiguration {
         Object obj = RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("Flow." +
-                        "TermsAndConditionsAcceptanceRequired", UR, configError);
+                getPropertyForKey(URConfigurationConstants.
+                        FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED, UR, configError);
         if (obj != null) {
             return Boolean.parseBoolean((String) obj);
         }
-
         return false;
     }
 
@@ -175,14 +172,13 @@ public class RegistrationConfiguration {
      */
     public int getMinAgeLimitByCountry(String countryCode) {
         try {
-            String DEFAULT = "default";
             AppConfigurationInterface.AppConfigurationError configError = new
                     AppConfigurationInterface.AppConfigurationError();
             Object obj = RegistrationHelper.
                     getInstance().getAppInfraInstance().
                     getConfigInterface().
-                    getPropertyForKey("Flow." +
-                            "MinimumAgeLimit", UR, configError);
+                    getPropertyForKey(URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT
+                            , UR, configError);
             if (obj != null) {
                 JSONObject jsonObject = new JSONObject((String)obj);
                 if(!jsonObject.isNull(countryCode)){
@@ -211,21 +207,25 @@ public class RegistrationConfiguration {
         String appName = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HSDPConfiguration.ApplicationName", UR, configError);
+                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME
+                        , UR, configError);
         String sharedId = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HSDPConfiguration.Shared", UR, configError);
+                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_SHARED
+                        , UR, configError);
 
         String secreteId = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HSDPConfiguration.Secret", UR, configError);
+                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_SECRET
+                        , UR, configError);
 
         String baseUrl = (String) RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("HSDPConfiguration.BaseURL", UR, configError);
+                getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL
+                        , UR, configError);
 
         hsdpInfo.setApplicationName(appName);
         hsdpInfo.setSharedId(sharedId);
@@ -247,7 +247,6 @@ public class RegistrationConfiguration {
      */
     public ArrayList<String> getProvidersForCountry(String countryCode) {
 
-        String DEFAULT = "default";
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
@@ -255,7 +254,7 @@ public class RegistrationConfiguration {
         Object obj = RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("SigninProviders." +
+                getPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
                         countryCode, UR, configError);
 
         if (obj != null) {
@@ -265,7 +264,7 @@ public class RegistrationConfiguration {
         obj = RegistrationHelper.
                 getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey("SigninProviders." +
+                getPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
                         DEFAULT, UR, configError);
         if (obj != null) {
             return (ArrayList<String>) obj;
@@ -294,7 +293,8 @@ public class RegistrationConfiguration {
         HSDPInfo hsdpInfo = getHSDPInfo();
 
         if (hsdpInfo == null) {
-            RLog.i("HSDP_STATUS", "HSDP configuration is not configured for " + environment + " environment ");
+            RLog.i("HSDP_STATUS", "HSDP configuration is not configured for " + environment +
+                    " environment ");
             return false;
             // throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
         }
@@ -303,7 +303,8 @@ public class RegistrationConfiguration {
             String exception = buildException(hsdpInfo);
 
             if (null != exception) {
-                throw new RuntimeException("HSDP configuration is not configured for " + getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
+                throw new RuntimeException("HSDP configuration is not configured for " +
+                        getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
             }
         }
 

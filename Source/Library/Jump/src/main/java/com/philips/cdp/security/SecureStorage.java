@@ -12,6 +12,8 @@ import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
 
+import com.janrain.android.Jump;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.securekey.SKey;
 
 import java.io.ByteArrayInputStream;
@@ -43,25 +45,7 @@ public class SecureStorage {
 
     private static byte[] secretKey;
 
-    public static byte[] encrypt(String text) {
-        //  storeSecretKey();
-        secretKey = SKey.generateSecretKey();
-        try {
-            final Key key = (Key) new SecretKeySpec(secretKey, AES);
-            final Cipher cipher = Cipher.getInstance(AES);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            return cipher.doFinal(text.getBytes());
-
-        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException |
-                BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    //meant to migrate unencrypted data to encrypted one
+     //meant to migrate unencrypted data to encrypted one
     public static void migrateUserData(final String pFileName) {
 
         try {
@@ -73,23 +57,11 @@ public class SecureStorage {
             if (object instanceof byte[]) {
                 plainBytes = (byte[]) object;
             }
-
-
             mContext.deleteFile(pFileName);
             fis.close();
             ois.close();
-
-            //Encrypt the contents of file
-            final FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
-            final ObjectOutputStream oos = new ObjectOutputStream(fos);
-            byte[] ectext = null;
-            if (plainBytes != null) {
-                ectext = SecureStorage.encrypt(new String(plainBytes));
-            }
-
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
+            Jump.getSecureStorageInterface().storeValueForKey(pFileName,new String(plainBytes),
+                    new SecureStorageInterface.SecureStorageError());
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }

@@ -29,11 +29,9 @@ import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
-import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -42,25 +40,35 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class RegistrationCoppaFragment extends Fragment implements NetworStateListener,
-        OnClickListener ,BackEventListener{
+        OnClickListener, BackEventListener {
 
     private static final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
     private static FragmentManager mFragmentManager;
 
-    private static Activity mActivity;
+    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+        return userRegistrationCoppaUIEventListener;
+    }
+
+    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
+                                                           userRegistrationUIEventListener) {
+        userRegistrationCoppaUIEventListener = userRegistrationUIEventListener;
+    }
+
+    private UserRegistrationUIEventListener userRegistrationCoppaUIEventListener;
+
+    private Activity mActivity;
     private static boolean isParentalConsent = true;
     private static boolean isParentConsentRequested;
     private static boolean isParentalFragmentLaunched;
     private static int lastKnownResourceId = -99;
     private static boolean isRegistrationLunched;
     private static ProgressDialog mProgressDialog;
-    private static UserRegistrationUIEventListener userRegistrationUIEventListener = new UserRegistrationUIEventListener() {
+    private UserRegistrationUIEventListener userRegistrationUIEventListener = new UserRegistrationUIEventListener() {
         @Override
         public void onUserRegistrationComplete(Activity activity) {
             //Launch the Approval fragment
@@ -100,51 +108,21 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         @Override
         public void onPrivacyPolicyClick(Activity activity) {
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+            if (getUserRegistrationUIEventListener() != null) {
+                getUserRegistrationUIEventListener().
                         onPrivacyPolicyClick(activity);
             }
         }
 
         @Override
         public void onTermsAndConditionClick(Activity activity) {
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
+            if (getUserRegistrationUIEventListener() != null) {
+                getUserRegistrationUIEventListener().
                         onTermsAndConditionClick(activity);
             }
         }
-
     };
 
-    private static UserRegistrationListener mUserRegistrationListener =
-            new UserRegistrationListener() {
-
-                @Override
-                public void onUserLogoutSuccess() {
-                    replaceWithParentalAccess();
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnUserLogoutSuccess();
-                    }
-                }
-
-                @Override
-                public void onUserLogoutFailure() {
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnUserLogoutFailure();
-                    }
-                }
-
-                @Override
-                public void onUserLogoutSuccessWithInvalidAccessToken() {
-                    replaceWithParentalAccess();
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().
-                                notifyOnLogoutSuccessWithInvalidAccessToken();
-                    }
-                }
-            };
 
 
     private ActionBarListener mActionBarListener;
@@ -153,7 +131,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private boolean isAccountSettings = true;
     private CoppaExtension coppaExtension;
 
-    public static void replaceWithParentalAccess() {
+    public void replaceWithParentalAccess() {
 
         try {
             performReplaceWithPerentalAccess();
@@ -167,7 +145,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    private static void performReplaceWithPerentalAccess() {
+    private void performReplaceWithPerentalAccess() {
 
         if (mFragmentManager != null) {
             mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -181,7 +159,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    public static Activity getParentActivity() {
+    public Activity getParentActivity() {
         return mActivity;
     }
 
@@ -264,7 +242,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    private static void handleConsentState() {
+    private void handleConsentState() {
         RLog.i("Coppa Consent", "Handle Consent State");
 
         CoppaExtension mCoppaExtension;
@@ -277,9 +255,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                             CoppaStatus.kDICOPPAConsentNotGiven ||
                     mCoppaExtension.getCoppaEmailConsentStatus() ==
                             CoppaStatus.kDICOPPAConfirmationNotGiven) {
-                if (RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener() != null) {
-                   RegistrationCoppaHelper.getInstance().getUserRegistrationUIEventListener().
-                           onUserRegistrationComplete(getParentActivity());
+                if (getUserRegistrationUIEventListener() != null) {
+                    getUserRegistrationUIEventListener().
+                            onUserRegistrationComplete(getParentActivity());
                 }
             } else {
                 addParentalApprovalFragmentonLaunch();
@@ -288,10 +266,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             addParentalApprovalFragmentonLaunch();
             isParentConsentRequested = false;
         }
-    }
-
-    public static UserRegistrationListener getUserRegistrationListener() {
-        return mUserRegistrationListener;
     }
 
 
@@ -309,9 +283,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 getRegistrationApiVersion());
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
 
-        AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
-                getAppTaggingInterface();
-        aiAppTaggingInterface.setPreviousPage("demoapp:home");
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
@@ -509,11 +480,11 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public int getFragmentBackStackCount() {
 
-      //  FragmentManager fragmentManager = getChildFragmentManager();
+        //  FragmentManager fragmentManager = getChildFragmentManager();
         int fragmentCount = mFragmentManager.getFragments().size();
         return fragmentCount;
 
-       // return mFragmentManager.getBackStackEntryCount();
+        // return mFragmentManager.getBackStackEntryCount();
     }
 
     public ActionBarListener getUpdateTitleListener() {
@@ -571,9 +542,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
-            RegistrationHelper.getInstance().setUserRegistrationUIEventListener
-                    (userRegistrationUIEventListener);
-
+            registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
                 @Override
                 public void updateActionBar(int titleResourceID, boolean isShowBack) {
@@ -581,7 +550,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     if (mActionBarListener != null) {
 
                         mActionBarListener.
-                                updateActionBar(titleResourceID,true);
+                                updateActionBar(titleResourceID, true);
 
                         /*mActionBarListener.
                                 updateRegistrationTitleWithBack(titleResourceId);*/
@@ -641,20 +610,18 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
-            RegistrationHelper.getInstance().setUserRegistrationUIEventListener
-                    (userRegistrationUIEventListener);
-
+            registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
 
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
                 @Override
                 public void updateActionBar(int titleResourceID, boolean isShowBack) {
-                        lastKnownResourceId = titleResourceID;
-                        if (mActionBarListener != null) {
-                            mActionBarListener.updateActionBar(
-                                    titleResourceID,isShowBack);
-                        }
+                    lastKnownResourceId = titleResourceID;
+                    if (mActionBarListener != null) {
+                        mActionBarListener.updateActionBar(
+                                titleResourceID, isShowBack);
+                    }
                 }
 
                 @Override

@@ -1,0 +1,165 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:reglib="http://reg.lib/schema"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"
+              android:background="@drawable/reg_layout_bg"
+              android:focusable="true"
+              android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:id="@+id/sv_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:id="@+id/ll_reg_root_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+
+            <LinearLayout
+                android:id="@+id/ll_reg_create_account_fields"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_header_margin_top"
+                android:orientation="vertical"
+
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/reg_be_the_first_txt"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="0dip"
+                    android:gravity="left"
+                    android:text="@string/Opt_In_Be_The_First"
+                    android:textSize="@dimen/reg_back_arrow_size"
+                    android:textStyle="bold"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/reg_what_are_you_txt"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="0dip"
+                    android:gravity="left"
+                    android:text="@string/Opt_In_What_Are_You_Going_To_Get"
+                    android:textSize="@dimen/reg_error_alert_size"
+                    android:textStyle="bold"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/reg_special_officer_txt"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="0dip"
+                    android:gravity="left"
+                    android:text="@string/Opt_In_Special_Offers"
+                    android:textSize="@dimen/reg_button_text_size"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/reg_text_background"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:layout_marginTop="0dip"
+                android:background="@drawable/reg_header_bg">
+
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_Join_now"
+                    style="@style/reg_text_description"
+                    android:text="@string/Opt_In_Join_Now"
+                    android:textColor="@color/reg_social_to_social_ui_blocker_bg"
+                    android:textSize="@dimen/reg_title_text_size_medium"
+                    android:visibility="visible"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/reg_accept_terms_line"
+                style="@style/reg_line"/>
+
+            <LinearLayout
+                android:id="@+id/ll_reg_create_account_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_philips_news"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="0dip"
+                    android:gravity="center|left"
+                    android:text="@string/reg_Receive_Philips_News_lbltxt"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
+            </LinearLayout>
+
+            <View
+                style="@style/reg_line"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_reg_count_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+
+                <com.philips.cdp.registration.ui.customviews.XButton
+                    android:id="@+id/btn_reg_count_me"
+                    style="@style/reg_style_btn"
+                    android:enabled="true"
+                    android:text="@string/Opt_In_Count_Me_In"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_reg_nothanks_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+
+                <com.philips.cdp.registration.ui.customviews.XButton
+                    android:id="@+id/btn_reg_no_thanks"
+                    style="@style/reg_style_btn"
+                    android:background="@drawable/reg_btn_forgot_selector"
+                    android:enabled="true"
+                    android:text="@string/Opt_In_No_Thanks"
+                    android:textColor="@drawable/reg_btn_secondary_text_selector"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
+
+
+            </RelativeLayout>
+
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_reg_activate_acct"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_scroll_margin"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
