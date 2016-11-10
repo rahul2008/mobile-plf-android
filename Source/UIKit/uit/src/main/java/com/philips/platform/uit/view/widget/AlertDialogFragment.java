@@ -22,12 +22,10 @@ import android.widget.TextView;
 
 import com.philips.platform.uit.R;
 import com.philips.platform.uit.utils.MaxHeightScrollView;
-import com.philips.platform.uit.utils.ModalAlertUtil;
 import com.philips.platform.uit.utils.UIDUtils;
 
 public class AlertDialogFragment extends DialogFragment {
 
-    private final int theme;
     private AlertDialogController.DialogParams dialogParams;
     private TextView titleTextView;
     private MaxHeightScrollView messageContainer;
@@ -44,14 +42,6 @@ public class AlertDialogFragment extends DialogFragment {
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogController.DialogParams();
-        theme = DialogFragment.STYLE_NORMAL;
-    }
-
-    private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int mTheme) {
-        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment();
-        alertDialogFragment.setDialogParams(dialogParams);
-        alertDialogFragment.setStyle(mTheme, R.style.UIDAlertDialogStyle);
-        return alertDialogFragment;
     }
 
     @Nullable
@@ -87,6 +77,41 @@ public class AlertDialogFragment extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.UIDAlertDialogStyle;
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY, dialogParams.message);
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY, dialogParams.title);
+        outState.putInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, dialogParams.iconId);
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, dialogParams.positiveButtonText);
+        outState.putString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, dialogParams.negativeButtonText);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStart() {
+        startEnterAnimation();
+        super.onStart();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        startExitAnimation();
+        super.onDismiss(dialog);
+    }
+
+    private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int themee) {
+        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment();
+        alertDialogFragment.setDialogParams(dialogParams);
+        alertDialogFragment.setStyle(themee, R.style.UIDAlertDialogStyle);
+        return alertDialogFragment;
+    }
+
     private void setNegativeButtonProperties() {
         if (dialogParams.negativeButtonText != null) {
             negativeButton.setText(dialogParams.negativeButtonText);
@@ -119,18 +144,6 @@ public class AlertDialogFragment extends DialogFragment {
         setTitle(headerView);
     }
 
-    @Override
-    public void onStart() {
-        startEnterAnimation();
-        super.onStart();
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        startExitAnimation();
-        super.onDismiss(dialog);
-    }
-
     /**
      * Set the color and opacity for the dim background. Must be called before show to have effect.
      *
@@ -143,11 +156,11 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     private void startEnterAnimation() {
-        ModalAlertUtil.animateAlpha(dimView, 0f, 1f, mAnimDuration, null);
+        UIDUtils.animateAlpha(dimView, 1f, mAnimDuration, null);
     }
 
     private void startExitAnimation() {
-        ModalAlertUtil.animateAlpha(dimView, 1f, 0f, mAnimDuration, new Runnable() {
+        UIDUtils.animateAlpha(dimView, 0f, mAnimDuration, new Runnable() {
             @Override
             public void run() {
                 decorView.removeView(dimViewContainer);
@@ -206,22 +219,6 @@ public class AlertDialogFragment extends DialogFragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY, dialogParams.message);
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY, dialogParams.title);
-        outState.putInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, dialogParams.iconId);
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, dialogParams.positiveButtonText);
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, dialogParams.negativeButtonText);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getDialog().getWindow().getAttributes().windowAnimations = R.style.UIDAlertDialogStyle;
-    }
-
     public void setDialogParams(final AlertDialogController.DialogParams dialogParams) {
         this.dialogParams = dialogParams;
     }
@@ -229,7 +226,7 @@ public class AlertDialogFragment extends DialogFragment {
     /**
      * sets the listener to receive callback on click of positive button
      *
-     * @param listener
+     * @param listener Listener for positive button
      */
     public void setPositiveButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.positiveButtonLister = listener;
@@ -241,7 +238,7 @@ public class AlertDialogFragment extends DialogFragment {
     /**
      * sets the listener to receive callback on click of negative button
      *
-     * @param listener
+     * @param listener Listener for negative button
      */
     public void setNegativeButtonListener(@NonNull final View.OnClickListener listener) {
         dialogParams.negativeButtonListener = listener;
@@ -255,8 +252,8 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     public static class Builder {
-        public final AlertDialogController.DialogParams params;
-        public final int mTheme;
+        final AlertDialogController.DialogParams params;
+        final int theme;
 
         public Builder(final Context context) {
             this(context, R.style.UIDAlertDialogStyle);
@@ -265,7 +262,7 @@ public class AlertDialogFragment extends DialogFragment {
         public Builder(@NonNull Context context, @StyleRes int themeResId) {
             params = new AlertDialogController.DialogParams();
             params.context = context;
-            mTheme = themeResId;
+            theme = themeResId;
         }
 
         /**
@@ -273,7 +270,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public AlertDialogFragment.Builder setTitle(@NonNull @StringRes int titleId) {
+        public AlertDialogFragment.Builder setTitle(@StringRes int titleId) {
             params.title = params.context.getString(titleId);
             return this;
         }
@@ -293,7 +290,7 @@ public class AlertDialogFragment extends DialogFragment {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public AlertDialogFragment.Builder setMessage(@NonNull @StringRes int messageId) {
+        public AlertDialogFragment.Builder setMessage(@StringRes int messageId) {
             params.message = params.context.getString(messageId);
             return this;
         }
@@ -399,7 +396,7 @@ public class AlertDialogFragment extends DialogFragment {
 
         public AlertDialogFragment create() {
             // so we always have to re-set the theme
-            final AlertDialogFragment dialog = AlertDialogFragment.create(params, mTheme);
+            final AlertDialogFragment dialog = AlertDialogFragment.create(params, theme);
 
             dialog.setCancelable(params.cancelable);
             if (params.cancelable) {
