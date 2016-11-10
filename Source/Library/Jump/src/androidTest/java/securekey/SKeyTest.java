@@ -3,7 +3,6 @@ package securekey;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.security.SecureStorage;
 import com.philips.securekey.SKey;
 
 import org.junit.Test;

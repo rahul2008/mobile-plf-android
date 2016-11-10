@@ -42,6 +42,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.capture.CaptureFlowUtils;
@@ -57,15 +58,14 @@ import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
 import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.Map;
 
@@ -91,6 +91,8 @@ public class Jump {
     public static final String JR_DOWNLOAD_FLOW_SUCCESS = "com.janrain.android.Jump.DOWNLOAD_FLOW_SUCCESS";
 
     public static final String JR_PROVIDER_FLOW_SUCCESS = "com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS";
+
+
 
     /*package*/ enum State {
         STATE;
@@ -125,6 +127,7 @@ public class Jump {
         String captureRedirectUri;
         String captureRecoverUri;
 
+
         // Transient state values:
         /*
          * Every method that performs a sign-in or registration must set signInHandler and call
@@ -139,6 +142,17 @@ public class Jump {
 
     private Jump() {}
 
+
+
+    private static SecureStorageInterface mSecureStorageInterface;
+
+    public static void init(final SecureStorageInterface secureStorageInterface) {
+        mSecureStorageInterface = secureStorageInterface;
+    }
+
+    public static SecureStorageInterface getSecureStorageInterface(){
+     return mSecureStorageInterface;
+    }
     /**
      * @deprecated
      * Initialize the Jump library with you configuration data
@@ -203,6 +217,9 @@ public class Jump {
         }
         state.captureRecoverUri = jumpConfig.captureRecoverUri;
 
+        state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET,new SecureStorageInterface.SecureStorageError());
+
+
         final Context tempContext = context;
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
@@ -216,6 +233,7 @@ public class Jump {
                 }
             }
         });
+
     }
 
 
@@ -838,7 +856,10 @@ public class Jump {
         state.signedInUser = CaptureRecord.loadFromDisk(context);
     }
 
+
+
     private static void loadRefreshSecretFromDiskInternal(Context context) {
+
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
@@ -848,6 +869,12 @@ public class Jump {
             byte[] decrtext = SecureStorage.decrypt(encryptedText);
             //  state.refreshSecret = (String) ois.readObject();
             state.refreshSecret = new String(decrtext);
+            state.context.deleteFile(Capture.JR_REFRESH_SECRET);
+            mSecureStorageInterface.storeValueForKey(Capture.JR_REFRESH_SECRET,
+                    state.refreshSecret ,new SecureStorageInterface.SecureStorageError());
+
+        }catch(NullPointerException e){
+            throwDebugException(e);
         } catch (ClassCastException e) {
             throwDebugException(e);
         } catch (FileNotFoundException ignore) {
@@ -868,15 +895,21 @@ public class Jump {
             } catch (IOException ignore) {
             }
         }
+        state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET, new SecureStorageInterface.SecureStorageError());
+
     }
 
     private static void loadFlow() {
+
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = state.context.openFileInput(JR_CAPTURE_FLOW);
             ois = new ObjectInputStream(fis);
             state.captureFlow = (Map<String, Object>) ois.readObject();
+            state.context.deleteFile(JR_CAPTURE_FLOW);
+            mSecureStorageInterface.storeValueForKey(JR_CAPTURE_FLOW, state.captureFlow.toString() ,new SecureStorageInterface.SecureStorageError());
+
         } catch (ClassCastException e) {
             throwDebugException(e);
         } catch (FileNotFoundException ignore) {
@@ -898,7 +931,19 @@ public class Jump {
             } catch (IOException ignore) {
             }
         }
-    }
+
+
+        String fetchedValue = mSecureStorageInterface.fetchValueForKey(JR_CAPTURE_FLOW,new SecureStorageInterface.SecureStorageError());
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> map = null;
+        try {
+            map = mapper.readValue(fetchedValue, Map.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        state.captureFlow = map;
+        }
+
 
     private static void downloadFlow() {
         String flowVersion = state.captureFlowVersion != null ? state.captureFlowVersion : "HEAD";
@@ -931,54 +976,31 @@ public class Jump {
     }
 
     private static void storeCaptureFlow() {
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-        try {
-            fos = state.context.openFileOutput(JR_CAPTURE_FLOW, 0);
-            oos = new ObjectOutputStream(fos);
-            oos.writeObject(state.captureFlow);
-        } catch (FileNotFoundException e) {
-            throwDebugException(new RuntimeException(e));
-        } catch (IOException e) {
-            throwDebugException(new RuntimeException(e));
-        } finally {
-            try {
-                if (oos != null) oos.close();
-            } catch (IOException ignore) {
-            }
 
-            try {
-                if (fos != null) fos.close();
-            } catch (IOException ignore) {
+        ThreadUtils.executeInBg(new Runnable() {
+            public void run() {
+                try {
+                    mSecureStorageInterface.storeValueForKey(JR_CAPTURE_FLOW,state.captureFlow.toString(), new SecureStorageInterface.SecureStorageError());
+                    state.context.deleteFile("jr_capture_signed_in_user");
+                }  catch (Exception e) {
+                    throwDebugException(new RuntimeException(e));
+                }
             }
-        }
+        });
     }
 
     private static void saveToken(final String token, final String tokenType) {
+
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
-                FileOutputStream fos = null;
-                ObjectOutputStream oos = null;
-
                 try {
-                    fos = state.context.openFileOutput(tokenType, Context.MODE_PRIVATE);
-                    oos = new ObjectOutputStream(fos);
-                    oos.writeObject(SecureStorage.encrypt(token));
-                } catch (FileNotFoundException e) {
-                    throwDebugException(new RuntimeException(e));
-                } catch (IOException e) {
-                    throwDebugException(new RuntimeException(e));
-                } finally {
-                    try {
-                        if (oos != null) oos.close();
-                    } catch (IOException ignore) {
-                    }
+                    mSecureStorageInterface.storeValueForKey(tokenType,token, new SecureStorageInterface.SecureStorageError());
 
-                    try {
-                        if (fos != null) fos.close();
-                    } catch (IOException ignore) {
-                    }
+                    state.context.deleteFile(tokenType);
+                }  catch (Exception e) {
+                    throwDebugException(new RuntimeException(e));
                 }
+
             }
         });
     }

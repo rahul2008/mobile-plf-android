@@ -44,16 +44,15 @@ import com.janrain.android.utils.LogUtils;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -131,6 +130,10 @@ public class CaptureRecord extends JSONObject {
            byte[] decrtext = SecureStorage.decrypt(enctText);
            fileContents = new String(decrtext);
             fis = null;
+            applicationContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
+            Jump.getSecureStorageInterface().storeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME,
+                    fileContents ,new SecureStorageInterface.SecureStorageError());
+
             return inflateCaptureRecord(fileContents);
         } catch (FileNotFoundException ignore) {
         } catch (NullPointerException ignore){
@@ -147,6 +150,16 @@ public class CaptureRecord extends JSONObject {
             } catch (IOException e) {
                 throwDebugException(new RuntimeException(e));
             }
+        }
+        try {
+            fileContents = Jump.getSecureStorageInterface().fetchValueForKey(
+                    JR_CAPTURE_SIGNED_IN_USER_FILENAME, new SecureStorageInterface.SecureStorageError());
+            if(fileContents != null){
+                return inflateCaptureRecord(fileContents);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -165,34 +178,26 @@ public class CaptureRecord extends JSONObject {
      * @param applicationContext the context to use to write to disk
      */
     public void saveToDisk(Context applicationContext) {
-        FileOutputStream fos = null;
+
         try {
-            fos = applicationContext.openFileOutput(JR_CAPTURE_SIGNED_IN_USER_FILENAME, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(deflateCaptureRecord());
-            oos.close();
-            fos.close();
+            Jump.getSecureStorageInterface().storeValueForKey(
+                    JR_CAPTURE_SIGNED_IN_USER_FILENAME, deflateCaptureRecord() ,new
+                            SecureStorageInterface.SecureStorageError());
+
         } catch (JSONException e) {
             throwDebugException(new RuntimeException("Unexpected", e));
-        } catch (UnsupportedEncodingException e) {
-            throwDebugException(new RuntimeException("Unexpected", e));
-        } catch (IOException e) {
-            throwDebugException(new RuntimeException("Unexpected", e));
-        } finally {
-            if (fos != null) try {
-                fos.close();
-            } catch (IOException e) {
-                throwDebugException(new RuntimeException("Unexpected", e));
-            }
+        }
+        catch (Exception e) {
+             throwDebugException(new RuntimeException("Unexpected", e));
         }
     }
 
-    private byte[] deflateCaptureRecord() throws JSONException, UnsupportedEncodingException {
+    private String deflateCaptureRecord() throws JSONException, UnsupportedEncodingException {
         JSONObject serializedVersion = new JSONObject();
         serializedVersion.put("original", original);
         serializedVersion.put("accessToken", accessToken);
         serializedVersion.put("this", this);
-        return SecureStorage.encrypt(serializedVersion.toString());
+        return serializedVersion.toString();
     }
 
     /**

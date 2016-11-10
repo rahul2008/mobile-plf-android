@@ -11,12 +11,14 @@ package com.philips.cdp.registration.coppa.test;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.janrain.android.Jump;
+import com.janrain.android.utils.ThreadUtils;
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 
@@ -521,31 +523,16 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 
 
         private void saveToDisk(final String data) {
-                FileOutputStream fos = null;
-                try {
-
-
-
-                        fos = context.openFileOutput("jr_capture_signed_in_user", 0);
-
-                        ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-                        oos.writeObject(SecureStorage.encrypt(data));
-                        oos.close();
-                        fos.close();
-                } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                        throwDebugException(new RuntimeException("Unexpected", e));
-                } catch (IOException e) {
-                        throwDebugException(new RuntimeException("Unexpected", e));
-                } finally {
-                        if (fos != null) try {
-                                fos.close();
-                        } catch (IOException e) {
-                                throwDebugException(new RuntimeException("Unexpected", e));
+                Jump.getSecureStorageInterface().storeValueForKey("jr_capture_signed_in_user",data, new SecureStorageInterface.SecureStorageError());
+                ThreadUtils.executeInBg(new Runnable() {
+                        public void run() {
+                        try {
+                                context.deleteFile("jr_capture_signed_in_user");
+                        }  catch (Exception e) {
+                                throwDebugException(new RuntimeException(e));
                         }
-                }
+                        }
+                });
         }
 
        /* public void test_ConfirmationStatus(){

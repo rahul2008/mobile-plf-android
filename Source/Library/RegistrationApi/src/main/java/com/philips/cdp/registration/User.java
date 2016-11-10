@@ -56,13 +56,12 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -808,17 +807,14 @@ public class User {
 
 
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
+        diUserProfile.setPassword(null);
+        String objectPlainString = SecureStorage.objectToString(diUserProfile);
         try {
-            diUserProfile.setPassword(null);
-            FileOutputStream fos = mContext.openFileOutput(RegConstants.DI_PROFILE_FILE, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureStorage.objectToString(diUserProfile);
-            byte[] ectext = SecureStorage.encrypt(objectPlainString);
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
+            mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+            Jump.getSecureStorageInterface().storeValueForKey(RegConstants.DI_PROFILE_FILE,
+                    new String(objectPlainString) ,new SecureStorageInterface.SecureStorageError());
         } catch (Exception e) {
-            RLog.d("Expetion :", e.getMessage());
+            RLog.d("Exception :", e.getMessage());
         }
     }
 
