@@ -19,7 +19,7 @@
         <item name="android:layout_marginTop">@dimen/uit_page_marging_left_right</item>
         <item name="android:maxLines">@integer/uid_alert_dialog_title_max_lines</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingMultiplier">1</item>
         <item name="android:lineSpacingExtra">@dimen/uid_alert_dialog_title_text_line_spacing</item>
         <item name="android:textSize">@dimen/uid_alert_dialog_title_text_size</item>
     </style>
@@ -37,7 +37,7 @@
         <item name="android:layout_marginStart">@dimen/uit_page_marging_left_right</item>
         <item name="android:layout_marginEnd">@dimen/uit_page_marging_left_right</item>
         <item name="android:textColor">?attr/uitDialogBodyTextColor</item>
-        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingMultiplier">1</item>
         <item name="android:overScrollMode">never</item>
         <item name="android:fillViewport">true</item>
         <item name="android:scrollbars">vertical</item>
