@@ -87,7 +87,7 @@ public class AlertDialogFragment extends DialogFragment {
 
     private void setAlertWidth() {
         final ViewGroup.LayoutParams lp = getView().getLayoutParams();
-        lp.width = (int) Math.abs(getResources().getDimension(R.dimen.uid_alert_dialog_width));
+        lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
         getView().setLayoutParams(lp);
     }
 
