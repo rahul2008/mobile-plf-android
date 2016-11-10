@@ -23,12 +23,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
-            versionName "0.16.3"
+            versionName "0.16.6"
         }
         device {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
-            versionName "0.16.3"
+            versionName "0.16.6"
         }
     }
     lintOptions {
@@ -74,9 +74,9 @@ dependencies {
         transitive = true
     }
 
-//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-//    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }
 
 

@@ -16,6 +16,7 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -29,6 +30,7 @@ public class DemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         initAppInfra();
         setLocale();
         initRegistration(Configuration.PRODUCTION);
