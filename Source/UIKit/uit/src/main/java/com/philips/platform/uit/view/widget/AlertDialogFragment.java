@@ -1,6 +1,10 @@
 package com.philips.platform.uit.view.widget;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
@@ -12,11 +16,14 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.uit.R;
 import com.philips.platform.uit.utils.MaxHeightScrollView;
+import com.philips.platform.uit.utils.ModalAlertUtil;
+import com.philips.platform.uit.utils.UIDUtils;
 
 public class AlertDialogFragment extends DialogFragment {
 
@@ -26,6 +33,14 @@ public class AlertDialogFragment extends DialogFragment {
     private MaxHeightScrollView messageContainer;
     private Button negativeButton;
     private Button positiveButton;
+
+    private ViewGroup decorView;
+    private View dimView;
+    private FrameLayout dimViewContainer;
+    private int mAnimDuration = 300;
+
+    private int dimColor = Color.BLACK;
+    private float dimColorAlpha = 0.8f;
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogController.DialogParams();
@@ -66,6 +81,9 @@ public class AlertDialogFragment extends DialogFragment {
         setPositiveButtonProperties();
         setNegativeButtonProperties();
         setCancelable(dialogParams.cancelable);
+
+        //initialize container view
+        setDimLayer();
         return view;
     }
 
@@ -101,6 +119,80 @@ public class AlertDialogFragment extends DialogFragment {
         setTitle(headerView);
     }
 
+    @Override
+    public void onStart() {
+        startEnterAnimation();
+        super.onStart();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        startExitAnimation();
+        super.onDismiss(dialog);
+    }
+
+    /**
+     * Set the color and opacity for the dim background. Must be called before show to have effect.
+     *
+     * @param color           Color of background
+     * @param alphaPercentage Percentage of alpha. Must be in range of 0..1
+     */
+    public void setDimColor(int color, float alphaPercentage) {
+        dimColor = color;
+        dimColorAlpha = alphaPercentage;
+    }
+
+    private void startEnterAnimation() {
+        ModalAlertUtil.animateAlpha(dimView, 0f, 1f, mAnimDuration, null);
+    }
+
+    private void startExitAnimation() {
+        ModalAlertUtil.animateAlpha(dimView, 1f, 0f, mAnimDuration, new Runnable() {
+            @Override
+            public void run() {
+                decorView.removeView(dimViewContainer);
+            }
+        });
+    }
+
+    private void setDimLayer() {
+        setDimColors();
+        setDimContainer();
+        addDimView();
+    }
+
+    private void setDimColors() {
+        TypedArray array = getActivity().obtainStyledAttributes(R.styleable.UIDDialog);
+        int bgColor = array.getColor(R.styleable.UIDDialog_uitDialogDimStrongColor, dimColor);
+        float bgColorAlpha = array.getFloat(R.styleable.UIDDialog_uitDialogDimStrongColorAlpha, dimColorAlpha);
+        setDimColor(bgColor, bgColorAlpha);
+        array.recycle();
+    }
+
+    private void setDimContainer() {
+        Rect visibleFrame = new Rect();
+        decorView = (ViewGroup) getActivity().getWindow().getDecorView();
+        decorView.getWindowVisibleDisplayFrame(visibleFrame);
+
+        dimViewContainer = new FrameLayout(getActivity());
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(visibleFrame.right - visibleFrame.left,
+                visibleFrame.bottom - visibleFrame.top);
+        params.setMargins(visibleFrame.left, visibleFrame.top, 0, 0);
+        dimViewContainer.setLayoutParams(params);
+    }
+
+    private void addDimView() {
+        dimView = new View(getActivity());
+        dimView.setBackgroundColor(getDimColorWithAlpha());
+        dimView.setAlpha(0f);
+        dimViewContainer.addView(dimView);
+        decorView.addView(dimViewContainer);
+    }
+
+    private int getDimColorWithAlpha() {
+        return UIDUtils.modulateColorAlpha(dimColor, dimColorAlpha);
+    }
+
     private void setTitle(final ViewGroup headerView) {
         if (dialogParams.title != null) {
             titleTextView.setVisibility(View.VISIBLE);
@@ -112,12 +204,6 @@ public class AlertDialogFragment extends DialogFragment {
             final int margintop = (int) getResources().getDimension(R.dimen.uid_alert_message_top_margin);
             layoutParams.setMargins(layoutParams.leftMargin, margintop, layoutParams.rightMargin, layoutParams.bottomMargin);
         }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setStyle(theme, R.style.UIDAlertDialogStyle);
-        super.onCreate(savedInstanceState);
     }
 
     @Override
