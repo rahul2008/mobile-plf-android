@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/uit_page_marging_left_right"
             android:layout_marginStart="@dimen/uit_page_marging_left_right"
+            android:layout_marginBottom="@dimen/uit_page_marging_left_right"
             android:orientation="horizontal">
 
             <ImageView
@@ -39,7 +40,8 @@
         <com.philips.platform.uit.utils.MaxHeightScrollView
             android:id="@id/uid_alert_message_scroll_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/UIDAlertDialogMessageContainerStyle">
 
             <TextView
                 android:id="@id/uid_alert_message"

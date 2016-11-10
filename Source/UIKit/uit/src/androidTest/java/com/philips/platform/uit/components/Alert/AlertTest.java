@@ -104,7 +104,7 @@ public class AlertTest {
 
     @Test
     public void verifyAlertHeaderTopMargin() {
-        int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
+        int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_icon_leftrighttop_margin);
         getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
@@ -138,7 +138,7 @@ public class AlertTest {
     @Test
     public void verifyAlertContentTopMargin() {
         int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontent_top_padding);
-        getAlertContent().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
+        getAlertHeader().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedTopMargin)));
     }
 
     @Test
@@ -174,8 +174,8 @@ public class AlertTest {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
 
-        int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
-        getAlertContent().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
+        int expectedTopMargin = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.alert_content_top_margin_when_no_title);
+        getAlertContainer().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
     /******************************
@@ -267,6 +267,10 @@ public class AlertTest {
 
     private ViewInteraction getAlertContent() {
         return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_message));
+    }
+
+    private ViewInteraction getAlertContainer() {
+        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_message_scroll_container));
     }
 
     private ViewInteraction getAlertActionArea() {
