@@ -266,7 +266,7 @@ public class RegistrationApplication extends Application {
                         URConfigurationConstants.
                                 HSDP_CONFIGURATION_BASE_URL,
                         URConfigurationConstants.UR,
-                        "https://user-registration-assembly-testing.us-east.philips-healthsuite.com",
+                        "https://ugrow-ds-development.cloud.pcftest.com",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();

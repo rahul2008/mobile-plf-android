@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -102,5 +103,7 @@ public class URInterface implements UappInterface {
         RegistrationHelper.getInstance().setUrSettings(((URSettings) uappSettings));
         RegistrationHelper.getInstance().initializeUserRegistration(((URSettings)
                 uappSettings).getContext());
+        Jump.init(((URDependancies)
+                uappDependencies).getAppInfra().getSecureStorage());
     }
 }

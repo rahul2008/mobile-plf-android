@@ -8,15 +8,18 @@ package com.philips.cdp.registration.datamigration;
 
 import android.content.Context;
 
+import com.janrain.android.Jump;
+import com.janrain.android.utils.ThreadUtils;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+import static com.janrain.android.utils.LogUtils.throwDebugException;
 
 
 public class DataMigration {
@@ -65,17 +68,28 @@ public class DataMigration {
         return plainText;
     }
 
-    private void writeDataToFile(String fileName, String plainTextString) throws IOException {
-        FileOutputStream fos = mContext.openFileOutput(fileName, 0);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        byte[] ectext = null;
+    private void writeDataToFile(final String fileName, String plainTextString) throws IOException {
+//        FileOutputStream fos = mContext.openFileOutput(fileName, 0);
+//        ObjectOutputStream oos = new ObjectOutputStream(fos);
+//        byte[] ectext = null;
+//
+//        if (plainTextString != null) {
+//            ectext = SecureStorage.encrypt(plainTextString);
+//        }
+//        oos.writeObject(ectext);
+//        oos.close();
+//        fos.close();
+        Jump.getSecureStorageInterface().storeValueForKey(fileName,plainTextString, new SecureStorageInterface.SecureStorageError());
+        ThreadUtils.executeInBg(new Runnable() {
+            public void run() {
+                try {
+                    mContext.deleteFile(fileName);
+                }  catch (Exception e) {
+                    throwDebugException(new RuntimeException(e));
+                }
 
-        if (plainTextString != null) {
-            ectext = SecureStorage.encrypt(plainTextString);
-        }
-        oos.writeObject(ectext);
-        oos.close();
-        fos.close();
+            }
+        });
     }
 
 
