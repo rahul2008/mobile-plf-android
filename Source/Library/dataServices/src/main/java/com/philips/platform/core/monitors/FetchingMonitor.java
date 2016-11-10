@@ -30,6 +30,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class FetchingMonitor extends EventMonitor {
 
     @NonNull
@@ -76,6 +77,8 @@ public class FetchingMonitor extends EventMonitor {
         try {
             if (event.hasType()) {
                 dbInterface.fetchMoments(event.getTypes());
+            } else if (event.hasID()) {
+                dbInterface.fetchMomentById(event.getMomentID());
             } else {
                 dbInterface.fetchMoments();
             }

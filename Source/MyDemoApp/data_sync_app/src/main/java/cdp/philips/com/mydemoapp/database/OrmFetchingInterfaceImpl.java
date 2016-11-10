@@ -34,11 +34,13 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
+import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     static final String SYNCED_FIELD = "synced";
@@ -53,12 +55,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     private final Dao<OrmConsentDetail, Integer> consentDetailsDao ;
     private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
 
+    private TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
                                     final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmConsentDetailType, Integer> consentDetailTypeDao) {
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
 
         this.consentDao = consentDao;
         this.consentDetailsDao = consentDetailsDao;
@@ -76,6 +80,21 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
         notifySucessConsentChange(ormConsents);
+    }
+
+    private void notifySucessConsentChange(ArrayList<? extends OrmConsent> ormConsents) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                if (ormConsents.size() != 0) {
+                    listener.onSuccess(ormConsents.get(0));
+                } else {
+                    listener.onSuccess(null);
+                }
+            }
+        }
     }
 
     @Override
@@ -112,7 +131,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         ArrayList<OrmMoment> moments = new ArrayList<>();
         moments.add(ormMoments);
 
-        notifySuccessToAll(moments);
+        mTemperatureMomentHelper.notifySuccessToAll(moments);
     }
 
     @Override
@@ -160,59 +179,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
             }
         }
         Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
-        notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
-    }
-
-    private void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
-
-    private void notifySucessConsentChange(ArrayList<? extends OrmConsent> ormConsents){
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.CONSENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                if(ormConsents.size()!=0){
-                    listener.onSuccess(ormConsents.get(0));
-                }else{
-                    listener.onSuccess(null);
-                }
-            }
-        }
-    }
-
-    private void notifySucessConsentDetailsChange(ArrayList<? extends OrmConsentDetail> ormConsentDetails){
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.CONSENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                if(!ormConsentDetails.isEmpty()){
-                    listener.onSuccess(ormConsentDetails);
-                }else{
-                    listener.onSuccess(null);
-                }
-            }
-        }
-    }
-
-    private void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
-            }
-        }
+        mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
     }
 
     @Override

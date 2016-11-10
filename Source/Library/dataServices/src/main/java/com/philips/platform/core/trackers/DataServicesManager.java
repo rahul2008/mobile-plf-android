@@ -36,6 +36,7 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.LoadConsentDetailsRequest;
 import com.philips.platform.core.events.LoadConsentDetailsTypesRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -76,6 +77,7 @@ import de.greenrobot.event.EventBus;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
     @NonNull
@@ -147,6 +149,10 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(type[0]));
     }
 
+    public void fetchMomentById(final int momentID) {
+        mEventing.post(new LoadMomentsRequest(momentID));
+    }
+
     public void fetchAllData(){
         mEventing.post(new LoadMomentsRequest());
     }
@@ -190,6 +196,7 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
+    @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
@@ -245,6 +252,16 @@ public class DataServicesManager {
         mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
         mCore.start();
     }
+
+    //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
+    public void deleteAll() {
+        mEventing.post(new DataClearRequest());
+    }
+
+    public void deleteAllMoment() {
+        mEventing.post(new DataClearRequest());
+    }
+
 
     protected void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(mEventing);
