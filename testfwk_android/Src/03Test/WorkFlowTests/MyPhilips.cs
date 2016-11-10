@@ -41,6 +41,11 @@ namespace Philips.SIG.Automation.Android.CDPP.Tests.Workflows
         public void ThenVerifyThatTheUserIsInUserRegistrationScreen()
         {
             bool isPresent = WelcomeScreen.CheckUserRegistration();
+            if (!isPresent)
+            {
+                Logger.Fail("The User is not in login screen");
+            }
+           
         }
 
         [Then(@"I click on ""(.*)"" from the Hamburger Menu List")]
