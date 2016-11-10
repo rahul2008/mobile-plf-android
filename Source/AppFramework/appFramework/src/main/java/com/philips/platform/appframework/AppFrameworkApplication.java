@@ -19,8 +19,6 @@ import com.philips.platform.modularui.statecontroller.UIFlowManager;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.squareup.leakcanary.LeakCanary;
-
 import java.util.Locale;
 /**
  * Application class is used for initialization
