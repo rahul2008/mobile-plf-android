@@ -80,6 +80,11 @@
     </Compile>
     <Compile Include="GlobalSteps.cs" />
     <Compile Include="IapReport.cs" />
+    <Compile Include="InAppPurchase.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InAppPurchase.feature</DependentUpon>
+    </Compile>
     <Compile Include="MyPhilips.cs" />
     <Compile Include="MyPhilips.feature.cs">
       <AutoGen>True</AutoGen>
@@ -118,6 +123,10 @@
     <None Include="F953-ConsumerCare.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>F953-ConsumerCare.feature.cs</LastGenOutput>
+    </None>
+    <None Include="InAppPurchase.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>InAppPurchase.feature.cs</LastGenOutput>
     </None>
     <None Include="MyPhilips.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

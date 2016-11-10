@@ -27,3 +27,5 @@ TestReports/
 testfwk_android/Src/bin/
 testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/obj/
 testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/bin/
+testfwk_android/Src/.vs/CDPTestPlatform/v14/.suo
+testfwk_android/Src/.vs/config/applicationhost.config
