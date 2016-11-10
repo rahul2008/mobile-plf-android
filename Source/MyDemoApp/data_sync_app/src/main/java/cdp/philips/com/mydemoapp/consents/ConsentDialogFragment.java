@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -36,7 +37,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     private Button mBtnOk;
     private Button mBtnCancel;
     private ConsentDialogAdapter lConsentAdapter;
-    ProgressDialog mProgressBar;
+    ProgressBar mProgressBar;
 
     public ConsentDialogFragment() {
         mTemperaturePresenter = new TemperaturePresenter(getActivity());
@@ -49,8 +50,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         View rootView = inflater.inflate(R.layout.dialog_consent, container,
                 false);
         EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
-        fetchConsent();
-        showProgressBar();
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
         mBtnOk=(Button)rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
@@ -59,7 +59,9 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         mBtnCancel.setOnClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mProgressBar = new ProgressDialog(getActivity());
+        mProgressBar = (ProgressBar)rootView.findViewById(R.id.progressbar_consent);
+        fetchConsent();
+        showProgressBar();
         return rootView;
 
     }
@@ -138,16 +140,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     }
 
     private void showProgressBar(){
-        if(mProgressBar!=null) {
-            mProgressBar.setCancelable(true);
-            mProgressBar.setMessage("Fetching consents ...");
-        }
+       mProgressBar.setVisibility(View.VISIBLE);
     }
 
     private void dismissProgressBar(){
-        if(mProgressBar!=null) {
-            mProgressBar.dismiss();
-        }
+        mProgressBar.setVisibility(View.GONE);
     }
 
     public void fetchConsent() {

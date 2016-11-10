@@ -57,5 +57,13 @@
         android:overScrollFooter="@android:color/transparent"
         android:scrollbars="none"></android.support.v7.widget.RecyclerView>
 
+    <ProgressBar
+        android:id="@+id/progressbar_consent"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
 
 </RelativeLayout>
