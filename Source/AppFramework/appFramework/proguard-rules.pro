@@ -187,7 +187,7 @@ public static <fields>;
 -keep class de.greenrobot.event.** { *; }
 -keep class de.greenrobot.** {*;}
 
--keepclassmembers includedescriptorclasses class ** { public void onEvent*(**); }
+-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
 
 -keep class * {
     @de.greenrobot.event.* <methods>;
