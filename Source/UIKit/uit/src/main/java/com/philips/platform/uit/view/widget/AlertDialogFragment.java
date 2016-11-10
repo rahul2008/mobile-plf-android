@@ -81,6 +81,7 @@ public class AlertDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
+        getDialog().getWindow().getAttributes().width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
     }
 
     @Override
@@ -134,8 +135,9 @@ public class AlertDialogFragment extends DialogFragment {
 
         if (mIconView != null) {
             if (dialogParams.iconId != 0) {
-                mIconView.setVisibility(View.VISIBLE);
                 mIconView.setImageResource(dialogParams.iconId);
+            } else if (dialogParams.iconDrawable != null) {
+                mIconView.setImageDrawable(dialogParams.iconDrawable);
             } else {
                 mIconView.setVisibility(View.GONE);
             }
@@ -214,7 +216,7 @@ public class AlertDialogFragment extends DialogFragment {
             headerView.setVisibility(View.GONE);
             titleTextView.setVisibility(View.GONE);
             final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) messageContainer.getLayoutParams();
-            final int margintop = (int) getResources().getDimension(R.dimen.uid_alert_message_top_margin);
+            final int margintop = (int) getResources().getDimension(R.dimen.uid_alert_dialog_message_top_margin);
             layoutParams.setMargins(layoutParams.leftMargin, margintop, layoutParams.rightMargin, layoutParams.bottomMargin);
         }
     }
