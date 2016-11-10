@@ -81,7 +81,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private CheckBox mCheckBox;
     private User mUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -123,8 +122,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
-
-
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         final String restoredText = prefs.getString("reg_environment", null);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
@@ -171,6 +168,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected
+
                 if (checkedId == R.id.Evalution) {
                     Toast.makeText(getApplicationContext(), "choice: Evalution",
                             Toast.LENGTH_SHORT).show();
@@ -299,8 +297,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-
-
+                if (RegUtility.isUiFirstFlow()){
+                    Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                }else {
+                    Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                }
                 //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 

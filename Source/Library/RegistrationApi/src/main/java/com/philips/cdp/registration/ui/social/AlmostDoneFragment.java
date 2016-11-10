@@ -40,6 +40,7 @@ import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
+import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -387,7 +388,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
-                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                if (RegUtility.isUiFirstFlow()){
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                }else {
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                    mLlPeriodicOffersCheck.setVisibility(View.GONE);
+                    view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
+                }
             }
         } else {
             View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
@@ -625,10 +634,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         User user = new User(mContext);
-        if (user.getEmailVerificationStatus()) {
-            launchWelcomeFragment();
-        } else {
-            launchAccountActivateFragment();
+
+        if (RegUtility.isUiFirstFlow()){
+            RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+            if (user.getEmailVerificationStatus()) {
+                launchWelcomeFragment();
+            } else {
+                launchAccountActivateFragment();
+            }
+        }else {
+            RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+            getRegistrationFragment().addFragment(new MarketingAccountFragment());
         }
         hideSpinner();
     }

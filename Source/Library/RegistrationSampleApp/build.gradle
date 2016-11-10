@@ -37,14 +37,14 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
 
         testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -102,26 +102,6 @@ android {
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-            maven = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local'
-        }
-    }
-}
-
 def Properties props = new Properties()
 def propFile = new File('signing.properties')
 if (propFile.canRead()){
@@ -147,7 +127,7 @@ dependencies {
     compile project(':HockeySDK-3.0.2')
 }
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'

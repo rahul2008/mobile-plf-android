@@ -22,6 +22,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -32,11 +33,6 @@ import java.util.Locale;
  * It exposes APIs to be used when User Registration is intended to be integrated by any application.
  */
 public class RegistrationHelper {
-
-
-    private Context mContext;
-
-    private boolean isJsonRead;
 
     private String countryCode;
 
@@ -56,7 +52,6 @@ public class RegistrationHelper {
 
     private RegistrationHelper() {
     }
-
     /**
      * @return instance of this class
      */
@@ -67,15 +62,14 @@ public class RegistrationHelper {
                     mRegistrationHelper = new RegistrationHelper();
                 }
             }
-
         }
         return mRegistrationHelper;
     }
 
-    private AppInfraInterface appInfra ;
+    private AppInfraInterface appInfra;
 
     public void setAppInfraInstance(AppInfraInterface appInfra) {
-        this.appInfra =appInfra;
+        this.appInfra = appInfra;
     }
 
     public AppInfraInterface getAppInfraInstance() {
@@ -92,8 +86,6 @@ public class RegistrationHelper {
         }
         return mAppTaggingInterface;
     }
-
-
     /*
      * Initialize Janrain
      * {code @initializeUserRegistration} method represents endpoint for integrating
@@ -111,22 +103,34 @@ public class RegistrationHelper {
             throw new RuntimeException("Please set the locale in LocaleMatch");
         }
 
-        mContext = context.getApplicationContext();
         countryCode = mLocale.getCountry();
 
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-        generateKeyAndMigrateData();
-
+        generateKeyAndMigrateData(context);
         final Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
 
-                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                if (NetworkUtility.isNetworkAvailable(context)) {
                     refreshNTPOffset();
                     UserRegistrationInitializer.getInstance().initializeEnvironment(
-                            mContext, mLocale);
+
+                            context, mLocale);
+                    //AB Testing initialization
+                    getAppInfraInstance().getAbTesting().updateCache(new ABTestClientInterface.
+                            OnRefreshListener() {
+                        @Override
+                        public void onSuccess() {
+                            RLog.d(RLog.AB_TESTING, "SUCESS ");
+                        }
+
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            RLog.d(RLog.AB_TESTING, "ERROR AB : " + message);
+                        }
+                    });
                 } else {
                     if (UserRegistrationInitializer.getInstance().
                             getJumpFlowDownloadStatusListener() != null) {
@@ -145,19 +149,16 @@ public class RegistrationHelper {
         });
         thread.start();
     }
-
-
-    private void generateKeyAndMigrateData() {
-        SecureStorage.init(mContext);
+    private void generateKeyAndMigrateData(final Context context) {
+        SecureStorage.init(context);
         SecureStorage.generateSecretKey();
-        new DataMigration(mContext).checkFileEncryptionStatus();
+        new DataMigration(context).checkFileEncryptionStatus();
     }
 
     private void refreshNTPOffset() {
         ServerTime.init(getAppInfraInstance().getTime());
         ServerTime.refreshOffset();
     }
-
 
     public synchronized String getCountryCode() {
         return countryCode;
@@ -223,20 +224,15 @@ public class RegistrationHelper {
         if (null != mLocale) {
             return mLocale;
         }
-
-        String locale = (new PILLocaleManager(mContext)).getInputLocale();
+        String locale = (new PILLocaleManager(context)).getInputLocale();
         RLog.i("Locale", "Locale from LOcale match" + locale);
-
         if (locale == null) {
             return Locale.getDefault();
         }
-
         return new Locale(locale);
     }
 
     public synchronized static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
     }
-
-
 }

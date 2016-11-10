@@ -23,6 +23,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 
@@ -145,12 +146,13 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             ObjectInputStream ois = new ObjectInputStream(fis);
             byte[] enctText = (byte[]) ois.readObject();
             byte[] decrtext = SecureStorage.decrypt(enctText);
-            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
+            mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+            Jump.getSecureStorageInterface().storeValueForKey(RegConstants.DI_PROFILE_FILE, new String(decrtext) ,new SecureStorageInterface.SecureStorageError());
             fis.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(Jump.getSecureStorageInterface().fetchValueForKey(RegConstants.DI_PROFILE_FILE,new SecureStorageInterface.SecureStorageError())));
         return diUserProfile;
     }
     @Override

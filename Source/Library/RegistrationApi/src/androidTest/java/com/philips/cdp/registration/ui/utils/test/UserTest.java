@@ -62,106 +62,106 @@ public class UserTest extends InstrumentationTestCase {
         assertNotNull(result);
     }
 
-    public void testRegisterUserInfoForTraditionalIsOnSuccess() throws  RuntimeException{
-
-
-        TraditionalRegistrationHandler regHandler = new TraditionalRegistrationHandler() {
-            @Override
-            public void onRegisterSuccess() {
-
-            }
-
-            @Override
-            public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-            }
-        };
-
-        UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
-            @Override
-            public void updateUserRecordLogin() {
-
-            }
-
-            @Override
-            public void updateUserRecordRegister() {
-
-            }
-        };
-        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
-            @Override
-            public void onLoginSuccess() {
-
-            }
-
-            @Override
-            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-            }
-
-            @Override
-            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-
-            }
-
-            @Override
-            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginSuccess() {
-
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-            }
-        };
-
-        mUser.loginUserUsingSocialProvider(null,null,
-                socialProviderLoginHandler, "mergeToken");
-
-        Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(SignInError error) {
-
-            }
-        };
-        mockJump.onSuccess();
-        RegisterTraditional handler = new RegisterTraditional(regHandler,
-                getInstrumentation().getTargetContext(), updateHandler);
-
-        handler.onSuccess();
-
-        TraditionalLoginHandler traditionalLoginHandler = new TraditionalLoginHandler() {
-            @Override
-            public void onLoginSuccess() {
-
-            }
-
-            @Override
-            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-            }
-        };
-        try {
-            mUser.loginUsingTraditional("sample","sample", null);
-        }catch(Exception e){
-
-        }
-        try {
-            mUser.loginUsingTraditional(null, null, null);
-        }catch(Exception e){
-
-        }
-    }
+//    public void testRegisterUserInfoForTraditionalIsOnSuccess() throws  RuntimeException{
+//
+//
+//        TraditionalRegistrationHandler regHandler = new TraditionalRegistrationHandler() {
+//            @Override
+//            public void onRegisterSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//
+//            }
+//        };
+//
+//        UpdateUserRecordHandler updateHandler = new UpdateUserRecordHandler() {
+//            @Override
+//            public void updateUserRecordLogin() {
+//
+//            }
+//
+//            @Override
+//            public void updateUserRecordRegister() {
+//
+//            }
+//        };
+//        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
+//            @Override
+//            public void onLoginSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//
+//            }
+//
+//            @Override
+//            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+//
+//            }
+//
+//            @Override
+//            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+//
+//            }
+//
+//            @Override
+//            public void onContinueSocialProviderLoginSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//
+//            }
+//        };
+//
+//        mUser.loginUserUsingSocialProvider(null,null,
+//                socialProviderLoginHandler, "mergeToken");
+//
+//        Jump.SignInResultHandler mockJump = new Jump.SignInResultHandler() {
+//            @Override
+//            public void onSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(SignInError error) {
+//
+//            }
+//        };
+//        mockJump.onSuccess();
+//        RegisterTraditional handler = new RegisterTraditional(regHandler,
+//                getInstrumentation().getTargetContext(), updateHandler);
+//
+//        handler.onSuccess();
+//
+//        TraditionalLoginHandler traditionalLoginHandler = new TraditionalLoginHandler() {
+//            @Override
+//            public void onLoginSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//
+//            }
+//        };
+//        try {
+//            mUser.loginUsingTraditional("sample","sample", null);
+//        }catch(Exception e){
+//
+//        }
+//        try {
+//            mUser.loginUsingTraditional(null, null, null);
+//        }catch(Exception e){
+//
+//        }
+//    }
 
     public void testRegisterUserInfoForSocialIsOnSuccess() {
 
@@ -364,25 +364,25 @@ public class UserTest extends InstrumentationTestCase {
         }
     }
 
-    public void testUserr(){
-        mUser.getAccessToken();
-        mUser.getEmail();
-        mUser.getPassword();
-        mUser.getGivenName();
-        mUser.getDisplayName();
-        mUser.getFamilyName();
-        mUser.getJanrainUUID();
-        mUser.getHsdpUUID();
-        mUser.getHsdpAccessToken();
-        mUser.getLanguageCode();
-        mUser.getCountryCode();
-        mUser.getEmailVerificationStatus();
-        mUser.getOlderThanAgeLimit();
-        mUser.getReceiveMarketingEmail();
-        mUser.isUserSignIn();
-        mUser.handleMergeFlowError("sample");
-        assertNotNull(mUser);
-    }
+//    public void testUserr(){
+//        mUser.getAccessToken();
+//        mUser.getEmail();
+//        mUser.getPassword();
+//        mUser.getGivenName();
+//        mUser.getDisplayName();
+//        mUser.getFamilyName();
+//        mUser.getJanrainUUID();
+//        mUser.getHsdpUUID();
+//        mUser.getHsdpAccessToken();
+//        mUser.getLanguageCode();
+//        mUser.getCountryCode();
+//        mUser.getEmailVerificationStatus();
+//        mUser.getOlderThanAgeLimit();
+//        mUser.getReceiveMarketingEmail();
+//       // mUser.isUserSignIn();
+//        mUser.handleMergeFlowError("sample");
+//        assertNotNull(mUser);
+//    }
     public void testSaveDIUserProfileToDisk(){
         Method method = null;
         DIUserProfile diUserProfile = new DIUserProfile();
@@ -431,32 +431,32 @@ public class UserTest extends InstrumentationTestCase {
         }
     }
 
-    public void testAddConsumerInterest(){
-        AddConsumerInterestHandler addConsumerInterestHandler = new AddConsumerInterestHandler() {
-            @Override
-            public void onAddConsumerInterestSuccess() {
-
-            }
-
-            @Override
-            public void onAddConsumerInterestFailedWithError(int error) {
-
-            }
-        };
-        ConsumerArray consumerArray = new  ConsumerArray();
-
-//        List<ConsumerInterest> consumerInterestList = new ArrayList<ConsumerInterest>();
-//        ConsumerInterest consumerInterest = new ConsumerInterest();
-//        consumerInterest.setCampaignName("campaignName");
-//        consumerInterest.setSubjectArea("subjectArea");
-//        consumerInterest.setTopicCommunicationKey("topicCommunicationKey");
-//        consumerInterest.setTopicValue("topicValue");
-//        consumerInterestList.add(consumerInterest);
-//        consumerArray.setConsumerArraylist(consumerInterestList);
-        mUser.addConsumerInterest(addConsumerInterestHandler,consumerArray);
-
-
-    }
+//    public void testAddConsumerInterest(){
+//        AddConsumerInterestHandler addConsumerInterestHandler = new AddConsumerInterestHandler() {
+//            @Override
+//            public void onAddConsumerInterestSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onAddConsumerInterestFailedWithError(int error) {
+//
+//            }
+//        };
+//        ConsumerArray consumerArray = new  ConsumerArray();
+//
+////        List<ConsumerInterest> consumerInterestList = new ArrayList<ConsumerInterest>();
+////        ConsumerInterest consumerInterest = new ConsumerInterest();
+////        consumerInterest.setCampaignName("campaignName");
+////        consumerInterest.setSubjectArea("subjectArea");
+////        consumerInterest.setTopicCommunicationKey("topicCommunicationKey");
+////        consumerInterest.setTopicValue("topicValue");
+////        consumerInterestList.add(consumerInterest);
+////        consumerArray.setConsumerArraylist(consumerInterestList);
+//        mUser.addConsumerInterest(addConsumerInterestHandler,consumerArray);
+//
+//
+//    }
 
 
 }
