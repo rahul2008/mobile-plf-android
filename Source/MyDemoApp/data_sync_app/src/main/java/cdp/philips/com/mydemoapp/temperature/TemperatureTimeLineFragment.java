@@ -90,6 +90,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
         cancelPendingIntent();
         mDataServicesManager.stopCore();
     }
@@ -111,6 +112,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
+    }
+
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
@@ -119,7 +126,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mDataServicesManager.initializeSyncMonitors(null,null);
 
         alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
-        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
         mTemperaturePresenter.fetchData();
         setUpBackendSynchronizationLoop();
@@ -182,7 +188,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
     }
 
     @Override
@@ -194,7 +199,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
                 dFragment.show(getFragmentManager(),"Dialog");
-                EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
+                //EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
                 break;
         }
     }

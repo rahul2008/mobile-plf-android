@@ -1,5 +1,6 @@
 package cdp.philips.com.mydemoapp.consents;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -122,7 +123,14 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Dialog dialog = getDialog();
+        dialog.setTitle("Consents");
+        if (dialog != null)
+        {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+        }
     }
 
     public void createDefaultConsent(){
