@@ -35,7 +35,7 @@ public class AlertDialogFragment extends DialogFragment {
     private ViewGroup decorView;
     private View dimView;
     private FrameLayout dimViewContainer;
-    private int mAnimDuration = 300;
+    private int animDuration = 300;
 
     private int dimColor = Color.BLACK;
     private float dimColorAlpha = 0.8f;
@@ -80,7 +80,7 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getDialog().getWindow().getAttributes().windowAnimations = R.style.UIDAlertDialogStyle;
+        getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
     }
 
     @Override
@@ -134,9 +134,8 @@ public class AlertDialogFragment extends DialogFragment {
 
         if (mIconView != null) {
             if (dialogParams.iconId != 0) {
+                mIconView.setVisibility(View.VISIBLE);
                 mIconView.setImageResource(dialogParams.iconId);
-            } else if (dialogParams.iconDrawable != null) {
-                mIconView.setImageDrawable(dialogParams.iconDrawable);
             } else {
                 mIconView.setVisibility(View.GONE);
             }
@@ -157,11 +156,11 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     private void startEnterAnimation() {
-        UIDUtils.animateAlpha(dimView, 1f, mAnimDuration, null);
+        UIDUtils.animateAlpha(dimView, 1f, animDuration, null);
     }
 
     private void startExitAnimation() {
-        UIDUtils.animateAlpha(dimView, 0f, mAnimDuration, new Runnable() {
+        UIDUtils.animateAlpha(dimView, 0f, animDuration, new Runnable() {
             @Override
             public void run() {
                 decorView.removeView(dimViewContainer);
@@ -220,7 +219,7 @@ public class AlertDialogFragment extends DialogFragment {
         }
     }
 
-    public void setDialogParams(final AlertDialogController.DialogParams dialogParams) {
+    void setDialogParams(final AlertDialogController.DialogParams dialogParams) {
         this.dialogParams = dialogParams;
     }
 

@@ -68,4 +68,9 @@
         <item name="android:scrollbarSize">8dp</item>
     </style>
 
+    <style name="UIDAlertAnimation">
+        <item name="android:windowEnterAnimation">@anim/uid_alert_dialog_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/uid_alert_dialog_fade_out</item>
+    </style>
+
 </resources>
