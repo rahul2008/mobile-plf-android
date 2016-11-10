@@ -5,6 +5,7 @@
 
 package com.philips.platform.appinfra.contentloader;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -16,6 +17,8 @@ import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
+import com.philips.platform.appinfra.contentloader.model.ContentItem;
+import com.philips.platform.appinfra.contentloader.model.Tag;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
@@ -24,6 +27,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,7 +40,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private int offset = 0;
     private final int downloadLimit;
     private int contentDownloadedCount;
-
+    private List downloadedContents ;
+    private Calendar expiryDate;
+    private ContentDatabaseHandler mContentDatabaseHandler;
     // region public methods
 
     /**
@@ -47,7 +53,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
      * @param contentClassType type of the content class (use Content.class)
      * @param contentType      name of the content as given in the server JSON structure
      */
-    public ContentLoader(String serviceId, int maxAgeInHours, Class<Content> contentClassType, String contentType, AppInfraInterface appInfra) {
+    public ContentLoader(Context context, String serviceId, int maxAgeInHours, Class<Content> contentClassType, String contentType, AppInfraInterface appInfra) {
         mServiceId = serviceId;
         mMaxAgeInHours = maxAgeInHours;
         mClassType = contentClassType;
@@ -59,6 +65,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mHeaders = new HashMap<String, String>();
         downloadInProgress = new AtomicBoolean(false);
         downloadLimit = getDownloadLimitFromConfig();
+        downloadedContents=new ArrayList<ContentItem>();
+        mContentDatabaseHandler = new ContentDatabaseHandler(context);
     }
     // endregion
 
@@ -66,7 +74,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     @Override
     public void refresh(final OnRefreshListener refreshListener) {
 
-
+        downloadedContents.clear();
         if (downloadInProgress.compareAndSet(false, true)) {
             downloadContent(refreshListener);
         } else {
@@ -107,7 +115,22 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                     if (null != contentList && contentList.size() > 0) {
                                         for (int contentCount = 0; contentCount < contentList.size(); contentCount++) {
                                             Log.i("CL Ariticle", "" + contentList.get(contentCount));
-                                            ContentArticle contentItem = gson.fromJson(contentList.get(contentCount), ContentArticle.class);
+                                            ContentArticle contentArticle = gson.fromJson(contentList.get(contentCount), ContentArticle.class);
+                                            ContentItem contentItem = new ContentItem();
+                                            contentItem.setId(contentArticle.getId());
+                                            contentItem.setServiceId(mServiceId);
+                                            contentItem.setRawData(contentList.get(contentCount).toString());
+                                            contentItem.setVersionNumber(contentArticle.getVersion());
+                                            List<Tag> tagList = contentArticle.getTags();
+                                            String tags="";
+                                            if(null!=tagList && tagList.size()>0){
+                                                for(Tag tag:tagList){
+                                                    tags+=tag.getId()+", ";
+                                                }
+                                                tags=tags.substring(0, tags.length()-2);
+                                            }
+                                            contentItem.setTags(tags);
+                                            downloadedContents.add(contentItem);
                                             String articleId = contentItem.getId();
                                             Log.i("CL Ariticle", "" + articleId + "  TAGs ");
                                             /* TBD push this item in DB,( id-primary key, tags, modDate, content json)*/
@@ -117,6 +140,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                             }
                             if (contentDownloadedCount < downloadLimit) { // download is over
                                 Log.i("CL REFRSH RESP", "download completed");
+                                expiryDate = Calendar.getInstance();
+                                expiryDate.add(Calendar.HOUR_OF_DAY, mMaxAgeInHours);
+                                mContentDatabaseHandler.addContents(downloadedContents,mServiceId,expiryDate.getTime().getTime());
                                 clearParamsAndHeaders();// clear headerd and params from rest client
                                 downloadInProgress.set(false);
                                 offset = 0;
@@ -136,6 +162,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                             refreshListener.onError(ERROR.SERVER_ERROR, error);
                             downloadInProgress.set(false);
                             contentDownloadedCount = 0;
+                            downloadedContents.clear();
                             offset = 0;
                         }
                     },
@@ -224,5 +251,12 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         Integer contentLoaderLimit = (Integer) mAppInfra.getConfigInterface().getPropertyForKey("contentLoader.limitSize", "appinfra", configError);
         return contentLoaderLimit;
+    }
+
+    private void  updateContentDatabase(){
+        if(null!=downloadedContents && downloadedContents.size()>0){
+
+        }
+        downloadedContents.clear();
     }
 }

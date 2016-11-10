@@ -52,7 +52,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                     showAlertDialog("Invalid Input", "Invalid Service ID ");
 
                 } else {
-                    mContentLoader = new ContentLoader(EditTextServiceId.getText().toString().trim(), magAge, ContentArticle.class, "articles", AppInfraApplication.gAppInfra);
+                    mContentLoader = new ContentLoader(getApplicationContext(),EditTextServiceId.getText().toString().trim(), magAge, ContentArticle.class, "articles", AppInfraApplication.gAppInfra);
 
                     mContentLoader.refresh(new ContentLoaderInterface.OnRefreshListener() {
                         @Override
