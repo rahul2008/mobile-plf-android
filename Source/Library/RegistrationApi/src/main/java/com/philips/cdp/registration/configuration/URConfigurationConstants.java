@@ -3,13 +3,11 @@ package com.philips.cdp.registration.configuration;
 
 public class URConfigurationConstants {
     public static final String UR = "UserRegistration";
-    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_DEVELOPMENT = "JanRainConfiguration.RegistrationClientID.DEVELOPMENT";
-    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_TESTING = "JanRainConfiguration.RegistrationClientID.TESTING";
-    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_EVALUATION = "JanRainConfiguration.RegistrationClientID.EVALUATION";
-    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_STAGING = "JanRainConfiguration.RegistrationClientID.STAGING";
-    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_PRODUCTION = "JanRainConfiguration.RegistrationClientID.PRODUCTION";
-    public static final String PILCONFIGURATION_MICROSITE_ID = "PILConfiguration.MicrositeID";
-    public static final String PILCONFIGURATION_REGISTRATION_ENVIRONMENT = "PILConfiguration.RegistrationEnvironment";
+    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_DEVELOPMENT = "JanRainConfiguration.RegistrationClientID.Development";
+    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_TESTING = "JanRainConfiguration.RegistrationClientID.Testing";
+    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_EVALUATION = "JanRainConfiguration.RegistrationClientID.Evaluation";
+    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_STAGING = "JanRainConfiguration.RegistrationClientID.Staging";
+    public static final String JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_PRODUCTION = "JanRainConfiguration.RegistrationClientID.Production";
     public static final String PIL_CONFIGURATION_CAMPAIGN_ID = "PILConfiguration.CampaignID";
     public static final String FLOW_EMAIL_VERIFICATION_REQUIRED = "Flow.EmailVerificationRequired";
     public static final String FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED = "Flow.TermsAndConditionsAcceptanceRequired";

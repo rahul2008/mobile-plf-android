@@ -74,8 +74,8 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String micrositeId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.PILCONFIGURATION_MICROSITE_ID,
-                        UR, configError);
+                getPropertyForKey("appidentity.micrositeId",
+                        "appinfra", configError);
         if (null == micrositeId) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
@@ -113,12 +113,16 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String registrationEnvironment = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.PILCONFIGURATION_REGISTRATION_ENVIRONMENT
-                        , UR, configError);
+                getPropertyForKey("appidentity.appState"
+                        , "appinfra", configError);
         if (null == registrationEnvironment) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
         }
+        if (registrationEnvironment.equalsIgnoreCase("TEST"))
+            return Configuration.TESTING.getValue();
+        if (registrationEnvironment.equalsIgnoreCase("ACCEPTANCE"))
+            return Configuration.EVALUATION.getValue();
         return registrationEnvironment;
     }
 
