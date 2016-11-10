@@ -110,6 +110,8 @@ public static <fields>;
 -dontwarn java.nio.file.**
 -dontwarn okio.**
 
+-dontwarn com.facebook.android.BuildConfig
+
 -dontwarn android.support.**
 -dontwarn android.support.v8.**
 -dontwarn com.philips.cdp.registration.**
@@ -124,6 +126,10 @@ public static <fields>;
 
 #notification (Registration)
 -dontwarn android.app.Notification
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
 
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
@@ -152,7 +158,86 @@ public static <fields>;
 -keep interface com.philips.cdp.prodreg.** {*;}
 -keep enum com.philips.cdp.prodreg.** {*;}
 
+##--------------- ORMLite  ----------
 
+# Keep ORMLite specifics
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+
+-keep @com.j256.ormlite.table.DatabaseTable class * { *; }
+
+
+##--------------- Eventbus  ----------
+
+-keepclassmembers class ** {
+    !private void onEvent*(**);
+     @org.greenrobot.eventbus.Subscribe <methods>;
+     public void onEvent(**);
+     public void onEventMainThread(**);
+     public void onEventBackgroundThread(**);
+     public void onEvent*(***);
+     void onEvent*(**);
+     void onEvent*(***);
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep class de.greenrobot.event.** { *; }
+-keep class de.greenrobot.** {*;}
+
+-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
+
+-keep class * {
+    @de.greenrobot.event.* <methods>;
+}
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+##--------------- Jodatime  ----------
+
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }
+
+##-------------- Retrofit -------------
+
+-keep class com.squareup.** { *; }
+-keep interface com.squareup.** { *; }
+-keep class retrofit.** { *; }
+-keep interface retrofit.** { *;}
+
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+
+-dontwarn com.squareup.okhttp.**
+-dontwarn retrofit.**
+-dontwarn okio.**
+-dontwarn rx.**
+-dontwarn android.app.Notification
+
+#Data-Services
+-keep class com.philips.platform.core.** {*;}
+-keep interface com.philips.platform.core.** {*;}
+
+##----------------- Gson -------------------
+-keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
+-keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMeasurement { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMomentsHistory { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMomentSaveResponse { *; }
+
+#HSDP Lib
+-keep  class com.philips.dhpclient.** {*;}
+-keep  class com.fasterxml.jackson.annotation.** {*;}
+-keep  class com.fasterxml.jackson.core.** {*;}
+-keep  class com.fasterxml.jackson.databind.** {*;}
 
 #Tagging
 
