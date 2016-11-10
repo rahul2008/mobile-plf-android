@@ -65,5 +65,9 @@
     <dimen name="alertaction_buttons_padding">8dp</dimen>
     <dimen name="alertaction_button_rightpadding">12dp</dimen>
     <dimen name="alertactionarea_height">64dp</dimen>
+    <dimen name="alertcontentText_height">22dp</dimen>
+    <dimen name="alertTitleText_height">24dp</dimen>
+
+
 
 </resources>

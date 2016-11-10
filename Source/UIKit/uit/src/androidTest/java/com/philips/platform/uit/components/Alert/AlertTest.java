@@ -17,6 +17,7 @@ import com.philips.platform.uit.DialogTestFragment;
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uit.utils.TestConstants;
 import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.junit.Before;
@@ -30,7 +31,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.Gray65;
 import static com.philips.platform.uit.test.R.color.Gray75;
-import static com.philips.platform.uit.test.R.color.White;
 import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
 public class AlertTest {
@@ -132,7 +132,14 @@ public class AlertTest {
 
     @Test
     public void verifyAlertContentTextLeading() {
+        int expectedTextLeading = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertcontentText_height));
+        getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextHeight(expectedTextLeading)));
+    }
 
+    @Test
+    public void verifyAlertTitleTextLeading() {
+        int expectedTextLeading = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alertTitleText_height));
+        getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextHeight(expectedTextLeading)));
     }
 
     @Test
@@ -220,9 +227,15 @@ public class AlertTest {
      * Theming Scenarios for Alert
      ******************************************************/
 
+    // TODO: 11/9/2016
     @Test
     public void verifyFillColorofAlert() {
-        final int expectedFillColor = ContextCompat.getColor(instrumentationContext, White);
+//        final int expectedFillColor = ContextCompat.getColor(instrumentationContext, White);
+//        getAlert().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_UID_ALERT, -android.R.attr.enabled, expectedFillColor)));
+    }
+
+    private String alertFunction() {
+        return TestConstants.FUNCTION_GET_UID_ALERT;
     }
 
     // TODO: 11/9/2016 Not implemented
