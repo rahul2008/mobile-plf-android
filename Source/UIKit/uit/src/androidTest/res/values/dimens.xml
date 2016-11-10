@@ -56,12 +56,12 @@
     <dimen name="alert_title_font_size">20sp</dimen>
     <dimen name="alerttitle_leftrighttop_margin">24dp</dimen>
     <dimen name="alerttitle_icon_leftrighttop_margin">27dp</dimen>
-    <dimen name="alert_content_top_margin_when_no_title">20dp</dimen>
+    <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
     <dimen name="alert_width">272dp</dimen>
 
 
     <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
-    <dimen name="alertcontent_top_padding">24dp</dimen>
+    <dimen name="alertcontent_top_padding">20dp</dimen>
     <dimen name="alertcontent_leftrightbottom_margin">24dp</dimen>
     <dimen name="alerttitle_iconsize">24dp</dimen>
     <dimen name="alerttitle_icon_rightpadding">8dp</dimen>

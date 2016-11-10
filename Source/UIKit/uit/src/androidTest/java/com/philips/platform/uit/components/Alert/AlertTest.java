@@ -53,21 +53,13 @@ public class AlertTest {
     /*****************************************
      * Alert Layout Scenarios
      *********************************************/
-    // TODO: 11/9/2016 responsive rules are not implemented
     @Test
-    public void verifyAlertMinWidth() {
+    public void verifyAlertWidth() {
         int expectedWidth = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alert_width));
         getAlert().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
-
-    }
-    // TODO: 11/9/2016 responsive rules are not implemented
-
-    @Test
-    public void verifyAlertMaxWidth() {
-
     }
 
-    // TODO: 11/9/2016 Cannot be tested, because png is used
+    // TODO: 11/9/2016 Not implemented
     @Test
     public void verifyAlertCornerRadius() {
 
@@ -211,14 +203,12 @@ public class AlertTest {
                 .check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedActionareaHeight)));
     }
 
-    // TODO: 08/11/16 This tests needs to be moved to app instead of library
     @Test
     public void verifyFunctionalityOfConfirmativeButton() {
         onView(withId(com.philips.platform.uit.test.R.id.uid_alert_positive_button)).perform(ViewActions.click());
         onView(withId(com.philips.platform.uit.test.R.id.uid_alert)).check(doesNotExist());
     }
 
-    // TODO: 08/11/16 This tests needs to be moved to app instead of library
     @Test
     public void verifyFunctionalityOfDismissiveButton() {
         onView(withId(com.philips.platform.uit.test.R.id.uid_alert_negative_button)).perform(ViewActions.click());
@@ -233,7 +223,7 @@ public class AlertTest {
     @Test
     public void verifyFillColorofAlert() {
 //        final int expectedFillColor = ContextCompat.getColor(instrumentationContext, White);
-//        getAlert().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_UID_ALERT, -android.R.attr.enabled, expectedFillColor)));
+//        getAlert().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, -android.R.attr.enabled, expectedFillColor)));
     }
 
     private String alertFunction() {
@@ -294,10 +284,6 @@ public class AlertTest {
 
     private ViewInteraction getAlertConfirmativeButton() {
         return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_positive_button));
-    }
-
-    private ViewInteraction getAlertDismissiveButton() {
-        return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_negative_button));
     }
 }
 

@@ -223,7 +223,7 @@ public class AlertDialogFragment extends DialogFragment {
             headerView.setVisibility(View.GONE);
             titleTextView.setVisibility(View.GONE);
             final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) messageContainer.getLayoutParams();
-            final int margintop = (int) getResources().getDimension(R.dimen.uid_alert_dialog_message_top_margin);
+            final int margintop = (int) getResources().getDimension(R.dimen.uid_alert_dialog_message_top_margin_no_title);
             layoutParams.setMargins(layoutParams.leftMargin, margintop, layoutParams.rightMargin, layoutParams.bottomMargin);
         }
     }

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/uit_page_marging_left_right"
             android:layout_marginStart="@dimen/uit_page_marging_left_right"
-            android:layout_marginBottom="@dimen/uit_page_marging_left_right"
+            android:layout_marginBottom="@dimen/uid_alert_dialog_message_top_margin"
             android:orientation="horizontal">
 
             <ImageView
