@@ -63,8 +63,8 @@
     <dimen name="uid_alert_message_top_margin">20dp</dimen>
     <dimen name="uid_alert_dialog_content_max_height">133dp</dimen>
     <dimen name="uid_alert_dialog_title_icon_top_padding">27dp</dimen>
-    <dimen name="uid_alert_dialog_message_line_spacing">6dp</dimen>
-    <dimen name="uid_alert_dialog_title_text_line_spacing">4dp</dimen>
+    <dimen name="uid_alert_dialog_message_line_spacing">22dp</dimen>
+    <dimen name="uid_alert_dialog_title_text_line_spacing">24dp</dimen>
     <integer name="uid_alert_dialog_title_max_lines">2</integer>
 
 
