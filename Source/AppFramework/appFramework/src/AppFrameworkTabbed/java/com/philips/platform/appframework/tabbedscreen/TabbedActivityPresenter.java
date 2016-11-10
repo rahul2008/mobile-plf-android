@@ -177,8 +177,9 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 return HOME_SUPPORT;
             case MENU_OPTION_ABOUT:
                 return HOME_ABOUT;
-            case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                return SHOPPING_CART;
+            // Commented as part of Plan A removal.
+           /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
+                return SHOPPING_CART;*/
             case MENU_OPTION_PR:
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:

@@ -182,7 +182,7 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
 
     @Override
     public void onBackStackChanged() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        /*if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
             String str = backEntry.getName();
             if (null != str) {
@@ -190,7 +190,7 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
                     return;
                 }
             }
-        }
+        }*/
     }
 
     @Override

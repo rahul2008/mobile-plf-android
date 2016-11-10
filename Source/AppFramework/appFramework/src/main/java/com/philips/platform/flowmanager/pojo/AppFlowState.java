@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AppFlowState {
+public final class AppFlowState {
 
     private String state;
     private List<AppFlowEvent> events = new ArrayList<AppFlowEvent>();
@@ -20,31 +20,14 @@ public class AppFlowState {
     }
 
     /**
-     * @param state The state
-     */
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
      * @return The events
      */
     public List<AppFlowEvent> getEvents() {
         return events;
     }
 
-    /**
-     * @param events The events
-     */
-    public void setEvents(List<AppFlowEvent> events) {
-        this.events = events;
-    }
-
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 }

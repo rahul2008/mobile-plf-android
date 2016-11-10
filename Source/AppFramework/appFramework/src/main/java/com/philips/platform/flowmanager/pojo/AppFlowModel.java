@@ -6,7 +6,7 @@
 
 package com.philips.platform.flowmanager.pojo;
 @SuppressWarnings("serial")
-public class AppFlowModel{
+public final class AppFlowModel{
 
     private AppFlow appflow;
 
@@ -14,7 +14,4 @@ public class AppFlowModel{
         return this.appflow;
     }
 
-    public void setAppFlow(AppFlow appflow) {
-        this.appflow = appflow;
-    }
 }
