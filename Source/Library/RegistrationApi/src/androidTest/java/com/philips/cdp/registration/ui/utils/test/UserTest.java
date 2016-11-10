@@ -364,25 +364,25 @@ public class UserTest extends InstrumentationTestCase {
         }
     }
 
-    public void testUserr(){
-        mUser.getAccessToken();
-        mUser.getEmail();
-        mUser.getPassword();
-        mUser.getGivenName();
-        mUser.getDisplayName();
-        mUser.getFamilyName();
-        mUser.getJanrainUUID();
-        mUser.getHsdpUUID();
-        mUser.getHsdpAccessToken();
-        mUser.getLanguageCode();
-        mUser.getCountryCode();
-        mUser.getEmailVerificationStatus();
-        mUser.getOlderThanAgeLimit();
-        mUser.getReceiveMarketingEmail();
-       // mUser.isUserSignIn();
-        mUser.handleMergeFlowError("sample");
-        assertNotNull(mUser);
-    }
+//    public void testUserr(){
+//        mUser.getAccessToken();
+//        mUser.getEmail();
+//        mUser.getPassword();
+//        mUser.getGivenName();
+//        mUser.getDisplayName();
+//        mUser.getFamilyName();
+//        mUser.getJanrainUUID();
+//        mUser.getHsdpUUID();
+//        mUser.getHsdpAccessToken();
+//        mUser.getLanguageCode();
+//        mUser.getCountryCode();
+//        mUser.getEmailVerificationStatus();
+//        mUser.getOlderThanAgeLimit();
+//        mUser.getReceiveMarketingEmail();
+//       // mUser.isUserSignIn();
+//        mUser.handleMergeFlowError("sample");
+//        assertNotNull(mUser);
+//    }
     public void testSaveDIUserProfileToDisk(){
         Method method = null;
         DIUserProfile diUserProfile = new DIUserProfile();
