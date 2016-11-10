@@ -46,7 +46,7 @@ public class DigitalCareConfigManager {
     public static ProductModelSelectionType mProductModelSelectionType = null;
     public static String[] mCtnList = null;
     private static DigitalCareConfigManager mDigitalCareInstance = null;
-    private static Context mContext = null;
+    private Context mContext = null;
     private static LocaleMatchHandler mLocaleMatchHandler = null;
     private static Locale mLocale = null;
     private static Locale mLocaleMatchWithCountryFallBack = null;
@@ -105,7 +105,7 @@ public class DigitalCareConfigManager {
     public void initializeDigitalCareLibrary(Context applicationContext, AppInfraInterface
             appInfraInterface) {
         if (mContext == null) {
-            DigitalCareConfigManager.mContext = applicationContext;
+            mContext = applicationContext;
             mLocaleMatchHandler = new LocaleMatchHandler(mContext);
             mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
             LocaleMatchHandler.initializePRXMap();
