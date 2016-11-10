@@ -72,7 +72,7 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
                 builder.setIcon(R.drawable.ic_location);
             }
         }
-        alertDialogFragment = builder.setCancelable(true).create();
+        alertDialogFragment = builder.setCancelable(false).create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
     }
 
