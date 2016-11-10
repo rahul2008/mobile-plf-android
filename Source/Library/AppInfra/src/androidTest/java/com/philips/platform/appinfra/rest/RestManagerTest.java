@@ -10,7 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.rest.request.AppInfraRequest;
+import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 import com.philips.platform.appinfra.rest.request.ImageRequest;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
@@ -57,11 +57,12 @@ public class RestManagerTest extends MockitoTestCase {
 
         StringRequest mStringRequest = null;
         try {
-            mStringRequest = new StringRequest(Request.Method.GET, baseURL + "/RCT/test.php?action=data&id=" + "az",
+            mStringRequest = new StringRequest(Request.Method.POST, baseURL + "/RCT/test.php?action=data&id=" + "az",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Log.i("LOG", "" + response);
+                            assertSame("{\"id\":\"az\"}", "{\"id\":\"az\"}");
                             assertNotNull(response);
                         }
                     }, new Response.ErrorListener() {
@@ -74,10 +75,6 @@ public class RestManagerTest extends MockitoTestCase {
             });
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
-        }
-        if (mStringRequest.getCacheEntry() != null) {
-            String cachedResponse = new String(mStringRequest.getCacheEntry().data);
-            Log.i("CACHED DATA: ", "" + cachedResponse);
         }
         if (null != mStringRequest) {
             mRestInterface.getRequestQueue().add(mStringRequest);
@@ -93,6 +90,7 @@ public class RestManagerTest extends MockitoTestCase {
                 @Override
                 public void onResponse(JSONObject response) {
                     Log.i("LOG", "" + response);
+                    assertSame("{\"id\":\"az\"}", "{\"id\":\"az\"}");
                     assertNotNull(response);
                 }
             }, new Response.ErrorListener() {
@@ -231,12 +229,13 @@ public class RestManagerTest extends MockitoTestCase {
     }
 
     public void testAppInfraRequestWithUrl() {
-        AppInfraRequest request = null;
+        GsonCustomRequest request = null;
         try {
-            request = new AppInfraRequest(Request.Method.GET, baseURL + "/RCT/test.php?action=data&id=" + "az",
+            request = new GsonCustomRequest(Request.Method.GET, baseURL + "/RCT/test.php?action=data&id=" + "az",
                     null, null, new Response.Listener() {
                 @Override
                 public void onResponse(Object response) {
+                    assertSame("{\"id\":\"az\"}", "{\"id\":\"az\"}");
                     assertNotNull(response);
                 }
             }, new Response.ErrorListener() {
@@ -255,9 +254,9 @@ public class RestManagerTest extends MockitoTestCase {
     }
 
     public void testAppInfraRequestWithServiceId() {
-        AppInfraRequest request = null;
+        GsonCustomRequest request = null;
         try {
-            request = new AppInfraRequest(Request.Method.GET, serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE
+            request = new GsonCustomRequest(Request.Method.GET, serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE
                     , "",
                     null, null, new Response.Listener() {
                 @Override

@@ -27,23 +27,15 @@ public class RequestQueue extends com.android.volley.RequestQueue {
     public <T> Request<T> add(Request<T> request) {
         String url = request.getUrl();
         if (!url.trim().toLowerCase().startsWith("https://")) {
-            mHttpErrorDelivery.postError(request, new VolleyError("HttpForbiddenException-http calls are" +
-                    " deprecated use https calls only"));
-            return null;
-        } else if (!isValidURL(url.trim())) {
-            mHttpErrorDelivery.postError(request, new VolleyError("URL is not valid"));
-            return null;
+            if (url.trim().startsWith("serviceid://")) {
+                return super.add(request);
+            } else {
+                mHttpErrorDelivery.postError(request, new VolleyError("HttpForbiddenException-http calls are" +
+                        " deprecated use https calls only"));
+                return null;
+            }
         }
         return super.add(request);
-    }
-
-    private boolean isValidURL(String url) {
-        boolean isValidurl = false;
-        String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-        if (null != url && url.matches(regex)) {
-            isValidurl = true;
-        }
-        return isValidurl;
     }
 
 }

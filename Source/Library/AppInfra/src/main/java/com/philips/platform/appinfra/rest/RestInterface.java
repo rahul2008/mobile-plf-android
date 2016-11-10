@@ -28,18 +28,4 @@ public interface RestInterface {
      */
     public HashMap<String, String> setTokenProvider(TokenProviderInterface provider);
 
-
-    /**
-     * This is the callback method Error cases.
-     * the call back will have Error method for actions completed with Errors.
-     * onSuccess returns the Error response type
-     */
-    interface OnErrorListener {
-        enum ERRORVALUES {
-            NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR,
-            INVALID_RESPONSE
-        }
-        void onError(ERRORVALUES error, String message);
-    }
-
 }

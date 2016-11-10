@@ -9,7 +9,6 @@ import android.content.Context;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
-import com.android.volley.Request;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
@@ -100,19 +99,16 @@ public class RestManager implements RestInterface {
         return mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
-        getRequestQueue().add(req);
-    }
-
     private class ServiceIDResolver implements HurlStack.UrlRewriter {
 
         public String rewriteUrl(String originalUrl) {
             if (!ServiceIDUrlFormatting.isServiceIDUrl(originalUrl))
                 return originalUrl;
 
-            final Lock lock = new ReentrantLock();
-            final Condition waitResult = lock.newCondition();
+           // final Lock lock = new ReentrantLock();
+            //final Condition waitResult = lock.newCondition();
             final StringBuilder resultURL = new StringBuilder();
+            //lock.lock();
 
             String sid = ServiceIDUrlFormatting.getServiceID(originalUrl);
             try {
@@ -141,16 +137,17 @@ public class RestManager implements RestInterface {
                         }
                     });
                 }
-                waitResult.await();
-            } catch (InterruptedException e) {
+              //  waitResult.await();
+            } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "RESTERROR",
                         e.toString());
             } finally {
-                if (resultURL.length() > 0) {
+                //waitResult.signalAll();
+                //lock.unlock();
+                if(resultURL.length() > 0)
                     resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
-                }
             }
-            if (resultURL.length() == 0)
+            if (resultURL.length()==0)
                 return null;
             return resultURL.toString();
         }

@@ -1,3 +1,4 @@
+
 /* Copyright (c) Koninklijke Philips N.V. 2016
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
@@ -18,9 +19,11 @@ import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+/**
+ * Created by 310243577 on 11/10/2016.
+ */
 
-public class AppInfraRequest<T> extends Request<T> {
-
+public class GsonCustomRequest<T> extends Request<T> {
 
     private final Response.Listener<T> listener;
     private final Gson gson = new Gson();
@@ -34,17 +37,17 @@ public class AppInfraRequest<T> extends Request<T> {
      * @param clazz   Relevant class object, for Gson's reflection
      * @param headers Map of request headers
      */
-    public AppInfraRequest(int method, String url, Class<T> clazz, Map<String, String> headers,
-                           Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public GsonCustomRequest(int method, String url, Class<T> clazz, Map<String, String> headers,
+                             Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.clazz = clazz;
         this.headers = headers;
         this.listener = listener;
     }
 
-    public AppInfraRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
-                           String urlExtension, Class<T> clazz, Map<String, String> headers,
-                           Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public GsonCustomRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
+                             String urlExtension, Class<T> clazz, Map<String, String> headers,
+                             Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), errorListener);
         this.clazz = clazz;
         this.headers = headers;

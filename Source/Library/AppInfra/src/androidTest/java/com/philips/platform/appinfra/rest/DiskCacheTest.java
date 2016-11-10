@@ -26,22 +26,22 @@ public class DiskCacheTest extends MockitoTestCase {
         assertNotNull(mAppInfra);
     }
 
-    public void testInitialize(){
+    public void testInitialize() {
         mAppInfra = new AppInfra.Builder().build(context);
         Cache cache = new DiskBasedCache(getCacheDir(), 1024, mAppInfra); //
         assertNotNull(cache);
         cache.initialize();
         Cache.Entry e = new Cache.Entry();
-        e.data="sample data".getBytes();
-        cache.put("key",e);
-        assertNotNull(cache.get("key").data);
+        e.data = "sample data".getBytes();
+        cache.put("key", e);
+       // assertNotNull(cache.get("key").data);
+        assertEquals(e.data, cache.get("key").data);
         cache.clear();
         cache.remove("key");
         assertNull(cache.get("key"));
-        //assertEquals(e.data,cache.get("key").data);
     }
 
-    private File getCacheDir(){
-        return  mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
+    private File getCacheDir() {
+        return mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
     }
 }
