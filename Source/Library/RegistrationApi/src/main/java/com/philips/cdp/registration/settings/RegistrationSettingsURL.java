@@ -11,12 +11,34 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.rest.request.StringRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
+import java.util.HashMap;
 
 
 public class RegistrationSettingsURL extends RegistrationSettings {
+
+    public static final String DEV_CAPTURE_DOMAIN = "https://philips.dev.janraincapture.com";
+
+    public static final String TEST_CAPTURE_DOMAIN = "https://philips-test.dev.janraincapture.com";
+
+    public static final String EVAL_CAPTURE_DOMAIN = "https://philips.eval.janraincapture.com";
+
+    public static final String PROD_CAPTURE_DOMAIN = "https://philips.janraincapture.com";
+
+    public static final String DEV_CAPTURE_DOMAIN_CHINA_EU = "https://philips-china-eu.eu-dev.janraincapture.com";
+
+    public static final String DEV_CAPTURE_DOMAIN_CHINA = "https://philips-cn-dev.capture.cn.janrain.com";
+
+    public static final String TEST_CAPTURE_DOMAIN_CHINA= "https://philips-china-test.eu-dev.janraincapture.com";
+
+    public static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-cn-test.capture.cn.janrain.com";
+
+    public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
+
+    public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";
 
     private String LOG_TAG = "RegistrationAPI";
 
@@ -82,7 +104,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
 
 
-        assignBasedonEnvironment(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
 
         String localeArr[] = locale.split("-");
@@ -95,7 +117,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             countryCode = "US";
         }
 
-        AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
+      /*  AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
         RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());
         RLog.d(RLog.SERVICE_DISCOVERY, "Locale : " + locale);
 
@@ -119,12 +141,48 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 break;
             default:
                 throw new RuntimeException("Invalid app state " + appIdentity.getAppState());
-        }
+        }*/
 
         initServiceDiscovery(locale);
+
+
+    }
+    private String getCaptureId(String domain){
+        HashMap<String,String>map =new HashMap<>() ;
+        map.put(DEV_CAPTURE_DOMAIN,"eupac7ugz25x8dwahvrbpmndf8");
+        map.put(TEST_CAPTURE_DOMAIN,"x7nftvwfz8e8vcutz49p8eknqp");
+        map.put(EVAL_CAPTURE_DOMAIN,"nt5dqhp6uck5mcu57snuy8uk6c");
+        map.put(PROD_CAPTURE_DOMAIN,"hffxcm638rna8wrxxggx2gykhc");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"euwkgsf83m56hqknjxgnranezh");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA,"7629q5uxm2jyrbk7ehuwryj7a4");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"hqmhwxu7jtdcye758vvxux4ryb");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"vdgkb3z57jpv93mxub34x73mqu");
+        map.put(EVAL_CAPTURE_DOMAIN_CHINA,"czwfzs7xh23ukmpf4fzhnksjmd");
+        map.put(PROD_CAPTURE_DOMAIN_CHINA,"59fceb32hvkycquwn7fvhs9b99");
+        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
+        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain Map : " + map.get(domain));
+        return map.get(domain);
     }
 
-    private void assignBasedonEnvironment(String registrationEnv) {
+    private String getEngageId(String  domain){
+        HashMap<String,String>map =new HashMap<>() ;
+        map.put(DEV_CAPTURE_DOMAIN,"bdbppnbjfcibijknnfkk");
+        map.put(TEST_CAPTURE_DOMAIN,"fhbmobeahciagddgfidm");
+        map.put(EVAL_CAPTURE_DOMAIN,"jgehpoggnhbagolnihge");
+        map.put(PROD_CAPTURE_DOMAIN,"ddjbpmgpeifijdlibdio");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"bdbppnbjfcibijknnfkk");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA,"ruaheighoryuoxxdwyfs");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"jndphelwbhuevcmovqtn");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"fhbmobeahciagddgfidm");
+        map.put(EVAL_CAPTURE_DOMAIN_CHINA,"uyfpympodtnesxejzuic");
+        map.put(PROD_CAPTURE_DOMAIN_CHINA,"ddjbpmgpeifijdlibdio");
+        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
+        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
+
+        return map.get(domain);
+    }
+
+    private void initializePRXLinks(String registrationEnv) {
         if (registrationEnv == null) {
             mProductRegisterUrl = EVAL_PRODUCT_REGISTER_URL;
             mProductRegisterListUrl = EVAL_PRODUCT_REGISTER_LIST_URL;
@@ -160,6 +218,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+       // serviceDiscoveryInterface.setHomeCountry("CN");
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -174,6 +233,16 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         String janrainURL = url.toString().substring(8);
                         jumpConfig.captureDomain = janrainURL.toString();
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);
+
+                        jumpConfig.engageAppId = getEngageId(url.toString());
+                        jumpConfig.captureAppId = getCaptureId(url.toString());
+
+
+                        if (jumpConfig.engageAppId== null || jumpConfig.captureAppId==null)
+                            throw new RuntimeException("Captureid or engageid is null" );
+
+                          RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + getEngageId(url.toString()));
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + getCaptureId(url.toString()));
 
                         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(
                                 "userreg.landing.emailverif",
@@ -223,6 +292,19 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                         }
                                                     }
                                                 });
+                                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                                            @Override
+                                            public void onError(ERRORVALUES errorvalues, String error) {
+                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
+                                                //NOtify failed
+                                            }
+
+                                            @Override
+                                            public void onSuccess(URL url) {
+                                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" + url.toString());
+                                            }
+                                        });
                                     }
                                 });
                     }
