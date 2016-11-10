@@ -15,10 +15,12 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 
 import static com.philips.cdp.prxclient.RequestManager.mContext;
@@ -80,7 +82,8 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(this, new User(this));
+        userRegistrationFacade.clearUserData();
     }
 
     @Override

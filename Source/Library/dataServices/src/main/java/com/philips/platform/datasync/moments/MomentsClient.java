@@ -26,10 +26,10 @@ import static android.os.FileObserver.DELETE;
  */
 public interface MomentsClient {
 
-    @GET("/api/users/{babyId}/moments/_history")
+    @GET("/api/users/{userId}/moments/_history")
     com.philips.platform.datasync.moments.UCoreMomentsHistory getMomentsHistory(
-            @Header("performerId") String userId,
-            @Path("babyId") String babyId,
+            @Header("performerId") String performerId,
+            @Path("userId") String userId,
             @Query(value = "_since", encodeValue = false) String timestamp
     );
 
@@ -38,15 +38,15 @@ public interface MomentsClient {
                                                                                   @Header("performerId") String userId,
                                                                                   @Body com.philips.platform.datasync.moments.UCoreMoment uCoreMoment);
 
-    @PUT("/api/users/{babyId}/moments/{momentId}")
-    Response updateMoment(@Path("babyId") String babyId,
+    @PUT("/api/users/{userId}/moments/{momentId}")
+    Response updateMoment(@Path("userId") String userId,
                           @Path("momentId") String momentId,
-                          @Header("performerId") String userId,
+                          @Header("performerId") String performerId,
                           @Body com.philips.platform.datasync.moments.UCoreMoment uCoreMoment);
 
-    @DELETE("/api/users/{babyId}/moments/{momentId}")
-    Response deleteMoment(@Path("babyId") String babyId,
+    @DELETE("/api/users/{userId}/moments/{momentId}")
+    Response deleteMoment(@Path("userId") String userId,
                           @Path("momentId") String momentId,
-                          @Header("performerId") String userId);
+                          @Header("performerId") String performerId);
 
 }

@@ -57,7 +57,7 @@ public class SavingMonitor extends EventMonitor{
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         if(consentBackendSaveResponse.getConsent()!=null){
-         dbInterface.saveConsent(consentBackendSaveResponse.getConsent());
+         dbInterface.saveBackEndConsent(consentBackendSaveResponse.getConsent());
         }else{
            // eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
         }

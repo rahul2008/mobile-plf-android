@@ -12,6 +12,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings("rawtypes")
 public interface DBFetchingInterface {
     void fetchMoments() throws SQLException;
     void fetchMoments(final @NonNull MomentType type) throws SQLException;
@@ -23,7 +24,4 @@ public interface DBFetchingInterface {
     Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
     Map<Class, List<?>> putConsentForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
     void fetchConsents() throws SQLException;
-    List<?> fetchConsentsToSync() throws SQLException;
-    List<?> fetchConsentDetails() throws SQLException;
-    List<?> fetchConsentDetailTypes() throws SQLException;
 }
