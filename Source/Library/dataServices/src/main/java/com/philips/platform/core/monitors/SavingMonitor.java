@@ -3,6 +3,7 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
@@ -36,18 +37,29 @@ public class SavingMonitor extends EventMonitor{
 
     public void onEventAsync(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
         boolean saved = dbInterface.saveConsent(consentSaveRequest.getConsent());
-        if (saved) {
+
+        if(!saved){
+            eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
+            return;
+        }
+
+        if(consentSaveRequest.isDefaultConsent()){
+            eventing.post(new ConsentBackendGetRequest(1));
+        }else{
             eventing.post(new ConsentBackendSaveRequest(ConsentBackendSaveRequest.RequestType.SAVE, consentSaveRequest.getConsent()));
+        }
+        /*if (saved && !consentSaveRequest.isDefaultConsent()) {
+
         } else {
             eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
-        }
+        }*/
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         if(consentBackendSaveResponse.getConsent()!=null){
          dbInterface.saveConsent(consentBackendSaveResponse.getConsent());
         }else{
-          //  eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
+           // eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
         }
 
     }

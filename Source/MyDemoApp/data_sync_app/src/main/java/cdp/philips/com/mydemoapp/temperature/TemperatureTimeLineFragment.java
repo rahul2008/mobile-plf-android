@@ -227,7 +227,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         onFailureRefresh(exception);
     }
 
-
     private void onFailureRefresh(final Exception e) {
         getActivity().runOnUiThread(new Runnable() {
             @Override

@@ -83,6 +83,15 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
         }
     }
 
+    private void getIfConsentIDExists(OrmConsent ormConsent) throws SQLException {
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+            deleting.deleteConsent(consentInDatabase);
+            ormConsent.setId(id);
+        }
+    }
+
     private void notifyAllSuccess(Object ormMoments) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
@@ -90,6 +99,17 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
             ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onSuccess(ormMoments);
+            }
+        }
+    }
+
+    private void notifyAllSuccess(Consent ormConsent) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if(integers.contains(EventHelper.CONSENT)){
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onSuccess(ormConsent);
             }
         }
     }

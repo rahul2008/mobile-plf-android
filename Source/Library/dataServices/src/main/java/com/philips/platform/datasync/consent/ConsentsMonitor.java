@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
@@ -91,6 +92,9 @@ public class ConsentsMonitor extends EventMonitor {
                     consentsConverter.getDeviceIdentificationNumberList(), consentsConverter.getDocumentVersionList());
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
                 Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, accessProvider.getUserId());
+                for (ConsentDetail consentDetail:consent.getConsentDetails()){
+                    consentDetail.setBackEndSynchronized(true);
+                }
                 consent.setBackEndSynchronized(true);
 
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));

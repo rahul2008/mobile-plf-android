@@ -83,6 +83,11 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
     }
 
     @Override
+    public void setBackEndSynchronized(boolean backEndSynchronized) {
+        this.beSynchronized = backEndSynchronized;
+    }
+
+    @Override
     public void setVersion(final String version) {
         this.version = version;
     }

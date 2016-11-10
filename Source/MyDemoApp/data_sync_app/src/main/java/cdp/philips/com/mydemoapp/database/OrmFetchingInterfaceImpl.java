@@ -76,6 +76,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
         notifySucessConsentChange(ormConsents);
+       /* QueryBuilder<OrmConsentDetail, Integer> queryBuilder = consentDetailsDao.queryBuilder();
+        ArrayList<OrmConsentDetail> ormConsentDetails =(ArrayList<OrmConsentDetail>)consentDetailsDao.query(queryBuilder.prepare());
+        notifySucessConsentDetailsChange(ormConsentDetails);*/
     }
 
     @Override
@@ -204,6 +207,21 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
             for (DBChangeListener listener : dbChangeListeners) {
                 if(ormConsents.size()!=0){
                     listener.onSuccess(ormConsents.get(0));
+                }else{
+                    listener.onSuccess(null);
+                }
+            }
+        }
+    }
+
+    private void notifySucessConsentDetailsChange(ArrayList<? extends OrmConsentDetail> ormConsentDetails){
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if(integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                if(!ormConsentDetails.isEmpty()){
+                    listener.onSuccess(ormConsentDetails);
                 }else{
                     listener.onSuccess(null);
                 }

@@ -294,7 +294,11 @@ public class TemperaturePresenter {
          mDataServices.save(consent);
     }
 
-    public void fetchConsents() {
+    public void fetchConsent() {
         mDataServices.fetchConsent();
+    }
+
+    public void fetchBackendConsent() {
+        mDataServices.fetchBackendConsent();
     }
 }

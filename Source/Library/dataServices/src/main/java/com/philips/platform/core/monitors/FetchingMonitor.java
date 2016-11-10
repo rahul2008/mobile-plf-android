@@ -81,6 +81,8 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+
+
     public void onEventBackgroundThread(LoadConsentsRequest event) {
         try {
             dbInterface.fetchConsents();

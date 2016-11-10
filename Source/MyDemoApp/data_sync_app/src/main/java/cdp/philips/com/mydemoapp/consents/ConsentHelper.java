@@ -49,6 +49,10 @@ public class ConsentHelper {
         dataServicesManager.save(consent);
     }
 
+    public void createDeafultConsentRequest(final Consent consent) {
+        dataServicesManager.createDefault(consent);
+    }
+
     public void addConsentDetails(@NonNull final Consent consent, @NonNull final ConsentDetail consentDetail) {
         createAndAddConsentDetail(consent, consentDetail.getType(), consentDetail.getStatus(), consentDetail.getDeviceIdentificationNumber());
     }

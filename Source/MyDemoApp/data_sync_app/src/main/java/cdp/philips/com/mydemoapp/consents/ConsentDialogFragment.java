@@ -48,7 +48,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         View rootView = inflater.inflate(R.layout.dialog_consent, container,
                 false);
         EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
-        mTemperaturePresenter.fetchConsents();
+        mTemperaturePresenter.fetchConsent();
         showProgressBar();
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
         mBtnOk=(Button)rootView.findViewById(R.id.btnOK);
@@ -72,15 +72,26 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
       }
     }
 
+   /* @Override
+    public void onSuccessfulConsentFetch(Object data) {
+        dismissProgressBar();
+        mTemperaturePresenter.
+    }
+*/
     @Override
     public void onSuccess(Object data) {
         dismissProgressBar();
-        OrmConsent ormConsent = (OrmConsent) data;
+        final OrmConsent ormConsent = (OrmConsent) data;
         if(ormConsent!=null){
-            lConsentAdapter = new ConsentDialogAdapter(getActivity(),ormConsent, mTemperaturePresenter);
-            mRecyclerView.setAdapter(lConsentAdapter);
-            lConsentAdapter.notifyDataSetChanged();
-            mBtnOk.setEnabled(true);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    lConsentAdapter = new ConsentDialogAdapter(getActivity(),ormConsent, mTemperaturePresenter);
+                    mRecyclerView.setAdapter(lConsentAdapter);
+                    lConsentAdapter.notifyDataSetChanged();
+                    mBtnOk.setEnabled(true);
+                }
+            });
         }
 
     }
@@ -115,21 +126,14 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         DataServicesManager mDataServices=DataServicesManager.getInstance();
         Consent consent = mDataServices.createConsent();
         ConsentHelper consentHelper = new ConsentHelper(mDataServices);
-        consentHelper.addConsent
-                (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        consentHelper.addConsent
-                (consent,ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        consentHelper.addConsent
-                (consent,ConsentDetailType.CRY_DURATION, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
 
-        consentHelper.addConsent
-                (consent,ConsentDetailType.HEIGHT, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+        for(ConsentDetailType consentDetailType:ConsentDetailType.values()){
+            consentHelper.addConsent
+                    (consent, consentDetailType, ConsentDetailStatusType.REFUSED,
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+        }
 
-        consentHelper.sendUpdateRequest(consent);
+        consentHelper.createDeafultConsentRequest(consent);
     }
 
     private void showProgressBar(){

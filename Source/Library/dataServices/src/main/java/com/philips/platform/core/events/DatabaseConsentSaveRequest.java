@@ -10,9 +10,15 @@ import com.philips.platform.core.datatypes.Consent;
 public class DatabaseConsentSaveRequest extends Event {
 
     private Consent consent;
+    private final boolean isDefaultConsent;
 
-    public DatabaseConsentSaveRequest(Consent consent) {
+    public DatabaseConsentSaveRequest(Consent consent, boolean isDefaultConsent) {
         this.consent = consent;
+        this.isDefaultConsent = isDefaultConsent;
+    }
+
+    public boolean isDefaultConsent() {
+        return isDefaultConsent;
     }
 
     public Consent getConsent() {
