@@ -51,7 +51,7 @@ import java.util.ArrayList;
  */
 public class HomeActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HomeActivity.class.getSimpleName();
-    private static HamburgerUtil hamburgerUtil;
+    private HamburgerUtil hamburgerUtil;
     protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -248,6 +248,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        userRegistrationState.unregisterUserRegistrationListener();
     }
 
 
