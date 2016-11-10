@@ -56,6 +56,8 @@ public class AlertTest {
     // TODO: 11/9/2016 responsive rules are not implemented
     @Test
     public void verifyAlertMinWidth() {
+        int expectedWidth = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.alert_width));
+        getAlert().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
 
     }
     // TODO: 11/9/2016 responsive rules are not implemented
