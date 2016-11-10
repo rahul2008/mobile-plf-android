@@ -1,18 +1,18 @@
-Release notes for android-commlib-all
+CommLib-all for Android - Release Notes
 =======================================
 
-Version 0.0.1
+Version 1.0.0-Snapshot
 -------------
 ### New features
-* Feature
-  * Description
-  * More description
+* COM-141 BLE Strategy get/put props implemented.
+    - BLE Device cache introduced to contain discovered devices.
 
 ### Bugs fixed
-* Bug
+* None.
 
 ### API Changes
-* Change
+* See new features.
 
 ### Known issues
-* Issue
+* Notifications not implemented on BLE Strategy.
+* No discovery of BLE devices implemented.
