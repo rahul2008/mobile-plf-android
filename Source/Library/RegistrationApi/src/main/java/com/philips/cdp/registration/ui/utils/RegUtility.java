@@ -198,7 +198,7 @@ public class RegUtility {
         String flowType =
         RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
                 getTestValue("philipsmobileappabtest1content", "Experience A",
-                        ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
+                        ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
         final String EXPERIENCE_A = "Experience A";
         if(flowType.equalsIgnoreCase(EXPERIENCE_A)){
             return true;
