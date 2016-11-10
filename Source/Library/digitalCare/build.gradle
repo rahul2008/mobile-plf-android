@@ -69,20 +69,25 @@ version = objcdp.getVersion()
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
+        }
+        defaults {
             publishIvy = false
-            publishBuildInfo = true
+            publishPom = true
+            publishArtifacts = true
         }
     }
+
     resolve {
         repository {
             repoKey = 'libs-release-local'
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 
@@ -104,12 +109,12 @@ task zipDocuments(type: Zip) {
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionName objcdp.getVersionWithHash()
         multiDexEnabled true
         generatedDensities = []
