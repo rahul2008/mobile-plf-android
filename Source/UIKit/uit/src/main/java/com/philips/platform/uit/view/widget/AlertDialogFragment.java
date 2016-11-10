@@ -134,8 +134,9 @@ public class AlertDialogFragment extends DialogFragment {
 
         if (mIconView != null) {
             if (dialogParams.iconId != 0) {
-                mIconView.setVisibility(View.VISIBLE);
                 mIconView.setImageResource(dialogParams.iconId);
+            } else if (dialogParams.iconDrawable != null) {
+                mIconView.setImageDrawable(dialogParams.iconDrawable);
             } else {
                 mIconView.setVisibility(View.GONE);
             }
