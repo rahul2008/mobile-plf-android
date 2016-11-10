@@ -44,7 +44,6 @@ public class AppFrameworkApplication extends Application {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        LeakCanary.install(this);
         context = getApplicationContext();
         flowManager = new UIFlowManager();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
