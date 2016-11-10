@@ -74,6 +74,7 @@ public class AlertDialogFragment extends DialogFragment {
 
         //initialize container view
         setDimLayer();
+
         return view;
     }
 
@@ -81,7 +82,13 @@ public class AlertDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
-        getDialog().getWindow().getAttributes().width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
+        setAlertWidth();
+    }
+
+    private void setAlertWidth() {
+        final ViewGroup.LayoutParams lp = getView().getLayoutParams();
+        lp.width = (int) Math.abs(getResources().getDimension(R.dimen.uid_alert_dialog_width));
+        getView().setLayoutParams(lp);
     }
 
     @Override
