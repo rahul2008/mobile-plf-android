@@ -54,6 +54,19 @@ public class TextViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<View> isSameTextHeight(final float expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    setValues(String.valueOf(((TextView) view).getLineHeight()), String.valueOf(expectedValue));
+                    return ((TextView) view).getLineHeight() == expectedValue;
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
     public static Matcher<View> isSameCompoundDrawablePadding(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
