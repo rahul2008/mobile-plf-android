@@ -240,7 +240,7 @@ public class SettingsAdapter extends BaseAdapter{
                                 userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
                                     @Override
                                     public void onLogoutSuccess() {
-                                        ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                    //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         fragmentPresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                                     }
 

@@ -107,7 +107,12 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
         this.uiState.setPresenter(this);
         welcomeView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        if(uiState instanceof UserRegistrationState)
+        {
+            ((UserRegistrationState) uiState).unregisterUserRegistrationListener();
+        }
     }
+
 
     @Override
     public void onLogoutSuccess() {

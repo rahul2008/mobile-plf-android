@@ -80,6 +80,10 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         this.uiState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();
         appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        if(uiState instanceof UserRegistrationState)
+        {
+            ((UserRegistrationState) uiState).unregisterUserRegistrationListener();
+        }
     }
 
     @Override
