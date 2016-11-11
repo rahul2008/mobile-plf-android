@@ -119,9 +119,12 @@ public class IAPHandlerTest {
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
     }
 
-   /* @Test
+    @Test
     public void launchIAPAsFragment() throws Exception {
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
+        IAPFlowInput input = new IAPFlowInput("HX9043/64");
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
         mMockIAPHandler.launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
             @Override
             public void updateActionBar(int i, boolean b) {
@@ -132,9 +135,27 @@ public class IAPHandlerTest {
             public void updateActionBar(String s, boolean b) {
 
             }
-        }), new IAPLaunchInput());
-    }*/
+        }), iapLaunchInput);
+    }
 
+    @Test
+    public void launchIAPAsFragmentWhenlaunchInputIsDifferentThenFlow() throws Exception {
+        FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
+        IAPFlowInput input = new IAPFlowInput("HX9043/64");
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIAPFlow(9, input);
+        mMockIAPHandler.launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
+            @Override
+            public void updateActionBar(int i, boolean b) {
+
+            }
+
+            @Override
+            public void updateActionBar(String s, boolean b) {
+
+            }
+        }), iapLaunchInput);
+    }
     @Test
     public void getFragmentFromScreenID() throws Exception {
         mMockIAPHandler.getFragmentFromScreenID(1, new IAPFlowInput("HX8331/11"));
