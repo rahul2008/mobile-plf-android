@@ -327,7 +327,6 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.0.1-SNAPSHOT', ext: 'aar')
     compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.4-SNAPSHOT', ext: 'aar')
     compile project(':pluginreferenceboard')
-    testCompile 'junit:junit:4.12'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
