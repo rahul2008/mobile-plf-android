@@ -7,28 +7,28 @@ node('Android') {
     }
 
     stage('Build BlueLib') {
-        sh 'pushd android-shinelib/Source/ShineLib'
+        sh 'cd android-shinelib/Source/ShineLib'
         sh './gradlew assembleDebug'
-        sh 'popd'
+        sh 'cd -'
     }
 
     stage('Build CommLib') {
-        sh 'pushd dicomm-android/Source/DICommClientSample'
+        sh 'cd dicomm-android/Source/DICommClientSample'
         sh './gradlew assembleDebug'
-        sh 'popd'
+        sh 'cd -'
     }
 
     stage('Build CommLib BlueLib Glue') {
-        sh 'pushd android-commlib-all/Source/commlib-all-parent'
+        sh 'cd android-commlib-all/Source/commlib-all-parent'
         sh './gradlew assembleCompat'
-        sh 'popd'
+        sh 'cd -'
     }
 
     stage('Tests') {
-        sh 'pushd android-commlib-all/Source/commlib-all-parent'
+        sh 'cd android-commlib-all/Source/commlib-all-parent'
         sh 'rm -rf ./commlib-all/build/test-results'
         sh './gradlew testCompat || true'
-        sh 'popd'
+        sh 'cd -'
         step([$class: 'JUnitResultArchiver', testResults: 'android-commlib-all/Source/commlib-all-parent/*/build/test-results/*/*.xml'])
     }
 
