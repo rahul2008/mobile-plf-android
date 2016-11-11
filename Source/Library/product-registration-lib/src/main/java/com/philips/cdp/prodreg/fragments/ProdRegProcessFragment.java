@@ -73,7 +73,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         if (arguments != null) {
             isFirstLaunch = arguments.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
             resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
-            setImageBackground();
         }
         setRetainInstance(true);
         final FragmentActivity activity = getActivity();
@@ -100,6 +99,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         resetErrorDialogIfExists();
         final Bundle arguments = getArguments();
         prodRegProcessController.process(arguments);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setImageBackground();
     }
 
     @Override
