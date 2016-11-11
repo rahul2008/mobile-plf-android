@@ -66,4 +66,13 @@ public class Utils {
                     return true;
             }
     }
+
+    public boolean isTelephonyEnabled(final Context context){
+
+        TelephonyManager tm= (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if(tm.getPhoneType()==TelephonyManager.PHONE_TYPE_NONE){
+            return false;
+        }
+        return true;
+    }
 }
