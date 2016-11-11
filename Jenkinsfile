@@ -1,8 +1,9 @@
 node('Android') {
     stage 'Checkout'
-    checkout scm
+    checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'android-commlib-all']], submoduleCfg: [], userRemoteConfigs: [[]]])
+    sh 'ls -al'
 
-    stage 'Build'
+    /*stage 'Build'
     sh 'cd ./Source/project && ./gradlew assembleDebug'
 
     stage 'Lint'
@@ -12,5 +13,5 @@ node('Android') {
     if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master"){
         stage 'Publish'
         sh 'cd ./Source/project && ./gradlew zipDocuments artifactoryPublish'
-    }
+    }*/
 }
