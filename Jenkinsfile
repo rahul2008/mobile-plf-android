@@ -21,6 +21,7 @@ node('Android') {
     stage('Tests') {
         sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
         sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testCompat || true'
+        sh 'cd /home/jenkins/.gradle/caches/modules-2/files-2.1/info.cukes/cucumber-java/1.2.2/ && find .'
         step([$class: 'JUnitResultArchiver', testResults: 'android-commlib-all/Source/commlib-all-parent/*/build/test-results/*/*.xml'])
     }
 
