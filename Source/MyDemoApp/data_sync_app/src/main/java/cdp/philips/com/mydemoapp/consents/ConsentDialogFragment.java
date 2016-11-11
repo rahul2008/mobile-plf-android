@@ -70,6 +70,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
                 dismissProgressBar();
             }
         });
+        //TODO: showProressBar should be present inside run on UI Thread
         if (data == null) {
             showProgressBar();
             createDefaultConsent();
