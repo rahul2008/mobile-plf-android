@@ -10,13 +10,9 @@ jacoco {
 def coverageSourceDirs = [
         '../iap/src/main/java'
 ]
-
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
-        }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
@@ -24,29 +20,30 @@ buildscript {
                 password = "readonly"
             }
         }
-
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-        classpath 'com.shamanland:fonticon:0.1.+'
-        classpath 'com.google.code.gson:gson:2.2.+'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2"
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
 apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
 
 allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
-        }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
@@ -63,11 +60,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-        }
-
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }  
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -77,15 +70,54 @@ allprojects {
     }
 }
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
 
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+        }
+        defaults {
+            publishIvy = false
+            publishPom = true
+            publishArtifacts = true
+        }
+    }
+
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "24.0.3"
     lintOptions {
         abortOnError false
     }
@@ -168,51 +200,6 @@ dependencies {
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
-
-//maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
-version = objcdp.getVersion()
-
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-        }
-        defaults {
-            publishIvy = false
-            publishPom = true
-            publishBuildInfo = true
-            publishArtifacts = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local-android'
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS===========
-
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
