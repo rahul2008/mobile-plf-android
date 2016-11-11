@@ -6,9 +6,9 @@
 package com.philips.cdp.dicommclient.request;
 
 public enum Error {
-	
-	NOT_UNDERSTOOD("Request not understood."),
-	REQUEST_FAILED("Failed to perform request."),
+
+    NOT_UNDERSTOOD("Request not understood."),
+    REQUEST_FAILED("Failed to perform request."),
     INVALID_PARAMETER("Invalid parameter."),
     NO_SUCH_METHOD("No such method."),
     NO_SUCH_OPERATION("No such operation."),
@@ -24,19 +24,21 @@ public enum Error {
     VERSION_NOT_SUPPORTED("Version not supported."),
     WRONG_PARAMETERS("Wrong parameters."),
 
-	CANNOT_CONNECT("Cannot connect to appliance."),
-	IOEXCEPTION("I/O exception occurred."),
-	NO_REQUEST_DATA("Request cannot be performed with null or empty data."),
-	NO_TRANSPORT_AVAILABLE("Request cannot be performed - No transport available."),
-	NOT_CONNECTED("Request cannot be performed - Not connected to an appliance.");
+    CANNOT_CONNECT("Cannot connect to appliance."),
+    IOEXCEPTION("I/O exception occurred."),
+    NO_REQUEST_DATA("Request cannot be performed with null or empty data."),
+    NO_TRANSPORT_AVAILABLE("Request cannot be performed - No transport available."),
+    NOT_CONNECTED("Request cannot be performed - Not connected to an appliance."),
+    TIMED_OUT("Request timed out"),
+    NOT_AVAILABLE("Communication not available");
 
     private final String mErrorMessage;
 
-	Error(String errorMessage){
-		mErrorMessage = errorMessage;		
-	}
+    Error(String errorMessage) {
+        mErrorMessage = errorMessage;
+    }
 
-	public String getErrorMessage() {
-		return mErrorMessage;
-	}
+    public String getErrorMessage() {
+        return mErrorMessage;
+    }
 }
