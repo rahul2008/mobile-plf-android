@@ -1,5 +1,9 @@
 ﻿Feature: F953 - Continuation: Extend the e2e automated test suite of the reference platform with reference to Consumer Care
 US11725 Automate consumer care module in Reference App context for Android
+US12315 Consumer Care
+Requirement:
+4a) The system shall provide the ability for a user to get online product specific support (Scenario: 01 - 05)
+4b) The system shall provide the ability for a user to give feedback about the product (Scenario: 06)
 
 @DailyTest
 Scenario: 01 Viewing Product Information

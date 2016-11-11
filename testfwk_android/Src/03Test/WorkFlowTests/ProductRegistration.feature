@@ -2,9 +2,20 @@
 	As tester I want to automated e2e scenarios of Product Registration BaseApp in Reference App context for Android
 	PreCondition:User should be Registered before the Product Registration should be initiated.
 
+	US12315 Requirement:
+	1a) The system shall provide the ability for a user to login (note: this already exists)
+	1b) The system shall provide the ability for a user to logout (Current E2E test case needs update to include log-out from the reference app)
+	2a) The system shall provide the ability to register a product (create a separate feature file for the same)
+
 @mytag
 Scenario: Register a product
-	Given the user is on Reference App Welcome Screen
+    Given that the application is in logout state 
+	Then I click on Skip
+	Then Verify that the user is in User Registration screen 
+	Then I click on Philips Account
+	Then enter email as "datacore@mailinator.com" and password as "Philips@123"
+	Then I click on Log In button
+	Then accept terms conditions and click on continue
 	Then Verify that the user should land to home screen
 	Then I click on Hamburger Menu Icon
 	Then I click on Support from Hamburger Menu List and verify support page 
@@ -14,6 +25,9 @@ Scenario: Register a product
 	Then I click on Register 
 	Then I verify that the user is able to see  successfull product message 
 	Then I verify that the user is navigated to Support screen on clicking continue
+	Then I click on Hamburger Menu Icon 
+	Then I click on Account Settings from Hamburger Menu
+	Then I click on Logout in Account Setting Screen
 
 	  
 
