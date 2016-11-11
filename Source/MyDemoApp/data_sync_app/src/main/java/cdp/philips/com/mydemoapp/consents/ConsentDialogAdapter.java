@@ -60,11 +60,11 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         consentDetails.get(position).setStatus(ConsentDetailStatusType.ACCEPTED.name());
-                        consentDetails.get(position).setBackEndSynchronized(false);
                     } else {
                         consentDetails.get(position).setStatus(ConsentDetailStatusType.REFUSED.name());
-                        consentDetails.get(position).setBackEndSynchronized(false);
                     }
+                    consentDetails.get(position).setBackEndSynchronized(false);
+                    mConsent.setBackEndSynchronized(false);
                 }
             });
         }
