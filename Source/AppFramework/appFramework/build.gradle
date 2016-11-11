@@ -76,6 +76,7 @@ version = objcdp.getVersion()
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
@@ -90,9 +91,10 @@ artifactory {
     }
     resolve {
         repository {
-            repoKey = 'app-release-local'
+            repoKey = 'libs-release-local'
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
