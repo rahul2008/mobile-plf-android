@@ -1,9 +1,12 @@
-package com.philips.cdp.di.iap.store;//package com.philips.cdp.di.iap.store;
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
@@ -18,9 +21,6 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
 @RunWith(RobolectricTestRunner.class)
 public class HybrisStoreTest {
     @Mock
@@ -32,17 +32,15 @@ public class HybrisStoreTest {
     @Mock
     AppInfra mAppInfra;
     private StoreListener mStore;
-    private MockIAPSetting mockIAPSetting;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
-        mockIAPSetting = new MockIAPSetting(mContext);
+        MockIAPSetting mockIAPSetting = new MockIAPSetting(mContext);
         mockIAPSetting.setUseLocalData(false);
         mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);
-
         mStore.initStoreConfig("en", "US", null);
     }
 
@@ -184,5 +182,11 @@ public class HybrisStoreTest {
     @Test
     public void getOrderDetailURLValid() {
         assertEquals(NetworkURLConstants.ORDER_DETAIL_URL, mStore.getOrderDetailUrl(NetworkURLConstants.DUMMY_ORDER_ID));
+    }
+
+    @Test
+    public void verifyLocale() {
+        mStore.setLangAndCountry("en", "US");
+        assertEquals("en_US", mStore.getLocale());
     }
 }

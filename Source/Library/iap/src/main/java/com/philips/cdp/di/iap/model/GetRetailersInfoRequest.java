@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
@@ -9,10 +13,6 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class GetRetailersInfoRequest extends AbstractModel {
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1";
     private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";

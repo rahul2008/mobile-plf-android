@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.hybris;
 
 import android.content.Context;
@@ -14,9 +18,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 public class HybrisHandlerTest {
     private HybrisHandler hybrisHandler;
     private IAPListener ipIapListener;

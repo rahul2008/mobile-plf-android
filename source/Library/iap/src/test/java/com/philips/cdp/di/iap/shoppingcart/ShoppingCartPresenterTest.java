@@ -1,4 +1,3 @@
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -49,13 +48,12 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     private HybrisDelegate mHybrisDelegate;
     private ShoppingCartPresenter mShoppingCartPresenter;
     private MockPRXSummaryExecutor mMockPRXDataBuilder;
+    private ArrayList<String> mCTNS = new ArrayList<>();
+
     @Mock
     private FragmentManager mFragmentManager;
-
     @Mock
     private Context mContext;
-
-    ArrayList<String> mCTNS = new ArrayList<>();
 
     @Before
     public void setUP() {
@@ -119,7 +117,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
     @Test
-    public void DeleteCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
+    public void deleteCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         EntriesEntity entriesEntity = new EntriesEntity();
@@ -131,7 +129,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
     @Test
-    public void UpdateCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
+    public void updateCartVerifyHybrisSuccess() throws JSONException, NoSuchFieldException, IllegalAccessException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         EntriesEntity entriesEntity = new EntriesEntity();
@@ -305,5 +303,19 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     @Test
     public void onGetDeliveryModes() throws Exception {
         mShoppingCartPresenter.onGetDeliveryModes(new Message());
+    }
+
+    @Test
+    public void getRetailersInformation() {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.getRetailersInformation("HX8331/11");
+    }
+
+    @Test
+    public void verifyNullHybrisDelegate() {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(null);
+        mShoppingCartPresenter.getHybrisDelegate();
     }
 }
