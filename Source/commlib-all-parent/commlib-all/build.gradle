@@ -61,6 +61,8 @@ android {
         }
         compat {
             buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
         }
     }
 }
