@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
-import com.philips.cdp.prodreg.fragments.FindSerialNumberFragment;
+import com.philips.cdp.prodreg.fragments.ProdRegFindSerialFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.MetadataSerNumbSampleContent;
@@ -213,10 +213,10 @@ public class ProdRegRegistrationController {
     }
 
     @NonNull
-    private FindSerialNumberFragment getFindSerialNumberFragment() {
-        final FindSerialNumberFragment findSerialNumberFragment = new FindSerialNumberFragment();
-        findSerialNumberFragment.setArguments(dependencyBundle);
-        return findSerialNumberFragment;
+    private ProdRegFindSerialFragment getFindSerialNumberFragment() {
+        final ProdRegFindSerialFragment prodRegFindSerialFragment = new ProdRegFindSerialFragment();
+        prodRegFindSerialFragment.setArguments(dependencyBundle);
+        return prodRegFindSerialFragment;
     }
 
     public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {

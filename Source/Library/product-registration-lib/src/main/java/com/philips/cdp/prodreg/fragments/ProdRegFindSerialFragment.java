@@ -21,7 +21,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import java.util.List;
 
-public class FindSerialNumberFragment extends ProdRegBaseFragment {
+public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
     private ImageView serialNumberImageView;
     private TextView serialNumberTextView;
