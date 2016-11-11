@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
@@ -32,11 +33,9 @@ import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.R;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * ProductSelectionBaseFragment is the <b>Base class</b> for all fragments.
@@ -136,10 +135,10 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-/*        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
+        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
                 .getDimension(R.dimen.activity_margin_port);
         mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
-                .getDimension(R.dimen.activity_margin_land);*/
+                .getDimension(R.dimen.activity_margin_land);
     }
 
     @Override
