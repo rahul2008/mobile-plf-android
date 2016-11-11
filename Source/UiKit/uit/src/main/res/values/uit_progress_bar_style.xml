@@ -11,7 +11,7 @@
         <item name="android:layout_marginRight">@dimen/uid_progress_bar_margin_right</item>
     </style>
 
-    <declare-styleable name="UIKitProgressBar">
+    <declare-styleable name="UIDProgressBar">
         <attr format="boolean" name="uit_secondary_progress"/>
     </declare-styleable>
 </resources>

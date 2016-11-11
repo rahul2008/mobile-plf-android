@@ -8,5 +8,6 @@
         <item name="actionBarStyle">@style/UITNavigationBar</item>
         <item name="android:windowBackground">?attr/uitContentPrimary</item>
         <item name="switchStyle">@style/UIDSwitchStyle</item>
+        <item name="progressBarStyle">@style/Philips.ProgressBar.Horizontal</item>
     </style>
 </resources>

@@ -22,23 +22,23 @@ public class ProgressBar extends android.widget.ProgressBar {
     private boolean isSecondaryProgressBarEnabled;
 
     public ProgressBar(final Context context) {
-        super(context);
+        this(context, null);
     }
 
     public ProgressBar(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-
-        theme = ThemeUtils.getTheme(context, attrs);
-
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UIKitProgressBar, 0, 0);
-        isSecondaryProgressBarEnabled = a.getBoolean(R.styleable.UIKitProgressBar_uit_secondary_progress, false);
-        a.recycle();
-
-        init();
+        this(context, attrs, R.attr.progressBarStyle);
     }
 
     public ProgressBar(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        theme = ThemeUtils.getTheme(context, attrs);
+
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.Philips_ProgressBar_Horizontal);
+        isSecondaryProgressBarEnabled = a.getBoolean(R.styleable.UIDProgressBar_uit_secondary_progress, false);
+        a.recycle();
+
+        init();
     }
 
     private void init() {
