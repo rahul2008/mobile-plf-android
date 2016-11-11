@@ -34,7 +34,7 @@ public class ProgressBar extends android.widget.ProgressBar {
 
         theme = ThemeUtils.getTheme(context, attrs);
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.Philips_ProgressBar_Horizontal);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.UIDProgressBarHorizontal);
         isSecondaryProgressBarEnabled = a.getBoolean(R.styleable.UIDProgressBar_uit_secondary_progress, false);
         a.recycle();
 

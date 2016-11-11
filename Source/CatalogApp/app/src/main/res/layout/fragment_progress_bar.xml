@@ -23,25 +23,25 @@
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
-            style="@style/Philips.ProgressBar.Horizontal.WithMargins"
+            style="@style/UIDProgressBarHorizontalWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:indeterminate="true"
             android:indeterminateBehavior="repeat"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
-            style="@style/Philips.ProgressBar.Horizontal.WithMargins"
+            style="@style/UIDProgressBarHorizontalWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
-            style="@style/Philips.ProgressBar.Horizontal.WithMargins"
+            style="@style/UIDProgressBarHorizontalWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             app:uit_secondary_progress="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
-            style="@style/Philips.ProgressBar.Horizontal"
+            style="@style/UIDProgressBarHorizontal"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             app:uit_secondary_progress="true"/>
     </LinearLayout>
