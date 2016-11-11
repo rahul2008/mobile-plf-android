@@ -22,19 +22,17 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
  */
 public class ProdRegHelper {
 
-    private static Context context;
-    private static UserRegistrationUIEventListener userRegistrationListener;
     private ProdRegListener prodRegListener;
 
     @NonNull
     private static UserRegistrationUIEventListener getUserRegistrationListener() {
-        userRegistrationListener = new UserRegistrationUIEventListener() {
+        return new UserRegistrationUIEventListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
                 if (activity != null && activity instanceof RegistrationActivity) {
                     activity.finish();
                 }
-                final User user = new User(context);
+                final User user = new User(activity);
                 final ProdRegListener prodRegListener = new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
@@ -45,7 +43,7 @@ public class ProdRegHelper {
                     }
                 };
                 new ProdRegHelper().addProductRegistrationListener(prodRegListener);
-                new UserWithProducts(context, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(user).getRegisteredProducts());
+                new UserWithProducts(activity, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(user).getRegisteredProducts());
             }
 
             @Override
@@ -58,23 +56,12 @@ public class ProdRegHelper {
 
             }
         };
-        return userRegistrationListener;
     }
-
- /*   public static ProdRegHelper getInstance() {
-        if (prodRegHelper == null) {
-            prodRegHelper = new ProdRegHelper();
-        }
-        return prodRegHelper;
-    }*/
 
     /**
      * API to be called to initialize product registration
-     *
-     * @param context - Application context
      */
-    public void init(Context context) {
-        ProdRegHelper.context = context;
+    public void init() {
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
 
@@ -96,9 +83,8 @@ public class ProdRegHelper {
      *
      * @return - returns instance of UserWithProducts
      */
-    public UserWithProducts getSignedInUserWithProducts() {
-        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
-        return userWithProducts;
+    public UserWithProducts getSignedInUserWithProducts(Context context) {
+        return new UserWithProducts(context, new User(context), prodRegListener);
     }
 
     /**

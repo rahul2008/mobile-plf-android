@@ -39,9 +39,9 @@ public class ProductRegistrationApplication extends Application {
     }
 
     private void initProductRegistration() {
-        PRDependencies PRDependencies = new PRDependencies(mAppInfraInterface);
-        PRSettings PRSettings = new PRSettings(getApplicationContext());
-        new PRInterface().init(PRDependencies, PRSettings);
+        PRDependencies prDependencies = new PRDependencies(mAppInfraInterface);
+        PRSettings prSettings = new PRSettings(getApplicationContext());
+        new PRInterface().init(prDependencies, prSettings);
         mAppInfraInterface.getTagging().setPreviousPage("demoapp:");
     }
 

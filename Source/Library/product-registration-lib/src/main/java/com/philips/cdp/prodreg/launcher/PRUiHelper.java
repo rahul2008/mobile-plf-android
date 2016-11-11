@@ -182,7 +182,7 @@ public class PRUiHelper {
     protected void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         this.appInfra = (AppInfra) uappDependencies.getAppInfra();
-        new ProdRegHelper().init(context);
+        new ProdRegHelper().init();
         ProdRegTagging.init(appInfra);
     }
 
@@ -191,7 +191,6 @@ public class PRUiHelper {
 
         final PRLaunchInput PRLaunchInput = (PRLaunchInput) uappLaunchInput;
         this.prodRegUiListener = PRLaunchInput.getProdRegUiListener();
-        //TODO - to discuss about handling class cast exception
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeProductRegistrationAsActivity(activityLauncher, PRLaunchInput);

@@ -28,11 +28,6 @@ import java.util.List;
 public class ProductListFragment extends Fragment {
 
     public static final String TAG = ProductListFragment.class.getName();
-
-    public interface OnItemClickListener {
-        void onItemClick(RegisteredProduct item);
-    }
-
     private RecyclerView mRecyclerView;
     private ProgressBar progressBar;
 
@@ -57,7 +52,7 @@ public class ProductListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
+        prodRegHelper.getSignedInUserWithProducts(getContext()).getRegisteredProducts(new RegisteredProductsListener() {
             @Override
             public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 final OnItemClickListener onItemClickListener = new OnItemClickListener() {
@@ -87,5 +82,9 @@ public class ProductListFragment extends Fragment {
                 ManualRegistrationFragment.TAG);
         fragmentTransaction.addToBackStack(ManualRegistrationFragment.TAG);
         fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(RegisteredProduct item);
     }
 }

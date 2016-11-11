@@ -122,7 +122,7 @@ public class ProdRegRegistrationController {
             final ProdRegCache prodRegCache = getProdRegCache();
             prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_START_COUNT, 1);
             registerControllerCallBacks.tagEvents("RegistrationEvent", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)));
-            prodRegHelper.getSignedInUserWithProducts().registerProduct(getRegisteredProduct());
+            prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());
         }
     }
 

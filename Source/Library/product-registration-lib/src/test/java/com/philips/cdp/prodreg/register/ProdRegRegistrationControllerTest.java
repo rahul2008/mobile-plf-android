@@ -126,7 +126,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
     public void testRegisterEvent() {
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
+        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
         verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");

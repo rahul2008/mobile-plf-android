@@ -106,7 +106,7 @@ public class ProdRegProcessControllerTest extends TestCase {
     @Test
     public void testGetSummaryListener() {
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
+        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
         prodRegProcessController.process(bundle);
         final SummaryListener summaryListener = prodRegProcessController.getSummaryListener();
         ProductSummaryResponse productSummaryResponseMock = mock(ProductSummaryResponse.class);
@@ -122,7 +122,7 @@ public class ProdRegProcessControllerTest extends TestCase {
     public void testProcess() {
         when(userMock.isUserSignIn()).thenReturn(true);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
+        when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
         prodRegProcessController.process(bundle);
         verify(productMock).getProductMetadata(fragmentActivity, metadataListenerMock);
     }
