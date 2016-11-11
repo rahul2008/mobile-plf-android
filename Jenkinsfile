@@ -14,7 +14,6 @@ node('Android && 25.0.0 && Ubuntu') {
     sh '''
       cd Source/CatalogApp
       ./gradlew clean assembleDebug
-      curl --help
     '''
   }
 
@@ -22,7 +21,7 @@ node('Android && 25.0.0 && Ubuntu') {
     step([$class: 'ArtifactArchiver', artifacts: 'Source/CatalogApp/app/build/outputs/apk/*debug.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
   }
 
-  if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "feature/EHUFA-1216-configuration-management-branching") {
+  if(env.BRANCH_NAME == "develop") {
     stage('Publish') {
       sh '''
         cd Source/CatalogApp/app/build/outputs/apk
