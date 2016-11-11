@@ -89,13 +89,13 @@ public class BleStrategy extends CommunicationStrategy {
     }
 
     private void dispatchRequest(LocalRequestType requestType, final String portName, final int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BleRequest(mDeviceCache.getDeviceMap().get(mCppId), portName, productId, requestType, null, responseHandler);
+        final BleRequest request = new BleRequest(mDeviceCache, mCppId, portName, productId, requestType, null, responseHandler);
         addTimeoutToRequest(request);
         mExecutor.execute(request);
     }
 
     private void dispatchRequest(LocalRequestType requestType, Map<String, Object> dataMap, final String portName, final int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BleRequest(mDeviceCache.getDeviceMap().get(mCppId), portName, productId, requestType, dataMap, responseHandler);
+        final BleRequest request = new BleRequest(mDeviceCache, mCppId, portName, productId, requestType, dataMap, responseHandler);
         addTimeoutToRequest(request);
         mExecutor.execute(request);
     }

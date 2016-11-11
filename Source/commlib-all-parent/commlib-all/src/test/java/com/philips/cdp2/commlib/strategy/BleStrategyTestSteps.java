@@ -26,19 +26,21 @@ import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Matchers;
+import org.mockito.Mockito;
 
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -56,6 +58,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -63,13 +66,24 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class BleStrategyTestSteps {
     private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
 
+    private class QueuedRequest {
+
+        BleRequest request;
+
+        ResponseHandler handler;
+
+        QueuedRequest(final ResponseHandler handler) {
+            this.handler = handler;
+        }
+    }
+
     private BleDeviceCache mDeviceCache;
     private BleStrategy mStrategy;
-    private Map<String, Set<ResultListener<SHNDataRaw>>> mRawDataListeners;
-    private Queue<ResponseHandler> mResponseQueue;
-    private BleRequest mCurrentRequest;
-    private Gson mGson;
 
+    private Map<String, Set<ResultListener<SHNDataRaw>>> mRawDataListeners;
+    private Deque<QueuedRequest> mResponseQueue;
+    private Gson mGson;
+    private Map<String, Integer> writtenBytes;
     @Captor
     private ArgumentCaptor<String> successStringCaptor;
 
@@ -77,10 +91,16 @@ public class BleStrategyTestSteps {
     public void setup() {
         initMocks(this);
 
-        mDeviceCache = new BleDeviceCache();
         mRawDataListeners = new HashMap<>();
+        writtenBytes = new HashMap<>();
+        mDeviceCache = new BleDeviceCache();
         mResponseQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
+    }
+
+    @After
+    public void tearDown(){
+        validateMockitoUsage();
     }
 
     @Given("^the BleStrategy is initialized with id '(.*?)'$")
@@ -88,7 +108,7 @@ public class BleStrategyTestSteps {
         mStrategy = new BleStrategy(deviceId, mDeviceCache) {
             @Override
             protected Timer addTimeoutToRequest(BleRequest request) {
-                mCurrentRequest = request;
+                mResponseQueue.peekLast().request = request;
 
                 return null;
             }
@@ -105,11 +125,17 @@ public class BleStrategyTestSteps {
         assertFalse(mStrategy.isAvailable());
     }
 
+    @And("^the BleStrategy becomes unavailable$")
+    public void theBleStrategyBecomesUnavailable() {
+        mDeviceCache.clear();
+    }
+
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
         SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
         SHNDevice device = mock(SHNDevice.class);
         mRawDataListeners.put(deviceId, new HashSet<ResultListener<SHNDataRaw>>());
+        writtenBytes.put(deviceId, 0);
 
         CapabilityDiComm capability = spy(new CapabilityDiComm() {
             @Override
@@ -119,12 +145,16 @@ public class BleStrategyTestSteps {
 
             @Override
             public void addDataListener(@NonNull final ResultListener<SHNDataRaw> resultListener) {
-                mRawDataListeners.get(deviceId).add(resultListener);
+                synchronized (mRawDataListeners) {
+                    mRawDataListeners.get(deviceId).add(resultListener);
+                }
             }
 
             @Override
             public void removeDataListener(@NonNull final ResultListener<SHNDataRaw> resultListener) {
-                mRawDataListeners.get(deviceId).remove(resultListener);
+                synchronized (mRawDataListeners) {
+                    mRawDataListeners.get(deviceId).remove(resultListener);
+                }
             }
         });
 
@@ -157,15 +187,17 @@ public class BleStrategyTestSteps {
 
         final byte[] dataBytes = DatatypeConverter.parseHexBinary(data);
 
-        for (ResultListener<SHNDataRaw> listener : listeners) {
-            listener.onActionCompleted(new SHNDataRaw(dataBytes), SHNResult.SHNOk);
+        synchronized (mRawDataListeners) {
+            for (ResultListener<SHNDataRaw> listener : listeners) {
+                listener.onActionCompleted(new SHNDataRaw(dataBytes), SHNResult.SHNOk);
+            }
         }
     }
 
     @When("^doing a get-properties for productid '(\\d+)' and port '(.*?)'$")
     public void doingAGetPropertiesForProductidAndPort(int productId, String port) {
         ResponseHandler handler = mock(ResponseHandler.class);
-        mResponseQueue.add(handler);
+        mResponseQueue.add(new QueuedRequest(handler));
 
         mStrategy.getProperties(port, productId, handler);
     }
@@ -186,7 +218,7 @@ public class BleStrategyTestSteps {
     @When("^doing a put-properties for productid '(\\d+)' and port '(.*?)' with data$")
     public void doingAPutPropertiesForProductidAndPortWithData(int productId, String port, String data) {
         ResponseHandler handler = mock(ResponseHandler.class);
-        mResponseQueue.add(handler);
+        mResponseQueue.add(new QueuedRequest(handler));
 
         Map<String, Object> objData = new Gson().fromJson(data, HashMap.class);
 
@@ -228,13 +260,14 @@ public class BleStrategyTestSteps {
         CapabilityDiComm capability = getCapabilityForDevice(deviceId);
 
         verify(capability, times(0)).writeData((byte[]) any());
+        Mockito.reset(getCapabilityForDevice(deviceId));
     }
 
     @And("^write occurred to mock device with id '(.*?)' with any data$")
     public void writeOccurredToMockDeviceWithIdP(String deviceId) {
         CapabilityDiComm capability = getCapabilityForDevice(deviceId);
 
-        verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData((byte[]) any());
+        getWrittenBytesForDevice(deviceId);
     }
 
     @Then("^write occurred to mock device with id '(.*?)' with data '([0-9A-F]*?)'$")
@@ -264,39 +297,49 @@ public class BleStrategyTestSteps {
         assertEqualsJson(expectedPayload, payloadString);
     }
 
+    @And("^total bytes written to id '(.*?)' is '(\\d+)'$")
+    public void totalBytesWrittenToIdPIs(String deviceId, int expectedBytes) throws Throwable {
+        assertEquals(expectedBytes, writtenBytes.get(deviceId).intValue());
+    }
+
     @And("^the request times out$")
     public void theRequestTimesOut() {
-        mCurrentRequest.cancel("Timeout occurred.");
+        mResponseQueue.peek().request.cancel("Timeout occurred.");
     }
 
     @Then("^the result is an error '(.*?)' with data '(.*?)'$")
     public void theResultIsAnErrorWithData(String error, String data) {
-        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), eq(data));
+        verify(mResponseQueue.remove().handler, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), eq(data));
     }
 
     @Then("^the result is an error '(.*?)' with any data$")
     public void theResultIsAnErrorWithAnyData(String error) {
-        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), anyString());
+        verify(mResponseQueue.remove().handler, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), anyString());
     }
 
     @Then("^the result is an error$")
     public void theResultIsAnError() {
-        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(any(Error.class), anyString());
+        verify(mResponseQueue.remove().handler, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(any(Error.class), anyString());
     }
 
     @Then("^the result is an error '(.*?)' without data$")
     public void theResultIsAnErrorWithoutData(String error) {
-        verify(mResponseQueue.remove(), timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), Matchers.isNull(String.class));
+        verify(mResponseQueue.remove().handler, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).onError(eq(Error.valueOf(error)), Matchers.isNull(String.class));
+    }
+
+    @Then("^the result for request nr '(\\d+)' is an error '(.*?)'$")
+    public void theResultForRequestNrIsAnError(int requestNumber, String error) {
+        theResultIsAnErrorWithAnyData(error);
     }
 
     @Then("^the result is success with data '(.*?)'$")
     public void theResultIsSuccessWithDataTestData(String data) {
-        verify(mResponseQueue.remove()).onSuccess(data);
+        verify(mResponseQueue.remove().handler).onSuccess(data);
     }
 
     @Then("^the result is success with data$")
     public void theResultIsSuccessWithLongDataTestData(String expectedJsonString) {
-        verify(mResponseQueue.remove()).onSuccess(successStringCaptor.capture());
+        verify(mResponseQueue.remove().handler).onSuccess(successStringCaptor.capture());
 
         if (successStringCaptor.getAllValues().isEmpty()) fail("No result captured.");
 
@@ -308,7 +351,7 @@ public class BleStrategyTestSteps {
 
     @Then("^the result is success$")
     public void theResultIsSuccess() {
-        verify(mResponseQueue.remove()).onSuccess(successStringCaptor.capture());
+        verify(mResponseQueue.remove().handler).onSuccess(successStringCaptor.capture());
     }
 
     @And("^the json result contains the key '(.*?)'$")
@@ -326,15 +369,25 @@ public class BleStrategyTestSteps {
     }
 
     @NonNull
-    private Matcher getMatcherForWrite(String deviceId, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-
+    private byte[] getWrittenBytesForDevice(String deviceId) {
         ArgumentCaptor<byte[]> argCaptor = ArgumentCaptor.forClass(byte[].class);
 
         CapabilityDiComm capability = getCapabilityForDevice(deviceId);
         verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture());
 
-        String hexData = DatatypeConverter.printHexBinary(argCaptor.getValue());
+        byte[] bytes = argCaptor.getValue();
+
+        writtenBytes.put(deviceId, writtenBytes.get(deviceId) + bytes.length);
+        Mockito.reset(capability);
+
+        return bytes;
+    }
+
+    @NonNull
+    private Matcher getMatcherForWrite(String deviceId, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+
+        String hexData = DatatypeConverter.printHexBinary(getWrittenBytesForDevice(deviceId));
         return pattern.matcher(hexData);
     }
 
@@ -362,10 +415,5 @@ public class BleStrategyTestSteps {
         JsonElement actual = parser.parse(actualJsonString);
 
         assertEquals(expected, actual);
-    }
-
-    @And("^the BleStrategy becomes unavailable$")
-    public void theBleStrategyBecomesUnavailable() {
-        mDeviceCache = new BleDeviceCache();
     }
 }

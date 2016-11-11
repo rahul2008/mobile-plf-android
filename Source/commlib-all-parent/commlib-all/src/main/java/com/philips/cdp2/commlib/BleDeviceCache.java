@@ -54,4 +54,8 @@ public class BleDeviceCache implements SHNDeviceScanner.SHNDeviceScannerListener
     public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
         //don't care
     }
+
+    public void clear() {
+        deviceMap.clear();
+    }
 }

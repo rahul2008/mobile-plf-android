@@ -11,6 +11,7 @@ import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.commlib.error.BleErrorMap;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -41,9 +42,12 @@ import java.util.concurrent.CountDownLatch;
  */
 public class BleRequest extends Request implements Runnable {
     private static final int MAX_PAYLOAD_LENGTH = (int) Math.pow(2, 16) - 1;
+    @NonNull
+    private final BleDeviceCache deviceCache;
+    @NonNull
+    private final String cppId;
 
     private boolean mIsExecuting;
-    private final CapabilityDiComm mCapability;
     private final CountDownLatch mCountDownLatch;
     private final int mProductId;
     private final LocalRequestType mRequestType;
@@ -97,22 +101,24 @@ public class BleRequest extends Request implements Runnable {
     /**
      * Instantiates a new BleRequest.
      *
-     * @param shnDevice       the shn device
+     * @param deviceCache     the device cache
+     * @param cppId           the cppId of the BleDevice
      * @param portName        the port name
      * @param productId       the product id
      * @param requestType     the request type
      * @param dataMap         the optional data map
      * @param responseHandler the response handler
      */
-    public BleRequest(@NonNull SHNDevice shnDevice,
+    public BleRequest(@NonNull BleDeviceCache deviceCache,
+                      @NonNull String cppId,
                       @NonNull String portName,
-                      @NonNull int productId,
+                      int productId,
                       @NonNull LocalRequestType requestType,
                       Map<String, Object> dataMap,
                       @NonNull ResponseHandler responseHandler) {
         super(dataMap, responseHandler);
-
-        mCapability = (CapabilityDiComm) shnDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
+        this.deviceCache = deviceCache;
+        this.cppId = cppId;
         mPortName = portName;
         mProductId = productId;
         mRequestType = requestType;
@@ -130,12 +136,27 @@ public class BleRequest extends Request implements Runnable {
 
                 return null;
             }
-            mCapability.addDataListener(mResultListener);
+
+            if (!deviceCache.getDeviceMap().containsKey(cppId)) {
+                mResponseHandler.onError(Error.NOT_AVAILABLE, "Communication is not available");
+                mCountDownLatch.countDown();
+                return null;
+            }
+
+            CapabilityDiComm capability = (CapabilityDiComm) deviceCache.getDeviceMap().get(cppId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+
+            if (capability == null) {
+                mResponseHandler.onError(Error.NOT_AVAILABLE, "Communication is not available");
+                mCountDownLatch.countDown();
+                return null;
+            }
+
+            capability.addDataListener(mResultListener);
 
             switch (mRequestType) {
                 case GET:
                     DiCommMessage getPropsMessage = new DiCommRequest().getPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName);
-                    mCapability.writeData(getPropsMessage.toData());
+                    capability.writeData(getPropsMessage.toData());
                     break;
                 case PUT:
                     if (mDataMap == null) {
@@ -153,13 +174,13 @@ public class BleRequest extends Request implements Runnable {
                     }
                     final DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
 
-                    if (putPropsMessage.getPayload().length > MAX_PAYLOAD_LENGTH) {
+                    if (putPropsMessage.getPayload() != null && putPropsMessage.getPayload().length > MAX_PAYLOAD_LENGTH) {
                         mResponseHandler.onError(Error.INVALID_PARAMETER, "Payload too big.");
                         mCountDownLatch.countDown();
 
                         return null;
                     }
-                    mCapability.writeData(putPropsMessage.toData());
+                    capability.writeData(putPropsMessage.toData());
                     break;
                 case POST:
                 case DELETE:
@@ -180,8 +201,16 @@ public class BleRequest extends Request implements Runnable {
     public void cancel(String reason) {
         synchronized (mLock) {
             mIsExecuting = false;
-            mCapability.removeDataListener(mResultListener);
-            mResponseHandler.onError(Error.REQUEST_FAILED, reason);
+
+            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
+            if(device != null) {
+                CapabilityDiComm capability = (CapabilityDiComm) device.getCapabilityForType(SHNCapabilityType.DI_COMM);
+                if (capability != null) {
+                    capability.removeDataListener(mResultListener);
+                }
+            }
+
+            mResponseHandler.onError(Error.TIMED_OUT, reason);
             mCountDownLatch.countDown();
         }
     }
