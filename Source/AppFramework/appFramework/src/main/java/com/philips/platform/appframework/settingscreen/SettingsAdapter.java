@@ -253,7 +253,7 @@ public class SettingsAdapter extends BaseAdapter{
                                     @Override
                                     public void onLogoutFailure(final int i, final String s) {
                                         progressDialog.cancel();
-                                    Toast.makeText(activityContext,"Logout failed",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(activityContext,getString(R.string.logout_failed),Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
