@@ -79,7 +79,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             createTables(connectionSource);
             insertDictionaries();
         } catch (SQLException e) {
-            Log.e(TAG, "Unable to create databases", e);
+            Log.e(TAG, "Error Unable to create databases", e);
             mTemperatureMomentHelper.notifyAllFailure(e);
         }
     }

@@ -106,11 +106,13 @@ public class ConsentsMonitor extends EventMonitor {
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
             }
         } catch (Exception e) {
-            eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_GATEWAY_TIMEOUT));
+            Log.i("***SPO***","ConsentsMonitor exception Error");
+            eventing.post(new BackendResponse(event.getEventId(), e));
         }
     }
 
     private void postError(int referenceId, final RetrofitError error) {
+        Log.i("***SPO***","Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 

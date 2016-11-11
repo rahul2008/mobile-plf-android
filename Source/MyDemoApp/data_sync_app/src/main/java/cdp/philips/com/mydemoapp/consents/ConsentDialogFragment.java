@@ -45,7 +45,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
         View rootView = inflater.inflate(R.layout.dialog_consent, container,
                 false);
-        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
         mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
@@ -133,6 +132,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStart() {
         super.onStart();
+        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
         Dialog dialog = getDialog();
         dialog.setTitle("Consents");
         if (dialog != null) {

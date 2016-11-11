@@ -159,7 +159,7 @@ public class DataPullSynchronise {
     }
 
     private void postError(final int referenceId, final RetrofitError error) {
-        Log.i("**SPO**","Error" + error.getMessage());
+        Log.i("**SPO**","Error DataPullSynchronize postError" + error.getMessage());
         eventing.post(new BackendResponse(referenceId, error));
     }
 
@@ -178,10 +178,10 @@ public class DataPullSynchronise {
         Log.i("**SPO**","In Data Pull Synchronize fetchData");
         initFetch();
         for(DataFetcher fetcher:fetchers){
-            if ((fetcher instanceof MomentsDataFetcher || fetcher instanceof ConsentsDataFetcher && nonSynchronizedMoments != null && !nonSynchronizedMoments.isEmpty())) {
+            /*if ((fetcher instanceof MomentsDataFetcher || fetcher instanceof ConsentsDataFetcher && nonSynchronizedMoments != null && !nonSynchronizedMoments.isEmpty())) {
                 numberOfRunningFetches.decrementAndGet();
-               // continue;
-            }
+                continue;
+            }*/
             startFetching(lastSyncDateTime, referenceId, fetcher);
         }
 
