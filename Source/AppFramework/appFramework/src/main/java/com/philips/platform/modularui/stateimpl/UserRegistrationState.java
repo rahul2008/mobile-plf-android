@@ -206,4 +206,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
         urInterface.init(urDependancies, urSettings);
     }
 
+    public void unregisterUserRegistrationListener() {
+        userObject.unRegisterUserRegistrationListener(this);
+    }
 }
