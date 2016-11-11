@@ -173,6 +173,9 @@ public class AlertDialogFragment extends DialogFragment {
             @Override
             public void run() {
                 decorView.removeView(dimViewContainer);
+                decorView = null;
+                dimView = null;
+                dimViewContainer = null;
             }
         });
     }
