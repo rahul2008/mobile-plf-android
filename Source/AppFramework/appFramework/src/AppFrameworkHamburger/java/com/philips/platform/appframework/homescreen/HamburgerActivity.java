@@ -44,7 +44,6 @@ import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import java.util.ArrayList;
-
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
@@ -52,7 +51,7 @@ import java.util.ArrayList;
  */
 public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HamburgerActivity.class.getSimpleName();
-    private static HamburgerUtil hamburgerUtil;
+    private HamburgerUtil hamburgerUtil;
     protected TextView actionBarTitle;
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -249,6 +248,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        userRegistrationState.unregisterUserRegistrationListener();
     }
 
 

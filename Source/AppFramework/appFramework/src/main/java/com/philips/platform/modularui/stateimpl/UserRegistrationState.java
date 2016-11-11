@@ -205,4 +205,7 @@ public class UserRegistrationState extends BaseState implements UserRegistration
         urInterface.init(urDependancies, urSettings);
     }
 
+    public void unregisterUserRegistrationListener() {
+        userObject.unRegisterUserRegistrationListener(this);
+    }
 }
