@@ -6,12 +6,11 @@ package com.philips.platform.core.events;
  */
 public class ConsentBackendGetRequest extends Event {
 
-    private final int referenceId;
+    private int referenceId;
 
     public ConsentBackendGetRequest(int referenceId) {
         this.referenceId = referenceId;
     }
-
     public int getReferenceId() {
         return referenceId;
     }

@@ -182,7 +182,10 @@ public class DataPullSynchronise {
                 numberOfRunningFetches.decrementAndGet();
                 continue;
             }*/
-            startFetching(lastSyncDateTime, referenceId, fetcher);
+
+            if(fetcher instanceof  MomentsDataFetcher) {
+                startFetching(lastSyncDateTime, referenceId, fetcher);
+            }
         }
 
     }

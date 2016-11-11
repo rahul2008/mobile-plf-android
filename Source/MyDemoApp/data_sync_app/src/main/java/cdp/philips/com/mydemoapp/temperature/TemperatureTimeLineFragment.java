@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -66,7 +67,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
-    //SwipeRefreshLayout mSwipeRefreshLayout;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
     private TextView mTvSetCosents;
@@ -179,7 +179,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
     }
 
     @Override
@@ -218,6 +218,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onFailure(final Exception exception) {
         onFailureRefresh(exception);
+    }
+
+    @Override
+    public void onBackEndConsentSuccess(Consent consent) {
+
     }
 
     private void onFailureRefresh(final Exception e) {

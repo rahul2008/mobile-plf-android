@@ -33,8 +33,6 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentDetailsUpdateRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.LoadConsentDetailsRequest;
-import com.philips.platform.core.events.LoadConsentDetailsTypesRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -280,16 +278,21 @@ public class DataServicesManager {
     }
 
     public void save(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false, false));
     }
 
     public void createDefault(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, true));
+        mEventing.post(new DatabaseConsentSaveRequest(consent, true, false));
     }
 
     @NonNull
     public void fetchConsent() {
         mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public void fetchBackEndConsent() {
+        mEventing.post(new ConsentBackendGetRequest(1));
     }
 
     @NonNull

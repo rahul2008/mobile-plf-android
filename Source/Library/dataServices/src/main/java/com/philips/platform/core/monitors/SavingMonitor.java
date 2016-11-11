@@ -46,6 +46,7 @@ public class SavingMonitor extends EventMonitor{
         if(consentSaveRequest.isDefaultConsent()){
             eventing.post(new ConsentBackendGetRequest(1));
         }else{
+            if(!consentSaveRequest.isUpdateSyncFlag())
             eventing.post(new ConsentBackendSaveRequest(ConsentBackendSaveRequest.RequestType.SAVE, consentSaveRequest.getConsent()));
         }
         /*if (saved && !consentSaveRequest.isDefaultConsent()) {
@@ -56,11 +57,8 @@ public class SavingMonitor extends EventMonitor{
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
-        if(consentBackendSaveResponse.getConsent()!=null){
+
          dbInterface.saveBackEndConsent(consentBackendSaveResponse.getConsent());
-        }else{
-           // eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
-        }
 
     }
 }

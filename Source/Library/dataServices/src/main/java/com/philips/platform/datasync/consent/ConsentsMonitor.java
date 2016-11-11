@@ -107,7 +107,8 @@ public class ConsentsMonitor extends EventMonitor {
             }
         } catch (Exception e) {
             Log.i("***SPO***","ConsentsMonitor exception Error");
-            eventing.post(new BackendResponse(event.getEventId(), e));
+            eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
+          //  eventing.post(new BackendResponse(event.getEventId(), e));
         }
     }
 
@@ -144,7 +145,7 @@ public class ConsentsMonitor extends EventMonitor {
             consent.setBackEndSynchronized(true);
 
             //eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
-            eventing.post(new DatabaseConsentSaveRequest(consent,false));
+            eventing.post(new DatabaseConsentSaveRequest(consent,false, true));
         } catch (RetrofitError error) {
            // postError(event.getEventId(), error);
         }

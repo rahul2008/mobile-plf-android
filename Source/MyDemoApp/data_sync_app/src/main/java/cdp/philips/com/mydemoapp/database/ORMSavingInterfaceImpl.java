@@ -82,16 +82,21 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public boolean saveBackEndConsent(Consent consent) throws SQLException {
+
+        if(consent==null){
+            notifyBackEndConsentFetch(null);
+            return false;
+        }
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             ormConsent=getModifiedConsent(ormConsent);
-           // saving.saveConsent(ormConsent);
-            notifyAllSuccess(ormConsent);
+            saving.saveConsent(ormConsent);
+            notifyBackEndConsentFetch(consent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
-            notifyFailConsent(e);
+            notifyBackEndConsentFetch(null);
             return false;
         }
 
@@ -102,9 +107,10 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         Log.d("Creator ID MODI",ormConsent.getCreatorId());
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
-            //deleting.deleteConsent(consentInDatabase);
+            deleting.deleteConsent(consentInDatabase);
             ormConsent.setId(id);
-            updating.updateConsent(ormConsent);
+            //updating.updateConsent(ormConsent);
+            saving.saveConsent(ormConsent);
         }else{
             saving.saveConsent(ormConsent);
         }
@@ -144,7 +150,8 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                 }
             }
             ormConsent.setId(id);
-            updating.updateConsent(consentInDatabase);
+            deleting.deleteConsent(consentInDatabase);
+           // updating.updateConsent(consentInDatabase);
 
         }else{
             saving.saveConsent(ormConsent);
@@ -173,6 +180,18 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             }
         }
     }
+
+    private void notifyBackEndConsentFetch(Consent ormConsent) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onBackEndConsentSuccess(ormConsent);
+            }
+        }
+    }
+
 
     private void notifyFailConsent(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();

@@ -11,10 +11,16 @@ public class DatabaseConsentSaveRequest extends Event {
 
     private Consent consent;
     private final boolean isDefaultConsent;
+    private final boolean isUpdateSyncFlag;
 
-    public DatabaseConsentSaveRequest(Consent consent, boolean isDefaultConsent) {
+    public boolean isUpdateSyncFlag() {
+        return isUpdateSyncFlag;
+    }
+
+    public DatabaseConsentSaveRequest(Consent consent, boolean isDefaultConsent, boolean isUpdateSyncFlag) {
         this.consent = consent;
         this.isDefaultConsent = isDefaultConsent;
+        this.isUpdateSyncFlag = isUpdateSyncFlag;
     }
 
     public boolean isDefaultConsent() {
