@@ -68,8 +68,8 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            deleteConsentAndSetIdIfConsentExists(ormConsent);
-            saving.saveConsent(ormConsent);
+            updateConsentAndSetIdIfConsentExists(ormConsent);
+            //saving.saveConsent(ormConsent);
             notifyAllSuccess(ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
@@ -86,7 +86,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             ormConsent=getModifiedConsent(ormConsent);
-            saving.saveConsent(ormConsent);
+           // saving.saveConsent(ormConsent);
             notifyAllSuccess(ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
@@ -97,13 +97,16 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
-    private void deleteConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
+    private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
         Log.d("Creator ID MODI",ormConsent.getCreatorId());
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
-            deleting.deleteConsent(consentInDatabase);
+            //deleting.deleteConsent(consentInDatabase);
             ormConsent.setId(id);
+            updating.updateConsent(ormConsent);
+        }else{
+            saving.saveConsent(ormConsent);
         }
        /*
         if(!fetching.fetchAllConsentByCreatorId(ormConsent.getCreatorId()).isEmpty()){
@@ -140,8 +143,11 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                     }
                 }
             }
-            deleting.deleteConsent(consentInDatabase);
             ormConsent.setId(id);
+            updating.updateConsent(consentInDatabase);
+
+        }else{
+            saving.saveConsent(ormConsent);
         }
         return ormConsent;
     }

@@ -66,6 +66,10 @@ public class OrmUpdating {
         measurementDao.refresh(measurement);
     }
 
+    public void updateConsent(OrmConsent consent) throws SQLException{
+        constentDao.refresh(consent);
+    }
+
     public void updateMeasurementDetail(OrmMeasurementDetail measurementDetail) throws SQLException {
         measurementDetailDao.refresh(measurementDetail);
     }
