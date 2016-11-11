@@ -205,10 +205,24 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         return consentQueryBuilder.query();
     }
 
+    public List<OrmConsentDetail> fetchNonSynchronizedConsentDetails() throws SQLException {
+        QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
+        consentQueryBuilder.where().eq("beSynchronized", false);
+
+        return consentQueryBuilder.query();
+    }
+
     public OrmConsent fetchConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         consentQueryBuilder.where().eq("creatorId", creatorId);
 
         return consentQueryBuilder.queryForFirst();
+    }
+
+    public List<OrmConsent> fetchAllConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
+        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
+        consentQueryBuilder.where().eq("creatorId", creatorId);
+
+        return consentQueryBuilder.query();
     }
 }

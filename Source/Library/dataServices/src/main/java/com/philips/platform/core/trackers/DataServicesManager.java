@@ -292,22 +292,6 @@ public class DataServicesManager {
         mEventing.post(new LoadConsentsRequest());
     }
 
-    public void fetchBackendConsent(){
-        mEventing.post(new ConsentBackendGetRequest(1));
-    }
-
-    @NonNull
-    public void fetchConsentDetails() {
-        mEventing.post(new LoadConsentDetailsRequest());
-    }
-
-    @NonNull
-    public void fetchConsentDetailTypes() {
-        mEventing.post(new LoadConsentDetailsTypesRequest());
-    }
-
-
-
     @NonNull
     public Consent createConsent() {
         return mDataCreater.createConsent(mBackendIdProvider.getUserId());

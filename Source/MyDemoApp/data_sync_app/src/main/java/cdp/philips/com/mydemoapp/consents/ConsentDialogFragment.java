@@ -168,8 +168,5 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         DataServicesManager.getInstance().fetchConsent();
     }
 
-    public void fetchBackendConsent() {
-        DataServicesManager.getInstance().fetchBackendConsent();
-    }
 
 }

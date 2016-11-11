@@ -13,6 +13,7 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -98,11 +99,19 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     private void deleteConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+        Log.d("Creator ID MODI",ormConsent.getCreatorId());
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
             deleting.deleteConsent(consentInDatabase);
             ormConsent.setId(id);
         }
+       /*
+        if(!fetching.fetchAllConsentByCreatorId(ormConsent.getCreatorId()).isEmpty()){
+            for(OrmConsent consent:fetching.fetchAllConsentByCreatorId(ormConsent.getCreatorId())) {
+                deleting.deleteConsent(consent);
+            }
+        }*/
+
     }
 
     private void getIfConsentIDExists(OrmConsent ormConsent) throws SQLException {
@@ -115,27 +124,22 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
+        Log.d("Creator ID MODI",ormConsent.getCreatorId());
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
 
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
+            final List<OrmConsentDetail> ormNonSynConsentDetails = fetching.fetchNonSynchronizedConsentDetails();
 
-            for (OrmConsentDetail ormConsentDetail : ormConsent.getConsentDetails()) {
+            for(OrmConsentDetail ormFromBackEndConsentDetail:ormConsent.getConsentDetails()){
 
-                for (OrmConsentDetail ormConsentDetailInDB : consentInDatabase.getConsentDetails()) {
-
-                     if(ormConsentDetail.getType()==ormConsentDetailInDB.getType()){
-
-                         if( !ormConsentDetailInDB.getBackEndSynchronized()){
-                             ormConsentDetail.setStatus(ormConsentDetailInDB.getStatus());
-                             Log.d("dirty","dirty match");
-                             ormConsentDetail.setBackEndSynchronized(false);
-                         }
-                     }
+                for(OrmConsentDetail ormNonSynConsentDetail:ormNonSynConsentDetails){
+                    if(ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()){
+                        ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
+                        ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
+                    }
                 }
-
             }
-
             deleting.deleteConsent(consentInDatabase);
             ormConsent.setId(id);
         }

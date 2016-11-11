@@ -180,7 +180,7 @@ public class DataPullSynchronise {
         for(DataFetcher fetcher:fetchers){
             if ((fetcher instanceof MomentsDataFetcher || fetcher instanceof ConsentsDataFetcher && nonSynchronizedMoments != null && !nonSynchronizedMoments.isEmpty())) {
                 numberOfRunningFetches.decrementAndGet();
-                continue;
+               // continue;
             }
             startFetching(lastSyncDateTime, referenceId, fetcher);
         }
