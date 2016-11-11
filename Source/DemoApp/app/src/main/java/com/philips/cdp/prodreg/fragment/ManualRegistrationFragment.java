@@ -252,12 +252,6 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                     Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onTapContactCustomerCare() {
-                if (getActivity() != null && !getActivity().isFinishing())
-                    Toast.makeText(getActivity(), "Kindly call customer care from base app", Toast.LENGTH_SHORT).show();
-            }
         };
     }
 
