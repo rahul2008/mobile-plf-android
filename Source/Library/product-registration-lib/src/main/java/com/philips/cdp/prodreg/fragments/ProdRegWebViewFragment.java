@@ -56,7 +56,7 @@ public class ProdRegWebViewFragment extends ProdRegBaseFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.prod_reg_webview, container, false);
+        View view = inflater.inflate(R.layout.prodreg_webview, container, false);
         mWebView = (WebView) view.findViewById(R.id.prod_reg_webview);
         mProgressBar = (ProgressBar) view.findViewById(R.id.prod_reg_progress_bar);
         ProdRegTagging.getInstance().trackPage("MyPhilipsAccountScreen", "trackPage", "MyPhilipsAccountScreen");

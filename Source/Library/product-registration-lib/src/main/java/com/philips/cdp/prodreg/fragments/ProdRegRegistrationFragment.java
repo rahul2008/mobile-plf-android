@@ -344,7 +344,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             } else {
                 productTitleTextView.setVisibility(View.GONE);
             }
-            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.product_placeholder, R.drawable.product_placeholder));
+            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
             serial_number_editText.addTextChangedListener(getWatcher());
         }
     }
@@ -405,7 +405,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
         final Dialog dialog = new Dialog(mActivity);
-        dialog.setContentView(R.layout.prod_reg_already_registered_dialog);
+        dialog.setContentView(R.layout.prodreg_already_registered_dialog);
         dialog.show();
         dialog.setCancelable(false);
         TextView serialNumberTitle = (TextView) dialog.findViewById(R.id.serial_number_title_message);

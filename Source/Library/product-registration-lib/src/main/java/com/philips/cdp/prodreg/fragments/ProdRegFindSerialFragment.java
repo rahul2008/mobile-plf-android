@@ -48,7 +48,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.prod_reg_find_serial_number, container, false);
+        final View view = inflater.inflate(R.layout.prodreg_find_serial_number, container, false);
         initViews(view);
         return view;
     }
@@ -75,7 +75,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
             final String imageUrl = getImageUrl(productMetadataResponseData);
             setSerialNumberTextView(productMetadataResponseData);
             final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-            imageLoader.get(imageUrl, ImageLoader.getImageListener(serialNumberImageView, R.drawable.product_placeholder, R.drawable.product_placeholder));
+            imageLoader.get(imageUrl, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
         }
     }
 

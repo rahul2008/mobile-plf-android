@@ -67,7 +67,7 @@
             android:minHeight="140dp"
             android:minWidth="140dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/product_placeholder"/>
+            android:src="@drawable/prodreg_placeholder" />
 
 
         <LinearLayout
