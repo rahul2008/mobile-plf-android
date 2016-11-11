@@ -19,7 +19,6 @@ import com.philips.securekey.SKey;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -36,28 +35,23 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class SecureStorage {
 
-    public static final String AES = "AES";
-    private static Context mContext;
-
-    public static void init(Context pContext) {
-        mContext = pContext;
-    }
+    private static final String AES = "AES";
 
     private static byte[] secretKey;
 
      //meant to migrate unencrypted data to encrypted one
-    public static void migrateUserData(final String pFileName) {
+    public static void migrateUserData(Context context ,final String pFileName ) {
 
         try {
             //Read from file
-            final FileInputStream fis = mContext.openFileInput(pFileName);
+            final FileInputStream fis = context.openFileInput(pFileName);
             final ObjectInputStream ois = new ObjectInputStream(fis);
             final Object object = ois.readObject();
             byte[] plainBytes = null;
             if (object instanceof byte[]) {
                 plainBytes = (byte[]) object;
             }
-            mContext.deleteFile(pFileName);
+            context.deleteFile(pFileName);
             fis.close();
             ois.close();
             Jump.getSecureStorageInterface().storeValueForKey(pFileName,new String(plainBytes),
