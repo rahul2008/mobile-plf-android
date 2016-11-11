@@ -13,6 +13,7 @@ import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -137,11 +138,15 @@ public class ConsentsMonitor extends EventMonitor {
 
             client.saveConsent(consent.getCreatorId(), consentDetailList);
 
+            for (ConsentDetail consentDetail:consent.getConsentDetails()){
+                consentDetail.setBackEndSynchronized(true);
+            }
             consent.setBackEndSynchronized(true);
 
-            eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
+            //eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
+            eventing.post(new DatabaseConsentSaveRequest(consent,false));
         } catch (RetrofitError error) {
-            postError(event.getEventId(), error);
+           // postError(event.getEventId(), error);
         }
     }
 
