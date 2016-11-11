@@ -303,7 +303,7 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-/*task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
@@ -320,9 +320,9 @@ task copyToLib(type: Copy) {
         xml.enabled = true
         html.enabled = false
     }
-}*/
+}
 
-/*task pmd(type: Pmd, dependsOn: assembleDebug) {
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
     description 'Run pmd'
     group 'verification'
@@ -334,7 +334,7 @@ task copyToLib(type: Copy) {
         xml.enabled = true
         html.enabled = false
     }
-}*/
+}
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
