@@ -152,7 +152,6 @@ public class RegistrationHelper {
         thread.start();
     }
     private void generateKeyAndMigrateData(final Context context) {
-        SecureStorage.init(context);
         SecureStorage.generateSecretKey();
         new DataMigration(context).checkFileEncryptionStatus();
     }

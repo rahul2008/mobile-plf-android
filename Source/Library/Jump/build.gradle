@@ -43,7 +43,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = "6.0.5-SNAPSHOT"
+version = "6.0.7-SNAPSHOT"
 
 
 artifactory {

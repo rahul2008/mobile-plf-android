@@ -79,7 +79,8 @@ public class DataMigration {
 //        oos.writeObject(ectext);
 //        oos.close();
 //        fos.close();
-        Jump.getSecureStorageInterface().storeValueForKey(fileName,plainTextString, new SecureStorageInterface.SecureStorageError());
+        Jump.getSecureStorageInterface().storeValueForKey(fileName,plainTextString,
+                new SecureStorageInterface.SecureStorageError());
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
                 try {
@@ -95,7 +96,7 @@ public class DataMigration {
 
     public void checkFileEncryptionStatus() {
         if (!isFileEncryptionDone(JR_CAPTURE_SIGNED_IN_USER)) {
-            SecureStorage.migrateUserData(JR_CAPTURE_SIGNED_IN_USER);
+            SecureStorage.migrateUserData(mContext,JR_CAPTURE_SIGNED_IN_USER);
         }
 
         if (!isFileEncryptionDone(HSDP_RECORD)) {
