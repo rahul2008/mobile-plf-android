@@ -1,6 +1,5 @@
 package com.philips.cdp.prodreg.register;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -31,7 +30,6 @@ import static org.mockito.Mockito.when;
 public class LocalRegisteredProductsTest extends TestCase {
 
     private LocalRegisteredProducts localRegisteredProducts;
-    private Context context;
     private ProdRegCache prodRegCache;
     private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
     private Gson gson;
@@ -39,12 +37,11 @@ public class LocalRegisteredProductsTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        context = mock(Context.class);
         prodRegCache = mock(ProdRegCache.class);
-        User user = new User(context);
+        User user = mock(User.class);
         gson = new Gson();
         addDummyProjects();
-        localRegisteredProducts = new LocalRegisteredProducts(context, user) {
+        localRegisteredProducts = new LocalRegisteredProducts(user) {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;
@@ -105,7 +102,7 @@ public class LocalRegisteredProductsTest extends TestCase {
         when(userMock.isUserSignIn()).thenReturn(true);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts(context, userMock) {
+        localRegisteredProducts = new LocalRegisteredProducts(userMock) {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -128,7 +125,7 @@ public class LocalRegisteredProductsTest extends TestCase {
         when(userMock.isUserSignIn()).thenReturn(true);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts(context, userMock) {
+        localRegisteredProducts = new LocalRegisteredProducts(userMock) {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -149,7 +146,7 @@ public class LocalRegisteredProductsTest extends TestCase {
         RegisteredProduct registeredProductMock = new RegisteredProduct("ctn", null, null);
         when(userMock.isUserSignIn()).thenReturn(true);
         final ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
-        localRegisteredProducts = new LocalRegisteredProducts(context, userMock) {
+        localRegisteredProducts = new LocalRegisteredProducts(userMock) {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;

@@ -5,7 +5,6 @@
 */
 package com.philips.cdp.prodreg.register;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -27,7 +26,7 @@ public class LocalRegisteredProducts {
     private User user;
     private Gson gson;
 
-    public LocalRegisteredProducts(Context context, User user) {
+    public LocalRegisteredProducts(User user) {
         this.user = user;
         prodRegCache = new ProdRegCache();
         gson = new Gson();

@@ -45,7 +45,7 @@ public class ProdRegHelper {
                     }
                 };
                 new ProdRegHelper().addProductRegistrationListener(prodRegListener);
-                new UserWithProducts(context, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts());
+                new UserWithProducts(context, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(user).getRegisteredProducts());
             }
 
             @Override

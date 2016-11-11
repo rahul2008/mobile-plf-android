@@ -60,11 +60,12 @@ public class UserWithProductsTest extends TestCase {
         context = mock(Context.class);
         userWithProductsMock = mock(UserWithProducts.class);
         userMock = mock(User.class);
+        when(userMock.getJanrainUUID()).thenReturn("abcd1234");
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
         prodRegListener = mock(ProdRegListener.class);
         errorHandlerMock = mock(ErrorHandler.class);
         when(userMock.isUserSignIn()).thenReturn(true);
-        userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
+        userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull
             @Override
             UserWithProducts getUserProduct() {
@@ -443,7 +444,7 @@ public class UserWithProductsTest extends TestCase {
 
         RegisteredProduct product = new RegisteredProduct("ctn", null, null);
         final User userMock = mock(User.class);
-        UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull
             @Override
             UserWithProducts getUserProduct() {
@@ -468,7 +469,7 @@ public class UserWithProductsTest extends TestCase {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
         final LocalRegisteredProducts localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
-        UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull
             @Override
             UserWithProducts getUserProduct() {
@@ -503,7 +504,7 @@ public class UserWithProductsTest extends TestCase {
         final String serialNumber = "1344";
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
 
-        UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
 
             @NonNull
             @Override
@@ -540,7 +541,7 @@ public class UserWithProductsTest extends TestCase {
         final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         RegisteredProductsListener registeredProductsListenerMock = mock(RegisteredProductsListener.class);
-        UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @NonNull
             @Override
             UserWithProducts getUserProduct() {
@@ -584,10 +585,12 @@ public class UserWithProductsTest extends TestCase {
     public void testCachedRegisterProducts() {
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         registeredProduct.setRegistrationState(RegistrationState.PENDING);
+        registeredProduct.setUserUUid("abcd1234");
         registeredProduct.setSerialNumber("Serial");
         registeredProduct.setPurchaseDate("2098-03-22");
         RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", null, null);
         registeredProduct1.setRegistrationState(RegistrationState.FAILED);
+        registeredProduct1.setUserUUid("abcd1234");
         registeredProduct1.setSerialNumber("Serial1");
         registeredProduct1.setPurchaseDate("2098-04-22");
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
@@ -620,7 +623,7 @@ public class UserWithProductsTest extends TestCase {
     public void testGetMetadataListener() {
         RegisteredProduct productMock = new RegisteredProduct("ctn", null, null);
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
+        final UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
             @Override
             protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct product) {
                 return true;

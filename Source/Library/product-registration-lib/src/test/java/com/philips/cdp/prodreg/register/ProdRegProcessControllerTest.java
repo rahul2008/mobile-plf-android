@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.constants.RegistrationState;
-import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
@@ -67,18 +65,6 @@ public class ProdRegProcessControllerTest extends TestCase {
 
             @NonNull
             @Override
-            protected ProdRegHelper getProdRegHelper() {
-                return prodRegHelperMock;
-            }
-
-            @NonNull
-            @Override
-            protected RegisteredProductsListener getRegisteredProductsListener() {
-                return registeredProductsListenerMock;
-            }
-
-            @NonNull
-            @Override
             protected MetadataListener getMetadataListener() {
                 return metadataListenerMock;
             }
@@ -96,38 +82,6 @@ public class ProdRegProcessControllerTest extends TestCase {
         bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, products);
     }
 
-
-
-    @Test
-    public void testGetRegisteredProductsListener() {
-        final ProdRegConnectionFragment prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
-        prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
-            @NonNull
-            @Override
-            protected MetadataListener getMetadataListener() {
-                return metadataListenerMock;
-            }
-
-            @NonNull
-            @Override
-            protected ProdRegConnectionFragment getConnectionFragment() {
-                return prodRegConnectionFragmentMock;
-            }
-        };
-        prodRegProcessController.process(bundle);
-        final RegisteredProductsListener registeredProductsListener = prodRegProcessController.getRegisteredProductsListener();
-        final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
-        registeredProducts.add(new RegisteredProduct("124", null, null));
-        registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
-        verify(productMock, atLeastOnce()).getProductMetadata(fragmentActivity, metadataListenerMock);
-        final RegisteredProduct registeredProduct = new RegisteredProduct("HC5410/83", null, null);
-        registeredProduct.setSerialNumber("1344");
-        registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
-        registeredProducts.add(registeredProduct);
-        registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
-        verify(processControllerCallBacksMock).dismissLoadingDialog();
-        verify(processControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
-    }
 
     @Test
     public void testMetadataListener() {
@@ -170,6 +124,6 @@ public class ProdRegProcessControllerTest extends TestCase {
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
         prodRegProcessController.process(bundle);
-        verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
+        verify(productMock).getProductMetadata(fragmentActivity, metadataListenerMock);
     }
 }

@@ -59,6 +59,13 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         return prodRegProcessController.getRegisteredProductsList();
     }
 
+    private void setImageBackground() {
+        if (getView() != null && resId != 0) {
+            getView().setBackgroundResource(resId);
+        }
+    }
+
+
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +73,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         if (arguments != null) {
             isFirstLaunch = arguments.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
             resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
+            setImageBackground();
         }
         setRetainInstance(true);
         final FragmentActivity activity = getActivity();

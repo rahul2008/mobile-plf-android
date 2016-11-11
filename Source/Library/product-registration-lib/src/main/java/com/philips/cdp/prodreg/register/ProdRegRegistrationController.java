@@ -18,7 +18,6 @@ import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.MetadataSerNumbSampleContent;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.User;
 
@@ -28,26 +27,6 @@ import java.util.List;
 public class ProdRegRegistrationController {
 
     public static final String TAG = ProdRegRegistrationController.class.getSimpleName();
-
-    public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
-        void isValidDate(boolean validDate);
-
-        void isValidSerialNumber(boolean validSerialNumber);
-
-        void setSummaryView(Data summaryData);
-
-        void setProductView(RegisteredProduct registeredProduct);
-
-        void requireFields(boolean requireDate, boolean requireSerialNumber);
-
-        void logEvents(String tag, String data);
-
-        void tagEvents(String event, String key, String value);
-
-        void showSuccessLayout();
-
-        void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
-    }
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
@@ -56,7 +35,6 @@ public class ProdRegRegistrationController {
     private ArrayList<RegisteredProduct> registeredProducts;
     private ProdRegUtil prodRegUtil = new ProdRegUtil();
     private Bundle dependencyBundle;
-
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
@@ -72,7 +50,7 @@ public class ProdRegRegistrationController {
 
     @NonNull
     protected LocalRegisteredProducts getLocalRegisteredProducts() {
-        return new LocalRegisteredProducts(fragmentActivity, user);
+        return new LocalRegisteredProducts(user);
     }
 
     @SuppressWarnings("noinspection unchecked")
@@ -188,9 +166,7 @@ public class ProdRegRegistrationController {
                     prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
                     registerControllerCallBacks.tagEvents("RegistrationSuccessEvent", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     updateRegisteredProductsList(registeredProduct);
-
-                    ProdRegTagging.getInstance().trackAction("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
-
+                    registerControllerCallBacks.tagEvents("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
                     registerControllerCallBacks.showSuccessLayout();
                 }
             }
@@ -241,5 +217,25 @@ public class ProdRegRegistrationController {
         final FindSerialNumberFragment findSerialNumberFragment = new FindSerialNumberFragment();
         findSerialNumberFragment.setArguments(dependencyBundle);
         return findSerialNumberFragment;
+    }
+
+    public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
+        void isValidDate(boolean validDate);
+
+        void isValidSerialNumber(boolean validSerialNumber);
+
+        void setSummaryView(Data summaryData);
+
+        void setProductView(RegisteredProduct registeredProduct);
+
+        void requireFields(boolean requireDate, boolean requireSerialNumber);
+
+        void logEvents(String tag, String data);
+
+        void tagEvents(String event, String key, String value);
+
+        void showSuccessLayout();
+
+        void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
     }
 }
