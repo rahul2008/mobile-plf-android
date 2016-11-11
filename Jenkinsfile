@@ -11,7 +11,7 @@ if (!env.CHANGE_ID) {
     }
 }
 
-node('Android && 25.0.0') {
+node('Android && 23.0.3') {
     timestamps{
         def MailRecipient = 'benit.dhotekar@philips.com, DL_CDP2_Callisto@philips.com, abhishek.gadewar@philips.com, krishna.kumar.a@philips.com, ramesh.r.m@philips.com'
         stage 'Checkout'
