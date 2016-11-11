@@ -22,7 +22,7 @@ node('Android') {
         sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
         sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testCompat || true'
         sh 'cd /home/jenkins/.gradle/caches/modules-2/files-2.1/info.cukes/cucumber-java/1.2.2/ && find .'
+        sh 'ls -al /home/jenkins/.gradle/caches/modules-2/files-2.1/info.cukes/cucumber-java/1.2.2/8413605441d44bedffab012d1539f1015f856bb/'
         step([$class: 'JUnitResultArchiver', testResults: 'android-commlib-all/Source/commlib-all-parent/*/build/test-results/*/*.xml'])
     }
-
 }
