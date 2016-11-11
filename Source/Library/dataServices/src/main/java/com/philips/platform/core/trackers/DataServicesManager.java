@@ -16,6 +16,8 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -28,6 +30,10 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.ConsentBackendGetRequest;
+import com.philips.platform.core.events.ConsentDetailsUpdateRequest;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -141,7 +147,7 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(type[0]));
     }
 
-    public void fetchMomentById(final int momentID){
+    public void fetchMomentById(final int momentID) {
         mEventing.post(new LoadMomentsRequest(momentID));
     }
 
@@ -246,11 +252,11 @@ public class DataServicesManager {
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
-    public void deleteAll(){
+    public void deleteAll() {
         mEventing.post(new DataClearRequest());
     }
 
-    public void deleteAllMoment(){
+    public void deleteAllMoment() {
         mEventing.post(new DataClearRequest());
     }
 
@@ -270,4 +276,38 @@ public class DataServicesManager {
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;
     }
+
+    public void save(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false, false));
+    }
+
+    public void createDefault(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, true, false));
+    }
+
+    @NonNull
+    public void fetchConsent() {
+        mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public void fetchBackEndConsent() {
+        mEventing.post(new ConsentBackendGetRequest(1));
+    }
+
+    @NonNull
+    public Consent createConsent() {
+        return mDataCreater.createConsent(mBackendIdProvider.getUserId());
+    }
+
+    @NonNull
+    public void createDefaultConsent() {
+        Consent consent = mDataCreater.createConsent(mBackendIdProvider.getUserId());
+    }
+
+    public void updateConsentDetails(List<ConsentDetail> consentDetails) {
+        mEventing.post(new ConsentDetailsUpdateRequest(consentDetails));
+    }
+
+
 }

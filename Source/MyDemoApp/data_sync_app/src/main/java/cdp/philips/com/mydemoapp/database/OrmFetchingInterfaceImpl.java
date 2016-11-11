@@ -12,16 +12,24 @@ import android.util.Log;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.events.ConsentBackendSaveResponse;
+import com.philips.platform.datasync.consent.UCoreConsentDetail;
 
+import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
@@ -43,16 +51,22 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @NonNull
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
+    private final Dao<OrmConsent,Integer> consentDao;
+    private final Dao<OrmConsentDetail, Integer> consentDetailsDao ;
+    private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
 
     private TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmConsentDetailType, Integer> consentDetailTypeDao) {
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
         mTemperatureMomentHelper = new TemperatureMomentHelper();
 
+        this.consentDao = consentDao;
+        this.consentDetailsDao = consentDetailsDao;
+        this.consentDetailTypeDao = consentDetailTypeDao;
     }
 
     @Override
@@ -61,6 +75,27 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
             getActiveMoments(momentDao.query(queryBuilder.prepare()));
         }
 
+    @Override
+    public void fetchConsents() throws SQLException {
+        QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
+        ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
+        notifySucessConsentChange(ormConsents);
+    }
+
+    private void notifySucessConsentChange(ArrayList<? extends OrmConsent> ormConsents) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                if (ormConsents.size() != 0) {
+                    listener.onSuccess(ormConsents.get(0));
+                } else {
+                    listener.onSuccess(null);
+                }
+            }
+        }
+    }
 
     @Override
     public void fetchMoments(@NonNull final MomentType type) throws SQLException {
@@ -154,5 +189,40 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         Log.i("***SPO***","In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
+    }
+
+    @Override
+    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        List<? extends Consent> consentList = fetchNonSynchronizedConsents();
+        dataToSync.put(Consent.class, consentList);
+        return dataToSync;
+    }
+
+    public List<OrmConsent> fetchNonSynchronizedConsents() throws SQLException {
+        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
+        consentQueryBuilder.where().eq("beSynchronized", false);
+
+        return consentQueryBuilder.query();
+    }
+
+    public List<OrmConsentDetail> fetchNonSynchronizedConsentDetails() throws SQLException {
+        QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
+        consentQueryBuilder.where().eq("beSynchronized", false);
+
+        return consentQueryBuilder.query();
+    }
+
+    public OrmConsent fetchConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
+        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
+        consentQueryBuilder.where().eq("creatorId", creatorId);
+
+        return consentQueryBuilder.queryForFirst();
+    }
+
+    public List<OrmConsent> fetchAllConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
+        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
+        consentQueryBuilder.where().eq("creatorId", creatorId);
+
+        return consentQueryBuilder.query();
     }
 }

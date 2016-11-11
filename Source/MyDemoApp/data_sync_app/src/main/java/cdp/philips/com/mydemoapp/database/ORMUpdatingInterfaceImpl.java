@@ -1,12 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 package cdp.philips.com.mydemoapp.database;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
@@ -23,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
@@ -72,6 +70,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public void postRetrofitError(final Throwable error) {
         notifyAllFailure((Exception) error);
     }
+
+    @Override
+    public void updateConsentDetails(List<ConsentDetail> consentDetails) {
+
+    }
+
 
     private boolean photoFileExistsForPhotoMoments(final Moment moment) {
         final Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
@@ -165,6 +169,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
+            Log.e(TAG, "Eror while type checking");
+        }
+        return null;
+    }
+
+    @Override
+    public ConsentDetail getOrmConsentDetail(ConsentDetail consentDetail) {
+        try {
+            return OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
+        } catch (OrmTypeChecking.OrmTypeException e) {
             Log.e(TAG, "Eror while type checking");
         }
         return null;

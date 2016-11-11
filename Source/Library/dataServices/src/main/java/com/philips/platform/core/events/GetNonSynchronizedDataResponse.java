@@ -30,4 +30,10 @@ public class GetNonSynchronizedDataResponse extends Event {
     public <T> List<T> getDataToSync(Class<T> clazz) {
         return (List<T>) dataToSync.get(clazz);
     }
+
+    @SuppressWarnings("unchecked")
+    @NonNull
+    public Map<Class, List<?>> getDataToSync() {
+        return dataToSync;
+    }
 }

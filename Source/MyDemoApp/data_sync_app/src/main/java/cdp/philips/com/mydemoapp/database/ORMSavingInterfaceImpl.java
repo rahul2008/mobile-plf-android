@@ -7,21 +7,25 @@ package cdp.philips.com.mydemoapp.database;
 
 import android.util.Log;
 
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
-public class ORMSavingInterfaceImpl implements DBSavingInterface{
+public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     private static final String TAG = ORMSavingInterfaceImpl.class.getSimpleName();
     private final OrmSaving saving;
@@ -57,5 +61,158 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
             return false;
         }
 
+    }
+
+    @Override
+    public boolean saveConsent(Consent consent) throws SQLException {
+        OrmConsent ormConsent = null;
+        try {
+            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            updateConsentAndSetIdIfConsentExists(ormConsent);
+            //saving.saveConsent(ormConsent);
+            notifyAllSuccess(ormConsent);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            notifyFailConsent(e);
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean saveBackEndConsent(Consent consent) throws SQLException {
+
+        if(consent==null){
+            notifyBackEndConsentFetch(null);
+            return false;
+        }
+        OrmConsent ormConsent = null;
+        try {
+            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            ormConsent=getModifiedConsent(ormConsent);
+            saving.saveConsent(ormConsent);
+            notifyBackEndConsentFetch(consent);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            notifyBackEndConsentFetch(null);
+            return false;
+        }
+
+    }
+
+    private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+        Log.d("Creator ID MODI",ormConsent.getCreatorId());
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+            deleting.deleteConsent(consentInDatabase);
+            ormConsent.setId(id);
+            //updating.updateConsent(ormConsent);
+            saving.saveConsent(ormConsent);
+        }else{
+            saving.saveConsent(ormConsent);
+        }
+       /*
+        if(!fetching.fetchAllConsentByCreatorId(ormConsent.getCreatorId()).isEmpty()){
+            for(OrmConsent consent:fetching.fetchAllConsentByCreatorId(ormConsent.getCreatorId())) {
+                deleting.deleteConsent(consent);
+            }
+        }*/
+
+    }
+
+    private void getIfConsentIDExists(OrmConsent ormConsent) throws SQLException {
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+            deleting.deleteConsent(consentInDatabase);
+            ormConsent.setId(id);
+        }
+    }
+
+    private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
+        Log.d("Creator ID MODI",ormConsent.getCreatorId());
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+            final List<OrmConsentDetail> ormNonSynConsentDetails = fetching.fetchNonSynchronizedConsentDetails();
+
+            for(OrmConsentDetail ormFromBackEndConsentDetail:ormConsent.getConsentDetails()){
+
+                for(OrmConsentDetail ormNonSynConsentDetail:ormNonSynConsentDetails){
+                    if(ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()){
+                        ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
+                        ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
+                    }
+                }
+            }
+            ormConsent.setId(id);
+            deleting.deleteConsent(consentInDatabase);
+           // updating.updateConsent(consentInDatabase);
+
+        }else{
+            saving.saveConsent(ormConsent);
+        }
+        return ormConsent;
+    }
+
+    private void notifyAllSuccess(Object ormMoments) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.MOMENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onSuccess(ormMoments);
+            }
+        }
+    }
+
+    private void notifyAllSuccess(Consent ormConsent) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onSuccess(ormConsent);
+            }
+        }
+    }
+
+    private void notifyBackEndConsentFetch(Consent ormConsent) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onBackEndConsentSuccess(ormConsent);
+            }
+        }
+    }
+
+
+    private void notifyFailConsent(Exception e) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onFailure(e);
+            }
+        }
+    }
+
+
+    private void notifyAllFailure(Exception e) {
+        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
+        Set<Integer> integers = eventMap.keySet();
+        if (integers.contains(EventHelper.MOMENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+            for (DBChangeListener listener : dbChangeListeners) {
+                listener.onFailure(e);
+            }
+        }
     }
 }
