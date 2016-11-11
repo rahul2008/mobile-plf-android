@@ -543,12 +543,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             DigiCareLogger.i(TAG, "Clicked on the Call Button");
             if (!isContactNumberCached()) {
                 showAlert(getActivity().getString(R.string.no_data));
+            } else if (isSimAvailable() && !isTelephonyEnabled()){
+                //show alert
+                showAlert(getActivity().getString(R.string.no_call_functionality));
             } else if (isSimAvailable()) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
                 callPhilips();
             } else if (!isSimAvailable()) {
                 showAlert(getActivity().getString(R.string.check_sim));
-            } else {
+            }
+            else {
                 showAlert(getActivity().getString(R.string.check_sim));
             }
         } else if (tag != null
@@ -556,6 +560,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 && isConnectionAvailable()) {
 
             launchFacebookFeature();
+
+
 
 			/*
              * Session mFacebookSession = Session.getActiveSession();
@@ -603,6 +609,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     private boolean isSimAvailable() {
         return mUtils.isSimAvailable(getActivity());
+    }
+
+    private boolean isTelephonyEnabled(){
+        return mUtils.isTelephonyEnabled(getActivity());
     }
 
     private void launchFacebookFeature() {
