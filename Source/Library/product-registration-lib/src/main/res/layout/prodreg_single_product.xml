@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/parent_id"
-            xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -165,7 +165,7 @@
                 android:layout_marginEnd="@dimen/pr_right_padding_sm"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="@dimen/pr_registration_margin_top"
-                android:drawableEnd="@drawable/ic_launcher"
+                android:drawableEnd="@drawable/prodreg_calendar_inverted"
                 android:ellipsize="end"
                 android:hint="@string/PPR_Please_Enter_Date_Lbltxt"
                 android:maxLines="1"
