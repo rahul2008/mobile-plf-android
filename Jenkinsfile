@@ -14,6 +14,7 @@ node('Android && 25.0.0 && Ubuntu') {
     sh '''
       cd Source/CatalogApp
       ./gradlew clean assembleDebug
+      curl --help
     '''
   }
 
