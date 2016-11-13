@@ -107,14 +107,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return consentDetailTypeDao;
     }
 
+    //TODO: Spoorti - remove if not used. In case its there in uGrow please check where they are uing?
     private void insertConsents() {
 
     }
 
+    //TODO: Spoorti - remove if not used. In case its there in uGrow please check where they are uing?
     private void insertConsentsDetail() {
 
     }
 
+    //TODO: Spoorti - remove if not used. In case its there in uGrow please check where they are uing?
     private void insertConcentsType() {
 
     }

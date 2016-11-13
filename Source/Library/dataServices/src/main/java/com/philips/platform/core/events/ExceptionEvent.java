@@ -19,6 +19,7 @@ public class ExceptionEvent extends Event {
         this.cause = cause;
     }
 
+    //TODO: Spoorti: Can this be removed - Action item on Spoorti
     public ExceptionEvent(final int referenceId, final String message, final Throwable cause) {
         super(referenceId);
         this.message = message;

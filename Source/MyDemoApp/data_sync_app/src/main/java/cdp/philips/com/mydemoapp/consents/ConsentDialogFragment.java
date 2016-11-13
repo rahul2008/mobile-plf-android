@@ -39,6 +39,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     private ConsentDialogAdapter lConsentAdapter;
     ProgressBar mProgressBar;
 
+    //TODO: Spoorti - Have a Presenter, consentPresenter
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    //TODO: Dont create a new Adapter here, Its mandatory please remove from here
                     lConsentAdapter = new ConsentDialogAdapter(getActivity(), ormConsent);
                     mRecyclerView.setAdapter(lConsentAdapter);
                     lConsentAdapter.notifyDataSetChanged();
@@ -98,7 +101,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     @Override
     public void onFailure(Exception exception) {
-
+        //TODO: Please give the exception as Toast
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -109,6 +112,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     }
 
+    //TODO: This is not discussed as part of interface. Please Allign with Ajay in case its very important
     @Override
     public void onBackEndConsentSuccess(Consent consent) {
         fetchConsent();
@@ -119,9 +123,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         switch (v.getId()) {
             case R.id.btnOK:
                 lConsentAdapter.updateConsentDetails();
+                //TODO: Spoorti - Check if its showing only then dismiss
                 getDialog().dismiss();
                 break;
             case R.id.btnCancel:
+                //TODO: Spoorti - Check if its showing only then dismiss, check all the places
                 getDialog().dismiss();
                 break;
 
@@ -148,7 +154,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         }
     }
 
+    //TODO: Spoorti - Can this be private
     public void createDefaultConsent() {
+        //TODO: Spoorti - As discussed we added all the types since it was taking time to remove.
+        // Logcally Types can have n type but sync should happen from Details table wich ever is eneterd
+        // keep all the types in TYPE Table and add only few in Detail. Check if sync happens only for those in detail
         DataServicesManager mDataServices = DataServicesManager.getInstance();
         Consent consent = mDataServices.createConsent();
         ConsentHelper consentHelper = new ConsentHelper(mDataServices);
@@ -162,10 +172,12 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         consentHelper.createDeafultConsentRequest(consent);
     }
 
+    //TODO: Spoorti - It should be like, getDialog.show() instead of visible and invisible
     private void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    //TODO: Spoorti - It should be like, getDialog.dismiss() instead of visible and invisible
     private void dismissProgressBar() {
         mProgressBar.setVisibility(View.GONE);
     }
@@ -174,6 +186,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         DataServicesManager.getInstance().fetchConsent();
     }
 
+    //TODO: Spoorti - If not used thenremove it
     public void fetchBackendConsent() {
         DataServicesManager.getInstance().fetchBackEndConsent();
     }

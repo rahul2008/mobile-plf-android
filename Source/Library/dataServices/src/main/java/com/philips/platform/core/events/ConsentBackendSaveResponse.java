@@ -22,6 +22,7 @@ public class ConsentBackendSaveResponse extends Event{
         return consent;
     }
 
+    //TODO: Spoorti: is it required
     public int getResponseCode() {
         return responseCode;
     }

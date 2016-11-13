@@ -33,6 +33,7 @@ public class EventHelper {
     //Key is the unique tag for UI .
 
     private EventHelper() {
+        //TODO: Spoorti - check for compiler warnings
         eventMap = new HashMap<Integer, ArrayList<DBChangeListener>>();
         urMap = new HashMap<Integer, ArrayList<UserRegistrationFailureListener>>();
     }

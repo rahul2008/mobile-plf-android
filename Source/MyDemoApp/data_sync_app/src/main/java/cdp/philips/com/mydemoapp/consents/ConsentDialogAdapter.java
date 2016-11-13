@@ -30,6 +30,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     Context mContext;
     final ArrayList<? extends ConsentDetail> consentDetails;
     private Consent mConsent;
+    //TODO: Spoorti - Is it required ?
     private LinkedHashMap<ConsentDetailType, ConsentDetailStatusType> mConsentMap;
 
     public ConsentDialogAdapter(final Context context, OrmConsent ormConsent) {
@@ -86,6 +87,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         return consentDetails.size();
     }
 
+    //TODO: Spoorti - Can this be made private, UpdateConsentDetails is calling just another API ? Can we have only one API?
     public void updateConsentDetails() {
         updateConsentDetails(mConsent);
     }
@@ -100,6 +102,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    //TODO: Spoorti - merge it with updateConsentDetails()
     public void updateConsentDetails(Consent consent) {
         DataServicesManager.getInstance().save(consent);
     }

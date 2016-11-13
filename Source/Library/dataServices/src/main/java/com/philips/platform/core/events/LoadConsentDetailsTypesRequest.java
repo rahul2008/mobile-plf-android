@@ -20,6 +20,7 @@ public class LoadConsentDetailsTypesRequest extends Event {
     private final ConsentDetailType type;
     private ConsentDetailType[] types;
 
+    //TODO: Spoorti: probably not used, but if it makes sence to have it in future its OK to have
     public LoadConsentDetailsTypesRequest() {
         types = null;
         type = null;

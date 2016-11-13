@@ -11,6 +11,7 @@ public interface ConsentDetail extends BaseAppData, Serializable {
     void setStatus(String status);
     void setVersion(String version);
 
+    //TODO: Spoorti: remove if not required
     void setDeviceIdentificationNumber(String deviceIdendificationNumber);
 
     ConsentDetailType getType();

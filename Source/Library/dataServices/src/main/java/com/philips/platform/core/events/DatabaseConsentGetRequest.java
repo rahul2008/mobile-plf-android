@@ -8,6 +8,7 @@ public class DatabaseConsentGetRequest extends Event {
 
     private String creatorId;
 
+    //TODO: Spoorti: Is this event used or not, since there is no defaut constructor also
     public DatabaseConsentGetRequest(String creatorId) {
         this.creatorId = creatorId;
     }

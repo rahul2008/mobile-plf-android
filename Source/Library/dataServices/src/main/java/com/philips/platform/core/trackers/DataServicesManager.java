@@ -83,9 +83,11 @@ public class DataServicesManager {
 
     private BaseAppDataCreator mDataCreater;
 
+    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPullSynchronise mDataPullSynchronise;
 
+    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPushSynchronise mDataPushSynchronise;
 
@@ -194,6 +196,7 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
+    //TODO: In case fetchers and senders are passed as null, we can create pullsynchronize and pushsynchronise and start
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
@@ -281,6 +284,7 @@ public class DataServicesManager {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, false));
     }
 
+    //TODO: Spoorti - Its not part of interface Doc
     public void createDefault(Consent consent) {
         mEventing.post(new DatabaseConsentSaveRequest(consent, true, false));
     }
@@ -290,24 +294,31 @@ public class DataServicesManager {
         mEventing.post(new LoadConsentsRequest());
     }
 
+    //TODO: Spoorti - Its not part of interface Doc
     @NonNull
     public void fetchBackEndConsent() {
         mEventing.post(new ConsentBackendGetRequest(1));
     }
 
+    //TODO: Spoorti Dont use 2 APIs createConsent and createDefaultConsent, In case requires change in interface please check with Ajay
     @NonNull
     public Consent createConsent() {
         return mDataCreater.createConsent(mBackendIdProvider.getUserId());
     }
 
+    //TODO: have an API for createConsentDetail
     @NonNull
     public void createDefaultConsent() {
         Consent consent = mDataCreater.createConsent(mBackendIdProvider.getUserId());
     }
 
+    //TODO: Spoorti - Its not part of interface Doc
     public void updateConsentDetails(List<ConsentDetail> consentDetails) {
         mEventing.post(new ConsentDetailsUpdateRequest(consentDetails));
     }
 
 
+    //Missing APIs
+    //Update(Consent)
+    //createConsentDetail
 }

@@ -58,6 +58,7 @@ public class ConsentsMonitor extends EventMonitor {
         this.gsonConverter = gsonConverter;
     }
 
+    //TODO: Commented part can you clearify with Ajay
     public void onEventAsync(ConsentBackendSaveRequest event) {
         if (event.getRequestType() == ConsentBackendSaveRequest.RequestType.SAVE) {
             saveConsent(event);
@@ -143,10 +144,11 @@ public class ConsentsMonitor extends EventMonitor {
                 consentDetail.setBackEndSynchronized(true);
             }
             consent.setBackEndSynchronized(true);
-
+            //TODO: Why is it commented?
             //eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
             eventing.post(new DatabaseConsentSaveRequest(consent,false, true));
         } catch (RetrofitError error) {
+            //TODO: Error should be notified to UI
            // postError(event.getEventId(), error);
         }
     }

@@ -10,6 +10,7 @@ import com.philips.platform.core.datatypes.Consent;
 public class DatabaseConsentGetResponse extends Event {
     private Consent consent;
 
+    //TODO: Spoorti: Is this event used or not, since there is no defaut constructor also
     public DatabaseConsentGetResponse(int referenceId, Consent consent) {
         super(referenceId);
         this.consent = consent;

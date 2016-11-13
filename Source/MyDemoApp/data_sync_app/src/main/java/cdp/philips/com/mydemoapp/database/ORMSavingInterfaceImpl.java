@@ -63,6 +63,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
+    //TODO: Spoorti - For particularly consent, updating shoud be done instead of deleting and saving for avoiding duplication
     @Override
     public boolean saveConsent(Consent consent) throws SQLException {
         OrmConsent ormConsent = null;
@@ -80,6 +81,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
+    //TODO: Spoorti - Not sure if this API can be clubed with the above
     @Override
     public boolean saveBackEndConsent(Consent consent) throws SQLException {
 
@@ -123,6 +125,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     }
 
+    //TODO: Spoorti - Not used API
     private void getIfConsentIDExists(OrmConsent ormConsent) throws SQLException {
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
         if (consentInDatabase != null) {
@@ -159,6 +162,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         return ormConsent;
     }
 
+    //TODO: Spoorti - Already part of TemperatureHelper. Can be removed
     private void notifyAllSuccess(Object ormMoments) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
@@ -170,6 +174,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
     }
 
+    //TODO: Spoorti - Move it to ConsentHelper class to avoid code duplication
     private void notifyAllSuccess(Consent ormConsent) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
@@ -181,6 +186,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
     }
 
+    //TODO: Spoorti - Move it to ConsentHelper class
     private void notifyBackEndConsentFetch(Consent ormConsent) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
@@ -192,7 +198,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
     }
 
-
+    //TODO: Spoorti - Move it to ConsentHelper class
     private void notifyFailConsent(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
@@ -205,6 +211,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
 
+    //TODO: Spoorti - Already part of Temperature Helper. Refer the same for above. COde should not be duplicated
     private void notifyAllFailure(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();

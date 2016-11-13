@@ -17,5 +17,7 @@ public interface DBUpdatingInterface {
     int processMomentsReceivedFromBackend(final List<? extends Moment> moments);
     void updateFailed(Exception e);
     void postRetrofitError(Throwable error);
+
+    //TODO: save Consent ad saveBackened consent can they be merged to one API
     void updateConsentDetails(List<ConsentDetail> consentDetails);
 }

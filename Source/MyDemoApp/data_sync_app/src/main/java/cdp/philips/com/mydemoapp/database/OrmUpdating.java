@@ -35,9 +35,11 @@ public class OrmUpdating {
     @NonNull
     private final Dao<OrmConsent, Integer> constentDao;
 
+    //TODO: Spoorti - Remove Unused
     @NonNull
     private final Dao<OrmConsentDetail, Integer> constentDetailsDao;
 
+    //TODO: Spoorti - Remove Unused
     @NonNull
     private final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao;
 

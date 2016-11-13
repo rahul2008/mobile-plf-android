@@ -51,6 +51,7 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmConsentDetail, Integer> consentDetailDao;
 
+    //TODO: Spoorti - Looks like not used. Y?
     @NonNull
     private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
 
