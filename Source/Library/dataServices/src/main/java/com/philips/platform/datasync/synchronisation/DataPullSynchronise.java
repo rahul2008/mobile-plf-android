@@ -180,9 +180,9 @@ public class DataPullSynchronise {
                 continue;
             }*/
 
-            if(fetcher instanceof  MomentsDataFetcher) {
+            //if(fetcher instanceof  MomentsDataFetcher) {
                 startFetching(lastSyncDateTime, referenceId, fetcher);
-            }
+            //}
         //startFetching(lastSyncDateTime, referenceId, mMomentsDataFetcher);
     }}
 

@@ -55,7 +55,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressbar_consent);
-        fetchBackendConsent();
+        fetchConsent();
         showProgressBar();
         return rootView;
 
