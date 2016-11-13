@@ -48,6 +48,7 @@ import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String TAG = DatabaseHelper.class.getSimpleName();
     public static final String DATABASE_NAME = "DataService.db";
+    //TODO: Spoorti - Please dont hard code this value. Major issue
     public static final int DATABASE_VERSION = 2;
     private final UuidGenerator uuidGenerator;
     private final String packageName;
@@ -170,6 +171,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmConsentDetailType.class);
     }
 
+    //TODO: Spoorti - Please implement this instead of hardcoding version as 2
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
 
