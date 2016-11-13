@@ -64,7 +64,7 @@ public class FetchingMonitor extends EventMonitor {
             dataToSync = dbInterface.putMomentsForSync(dataToSync);
             Log.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
 
-           // dataToSync = dbInterface.putConsentForSync(dataToSync);
+            dataToSync = dbInterface.putConsentForSync(dataToSync);
 
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {

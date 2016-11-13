@@ -102,9 +102,9 @@ public class DataPushSynchronise extends EventMonitor {
         for (final com.philips.platform.datasync.synchronisation.DataSender sender : senders) {
             Log.i("***SPO***","DataPushSynchronize startAllSenders inside loop");
 
-            if(sender instanceof MomentsDataSender) {
+           // if(sender instanceof MomentsDataSender) {
                 sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-            }
+            //}
 
 
            /* executor.execute(new Runnable() {
