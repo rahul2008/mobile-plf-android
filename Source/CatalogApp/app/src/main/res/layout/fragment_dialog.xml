@@ -100,15 +100,15 @@
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/dialog_screen_button_text_dialog_with_text"/>
 
-            <com.philips.platform.uit.view.widget.Button
-                android:id="@+id/dialog_with_list"
-                style="@style/UITExtraWideButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/layout_margin_left_right"
-                android:layout_marginLeft="@dimen/layout_margin_left_right"
-                android:layout_marginRight="@dimen/layout_margin_left_right"
-                android:text="@string/dialog_screen_button_text_dialog_with_list"/>
+            <!--<com.philips.platform.uit.view.widget.Button-->
+                <!--android:id="@+id/dialog_with_list"-->
+                <!--style="@style/UITExtraWideButton"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="@dimen/layout_margin_left_right"-->
+                <!--android:layout_marginLeft="@dimen/layout_margin_left_right"-->
+                <!--android:layout_marginRight="@dimen/layout_margin_left_right"-->
+                <!--android:text="@string/dialog_screen_button_text_dialog_with_list"/>-->
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

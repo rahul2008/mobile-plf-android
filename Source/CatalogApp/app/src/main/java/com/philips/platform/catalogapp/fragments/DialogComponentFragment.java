@@ -57,9 +57,9 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
         showDialog(isLargeContent(), isWithTitle(), isWithIcon());
     }
 
-    @OnClick(R.id.dialog_with_list)
-    public void onDialogWithListClicked() {
-    }
+//    @OnClick(R.id.dialog_with_list)
+//    public void onDialogWithListClicked() {
+//    }
 
     private void showDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
