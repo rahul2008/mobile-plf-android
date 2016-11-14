@@ -5,7 +5,6 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -60,12 +59,9 @@ public class ButtonFragment extends BaseFragment {
         shareDrawable = getShareIcon();
         ButterKnife.bind(this, root);
         restoreViews(savedInstanceState);
-        imageShare.setImageDrawable(getShareIcon());
-        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            quietIconOnly.setImageDrawable(getShareIcon());
-        } else {
-            quietIconOnly.setImageResource(R.drawable.ic_share_icon);
-        }
+        imageShare.setImageDrawable(shareDrawable);
+        //Need to create a new drawable instead of using old stored shareDrawable.
+        quietIconOnly.setImageDrawable(getShareIcon());
 
         return root;
     }
@@ -87,7 +83,7 @@ public class ButtonFragment extends BaseFragment {
     }
 
     public Drawable getShareIcon() {
-        return VectorDrawableCompat.create(getResources(), R.drawable.ic_share_icon, getContext().getTheme());
+        return VectorDrawableCompat.create(getResources(), R.drawable.ic_share_icon, getContext().getTheme()).mutate();
     }
 
     @OnCheckedChanged(R.id.toggleicon)
