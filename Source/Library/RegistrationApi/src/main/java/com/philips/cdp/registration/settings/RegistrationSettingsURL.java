@@ -9,6 +9,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.rest.request.StringRequest;
@@ -37,6 +38,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     public static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-cn-test.capture.cn.janrain.com";
 
     public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
+
+    public static final String EVAL_CAPTURE_DOMAIN_CHINA_OLD = "https://philips-china-staging.capture.cn.janrain.com";
 
     public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";
 
@@ -79,6 +82,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
     private String langCode;
 
     private String countryCode;
+
+    private boolean isChinaFlow;
 
     /**
      * {@code initialiseConfigParameters} method builds configuration for information in {@code EvalRegistrationSettings}
@@ -158,6 +163,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN_CHINA,"hqmhwxu7jtdcye758vvxux4ryb");
         map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"vdgkb3z57jpv93mxub34x73mqu");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"czwfzs7xh23ukmpf4fzhnksjmd");
+        map.put(EVAL_CAPTURE_DOMAIN_CHINA_OLD,"czwfzs7xh23ukmpf4fzhnksjmd");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"59fceb32hvkycquwn7fvhs9b99");
         RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
         RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain Map : " + map.get(domain));
@@ -175,6 +181,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN_CHINA,"jndphelwbhuevcmovqtn");
         map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"fhbmobeahciagddgfidm");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"uyfpympodtnesxejzuic");
+        map.put(EVAL_CAPTURE_DOMAIN_CHINA_OLD,"uyfpympodtnesxejzuic");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"ddjbpmgpeifijdlibdio");
         RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
         RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
@@ -218,7 +225,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-       // serviceDiscoveryInterface.setHomeCountry("CN");
+      // serviceDiscoveryInterface.setHomeCountry("CN");
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -276,20 +283,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                         jumpConfig.captureRecoverUri = modifiedUrl + "&loc=" + langCode + "_" + countryCode;
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + modifiedUrl);
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
-
-                                                        jumpConfig.captureLocale = locale;
-                                                        mPreferredCountryCode = countryCode;
-                                                        mPreferredLangCode = langCode;
-
-                                                        try {
-                                                            Jump.reinitialize(mContext, jumpConfig);
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                            if (e instanceof RuntimeException) {
-                                                                mContext.deleteFile("jr_capture_flow");
-                                                                Jump.reinitialize(mContext, jumpConfig);
-                                                            }
-                                                        }
                                                     }
                                                 });
                                         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -297,12 +290,42 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                             @Override
                                             public void onError(ERRORVALUES errorvalues, String error) {
                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
-                                                //NOtify failed
+                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +"Service Deiscover inis at non China local");
+                                                setChinaFlow(false);
+                                                jumpConfig.captureLocale = locale;
+                                                mPreferredCountryCode = countryCode;
+                                                mPreferredLangCode = langCode;
+
+                                                try {
+                                                    Jump.reinitialize(mContext, jumpConfig);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    if (e instanceof RuntimeException) {
+                                                        mContext.deleteFile("jr_capture_flow");
+                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                    }
+                                                }
                                             }
 
                                             @Override
                                             public void onSuccess(URL url) {
-                                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" + url.toString());
+                                                String smsSupport=url.toString();
+                                                setChinaFlow(true);
+                                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +smsSupport);
+                                                jumpConfig.captureLocale = locale;
+                                                mPreferredCountryCode = countryCode;
+                                                mPreferredLangCode = langCode;
+
+                                                try {
+                                                    Jump.reinitialize(mContext, jumpConfig);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    if (e instanceof RuntimeException) {
+                                                        mContext.deleteFile("jr_capture_flow");
+                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                    }
+                                                }
+                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " +getIsChinaFlow());
                                             }
                                         });
                                     }
@@ -310,20 +333,13 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     }
                 });
 
-         /*tobe used in future
-          serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+    }
 
-                @Override
-                public void onError(ERRORVALUES errorvalues, String error) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
-                    //NOtify failed
-                }
+    public boolean getIsChinaFlow() {
+        return isChinaFlow;
+    }
 
-                @Override
-                public void onSuccess(URL url) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" + url.toString());
-                }
-            });*/
-
+    public void setChinaFlow(boolean chinaFlow) {
+        isChinaFlow = chinaFlow;
     }
 }

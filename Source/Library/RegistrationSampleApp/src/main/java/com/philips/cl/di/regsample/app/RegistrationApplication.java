@@ -192,13 +192,7 @@ public class RegistrationApplication extends Application {
                 "77000",
                 configError);
         System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.appState",
-                "appinfra",
-                configuration.getValue(),
-                configError);
-        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-   }
+ }
 
     public void initHSDP(Configuration configuration) {
         if(mAppInfraInterface == null){

@@ -189,11 +189,6 @@ public class RegistrationCoppaApplication extends Application {
                 "appinfra",
                 "77000",
                 configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.appState",
-                "appinfra",
-                configuration.getValue(),
-                configError);
-
     }
 
     final String AI = "appinfra";
