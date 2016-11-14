@@ -14,12 +14,12 @@ node('Android') {
     }
 
     stage('Build CommLib BlueLib Glue') {
-        sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew assembleCompat'
+        sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew assembleLocalDev’
     }
 
     stage('Tests') {
         sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
-        sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testCompat'
+        sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testLocalDev'
 
         // TODO: Re-activate JUnit result
         //step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])

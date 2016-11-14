@@ -59,7 +59,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         }
-        compat {
+        localDevelopment {
             buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled true
@@ -73,10 +73,10 @@ dependencies {
     def blueLib = 'com.philips.cdp:shinelib:2.0.3'
     def commLib = 'com.philips.cdp:dicommClientLib:2.0.0'
 
-    compatCompile project(":bluelib")
-    compatCompile project(":commlib")
-    compatCompile 'com.philips.cdp:cloudcontroller-api:2.0.2'
-    compatCompile 'com.google.code.gson:gson:2.7'
+    localDevelopmentCompile project(":bluelib")
+    localDevelopmentCompile project(":commlib")
+    localDevelopmentCompile 'com.philips.cdp:cloudcontroller-api:2.0.2'
+    localDevelopmentCompile 'com.google.code.gson:gson:2.7'
 
     debugCompile blueLib
     debugCompile commLib
