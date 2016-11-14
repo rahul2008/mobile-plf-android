@@ -2,7 +2,6 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
@@ -13,13 +12,12 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -45,29 +43,29 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogPresenterTest implements ProductCatalogPresenter.ProductCatalogListener, IAPListener {
+    @Mock
+    private Context mContext;
 
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
-    @Mock
-    Context mContext;
-    public ProductCatalogPresenter mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
+    private ProductCatalogPresenter mProductCatalogPresenter;
     private MockPRXSummaryExecutor mMockPRXDataBuilder;
-    ArrayList<String> mCTNS = new ArrayList<>();
+    private ArrayList<String> mCTNS = new ArrayList<>();
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        mNetworkController = new MockNetworkController(mContext, new MockIAPSetting(mContext));
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
-        mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
+        mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
 
         mCTNS.add("HX9033/64");
         mCTNS.add("HX9023/64");
         mCTNS.add("HX9003/64");
+        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
     }
 
     @Test
-    public void getProductCatalogVerifySuccess() throws JSONException {
+    public void testGetProductCatalogSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -76,12 +74,11 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
                 .class, "product_catalog_get_request.txt"));
         mNetworkController.sendSuccess(obj);
-
         makePRXData();
     }
 
     @Test
-    public void getProductCatalogVerifyPRXFail() throws JSONException {
+    public void testGetProductCatalogErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -90,20 +87,17 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
                 .class, "product_catalog_get_request.txt"));
         mNetworkController.sendSuccess(obj);
-
         mMockPRXDataBuilder.sendFailure(new PrxError("fail", 500));
     }
-
 
     @Test
     public void testCreateIAPErrorMessage() {
         IAPNetworkError error = NetworkUtility.getInstance().createIAPErrorMessage("Apologies");
-        boolean isIAPNetworkError = error instanceof IAPNetworkError;
-        assert (isIAPNetworkError);
+        assertTrue(error != null);
     }
 
     @Test
-    public void getCompleteProductListVerifySuccessPageSize20() throws JSONException {
+    public void testGetProductListWithPaginationSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -115,7 +109,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Test
-    public void getCompleteProductListVerifySuccessPageSize1() throws JSONException {
+    public void testGetProductListWithNoPaginationSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -129,7 +123,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
                 .class, "product_catalog_get_request.txt"));
         mNetworkController.sendSuccess(obj);
     }
-
 
     private void makePRXData() throws JSONException {
         ProductSummaryRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
@@ -155,7 +148,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Test
-    public void getProductCatalogVerifyHybrisFail() throws JSONException {
+    public void testGetProductListErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -163,14 +156,15 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
                 .class, "product_catalog_error.txt"));
-        NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(), null, true, 1222L);
+        NetworkResponse networkResponse = new NetworkResponse
+                (500, obj.toString().getBytes(), null, true, 1222L);
 
         VolleyError error = new ServerError(networkResponse);
         mNetworkController.sendFailure(error);
     }
 
     @Test
-    public void getProductCompleteListHybrisFailPageSize20() throws JSONException {
+    public void testGetCompleteProductListWithPaginationErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -185,7 +179,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Test
-    public void getProductCompleteListHybrisFailForPage1() throws JSONException {
+    public void testGetCompleteProductListWithNoPaginationErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -205,47 +199,36 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Test
-    public void getHybrisDelegateTest() {
-        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-        HybrisDelegate delegate = mProductCatalogPresenter.getHybrisDelegate();
-        boolean isHybrisDelegateInstance = delegate instanceof HybrisDelegate;
-        assert (isHybrisDelegateInstance);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void onModelDataErrorForNoProduct() throws Exception {
+    public void testNoProductError() throws Exception {
         mProductCatalogPresenter.onModelDataError(new Message());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void onModelDataErrorForError() throws Exception {
+    @Test
+    public void testNetworkError() throws Exception {
         Message msg = new Message();
         msg.obj = new IAPNetworkError(null, 0, null);
         mProductCatalogPresenter.onModelDataError(msg);
     }
 
     @Test
-    public void getCategorisedProductCatalog() throws Exception {
+    public void testGetCategorisedProductCatalog() throws Exception {
         mProductCatalogPresenter.getCategorizedProductList(mCTNS);
     }
 
     @Test
-    public void getCompleteProductListWithStoredProductList() throws Exception {
+    public void testGetCompleteProductListWithStoredProductList() throws Exception {
         CartModelContainer.getInstance().addProduct("HX8033/11", new ProductCatalogData());
         mProductCatalogPresenter.completeProductList(this, "US", "US");
     }
 
     @Test
-    public void completeProductListEhenCountryCodeIsSame() throws Exception {
+    public void testGetCompleteProductListWithSameCountryCode() throws Exception {
         mProductCatalogPresenter.completeProductList(this, "US", "US");
     }
 
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> data, final PaginationEntity paginationEntity) {
-        assert (data != null);
-//        assert (paginationEntity != null);
-        if (data.size() > 0) {
-            assert (data.get(0) instanceof ProductCatalogData);
+        if (data != null && data.size() > 0) {
             assertEquals(mCTNS.size(), data.size());
         } else {
             assertFalse(false);
@@ -254,13 +237,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
     @Override
     public void onLoadError(final IAPNetworkError error) {
-        boolean isHybrisError = error instanceof IAPNetworkError;
-        assert (isHybrisError);
-        assertEquals(error.getStatusCode(), error.getIAPErrorCode());
-        assertEquals("PRX", error.getServerError().getErrors().get(0).getType());
-        assertEquals("PRX might not have data", error.getServerError().getErrors().get(0).getReason());
-        assertEquals("PRX Error", error.getServerError().getErrors().get(0).getSubject());
-        assertEquals("No product found in your Store.", error.getServerError().getErrors().get(0).getMessage());
     }
 
     @Override
@@ -285,9 +261,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        assert (productList != null);
-
-        if (productList.size() > 0) {
+        if (productList != null && productList.size() > 0) {
             assertTrue(true);
         } else {
             assertFalse(false);

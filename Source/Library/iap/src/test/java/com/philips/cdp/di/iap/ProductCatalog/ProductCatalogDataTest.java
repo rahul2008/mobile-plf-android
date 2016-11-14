@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.ProductCatalog;
 
 import com.philips.cdp.di.iap.products.ProductCatalogData;
@@ -5,13 +9,11 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
-public class ProductCatalogDataTest extends TestCase{
+@RunWith(RobolectricTestRunner.class)
+public class ProductCatalogDataTest extends TestCase {
 
     private ProductCatalogData productCatalogData = new ProductCatalogData();
 
@@ -19,18 +21,16 @@ public class ProductCatalogDataTest extends TestCase{
     public void testGetTotalItems() {
         productCatalogData.setTotalItems(3);
         int totalItems = productCatalogData.getTotalItems();
-        assertEquals(3,totalItems);
-        assertFalse(totalItems==0);
-        assertFalse(totalItems==5);
+        assertEquals(3, totalItems);
     }
 
     @Test
     public void testGetTotalPriceFormattedPrice() {
-       productCatalogData.setFormattedTotalPrice("$1000");
+        productCatalogData.setFormattedTotalPrice("$1000");
         String totalPriceFormatted = productCatalogData.getFormattedTotalPrice();
         assertFalse(totalPriceFormatted.isEmpty());
-        assertTrue(totalPriceFormatted.toString().equalsIgnoreCase("$1000"));
-        assertFalse(totalPriceFormatted.toString().equalsIgnoreCase("$1345"));
+        assertTrue(totalPriceFormatted.equalsIgnoreCase("$1000"));
+        assertFalse(totalPriceFormatted.equalsIgnoreCase("$1345"));
     }
 
     @Test
@@ -38,8 +38,8 @@ public class ProductCatalogDataTest extends TestCase{
         productCatalogData.setFormattedPrice("$1000");
         String totalPriceFormatted = productCatalogData.getFormattedPrice();
         assertFalse(totalPriceFormatted.isEmpty());
-        assertTrue(totalPriceFormatted.toString().equalsIgnoreCase("$1000"));
-        assertFalse(totalPriceFormatted.toString().equalsIgnoreCase("$1345"));
+        assertTrue(totalPriceFormatted.equalsIgnoreCase("$1000"));
+        assertFalse(totalPriceFormatted.equalsIgnoreCase("$1345"));
     }
 
     @Test
@@ -47,8 +47,8 @@ public class ProductCatalogDataTest extends TestCase{
         productCatalogData.setFormattedTotalPriceWithTax("$1000");
         String totalPriceFormatted = productCatalogData.getFormattedTotalPriceWithTax();
         assertFalse(totalPriceFormatted.isEmpty());
-        assertTrue(totalPriceFormatted.toString().equalsIgnoreCase("$1000"));
-        assertFalse(totalPriceFormatted.toString().equalsIgnoreCase("$1345"));
+        assertTrue(totalPriceFormatted.equalsIgnoreCase("$1000"));
+        assertFalse(totalPriceFormatted.equalsIgnoreCase("$1345"));
     }
 
     @Test
@@ -56,11 +56,10 @@ public class ProductCatalogDataTest extends TestCase{
         productCatalogData.setImageUrl("https://images.philips.com/is/image/PhilipsConsumer/ALR002-AWR-en_US-001.png");
         String imageUrl = productCatalogData.getImageURL();
         assertFalse(imageUrl.isEmpty());
-        assertFalse(imageUrl == null);
-        assertTrue(imageUrl.toString().equalsIgnoreCase("https://images.philips.com/is/image/PhilipsConsumer/ALR002-AWR-en_US-001.png"));
-        assertFalse(imageUrl.toString().equalsIgnoreCase("google.com"));
-        assertTrue(imageUrl.toString().contains("png"));
-        assertTrue(imageUrl.toString().contains("images.philips.com"));
+        assertTrue(imageUrl.equalsIgnoreCase("https://images.philips.com/is/image/PhilipsConsumer/ALR002-AWR-en_US-001.png"));
+        assertFalse(imageUrl.equalsIgnoreCase("google.com"));
+        assertTrue(imageUrl.contains("png"));
+        assertTrue(imageUrl.contains("images.philips.com"));
     }
 
     @Test
@@ -68,9 +67,8 @@ public class ProductCatalogDataTest extends TestCase{
         productCatalogData.setProductTitle("DiamondClean");
         String productTitle = productCatalogData.getProductTitle();
         assertFalse(productTitle.isEmpty());
-        assertFalse(productTitle == null);
-        assertTrue(productTitle.toString().equalsIgnoreCase("DiamondClean"));
-        assertFalse(productTitle.toString().equalsIgnoreCase("google.com"));
+        assertTrue(productTitle.equalsIgnoreCase("DiamondClean"));
+        assertFalse(productTitle.equalsIgnoreCase("google.com"));
     }
 
     @Test
@@ -78,19 +76,17 @@ public class ProductCatalogDataTest extends TestCase{
         productCatalogData.setCtnNumber("HX4567/22");
         String ctn = productCatalogData.getCtnNumber();
         assertFalse(ctn.isEmpty());
-        assertFalse(ctn == null);
-        assertTrue(ctn.toString().equalsIgnoreCase("HX4567/22"));
-        assertFalse(ctn.toString().equalsIgnoreCase("google.com"));
+        assertTrue(ctn.equalsIgnoreCase("HX4567/22"));
+        assertFalse(ctn.equalsIgnoreCase("google.com"));
     }
 
     @Test
-    public void testMarkettingTextHeader() {
+    public void testMarketingTextHeader() {
         productCatalogData.setMarketingTextHeader("Market");
         String marketingTextHeader = productCatalogData.getMarketingTextHeader();
         assertFalse(marketingTextHeader.isEmpty());
-        assertFalse(marketingTextHeader == null);
-        assertTrue(marketingTextHeader.toString().equalsIgnoreCase("Market"));
-        assertFalse(marketingTextHeader.toString().equalsIgnoreCase("google.com"));
+        assertTrue(marketingTextHeader.equalsIgnoreCase("Market"));
+        assertFalse(marketingTextHeader.equalsIgnoreCase("google.com"));
     }
 
     @Test
@@ -98,19 +94,17 @@ public class ProductCatalogDataTest extends TestCase{
         productCatalogData.setPriceValue("$100");
         String priceValue = productCatalogData.getPriceValue();
         assertFalse(priceValue.isEmpty());
-        assertFalse(priceValue == null);
-        assertTrue(priceValue.toString().equalsIgnoreCase("$100"));
-        assertFalse(priceValue.toString().equalsIgnoreCase("google.com"));
+        assertTrue(priceValue.equalsIgnoreCase("$100"));
+        assertFalse(priceValue.equalsIgnoreCase("google.com"));
     }
 
     @Test
     public void testDiscountedPrice() {
         productCatalogData.setDiscountedPrice("$100");
-        String discoutedPrice = productCatalogData.getDiscountedPrice();
-        assertFalse(discoutedPrice.isEmpty());
-        assertFalse(discoutedPrice == null);
-        assertTrue(discoutedPrice.toString().equalsIgnoreCase("$100"));
-        assertFalse(discoutedPrice.toString().equalsIgnoreCase("google.com"));
+        String discountedPrice = productCatalogData.getDiscountedPrice();
+        assertFalse(discountedPrice.isEmpty());
+        assertTrue(discountedPrice.equalsIgnoreCase("$100"));
+        assertFalse(discountedPrice.equalsIgnoreCase("google.com"));
     }
 
     @Test
@@ -118,6 +112,4 @@ public class ProductCatalogDataTest extends TestCase{
         productCatalogData.setStockLevel(4);
         assertEquals(4, productCatalogData.getStockLevel());
     }
-
-
 }
