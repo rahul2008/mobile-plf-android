@@ -15,7 +15,7 @@ import com.philips.pins.shinelib.SHNCentral;
  *
  * @param <A> the type parameter indicating the {@link DICommAppliance}
  */
-final class CommLibContext<A extends DICommAppliance> {
+public final class CommLibContext<A extends DICommAppliance> {
 
     @NonNull
     private final DiscoveryManager<A> mDiscoveryManager;
