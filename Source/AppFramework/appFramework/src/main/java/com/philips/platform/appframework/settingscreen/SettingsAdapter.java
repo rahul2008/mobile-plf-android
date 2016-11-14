@@ -50,7 +50,7 @@ public class SettingsAdapter extends BaseAdapter{
     private FontIconTextView arrow;
     private SettingListItemType type;
     private View vi;
-    private ProgressDialog progress;
+    private ProgressDialog progress,progressDialog;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            UIBasePresenter fragmentPresenter) {
@@ -237,16 +237,23 @@ public class SettingsAdapter extends BaseAdapter{
                 .setPositiveButton(getString(R.string.settings_list_item_log_out),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                progressDialog = new ProgressDialog(activityContext);
+                                progressDialog.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
+                                progressDialog.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
+                                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                progressDialog.show();
                                 userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
                                     @Override
                                     public void onLogoutSuccess() {
-                                        ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                    //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                        progressDialog.cancel();
                                         fragmentPresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                                     }
 
                                     @Override
                                     public void onLogoutFailure(final int i, final String s) {
-
+                                        progressDialog.cancel();
+                                    Toast.makeText(activityContext,getString(R.string.logout_failed),Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
