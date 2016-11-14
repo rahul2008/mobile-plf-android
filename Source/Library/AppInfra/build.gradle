@@ -95,7 +95,8 @@ artifactory {
             repoKey = 'libs-release-local'
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -197,15 +198,9 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
 
-    compile(group: 'com.philips.cdp', name: 'prx', version: '2.4.0-SNAPSHOT', ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.2.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'prx', version: '2.5.0-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
             }
@@ -214,9 +209,7 @@ dependencies {
 
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile 'junit:junit:4.12'
 }
-
 
 /*task findbugs(type: FindBugs, dependsOn: assembleDebug) {
 
