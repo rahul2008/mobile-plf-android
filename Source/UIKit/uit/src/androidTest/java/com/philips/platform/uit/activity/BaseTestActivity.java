@@ -7,6 +7,8 @@ package com.philips.platform.uit.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.philips.platform.uit.thememanager.ColorRange;
@@ -39,6 +41,18 @@ public class BaseTestActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public void switchFragment(final Fragment fragment) {
+        runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(com.philips.platform.uit.test.R.id.container, fragment);
+                        fragmentTransaction.commitNow();
+                    }
+                });
     }
 
     @Override
