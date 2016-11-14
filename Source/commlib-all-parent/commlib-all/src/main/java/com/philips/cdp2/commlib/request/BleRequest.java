@@ -48,7 +48,7 @@ public class BleRequest extends Request implements Runnable {
     private final String cppId;
 
     private boolean mIsExecuting;
-    private final CountDownLatch mCountDownLatch;
+    private CountDownLatch mCountDownLatch;
     private final int mProductId;
     private final LocalRequestType mRequestType;
     private final Object mLock = new Object();
@@ -122,7 +122,6 @@ public class BleRequest extends Request implements Runnable {
         mPortName = portName;
         mProductId = productId;
         mRequestType = requestType;
-        mCountDownLatch = new CountDownLatch(1);
     }
 
     @Override
@@ -132,14 +131,12 @@ public class BleRequest extends Request implements Runnable {
 
             if (mPortName.isEmpty()) {
                 mResponseHandler.onError(Error.NO_SUCH_PORT, "Port name is empty.");
-                mCountDownLatch.countDown();
 
                 return null;
             }
 
             if (!deviceCache.getDeviceMap().containsKey(cppId)) {
                 mResponseHandler.onError(Error.NOT_AVAILABLE, "Communication is not available");
-                mCountDownLatch.countDown();
                 return null;
             }
 
@@ -147,7 +144,6 @@ public class BleRequest extends Request implements Runnable {
 
             if (capability == null) {
                 mResponseHandler.onError(Error.NOT_AVAILABLE, "Communication is not available");
-                mCountDownLatch.countDown();
                 return null;
             }
 
@@ -161,23 +157,17 @@ public class BleRequest extends Request implements Runnable {
                 case PUT:
                     if (mDataMap == null) {
                         mResponseHandler.onError(Error.INVALID_PARAMETER, "No request data supplied.");
-                        mCountDownLatch.countDown();
-
                         return null;
                     }
 
                     if (mDataMap.isEmpty()) {
                         mResponseHandler.onError(Error.NO_REQUEST_DATA, "Request data is empty.");
-                        mCountDownLatch.countDown();
-
                         return null;
                     }
                     final DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(Integer.toString(mProductId), mPortName, mDataMap);
 
                     if (putPropsMessage.getPayload() != null && putPropsMessage.getPayload().length > MAX_PAYLOAD_LENGTH) {
                         mResponseHandler.onError(Error.INVALID_PARAMETER, "Payload too big.");
-                        mCountDownLatch.countDown();
-
                         return null;
                     }
                     capability.writeData(putPropsMessage.toData());
@@ -187,6 +177,8 @@ public class BleRequest extends Request implements Runnable {
                 default:
                     throw new UnsupportedOperationException("Not implemented yet.");
             }
+
+            mCountDownLatch = new CountDownLatch(1);
             return null;
         }
     }
@@ -203,7 +195,7 @@ public class BleRequest extends Request implements Runnable {
             mIsExecuting = false;
 
             SHNDevice device = deviceCache.getDeviceMap().get(cppId);
-            if(device != null) {
+            if (device != null) {
                 CapabilityDiComm capability = (CapabilityDiComm) device.getCapabilityForType(SHNCapabilityType.DI_COMM);
                 if (capability != null) {
                     capability.removeDataListener(mResultListener);
@@ -219,9 +211,11 @@ public class BleRequest extends Request implements Runnable {
     public void run() {
         execute();
 
-        try {
-            mCountDownLatch.await();
-        } catch (InterruptedException ignored) {
+        if (mCountDownLatch != null) {
+            try {
+                mCountDownLatch.await();
+            } catch (InterruptedException ignored) {
+            }
         }
     }
 }
