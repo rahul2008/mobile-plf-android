@@ -24,11 +24,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
     }
 }
 
@@ -79,14 +80,17 @@ version = objcdp.getVersion()
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-            publishArtifacts = true
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+            }
         }
         defaults {
             publications ('apk')
@@ -96,9 +100,10 @@ artifactory {
     }
     resolve {
         repository {
-            repoKey = 'app-release-local'
+            repoKey = 'libs-release-local'
         }
     }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -170,14 +175,14 @@ publishing {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.philips.platform.referenceapp"
         minSdkVersion 19
-        targetSdkVersion 23
-        versionCode 5
+        targetSdkVersion 24
+        versionCode 1
         versionName objcdp.getVersionWithHash()
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
@@ -196,9 +201,7 @@ android {
     }
 
     dexOptions {
-        incremental = true;
         preDexLibraries = false
-        javaMaxHeapSize "4g" // 2g should be also OK
     }
     buildTypes {
         release {
@@ -285,15 +288,13 @@ configurations.all {
 }
 
 dependencies {
-
     testCompile('org.mockito:mockito-core:1.10.19')
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'junit:junit:4.12'
-
-    compile 'com.android.support:support-annotations:23.2.0'
+    compile 'com.android.support:support-annotations:24.0.0'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -339,7 +340,7 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
@@ -358,7 +359,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     }
 }
 
-task pmd(type: Pmd, dependsOn: assembleDebug) {
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
     description 'Run pmd'
     group 'verification'
@@ -371,6 +372,7 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         html.enabled = false
     }
 }
+
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 

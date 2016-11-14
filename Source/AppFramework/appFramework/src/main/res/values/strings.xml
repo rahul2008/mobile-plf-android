@@ -45,6 +45,7 @@
 
     <string name="settings_progress_title">Please Wait!!</string>
     <string name="settings_progress_message">Wait!!</string>
+    <string name="logout_failed">Logout failed. Please try again</string>
 
     <!--Settings Screen ends-->
 
