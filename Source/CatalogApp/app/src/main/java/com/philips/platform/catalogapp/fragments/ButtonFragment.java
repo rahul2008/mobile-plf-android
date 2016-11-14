@@ -5,6 +5,7 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -60,7 +61,12 @@ public class ButtonFragment extends BaseFragment {
         ButterKnife.bind(this, root);
         restoreViews(savedInstanceState);
         imageShare.setImageDrawable(getShareIcon());
-        quietIconOnly.setVectorResource(R.drawable.ic_share_icon);
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            quietIconOnly.setImageDrawable(getShareIcon());
+        } else {
+            quietIconOnly.setImageResource(R.drawable.ic_share_icon);
+        }
+
         return root;
     }
 
