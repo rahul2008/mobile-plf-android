@@ -18,17 +18,13 @@ android {
 
     }
     buildTypes {
-        debug {
-            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
-        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
-        }
-        localDevelopment {
             minifyEnabled true
-            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        localDevelopment {
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
@@ -41,8 +37,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.2.0'
-    localDevelopmentCompile project(":bluelib")
-    localDevelopmentCompile project(":commlib")
+
+    localDevelopmentCompile project(path: ':commlib-all', configuration: 'localDevelopment')
+
     testCompile 'junit:junit:4.12'
-    compile project(':commlib-all')
 }
