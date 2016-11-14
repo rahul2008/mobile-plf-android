@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        applicationId "com.launcher.commliballexample"
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+        }
+        localDevelopment {
+            minifyEnabled true
+            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    localDevelopmentCompile project(":bluelib")
+    localDevelopmentCompile project(":commlib")
+    testCompile 'junit:junit:4.12'
+    compile project(':commlib-all')
+}
