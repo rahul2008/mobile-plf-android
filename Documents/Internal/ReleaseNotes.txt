@@ -1,6 +1,16 @@
 	Product Registration for Android Release Notes
 ===============================================
 
+	Version - 2.0.1	                   		   Date: 08-11-2016
+----------------------------------------------------------------
+	Following issues are Fixed 
+
+	1. US11519 - (PR)Design change for entering valid serial number -Android
+	2. US11517 - (PR)Supporting configurable image background -Android
+	3. US12560 - “Registered” indication text and “product summary data” is displayed  on post registration screen as per the new design-Android
+	4. US12561 - Registered product data pop-up should be  displayed to the user as per the new design -Android
+	5. US12562 - New date picker as per the new design-Android
+
 	Version - 1.2.7	                   		   Date: 06-10-2016
 ----------------------------------------------------------------
 	Following issues are Fixed 

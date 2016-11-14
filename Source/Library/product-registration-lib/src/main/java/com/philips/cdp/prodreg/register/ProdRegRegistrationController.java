@@ -27,6 +27,26 @@ import java.util.List;
 public class ProdRegRegistrationController {
 
     public static final String TAG = ProdRegRegistrationController.class.getSimpleName();
+
+    public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
+        void isValidDate(boolean validDate);
+
+        void isValidSerialNumber(boolean validSerialNumber);
+
+        void setSummaryView(Data summaryData);
+
+        void setProductView(RegisteredProduct registeredProduct);
+
+        void requireFields(boolean requireDate, boolean requireSerialNumber);
+
+        void logEvents(String tag, String data);
+
+        void tagEvents(String event, String key, String value);
+
+        void showSuccessLayout();
+
+        void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
+    }
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
@@ -35,6 +55,7 @@ public class ProdRegRegistrationController {
     private ArrayList<RegisteredProduct> registeredProducts;
     private ProdRegUtil prodRegUtil = new ProdRegUtil();
     private Bundle dependencyBundle;
+
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
@@ -43,6 +64,7 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
+            registeredProduct = registeredProduct.getRegisteredProductIfExists(getLocalRegisteredProducts());
             registerControllerCallBacks.showAlreadyRegisteredDialog(getRegisteredProduct());
             updateRegisteredProductsList(registeredProduct);
         }
@@ -217,25 +239,5 @@ public class ProdRegRegistrationController {
         final ProdRegFindSerialFragment prodRegFindSerialFragment = new ProdRegFindSerialFragment();
         prodRegFindSerialFragment.setArguments(dependencyBundle);
         return prodRegFindSerialFragment;
-    }
-
-    public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
-        void isValidDate(boolean validDate);
-
-        void isValidSerialNumber(boolean validSerialNumber);
-
-        void setSummaryView(Data summaryData);
-
-        void setProductView(RegisteredProduct registeredProduct);
-
-        void requireFields(boolean requireDate, boolean requireSerialNumber);
-
-        void logEvents(String tag, String data);
-
-        void tagEvents(String event, String key, String value);
-
-        void showSuccessLayout();
-
-        void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
     }
 }

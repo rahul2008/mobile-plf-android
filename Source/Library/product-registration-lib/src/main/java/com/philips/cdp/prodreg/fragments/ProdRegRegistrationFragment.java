@@ -133,10 +133,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
-//        final int resId = R.drawable.ic_calendar_inverted;
-//        final VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(mActivity.getResources(), resId, mActivity.getTheme());
-//        date_EditText.setCompoundDrawables(null, null, vectorDrawableCompat, null);
-//        date_EditText.setCompoundDrawablesWithIntrinsicBounds(null, null, vectorDrawableCompat, null);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
