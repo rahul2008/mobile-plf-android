@@ -64,7 +64,7 @@ public class ProdRegRegistrationController {
 
     public void handleState() {
         if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
-            registeredProduct = registeredProduct.getRegisteredProductIfExists(getLocalRegisteredProducts());
+            registeredProduct = getRegisteredProduct().getRegisteredProductIfExists(getLocalRegisteredProducts());
             registerControllerCallBacks.showAlreadyRegisteredDialog(getRegisteredProduct());
             updateRegisteredProductsList(registeredProduct);
         }

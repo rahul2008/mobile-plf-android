@@ -94,6 +94,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
     public void testHandleState() {
         when(registeredProductMock.isProductAlreadyRegistered(localRegisteredProductsMock)).thenReturn(true);
         prodRegRegistrationController.handleState();
+        verify(registeredProductMock).getRegisteredProductIfExists(localRegisteredProductsMock);
         verify(registerControllerCallBacksMock).showAlreadyRegisteredDialog(registeredProductMock);
     }
 
