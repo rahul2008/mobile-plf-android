@@ -20,6 +20,7 @@ import java.io.Serializable;
 @DatabaseTable
 public class OrmMomentType implements Serializable {
     static final long serialVersionId = 11L;
+    static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private int id;

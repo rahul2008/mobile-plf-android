@@ -43,7 +43,6 @@ import retrofit.RetrofitError;
  */
 @Singleton
 public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
-    static final String KEY_PROFILE_PHOTO_SET = "PROFILE_PHOTO_SET";
 
     // TODO: This I do not want
     @NonNull

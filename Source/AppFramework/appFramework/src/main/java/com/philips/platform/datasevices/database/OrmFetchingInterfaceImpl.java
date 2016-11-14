@@ -19,6 +19,7 @@ import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.datasevices.database.table.OrmMoment;
 import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.datasevices.temperature.TemperatureMomentHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.Set;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     static final String SYNCED_FIELD = "synced";
@@ -41,12 +43,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     @NonNull
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
 
+    private TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
                                     final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao) {
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
 
     }
 
@@ -91,7 +95,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         ArrayList<OrmMoment> moments = new ArrayList<>();
         moments.add(ormMoments);
 
-        notifySuccessToAll(moments);
+        mTemperatureMomentHelper.notifySuccessToAll(moments);
     }
 
     @Override
@@ -139,29 +143,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
             }
         }
         Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
-        notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
-    }
-
-    private void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
-
-    private void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
-            }
-        }
+        mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
     }
 
     @Override

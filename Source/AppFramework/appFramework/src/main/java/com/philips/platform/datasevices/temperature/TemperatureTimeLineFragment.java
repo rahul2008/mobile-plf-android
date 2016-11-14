@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +26,7 @@ import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasevices.database.DatabaseHelper;
-import com.philips.platform.datasevices.database.ORMDeletingInterfaceImpl;
+import com.philips.platform.datasevices.database.OrmDeletingInterfaceImpl;
 import com.philips.platform.datasevices.database.ORMSavingInterfaceImpl;
 import com.philips.platform.datasevices.database.ORMUpdatingInterfaceImpl;
 import com.philips.platform.datasevices.database.OrmCreator;
@@ -54,15 +55,18 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBChangeListener, TemperatureView {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
-    private TemperatureTimeLineFragmentcAdapter mAdapter;
+    private TemperatureTimeLineFragmentcAdapter mAdapter ;
     AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
+    TemperatureMomentHelper mTemperatureMomentHelper;
+
 
     @Override
     public String getActionbarTitle() {
@@ -97,7 +101,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_data_sync_fragment, container, false);
-        mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(), mData, mTemperaturePresenter);
+        mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(),mData, mTemperaturePresenter);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -107,14 +111,14 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         return view;
     }
 
-
     private void init() {
         //Stetho.initializeWithDefaults(getActivity().getApplicationContext());
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
         mDataServicesManager.initialize(getContext(), creator, new UserRegistrationFacadeImpl(getContext(), new User(getContext())));
-        mDataServicesManager.initializeSyncMonitors(null, null);
+        mDataServicesManager.initializeSyncMonitors(null,null);
 
         alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
@@ -139,13 +143,14 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
                     measurementDetailDao, synchronisationDataDao);
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
-            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
-            ORMDeletingInterfaceImpl ORMDeletingInterfaceImpl = new ORMDeletingInterfaceImpl(deleting, saving);
-            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao);
+            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving,updating,fetching,deleting,uGrowDateTime);
+            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting,saving);
+            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving,updating,fetching,deleting);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao);
 
-            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl,dbInterfaceOrmFetchingInterface,ORMSavingInterfaceImpl,dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
+            mTemperatureMomentHelper.notifyAllFailure(exception);
             throw new IllegalStateException("Can not instantiate database");
         }
     }
@@ -175,14 +180,14 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
     }
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.add:
-                mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
+                mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD,null);
                 break;
         }
     }
@@ -193,7 +198,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, "http : UI updated");
+                Log.i(TAG,"http : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();

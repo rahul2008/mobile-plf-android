@@ -64,7 +64,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    mTemperaturePresenter.bindDeleteOrUpdatePopUP(TemperatureTimeLineFragmentcAdapter.this, mData, view, position);
+                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(TemperatureTimeLineFragmentcAdapter.this,mData,view, position);
                 }
             });
         }
@@ -82,8 +82,8 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
     public class DataSyncViewHolder extends RecyclerView.ViewHolder {
         public TextView mTemperature;
-        public TextView mPhase;
-        public TextView mLocation;
+        public  TextView mPhase;
+        public  TextView mLocation;
         public ImageView mOptions;
         public FrameLayout mDotsLayout;
         public TextView mIsSynced;
@@ -93,12 +93,11 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mTemperature = (TextView) itemView.findViewById(R.id.time_line_data);
             mPhase = (TextView) itemView.findViewById(R.id.phasedata);
             mLocation = (TextView) itemView.findViewById(R.id.location_detail);
-            mOptions = (ImageView) itemView.findViewById(R.id.dots);
+            mOptions = (ImageView)itemView.findViewById(R.id.dots);
             mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             mIsSynced = (TextView) itemView.findViewById(R.id.is_synced);
         }
     }
-
 
     private void initDrawables() {
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.dots);

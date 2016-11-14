@@ -36,7 +36,6 @@ import javax.inject.Singleton;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@Singleton
 public class OrmCreator implements BaseAppDataCreator {
 
     private final UuidGenerator uuidGenerator;

@@ -1,18 +1,4 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without
-the written consent of the copyright holder.
 
-Project           : SaecoAvanti
-
-File Name         : EventHelper.java
-
-Description       : EventHelper
-Revision History: version 1:
-    Date: Jul 5, 2014
-    Original author: Maruti Kutre
-    Description: Initial version
-----------------------------------------------------------------------------*/
 
 package com.philips.platform.datasevices.listener;
 

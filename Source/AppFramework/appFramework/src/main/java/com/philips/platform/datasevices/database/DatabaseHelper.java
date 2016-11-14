@@ -28,6 +28,7 @@ import com.philips.platform.datasevices.database.table.OrmMomentDetail;
 import com.philips.platform.datasevices.database.table.OrmMomentDetailType;
 import com.philips.platform.datasevices.database.table.OrmMomentType;
 import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.datasevices.temperature.TemperatureMomentHelper;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -52,11 +53,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
     private Dao<OrmMeasurementDetailType, Integer> measurementDetailTypeDao;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
+    TemperatureMomentHelper mTemperatureMomentHelper;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.uuidGenerator = uuidGenerator;
         this.packageName = context.getPackageName();
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -67,6 +70,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             insertDictionaries();
         } catch (SQLException e) {
             Log.e(TAG, "Unable to create databases", e);
+            mTemperatureMomentHelper.notifyAllFailure(e);
         }
     }
 
