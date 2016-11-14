@@ -14,7 +14,7 @@ node('Android') {
     }
 
     stage('Build CommLib BlueLib Glue') {
-        sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew assembleLocalDev’
+        sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew assembleLocalDev'
     }
 
     stage('Tests') {
