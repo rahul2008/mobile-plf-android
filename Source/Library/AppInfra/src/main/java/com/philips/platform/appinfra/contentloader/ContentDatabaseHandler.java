@@ -5,12 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 310238114 on 11/8/2016.
@@ -66,34 +69,27 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    void addContents(List<ContentItem> refreshedContentItems, String serviceID, long expiryDate) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.beginTransaction();
-        List<ContentItem> existingContents = getContentItems(serviceID);
-        if (null != existingContents && existingContents.size() > 0) {
+    void addContents(List<ContentItem> serverContentItems, String serviceID, long expiryDate) {
+
+        List<ContentItem> databaseContents = getContentItems(serviceID);
+        if (null != databaseContents && databaseContents.size() > 0) {
             // if already contents present for given service ID
-            updateContents(refreshedContentItems,existingContents, serviceID,  expiryDate );
+            updateContents(serverContentItems, databaseContents, serviceID, expiryDate);
         } else {
             // first run for given service id
-            insertContents(refreshedContentItems,serviceID,expiryDate);
+            insertContents(serverContentItems, serviceID, expiryDate);
         }
-        db.close();
+
     }
 
 
-    private void insertContents(List<ContentItem> refreshedContentItems, String serviceID, long expiryDate){
+    private void insertContents(List<ContentItem> refreshedContentItems, String serviceID, long expiryDate) {
         // first run, no entry available fo given service id so all content item will be inserted
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             boolean allRowInserted = true;
             for (ContentItem contentItem : refreshedContentItems) {
-                ContentValues values = new ContentValues();
-                values.put(KEY_ID, contentItem.getId());
-                values.put(KEY_SERVICE_ID, contentItem.getServiceId());
-                values.put(KEY_RAW_CONTENT, contentItem.getRawData()); // Json String
-                values.put(KEY_TAG_IDS, contentItem.getTags());
-                values.put(KEY_VERSION_NUMBER, contentItem.getVersionNumber());
-
+                ContentValues values = getContentValues(contentItem);
                 long rowId = db.insert(CONTENT_TABLE, null, values);
                 if (rowId == -1) {
                     allRowInserted = false;
@@ -125,65 +121,127 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    private void updateContents(List<ContentItem> refreshedContentItems,List<ContentItem> existingContentItems, String serviceID, long expiryDate){
+    private void updateContents(List<ContentItem> serverContentItems, List<ContentItem> databaseContentItems, String serviceID, long expiryDate) {
+        boolean SQLitetransaction = true;
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
-            boolean anyRowUpdated = false;
-            long versionNumberDB = 0;//default version in DB meaning content item does not exist
-            for (ContentItem contentItem : refreshedContentItems) {
-                // fetch the requested(newly downloaded) item from DB(if present)
-                ContentValues values = new ContentValues();
-                values.put(KEY_ID, contentItem.getId()+6);
-                values.put(KEY_SERVICE_ID, contentItem.getServiceId());
-                values.put(KEY_RAW_CONTENT, contentItem.getRawData()); // Json String
-                values.put(KEY_TAG_IDS, contentItem.getTags());
-                values.put(KEY_VERSION_NUMBER, contentItem.getVersionNumber());
+        List<ContentItem> newContentItemToBeAddedFromServer = new ArrayList<ContentItem>();
+        List<ContentItem> newContentItemToBeUpdatedFromServer = new ArrayList<ContentItem>();
+        Set<String> serverItemIdSet = new HashSet<String>();
+        Set<String> dataBaseItemIdSet = new HashSet<String>();
+        Set<String> dataBaseItemIdSetTemp = new HashSet<String>();
+        Set<Long> serverItemVersionSet = new HashSet<Long>();
+        Set<Long> dataBaseItemVersionSet = new HashSet<Long>();
+        /////////////////TEST START
 
-                String selectQuery = "SELECT " + KEY_VERSION_NUMBER + " FROM " + CONTENT_TABLE
-                        + " WHERE " + KEY_ID + " = \'" + contentItem.getId()+ "\' AND " + KEY_SERVICE_ID + " = \'" + contentItem.getServiceId()+"\'";
-                Cursor cursor = db.rawQuery(selectQuery, null);
-                cursor.moveToFirst();
-                if (null != cursor && cursor.getCount()>0){ // if requested row present in DB
-                    versionNumberDB=cursor.getLong(0);
-                }
-                if (versionNumberDB==0) {
-                    //  if given id does not exist in table then insert row
-                    long rowId = db.insert(CONTENT_TABLE, null, values);
-                    if (rowId == -1) {
-                        Log.e("INS FAIL", CONTENT_TABLE);
-                    } else {
-                        anyRowUpdated = true;
-                        Log.i("INS SUC", "row id " + CONTENT_TABLE + " " + rowId);
-                    }
-                }else if (contentItem.getVersionNumber()>versionNumberDB){
-                    // if given content exist in table its version is older then refreshed content then replace row
-                    long rowId = db.replace(CONTENT_TABLE, null, values);
-                    if (rowId == -1) {
-                        Log.e("UPDATE FAIL", CONTENT_TABLE);
-                    } else {
-                        anyRowUpdated = true;
-                        Log.i("UPDATE SUC", "row id " + CONTENT_TABLE + " " + rowId);
-                    }
-                }
-            }
-            if(anyRowUpdated){
-                Log.i("UPDATE SUC", "content(s) with new version updated in DB");
-                // ContentLoader table also need to be updated
-                String insertOrReplaceContentLoader = "INSERT OR REPLACE INTO " + CONTENT_LOADER_TABLE + " VALUES ("
-                        + serviceID + ","
-                        + expiryDate +
-                        ") WHERE " + KEY_SERVICE_ID + " = \'" + serviceID+"\'";
-                Cursor cursorInsertOrReplaceContentItem = db.rawQuery(insertOrReplaceContentLoader, null);
-                Log.i("UPDATE SUC", "Service ID "+serviceID+" Expiry Date updated");
-            }else{
-                Log.i("UPDATE NA", "Service ID "+serviceID+" contents are already up to date in DB");
-            }
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.e("INS FAIL", "");
-        } finally {
-            db.endTransaction();
+        ContentItem ci = new ContentItem();
+        ci.setId("AnuragID");
+        ci.setTags("tag1,tag2");
+        ci.setRawData("{}");
+        ci.setServiceId(serviceID);
+        ci.setVersionNumber(serverContentItems.get(0).getVersionNumber());
+
+        ContentItem ci2 = new ContentItem();
+        ci2.setId("AnuragID2");
+        ci2.setTags("tag1,tag2");
+        ci2.setRawData("{}");
+        ci2.setServiceId(serviceID);
+        ci2.setVersionNumber(serverContentItems.get(1).getVersionNumber());
+        serverContentItems.add(ci);
+        serverContentItems.add(ci2);
+        ////////////////TEST END
+        for (ContentItem contentItem : serverContentItems) {
+            serverItemIdSet.add(contentItem.getId());
+            serverItemVersionSet.add(new Long(contentItem.getVersionNumber()));
         }
+        for (ContentItem contentItem : databaseContentItems) {
+            dataBaseItemIdSet.add(contentItem.getId());
+            dataBaseItemIdSetTemp.add(contentItem.getId());// tmp value as dataBaseItemIdSet will be modified after removeAll()
+            dataBaseItemVersionSet.add(new Long(contentItem.getVersionNumber()));
+        }
+
+        dataBaseItemIdSet.removeAll(serverItemIdSet); //  dataBaseItemIdSet reduce to Old item set to be removed from database
+        serverItemIdSet.removeAll(dataBaseItemIdSetTemp);// serverItemIdSet reduce to  New item set to be added from server
+
+        db.beginTransaction();
+        // start of deletion of old items from DB
+        if (dataBaseItemIdSet.size() > 0) { // one or more item to be deleted from db
+            try {
+                String[] whereClause = new String[dataBaseItemIdSet.size()];
+                int idCount = 0;
+                for (String id : dataBaseItemIdSet) {
+                    whereClause[idCount++] = KEY_ID + " = \"" + id + "\"";
+                }
+                String formattedwhereClause = TextUtils.join(" OR ", whereClause);
+                String deleteQuery = "delete from " + CONTENT_TABLE + " where " + formattedwhereClause;
+                Log.w("deleteQuery:", deleteQuery);
+                db.execSQL(deleteQuery);
+                Log.w("deleteQuery:", "Success");
+            } catch (Exception e) {
+                SQLitetransaction = false;
+                Log.w("deleteQuery:", e);
+            }
+        }
+        // end of deletion of old items from DB
+
+        // start of addition of new items in DB
+        if (serverItemIdSet.size() > 0) { // one or more item to be added in db
+            try {
+                for (ContentItem contentItem : serverContentItems) {
+                    if (serverItemIdSet.contains(contentItem.getId())) {
+                        newContentItemToBeAddedFromServer.add(contentItem);
+                    }
+                }
+                if (newContentItemToBeAddedFromServer.size() > 0) {
+                    for (ContentItem contentItem : newContentItemToBeAddedFromServer) {
+                        ContentValues values = getContentValues(contentItem);
+                        long rowId = db.insert(CONTENT_TABLE, null, values);
+                        if (rowId == -1) {
+                            SQLitetransaction = false;
+                            Log.e("INS FAIL", CONTENT_TABLE);
+                        } else {
+                            Log.i("INS SUC", "row id " + CONTENT_TABLE + " " + rowId);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                SQLitetransaction = false;
+                Log.w("insertQuery:", e);
+            }
+        }
+        // end of addition of new items in DB
+
+        // start of updating items based on item version number  changed
+        serverItemVersionSet.removeAll(dataBaseItemVersionSet);// only modified latest version number to be
+        if (serverItemVersionSet.size() > 0) { // one or more item to be updated in db
+            try {
+                for (ContentItem contentItem : serverContentItems) {
+                    if (serverItemIdSet.contains(contentItem.getId())) {
+                        newContentItemToBeUpdatedFromServer.add(contentItem);
+                    }
+                }
+                if (newContentItemToBeUpdatedFromServer.size() > 0) {
+                    long versionNumberDB = 0;
+                    for (ContentItem contentItem : newContentItemToBeUpdatedFromServer) {
+                        ContentValues values = getContentValues(contentItem);
+                        long rowId = db.replace(CONTENT_TABLE, null, values);
+                        if (rowId == -1) {
+                            SQLitetransaction = false;
+                            Log.e("UPDATE FAIL", CONTENT_TABLE);
+                        } else {
+                            Log.i("UPDATE SUC", "row id " + CONTENT_TABLE + " " + rowId);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                SQLitetransaction = false;
+                Log.w("updateQuery:", e);
+            }
+        }
+        // end of updating items based on item version number  changed
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+
         db.close();
     }
 
@@ -195,7 +253,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     }
 
     private List<ContentItem> getContentItems(String serviceId) {
-        String selectQuery = "SELECT  * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \'" + serviceId+"\'";
+        String selectQuery = "SELECT  * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \'" + serviceId + "\'";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
@@ -212,5 +270,76 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         return ContentItemList;
+    }
+
+    List<String> getAllContentIds(String serviceID) {
+        ArrayList<String> Ids = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String getAllIDQuery=null;
+        try {
+             getAllIDQuery = "SELECT "+KEY_ID+" FROM "+CONTENT_TABLE+ " WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\"";
+            Cursor cursor = db.rawQuery(getAllIDQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Ids.add(cursor.getString(0));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("SELECT FAIL", getAllIDQuery);
+        } finally {
+            db.close();
+        }
+        return Ids;
+    }
+
+    List<ContentItem> getContentById(String serviceID, String[] contentIDs) {
+        List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String getContentByIdQuery=null;
+        try {
+            if(contentIDs.length==1){
+            getContentByIdQuery = "SELECT * FROM "+CONTENT_TABLE+ " WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\" AND "+KEY_ID+ " = \""+contentIDs[0]+"\"";
+                }else  if(contentIDs.length>1) {
+                String[] whereClause = new String[contentIDs.length];
+                int idCount=0;
+                for (String id : contentIDs) {
+                    whereClause[idCount++] = KEY_ID + " = \"" + id + "\"";
+                }
+                String formattedwhereClause = TextUtils.join(" OR ", whereClause);
+                getContentByIdQuery = "SELECT * FROM "+CONTENT_TABLE+ " WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\" AND "  +formattedwhereClause;
+                }
+            Cursor cursor = db.rawQuery(getContentByIdQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    ContentItem contentItem = new ContentItem();
+                    contentItem.setId(cursor.getString(0));
+                    contentItem.setServiceId(cursor.getString(1));
+                    contentItem.setRawData(cursor.getString(2));
+                    contentItem.setTags(cursor.getString(3));
+                    contentItem.setVersionNumber(cursor.getLong(4));
+                    ContentItemList.add(contentItem);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("SELECT FAIL", getContentByIdQuery);
+        } finally {
+            db.close();
+        }
+        return ContentItemList;
+    }
+
+
+
+
+    ContentValues getContentValues(ContentItem pContentItem) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, pContentItem.getId());
+        values.put(KEY_SERVICE_ID, pContentItem.getServiceId());
+        values.put(KEY_RAW_CONTENT, pContentItem.getRawData()); // Json String
+        values.put(KEY_TAG_IDS, pContentItem.getTags());
+        values.put(KEY_VERSION_NUMBER, pContentItem.getVersionNumber());
+        return values;
     }
 }

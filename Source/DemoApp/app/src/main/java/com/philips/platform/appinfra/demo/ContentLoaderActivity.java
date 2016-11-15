@@ -15,6 +15,8 @@ import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.ContentLoaderInterface;
 
+import java.util.List;
+
 /**
  * Created by 310238114 on 10/25/2016.
  */
@@ -26,6 +28,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
     EditText EditTextContentType;
 
     Button buttonInvokeCL;
+    Button buttonGetALLids;
+    Button buttonGetContentByid;
     TextView textViewResponse;
     ContentLoader mContentLoader;
 
@@ -39,8 +43,11 @@ public class ContentLoaderActivity extends AppCompatActivity {
         EditTextContentClass = (EditText) findViewById(R.id.editTextContentClassType);
         EditTextContentType = (EditText) findViewById(R.id.editTextContentType);
         buttonInvokeCL = (Button) findViewById(R.id.buttonInvokeCL);
+        buttonGetALLids = (Button) findViewById(R.id.buttonGetAllID);
+        buttonGetContentByid = (Button) findViewById(R.id.buttonGetContentByID);
         textViewResponse = (TextView) findViewById(R.id.textViewResponseCL);
 
+        mContentLoader = new ContentLoader(getApplicationContext(),EditTextServiceId.getText().toString().trim(), getMaxAge(), ContentArticle.class, "articles", AppInfraApplication.gAppInfra);
         buttonInvokeCL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,8 +59,6 @@ public class ContentLoaderActivity extends AppCompatActivity {
                     showAlertDialog("Invalid Input", "Invalid Service ID ");
 
                 } else {
-                    mContentLoader = new ContentLoader(getApplicationContext(),EditTextServiceId.getText().toString().trim(), magAge, ContentArticle.class, "articles", AppInfraApplication.gAppInfra);
-
                     mContentLoader.refresh(new ContentLoaderInterface.OnRefreshListener() {
                         @Override
                         public void onError(ContentLoaderInterface.ERROR error, String message) {
@@ -72,6 +77,63 @@ public class ContentLoaderActivity extends AppCompatActivity {
             }
         });
 
+
+        buttonGetALLids.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textViewResponse.setText(null);
+                int magAge = getMaxAge();
+                if (magAge < 0) {
+                    showAlertDialog("Invalid Input", "Invalid Max age ");
+                } else if (null == EditTextServiceId.getText() || "".equals(EditTextServiceId.getText().toString().trim())) {
+                    showAlertDialog("Invalid Input", "Invalid Service ID ");
+
+                } else {
+
+                    mContentLoader.getAllContent(new ContentLoaderInterface.OnResultListener<String>() {
+                        @Override
+                        public void onError(ContentLoaderInterface.ERROR error, String message) {
+                            textViewResponse.setText(error.toString()+"\n"+message);
+                        }
+
+                        @Override
+                        public void onSuccess(List<String> contents) {
+                            textViewResponse.setText(contents.toString());
+                        }
+                    });
+                }
+
+            }
+        });
+
+        buttonGetContentByid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textViewResponse.setText(null);
+                int magAge = getMaxAge();
+                if (magAge < 0) {
+                    showAlertDialog("Invalid Input", "Invalid Max age ");
+                } else if (null == EditTextServiceId.getText() || "".equals(EditTextServiceId.getText().toString().trim())) {
+                    showAlertDialog("Invalid Input", "Invalid Service ID ");
+
+                } else {
+
+                    String[] ids= {"bf1","bf11"};
+                    mContentLoader.getContentById(ids, new ContentLoaderInterface.OnResultListener() {
+                        @Override
+                        public void onError(ContentLoaderInterface.ERROR error, String message) {
+                            textViewResponse.setText(error.toString()+"\n"+message);
+                        }
+
+                        @Override
+                        public void onSuccess(List contents) {
+                            textViewResponse.setText(contents.toString());
+                        }
+                    });
+                }
+
+            }
+        });
 
     }
 

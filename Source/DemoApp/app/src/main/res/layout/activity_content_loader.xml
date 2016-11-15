@@ -2,57 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textViewCLtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Content Loader"
-        android:id="@+id/textViewCLtitle"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:text="Content Loader" />
 
     <EditText
-        android:hint="Service Id"
+        android:id="@+id/editTextServiceId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextServiceId" />
+        android:hint="Service Id" />
+
     <EditText
-        android:hint="Max age in hours"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberSigned"
-        android:ems="10"
         android:id="@+id/editTextMaxAgeInHours"
-        android:layout_gravity="center_horizontal" />
-
-    <EditText
-        android:hint="content class"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Max age in hours"
+        android:inputType="numberSigned" />
+
+    <EditText
         android:id="@+id/editTextContentClassType"
-        android:layout_gravity="center_horizontal" />
-
-    <EditText
-        android:hint="content type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="content class" />
+
+    <EditText
         android:id="@+id/editTextContentType"
-        android:layout_gravity="center_horizontal" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="content type" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
         android:id="@+id/buttonInvokeCL"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Response"
-        android:id="@+id/textViewResponseCL"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:text="Refresh" />
+
+    <Button
+        android:id="@+id/buttonGetAllID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Get All Content" />
+    <Button
+        android:id="@+id/buttonGetContentByID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Get  Content by ID" />
+    <ScrollView
+        android:id="@+id/SCROLLER_ID3"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:fillViewport="true"
+
+        android:scrollbars="vertical">
+
+        <TextView
+            android:id="@+id/textViewResponseCL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Response" />
+    </ScrollView>
 
 
 </LinearLayout>

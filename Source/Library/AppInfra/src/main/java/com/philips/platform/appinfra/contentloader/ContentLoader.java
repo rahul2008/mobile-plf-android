@@ -40,7 +40,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private int offset = 0;
     private final int downloadLimit;
     private int contentDownloadedCount;
-    private List downloadedContents ;
+    private List downloadedContents;
     private Calendar expiryDate;
     private ContentDatabaseHandler mContentDatabaseHandler;
     // region public methods
@@ -65,7 +65,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mHeaders = new HashMap<String, String>();
         downloadInProgress = new AtomicBoolean(false);
         downloadLimit = getDownloadLimitFromConfig();
-        downloadedContents=new ArrayList<ContentItem>();
+        downloadedContents = new ArrayList<ContentItem>();
         mContentDatabaseHandler = new ContentDatabaseHandler(context);
     }
     // endregion
@@ -122,12 +122,12 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                             contentItem.setRawData(contentList.get(contentCount).toString());
                                             contentItem.setVersionNumber(contentArticle.getVersion());
                                             List<Tag> tagList = contentArticle.getTags();
-                                            String tags="";
-                                            if(null!=tagList && tagList.size()>0){
-                                                for(Tag tag:tagList){
-                                                    tags+=tag.getId()+", ";
+                                            String tags = "";
+                                            if (null != tagList && tagList.size() > 0) {
+                                                for (Tag tag : tagList) {
+                                                    tags += tag.getId() + ", ";
                                                 }
-                                                tags=tags.substring(0, tags.length()-2);
+                                                tags = tags.substring(0, tags.length() - 2);
                                             }
                                             contentItem.setTags(tags);
                                             downloadedContents.add(contentItem);
@@ -142,7 +142,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                 Log.i("CL REFRSH RESP", "download completed");
                                 expiryDate = Calendar.getInstance();
                                 expiryDate.add(Calendar.HOUR_OF_DAY, mMaxAgeInHours);
-                                mContentDatabaseHandler.addContents(downloadedContents,mServiceId,expiryDate.getTime().getTime());
+                                mContentDatabaseHandler.addContents(downloadedContents, mServiceId, expiryDate.getTime().getTime());
                                 clearParamsAndHeaders();// clear headerd and params from rest client
                                 downloadInProgress.set(false);
                                 offset = 0;
@@ -185,28 +185,67 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void getAllContent(OnResultListener<String> listener) {
+        // It was concluded to fetch only content ids and not complete content
+        List<String> IDs = mContentDatabaseHandler.getAllContentIds(mServiceId);
+        listener.onError(ERROR.DATABASE_ERROR, "could not fetch from DB");
+        listener.onSuccess(IDs);
     }
 
     @Override
     public void getContentById(String id, OnResultListener<Content> listener) {
         // example for how to create a Content instance
-        List<Content> result = new ArrayList<Content>(1);
-        try {
-            Content a = mClassType.newInstance();
-            // if (a.parseInput("{\"id\":\"blaat\"}") == false) {
-            if (!a.parseInput("{\"id\":\"blaat\"}")) {
-                listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
-                return;
+        Gson gson = new Gson();
+        String[] IDs = new  String[1];
+        IDs[0]=id;
+        List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, IDs);
+        if (null != contentItems && contentItems.size() > 0) {
+            ContentItem contentItem = contentItems.get(0);
+            List<Content> result = new ArrayList<Content>(1);
+            try {
+                Content a = mClassType.newInstance();
+                if (!a.parseInput("{\"id\":\"blaat\"}")) {
+                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
+                    return;
+                }
+                //  if (mClassType.equals(ContentArticle.class)) { // if conent is ContentArticle
+                a = gson.fromJson(contentItem.getRawData(), mClassType);
+                result.add(a);
+                listener.onSuccess(result);
+            } catch (InstantiationException | IllegalAccessException e) {
+                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
             }
-            result.add(a);
-            listener.onSuccess(result);
-        } catch (InstantiationException | IllegalAccessException e) {
-            listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
+        } else {
+            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given ID not found in DB");
         }
     }
 
     @Override
     public void getContentById(String[] ids, OnResultListener<Content> listener) {
+        // example for how to create a Content instance
+        Gson gson = new Gson();
+        List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, ids);
+        if (null != contentItems && contentItems.size() > 0) {
+            ContentItem contentItem = contentItems.get(0);
+            List<Content> result = new ArrayList<Content>(1);
+            try {
+                Content a = mClassType.newInstance();
+                if (!a.parseInput("{\"id\":\"blaat\"}")) {
+                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
+                    return;
+                }
+                for(ContentItem ci:contentItems){
+                    Content c = mClassType.newInstance();
+                    c = gson.fromJson(contentItem.getRawData(), mClassType);
+                    result.add(c);
+                }
+
+                listener.onSuccess(result);
+            } catch (InstantiationException | IllegalAccessException e) {
+                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
+            }
+        } else {
+            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given ID not found in DB");
+        }
     }
 
     @Override
@@ -253,8 +292,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         return contentLoaderLimit;
     }
 
-    private void  updateContentDatabase(){
-        if(null!=downloadedContents && downloadedContents.size()>0){
+    private void updateContentDatabase() {
+        if (null != downloadedContents && downloadedContents.size() > 0) {
 
         }
         downloadedContents.clear();
