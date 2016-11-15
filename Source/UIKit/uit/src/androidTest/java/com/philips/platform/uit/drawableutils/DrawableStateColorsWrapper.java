@@ -21,6 +21,11 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     }
 
     @Override
+    public int getDefaultColor() {
+        return getColorStateList().getDefaultColor();
+    }
+
+    @Override
     public int getStateColor(int attr) {
         return getColorStateList().getColorForState(new int[]{attr}, Color.WHITE);
     }
