@@ -23,7 +23,7 @@ public class SecureStorageTest extends InstrumentationTestCase{
 
     @Test
     public void testGetErrorCode() throws Exception {
-        mSecureStorage.init(context);
+//        mSecureStorage.init(context);
 
         mSecureStorage.generateSecretKey();
      //   assertNotNull(mSecureStorage.encrypt("hello"));
