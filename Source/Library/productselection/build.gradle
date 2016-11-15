@@ -59,7 +59,7 @@ android {
         debug {
             debuggable false
             minifyEnabled false
-            shrinkResources true
+            shrinkResources false
             testCoverageEnabled true
         }
     }
