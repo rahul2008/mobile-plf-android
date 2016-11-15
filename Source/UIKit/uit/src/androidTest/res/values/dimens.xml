@@ -43,6 +43,7 @@
     <!--LinearProgressBar dimens-->
     <dimen name="linearprogressbar_height">4dp</dimen>
     <dimen name="linearprogressbar_minwidth">96dp</dimen>
+    <dimen name="linearprogressbar_leftmargin">24dp</dimen>
 
 
 </resources>

@@ -57,13 +57,13 @@ public class LinearProgressIndicators {
     @Test
     public void verifyHeightOfProgressBar() {
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.linearprogressbar_height);
-        getProgressBar().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uid_id_progressbar_drawable)));
+        getProgressBar().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedHeight, progressID())));
     }
 
     @Test
     public void verifyMinWidthOfProgressBar() {
         int expectedMinWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.linearprogressbar_minwidth);
-        getProgressBar().check(matches(FunctionDrawableMatchers.isMinWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedMinWidth, R.id.uid_id_progressbar_drawable)));
+        getProgressBar().check(matches(FunctionDrawableMatchers.isMinWidth(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedMinWidth, progressID())));
     }
 
     @Test
@@ -77,24 +77,38 @@ public class LinearProgressIndicators {
     }
 
     //*********************************Theming Scenarios**************************//
-
     @Test
-    public void verifyProgressBarBackgroundColor() {
-//        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
-//        getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedProgressBarBackgroundColor, progressBackgroundID())));
+    public void verifyProgressBarProgressColor() {
+        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, progressID(), true)));
     }
 
     @Test
-    public void verifyProgressBarProgressColor() {
-//        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
-//        getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, progressID())));
+    public void verifyProgressBarBackgroundColor() {
+        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
+        getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, progressBackgroundID(), true)));
     }
 
     @Test
     public void verifySecondaryProgressBarProgressColor() {
+        final int expectedSecProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarProgressColor, progressID(), true)));
 
     }
 
+    @Test
+    public void verifySecondaryProgressBarSecondaryProgressColor() {
+        final int expectedSecProgressBarSecondaryColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.50f);
+        getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarSecondaryColor, progressSecondaryID(), true)));
+
+    }
+
+    @Test
+    public void verifySecondaryProgressBarSecondaryBackgroundColor() {
+        final int expectedSecProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
+        getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarBackgroundColor, progressBackgroundID(), true)));
+
+    }
 
     private ViewInteraction getProgressBar() {
         return onView(withId(com.philips.platform.uit.test.R.id.progress_bar));
