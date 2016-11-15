@@ -103,11 +103,15 @@ public class FunctionDrawableMatchers {
     }
 
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
+        return isSameColor(funcName, state, expectedValue,drawableID, false);
+    }
+
+    public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID, final boolean isDefaultColor) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
-                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
+                BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue, isDefaultColor);
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);
                 return matches;

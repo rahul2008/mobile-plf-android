@@ -77,14 +77,20 @@ public class DrawableMatcher {
         };
     }
 
-    public static Matcher<Drawable> isSameColor(final int state, final int expectedValue) {
+    public static Matcher<Drawable> isSameColor(final int state, final int expectedValue, final boolean defaultColor) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(Integer.toHexString(stateColors.getStateColor(state))), Integer.toHexString(expectedValue));
-                return stateColors.getStateColor(state) == expectedValue;
+                int color;
+                if (defaultColor) {
+                    color = stateColors.getDefaultColor();
+                } else {
+                    color = stateColors.getStateColor(state);
+                }
+                setValues(String.valueOf(Integer.toHexString(color)), Integer.toHexString(expectedValue));
+                return color == expectedValue;
             }
         };
     }
