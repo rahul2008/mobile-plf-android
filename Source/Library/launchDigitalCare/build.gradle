@@ -124,7 +124,7 @@ dependencies {
             }*/
 }
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
@@ -143,7 +143,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     }
 }
 
-task pmd(type: Pmd, dependsOn: assembleDebug) {
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
     description 'Run pmd'
     group 'verification'
