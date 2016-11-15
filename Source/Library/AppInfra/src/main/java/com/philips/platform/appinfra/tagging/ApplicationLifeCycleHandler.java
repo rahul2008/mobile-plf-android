@@ -47,9 +47,9 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
         if (isInBackground) {
 
-            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "App Status", "ForeGround");
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
                     "ApplicationLifeCycleHandler", "Resumed");
+        mAppTaggingInterface.trackActionWithInfo("sendData", "appStatus", "ForeGround");
             isInBackground = false;
         }
     }
@@ -78,6 +78,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
                 "ApplicationLifeCycleHandler", "Destroyed");
 
         Log.i("LifeDestroyed", "");
+
     }
 
     @Override
@@ -99,7 +100,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
                     "ApplicationLifeCycleHandler", "Background");
 
-            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "App Status", "Background");
+            mAppTaggingInterface.trackActionWithInfo("sendData","appStatus", "Background");
             isInBackground = true;
         }
     }
