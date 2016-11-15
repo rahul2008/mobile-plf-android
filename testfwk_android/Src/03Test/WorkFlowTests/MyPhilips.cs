@@ -69,11 +69,11 @@ namespace Philips.SIG.Automation.Android.CDPP.Tests.Workflows
 
 
         [Then(@"I log in with the email 'datacore@mailinator.com' and password 'Philips@123'")]
-        public void ThenIRegisterUsingMyPhilipsAccount()
+        public void ThenIRegisterUsingMyPhilipsAccount(string p0, string p1)
         {
             //LoginScreen.LoginUser("inapptest@mailinator.com", "Philips@123");
             Log_In.Click();
-            Log_In.SignIn("datacore@mailinator.com", "Philips@123");
+            Log_In.SignIn(p0, p1);
         }
 
 
