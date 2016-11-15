@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.splash;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -23,7 +24,7 @@ public class SplashPresenter extends UIBasePresenter {
     public SplashPresenter(WelcomeView uiView) {
         super(uiView);
         this.uiView = uiView;
-        setState(BaseAppState.SPLASH);
+        setState(FlowManager.SPLASH);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class SplashPresenter extends UIBasePresenter {
     @Override
     public void onLoad() {
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
-        final BaseState baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SPLASH, APP_START);
+        final BaseState baseState = appFrameworkApplication.getTargetFlowManager().getNextState(FlowManager.SPLASH, APP_START);
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
         if (null != baseState) {
             if (baseState instanceof UserRegistrationState) {

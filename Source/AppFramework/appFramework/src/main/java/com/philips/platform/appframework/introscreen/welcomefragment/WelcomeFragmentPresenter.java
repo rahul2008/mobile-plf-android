@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -42,7 +43,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(FlowManager.WELCOME, eventState);
         if(baseState!=null) {
             baseState.setPresenter(this);
             if (baseState instanceof UserRegistrationState)
@@ -84,7 +85,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     @Override
     public void onStateComplete(final BaseState baseState) {
         String eventState = getEventState(MENU_OPTION_HOME);
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
+        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(FlowManager.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();

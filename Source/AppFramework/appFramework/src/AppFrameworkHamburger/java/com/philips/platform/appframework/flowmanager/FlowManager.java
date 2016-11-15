@@ -63,7 +63,7 @@ public class FlowManager extends BaseUiFlowManager {
      */
 
     @StringDef({ABOUT, DEBUG, HOME_FRAGMENT, IAP, PR, REGISTRATION, SETTINGS,
-             SPLASH, SUPPORT, WELCOME, DATA_SYNC})
+             SPLASH, SUPPORT, WELCOME, DATA_SYNC, HAMBURGER_HOME})
     @Retention(RetentionPolicy.SOURCE)
     public @interface AppState {}
 

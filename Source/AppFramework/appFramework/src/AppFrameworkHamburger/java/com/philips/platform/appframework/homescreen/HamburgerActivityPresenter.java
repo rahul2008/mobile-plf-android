@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.FragmentView;
@@ -56,7 +57,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(HamburgerAppState.HAMBURGER_HOME);
+        setState(FlowManager.HAMBURGER_HOME);
     }
 
     /**
@@ -67,7 +68,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     public void onClick(int componentID) {
         AppFrameworkApplication appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.HAMBURGER_HOME, eventState);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(FlowManager.HAMBURGER_HOME, eventState);
         baseState.setPresenter(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
@@ -148,7 +149,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     // cant we move this to json ?
     @Override
     public void onStateComplete(BaseState baseState) {
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SUPPORT, SUPPORT_PR);
+        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(FlowManager.SUPPORT, SUPPORT_PR);
         this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
         this.baseState.setPresenter(this);
         fragmentLauncher = getFragmentLauncher();

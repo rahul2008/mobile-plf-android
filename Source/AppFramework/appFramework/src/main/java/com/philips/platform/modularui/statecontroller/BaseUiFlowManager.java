@@ -3,6 +3,7 @@ package com.philips.platform.modularui.statecontroller;
 import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.flowmanager.AppFrameworkDataParser;
@@ -58,6 +59,8 @@ public abstract class BaseUiFlowManager {
     public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
         this.context = context;
         mapAppFlowStates(jsonPath);
+        stateMap = new ArrayMap<>();
+        conditionMap = new ArrayMap<>();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
     }

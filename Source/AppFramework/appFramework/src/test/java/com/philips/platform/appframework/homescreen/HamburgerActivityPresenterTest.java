@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
@@ -51,7 +52,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(FlowManager.HAMBURGER_HOME);
             }
 
             @NonNull
@@ -88,7 +89,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(FlowManager.HAMBURGER_HOME);
             }
 
             @NonNull

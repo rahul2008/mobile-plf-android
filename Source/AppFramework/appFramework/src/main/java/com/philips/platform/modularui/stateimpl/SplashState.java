@@ -3,6 +3,7 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.splash.SplashFragment;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -15,7 +16,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class SplashState extends BaseState {
 
     public SplashState() {
-        super(BaseAppState.SPLASH);
+        super(FlowManager.SPLASH);
     }
 
     @Override
