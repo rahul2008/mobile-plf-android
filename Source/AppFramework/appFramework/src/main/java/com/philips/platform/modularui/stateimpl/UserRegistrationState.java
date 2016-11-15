@@ -125,6 +125,8 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
             userRegistrationListener.onStateComplete(this);
+            UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activity, getUserObject(activity));
+            userRegistrationFacade.clearUserData();
         }
     }
 
