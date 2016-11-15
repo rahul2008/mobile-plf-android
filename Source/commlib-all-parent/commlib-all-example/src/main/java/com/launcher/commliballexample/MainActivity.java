@@ -139,11 +139,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(Error error, final String s) {
+            public void onError(final Error error, final String s) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        txtResult.setText(getString(R.string.lblGetPropsFailed, s));
+                        txtResult.setText(getString(R.string.lblGetPropsFailed, error + " " + s));
                         txtState.setText(R.string.lblDone);
                     }
                 });

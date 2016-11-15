@@ -40,6 +40,7 @@ import java.util.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -347,6 +348,11 @@ public class BleStrategyTestSteps {
         String actualJsonString = allValues.get(allValues.size() - 1);
 
         assertEqualsJson(expectedJsonString, actualJsonString);
+    }
+
+    @Then("^the result is success without data$")
+    public void theResultIsSuccessWithoutData() throws Throwable {
+        verify(mResponseQueue.remove().handler).onSuccess(null);
     }
 
     @Then("^the result is success$")
