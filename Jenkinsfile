@@ -28,6 +28,8 @@ node ('Ubuntu && 24.0.3') {
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
+            CheckPPC = env.triggerBy
+            echo "Check PPC says ${CheckPPC}"
             if (env.triggerBy != "ppc") {
             	stage ('callIntegrationPipeline') {
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
