@@ -10,26 +10,25 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.ControllerFactory;
+import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
+import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
+import com.philips.cdp.di.iap.iapHandler.LocalHandler;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.screens.BuyDirectFragment;
 import com.philips.cdp.di.iap.screens.InAppBaseFragment;
 import com.philips.cdp.di.iap.screens.ProductCatalogFragment;
 import com.philips.cdp.di.iap.screens.ProductDetailFragment;
 import com.philips.cdp.di.iap.screens.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
-import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.iapHandler.LocalHandler;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.ControllerFactory;
-import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
-import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
-import com.philips.cdp.di.iap.networkEssential.NetworkEssentialsFactory;
-import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -77,8 +76,6 @@ class IAPHandler {
 
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
         final IAPListener iapListener = pLaunchInput.getIapListener();
-
-        //User logged off scenario
         HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
         delegate.getStore().initStoreConfig(CartModelContainer.getInstance().getLanguage(),
                 CartModelContainer.getInstance().getCountry(), new RequestListener() {
@@ -94,11 +91,15 @@ class IAPHandler {
                 });
     }
 
-    void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
+    protected void onSuccessOfInitialization(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, IAPListener iapListener) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
-        } else if (uiLauncher instanceof FragmentLauncher) {
-            launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
+            launchAsActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
+        } else {
+            launchAsFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
+        }
+
+        if (iapListener != null) {
+            iapListener.onSuccess();
         }
     }
 
@@ -108,24 +109,57 @@ class IAPHandler {
         }
     }
 
-    protected void onSuccessOfInitialization(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput, IAPListener iapListener) {
-        if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
-        } else {
-            launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
-        }
+    void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
+        verifyInput(pLaunchInput.mLandingView, pLaunchInput.mIAPFlowInput);
 
-        if (iapListener != null) {
-            iapListener.onSuccess();
+        if (uiLauncher instanceof ActivityLauncher) {
+            launchAsActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
+        } else if (uiLauncher instanceof FragmentLauncher) {
+            launchAsFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
         }
     }
 
-    protected void launchFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
-        InAppBaseFragment target = getFragmentFromScreenID(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
+    protected void verifyInput(int landingScreen, IAPFlowInput input) {
+        if (landingScreen == IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW
+                || landingScreen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW) {
+            if (input.getProductCTN() == null
+                    || input.getProductCTN().equalsIgnoreCase("")) {
+                throw new RuntimeException("Please Pass CTN");
+            }
+        } else if (landingScreen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW
+                && (input.getProductCTNs() == null ||
+                (input.getProductCTNs() != null && input.getProductCTNs().size() == 0))) {
+            throw new RuntimeException("Please Pass CTN");
+        }
+    }
+
+    protected void launchAsActivity(Context pContext, IAPLaunchInput pLaunchInput,
+                                    ActivityLauncher activityLauncher) {
+        Intent intent = new Intent(pContext, IAPActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, pLaunchInput.mLandingView);
+
+        if (pLaunchInput.mIAPFlowInput != null) {
+            if (pLaunchInput.mIAPFlowInput.getProductCTN() != null) {
+                intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
+                        pLaunchInput.mIAPFlowInput.getProductCTN());
+            }
+            if (pLaunchInput.mIAPFlowInput.getProductCTNs() != null) {
+                intent.putStringArrayListExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS,
+                        pLaunchInput.mIAPFlowInput.getProductCTNs());
+            }
+        }
+
+        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
+        pContext.startActivity(intent);
+    }
+
+    protected void launchAsFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
+        InAppBaseFragment target = getFragment(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
         addFragment(target, uiLauncher, iapLaunchInput.getIapListener());
     }
 
-    protected InAppBaseFragment getFragmentFromScreenID(final int screen, final IAPFlowInput iapFlowInput) {
+    protected InAppBaseFragment getFragment(final int screen, final IAPFlowInput iapFlowInput) {
         InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
         switch (screen) {
@@ -151,41 +185,12 @@ class IAPHandler {
                 fragment.setArguments(bundle);
                 break;
             default:
-                //Default redirecting to IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                 fragment = new ProductCatalogFragment();
                 bundle.putString(IAPConstant.CATEGORISED_PRODUCT_CTNS, null);
                 fragment.setArguments(bundle);
                 break;
         }
         return fragment;
-    }
-
-    protected void launchActivity(Context pContext, IAPLaunchInput pLaunchInput,
-                                  ActivityLauncher activityLauncher) {
-        Intent intent = new Intent(pContext, IAPActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, pLaunchInput.mLandingView);
-
-        if (pLaunchInput.mLandingView == IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW
-                || pLaunchInput.mLandingView
-                == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW) {
-            if (pLaunchInput.mIAPFlowInput.getProductCTN() == null
-                    || pLaunchInput.mIAPFlowInput.getProductCTN().equalsIgnoreCase("")) {
-                throw new RuntimeException("Please Pass CTN");
-            } else {
-                intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
-                        pLaunchInput.mIAPFlowInput.getProductCTN());
-            }
-        }
-
-        if (pLaunchInput.mIAPFlowInput != null) {
-            if (pLaunchInput.mIAPFlowInput.getProductCTNs() != null)
-                intent.putStringArrayListExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS,
-                        pLaunchInput.mIAPFlowInput.getProductCTNs());
-        }
-
-        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
-        pContext.startActivity(intent);
     }
 
     protected void addFragment(InAppBaseFragment newFragment, FragmentLauncher fragmentLauncher, IAPListener iapListener) {
@@ -195,9 +200,6 @@ class IAPHandler {
         transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);
         transaction.addToBackStack(tag);
         transaction.commitAllowingStateLoss();
-
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getName() + "   ("
-                + tag + ")");
     }
 
     protected IAPExposedAPI getExposedAPIImplementor() {

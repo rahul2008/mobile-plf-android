@@ -112,6 +112,7 @@ public class IAPHandlerTest {
     @Test
     public void launchIAPAsActivityForCategorized() throws Exception {
         ArrayList<String> ctns = new ArrayList<>();
+        ctns.add("HX9043/64");
         IAPFlowInput input = new IAPFlowInput(ctns);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
@@ -119,23 +120,41 @@ public class IAPHandlerTest {
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
     }
 
-    @Test
-    public void launchIAPAsFragment() throws Exception {
-        FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
-        IAPFlowInput input = new IAPFlowInput("HX9043/64");
+    @Test(expected = RuntimeException.class)
+    public void launchIAPAsActivityForCategorizedWithNoProducts() throws Exception {
+        ArrayList<String> ctns = new ArrayList<>();
+        IAPFlowInput input = new IAPFlowInput(ctns);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
-        mMockIAPHandler.launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
-            @Override
-            public void updateActionBar(int i, boolean b) {
+        mMockIAPHandler.launchIAP(new ActivityLauncher
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+    }
 
-            }
+    @Test(expected = RuntimeException.class)
+    public void launchIAPAsActivityForCategorizedWithNull() throws Exception {
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null);
+        mMockIAPHandler.launchIAP(new ActivityLauncher
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+    }
 
-            @Override
-            public void updateActionBar(String s, boolean b) {
+    @Test(expected = RuntimeException.class)
+    public void launchIAPAsFragment() throws Exception {
+        FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null);
+        mMockIAPHandler.
+                launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
+                    @Override
+                    public void updateActionBar(int i, boolean b) {
 
-            }
-        }), iapLaunchInput);
+                    }
+
+                    @Override
+                    public void updateActionBar(String s, boolean b) {
+
+                    }
+                }), iapLaunchInput);
     }
 
     @Test
@@ -156,12 +175,13 @@ public class IAPHandlerTest {
             }
         }), iapLaunchInput);
     }
+
     @Test
     public void getFragmentFromScreenID() throws Exception {
-        mMockIAPHandler.getFragmentFromScreenID(1, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragmentFromScreenID(2, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragmentFromScreenID(3, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragmentFromScreenID(4, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(1, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(2, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(3, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(4, new IAPFlowInput("HX8331/11"));
     }
 
     @Test(expected = NullPointerException.class)
@@ -240,7 +260,7 @@ public class IAPHandlerTest {
     }
 
     @Test
-    public void getIAPErrorCodeForUnknonError() throws Exception {
+    public void getIAPErrorCodeForUnknownError() throws Exception {
         mMockIAPHandler.getIAPErrorCode(new Message());
     }
 
