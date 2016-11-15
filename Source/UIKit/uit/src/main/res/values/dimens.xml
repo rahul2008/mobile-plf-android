@@ -82,7 +82,8 @@
     <dimen name="uid_label_text_size">16sp</dimen>
     <dimen name="uid_label_margin_bottom">8dp</dimen>
     <dimen name="uid_label_margin_bottom_control">16dp</dimen>
+    <dimen name="uid_label_margin_start_control">12dp</dimen>
     <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
-    <dimen name="uid_label_control_right_margin">12dp</dimen>
+    <dimen name="uid_label_margin_left_control">12dp</dimen>
 </resources>
 

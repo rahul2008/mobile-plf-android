@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="@dimen/layout_margin_left_right"
+              android:layout_marginRight="@dimen/layout_margin_left_right"
+              android:orientation="vertical">
+
+    <TextView
+        style="@style/Label.Top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First name*"/>
+
+    <com.philips.platform.uit.view.widget.TextEditBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="John"/>
+
+    <TextView
+        style="@style/Label.Top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_left_right"
+        android:text="Gender"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            style="@style/Label.ControlLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_left_right"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Label.Slider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calories"/>
+
+        <TextView
+            style="@style/LabelDescription.slider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="1500-2000"/>
+    </LinearLayout>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="50"/>
+</LinearLayout>

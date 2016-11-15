@@ -59,4 +59,6 @@
     <string name="dialog_screen_title_text">Allow access to your location</string>
     <string name="dialog_screen_positive_button_text">OK</string>
     <string name="dialog_screen_negative_button_text">Cancel</string>
+
+    <string name="label_title_text">Labels</string>
 </resources>

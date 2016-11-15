@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Label">
-        <item name="android:textColor">?attr/uitControlSecondaryTextColor</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textColor">?attr/uitControlPrimaryTextColor</item>
+        <item name="android:alpha">@dimen/uit_alpha_per_70</item>
         <item name="android:textSize">@dimen/uid_label_text_size</item>
     </style>
 
@@ -14,7 +15,21 @@
         <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_control</item>
     </style>
 
+    <style name="Label.ControlLeft">
+        <item name="android:layout_marginStart">@dimen/uid_label_margin_left_control</item>
+    </style>
+
     <style name="Label.Slider">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
+    </style>
+    
+    <style name="LabelDescription">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textColor">?attr/uitControlPrimaryTextColor</item>
+        <item name="android:textSize">@dimen/uid_label_text_size</item>
+    </style>
+
+    <style name="LabelDescription.slider">
         <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
     </style>
 </resources>
