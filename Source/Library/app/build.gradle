@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.philips.hor_productselection_android"
         minSdkVersion 19
-        targetSdkVersion 25
-        renderscriptTargetApi 20
+        targetSdkVersion 24
+        renderscriptTargetApi 24
         renderscriptSupportModeEnabled true
         generatedDensities = []
         versionCode 3
