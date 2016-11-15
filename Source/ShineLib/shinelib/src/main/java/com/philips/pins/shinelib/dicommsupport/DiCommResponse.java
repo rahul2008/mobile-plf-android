@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class DiCommResponse {
 
-    private static final int MIN_PAYLOAD_SIZE = 3; // status byte + JSON payload + terminator byte
+    private static final int MIN_PAYLOAD_SIZE = 2; // status byte + terminator byte
     private static final byte TERMINATOR_BYTE = 0;
 
     private MessageType mType = MessageType.GenericResponse;
