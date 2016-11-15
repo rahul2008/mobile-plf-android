@@ -27,6 +27,7 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.shamanland.fonticon.FontIconTextView;
@@ -246,6 +247,8 @@ public class SettingsAdapter extends BaseAdapter{
                                     @Override
                                     public void onLogoutSuccess() {
                                     //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, userRegistrationState.getUserObject(activityContext));
+                                        userRegistrationFacade.clearUserData();
                                         progressDialog.cancel();
                                         fragmentPresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                                     }

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.stateimpl.HomeActivityState;
@@ -116,7 +117,8 @@ public class WelcomeActivityPresenter extends UIBasePresenter implements URState
 
     @Override
     public void onLogoutSuccess() {
-
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(appFrameworkApplication, ((UserRegistrationState) uiState).getUserObject(appFrameworkApplication));
+        userRegistrationFacade.clearUserData();
     }
 
     @Override

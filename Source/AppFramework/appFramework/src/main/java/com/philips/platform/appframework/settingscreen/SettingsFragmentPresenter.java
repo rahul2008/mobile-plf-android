@@ -11,6 +11,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -128,6 +129,8 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
             uiState.setPresenter(this);
             appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
         }
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(appFrameworkApplication, new UserRegistrationState().getUserObject(appFrameworkApplication));
+        userRegistrationFacade.clearUserData();
     }
 
     @Override
