@@ -5,6 +5,8 @@
 /* following 2 lines are mandatory for the platform CI pipeline integration */
 BranchName = env.BRANCH_NAME
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]]])
+CheckPPC = env.triggerBy
+echo "Check PPC says ${CheckPPC}"
 
 
 if (!env.CHANGE_ID) {
@@ -28,8 +30,6 @@ node ('Ubuntu && 24.0.3') {
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
-            CheckPPC = env.triggerBy
-            echo "Check PPC says ${CheckPPC}"
             if (env.triggerBy != "ppc") {
             	stage ('callIntegrationPipeline') {
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
