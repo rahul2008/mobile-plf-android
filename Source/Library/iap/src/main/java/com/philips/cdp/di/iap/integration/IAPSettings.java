@@ -6,10 +6,8 @@ package com.philips.cdp.di.iap.integration;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -25,11 +23,10 @@ public class IAPSettings extends UappSettings {
 
         mHostPort = "https://acc.occ.shop.philips.com/";
         mProposition = "Tuscany2016";
-//        loadCofigParams();
-//        initServiceDiscovery();
+        initServiceDiscovery();
     }
 
-    private void loadCofigParams() {
+    /*private void loadConfigParams() {
         AppConfigurationInterface mConfigInterface = RegistrationHelper.getInstance().getAppInfraInstance().getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
@@ -40,7 +37,7 @@ public class IAPSettings extends UappSettings {
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
     }
-
+*/
     public boolean isUseLocalData() {
         return mUseLocalData;
     }
@@ -74,7 +71,6 @@ public class IAPSettings extends UappSettings {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         setUseLocalData(true);
-//                        throw new RuntimeException("Cannot fetch base url");
                     }
 
                     @Override
