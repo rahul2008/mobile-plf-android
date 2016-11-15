@@ -22,7 +22,7 @@ android {
         targetSdkVersion 24
         generatedDensities = []
         multiDexEnabled true
-        renderscriptTargetApi 24
+        renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         generatedDensities = []
 
