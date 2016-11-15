@@ -7,11 +7,8 @@ package com.philips.platform.appinfra.rest;
 
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 
-import java.util.HashMap;
-
 
 public interface RestInterface {
-
 
     /**
      * Gets request queue.
@@ -19,13 +16,4 @@ public interface RestInterface {
      * @return the REST request queue
      */
     public RequestQueue getRequestQueue();
-
-    /**
-     * Sets token provider.
-     *
-     * @param provider the token provider which needs to be implemented by verticals
-     * @return the token provider
-     */
-    public HashMap<String, String> setTokenProvider(TokenProviderInterface provider);
-
 }

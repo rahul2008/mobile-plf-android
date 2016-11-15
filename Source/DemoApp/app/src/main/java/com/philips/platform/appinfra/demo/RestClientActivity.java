@@ -214,7 +214,6 @@ public class RestClientActivity extends AppCompatActivity {
                     }
                 }
             }
-
         });
 
         requestTypeSpinner = (Spinner) findViewById(R.id.spinnerRequestType);
@@ -273,7 +272,7 @@ public class RestClientActivity extends AppCompatActivity {
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                         }
-                    }){
+                    }) {
                         @Override
                         protected Response<String> parseNetworkResponse(NetworkResponse response) {
                             if (response != null && response.data != null) {
@@ -301,13 +300,29 @@ public class RestClientActivity extends AppCompatActivity {
         autchCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(!mRestInterface.isValidURL(urlInput.getText().toString().trim()+"/RCT/test.php?action=authcheck")){ // if invalid url
-//                    showAlertDialog("URL Error","Invalid URL");
-//                    return ;
-//                }
+                TokenProviderInterface provider = new TokenProviderInterface() {
+                    @Override
+                    public Token getToken() {
+                        return new Token() {
+                            @Override
+                            public TokenType getTokenType() {
+                                return TokenType.OAUTH2;
+                            }
+
+                            @Override
+                            public String getTokenValue() {
+                                return accessToken;
+                            }
+                        };
+                    }
+                };
+                Map<String, String> header = new HashMap<>();
+                header.put("userName", "test");
+
                 StringRequest mStringRequest = null;
                 try {
                     mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim() + "/RCT/test.php?action=authcheck",
+                            provider, header,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -326,36 +341,6 @@ public class RestClientActivity extends AppCompatActivity {
                                 }
                             }
                     ) {
-
-                        @Override
-                        public Map<String, String> getHeaders() {
-                            TokenProviderInterface provider = new TokenProviderInterface() {
-                                @Override
-                                public Token getToken() {
-                                    return new Token() {
-                                        @Override
-                                        public TokenType getTokenType() {
-                                            return TokenType.OAUTH2;
-                                        }
-
-                                        @Override
-                                        public String getTokenValue() {
-                                            return accessToken;
-                                        }
-                                    };
-                                }
-                            };
-                            HashMap<String, String> header = mRestInterface.setTokenProvider(provider);
-                            Map<String, String> paramList = new HashMap<String, String>();
-                           /* for(String  key: params.keySet() ){
-                                paramList.put(key, params.get(key));
-                            }*/
-                            if (null != header) {
-                                paramList.putAll(header);
-                            }
-                            // other header can be added here
-                            return paramList;
-                        }
 
                         @Override
                         protected Response<String> parseNetworkResponse(NetworkResponse response) {
@@ -417,7 +402,6 @@ public class RestClientActivity extends AppCompatActivity {
         builder1.setTitle(title);
         builder1.setMessage(msg);
         builder1.setCancelable(true);
-
         builder1.setPositiveButton(
                 "Ok",
                 new DialogInterface.OnClickListener() {
@@ -431,6 +415,4 @@ public class RestClientActivity extends AppCompatActivity {
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
-
-
 }

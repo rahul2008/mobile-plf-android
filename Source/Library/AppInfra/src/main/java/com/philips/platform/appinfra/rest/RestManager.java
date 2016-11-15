@@ -79,7 +79,6 @@ public class RestManager implements RestInterface {
         return new BasicNetwork(stack);
     }
 
-    @Override
     public HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
         HashMap<String, String> header = new HashMap<String, String>();
         TokenProviderInterface.Token token = provider.getToken();
