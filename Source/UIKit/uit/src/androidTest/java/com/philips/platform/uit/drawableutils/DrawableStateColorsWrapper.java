@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
+import com.philips.platform.uit.utils.UITTestUtils;
+
 public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
 
     private static final String TINT_COLOR_FIELD = "mTint";
@@ -48,7 +50,7 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     private ColorStateList getColorStateList() {
         Drawable.ConstantState wrappedConstantState = constantState;
         if (Build.VERSION.SDK_INT >= 21) {
-            wrappedConstantState = gradientConstantState;
+            wrappedConstantState = UITTestUtils.getWrappedClipDrawableFromReflection(drawable).getConstantState();
         }
         return (ColorStateList) GradientDrawableUtils.getField(wrappedConstantState, TINT_COLOR_FIELD);
     }

@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
 import android.support.v4.graphics.ColorUtils;
+import android.support.v4.graphics.drawable.DrawableCompat;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Field;
@@ -112,5 +116,27 @@ public class UITTestUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Drawable handleClipDrawable(Drawable drawable) {
+        if (drawable instanceof ClipDrawable) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                return ((ClipDrawable) drawable).getDrawable();
+            }
+        }
+        return drawable;
+    }
+
+    //We need this for wrapperDrawables, specially for Lollipop
+    public static Drawable getWrappedClipDrawableFromReflection(Drawable drawable) {
+        if(!(DrawableCompat.unwrap(drawable) instanceof ClipDrawable))
+            return drawable;
+        try {
+            Drawable.ConstantState constantState = DrawableCompat.unwrap(drawable).getConstantState();
+            return (Drawable) FieldUtils.readDeclaredField(constantState, "mDrawable", true);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return drawable;
     }
 }

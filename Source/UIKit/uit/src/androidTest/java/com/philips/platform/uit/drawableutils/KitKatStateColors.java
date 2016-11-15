@@ -16,7 +16,7 @@ public class KitKatStateColors extends BaseStateColorsImpl {
 
     @Override
     public int getDefaultColor() {
-        return getStrokeSolidColor();
+        return getGradientSolidColor();
     }
 
     @Override
