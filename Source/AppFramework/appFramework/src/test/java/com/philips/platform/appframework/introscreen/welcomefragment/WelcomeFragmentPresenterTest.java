@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

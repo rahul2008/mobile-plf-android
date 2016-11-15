@@ -1,6 +1,8 @@
 
 package com.philips.platform.flowmanager.pojo;
 
+import com.philips.platform.appframework.flowmanager.FlowManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +19,7 @@ public final class AppFlow {
      * @return
      *     The firstState
      */
-    public String getFirstState() {
+    public @FlowManager.AppState String getFirstState() {
         return firstState;
     }
 

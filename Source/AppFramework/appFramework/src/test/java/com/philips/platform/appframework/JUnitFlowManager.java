@@ -6,10 +6,7 @@
 package com.philips.platform.appframework;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
 
-import com.philips.platform.appframework.flowmanager.HamburgerAppCondition;
-import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 
 

@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -78,7 +77,8 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     }
 
     /**
-     * Takes care of handling whether to show user regitration after the splash screen has loaded or to show Welcome fragments if onboarding was skipped at the time of first launch
+     * Takes care of handling whether to show user registration after the splash screen has
+     * loaded or to show Welcome fragments if onboarding was skipped at the time of first launch
      */
     @Override
     public void onLoad() {

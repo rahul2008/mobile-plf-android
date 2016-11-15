@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.flowmanager.AppFrameworkDataParser;
 import com.philips.platform.flowmanager.condition.BaseCondition;
 import com.philips.platform.flowmanager.pojo.AppFlowEvent;
@@ -20,16 +21,45 @@ import java.util.Map;
 
 public abstract class BaseUiFlowManager {
 
-    protected BaseAppState baseAppState;
     protected BaseAppCondition baseAppCondition;
     private Map<String, List<AppFlowEvent>> appFlowMap;
     private Context context;
     private AppFlowModel appFlowModel;
     private List<AppFlowEvent> appFlowEvents;
+    @FlowManager.AppState protected Map<String, BaseState> stateMap;
+
+    protected Map<String, BaseCondition> conditionMap;
+
+
+    /**
+     * This method will creates and return the object of BaseCondition depending upon Condition ID.
+     *
+     * @param key Condition ID for which the BaseCondition type object need to be created.
+     * @return Object of BaseCondition type.
+     */
+    public BaseCondition getCondition(String key) {
+        return conditionMap.get(key);
+    }
+
+    public abstract void populateStateMap(final Map<String, BaseState> uiStateMap);
+
+    public abstract void populateConditionMap(final Map<String, BaseCondition> baseConditionMap);
+
+    /**
+     * Method to return the Object to BaseState based on AppFlowState ID.
+     *
+     * @param key state ID.
+     * @return Object to BaseState if available or 'null'.
+     */
+    public BaseState getState(@FlowManager.AppState String key) {
+        return stateMap.get(key);
+    }
 
     public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
         this.context = context;
         mapAppFlowStates(jsonPath);
+        populateStateMap(stateMap);
+        populateConditionMap(conditionMap);
     }
 
     /**
@@ -74,7 +104,7 @@ public abstract class BaseUiFlowManager {
             }
             //Return the BaseState if the entry condition is satisfies.
             if (isConditionSatisfies) {
-                return getBaseState(appFlowNextState.getNextState());
+                return getState(appFlowNextState.getNextState());
             }
         }
         return null;
@@ -84,43 +114,21 @@ public abstract class BaseUiFlowManager {
         boolean isConditionSatisfies = true;
         for (final String conditionType : conditionsTypes) {
             BaseCondition condition = getCondition(conditionType);
-            isConditionSatisfies = condition.isConditionSatisfies(context);
+            isConditionSatisfies = condition.isSatisfied(context);
             if (isConditionSatisfies)
                 break;
         }
         return isConditionSatisfies;
     }
 
-    /**
-     * This method will creates and return the object of BaseCondition depending upon Condition ID.
-     *
-     * @param condition Condition ID for which the BaseCondition type object need to be created.
-     * @return Object of BaseCondition type.
-     */
-    public final BaseCondition getCondition(String condition) {
-        return baseAppCondition.getCondition(condition);
-    }
-
-
-    /**
-     * Method to return the Object to BaseState based on AppFlowState ID.
-     *
-     * @param state state ID.
-     * @return Object to BaseState if available or 'null'.
-     */
-    private BaseState getBaseState(String state) {
-        return baseAppState != null ? baseAppState.getState(state) : null;
-    }
-
     private void mapAppFlowStates(@IdRes final int jsonPath) {
        appFlowModel = AppFrameworkDataParser.getAppFlow(context, jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             appFlowMap = AppFrameworkDataParser.getAppFlowMap(appFlowModel.getAppFlow());
-            appFlowModel.getAppFlow().getFirstState();
         }
     }
 
     public final BaseState getFirstState() {
-        return getBaseState(appFlowModel.getAppFlow().getFirstState());
+        return getState(appFlowModel.getAppFlow().getFirstState());
     }
 }

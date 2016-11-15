@@ -1,6 +1,8 @@
 
 package com.philips.platform.flowmanager.pojo;
 
+import com.philips.platform.appframework.flowmanager.FlowManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +24,7 @@ public final class AppFlowNextState {
     /**
      * @return The nextState
      */
-    public String getNextState() {
+    public @FlowManager.AppState String getNextState() {
         return nextState;
     }
 

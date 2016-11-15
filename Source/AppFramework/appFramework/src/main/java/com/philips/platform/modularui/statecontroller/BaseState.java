@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.lang.annotation.Retention;
@@ -16,20 +17,6 @@ import java.lang.annotation.RetentionPolicy;
 
 abstract public class BaseState {
 
-    /**
-     * This class defines constants for each state ,
-     * Any new state should be added here and its constant should be defined here
-     * Constants for each state is defined in the BaseAppState class as static strings.
-     */
-
-    @StringDef({BaseAppState.ABOUT, BaseAppState.DEBUG,BaseAppState.HOME_FRAGMENT,BaseAppState.IAP,BaseAppState.PR,BaseAppState.REGISTRATION,BaseAppState.SETTINGS,
-            BaseAppState.SPLASH, BaseAppState.SUPPORT,BaseAppState.WELCOME,BaseAppState.DATA_SYNC})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface UIStateDef {}
-
-
-
-    @BaseState.UIStateDef
     String stateID;
     private UIBasePresenter uiBasePresenter;
     private UIStateData uiStateData;
@@ -39,7 +26,7 @@ abstract public class BaseState {
      *
      * @param stateID pass the state Id
      */
-    public BaseState(@BaseState.UIStateDef String stateID) {
+    public BaseState(@FlowManager.AppState String stateID) {
         this.stateID = stateID;
     }
 
@@ -48,7 +35,7 @@ abstract public class BaseState {
      *
      * @return stateID
      */
-    @BaseState.UIStateDef
+    @FlowManager.AppState
     public String getStateID() {
         return stateID;
     }
@@ -59,7 +46,7 @@ abstract public class BaseState {
      * @param stateID requirs the state ID
      */
 
-    public void setStateID(@BaseState.UIStateDef String stateID) {
+    public void setStateID(@FlowManager.AppState String stateID) {
         this.stateID = stateID;
     }
 

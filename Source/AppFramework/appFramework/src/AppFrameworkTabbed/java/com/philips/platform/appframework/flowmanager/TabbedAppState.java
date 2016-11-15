@@ -1,7 +1,6 @@
 package com.philips.platform.appframework.flowmanager;
 
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
-import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
 import com.philips.platform.modularui.stateimpl.DataSyncScreenState;

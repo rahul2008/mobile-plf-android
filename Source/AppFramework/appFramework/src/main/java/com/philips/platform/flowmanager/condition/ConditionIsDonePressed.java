@@ -11,7 +11,7 @@ import com.philips.platform.appframework.utility.SharedPreferenceUtility;
  */
 public class ConditionIsDonePressed implements BaseCondition {
     @Override
-    public boolean isConditionSatisfies(final Context context) {
+    public boolean isSatisfied(final Context context) {
         final SharedPreferenceUtility sharedPreferenceUtility = new SharedPreferenceUtility(context);
         return sharedPreferenceUtility.getPreferenceBoolean(Constants.DONE_PRESSED);
     }

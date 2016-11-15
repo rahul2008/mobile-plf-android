@@ -8,20 +8,13 @@ package com.philips.platform.appframework.settingscreen;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIStateData;
-import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.URStateListener;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons

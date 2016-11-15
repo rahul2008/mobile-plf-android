@@ -18,7 +18,6 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
@@ -95,7 +94,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            supportListener.onStateComplete(new SupportFragmentState());
+            supportListener.onStateComplete(this);
             return true;
         }
         return false;

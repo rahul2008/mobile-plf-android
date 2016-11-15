@@ -21,7 +21,7 @@ import com.philips.cdp.registration.User;
  */
 public class ConditionIsLoggedIn implements BaseCondition {
     @Override
-    public boolean isConditionSatisfies(Context context) {
+    public boolean isSatisfied(Context context) {
         return new User(context).isUserSignIn();
     }
 }

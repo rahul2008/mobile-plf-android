@@ -26,5 +26,5 @@ public interface BaseCondition {
      *                or {@link android.app.Activity} object.
      * @return 'true' if the condition satisfies otherwise return false.
      */
-    boolean isConditionSatisfies(Context context);
+    boolean isSatisfied(Context context);
 }

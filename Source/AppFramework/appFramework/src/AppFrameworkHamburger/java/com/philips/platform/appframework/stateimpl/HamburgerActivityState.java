@@ -8,7 +8,6 @@ package com.philips.platform.appframework.stateimpl;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.platform.appframework.flowmanager.HamburgerAppState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
