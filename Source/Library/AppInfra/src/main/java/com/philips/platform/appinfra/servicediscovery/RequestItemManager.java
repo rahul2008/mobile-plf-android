@@ -150,8 +150,9 @@ public class RequestItemManager {
 //                }
                 if(localeList.size() > 0){
                     Locale mLocale = mAppInfra.getInternationalization().getUILocale();
+                    String localeString = mLocale.getLanguage()+"_"+mLocale.getCountry();
                     for (int i = 0; i < localeList.size(); i++) {
-                            if (mLocale.getDefault().toString().equals(localeList.get(i))) {
+                            if (localeString.equals(localeList.get(i))) {
                                 matchByCountry.setLocale(localeList.get(i));
                                 configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
                                 break;

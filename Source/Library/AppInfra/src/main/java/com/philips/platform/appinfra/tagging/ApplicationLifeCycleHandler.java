@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +20,8 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     private static final String TAG = ApplicationLifeCycleHandler.class.getSimpleName();
     public static boolean isInBackground = true;
 
-    AppInfra mAppInfra;
-    AppTaggingInterface mAppTaggingInterface;
+    private AppInfra mAppInfra;
+    private AppTaggingInterface mAppTaggingInterface;
 
     public ApplicationLifeCycleHandler(AppInfra appInfra) {
         mAppInfra = appInfra;
@@ -85,13 +86,15 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onConfigurationChanged(Configuration configuration) {
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
                 "ApplicationLifeCycleHandler", "ConfigurationChanged");
+        Intent i = mAppInfra.getAppInfraContext().getApplicationContext().getPackageManager().getLaunchIntentForPackage(mAppInfra.getAppInfraContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mAppInfra.getAppInfraContext().startActivity(i);
     }
 
     @Override
     public void onLowMemory() {
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
                 "ApplicationLifeCycleHandler", "onLowMemory");
-
     }
 
     @Override
