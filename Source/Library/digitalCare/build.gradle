@@ -180,7 +180,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:7.5.0'
 }
 
-task findbugs(type: FindBugs, dependsOn: findBugsAssembleDebug) {
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
