@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -46,7 +47,7 @@ public class DataSyncApplication extends Application{
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
        // Stetho.initializeWithDefaults(this);
-
+        LeakCanary.install(this);
         initializeUserRegistrationLibrary(Configuration.STAGING);
     }
 
