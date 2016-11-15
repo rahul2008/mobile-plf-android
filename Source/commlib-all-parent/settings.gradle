@@ -1,1 +1,1 @@
-include ':commlib-all', ':commlib', ':bluelib'
+include ':commlib-all', ':commlib', ':bluelib', ':commlib-all-example'
