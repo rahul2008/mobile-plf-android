@@ -217,7 +217,7 @@ public class AppTaggingTest extends MockitoTestCase {
     }
 
     public void testLifecycle() {
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppTagging);
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         Application mockApplication = mock(Application.class);
 
        /* mockApplication.registerActivityLifecycleCallbacks(handler);
@@ -428,7 +428,7 @@ public class AppTaggingTest extends MockitoTestCase {
     }
 
     public void testApplicationLifeCycle() {
-        ApplicationLifeCycleHandler mApplicationLifeCycleHandler = new ApplicationLifeCycleHandler(mAppTagging);
+        ApplicationLifeCycleHandler mApplicationLifeCycleHandler = new ApplicationLifeCycleHandler(mAppInfra);
         assertNotNull(mApplicationLifeCycleHandler);
         mApplicationLifeCycleHandler.isInBackground = true;
         Testclass tTestclass = new Testclass();
