@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demo"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.2.0"
     }
