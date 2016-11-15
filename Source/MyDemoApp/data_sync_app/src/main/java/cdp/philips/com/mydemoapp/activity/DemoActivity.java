@@ -23,8 +23,6 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 
-import static com.philips.cdp.prxclient.RequestManager.mContext;
-
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener{
 
     private ActionBarListener actionBarListener;
@@ -46,7 +44,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     }
 
     private void loadPlugIn(){
-        User userObject = new User(mContext);
+        User userObject = new User(this);
         userObject.registerUserRegistrationListener(this);
     }
 
