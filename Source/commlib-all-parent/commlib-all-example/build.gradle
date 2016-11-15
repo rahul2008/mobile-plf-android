@@ -17,6 +17,7 @@ android {
         versionName "1.0"
 
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -24,6 +25,7 @@ android {
         }
 
         localDevelopment {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
@@ -37,7 +39,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.2.0'
-
+    compile 'com.philips.cdp:cloudcontroller:4.0.0'
     localDevelopmentCompile project(path: ':commlib-all', configuration: 'localDevelopment')
 
     testCompile 'junit:junit:4.12'

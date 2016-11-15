@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class ReferenceNodeDeviceDefinitionInfo implements SHNDeviceDefinitionInfo {
 
-    public static final String DEVICE_NAME = "ReferenceNode";
+    private static final String DEVICE_NAME = "ReferenceNode";
     private Set<UUID> primaryUUID;
     private ReferenceNodeDeviceDefinition referenceNodeDeviceDefinition;
 
@@ -49,13 +49,11 @@ public class ReferenceNodeDeviceDefinitionInfo implements SHNDeviceDefinitionInf
 
     @Override
     public boolean useAdvertisedDataMatcher() {
-        // TODO primary uuid is not exposed by the board, temporary stub
-        return true;
+        return false;
     }
 
     @Override
     public boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi) {
-        // TODO primary uuid is not exposed by the board, temporary stub
-        return bluetoothDevice.getName() != null && bluetoothDevice.getName().contains("DiComm");
+        return false;
     }
 }

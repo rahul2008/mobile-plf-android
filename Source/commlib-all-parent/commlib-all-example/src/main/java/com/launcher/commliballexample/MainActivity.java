@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.CommLibContext;
@@ -37,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
             device = shnDeviceFoundInfo.getShnDevice();
             shnCentral.getShnDeviceScanner().stopScanning();
-            hookupStrategy();
+            commLibContext.getBleDeviceCache().deviceFound(shnDeviceScanner, shnDeviceFoundInfo);
+            hookupStrategy(shnDeviceFoundInfo.getDeviceAddress());
         }
 
         @Override
@@ -73,8 +76,18 @@ public class MainActivity extends AppCompatActivity {
         txtState = (TextView) findViewById(R.id.txtState);
         txtResult = (TextView) findViewById(R.id.txtResult);
 
-        // TODO init commlib-all
         CommLibContextBuilder<DICommAppliance> builder = new CommLibContextBuilder<>(this);
+        builder.setApplianceFactory(new DICommApplianceFactory<DICommAppliance>() {
+            @Override
+            public boolean canCreateApplianceForNode(final NetworkNode networkNode) {
+                return false;
+            }
+
+            @Override
+            public DICommAppliance createApplianceForNode(final NetworkNode networkNode) {
+                return null;
+            }
+        });
 
         commLibContext = builder.create();
         shnCentral = commLibContext.getShnCentral();
@@ -85,16 +98,23 @@ public class MainActivity extends AppCompatActivity {
         startSearchingForDevice();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (device != null) {
+            device.disconnect();
+        }
+    }
 
     private void startSearchingForDevice() {
         txtState.setText(R.string.lblScanningForDevice);
         shnCentral.getShnDeviceScanner().startScanning(scannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, TIMEOUT);
     }
 
-    private void hookupStrategy() {
+    private void hookupStrategy(String deviceAddress) {
         txtState.setText(R.string.lblHookingUpStrategy);
-        commLibContext.getBleDeviceCache().getDeviceMap().put(device.getAddress(), device);
-        strategy = new BleStrategy("bananas", commLibContext.getBleDeviceCache());
+        strategy = new BleStrategy(deviceAddress, commLibContext.getBleDeviceCache());
         connectToDevice();
     }
 
@@ -108,15 +128,25 @@ public class MainActivity extends AppCompatActivity {
         txtState.setText(getString(R.string.lblPerformingGetProperties, PORTNAME_FIRMWARE));
         strategy.getProperties(PORTNAME_FIRMWARE, PRODUCT_ID, new ResponseHandler() {
             @Override
-            public void onSuccess(String s) {
-                txtResult.setText(s);
-                txtState.setText(R.string.lblDone);
+            public void onSuccess(final String s) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        txtResult.setText(s);
+                        txtState.setText(R.string.lblDone);
+                    }
+                });
             }
 
             @Override
-            public void onError(Error error, String s) {
-                txtResult.setText(getString(R.string.lblGetPropsFailed, s));
-                txtState.setText(R.string.lblDone);
+            public void onError(Error error, final String s) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        txtResult.setText(getString(R.string.lblGetPropsFailed, s));
+                        txtState.setText(R.string.lblDone);
+                    }
+                });
             }
         });
     }

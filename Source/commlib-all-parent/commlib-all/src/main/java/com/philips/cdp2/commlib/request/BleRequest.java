@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.request;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.LocalRequestType;
@@ -54,19 +55,12 @@ public class BleRequest extends Request implements Runnable {
     private final Object mLock = new Object();
     private final String mPortName;
 
-    private final DiCommByteStreamReader mDiCommByteStreamReader = new DiCommByteStreamReader(new DiCommByteStreamReader.DiCommMessageListener() {
+    private DiCommByteStreamReader.DiCommMessageListener dicommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
         public void onMessage(DiCommMessage diCommMessage) {
             try {
                 final DiCommResponse res = new DiCommResponse(diCommMessage);
-                final StatusCode statusCode = res.getStatus();
-
-                if (statusCode == StatusCode.NoError) {
-                    mResponseHandler.onSuccess(res.getPropertiesAsString());
-                } else {
-                    final Error error = BleErrorMap.getErrorByStatusCode(statusCode);
-                    mResponseHandler.onError(error, res.getPropertiesAsString());
-                }
+                processDicommResponse(res);
             } catch (IllegalArgumentException | InvalidMessageTerminationException | InvalidPayloadFormatException e) {
                 mResponseHandler.onError(Error.PROTOCOL_VIOLATION, e.getMessage());
             } catch (InvalidStatusCodeException e) {
@@ -80,7 +74,25 @@ public class BleRequest extends Request implements Runnable {
             mResponseHandler.onError(Error.NO_REQUEST_DATA, message);
             mCountDownLatch.countDown();
         }
-    });
+    };
+
+    @VisibleForTesting
+    void processDicommResponse(final DiCommResponse res) {
+        synchronized (mLock) {
+            final StatusCode statusCode = res.getStatus();
+
+            if (statusCode == StatusCode.NoError) {
+                mResponseHandler.onSuccess(res.getPropertiesAsString());
+            } else {
+                final Error error = BleErrorMap.getErrorByStatusCode(statusCode);
+                mResponseHandler.onError(error, res.getPropertiesAsString());
+            }
+
+            mIsExecuting = false;
+        }
+    }
+
+    private final DiCommByteStreamReader mDiCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
 
     private final ResultListener<SHNDataRaw> mResultListener = new ResultListener<SHNDataRaw>() {
         @Override
@@ -192,18 +204,20 @@ public class BleRequest extends Request implements Runnable {
      */
     public void cancel(String reason) {
         synchronized (mLock) {
-            mIsExecuting = false;
+            if (mIsExecuting) {
+                mIsExecuting = false;
 
-            SHNDevice device = deviceCache.getDeviceMap().get(cppId);
-            if (device != null) {
-                CapabilityDiComm capability = (CapabilityDiComm) device.getCapabilityForType(SHNCapabilityType.DI_COMM);
-                if (capability != null) {
-                    capability.removeDataListener(mResultListener);
+                SHNDevice device = deviceCache.getDeviceMap().get(cppId);
+                if (device != null) {
+                    CapabilityDiComm capability = (CapabilityDiComm) device.getCapabilityForType(SHNCapabilityType.DI_COMM);
+                    if (capability != null) {
+                        capability.removeDataListener(mResultListener);
+                    }
                 }
-            }
 
-            mResponseHandler.onError(Error.TIMED_OUT, reason);
-            mCountDownLatch.countDown();
+                mResponseHandler.onError(Error.TIMED_OUT, reason);
+                mCountDownLatch.countDown();
+            }
         }
     }
 
