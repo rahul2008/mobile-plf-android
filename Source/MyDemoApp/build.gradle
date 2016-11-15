@@ -40,7 +40,7 @@ allprojects {
 
 
 allprojects {
-    ext.compileSdkVer = 23
+    ext.compileSdkVer = 24
     ext.buildToolsVer = '23.0.3'
     ext.minSdkVer = 19
     ext.targetSdkVer = 22
