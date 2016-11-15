@@ -288,7 +288,7 @@ public class AppInfra implements AppInfraInterface {
         return mAbtesting;
     }
 
-    public AppInfra(Context pContext) {
+    private AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
 

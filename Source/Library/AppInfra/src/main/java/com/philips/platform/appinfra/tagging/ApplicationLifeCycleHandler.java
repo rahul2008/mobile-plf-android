@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 /**
  * Created by 310200764 on 9/1/2015.
@@ -86,9 +87,9 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     public void onConfigurationChanged(Configuration configuration) {
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
                 "ApplicationLifeCycleHandler", "ConfigurationChanged");
-        Intent i = mAppInfra.getAppInfraContext().getApplicationContext().getPackageManager().getLaunchIntentForPackage(mAppInfra.getAppInfraContext().getPackageName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mAppInfra.getAppInfraContext().startActivity(i);
+//        Intent i = mAppInfra.getAppInfraContext().getApplicationContext().getPackageManager().getLaunchIntentForPackage(mAppInfra.getAppInfraContext().getPackageName());
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+//        mAppInfra.getAppInfraContext().startActivity(i);
     }
 
     @Override
