@@ -4,7 +4,7 @@
 
 /* following 2 lines are mandatory for the platform CI pipeline integration */
 BranchName = env.BRANCH_NAME
-properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]]])
+properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'commit', description: 'triggerBy', name : 'triggerBy']]]])
 CheckPPC = env.triggerBy
 echo "Check PPC says ${CheckPPC}"
 
