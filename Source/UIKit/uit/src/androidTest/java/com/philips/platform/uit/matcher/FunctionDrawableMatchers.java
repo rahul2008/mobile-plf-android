@@ -2,8 +2,10 @@ package com.philips.platform.uit.matcher;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.view.View;
 
 import com.philips.platform.uit.utils.UIDUtils;
@@ -130,6 +132,17 @@ public class FunctionDrawableMatchers {
         Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
         if (drawable instanceof LayerDrawable && drawableID != -1) {
             drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
+        }
+        //Extract the wrapped gradient drawable
+        drawable = handleClipDrawable(drawable);
+        return drawable;
+    }
+
+    private static Drawable handleClipDrawable(Drawable drawable) {
+        if(drawable instanceof ClipDrawable) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                drawable = ((ClipDrawable) drawable).getDrawable();
+            }
         }
         return drawable;
     }
