@@ -39,6 +39,19 @@ public class DrawableMatcher {
         };
     }
 
+    public static Matcher<Drawable> isMinWidth(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                Rect bounds = drawable.getBounds();
+                int actualHeight = bounds.right - bounds.left;
+                setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
+                return actualHeight >= expectedValue;
+            }
+        };
+    }
+
     public static Matcher<Drawable> isSameWidth(final int expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 

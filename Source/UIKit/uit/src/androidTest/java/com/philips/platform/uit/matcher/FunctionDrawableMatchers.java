@@ -42,6 +42,19 @@ public class FunctionDrawableMatchers {
         };
     }
 
+    public static Matcher<View> isMinWidth(final String funcName, final int expectedValue, final int drawableID) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                Drawable drawable = getDrawable(view, funcName, drawableID);
+                BaseTypeSafteyMatcher<Drawable> widthMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isMinWidth(expectedValue);
+                boolean matches = widthMatcher.matches(drawable);
+                setValues(widthMatcher.actual, widthMatcher.expected);
+                return matches;
+            }
+        };
+    }
+
     public static Matcher<View> isSameWidth(final String funcName, final int expectedValue) {
         return isSameWidth(funcName, expectedValue, -1);
     }
