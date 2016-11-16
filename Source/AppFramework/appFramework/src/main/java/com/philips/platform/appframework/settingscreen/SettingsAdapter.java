@@ -23,7 +23,6 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
@@ -103,7 +102,7 @@ public class SettingsAdapter extends BaseAdapter{
                         if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
                             logoutAlert();
                         } else {
-                            fragmentPresenter.onClick(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+                            fragmentPresenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                         }
                     }
                 });
@@ -247,7 +246,7 @@ public class SettingsAdapter extends BaseAdapter{
                                     public void onLogoutSuccess() {
                                     //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         progressDialog.cancel();
-                                        fragmentPresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+                                        fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                                     }
 
                                     @Override

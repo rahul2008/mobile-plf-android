@@ -49,7 +49,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
      *
      */
     @Override
-    public void onClick(int componentID) {
+    public void onEvent(int componentID) {
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
@@ -83,14 +83,6 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     protected FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(settingsView.getFragmentActivity(), settingsView.getContainerId(), settingsView.getActionBarListener());
         return fragmentLauncher;
-    }
-
-    /**
-     * Laods the User registration
-     */
-    @Override
-    public void onLoad() {
-
     }
 
     /**

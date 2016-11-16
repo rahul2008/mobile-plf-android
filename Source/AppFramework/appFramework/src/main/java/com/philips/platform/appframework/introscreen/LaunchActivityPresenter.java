@@ -43,16 +43,24 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
      * @param componentID : takes compenent Id
      */
     @Override
-    public void onClick(int componentID) {
+    public void onEvent(int componentID) {
         showActionBar();
         String eventState = getEventState(componentID);
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
+        if(componentID == 0) {
+            hideActionBar();
+            baseState.setUiStateData(getUiStateData());
+        }
         if (!baseState.getStateID().equals(AppStates.REGISTRATION)) {
             finishActivity();
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);
         }
+    }
+
+    protected void hideActionBar() {
+        welcomeView.hideActionBar();
     }
 
     protected void finishActivity() {
@@ -69,27 +77,13 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
                 return WELCOME_HOME;
             case USER_REGISTRATION_STATE:
                 return WELCOME_REGISTRATION;
+            default:return null;
         }
-        return null;
     }
 
     protected FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
         return fragmentLauncher;
-    }
-
-    /**
-     * Takes care of handling whether to show user registration after the splash screen has
-     * loaded or to show Welcome fragments if onboarding was skipped at the time of first launch
-     */
-    @Override
-    public void onLoad() {
-        welcomeView.hideActionBar();
-        baseState = getApplicationContext().getTargetFlowManager().getNextState(null,null);
-        fragmentLauncher = getFragmentLauncher();
-        baseState.setPresenter(this);
-        baseState.setUiStateData(getUiStateData());
-        baseState.navigate(fragmentLauncher);
     }
 
     @NonNull

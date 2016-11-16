@@ -71,7 +71,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"logout")).thenReturn(homeFragmentStateMock);
-        settingsFragmentPresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+        settingsFragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
         verify(homeFragmentStateMock, atLeastOnce()).setPresenter(settingsFragmentPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }

@@ -73,7 +73,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(settingScreenItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_order_history)).toString())){
-                    fragmentPresenter.onClick(Constants.IAP_PURCHASE_HISTORY);
+                    fragmentPresenter.onEvent(Constants.IAP_PURCHASE_HISTORY);
                 }
             }
         });

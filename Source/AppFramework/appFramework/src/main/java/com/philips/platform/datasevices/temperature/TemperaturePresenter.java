@@ -102,12 +102,7 @@ public class TemperaturePresenter extends UIBasePresenter {
 
 
     @Override
-    public void onClick(int componentID) {
-
-    }
-
-    @Override
-    public void onLoad() {
+    public void onEvent(int componentID) {
 
     }
 

@@ -21,12 +21,7 @@ abstract public class UIBasePresenter {
      * @param componentID The Id of any button or widget or any other component
      *
      */
-    public abstract void onClick(int componentID);
-
-    /**
-     * This method needs to be implemented to do oeprations when te particular state loads
-     */
-    public abstract void onLoad();
+    public abstract void onEvent(int componentID);
 
     /**
      * For seeting the current state , so that flow manager is updated with current state

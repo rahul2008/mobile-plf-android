@@ -12,7 +12,6 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.stateimpl.HomeFragmentState;
@@ -113,7 +112,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         JUnitFlowManager uiFlowManager = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
         when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
-        hamburgerActivityPresenter.onClick(0);
+        hamburgerActivityPresenter.onEvent(0);
         verify(homeFragmentStateMock, atLeastOnce()).setPresenter(hamburgerActivityPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }

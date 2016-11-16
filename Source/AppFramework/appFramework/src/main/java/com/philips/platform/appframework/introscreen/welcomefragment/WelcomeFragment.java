@@ -131,7 +131,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
     @Override
     public void onClick(View v) {
         if (presenter != null) {
-            presenter.onClick(v.getId());
+            presenter.onEvent(v.getId());
         }
     }
 

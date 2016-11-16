@@ -43,7 +43,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBa
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_activity);
-        presenter.onLoad();
+        presenter.onEvent(0);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBa
             ((WelcomeFragment)fragment).onBackPressed();
         }
         else if(!isConsumed) {
-            presenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT);
+            presenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
         }
     }
     @Override

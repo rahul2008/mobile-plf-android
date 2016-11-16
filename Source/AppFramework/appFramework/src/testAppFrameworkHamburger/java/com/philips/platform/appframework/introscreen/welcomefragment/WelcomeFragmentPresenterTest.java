@@ -64,7 +64,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_skip")).thenReturn(userRegStateMock);
-        welcomeFragmentPresenter.onClick(R.id.welcome_skip_button);
+        welcomeFragmentPresenter.onEvent(R.id.welcome_skip_button);
         verify(welcomeFragmentViewMock).showActionBar();
         verify(userRegStateMock, atLeastOnce()).setPresenter(welcomeFragmentPresenter);
         verify(userRegStateMock, atLeastOnce()).navigate(fragmentLauncherMock);

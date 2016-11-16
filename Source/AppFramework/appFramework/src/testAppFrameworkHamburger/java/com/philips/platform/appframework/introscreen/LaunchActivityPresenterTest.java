@@ -70,7 +70,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_home")).thenReturn(hamburgerStateMock);
-        launchActivityPresenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT);
+        launchActivityPresenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
         verify(hamburgerStateMock, atLeastOnce()).setPresenter(launchActivityPresenter);
         verify(hamburgerStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }

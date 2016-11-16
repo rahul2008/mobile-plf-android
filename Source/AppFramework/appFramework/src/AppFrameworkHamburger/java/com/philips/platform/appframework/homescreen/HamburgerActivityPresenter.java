@@ -66,7 +66,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
      * Any changes for hamburger menu options should be made here
      */
     @Override
-    public void onClick(int componentID) {
+    public void onEvent(int componentID) {
         AppFrameworkApplication appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.HAMBURGER_HOME, eventState);
@@ -139,11 +139,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     protected FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
         return fragmentLauncher;
-    }
-
-    @Override
-    public void onLoad() {
-
     }
 
     // TODO: Deepthi, This seems to be hardcoded without even checking the uistate, we are taking decision here.

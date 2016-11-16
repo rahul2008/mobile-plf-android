@@ -37,7 +37,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
     }
 
     @Override
-    public void onClick(final int componentID) {
+    public void onEvent(final int componentID) {
         appFrameworkApplication = getApplicationContext();
         welcomeFragmentView.showActionBar();
         String eventState = getEventState(componentID);
@@ -76,11 +76,6 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
                 return WELCOME_HOME;
         }
         return WELCOME_HOME;
-    }
-
-    @Override
-    public void onLoad() {
-
     }
 
     // TODO: Deepthi, check for condition and event and then take decision, can we move to json, pls check.

@@ -5,7 +5,6 @@
 */
 package com.philips.platform.appframework.homescreen;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -24,17 +23,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.philips.cdp.di.iap.screens.InAppBaseFragment;
-import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
@@ -125,7 +119,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
      */
     private void showNavigationDrawerItem(int position) {
         philipsDrawerLayout.closeDrawer(navigationView);
-        presenter.onClick(position);
+        presenter.onEvent(position);
     }
 
     public HamburgerAdapter getHamburgerAdapter()
@@ -164,9 +158,9 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
         cartIcon.setBackground(mCartIconDrawable);
         shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onEvent(View v) {
                 philipsDrawerLayout.closeDrawer(navigationView);
-                presenter.onClick(Constants.UI_SHOPPING_CART_BUTTON_CLICK);
+                presenter.onEvent(Constants.UI_SHOPPING_CART_BUTTON_CLICK);
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);

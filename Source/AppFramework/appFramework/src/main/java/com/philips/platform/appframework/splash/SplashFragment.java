@@ -29,6 +29,7 @@ public class SplashFragment extends Fragment implements WelcomeView{
     private static int SPLASH_TIME_OUT = 3000;
     UIBasePresenter presenter;
     private boolean isVisible = false;
+    private final int APP_START = 1;
 
     @Nullable
     @Override
@@ -74,7 +75,7 @@ public class SplashFragment extends Fragment implements WelcomeView{
                     // This method will be executed once the timer is over
                     // Start your app main activity
                     presenter = new SplashPresenter(SplashFragment.this);
-                    presenter.onLoad();
+                    presenter.onEvent(APP_START);
                 }
             }
         }, SPLASH_TIME_OUT);

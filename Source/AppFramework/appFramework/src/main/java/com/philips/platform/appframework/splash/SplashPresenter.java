@@ -27,18 +27,13 @@ public class SplashPresenter extends UIBasePresenter {
         setState(AppStates.SPLASH);
     }
 
-    @Override
-    public void onClick(int componentID) {
-
-    }
-
     /**
      * The methods takes decision to load which next state needs to be loaded after splash screen
      * Depending upon the User registration is compelted on not state will change
      *
      */
     @Override
-    public void onLoad() {
+    public void onEvent(int componentID) {
         final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
         final BaseState baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SPLASH, APP_START);
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
