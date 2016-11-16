@@ -41,7 +41,6 @@
     ]
   },
   "IAP": {
-    "hostport": "https://www.occ.shop.philips.com/",
     "propositionid": "Tuscany2016"
   },
   "appinfra": {

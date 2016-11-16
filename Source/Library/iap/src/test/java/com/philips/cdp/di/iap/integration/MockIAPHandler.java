@@ -35,10 +35,12 @@ public class MockIAPHandler extends IAPHandler {
 
     @Override
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
+        verifyInput(pLaunchInput.mLandingView, pLaunchInput.mIAPFlowInput);
+
         if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(new Application(), pLaunchInput, (ActivityLauncher) uiLauncher);
+            launchAsActivity(new Application(), pLaunchInput, (ActivityLauncher) uiLauncher);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
+            launchAsFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
         }
     }
 

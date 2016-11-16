@@ -13,7 +13,6 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class IAPInterface implements UappInterface, IAPExposedAPI {
-    protected IAPExposedAPI mImplementationHandler;
     protected IAPHandler mIAPHandler;
     protected IAPSettings mIAPSettings;
     private User mUser;
@@ -23,34 +22,27 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
         mIAPSettings = (IAPSettings) uappSettings;
         mIAPHandler = new IAPHandler(mIAPDependencies, mIAPSettings);
-        mImplementationHandler = mIAPHandler.getExposedAPIImplementor();
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
         if (mUser.isUserSignIn()) {
-            if (!mIAPSettings.isUseLocalData())
-                launchHybris(uiLauncher, (IAPLaunchInput) uappLaunchInput);
-            else
+            if (!mIAPSettings.isUseLocalData() && (!mIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
+                mIAPHandler.initIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
+            } else {
                 mIAPHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
+            }
         } else {
             throw new RuntimeException("User is not logged in.");// Confirm the behaviour on error Callback
         }
-    }
-
-    protected void launchHybris(UiLauncher uiLauncher, IAPLaunchInput pIAPLaunchInput) {
-        if (mIAPHandler.isStoreInitialized(mIAPSettings.getContext()))
-            mIAPHandler.launchIAP(uiLauncher, pIAPLaunchInput);
-        else
-            mIAPHandler.initIAP(uiLauncher, pIAPLaunchInput);
     }
 
     @Override
     public void getProductCartCount(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
         if (mUser.isUserSignIn())
-            mImplementationHandler.getProductCartCount(iapListener);
+            mIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
         else throw new RuntimeException("User is not logged in.");
     }
 
@@ -58,7 +50,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void getCompleteProductList(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
         if (mUser.isUserSignIn())
-            mImplementationHandler.getCompleteProductList(iapListener);
+            mIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
         else throw new RuntimeException("User is not logged in.");
     }
 }

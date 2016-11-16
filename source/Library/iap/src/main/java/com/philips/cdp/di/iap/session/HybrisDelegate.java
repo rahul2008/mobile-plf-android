@@ -14,16 +14,13 @@ import com.philips.cdp.di.iap.store.StoreListener;
 public class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
-
     protected NetworkController controller;
-    protected Context mContext;
 
     private HybrisDelegate() {
     }
 
     public static HybrisDelegate getInstance(Context context) {
         if (delegate.controller == null) {
-            delegate.mContext = context.getApplicationContext();
             delegate.controller = delegate.getNetworkController(context);
         }
         return delegate;
@@ -46,7 +43,6 @@ public class HybrisDelegate {
 
     public static HybrisDelegate getDelegateWithNetworkEssentials(NetworkEssentials networkEssentials,
                                                                   IAPSettings iapSettings) {
-        delegate.mContext = iapSettings.getContext();
         delegate.controller = new NetworkController(iapSettings.getContext(), networkEssentials, iapSettings);
         return delegate;
     }
