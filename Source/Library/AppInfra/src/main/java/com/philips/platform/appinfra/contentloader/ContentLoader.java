@@ -125,7 +125,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                             String tags = "";
                                             if (null != tagList && tagList.size() > 0) {
                                                 for (Tag tag : tagList) {
-                                                    tags += tag.getId() + ", ";
+                                                    tags += tag.getId() + ",";
                                                 }
                                                 tags = tags.substring(0, tags.length() - 2);
                                             }
@@ -250,10 +250,58 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void getContentByTag(String tagID, OnResultListener<Content> listener) {
+        String[] tag = new  String[1];
+        tag[0]=tagID;
+        Gson gson = new Gson();
+        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tag,null);
+        if (null != contentItems && contentItems.size() > 0) {
+            ContentItem contentItem = contentItems.get(0);
+            List<Content> result = new ArrayList<Content>(1);
+            try {
+                Content a = mClassType.newInstance();
+                if (!a.parseInput("{\"id\":\"blaat\"}")) {
+                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
+                    return;
+                }
+                for(ContentItem ci:contentItems){
+                    Content c = mClassType.newInstance();
+                    c = gson.fromJson(contentItem.getRawData(), mClassType);
+                    result.add(c);
+                }
+                listener.onSuccess(result);
+            } catch (InstantiationException | IllegalAccessException e) {
+                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
+            }
+        } else {
+            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given IDs not found in DB");
+        }
     }
 
     @Override
     public void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener) {
+        Gson gson = new Gson();
+        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs, andOr.toString());
+        if (null != contentItems && contentItems.size() > 0) {
+            ContentItem contentItem = contentItems.get(0);
+            List<Content> result = new ArrayList<Content>(1);
+            try {
+                Content a = mClassType.newInstance();
+                if (!a.parseInput("{\"id\":\"blaat\"}")) {
+                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
+                    return;
+                }
+                for(ContentItem ci:contentItems){
+                    Content c = mClassType.newInstance();
+                    c = gson.fromJson(contentItem.getRawData(), mClassType);
+                    result.add(c);
+                }
+                listener.onSuccess(result);
+            } catch (InstantiationException | IllegalAccessException e) {
+                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
+            }
+        } else {
+            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given TAG(s) not found in DB");
+        }
     }
     // endregion
 
@@ -262,6 +310,11 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     // region Private members
     private AtomicBoolean downloadInProgress;
+
+    public String getmServiceId() {
+        return mServiceId;
+    }
+
     private final String mServiceId;
     private URL mServiceURL;
     private Class<Content> mClassType;

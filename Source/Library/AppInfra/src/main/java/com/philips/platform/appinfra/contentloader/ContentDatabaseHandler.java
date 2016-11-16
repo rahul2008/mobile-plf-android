@@ -35,7 +35,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_VERSION_NUMBER = "versionNumber";
 
     //table name
-    private static final String CONTENT_LOADER_TABLE = "ContentLoaderTable";
+    private static final String CONTENT_LOADER_STATES = "ContentLoaderStates";
 
 
     public ContentDatabaseHandler(Context context) {
@@ -55,12 +55,12 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_CONTENT_TABLE);
         Log.d("first run", "" + CONTENT_TABLE + "DB CREATED");
 
-        String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_TABLE + "("
+        String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
                 + KEY_SERVICE_ID + " TEXT PRIMARY KEY,"
                 + KEY_EXPIRE_TIMESTAMP + " DATETIME"
                 + ")";
         sqLiteDatabase.execSQL(CREATE_CONTENT_LOADER_TABLE);
-        Log.d("first run", "" + CONTENT_LOADER_TABLE + "DB CREATED");
+        Log.d("first run", "" + CONTENT_LOADER_STATES + "DB CREATED");
     }
 
     @Override
@@ -87,6 +87,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         // first run, no entry available fo given service id so all content item will be inserted
         SQLiteDatabase db = this.getWritableDatabase();
         try {
+            db.beginTransaction();
             boolean allRowInserted = true;
             for (ContentItem contentItem : refreshedContentItems) {
                 ContentValues values = getContentValues(contentItem);
@@ -99,16 +100,8 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 }
             }
             if (allRowInserted) {
-                ContentValues values = new ContentValues();
-                values.put(KEY_SERVICE_ID, serviceID);
-                values.put(KEY_EXPIRE_TIMESTAMP, expiryDate);
-                long rowId = db.insert(CONTENT_LOADER_TABLE, null, values);
-                if (rowId == -1) {
-                    allRowInserted = false;
-                    Log.e("INS FAIL", CONTENT_LOADER_TABLE);
-                } else {
-                    Log.i("INS SUC", "row id " + CONTENT_LOADER_TABLE + " " + rowId);
-                }
+               ///
+                updateContentLoaderStateTable(db,serviceID,expiryDate);
             }
             if (allRowInserted) {
                 db.setTransactionSuccessful();
@@ -133,7 +126,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         Set<Long> dataBaseItemVersionSet = new HashSet<Long>();
         /////////////////TEST START
 
-        ContentItem ci = new ContentItem();
+      /*  ContentItem ci = new ContentItem();
         ci.setId("AnuragID");
         ci.setTags("tag1,tag2");
         ci.setRawData("{}");
@@ -147,7 +140,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         ci2.setServiceId(serviceID);
         ci2.setVersionNumber(serverContentItems.get(1).getVersionNumber());
         serverContentItems.add(ci);
-        serverContentItems.add(ci2);
+        serverContentItems.add(ci2);*/
         ////////////////TEST END
         for (ContentItem contentItem : serverContentItems) {
             serverItemIdSet.add(contentItem.getId());
@@ -239,6 +232,9 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         }
         // end of updating items based on item version number  changed
 
+
+        //
+        updateContentLoaderStateTable(db,serviceID,expiryDate);
         db.setTransactionSuccessful();
         db.endTransaction();
 
@@ -307,7 +303,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                     whereClause[idCount++] = KEY_ID + " = \"" + id + "\"";
                 }
                 String formattedwhereClause = TextUtils.join(" OR ", whereClause);
-                getContentByIdQuery = "SELECT * FROM "+CONTENT_TABLE+ " WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\" AND "  +formattedwhereClause;
+                getContentByIdQuery = "SELECT * FROM "+CONTENT_TABLE+ " WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\" AND ("  +formattedwhereClause+" )";
                 }
             Cursor cursor = db.rawQuery(getContentByIdQuery, null);
             if (cursor.moveToFirst()) {
@@ -331,9 +327,56 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+    List<ContentItem> getContentByTagId(String serviceID, String[] tagIDs, String logicalGate) {
+        List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String getContentByIdQuery=null;
+        try {
+            if(tagIDs.length==1){
+                getContentByIdQuery = "SELECT * FROM "+CONTENT_TABLE+ " WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\" AND "+KEY_TAG_IDS+ " LIKE \""+tagIDs[0]+"\"";
+            }else  if(tagIDs.length>1) {
+                String[] whereClause = new String[tagIDs.length];
+                int idCount=0;
+                for (String id : tagIDs) {
+                    whereClause[idCount++] = KEY_TAG_IDS + " LIKE \"%" + id + "%\"";
+                }
+                String formattedwhereClause = TextUtils.join(" "+logicalGate+" ", whereClause);
+                getContentByIdQuery = "SELECT * FROM "+CONTENT_TABLE+ " WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\" AND ("  +formattedwhereClause +" )";
+            }
+            Cursor cursor = db.rawQuery(getContentByIdQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    ContentItem contentItem = new ContentItem();
+                    contentItem.setId(cursor.getString(0));
+                    contentItem.setServiceId(cursor.getString(1));
+                    contentItem.setRawData(cursor.getString(2));
+                    contentItem.setTags(cursor.getString(3));
+                    contentItem.setVersionNumber(cursor.getLong(4));
+                    ContentItemList.add(contentItem);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("SELECT FAIL", getContentByIdQuery);
+        } finally {
+            db.close();
+        }
+        return ContentItemList;
+    }
 
+    private void updateContentLoaderStateTable(SQLiteDatabase db,String serviceID,long expiryDate){
+        ContentValues values = new ContentValues();
+        values.put(KEY_SERVICE_ID, serviceID);
+        values.put(KEY_EXPIRE_TIMESTAMP, expiryDate);
+        long rowId = db.insert(CONTENT_LOADER_STATES, null, values);
+        if (rowId == -1) {
+            Log.e("INS FAIL", CONTENT_LOADER_STATES);
+        } else {
+            Log.i("INS SUC", "row id " + CONTENT_LOADER_STATES + " " + rowId);
+        }
+    }
 
-    ContentValues getContentValues(ContentItem pContentItem) {
+    private ContentValues getContentValues(ContentItem pContentItem) {
         ContentValues values = new ContentValues();
         values.put(KEY_ID, pContentItem.getId());
         values.put(KEY_SERVICE_ID, pContentItem.getServiceId());

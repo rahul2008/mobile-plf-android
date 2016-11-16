@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'jacoco'
 
 def coverageSourceDirs = [
         '../AppInfra/src/main/java'
@@ -251,34 +250,34 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 
 }
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-//    jvmArgs = ["-XX:-UseSplitVerifier"]
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../AppInfra/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
-                       '**/adapters/*.class',
-                       '**/analytics/*.class',
-                       '**/utils/*.class',
-                       '**/activity/*.class',
-                       '**/Fragments/*.class']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../AppInfra/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-}
+//task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+//    group = "Reporting"
+//
+////    jvmArgs = ["-XX:-UseSplitVerifier"]
+//    description = "Generate Jacoco coverage reports"
+//
+//    classDirectories = fileTree(
+//            dir: '../AppInfra/build/intermediates/classes/debug',
+//            excludes: ['**/R.class',
+//                       '**/R$*.class',
+//                       '**/BuildConfig.*',
+//                       '**/response/*/*.class',
+//                       '**/view/*.class',
+//                       '**/adapters/*.class',
+//                       '**/analytics/*.class',
+//                       '**/utils/*.class',
+//                       '**/activity/*.class',
+//                       '**/Fragments/*.class']
+//    )
+//
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    sourceDirectories = files(coverageSourceDirs)
+//    executionData = files('../AppInfra/build/jacoco/testDebugUnitTest.exec')
+//
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//
+//}
 
