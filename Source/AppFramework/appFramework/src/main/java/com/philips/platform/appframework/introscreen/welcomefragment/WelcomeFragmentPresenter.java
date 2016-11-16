@@ -4,12 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivityPresenter;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.URStateListener;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -20,26 +19,43 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class WelcomeFragmentPresenter extends UIBasePresenter implements URStateListener {
 
+    private final int MENU_OPTION_HOME = 0;
     private AppFrameworkApplication appFrameworkApplication;
     private SharedPreferenceUtility sharedPreferenceUtility;
-    private UIState uiState;
+    private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
     private WelcomeFragmentView welcomeFragmentView;
+    private String WELCOME_SKIP = "welcome_skip";
+    private String WELCOME_DONE = "welcome_done";
+    private String WELCOME_HOME = "welcome_home";
 
     public WelcomeFragmentPresenter(WelcomeFragmentView welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
     }
 
-
     @Override
     public void onClick(final int componentID) {
-        appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
+        appFrameworkApplication = getApplicationContext();
         welcomeFragmentView.showActionBar();
-        uiState = getUiState(componentID);
-        uiState.setPresenter(this);
-        fragmentLauncher = getFragmentLauncher();
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
+        String eventState = getEventState(componentID);
+        if (eventState.equals(WELCOME_DONE)) {
+            sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
+            sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
+        }
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
+        if(baseState!=null) {
+            baseState.setPresenter(this);
+            if (baseState instanceof UserRegistrationState)
+                ((UserRegistrationState) baseState).registerUIStateListener(this);
+
+            fragmentLauncher = getFragmentLauncher();
+            baseState.navigate(fragmentLauncher);
+        }
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
     }
 
     @NonNull
@@ -47,24 +63,17 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
     }
 
-    protected UIState getUiState(final int componentID) {
+    // TODO: Deepthi, revisit this switch
+    protected String getEventState(final int componentID) {
         switch (componentID) {
             case R.id.welcome_skip_button:
-                uiState = new UserRegistrationState();
-                uiState.setPresenter(this);
-                ((UserRegistrationState) uiState).registerUIStateListener(this);
-                break;
+                return WELCOME_SKIP;
             case R.id.welcome_start_registration_button:
-                sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
-                sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
-                uiState = new UserRegistrationState();
-                uiState.setPresenter(this);
-                ((UserRegistrationState) uiState).registerUIStateListener(this);
-                break;
-            case HomeActivityPresenter.MENU_OPTION_HOME:
-                uiState = new HomeActivityState();
+                return WELCOME_DONE;
+            case MENU_OPTION_HOME:
+                return WELCOME_HOME;
         }
-        return uiState;
+        return WELCOME_HOME;
     }
 
     @Override
@@ -72,14 +81,19 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
 
     }
 
+    // TODO: Deepthi, check for condition and event and then take decision, can we move to json, pls check.
     @Override
-    public void onStateComplete(final UIState uiState) {
-        appFrameworkApplication = (AppFrameworkApplication) welcomeFragmentView.getFragmentActivity().getApplicationContext();
-        this.uiState = getUiState(HomeActivityPresenter.MENU_OPTION_HOME);
+    public void onStateComplete(final BaseState baseState) {
+        String eventState = getEventState(MENU_OPTION_HOME);
+        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
-        this.uiState.setPresenter(this);
+        this.baseState.setPresenter(this);
         welcomeFragmentView.finishActivityAffinity();
-        appFrameworkApplication.getFlowManager().navigateToState(this.uiState, fragmentLauncher);
+        this.baseState.navigate(fragmentLauncher);
+        if(baseState instanceof UserRegistrationState)
+        {
+            ((UserRegistrationState) baseState).unregisterUserRegistrationListener();
+        }
     }
 
     @Override

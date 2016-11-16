@@ -12,11 +12,12 @@ import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -26,21 +27,21 @@ import java.util.ArrayList;
 /**
  * This class contains all initialization & Launching details of IAP
  */
-public class IAPState extends UIState{
+public class IAPState extends BaseState {
 
-    private Context activityContext;
-    private Context applicationContext;
-    private IAPInterface iapInterface;
-    private FragmentLauncher fragmentLauncher;
     /**
      IAP flow constants, values for IAP views should start from 4000 series
      */
     public static final int IAP_CATALOG_VIEW = 4001;
-   // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
- //   public static final int IAP_SHOPPING_CART_VIEW = 4003;
+    // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
+    // public static final int IAP_SHOPPING_CART_VIEW = 4003;
+    private Context activityContext;
+    private Context applicationContext;
+    private IAPInterface iapInterface;
+    private FragmentLauncher fragmentLauncher;
 
     public IAPState() {
-        super(UIState.UI_IAP_SHOPPING_FRAGMENT_STATE);
+        super(BaseAppState.IAP);
     }
 
     public IAPInterface getIapInterface() {
@@ -68,7 +69,7 @@ public class IAPState extends UIState{
         IAPFlowInput iapFlowInput = new IAPFlowInput(((InAppStateData)getUiStateData()).getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getIAPFlowType(((InAppStateData)getUiStateData()).getIapFlow()), iapFlowInput);
-         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
+        iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
@@ -86,7 +87,6 @@ public class IAPState extends UIState{
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
     //    iapSettings.setUseLocalData(true);
         iapInterface.init(iapDependencies, iapSettings);
-
     }
 
     /**

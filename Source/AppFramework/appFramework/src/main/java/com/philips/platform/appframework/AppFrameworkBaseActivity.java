@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.appframework.homescreen.HomeFragment;
+import com.philips.platform.appframework.homefragment.HomeFragment;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -21,10 +21,13 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
     public UIBasePresenter presenter;
   //  private int cartItemCount = 0;
+    int containerId;
     private FragmentTransaction fragmentTransaction;
 
+    public abstract int getContainerId();
+
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
-        int containerId = R.id.frame_container;
+        containerId = getContainerId();
         try {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {
@@ -57,6 +60,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
         }
     }
 
+    public void addFragment(Fragment fragment, String fragmentTag){
+        containerId = getContainerId();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerId,fragment,fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragmentTransaction.commit();
+    }
     private void addToBackStack(int containerID, Fragment fragment,String fragmentTag){
         fragmentTransaction.replace(containerID,fragment,fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
