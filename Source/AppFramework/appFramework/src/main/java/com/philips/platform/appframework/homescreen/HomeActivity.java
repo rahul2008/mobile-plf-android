@@ -241,6 +241,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements IAPListene
                 super.onBackPressed();
             }
         } else {
+            if(philipsDrawerLayout.isDrawerOpen(navigationView))
+            {
+                philipsDrawerLayout.closeDrawer(navigationView);
+            }
+            else
             super.onBackPressed();
         }
     }
