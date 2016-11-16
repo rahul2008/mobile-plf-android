@@ -57,6 +57,7 @@
     <!--Settings page for ProgressBar-->
     <string name="progress_bar_linear_subtitle">Linear progress indicators</string>
     <string name="page_title_progress_bar">Progress indicator</string>
+    <string name="progress_bar_value">Value</string>
 
 
 </resources>

@@ -63,7 +63,7 @@ public class ProgressBar extends android.widget.ProgressBar {
         setProgress(50);
 
         if (isSecondaryProgressBarEnabled) {
-            setSecondaryProgress(70);
+            setSecondaryProgress(60);
         } else if (isIndeterminate()) {
             setIndeterminateDrawable(progressDrawable);
         }
