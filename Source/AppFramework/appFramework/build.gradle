@@ -129,7 +129,6 @@ android {
     buildToolsVersion "24.0.3"
 
     defaultConfig {
-        applicationId "com.philips.platform.appframework"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
@@ -142,6 +141,18 @@ android {
         multiDexEnabled true
     }
 
+    productFlavors {
+        AppFrameworkHamburger {
+            applicationId = "com.philips.platform.hamburger"
+            resValue "string", "af_app_name", "AF Hamburger"
+
+        }
+        AppFrameworkTabbed {
+            applicationId = "com.philips.platform.tabbed"
+            resValue "string", "af_app_name", "AF Tabbed"
+        }
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -151,7 +162,9 @@ android {
     }
 
     dexOptions {
+        incremental = false;
         preDexLibraries = false
+        jumboMode = false
     }
     buildTypes {
         release {
@@ -166,7 +179,6 @@ android {
             shrinkResources false
             debuggable true
             testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
         }
     }
 
@@ -322,7 +334,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         html.enabled = false
     }
 }
-
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
@@ -351,5 +362,4 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         xml.enabled = true
         html.enabled = true
     }
-
 }

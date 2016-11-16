@@ -33,12 +33,13 @@ public class Constants {
    // public static final String IAP_SHOPPING_CART_FRAGMENT_TAG = "ShoppingCartFragment";
 
     /**
-     * WelcomeActivity constants
+     * LaunchActivity constants
      */
     public static final int BACK_BUTTON_CLICK_CONSTANT = 100000;
     public static final int LOGOUT_BUTTON_CLICK_CONSTANT = 100001;
     public static final int UI_SHOPPING_CART_BUTTON_CLICK = 100002;
     public static final int IAP_PURCHASE_HISTORY = 100003;
+    public static final int LOGIN_BUTTON_CLICK_CONSTANT = 1000004;
     public static final String DONE_PRESSED = "donePressed";
     public static final String PAGE_INDEX = "pageIndex";
 
