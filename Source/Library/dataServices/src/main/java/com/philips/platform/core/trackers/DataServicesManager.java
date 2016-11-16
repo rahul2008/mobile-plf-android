@@ -251,7 +251,10 @@ public class DataServicesManager {
 
     public void stopCore() {
         mCore.stop();
-        mCore = null;
+        releaseInstances();
+    }
+
+    private void releaseInstances() {
         mUserRegistrationFacadeImpl = null;
         mBackendIdProvider = null;
         mBackend = null;
@@ -263,6 +266,7 @@ public class DataServicesManager {
         mLoggingMonitor = null;
         mSharedPreferences = null;
     }
+
 
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;
