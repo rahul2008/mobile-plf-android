@@ -68,12 +68,14 @@ public class LinearProgressIndicators {
 
     @Test
     public void verifyLeftMarginOfProgressBar() {
-
+        int expectedLeftMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.linearprogressbar_leftmargin);
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
 
     @Test
     public void verifyRightMarginOfProgressBar() {
-
+        int expectedRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.linearprogressbar_leftmargin);
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
     //*********************************Theming Scenarios**************************//
