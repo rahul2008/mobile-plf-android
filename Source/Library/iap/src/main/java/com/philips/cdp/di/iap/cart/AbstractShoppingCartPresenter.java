@@ -97,7 +97,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         handleModelDataError(msg);
                     }
                 });
-        model.setContext(mContext);
         getHybrisDelegate().sendRequest(0, model, model);
     }
 

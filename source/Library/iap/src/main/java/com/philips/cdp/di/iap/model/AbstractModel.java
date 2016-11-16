@@ -1,15 +1,14 @@
 package com.philips.cdp.di.iap.model;
 
-import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 import java.util.Map;
 
 public abstract class AbstractModel implements RequestListener {
-    Context mContext;
+//    Context mContext;
 
     final protected StoreListener store;
     protected Map<String, String> params;
@@ -30,9 +29,9 @@ public abstract class AbstractModel implements RequestListener {
         mDataLoadListener = listener;
     }
 
-    public void setContext(Context context) {
+    /*public void setContext(Context context) {
         mContext = context;
-    }
+    }*/
 
     @Override
     public void onSuccess(final Message msg) {

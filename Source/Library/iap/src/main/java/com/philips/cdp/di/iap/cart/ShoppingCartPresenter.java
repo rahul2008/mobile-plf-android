@@ -66,7 +66,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void getCurrentCartDetails() {
         GetCurrentCartRequest model = new GetCurrentCartRequest(getStore(), null, this);
-        model.setContext(mContext);
         getHybrisDelegate().sendRequest(0, model, model);
     }
 
@@ -209,8 +208,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             iapCartListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
-        model.setContext(context);
-
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
                     @Override
                     public void onSuccess(final Message msg) {
@@ -253,8 +250,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
-        model.setContext(context);
-
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {

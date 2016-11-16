@@ -34,7 +34,6 @@ public class ProductDetailController implements AbstractModel.DataLoadListener {
         String formattedCtnNumber = ctnNumber.replace('/', '_');
         query.put(ModelConstants.PRODUCT_CODE, formattedCtnNumber);
         ProductDetailRequest model = new ProductDetailRequest(getStore(), query, this);
-        model.setContext(mContext);
         getHybrisDelegate().sendRequest(RequestCode.SEARCH_PRODUCT, model, model);
     }
 
