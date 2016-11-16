@@ -72,7 +72,7 @@ public class RestManagerTest extends MockitoTestCase {
                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                     assertNotNull(errorcode);
                 }
-            });
+            }, null, null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
@@ -100,7 +100,7 @@ public class RestManagerTest extends MockitoTestCase {
                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                     assertNotNull(errorcode);
                 }
-            });
+            }, null, null);
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
             e.printStackTrace();
@@ -123,7 +123,7 @@ public class RestManagerTest extends MockitoTestCase {
                 public void onErrorResponse(VolleyError error) {
                     assertNotNull(error);
                 }
-            });
+            }, null, null);
 
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
@@ -243,7 +243,7 @@ public class RestManagerTest extends MockitoTestCase {
                 public void onErrorResponse(VolleyError error) {
                     // Handle error
                 }
-            });
+            }, null, null);
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
         }
@@ -306,7 +306,7 @@ public class RestManagerTest extends MockitoTestCase {
                     assertNotNull(errorcode);
                 }
 
-            });
+            }, null, null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
@@ -317,6 +317,25 @@ public class RestManagerTest extends MockitoTestCase {
     }
 
     public void testAuthentication() {
+        TokenProviderInterface provider = new TokenProviderInterface() {
+            @Override
+            public Token getToken() {
+                return new Token() {
+                    @Override
+                    public TokenType getTokenType() {
+                        return TokenType.OAUTH2;
+                    }
+
+                    @Override
+                    public String getTokenValue() {
+                        return accessToken;
+                    }
+                };
+            }
+        };
+        Map<String, String> header = new HashMap<>();
+        header.put("userName", "test");
+
         StringRequest mStringRequest = null;
         try {
             mStringRequest = new StringRequest(Request.Method.GET, baseURL + "/RCT/test.php?action=authcheck",
@@ -334,38 +353,8 @@ public class RestManagerTest extends MockitoTestCase {
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             assertNotNull(errorcode);
                         }
-                    }
+                    }, header, provider
             ) {
-
-                @Override
-                public Map<String, String> getHeaders() {
-                    TokenProviderInterface provider = new TokenProviderInterface() {
-                        @Override
-                        public Token getToken() {
-                            return new Token() {
-                                @Override
-                                public TokenType getTokenType() {
-                                    return TokenType.OAUTH2;
-                                }
-
-                                @Override
-                                public String getTokenValue() {
-                                    return accessToken;
-                                }
-                            };
-                        }
-                    };
-                    HashMap<String, String> header = mRestInterface.setTokenProvider(provider);
-                    Map<String, String> paramList = new HashMap<String, String>();
-                           /* for(String  key: params.keySet() ){
-                                paramList.put(key, params.get(key));
-                            }*/
-                    if (null != header) {
-                        paramList.putAll(header);
-                    }
-                    // other header can be added here
-                    return paramList;
-                }
 
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {

@@ -23,9 +23,6 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 
 public class RestManager implements RestInterface {
@@ -35,7 +32,6 @@ public class RestManager implements RestInterface {
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
     }
-
 
     @Override
     public RequestQueue getRequestQueue() {
@@ -79,7 +75,7 @@ public class RestManager implements RestInterface {
         return new BasicNetwork(stack);
     }
 
-    public HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
+    public static HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
         HashMap<String, String> header = new HashMap<String, String>();
         TokenProviderInterface.Token token = provider.getToken();
         String scheme = "";

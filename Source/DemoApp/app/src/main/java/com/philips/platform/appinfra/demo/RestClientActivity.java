@@ -133,7 +133,7 @@ public class RestClientActivity extends AppCompatActivity {
                                         String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                         showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                                     }
-                                }
+                                }, null, null
                         ) {
 
                             @Override
@@ -188,7 +188,7 @@ public class RestClientActivity extends AppCompatActivity {
                                 String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                 showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                             }
-                        }) {
+                        }, null, null) {
                             @Override
                             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                                 if (response != null && response.data != null) {
@@ -272,7 +272,7 @@ public class RestClientActivity extends AppCompatActivity {
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                         }
-                    }) {
+                    }, null, null) {
                         @Override
                         protected Response<String> parseNetworkResponse(NetworkResponse response) {
                             if (response != null && response.data != null) {
@@ -321,8 +321,8 @@ public class RestClientActivity extends AppCompatActivity {
 
                 StringRequest mStringRequest = null;
                 try {
-                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim() + "/RCT/test.php?action=authcheck",
-                            provider, header,
+                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim() + "/RCT/test.php?action=authcheck"
+                            ,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -339,7 +339,7 @@ public class RestClientActivity extends AppCompatActivity {
                                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                     showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                                 }
-                            }
+                            }, header, provider
                     ) {
 
                         @Override

@@ -14,7 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
+import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -28,7 +30,9 @@ public class GsonCustomRequest<T> extends Request<T> {
     private final Response.Listener<T> listener;
     private final Gson gson = new Gson();
     private final Class<T> clazz;
-    private final Map<String, String> headers;
+    private Map<String, String> mHeader;
+    private TokenProviderInterface mProvider;
+
 
     /**
      * Make a GET request and return a parsed object from JSON.
@@ -38,10 +42,13 @@ public class GsonCustomRequest<T> extends Request<T> {
      * @param headers Map of request headers
      */
     public GsonCustomRequest(int method, String url, Class<T> clazz, Map<String, String> headers,
-                             Response.Listener<T> listener, Response.ErrorListener errorListener) {
+                             Response.Listener<T> listener, Response.ErrorListener errorListener,
+                             Map<String, String> header,
+                             TokenProviderInterface tokenProviderInterface) {
         super(method, url, errorListener);
         this.clazz = clazz;
-        this.headers = headers;
+        this.mProvider = tokenProviderInterface;
+        this.mHeader = header;
         this.listener = listener;
     }
 
@@ -50,13 +57,18 @@ public class GsonCustomRequest<T> extends Request<T> {
                              Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), errorListener);
         this.clazz = clazz;
-        this.headers = headers;
+        this.mHeader = headers;
         this.listener = listener;
     }
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        return headers != null ? headers : super.getHeaders();
+        if (mProvider != null) {
+            Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+            mHeader.putAll(tokenHeader);
+            return mHeader;
+        }
+        return super.getHeaders();
     }
 
     @Override

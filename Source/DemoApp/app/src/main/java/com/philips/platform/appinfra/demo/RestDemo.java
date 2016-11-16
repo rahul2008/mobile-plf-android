@@ -7,7 +7,6 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
 
@@ -53,11 +52,10 @@ public class RestDemo extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Log.i("LOG", "" + error);
                 }
-            });
+            }, null, null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }
-
 
         AppInfraApplication.gAppInfra.getRestClient().getRequestQueue().add(mStringRequest);
 
