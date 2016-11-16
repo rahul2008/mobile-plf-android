@@ -2,13 +2,10 @@
 
 BranchName = env.BRANCH_NAME
 
-if (!env.CHANGE_ID) {
-    properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]])
-} // end if (!env.CHANGE_ID)
-
-properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'commit', description: 'triggerBy', name : 'triggerBy']]]])
-CheckPPC = env.triggerBy
-echo "Check PPC says ${CheckPPC}"
+properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'commit', description: 'triggerBy', name : 'triggerBy']]],
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]
+    ])
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
