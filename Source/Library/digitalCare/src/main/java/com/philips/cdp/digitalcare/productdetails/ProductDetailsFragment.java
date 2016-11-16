@@ -71,7 +71,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private static boolean isTablet = false;
     private static int mHeight = 0;
     private static int mScrollPosition = 0;
-    private static Activity mActivity = null;
+    private Activity mActivity = null;
     private RelativeLayout mFirstContainer = null;
     private LinearLayout.LayoutParams mFirstContainerParams = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
