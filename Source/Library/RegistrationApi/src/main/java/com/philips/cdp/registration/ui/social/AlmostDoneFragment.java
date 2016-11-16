@@ -12,6 +12,7 @@ package com.philips.cdp.registration.ui.social;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -101,6 +102,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private ScrollView mSvRootLayout;
 
     private Bundle mBundle;
+
+    private TextView mJoinNow;
 
     private boolean isForTermsAccepatance;
 
@@ -333,7 +336,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-
+        mJoinNow = (TextView) view.findViewById(R.id.tv_join_now);
+        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
+        mJoinNow.setText(Html.fromHtml(sourceString));
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
@@ -389,11 +394,31 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
-                if (RegUtility.isUiFirstFlow()){
+               final UIFlow abStrings=RegUtility.getUiFlow();
+                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
                     RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-                }else {
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                    mJoinNow.setVisibility(View.GONE);
+                }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                    mLlPeriodicOffersCheck.setVisibility(View.GONE);
+                    view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
+                    mJoinNow.setVisibility(View.GONE);
+                }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                    mJoinNow.setVisibility(View.VISIBLE);
+                }
+
+
+                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A) ||
+                        abStrings.equals(UIFlow.STRING_EXPERIENCE_C) ){
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
+                    mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+                } else {
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mLlPeriodicOffersCheck.setVisibility(View.GONE);
                     view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
@@ -502,14 +527,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
         } else {
             User user = new User(mContext);
-            String emailorMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())){
-                emailorMobile = user.getEmail();
-            }else {
-                emailorMobile =user.getMobile();
-            }
-            if (emailorMobile != null) {
-                RegPreferenceUtility.storePreference(mContext, emailorMobile, true);
+            String email = user.getEmail();
+            if (email != null) {
+                RegPreferenceUtility.storePreference(mContext, email, true);
             }
         }
     }
@@ -640,16 +660,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         User user = new User(mContext);
-
-        if (RegUtility.isUiFirstFlow()){
-            RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+        final UIFlow abStrings=RegUtility.getUiFlow();
+        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A) ||
+                abStrings.equals(UIFlow.STRING_EXPERIENCE_C)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
             if (user.getEmailVerificationStatus()) {
                 launchWelcomeFragment();
             } else {
                 launchAccountActivateFragment();
             }
-        }else {
-            RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+        } else {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
         }
         hideSpinner();

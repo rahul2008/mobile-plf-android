@@ -74,6 +74,8 @@
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
+
+
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/cb_reg_accept_terms_error"
                 android:layout_width="wrap_content"
@@ -115,6 +117,15 @@
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
+            <com.philips.cdp.registration.ui.customviews.XTextView
+                android:id="@+id/tv_join_now"
+                style="@style/reg_textStyle"
+                android:paddingLeft="@dimen/reg_coppa_picker_button_layout_height"
+                android:paddingRight="@dimen/reg_et_height"
+                android:layout_marginLeft="@dimen/reg_err_mapping_padding"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:gravity="center|left"
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
             <View
                 android:id="@+id/reg_recieve_email_line"
                 style="@style/reg_line"
