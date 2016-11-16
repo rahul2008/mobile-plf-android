@@ -1,15 +1,9 @@
 #!/usr/bin/env groovy																											
 
-/* please see ReadMe.md for explanation */ 
-
-/* following 2 lines are mandatory for the platform CI pipeline integration */
 BranchName = env.BRANCH_NAME
 
 if (!env.CHANGE_ID) {
     properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]])
-    if (BranchName =~ /release\/.*/ || BranchName == 'master') {					/* if branchname is master or contains release, build on commit only	*/
-        properties([pipelineTriggers(),])
-    }
 } // end if (!env.CHANGE_ID)
 
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'commit', description: 'triggerBy', name : 'triggerBy']]]])
