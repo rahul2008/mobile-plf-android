@@ -6,9 +6,6 @@ package com.philips.cdp.di.iap.integration;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class IAPSettings extends UappSettings {
@@ -18,18 +15,6 @@ public class IAPSettings extends UappSettings {
 
     public IAPSettings(Context applicationContext) {
         super(applicationContext);
-        loadConfigParams();
-    }
-
-    private void loadConfigParams() {
-        AppConfigurationInterface mConfigInterface = RegistrationHelper.getInstance().getAppInfraInstance().getConfigInterface();
-        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-
-        mProposition = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
-
-        if (configError.getErrorCode() != null) {
-            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
-        }
     }
 
     public boolean isUseLocalData() {
@@ -38,6 +23,10 @@ public class IAPSettings extends UappSettings {
 
     public void setUseLocalData(boolean isLocalData) {
         mUseLocalData = isLocalData;
+    }
+
+    public void setProposition(String proposition) {
+        mProposition = proposition;
     }
 
     public String getProposition() {

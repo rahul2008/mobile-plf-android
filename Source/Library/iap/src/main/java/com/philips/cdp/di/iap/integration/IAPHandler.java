@@ -29,9 +29,11 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -87,10 +89,25 @@ class IAPHandler {
                             String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
                             mIAPSetting.setHostPort(urlPort.substring(0, urlPort.length() - 5));
                         }
+                        mIAPSetting.setProposition(loadConfigParams());
                         initIAPRequisite();
                     }
                 });
     }
+
+    private String loadConfigParams() {
+        String propositionId;
+        AppConfigurationInterface mConfigInterface = RegistrationHelper.getInstance().getAppInfraInstance().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+
+        propositionId = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
+
+        if (configError.getErrorCode() != null) {
+            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
+        }
+        return propositionId;
+    }
+
 
     protected void initControllerFactory() {
         ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());

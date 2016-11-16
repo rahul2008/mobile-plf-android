@@ -17,20 +17,7 @@ public class MockIAPSetting extends IAPSettings {
     }
 
     @Override
-    protected void initServiceDiscovery() {
-        //simulation
-    }
-
-    @Override
     public String getHostPort() {
         return "https://acc.occ.shop.philips.com/";
     }
-
-   /* public boolean setPlanA() {
-        return true;
-    }
-
-    public boolean setPlanB() {
-        return true;
-    }*/
 }

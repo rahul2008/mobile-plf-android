@@ -184,7 +184,7 @@ public class IAPHandlerTest {
         mMockIAPHandler.getFragment(4, new IAPFlowInput("HX8331/11"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = RuntimeException.class)
     public void verifyOnSuccess() throws Exception {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         IAPListener iapListener = iapLaunchInput.getIapListener();

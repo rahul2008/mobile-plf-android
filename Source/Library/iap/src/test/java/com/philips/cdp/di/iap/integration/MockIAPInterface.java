@@ -14,15 +14,15 @@ public class MockIAPInterface extends IAPInterface {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
         mIAPSettings = (IAPSettings) uappSettings;
         mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSettings);
-        mImplementationHandler = mMockIAPHandler.getExposedAPIImplementor();
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        if (!mIAPSettings.isUseLocalData())
-            launchHybris(uiLauncher, (IAPLaunchInput) uappLaunchInput);
-        else
+        if (!mIAPSettings.isUseLocalData() && (!mIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
+            mMockIAPHandler.initIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
+        } else {
             mMockIAPHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
+        }
     }
 
     @Override
