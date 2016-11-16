@@ -2,9 +2,6 @@ package com.philips.cdp.di.iap.integration;
 
 import java.util.ArrayList;
 
-/**
- * Created by 310164421 on 8/22/2016.
- */
 public class IAPFlowInput {
     private String productCTN;
     private ArrayList<String> productCTNs;

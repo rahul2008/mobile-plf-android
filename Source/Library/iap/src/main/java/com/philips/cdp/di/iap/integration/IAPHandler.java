@@ -30,10 +30,14 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -49,9 +53,43 @@ class IAPHandler {
 
     void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
+        initServiceDiscovery();
+    }
+
+    void initIAPRequisite() {
         initControllerFactory();
         initHybrisDelegate();
         setLangAndCountry();
+    }
+
+    protected void initServiceDiscovery() {
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        fetchBaseUrl(serviceDiscoveryInterface);
+    }
+
+    private void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        mIAPSetting.setUseLocalData(true);
+                        initIAPRequisite();
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        if (url.toString().isEmpty()) {
+                            mIAPSetting.setUseLocalData(true);
+                        } else {
+                            mIAPSetting.setUseLocalData(false);
+                            String urlPort = url.toString();//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
+                            mIAPSetting.setHostPort(urlPort.substring(0, urlPort.length() - 5));
+                        }
+                        initIAPRequisite();
+                    }
+                });
     }
 
     protected void initControllerFactory() {
@@ -124,12 +162,12 @@ class IAPHandler {
                 || landingScreen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW) {
             if (input.getProductCTN() == null
                     || input.getProductCTN().equalsIgnoreCase("")) {
-                throw new RuntimeException("Please Pass CTN");
+                throw new RuntimeException("Invalid CTN");
             }
         } else if (landingScreen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW
-                && (input.getProductCTNs() == null ||
+                && (input == null || input.getProductCTNs() == null ||
                 (input.getProductCTNs() != null && input.getProductCTNs().size() == 0))) {
-            throw new RuntimeException("Please Pass CTN");
+            throw new RuntimeException("Invalid CTN");
         }
     }
 
