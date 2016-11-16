@@ -33,8 +33,6 @@ public class ServerTimeTest extends InstrumentationTestCase {
 
 
     public void testRefreshOffset(){
-        timeInterface = new AppInfra(getInstrumentation().getContext()).getTime();
-        ServerTime.init(timeInterface);
         ServerTime.getCurrentTime();
         ServerTime.refreshOffset();
         assertNull(ServerTime.getCurrentUTCTimeWithFormat("dd-mm-yyyy"));
