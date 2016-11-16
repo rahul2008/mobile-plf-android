@@ -38,7 +38,7 @@ public class ProductModelSelectionHelper {
 
     private static final String TAG = ProductModelSelectionHelper.class.getSimpleName();
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
-    private static Context mContext = null;
+    private Context mContext = null;
     private static Locale mLocale = null;
     private static boolean isTabletLandscape = false;
     private static Configuration mVerticalOrientation = null;
@@ -95,7 +95,7 @@ public class ProductModelSelectionHelper {
      */
     public void initialize(Context applicationContext, AppInfraInterface appInfraInterface) {
         if (mContext == null) {
-            ProductModelSelectionHelper.mContext = applicationContext;
+            mContext = applicationContext;
         }
         mAppInfraInterface = appInfraInterface;
     }
