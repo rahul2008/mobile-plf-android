@@ -127,8 +127,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     private void getAddresses() {
         String msg = mContext.getString(R.string.iap_please_wait);
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, msg);
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, msg);
             mAddressController.getAddresses();
         }
     }
@@ -165,7 +165,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             return;
         }
 
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             moveToShoppingCart();
@@ -204,17 +204,17 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         }
     }
 
     @Override
     public void onGetDeliveryModes(Message msg) {
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
@@ -231,13 +231,13 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         }
     }
 
     @Override
     public void onGetPaymentDetails(Message msg) {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
 
             Addresses address = retrieveSelectedAddress();
@@ -278,8 +278,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
                     ShippingAddressFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.DELIVER_TO_THIS_ADDRESS)) {
-            if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
+            if (!isProgressDialogShowing()) {
+                showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
                 mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
                 CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
             }
@@ -292,8 +292,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     private void deleteShippingAddress() {
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
             int pos = mAdapter.getOptionsClickPosition();
             mAddressController.deleteAddress(mAddresses.get(pos).getId());
         }

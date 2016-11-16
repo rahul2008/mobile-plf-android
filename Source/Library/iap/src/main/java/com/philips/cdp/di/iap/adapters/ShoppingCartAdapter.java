@@ -19,19 +19,13 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.AddressController;
-import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -40,45 +34,44 @@ import com.philips.cdp.uikit.utils.RowItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements DeliveryModeDialog.DialogListener {
+public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
-    private Resources mResources;
-    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
-    private ShoppingCartAPI mPresenter;
-    private Drawable countArrow;
-    private UIKitListPopupWindow mPopupWindow;
-    private ShoppingCartData shoppingCartDataForProductDetailPage;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
     private static final int DELETE = 0;
     private static final int INFO = 1;
-    private Drawable mOptionsDrawable;
-    private OutOfStockListener mOutOfStock;
 
+    private Context mContext;
+    private Resources mResources;
+    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
+    private OutOfStockListener mOutOfStock;
+//    private DeliveryModes mDeliveryMode;
+    private UIKitListPopupWindow mPopupWindow;
+    private ShoppingCartData shoppingCartDataForProductDetailPage;
+
+    private Drawable countArrow;
+    private Drawable mOptionsDrawable;
     private Drawable mTrashDrawable;
     private Drawable mInfoDrawable;
-    private boolean mIsFreeDelivery;
-
     private Drawable mEditDrawable;
 
-    private DeliveryModes mDeliveryMode;
-    private DeliveryModeDialog mDialog;
+    private boolean mIsFreeDelivery;
+    private int mSelectedItemPosition = -1;
+    private int mQuantityStatus;
+    private int mNewCount;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
     }
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
-                               OutOfStockListener iOutOfStock, final ShoppingCartAPI shoppingCartAPI) {
+                               OutOfStockListener isOutOfStock) {
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
-        mPresenter = shoppingCartAPI;
         setCountArrow(context, true);
         initDrawables();
-        mOutOfStock = iOutOfStock;
+        mOutOfStock = isOutOfStock;
     }
 
     private void initDrawables() {
@@ -132,17 +125,24 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        int quantityStatus = getQuantityStatus(newCount, oldCount);
-                        if (!Utility.isProgressDialogShowing()) {
-                            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                            mPresenter.updateProductQuantity(mData.get(position), newCount, quantityStatus);
-                        }
+                        mSelectedItemPosition = position;
+                        mQuantityStatus = getQuantityStatus(newCount, oldCount);
+                        mNewCount = newCount;
+                        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
         });
+    }
+
+    public int getNewCount() {
+        return mNewCount;
+    }
+
+    public int getQuantityStatusInfo() {
+        return mQuantityStatus;
     }
 
     private int getQuantityStatus(int newCount, int oldCount) {
@@ -157,6 +157,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<>();
 
+        mSelectedItemPosition = selectedItem;
         String delete = mResources.getString(R.string.iap_delete);
         String info = mResources.getString(R.string.iap_info);
         final String[] descriptions = new String[]{delete, info};
@@ -170,11 +171,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        if (!Utility.isProgressDialogShowing()) {
-                            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                            mPresenter.deleteProduct(mData.get(selectedItem));
-                            mPopupWindow.dismiss();
-                        }
+                        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+                        mPopupWindow.dismiss();
                         break;
                     case INFO:
                         setTheProductDataForDisplayingInProductDetailPage(selectedItem);
@@ -184,6 +182,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         });
         mPopupWindow.show();
+    }
+
+    public int getSelectedItemPosition() {
+        return mSelectedItemPosition;
     }
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
@@ -228,8 +230,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total)
                         + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
                 shoppingCartFooter.mVatInclusiveValue.setText
-                        (String.format(mContext.getString(R.string.iap_including_vat),
-                                mContext.getString(R.string.iap_vat)));
+                        (mContext.getString(R.string.iap_including_vat));
 
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
                 if (null != data.getDeliveryMode()) {
@@ -253,9 +254,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mDialog = new DeliveryModeDialog(mContext, ShoppingCartAdapter.this, (AddressController.AddressListener) mOutOfStock);
-                            mDialog.showDialog();
-
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                         }
                     });
                 } else {
@@ -346,17 +345,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             return mData.size() + 1;
         }
-    }
-
-    public DeliveryModes getDeliveryMode() {
-        return mDeliveryMode;
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-        mDeliveryMode = deliveryModes.get(position);
-
     }
 
     private class ShoppingCartProductHolder extends RecyclerView.ViewHolder {

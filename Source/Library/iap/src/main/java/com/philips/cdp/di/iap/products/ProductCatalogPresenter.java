@@ -95,7 +95,6 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
 
         GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), query, listener);
-        model.setContext(mContext);
         delegate.sendRequest(0, model, new RequestListener() {
 
             @Override

@@ -69,15 +69,6 @@ public class NetworkUtility {
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
         if (context == null) return;
-        /*
-         *  Dismiss The Dialog if it not yet dismissed as Error Occured
-         */
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
-
-        /*
-         * Check if The Error is of the type IAPNetworkError , else display something went wrong
-         */
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
             showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
@@ -87,7 +78,7 @@ public class NetworkUtility {
     }
 
     public String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
-        String errorMessage = null;
+        String errorMessage;
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
             errorMessage = context.getString(R.string.iap_you_are_offline);
         } else {
@@ -97,13 +88,13 @@ public class NetworkUtility {
     }
 
     public String getErrorDescriptionMessageFromErrorCode(final Context context,
-                                                           IAPNetworkError error) {
+                                                          IAPNetworkError error) {
         if (error.getIAPErrorCode() != IAPConstant.IAP_ERROR_NO_CONNECTION
                 && !TextUtils.isEmpty(error.getMessage())) {
             return error.getMessage();
         }
-        //Proceed with custom error message
-        String errorMessage = null;
+
+        String errorMessage;
         int errorCode = error.getIAPErrorCode();
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
             errorMessage = context.getString(R.string.iap_no_internet);

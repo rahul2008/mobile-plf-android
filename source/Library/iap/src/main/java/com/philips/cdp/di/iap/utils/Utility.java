@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.utils;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -27,35 +26,6 @@ import java.util.Locale;
 
 public class Utility {
     public static final String TAG = Utility.class.getName();
-    private static ProgressDialog mProgressDialog = null;
-
-    public static void showProgressDialog(Context context, String message) {
-        mProgressDialog = new ProgressDialog(context);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setMessage(message + "...");
-
-        if ((!mProgressDialog.isShowing()) && !((Activity) context).isFinishing()) {
-            mProgressDialog.show();
-        }
-    }
-
-    public static void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }
-
-    public static boolean isProgressDialogShowing() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static void changeProgressMessage(String message) {
-        mProgressDialog.setMessage(message);
-    }
 
     public static void hideKeypad(Context pContext) {
         InputMethodManager inputMethodManager = (InputMethodManager)

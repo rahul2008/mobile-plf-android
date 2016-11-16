@@ -33,7 +33,6 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
@@ -108,8 +107,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
     private void updateHistoryListOnResume() {
         mController = new OrderController(mContext, this);
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
             mController.getOrderList(mPageNo);
         }
     }
@@ -123,8 +122,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                 if (msg.obj instanceof OrdersData) {
                     OrdersData orderData = (OrdersData) msg.obj;
                     if (orderData.getOrders() == null || orderData.getOrders().size() == 0) {
-                        if (Utility.isProgressDialogShowing()) {
-                            Utility.dismissProgressDialog();
+                        if (isProgressDialogShowing()) {
+                            dismissProgressDialog();
                         }
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
@@ -154,8 +153,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onGetOrderDetail(Message msg) {
         mOrderCount++;
         if (msg.obj instanceof IAPNetworkError) {
-  //          NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            IAPLog.d(TAG,((IAPNetworkError) msg.obj).getMessage());
+            //          NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            IAPLog.d(TAG, ((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
@@ -179,8 +178,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         for (ProductData product : productList)
             mProducts.add(product);
         mAdapter.notifyDataSetChanged();
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing())
+            dismissProgressDialog();
     }
 
     @Override
@@ -196,14 +195,13 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         if (order != null) {
             bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());
             bundle.putString(IAPConstant.ORDER_STATUS, order.getStatusDisplay());
-            for(OrderDetail detail : mOrderDetails)
-            {
-                if(detail.getCode().equals(order.getCode())){
+            for (OrderDetail detail : mOrderDetails) {
+                if (detail.getCode().equals(order.getCode())) {
                     bundle.putParcelable(IAPConstant.ORDER_DETAIL, (Parcelable) detail);
                     break;
                 }
             }
-            if(bundle.getParcelable(IAPConstant.ORDER_DETAIL) != null)
+            if (bundle.getParcelable(IAPConstant.ORDER_DETAIL) != null)
                 addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
         }
     }
@@ -235,7 +233,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         if (msg.obj instanceof HashMap) {
             HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
             if (prxModel == null || prxModel.size() == 0) {
-                Utility.dismissProgressDialog();
+                dismissProgressDialog();
                 return true;
             }
             updateUiOnProductList();
@@ -246,14 +244,14 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     @Override
     public void onModelDataLoadFinished(Message msg) {
         if (processResponseFromPRX(msg)) return;
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing())
+            dismissProgressDialog();
     }
 
     @Override
     public void onModelDataError(Message msg) {
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing())
+            dismissProgressDialog();
     }
 
     private RecyclerView.OnScrollListener
@@ -287,8 +285,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     };
 
     private void loadMoreItems() {
-        if (!Utility.isProgressDialogShowing())
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing())
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
         mRemainingOrders = mRemainingOrders - mPageSize;
         mController.getOrderList(++mPageNo);
     }

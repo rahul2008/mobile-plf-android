@@ -27,7 +27,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.List;
 
@@ -127,8 +126,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     }
 
     private void setPaymentDetail() {
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
                     selectedPaymentMethod().getCardType().getCode());
             mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
@@ -142,7 +141,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
 
     @Override
     public void onSetPaymentDetails(Message msg) {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {

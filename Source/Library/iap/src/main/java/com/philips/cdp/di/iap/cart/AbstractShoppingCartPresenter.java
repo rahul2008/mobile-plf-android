@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +50,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     }
 
     protected void handleModelDataError(final Message msg) {
-        dismissProgressDialog();
         if (mLoadListener != null) {
             mLoadListener.onLoadError(msg);
         }
@@ -81,7 +79,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         if (webResults.getWrbresults().getOnlineStoresForProduct() == null ||
                                 webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null ||
                                 webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
-                            dismissProgressDialog();
                             if (mLoadListener != null) {
                                 mLoadListener.onRetailerError(NetworkUtility.getInstance().
                                         createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
@@ -93,7 +90,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                                 getOnlineStoresForProduct().getStores().getStore();
                         handlePhilipsFlagShipStore();
                         refreshList(mStoreList);
-                        dismissProgressDialog();
                     }
 
                     @Override
@@ -101,7 +97,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         handleModelDataError(msg);
                     }
                 });
-        model.setContext(mContext);
         getHybrisDelegate().sendRequest(0, model, model);
     }
 
@@ -116,10 +111,10 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         }
     }
 
-    protected void dismissProgressDialog() {
-        if (Utility.isProgressDialogShowing())
+    /*protected void dismissProgressDialog() {
+        if (isProgressDialogShowing())
             Utility.dismissProgressDialog();
-    }
+    }*/
 
     @SuppressWarnings({"unchecked"})
     public void refreshList(ArrayList data) {

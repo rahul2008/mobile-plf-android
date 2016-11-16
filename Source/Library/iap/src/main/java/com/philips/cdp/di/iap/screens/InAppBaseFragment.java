@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -17,7 +19,6 @@ import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -27,6 +28,8 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
     protected IAPListener mIapListener;
+    private ProgressDialog mProgressDialog = null;
+
     String mTitle = "";
 
     protected IAPCartListener mProductCountListener = new IAPCartListener() {
@@ -37,7 +40,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
         @Override
         public void onFailure(final Message msg) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         }
     };
 
@@ -79,8 +82,32 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     public void onDetach() {
         super.onDetach();
         NetworkUtility.getInstance().dismissErrorDialog();
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing())
+            dismissProgressDialog();
+    }
+
+    public void showProgressDialog(Context context, String message) {
+        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage(message + "...");
+
+        if ((!mProgressDialog.isShowing()) && !((Activity) context).isFinishing()) {
+            mProgressDialog.show();
+        }
+    }
+
+    public void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    public boolean isProgressDialogShowing() {
+        return mProgressDialog != null && mProgressDialog.isShowing();
+    }
+
+    public void changeProgressMessage(String message) {
+        mProgressDialog.setMessage(message);
     }
 
     public void addFragment(InAppBaseFragment newFragment,

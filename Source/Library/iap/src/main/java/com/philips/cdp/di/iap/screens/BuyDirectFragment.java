@@ -23,7 +23,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -56,8 +55,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBuyDirectController = new BuyDirectController(mContext, this);
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_order_processing));
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, mContext.getString(R.string.iap_order_processing));
             mBuyDirectController.createCart();
         }
     }
@@ -87,15 +86,15 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         } else if (msg.obj instanceof RegionsList) {
             CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
             mBuyDirectController.getUser();
-        } else  if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+        } else if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             mBuyDirectController.getUser();
         }
     }
 
     @Override
     public void onGetUser(Message msg) {
-        if (Utility.isProgressDialogShowing())
-            Utility.changeProgressMessage("Validating Address");
+        if (isProgressDialogShowing())
+            changeProgressMessage("Validating Address");
 
         if (msg.obj instanceof IAPNetworkError) {
             handleError(msg);
@@ -105,7 +104,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             if (defaultAddress != null) {
                 setAddressField(defaultAddress);
             } else {
-                Utility.dismissProgressDialog();
+                dismissProgressDialog();
                 addFragment(
                         ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), ShippingAddressFragment.TAG);
             }
@@ -144,11 +143,11 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
     @Override
     public void onGetPaymentMode(Message msg) {
-        if (Utility.isProgressDialogShowing())
-            Utility.changeProgressMessage("Fetching Payment details");
+        if (isProgressDialogShowing())
+            changeProgressMessage("Fetching Payment details");
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(),
                             AnimationType.NONE), BillingAddressFragment.TAG);
@@ -165,7 +164,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
     @Override
     public void onSetPaymentMode(Message msg) {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else {
@@ -205,7 +204,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     }
 
     private void handleError(Message msg) {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         showErrorDialog(msg);
     }
 

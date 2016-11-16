@@ -50,7 +50,6 @@ public class OrderController implements AbstractModel.DataLoadListener {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CURRENT_PAGE, String.valueOf(pageNo));
         OrderHistoryRequest model = new OrderHistoryRequest(getStore(), query, this);
-        model.setContext(mContext);
         getHybrisDelegate().sendRequest(RequestCode.GET_ORDERS, model, model);
     }
 
@@ -58,7 +57,6 @@ public class OrderController implements AbstractModel.DataLoadListener {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ORDER_NUMBER, orderNumber);
         OrderDetailRequest request = new OrderDetailRequest(getStore(), query, this);
-        request.setContext(mContext);
         getHybrisDelegate().sendRequest(RequestCode.GET_ORDER_DETAIL, request, request);
     }
 
