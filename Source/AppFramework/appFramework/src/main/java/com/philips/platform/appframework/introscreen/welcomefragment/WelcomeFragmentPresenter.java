@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.introscreen.welcomefragment;
 
 import android.support.annotation.NonNull;
@@ -14,10 +19,6 @@ import com.philips.platform.modularui.stateimpl.URStateListener;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class WelcomeFragmentPresenter extends UIBasePresenter implements URStateListener {
 
     private final int MENU_OPTION_HOME = 0;

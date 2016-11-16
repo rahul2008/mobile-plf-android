@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.modularui.statecontroller;
 
 import android.content.Context;
@@ -15,14 +20,8 @@ import com.philips.platform.flowmanager.pojo.AppFlowNextState;
 import java.util.List;
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 public abstract class BaseUiFlowManager {
 
-    protected BaseAppCondition baseAppCondition;
     private Map<String, List<AppFlowEvent>> appFlowMap;
     private Context context;
     private AppFlowModel appFlowModel;

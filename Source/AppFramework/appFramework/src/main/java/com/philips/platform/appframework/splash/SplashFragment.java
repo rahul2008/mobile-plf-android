@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.splash;
 
 import android.os.Bundle;
@@ -19,10 +24,6 @@ import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SplashFragment extends Fragment implements WelcomeView{
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;

@@ -7,7 +7,6 @@ package com.philips.platform.appframework.splash;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.introscreen.WelcomeView;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;

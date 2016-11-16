@@ -17,7 +17,7 @@ import java.lang.annotation.RetentionPolicy;
 
 abstract public class BaseState {
 
-    String stateID;
+    private String stateID;
     private UIBasePresenter uiBasePresenter;
     private UIStateData uiStateData;
 
