@@ -4,10 +4,6 @@
 
 /* following 2 lines are mandatory for the platform CI pipeline integration */
 BranchName = env.BRANCH_NAME
-properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'commit', description: 'triggerBy', name : 'triggerBy']]]])
-CheckPPC = env.triggerBy
-echo "Check PPC says ${CheckPPC}"
-
 
 if (!env.CHANGE_ID) {
     properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]])
@@ -15,6 +11,10 @@ if (!env.CHANGE_ID) {
         properties([pipelineTriggers(),])
     }
 } // end if (!env.CHANGE_ID)
+
+properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'commit', description: 'triggerBy', name : 'triggerBy']]]])
+CheckPPC = env.triggerBy
+echo "Check PPC says ${CheckPPC}"
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
