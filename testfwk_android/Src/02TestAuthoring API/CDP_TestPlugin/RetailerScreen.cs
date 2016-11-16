@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
 {
@@ -24,7 +26,9 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
         public enum Button
         {
            CrossButton,
-            RetailerInfo
+           RetailerInfo,
+           Retailer_Back,
+           RetailerProduct_Back
         }
         /// <summary>
         /// Provides colletion of constant values representing swipe direction in the Retailer Screen.
@@ -54,6 +58,10 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
                 _instance.ClickById(ObjectRepository.CrossButton);
             else if (btn == Button.RetailerInfo)
                 _instance.ClickById(ObjectRepository.RetailerInfo);
+            else if (btn == Button.Retailer_Back)
+                _instance.ClickById(ObjectRepository.Retailer_Back);
+            else if (btn == Button.RetailerProduct_Back)
+                _instance.ClickById(ObjectRepository.RetailerProduct_Back);
           
         }
         /// <summary>
@@ -86,7 +94,7 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
         /// <param name="btn">btn represents the name of the button to be clicked</param>
         public static void Click(string retailername, Button btn)
         {
-            List<AndroidElement> ProdList = _getRetailorListed();
+            //List<AndroidElement> ProdList = _getRetailorListed();
             List<Retailer> prod = _getButtonSet();
             prod.Find(item => item.RetailerName == retailername).RetailerInfo.Click();
 
@@ -203,6 +211,50 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
                 dstPoint = new Point(srcPoint.X, (srcPoint.Y + 400));
                 MobileDriver.Swipe(srcPoint.X, srcPoint.Y, dstPoint.X, dstPoint.Y);
             }
+        }
+
+        public static void SelectRetailer(String retailername)
+        {
+            int count = 0;
+            Logger.Info("SelectRetailer: start");
+            List<AndroidElement> items;
+            Boolean eos = false;
+            Boolean found = false;
+            String previousLast = "";
+            Thread.Sleep(3000);
+            while (!eos && !found)
+            {
+                items = _getRetailorListed();
+                Logger.Info("SelectProduct: " + items.Last());
+                Logger.Info("previousLast: " + previousLast);
+                if (previousLast.Equals(items.Last().Text))
+                {
+                    Logger.Info("SelectProduct: reached eos");
+                    break;
+                }
+                Logger.Info("SelectProduct: in list: " + items);
+                foreach (AndroidElement item in items)
+                {
+                    if (item.Text.Equals(retailername))
+                    {
+                        Logger.Info("SelectProduct: " + retailername + " found, selecting");
+                        item.Click();
+                        Thread.Sleep(3000);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found && !eos)
+                {
+                    Swipe(Direction.Up, 5);
+                }
+                if (count++ > 50)
+                {
+                    break;
+                }
+            }
+            Logger.Info("SelectProduct: end");
+
         }
     }
 }

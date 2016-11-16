@@ -351,6 +351,24 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                 return GetData("RetailerProductName");
             }
         }
+
+        static string _RetailerProduct_Back = null;
+        public static string RetailerProduct_Back
+        {
+            get
+            {
+                return GetData("RetailerProduct_Back");
+            }
+        }
+
+        static string _Retailer_Back = null;
+        public static string Retailer_Back
+        {
+            get
+            {
+                return GetData("Retailer_Back");
+            }
+        }
         static string _RetailerList = null;
         public static string RetailerList
         {
@@ -3575,6 +3593,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
+
 
                 public static string PRRegister
                 {

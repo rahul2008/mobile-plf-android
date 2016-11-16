@@ -152,6 +152,8 @@
     <RetailerScreenTitle>com.philips.cdp.di.iapdemo:id/select_retailer</RetailerScreenTitle>
     <RetailerProductName>com.philips.cdp.di.iapdemo:id/iap_online_store_name</RetailerProductName>
     <RetailerList>com.philips.cdp.di.iapdemo:id/iap_retailer_list</RetailerList>
+    <RetailerProduct_Back>com.philips.cdp.di.iapdemo:id/iap_header_back_button</RetailerProduct_Back>
+    <Retailer_Back>com.philips.cdp.di.iapdemo:id/iap_iv_header_back_button</Retailer_Back>
   </RetailerScreen>
   <ShippingScreen>
     <DeliverButton>com.philips.cdp.di.iapdemo:id/btn_deliver</DeliverButton>

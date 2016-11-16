@@ -13,7 +13,7 @@ Scenario: Register a product
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen 
 	Then I click on Philips Account
-	Then enter email as "datacore@mailinator.com" and password as "Philips@123"
+	Then enter email as "eno350582@gmail.com" and password as "Philips123"
 	Then I click on Log In button
 	Then accept terms conditions and click on continue
 	Then Verify that the user should land to home screen
@@ -21,7 +21,8 @@ Scenario: Register a product
 	Then I click on Support from Hamburger Menu List and verify support page 
 	Then select Register your Product from support screen
 	Then I click on Date of Purchase
-	Then I select the date of purchase as "1","April","2016"
+	Then I select the present date as Date of Purchase
+	#Then I select the date of purchase as "1","April","2016"
 	Then I click on Register 
 	Then I verify that the user is able to see  successfull product message 
 	Then I verify that the user is navigated to Support screen on clicking continue
