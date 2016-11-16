@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -52,7 +53,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         settingsFragmentPresenter = new SettingsFragmentPresenter(settingsViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @NonNull
@@ -69,7 +70,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(BaseAppState.SETTINGS,"logout")).thenReturn(homeFragmentStateMock);
+        when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"logout")).thenReturn(homeFragmentStateMock);
         settingsFragmentPresenter.onClick(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
         verify(homeFragmentStateMock, atLeastOnce()).setPresenter(settingsFragmentPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
@@ -83,7 +84,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         settingsFragmentPresenter = new SettingsFragmentPresenter(settingsViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @NonNull
@@ -101,7 +102,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        when(uiFlowManagerMock.getNextState(BaseAppState.SETTINGS,"settings_registration")).thenReturn(hamburgerStateMock);
+        when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"settings_registration")).thenReturn(hamburgerStateMock);
         settingsFragmentPresenter.onStateComplete(hamburgerStateMock);
         verify(settingsViewMock).finishActivityAffinity();
         verify(hamburgerStateMock).setPresenter(settingsFragmentPresenter);

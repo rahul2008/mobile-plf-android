@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -51,7 +52,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @Override
@@ -65,10 +66,10 @@ public class LaunchActivityPresenterTest extends TestCase {
             }
 
         };
-        when(hamburgerStateMock.getStateID()).thenReturn(BaseAppState.WELCOME);
+        when(hamburgerStateMock.getStateID()).thenReturn(AppStates.WELCOME);
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(BaseAppState.WELCOME,"welcome_home")).thenReturn(hamburgerStateMock);
+        when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_home")).thenReturn(hamburgerStateMock);
         launchActivityPresenter.onClick(Constants.BACK_BUTTON_CLICK_CONSTANT);
         verify(hamburgerStateMock, atLeastOnce()).setPresenter(launchActivityPresenter);
         verify(hamburgerStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
@@ -82,7 +83,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @Override
@@ -100,7 +101,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
 
         final BaseState baseStateThisMock = mock(BaseState.class);
-        when(uiFlowManagerMock.getNextState(BaseAppState.WELCOME,"welcome_home")).thenReturn(hamburgerStateMock);
+        when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_home")).thenReturn(hamburgerStateMock);
         launchActivityPresenter.onStateComplete(baseStateThisMock);
         verify(welcomeViewMock).finishActivityAffinity();
         verify(hamburgerStateMock).setPresenter(launchActivityPresenter);
@@ -121,7 +122,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @Override

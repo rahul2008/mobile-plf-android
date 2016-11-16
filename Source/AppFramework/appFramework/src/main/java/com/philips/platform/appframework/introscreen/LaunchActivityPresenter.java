@@ -8,6 +8,7 @@ package com.philips.platform.appframework.introscreen;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -45,9 +46,9 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     public void onClick(int componentID) {
         showActionBar();
         String eventState = getEventState(componentID);
-        baseState = getApplicationContext().getTargetFlowManager().getNextState(FlowManager.WELCOME, eventState);
+        baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
-        if (!baseState.getStateID().equals(FlowManager.REGISTRATION)) {
+        if (!baseState.getStateID().equals(AppStates.REGISTRATION)) {
             finishActivity();
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);
@@ -104,7 +105,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     @Override
     public void onStateComplete(BaseState baseState) {
         String eventId = getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT);
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(FlowManager.WELCOME, eventId);
+        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventId);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);
         finishActivity();

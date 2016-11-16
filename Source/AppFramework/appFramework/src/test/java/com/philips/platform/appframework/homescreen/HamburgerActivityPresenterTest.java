@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -52,7 +53,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(FlowManager.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @NonNull
@@ -89,7 +90,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(FlowManager.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @NonNull
@@ -111,7 +112,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
         JUnitFlowManager uiFlowManager = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
-        when(uiFlowManager.getNextState(HamburgerAppState.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
+        when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
         hamburgerActivityPresenter.onClick(0);
         verify(homeFragmentStateMock, atLeastOnce()).setPresenter(hamburgerActivityPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
@@ -126,7 +127,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @Override
@@ -147,7 +148,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(HamburgerAppState.SUPPORT, "pr")).thenReturn(productRegistrationStateMock);
+        when(uiFlowManagerMock.getNextState(AppStates.SUPPORT, "pr")).thenReturn(productRegistrationStateMock);
         hamburgerActivityPresenter.onStateComplete(productRegistrationStateMock);
         verify(productRegistrationStateMock, atLeastOnce()).setPresenter(hamburgerActivityPresenter);
         verify(productRegistrationStateMock, atLeastOnce()).setUiStateData(prStateData);

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import junit.framework.TestCase;
@@ -41,10 +42,10 @@ public class UIFlowManagerTest extends TestCase {
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         uiFlowManager = new JUnitFlowManager(appFrameworkApplicationMock, R.string.com_philips_app_fmwk_app_flow_url);
         BaseState baseState = mock(BaseState.class);
-        when(baseState.getStateID()).thenReturn(BaseAppState.WELCOME);
+        when(baseState.getStateID()).thenReturn(AppStates.WELCOME);
         UiLauncher uiLauncher = mock(UiLauncher.class);
         baseState.navigate(uiLauncher);
-        assertEquals(baseState.getStateID(),BaseAppState.WELCOME);
+        assertEquals(baseState.getStateID(),AppStates.WELCOME);
     }
 }
 

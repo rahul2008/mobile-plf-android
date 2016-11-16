@@ -8,6 +8,7 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -22,7 +23,7 @@ public class DataSyncScreenState extends BaseState {
     FragmentLauncher fragmentLauncher;
 
     public DataSyncScreenState() {
-        super(FlowManager.DATA_SYNC);
+        super(AppStates.DATA_SYNC);
     }
 
     /**

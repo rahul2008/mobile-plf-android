@@ -18,6 +18,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -37,7 +38,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     private UIStateListener supportListener;
 
     public SupportFragmentState() {
-        super(FlowManager.SUPPORT);
+        super(AppStates.SUPPORT);
     }
 
     /**

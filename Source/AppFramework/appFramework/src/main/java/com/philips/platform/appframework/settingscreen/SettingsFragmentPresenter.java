@@ -8,6 +8,7 @@ package com.philips.platform.appframework.settingscreen;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -36,7 +37,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public SettingsFragmentPresenter(final SettingsView settingsView) {
         super(settingsView);
         this.settingsView = settingsView;
-        setState(FlowManager.SETTINGS);
+        setState(AppStates.SETTINGS);
     }
 
     /**
@@ -51,7 +52,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public void onClick(int componentID) {
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
-        baseState = getApplicationContext().getTargetFlowManager().getNextState(FlowManager.SETTINGS, eventState);
+        baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
         if (baseState != null) {
             baseState.setPresenter(this);
             baseState.setUiStateData(uiStateData);
@@ -98,7 +99,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
      */
     @Override
     public void onStateComplete(BaseState baseState) {
-        this.baseState =getApplicationContext().getTargetFlowManager().getNextState(FlowManager.SETTINGS, SETTINGS_REGISTRATION);
+        this.baseState =getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, SETTINGS_REGISTRATION);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.setPresenter(this);
         settingsView.finishActivityAffinity();
@@ -114,7 +115,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
           //  ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
-            baseState = getApplicationContext().getTargetFlowManager().getNextState(FlowManager.SETTINGS, SETTINGS_LOGOUT);
+            baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);

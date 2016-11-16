@@ -10,8 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
-import com.philips.platform.appframework.flowmanager.TabbedAppState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.FragmentView;
@@ -63,7 +63,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     public TabbedActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(TabbedAppState.TAB_HOME);
+        setState(AppStates.TAB_HOME);
     }
 
     /**
@@ -74,7 +74,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     public void onClick(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(TabbedAppState.TAB_HOME, eventState);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.TAB_HOME, eventState);
         baseState.setPresenter(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
@@ -156,7 +156,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     @Override
     public void onStateComplete(BaseState baseState) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SUPPORT, SUPPORT_PR);
+        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SUPPORT, SUPPORT_PR);
         this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
         this.baseState.setPresenter(this);
         this.baseState.navigate(fragmentLauncher);

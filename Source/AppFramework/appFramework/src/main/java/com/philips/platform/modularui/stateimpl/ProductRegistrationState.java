@@ -19,6 +19,7 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -39,7 +40,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     private Context applicationContext;
 
     public ProductRegistrationState(){
-        super(FlowManager.PR);
+        super(AppStates.PR);
     }
 
     /**

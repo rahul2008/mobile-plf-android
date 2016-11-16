@@ -8,6 +8,7 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.homefragment.HomeFragment;
 import com.philips.platform.modularui.statecontroller.BaseState;
@@ -17,7 +18,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 public class HomeFragmentState extends BaseState {
 
     public HomeFragmentState() {
-        super(FlowManager.HOME_FRAGMENT);
+        super(AppStates.HOME_FRAGMENT);
     }
 
     /**

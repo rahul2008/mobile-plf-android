@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
@@ -41,7 +42,7 @@ public class IAPState extends BaseState {
     private FragmentLauncher fragmentLauncher;
 
     public IAPState() {
-        super(FlowManager.IAP);
+        super(AppStates.IAP);
     }
 
     public IAPInterface getIapInterface() {

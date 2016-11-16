@@ -26,7 +26,7 @@ abstract public class BaseState {
      *
      * @param stateID pass the state Id
      */
-    public BaseState(@FlowManager.AppState String stateID) {
+    public BaseState(String stateID) {
         this.stateID = stateID;
     }
 
@@ -35,7 +35,6 @@ abstract public class BaseState {
      *
      * @return stateID
      */
-    @FlowManager.AppState
     public String getStateID() {
         return stateID;
     }
@@ -46,7 +45,7 @@ abstract public class BaseState {
      * @param stateID requirs the state ID
      */
 
-    public void setStateID(@FlowManager.AppState String stateID) {
+    public void setStateID(String stateID) {
         this.stateID = stateID;
     }
 

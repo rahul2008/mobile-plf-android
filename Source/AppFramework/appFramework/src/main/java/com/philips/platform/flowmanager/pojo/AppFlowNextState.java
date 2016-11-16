@@ -24,7 +24,7 @@ public final class AppFlowNextState {
     /**
      * @return The nextState
      */
-    public @FlowManager.AppState String getNextState() {
+    public String getNextState() {
         return nextState;
     }
 

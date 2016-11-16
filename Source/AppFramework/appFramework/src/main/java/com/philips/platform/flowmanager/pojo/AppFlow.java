@@ -19,7 +19,7 @@ public final class AppFlow {
      * @return
      *     The firstState
      */
-    public @FlowManager.AppState String getFirstState() {
+    public String getFirstState() {
         return firstState;
     }
 

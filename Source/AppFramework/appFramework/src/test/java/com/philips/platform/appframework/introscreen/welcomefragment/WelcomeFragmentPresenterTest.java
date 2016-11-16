@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -47,7 +48,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.HAMBURGER_HOME);
+                super.setState(AppStates.HAMBURGER_HOME);
             }
 
             @Override
@@ -62,7 +63,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         };
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(HamburgerAppState.WELCOME,"welcome_skip")).thenReturn(userRegStateMock);
+        when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_skip")).thenReturn(userRegStateMock);
         welcomeFragmentPresenter.onClick(R.id.welcome_skip_button);
         verify(welcomeFragmentViewMock).showActionBar();
         verify(userRegStateMock, atLeastOnce()).setPresenter(welcomeFragmentPresenter);
@@ -78,7 +79,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock) {
             @Override
             public void setState(final String stateID) {
-                super.setState(HamburgerAppState.WELCOME);
+                super.setState(AppStates.WELCOME);
             }
 
             @NonNull
@@ -93,7 +94,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         };
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(HamburgerAppState.WELCOME,"welcome_home")).thenReturn(hamburgerActivityStateMock);
+        when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_home")).thenReturn(hamburgerActivityStateMock);
         welcomeFragmentPresenter.onStateComplete(userRegStateMock);
         verify(hamburgerActivityStateMock, atLeastOnce()).setPresenter(welcomeFragmentPresenter);
         verify(hamburgerActivityStateMock, atLeastOnce()).navigate(fragmentLauncherMock);

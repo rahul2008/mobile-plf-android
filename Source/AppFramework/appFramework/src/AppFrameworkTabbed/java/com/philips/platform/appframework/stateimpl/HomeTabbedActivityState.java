@@ -8,7 +8,7 @@ package com.philips.platform.appframework.stateimpl;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.flowmanager.TabbedAppState;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.tabbedscreen.TabDependencies;
 import com.philips.platform.appframework.tabbedscreen.TabInterface;
 import com.philips.platform.appframework.tabbedscreen.TabLaunchInput;
@@ -25,7 +25,7 @@ public class HomeTabbedActivityState extends BaseState {
      * constructor
      */
     public HomeTabbedActivityState() {
-        super(TabbedAppState.TAB_HOME);
+        super(AppStates.TAB_HOME);
     }
 
     /**

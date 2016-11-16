@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.aboutscreen.AboutScreenFragment;
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -22,7 +23,7 @@ public class AboutScreenState extends BaseState {
     FragmentLauncher fragmentLauncher;
 
     public AboutScreenState() {
-        super(FlowManager.ABOUT);
+        super(AppStates.ABOUT);
     }
 
     /**

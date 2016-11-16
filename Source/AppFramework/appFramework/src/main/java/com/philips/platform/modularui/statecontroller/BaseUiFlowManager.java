@@ -27,7 +27,7 @@ public abstract class BaseUiFlowManager {
     private Context context;
     private AppFlowModel appFlowModel;
     private List<AppFlowEvent> appFlowEvents;
-    @FlowManager.AppState protected Map<String, BaseState> stateMap;
+    protected Map<String, BaseState> stateMap;
 
     protected Map<String, BaseCondition> conditionMap;
 
@@ -52,7 +52,7 @@ public abstract class BaseUiFlowManager {
      * @param key state ID.
      * @return Object to BaseState if available or 'null'.
      */
-    public BaseState getState(@FlowManager.AppState String key) {
+    public BaseState getState(String key) {
         return stateMap.get(key);
     }
 
