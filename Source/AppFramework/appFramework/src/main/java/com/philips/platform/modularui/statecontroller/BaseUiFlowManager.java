@@ -23,6 +23,7 @@ import java.util.Map;
 public abstract class BaseUiFlowManager {
 
     private Map<String, List<AppFlowEvent>> appFlowMap;
+    private BaseState currentState;
     private Context context;
     private AppFlowModel appFlowModel;
     private List<AppFlowEvent> appFlowEvents;
@@ -64,6 +65,14 @@ public abstract class BaseUiFlowManager {
         populateConditionMap(conditionMap);
     }
 
+
+    public BaseState getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(BaseState currentState) {
+        this.currentState = currentState;
+    }
     /**
      * Method to get object of next BaseState based on the current state of the App.
      *
@@ -80,7 +89,12 @@ public abstract class BaseUiFlowManager {
                     if (appFlowEvent.getEventId() != null && string.equals(event)) {
                         final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                         BaseState appFlowNextState = getUiState(appFlowNextStates);
-                        if (appFlowNextState != null) return appFlowNextState;
+                        if (appFlowNextState != null)
+                        {
+                            setCurrentState(appFlowNextState);
+                            return appFlowNextState;
+                        }
+
                         break;
                     }
                 }
@@ -130,7 +144,7 @@ public abstract class BaseUiFlowManager {
         }
     }
 
-    public final BaseState getFirstState() {
+    private final BaseState getFirstState() {
         return getState(appFlowModel.getAppFlow().getFirstState());
     }
 }
