@@ -12,7 +12,8 @@ def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.
 node ('Ubuntu && 24.0.3') {
 	timestamps {
 		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/maf/app-framework_android.git']]])
+			// checkout([$class: 'GitSCM', branches: [[name: '*']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/maf/app-framework_android.git']]])
+            checkout scm
 			// step([$class: 'StashNotifier'])
 		}
 		try {
