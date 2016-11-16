@@ -18,6 +18,11 @@ public class IAPConstant {
     public static final int IAP_ERROR_INSUFFICIENT_STOCK_ERROR = 6;
     public static final int IAP_ERROR_UNKNOWN = 7;
 
+    //Cart
+    public static final String IAP_DELETE_PRODUCT = "IAP_DELETE_PRODUCT";
+    public static final String IAP_UPDATE_PRODUCT_COUNT = "IAP_UPDATE_PRODUCT_COUNT";
+    public static final String IAP_EDIT_DELIVERY_MODE = "IAP_EDIT_DELIVERY_MODE";
+
     //Product
     public static final String PRODUCT_TITLE = "PRODUCT_TITLE";
     public static final String PRODUCT_CTN = "PRODUCT_CTN";

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
@@ -28,6 +29,7 @@ import com.philips.cdp.di.iap.controller.AddressController.AddressListener;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -140,7 +142,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mVatValue.setText(getLastValidItem().getVatValue());
             if (!getLastValidItem().isVatInclusive()) {
                 footerHolder.mVatInclusive.setVisibility(View.VISIBLE);
-                footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_including_vat), mContext.getString(R.string.iap_vat)));
+                footerHolder.mVatInclusive.setText(mContext.getString(R.string.iap_including_vat));
                 footerHolder.mVatValueUK.setVisibility(View.VISIBLE);
                 footerHolder.mVatValueUK.setText(getLastValidItem().getVatValue());
                 footerHolder.mVatValue.setVisibility(View.GONE);
@@ -157,8 +159,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mEditIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DeliveryModeDialog dialog = new DeliveryModeDialog(mContext, OrderProductAdapter.this, mListener);
-                    dialog.showDialog();
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                 }
             });
 

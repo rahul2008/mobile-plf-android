@@ -114,8 +114,6 @@ public class ProductCatalogHelper {
 
     private void notifyEmptyCartFragment() {
         EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
     }
 
     private boolean checkForEmptyCart(final HashMap<String, SummaryModel> prxModel) {

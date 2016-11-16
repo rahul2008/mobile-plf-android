@@ -16,7 +16,6 @@ import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -91,8 +90,8 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
         mProductCatalog = new Products();
         List<ProductsEntity> productsEntityList = new ArrayList<>();
 
-        if(productList != null){
-            for(String productCode : productList){
+        if (productList != null) {
+            for (String productCode : productList) {
                 ProductsEntity productsEntity = new ProductsEntity();
                 productsEntity.setCode(productCode);
                 productsEntityList.add(productsEntity);
@@ -115,9 +114,6 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
         if (msg.obj instanceof HashMap) {
             mProductCatalogHelper.processPRXResponse(msg, mProductCatalog, null);
         }
-
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
     }
 
     @Override

@@ -203,8 +203,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     private void fetchProductList() {
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
 
         if (mPresenter == null)
@@ -316,8 +316,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     };
 
     private void dismissProgress() {
-        if (Utility.isProgressDialogShowing()) {
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing()) {
+            dismissProgressDialog();
         }
     }
 }

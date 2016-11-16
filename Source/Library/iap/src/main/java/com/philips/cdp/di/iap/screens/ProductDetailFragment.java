@@ -87,6 +87,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
+            dismissProgressDialog();
             tagItemAddedToCart();
             if (mIapListener != null) {
                 mIapListener.onUpdateCartCount();
@@ -95,8 +96,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         @Override
         public void onFailure(final Message msg) {
-            if (Utility.isProgressDialogShowing())
-                Utility.dismissProgressDialog();
+            if (isProgressDialogShowing())
+                dismissProgressDialog();
 
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
@@ -156,8 +157,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
-                        if (!Utility.isProgressDialogShowing()) {
-                            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                        if (!isProgressDialogShowing()) {
+                            showProgressDialog(mContext, getString(R.string.iap_please_wait));
                         }
                         controller.getProductDetail(mCTNValue);
                     } else {
@@ -194,8 +195,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void makeAssetRequest() {
         if (!CartModelContainer.getInstance().isPRXAssetPresent(mCTNValue)) {
-            if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+            if (!isProgressDialogShowing()) {
+                showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
             PRXAssetExecutor builder = new PRXAssetExecutor(mContext, mCTNValue, this);
             builder.build();
@@ -212,8 +213,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     mLaunchedFromProductCatalog, mAsset);
             mViewPager.setAdapter(mImageAdapter);
             mImageAdapter.notifyDataSetChanged();
-            if (Utility.isProgressDialogShowing())
-                Utility.dismissProgressDialog();
+            if (isProgressDialogShowing())
+                dismissProgressDialog();
         }
     }
 
@@ -221,9 +222,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
-            if (!Utility.isProgressDialogShowing()) {
+            if (!isProgressDialogShowing()) {
                 if (mContext == null) return;
-                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
             PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
@@ -293,8 +294,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ShoppingCartAPI presenter = ControllerFactory.
                 getInstance().getShoppingCartPresenter(mContext, this);
 
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
             presenter.getRetailersInformation(mCTNValue);
         }
     }
@@ -322,22 +323,22 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mImageAdapter = new ImageAdapter(mContext, getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
         mViewPager.setAdapter(mImageAdapter);
         mImageAdapter.notifyDataSetChanged();
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing())
+            dismissProgressDialog();
     }
 
     @Override
     public void onFetchAssetFailure(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing())
+            dismissProgressDialog();
         if (!isNetworkConnected()) return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
 
     }
 
     void buyProduct(final String ctnNumber) {
-        Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        showProgressDialog(mContext, getString(R.string.iap_please_wait));
         mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener);
     }
 
@@ -367,8 +368,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         HashMap<String, SummaryModel> msgObj = (HashMap<String, SummaryModel>) msg.obj;
         mProductSummary = msgObj.get(mCTNValue);
         populateData();
-        if (Utility.isProgressDialogShowing()) {
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing()) {
+            dismissProgressDialog();
         }
         mDetailLayout.setVisibility(View.VISIBLE);
     }
@@ -377,15 +378,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onModelDataError(Message msg) {
         mDetailLayout.setVisibility(View.GONE);
         showErrorDialog(msg);
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        if (isProgressDialogShowing())
+            dismissProgressDialog();
     }
 
     @Override
     public void onGetProductDetail(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
-            if (Utility.isProgressDialogShowing()) {
-                Utility.dismissProgressDialog();
+            if (isProgressDialogShowing()) {
+                dismissProgressDialog();
             }
             mDetailLayout.setVisibility(View.GONE);
             setTitleAndBackButtonVisibility(mProductTitle, false);
@@ -460,13 +461,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onLoadFinished(ArrayList data) {
+        dismissProgressDialog();
         buyFromRetailers(data);
     }
-
 
     @Override
     public void onLoadError(Message msg) {
         IAPLog.d(IAPLog.LOG, "onLoadError == ProductDetailFragment ");
+        dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {
@@ -477,6 +479,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
+        dismissProgressDialog();
         NetworkUtility.getInstance().showErrorDialog(mContext,
                 getFragmentManager(), mContext.getString(R.string.iap_ok),
                 mContext.getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());

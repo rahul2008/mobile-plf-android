@@ -267,7 +267,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     @Override
     public void onGetPaymentDetails(Message msg) {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         if (mlLState.getVisibility() == View.VISIBLE) {
             mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
             mShippingAddressFields.setRegionName(mEtState.getText().toString());
@@ -303,14 +303,14 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (v == mBtnContinue) {
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
-                if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                if (!isProgressDialogShowing()) {
+                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     HashMap<String, String> addressHashMap = addressPayload();
                     mAddressController.updateAddress(addressHashMap);
                 }
             } else {//Add new address
-                if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                if (!isProgressDialogShowing()) {
+                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     if (mlLState.getVisibility() == View.GONE)
                         mShippingAddressFields.setRegionIsoCode(null);
                     if (CartModelContainer.getInstance().getAddressId() != null) {
@@ -338,11 +338,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
     public void onGetAddress(Message msg) {
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
-                Utility.dismissProgressDialog();
+                dismissProgressDialog();
                 handleError(msg);
             } else {
                 if (CartModelContainer.getInstance().getAddressId() == null) {
-                    Utility.dismissProgressDialog();
+                    dismissProgressDialog();
                     getFragmentManager().popBackStackImmediate();
                 } else {
                     mAddressController.setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
@@ -359,7 +359,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             handleError(msg);
         }
     }
@@ -528,7 +528,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
             else
                 mPaymentController.getPaymentDetails();
         } else {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
     }
@@ -538,7 +538,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             mPaymentController.getPaymentDetails();
         } else {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
     }
@@ -556,10 +556,10 @@ public class ShippingAddressFragment extends InAppBaseFragment
     @Override
     public void onGetDeliveryModes(Message msg) {
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();

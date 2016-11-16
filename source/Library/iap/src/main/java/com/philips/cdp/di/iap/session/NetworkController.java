@@ -60,7 +60,8 @@ public class NetworkController {
         }
     }
 
-    public void sendHybrisRequest(final int requestCode, final AbstractModel model, final RequestListener requestListener) {
+    public void sendHybrisRequest(final int requestCode, final AbstractModel model,
+                                  final RequestListener requestListener) {
 
         if (mStoreListener.isNewUser()) {
             mStoreListener.createNewUser(context);

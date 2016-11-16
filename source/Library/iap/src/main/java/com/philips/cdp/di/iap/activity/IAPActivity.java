@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.activity;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -36,7 +37,6 @@ import com.philips.cdp.di.iap.screens.ProductDetailFragment;
 import com.philips.cdp.di.iap.screens.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -48,8 +48,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.philips.cdp.di.iap.utils.Utility.dismissProgressDialog;
-
 public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private TextView mTitleTextView;
@@ -57,6 +55,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     private ImageView mBackImage;
     private FrameLayout mCartContainer;
     private String mTitle;
+    private ProgressDialog mProgressDialog = null;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -66,7 +65,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
         @Override
         public void onFailure(final Message msg) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         }
     };
 
@@ -173,9 +172,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
         transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
-
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                + newFragmentTag + ")");
     }
 
     public void showFragment(String fragmentTag) {
@@ -203,7 +199,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     @Override
     public void onBackPressed() {
-        IAPLog.i(IAPLog.LOG, "OnBackpressed Called");
         Utility.hideKeypad(this);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
@@ -342,5 +337,29 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         mActionBar.setCustomView(mCustomView, params);
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
+        }
+        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mProgressDialog.show();
+                }
+            });
+
+        }
+    }
+
+    public void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 }

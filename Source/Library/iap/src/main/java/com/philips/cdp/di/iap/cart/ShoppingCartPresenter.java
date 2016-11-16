@@ -37,7 +37,6 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -121,7 +120,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
                 mLoadListener.onLoadError(msg);
-                Utility.dismissProgressDialog();
             }
         });
         getHybrisDelegate().sendRequest(0, model, model);
@@ -326,14 +324,12 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void onModelDataLoadFinished(final Message msg) {
         if (processResponseFromHybrisForGetCart(msg)) return;
         if (processResponseFromPRX(msg)) return;
-        dismissProgressDialog();
     }
 
     @Override
     public void onModelDataError(final Message msg) {
         if (isNoCartError(msg)) {
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-            Utility.dismissProgressDialog();
         } else {
             handleModelDataError(msg);
         }
@@ -344,7 +340,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             notifyListChanged();
         } else {
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-            dismissProgressDialog();
         }
         return false;
     }
@@ -375,7 +370,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     private void notifyListChanged() {
         ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
         refreshList(products);
-        dismissProgressDialog();
     }
 
     private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {

@@ -18,15 +18,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
-import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
-import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
+import com.philips.cdp.di.iap.controller.PaymentController;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.eventhelper.EventListener;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
@@ -36,17 +39,19 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderSummaryFragment extends InAppBaseFragment implements
-        View.OnClickListener, PaymentController.MakePaymentListener, AddressController.AddressListener {
+        View.OnClickListener, PaymentController.MakePaymentListener, AddressController.AddressListener,
+        EventListener, DeliveryModeDialog.DialogListener {
     private OrderProductAdapter mAdapter;
     private PaymentMethod mPaymentMethod;
     private Button mBtnPayNow;
     private Button mBtnCancel;
     private PaymentController mPaymentController;
+    private AddressController mAddressController;
     private Context mContext;
     public static final String TAG = OrderSummaryFragment.class.getName();
     Bundle bundle;
@@ -60,8 +65,11 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
+
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
         mPaymentController = new PaymentController(mContext, this);
+        mAddressController = new AddressController(mContext, this);
 
         mBtnPayNow = (Button) rootView.findViewById(R.id.btn_paynow);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
@@ -92,8 +100,8 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
     private void updateCartOnResume() {
         ShoppingCartAPI presenter = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, mAdapter);
-        if (!Utility.isProgressDialogShowing())
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing())
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
         updateCartDetails(presenter);
     }
 
@@ -141,8 +149,8 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
     private void placeOrder(String pSecurityCode) {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
                 IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
             mPaymentController.placeOrder(pSecurityCode);
         }
     }
@@ -162,7 +170,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
 
     @Override
     public void onMakePayment(final Message msg) {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         if (msg.obj instanceof MakePaymentData) {
 
             //Track new billing address added action
@@ -197,13 +205,13 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             CartModelContainer.getInstance().setOrderNumber(orderID);
 
             if (paymentMethodAvailable()) {
-                Utility.dismissProgressDialog();
+                dismissProgressDialog();
                 launchConfirmationScreen((PlaceOrder) msg.obj);
             } else {
                 mPaymentController.makPayment(orderID);
             }
         } else if (msg.obj instanceof IAPNetworkError) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
@@ -261,7 +269,7 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             updateCartOnResume();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         }
     }
 
@@ -283,5 +291,28 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
             IAPLog.d(IAPLog.LOG, "CVV =" + securityCode);
             placeOrder(securityCode);
         }
+    }
+
+    @Override
+    public void onEventReceived(String event) {
+        if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
+            DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
+                    (mContext, this);
+            mDeliveryModeDialog.showDialog();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+        if (!isProgressDialogShowing())
+            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
     }
 }
