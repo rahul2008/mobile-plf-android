@@ -45,5 +45,25 @@
     <dimen name="linearprogressbar_minwidth">96dp</dimen>
     <dimen name="linearprogressbar_leftmargin">24dp</dimen>
 
+    <!--Alert dimens-->
+    <dimen name="alert_corner_radius">2dp</dimen>
+    <dimen name="alert_font_size">16sp</dimen>
+    <dimen name="alert_title_font_size">20sp</dimen>
+    <dimen name="alerttitle_leftrighttop_margin">24dp</dimen>
+    <dimen name="alerttitle_icon_leftrighttop_margin">27dp</dimen>
+    <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
+    <dimen name="alert_width">272dp</dimen>
+
+    <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
+    <dimen name="alertcontent_top_padding">20dp</dimen>
+    <dimen name="alertcontent_leftrightbottom_margin">24dp</dimen>
+    <dimen name="alerttitle_iconsize">24dp</dimen>
+    <dimen name="alerttitle_icon_rightpadding">8dp</dimen>
+    <dimen name="alertaction_buttons_padding">8dp</dimen>
+    <dimen name="alertaction_button_rightpadding">12dp</dimen>
+    <dimen name="alertactionarea_height">64dp</dimen>
+    <dimen name="alertcontenttext_linespacing">6dp</dimen>
+    <dimen name="alerttitletext_linespacing">4dp</dimen>
+
 
 </resources>

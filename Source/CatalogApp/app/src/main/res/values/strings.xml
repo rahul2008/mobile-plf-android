@@ -45,7 +45,7 @@
     <string name="switch_text">Switch</string>
     <string name="switch_disabled_on">Disabled Switch(On)</string>
     <string name="switch_disabled_off">Disabled Switch(Off)</string>
-    <string name="page_tittle_alertDialog">Dialog</string>
+    <string name="page_tittle_alertDialog">Alert</string>
     <string name="dialog_screen_text_short_content">Short contents</string>
     <string name="dialog_screen_text_long_content">Long contents</string>
     <string name="dialog_screen_text_with_title">With tittle</string>
@@ -53,11 +53,16 @@
     <string name="dialog_screen_text_dialogs">Dialogs</string>
     <string name="dialog_screen_button_text_dialog_with_text">Dialog with text</string>
     <string name="dialog_screen_button_text_dialog_with_list">Dialog with list</string>
+    <string name="dialog_screen_short_content_text">This app would like to use phone\'s location to show personalized contents.</string>
+    <string name="dialog_screen_long_content_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+        and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="dialog_screen_title_text">Allow access to your location</string>
+    <string name="dialog_screen_positive_button_text">OK</string>
+    <string name="dialog_screen_negative_button_text">Cancel</string>
 
     <!--Settings page for ProgressBar-->
     <string name="progress_bar_linear_subtitle">Linear progress indicators</string>
     <string name="page_title_progress_bar">Progress indicator</string>
     <string name="progress_bar_value">Value</string>
-
 
 </resources>

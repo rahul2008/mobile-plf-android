@@ -4,6 +4,7 @@
         <attr name="uitContentPrimary" format="reference|color"/>
         <attr name="uitContentSecondary" format="reference|color"/>
         <attr name="uitContentTextColor" format="reference|color"/>
+        <attr name="uitTextPrimaryColor" format="reference|color"/>
 
         <attr name="uitNavigationPrimaryColor" format="reference|color"/>
         <attr name="uitNavigationSecondaryColor" format="reference|color"/>
@@ -30,6 +31,7 @@
         <attr name="uitControlPrimaryAltDisabledAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryAltTextDisabledAlpha" format="reference|float"/>
         <attr name="uitApplicationBackground" format="reference|color"/>
+
     </declare-styleable>
 
 

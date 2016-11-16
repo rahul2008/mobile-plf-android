@@ -5,7 +5,7 @@
         <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
         <item name="uitControlPrimaryTextPressedColor">?attr/uitColorLevel55</item>
         <item name="uitControlPrimaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
-
+        <item name="uitTextPrimaryColor">@color/uitColorWhite</item>
         <item name="uitControlPrimaryAlternateTextColor">?attr/uitColorLevel75</item>
         <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
         <!--todo white+10? -->
@@ -58,6 +58,16 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uidSwitchBorderColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_20</item>
+
+        <item name="uitDialogTitleTextColor">@color/uit_gray_level_75</item>
+        <item name="uitDialogBodyTextColor">@color/uit_gray_level_65</item>
+        <item name="uitDialogBackgroundColor">@color/uitColorWhite</item>
+        <item name="uitDialogShadowColor">@android:color/black</item>
+        <item name="uitDialogDimSubtleLayerColor">?attr/uitColorLevel90</item>
+        <item name="uitDialogDimStrongColor">?attr/uitColorLevel90</item>
+        <item name="uitDialogShadowAlpha">@dimen/uit_alpha_per_20</item>
+        <item name="uitDialogDimSubtleLayerAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uitDialogDimStrongColorAlpha">@dimen/uit_alpha_per_80</item>
     </style>
 
     <style name="UltraLight">
@@ -66,6 +76,7 @@
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
         <item name="uitNavigationTextColor">@color/uit_gray_level_75</item>
+        <item name="uitTextPrimaryColor">@color/uit_gray_level_75</item>
 
         <item name="uitApplicationBackground">?attr/uitColorLevel05</item>
 
@@ -92,6 +103,9 @@
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel10</item>
 
+        <!--<item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
+        <item name="uitDialogBodyTextColor">@color/uit_gray_level_75</item>-->
+
     </style>
 
     <style name="VeryLight">
@@ -100,6 +114,7 @@
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
         <item name="uitNavigationTextColor">?attr/uitColorLevel75</item>
+        <item name="uitTextPrimaryColor">?attr/uitColorLevel75</item>
 
         <item name="uitApplicationBackground">?attr/uitColorLevel25</item>
 
@@ -122,6 +137,9 @@
         <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel25</item>
+
+        <!-- <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
+         <item name="uitDialogBodyTextColor">?attr/uitColorLevel75</item>-->
 
     </style>
 
@@ -148,13 +166,15 @@
         <item name="uitControlSecondaryTextColor">@color/uitColorWhite</item>
         <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_50</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-
+        <item name="uitInputTextTextDisabledColor">@color/uitColorWhite</item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
         <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
         </item>
 
         <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel40</item>
+
+        <!--<item name="uitDialogBodyTextColor">@color/uitColorWhite</item>-->
 
     </style>
 
@@ -180,9 +200,8 @@
         <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel15</item>
         <item name="uitControlSecondaryTextColor">?attr/uitColorLevel75</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_25_alpha
-        </item>
+        <item name="uitInputTextTextDisabledColor">@color/uitColorWhite</item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_25_alpha</item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
 
         <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
@@ -212,9 +231,9 @@
         <item name="uitControlSecondaryTextColor">?attr/uitColorLevel75</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
 
+        <item name="uitInputTextTextDisabledColor">@color/uitColorWhite</item>
         <item name="uitInputTextFillColor">?attr/uitColorLevel10</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha
-        </item>
+        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha</item>
         <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel55</item>

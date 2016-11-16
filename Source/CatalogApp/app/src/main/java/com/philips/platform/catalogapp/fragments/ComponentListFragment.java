@@ -88,7 +88,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 navigationController.switchFragment(new ToggleSwitchFragment());
                 break;
             case 3:
-                navigationController.switchFragment(new AlertDialogFragment());
+                navigationController.switchFragment(new DialogComponentFragment());
                 break;
             case 4:
                 navigationController.switchFragment(new ProgressBarFragment());

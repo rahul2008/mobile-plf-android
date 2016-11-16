@@ -12,5 +12,5 @@ public class TestConstants {
     public final static String FUNCTION_GET_THUMB_DRAWABLE = "getThumbDrawable";
     public final static String FUNCTION_GET_UID_TRACK_DRAWABLE = "getUIDTrackDrawable";
     public final static String FUNCTION_GET_PROGRESS_DRAWABLE = "getProgressDrawable";
-
+    public final static String FUNCTION_GET_UID_ALERT = "getAlert";
 }
