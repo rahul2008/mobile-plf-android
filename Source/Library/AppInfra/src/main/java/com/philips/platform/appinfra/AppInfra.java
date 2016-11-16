@@ -52,7 +52,7 @@ public class AppInfra implements AppInfraInterface {
     /**
      * The App infra context. This MUST be Application context
      */
-    Context appInfraContext;
+    private Context appInfraContext;
 
     /**
      * The type Builder.
@@ -182,6 +182,8 @@ public class AppInfra implements AppInfraInterface {
          * @param pContext Application Context
          * @return the app infra
          */
+
+
         public AppInfra build(Context pContext) {
             Log.v("APPINFRA INT", "AI Intitialization Starts");
             AppInfra ai = new AppInfra(pContext);
@@ -286,7 +288,7 @@ public class AppInfra implements AppInfraInterface {
         return mAbtesting;
     }
 
-    public AppInfra(Context pContext) {
+    private AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
 

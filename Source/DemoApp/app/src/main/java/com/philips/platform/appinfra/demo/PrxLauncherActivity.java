@@ -35,6 +35,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 public class PrxLauncherActivity extends AppCompatActivity {
 
@@ -63,6 +64,11 @@ public class PrxLauncherActivity extends AppCompatActivity {
         msupportButton = (Button)findViewById(R.id.support_rqst_button);
         mAssetButton = (Button)findViewById(R.id.assets_reqst_button);
         mCTNEditText = (EditText) findViewById(R.id.EditTextCTN);
+        AppTaggingInterface mAppTaggingInterface;
+        mAppTaggingInterface = AppInfraApplication.gAppInfra.getTagging().createInstanceForComponent("PRXID", "PRXIDVersion");
+
+        mAppTaggingInterface.trackPageWithInfo("PRXPageDemoPage", "PRXKEy", "PRXValue");
+
         /*mAppInfra = AppInfraApplication.gAppInfra;
         aiLogging = mAppInfra.getAppInfraLogInstance();
         aiLogging.log(AppInfraLogging.LogLevel.DEBUG,TAG,"TEST 1");*/

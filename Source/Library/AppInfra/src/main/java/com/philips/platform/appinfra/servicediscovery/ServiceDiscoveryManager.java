@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -415,7 +414,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void filterDataForUrlbyLang(ServiceDiscovery service, String serviceId, OnGetServiceUrlListener onGetServiceUrlListener) {
         if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByLanguage().getConfigs() != null) {
             try {
-                final URL url = new URL(service.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
+                URL url = new URL(service.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
+                if (url.toString().contains("%22")) {
+                    url = new URL(url.toString().replace("%22", "\""));
+                }
                 if (url == null) {
                     onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 } else {
@@ -433,17 +435,18 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByCountry().getConfigs() != null) {
             try {
                 URL url = new URL(service.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId));
+                if (url.toString().contains("%22")) {
+                    url = new URL(url.toString().replace("%22", "\""));
+                }
                 if (url == null) {
                     onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 } else {
-                    onGetServiceUrlListener.onSuccess(new URL(service.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId)));
+                    onGetServiceUrlListener.onSuccess(url);
                 }
-
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             }
-
         } else {
             onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
@@ -511,7 +514,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 if (urls != null) {
                     for (final String key : urls.keySet()) {
                         if (key.equalsIgnoreCase(serviceIds.get(i).trim())) {
-                            final String serviceUrlval = urls.get(key);
+                            String serviceUrlval = urls.get(key);
+                            if (serviceUrlval.contains("%22")) {
+                                serviceUrlval = serviceUrlval.replace("%22", "\"");
+                            }
                             ServiceDiscoveyService sdService = new ServiceDiscoveyService();
                             sdService.init(modelLocale, serviceUrlval);
                             responseMap.put(key, sdService);

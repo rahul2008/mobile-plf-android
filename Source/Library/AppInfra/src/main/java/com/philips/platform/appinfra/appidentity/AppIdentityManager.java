@@ -61,7 +61,7 @@ public class AppIdentityManager implements AppIdentityInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
         }
         if (mAppVersion != null && !mAppVersion.isEmpty()) {
-            if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_-].*)?")) {
+            if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
                 throw new IllegalArgumentException("AppVersion should in this format " +
                         "\" [0-9]+\\\\.[0-9]+\\\\.[0-9]+([_-].*)?]\" ");
             }
