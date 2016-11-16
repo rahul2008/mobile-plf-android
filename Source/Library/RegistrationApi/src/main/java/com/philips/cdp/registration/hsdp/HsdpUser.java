@@ -285,6 +285,7 @@ public class HsdpUser {
      */
     public void deleteFromDisk() {
         mContext.deleteFile(HSDP_RECORD_FILE);
+        Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
         mHsdpUserRecord = null;
     }
 

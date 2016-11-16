@@ -206,6 +206,7 @@ public class CaptureRecord extends JSONObject {
      */
     public static void deleteFromDisk(Context applicationContext) {
         applicationContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
+        Jump.getSecureStorageInterface().removeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
     }
 
     private String getRefreshSignature(String date) {
