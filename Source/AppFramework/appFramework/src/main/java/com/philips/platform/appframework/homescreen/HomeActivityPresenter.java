@@ -7,6 +7,7 @@ package com.philips.platform.appframework.homescreen;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
@@ -89,7 +90,14 @@ public class HomeActivityPresenter extends UIBasePresenter implements UIStateLis
                 uiState = new IAPState();
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
-               iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                try {
+                    iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+
+                }
+                catch (RuntimeException e )
+                {
+                    //Toast.makeText()
+                }
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 uiState.setUiStateData(iapStateData);
                 break;
