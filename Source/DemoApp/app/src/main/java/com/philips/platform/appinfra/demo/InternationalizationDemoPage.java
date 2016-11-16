@@ -17,7 +17,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 public class InternationalizationDemoPage extends AppCompatActivity {
 
     InternationalizationInterface mappIdentityinterface = null;
-    AppTaggingInterface mAppTaggingInterface= null;
+    AppTaggingInterface mAppTaggingInterface = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,10 +28,9 @@ public class InternationalizationDemoPage extends AppCompatActivity {
         mAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("I18n", "I18nVersion");
 
         mAppTaggingInterface.trackPageWithInfo("InternationalizationDemoPage", "I18NKEy", "I18NValue");
-//        ((TextView)findViewById(R.id.countryValue)).setText(mappIdentityinterface.getCountry());
-        ((TextView)findViewById(R.id.localValue)).setText(mappIdentityinterface.getUILocale().toString());
+        ((TextView) findViewById(R.id.localValue)).setText(mappIdentityinterface.getUILocale().toString());
+        ((TextView) findViewById(R.id.localStringValue)).setText(mappIdentityinterface.getUILocaleString());
 
-//        Log.i("TAG-Local-Country", ""+mappIdentityinterface.getCountry());
-        Log.i("TAG-Local-language", ""+mappIdentityinterface.getUILocale());
+        Log.i("TAG-Local-language", "" + mappIdentityinterface.getUILocale());
     }
 }
