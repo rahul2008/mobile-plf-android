@@ -32,8 +32,8 @@ public class EventHelper {
     //Key is the unique tag for UI .
 
     private EventHelper() {
-        eventMap = new HashMap<Integer, ArrayList<DBChangeListener>>();
-        urMap = new HashMap<Integer, ArrayList<UserRegistrationFailureListener>>();
+        eventMap = new HashMap<>();
+        urMap = new HashMap<>();
     }
 
     public Map<Integer, ArrayList<DBChangeListener>> getEventMap() {
