@@ -42,6 +42,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -297,12 +298,16 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-                if (RegUtility.isUiFirstFlow()){
+                final UIFlow abStrings=RegUtility.getUiFlow();
+                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
                     Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type A");
-                }else {
+                }else  if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
                     Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                }else  if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
+                    Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 }
                 //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;

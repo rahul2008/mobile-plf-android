@@ -194,20 +194,19 @@ public class RegUtility {
         return Configuration.EVALUATION;
     }
 
-    public static boolean isUiFirstFlow() {
+    public static UIFlow getUiFlow() {
         String flowType =
         RegistrationHelper.getInstance().getAppInfraInstance().getAbTesting().
                 getTestValue("philipsmobileappabtest1content", "Experience A",
                         ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
-        final String EXPERIENCE_A = "Experience A";
-        if(flowType.equalsIgnoreCase(EXPERIENCE_A)){
-            return true;
+        if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_A.toString())){
+            return UIFlow.STRING_EXPERIENCE_A;
+        }else if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_B.toString())){
+            return UIFlow.STRING_EXPERIENCE_B;
+        }else if(flowType.equalsIgnoreCase(UIFlow.STRING_EXPERIENCE_C.toString())){
+            return UIFlow.STRING_EXPERIENCE_C;
         }
-        final String EXPERIENCE_B = "Experience B";
-        if(flowType.equalsIgnoreCase(EXPERIENCE_B)){
-            return false;
-        }
-        return false;
+        return UIFlow.STRING_EXPERIENCE_C;
     }
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
         if(providers!=null){
