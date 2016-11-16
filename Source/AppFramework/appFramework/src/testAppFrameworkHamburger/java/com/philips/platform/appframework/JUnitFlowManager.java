@@ -7,9 +7,9 @@ package com.philips.platform.appframework;
 
 import android.content.Context;
 
-import com.philips.platform.flowmanager.condition.BaseCondition;
-import com.philips.platform.modularui.statecontroller.BaseState;
-import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 
 import java.util.Map;
 

@@ -3,10 +3,10 @@ package com.philips.platform.appframework.flowmanager;
 import android.content.Context;
 
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
-import com.philips.platform.flowmanager.condition.BaseCondition;
-import com.philips.platform.flowmanager.condition.ConditionAppLaunch;
-import com.philips.platform.flowmanager.condition.ConditionIsDonePressed;
-import com.philips.platform.flowmanager.condition.ConditionIsLoggedIn;
+import com.philips.platform.baseapp.condition.BaseCondition;
+import com.philips.platform.baseapp.condition.ConditionAppLaunch;
+import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
+import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.stateimpl.AboutScreenState;
