@@ -11,6 +11,7 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 
+import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -140,6 +141,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
         mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }

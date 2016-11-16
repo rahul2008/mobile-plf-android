@@ -557,6 +557,7 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 
         private void deleteFromDisk(){
                 context.deleteFile("jr_capture_signed_in_user");
+                Jump.getSecureStorageInterface().removeValueForKey("jr_capture_signed_in_user");
         }
 
         /*public void test_ConsentStatus(){
