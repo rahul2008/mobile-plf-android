@@ -38,7 +38,7 @@ public class DataPushSynchronise extends EventMonitor {
     private final UCoreAccessProvider accessProvider;
 
     @NonNull
-    private final List<? extends com.philips.platform.datasync.synchronisation.DataSender> senders;
+    private final List<? extends DataSender> senders;
 
     @NonNull
     private final Executor executor;
@@ -48,7 +48,7 @@ public class DataPushSynchronise extends EventMonitor {
 
     DataServicesManager mDataServicesManager;
 
-    public DataPushSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataSender> senders,
+    public DataPushSynchronise(@NonNull final List<? extends DataSender> senders,
                                @NonNull final Executor executor,
                                @NonNull final Eventing eventing) {
         mDataServicesManager = DataServicesManager.getInstance();
