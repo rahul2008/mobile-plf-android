@@ -36,6 +36,7 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), jsonRequest, listener, errorListener);
     }
 
+
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (mProvider != null) {

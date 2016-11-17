@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/textViewCLtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Content Loader APIs" />
+
+    <EditText
+        android:id="@+id/editTextContentOrTagIds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Content/Tag Ids" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerAPIs"
+        >
+
+
+    </Spinner>
+    <Button
+        android:id="@+id/buttoncallAPI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Call API" />
+
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID3"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+
+        android:scrollbars="vertical">
+
+        <TextView
+            android:id="@+id/textViewResponseAPI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Response" />
+    </ScrollView>
+</LinearLayout>

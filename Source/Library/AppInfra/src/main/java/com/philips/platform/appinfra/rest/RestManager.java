@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.rest;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -96,11 +97,12 @@ public class RestManager implements RestInterface {
 
     private class ServiceIDResolver implements HurlStack.UrlRewriter {
 
-        public String rewriteUrl(String originalUrl) {
+        @Override
+        public String rewriteUrl(final String originalUrl) {
             if (!ServiceIDUrlFormatting.isServiceIDUrl(originalUrl))
                 return originalUrl;
 
-           // final Lock lock = new ReentrantLock();
+            // final Lock lock = new ReentrantLock();
             //final Condition waitResult = lock.newCondition();
             final StringBuilder resultURL = new StringBuilder();
             //lock.lock();
@@ -117,6 +119,7 @@ public class RestManager implements RestInterface {
                         @Override
                         public void onError(ERRORVALUES error, String message) {
                             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
+                           // resultURL.append(originalUrl.substring(23));
                         }
                     });
                 } else {
@@ -132,19 +135,22 @@ public class RestManager implements RestInterface {
                         }
                     });
                 }
-              //  waitResult.await();
+                //  waitResult.await();
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "RESTERROR",
                         e.toString());
             } finally {
                 //waitResult.signalAll();
                 //lock.unlock();
-                if(resultURL.length() > 0)
+                if (resultURL.length() > 0)
                     resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
             }
-            if (resultURL.length()==0)
+            if (resultURL.length() == 0)
                 return null;
+           // Log.e("KAVYA URL", originalUrl.substring(23));
+           // return originalUrl.substring(23);
             return resultURL.toString();
         }
+
     }
 }
