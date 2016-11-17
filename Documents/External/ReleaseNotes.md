@@ -1,8 +1,11 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version 2.0.1-Snapshot
+Version 3.0.0-SNAPSHOT
 -------------
+### API Changes
+* Added type parameter to DICommPortListener to prevent unneeded inline casting.
+
 ### New features
 * COM-141 Expanded Errors Enum to cover all errors in DiComm spec
 

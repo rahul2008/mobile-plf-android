@@ -679,7 +679,7 @@ public class DICommPortTest extends RobolectricTest {
         }
     }
 
-    public class DICommPortListenerImpl implements DICommPortListener {
+    public class DICommPortListenerImpl implements DICommPortListener<DICommPort<?>> {
 
         public boolean isApplyingChangesOnCallback = false;
 

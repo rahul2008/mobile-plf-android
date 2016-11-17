@@ -21,7 +21,6 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         discoveryManager = DiscoveryManager.getInstance();
 
-        ((TextView)findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
+        ((TextView) findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
     }
 
     @Override
@@ -101,19 +100,19 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private DICommPortListener wifiPortListener = new DICommPortListener() {
+    private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
 
         @Override
-        public void onPortUpdate(final DICommPort<?> port) {
+        public void onPortUpdate(final WifiPort port) {
             Log.d(TAG, "onPortUpdate() called with: " + "port = [" + port + "]");
-            WifiPortProperties portProperties = ((WifiPort) port).getPortProperties();
+            WifiPortProperties portProperties = port.getPortProperties();
             if (portProperties != null) {
                 Log.d(TAG, String.format("WifiPortProperties: ipaddress=%s", portProperties.getIpaddress()));
             }
         }
 
         @Override
-        public void onPortError(final DICommPort<?> port, final Error error, final String errorData) {
+        public void onPortError(final WifiPort port, final Error error, final String errorData) {
             Log.d(TAG, "onPortError() called with: " + "port = [" + port + "], error = [" + error + "], errorData = [" + errorData + "]");
         }
     };
