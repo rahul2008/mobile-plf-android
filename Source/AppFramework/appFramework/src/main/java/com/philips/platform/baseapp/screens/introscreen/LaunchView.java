@@ -7,7 +7,7 @@ package com.philips.platform.baseapp.screens.introscreen;
 
 import com.philips.platform.baseapp.base.FragmentView;
 
-public interface WelcomeView extends FragmentView {
+public interface LaunchView extends FragmentView {
 
     void showActionBar();
 

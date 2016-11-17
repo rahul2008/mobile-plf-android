@@ -7,13 +7,13 @@ package com.philips.platform.baseapp.screens.introscreen;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.userregistration.URStateListener;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -22,18 +22,18 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  */
 public class LaunchActivityPresenter extends UIBasePresenter implements URStateListener {
 
+    public static final int APP_LAUNCH_STATE = 890;
     private static final int USER_REGISTRATION_STATE = 889;
-    final String onAppStartEvent = "onAppStartEvent";
-    private WelcomeView welcomeView;
-    private AppFrameworkApplication appFrameworkApplication;
+    private LaunchView launchView;
     private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
-    private String WELCOME_HOME = "welcome_home";
+    private String LAUNCH_BACK_PRESSED = "onBackPressed";
     private String WELCOME_REGISTRATION = "welcome_registration";
+    private String APP_LAUNCH = "onAppLaunch";
 
-    public LaunchActivityPresenter(WelcomeView welcomeView) {
-        super(welcomeView);
-        this.welcomeView = welcomeView;
+    public LaunchActivityPresenter(LaunchView launchView) {
+        super(launchView);
+        this.launchView = launchView;
     }
 
     /**
@@ -47,13 +47,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
         String eventState = getEventState(componentID);
 
         fragmentLauncher = getFragmentLauncher();
-        if(componentID == 0) {
-            hideActionBar();
-            baseState = getApplicationContext().getTargetFlowManager().getNextState(null, null);
-
-        } else {
-            baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
-        }
+        baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.FIRST_STATE, eventState);
         if (!baseState.getStateID().equals(AppStates.REGISTRATION)) {
             baseState.setPresenter(this);
             baseState.setUiStateData(getUiStateData());
@@ -61,30 +55,24 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
         }
     }
 
-    protected void hideActionBar() {
-        welcomeView.hideActionBar();
-    }
-
-    protected void finishActivity() {
-        welcomeView.finishActivityAffinity();
-    }
-
     protected void showActionBar() {
-        welcomeView.showActionBar();
+        launchView.showActionBar();
     }
 
     protected String getEventState(final int componentID) {
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
-                return WELCOME_HOME;
+                return LAUNCH_BACK_PRESSED;
             case USER_REGISTRATION_STATE:
                 return WELCOME_REGISTRATION;
+            case APP_LAUNCH_STATE:
+                return APP_LAUNCH;
             default:return null;
         }
     }
 
     protected FragmentLauncher getFragmentLauncher() {
-        fragmentLauncher = new FragmentLauncher(welcomeView.getFragmentActivity(), welcomeView.getContainerId(), welcomeView.getActionBarListener());
+        fragmentLauncher = new FragmentLauncher(launchView.getFragmentActivity(), launchView.getContainerId(), launchView.getActionBarListener());
         return fragmentLauncher;
     }
 
@@ -96,16 +84,10 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
     }
 
     protected AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) welcomeView.getFragmentActivity().getApplicationContext();
+        return (AppFrameworkApplication) launchView.getFragmentActivity().getApplicationContext();
     }
     @Override
     public void onStateComplete(BaseState baseState) {
-        String eventId = getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT);
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventId);
-        fragmentLauncher = getFragmentLauncher();
-        this.baseState.setPresenter(this);
-        finishActivity();
-        this.baseState.navigate(fragmentLauncher);
     }
 
     @Override

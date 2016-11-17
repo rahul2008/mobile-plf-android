@@ -8,6 +8,7 @@ public class AppStates {
     /**
      * Each state has a string value defined.
      */
+    public static final String FIRST_STATE = "firstState";
     public static final String WELCOME = "welcome";
     public static final String SUPPORT = "support";
     public static final String SPLASH = "splash";

@@ -19,17 +19,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
-import com.philips.platform.baseapp.screens.introscreen.WelcomeView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
+import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-public class SplashFragment extends Fragment implements WelcomeView{
+public class SplashFragment extends Fragment implements LaunchView {
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
+    private final int APP_START = 1;
     UIBasePresenter presenter;
     private boolean isVisible = false;
-    private final int APP_START = 1;
 
     @Nullable
     @Override
@@ -47,6 +47,12 @@ public class SplashFragment extends Fragment implements WelcomeView{
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        launchActivity.hideActionBar();
+    }
 
     @Override
     public void onResume() {

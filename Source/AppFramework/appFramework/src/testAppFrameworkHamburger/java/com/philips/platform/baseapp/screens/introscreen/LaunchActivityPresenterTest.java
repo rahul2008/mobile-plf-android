@@ -31,16 +31,16 @@ import static org.mockito.Mockito.when;
 public class LaunchActivityPresenterTest extends TestCase {
 
     private LaunchActivityPresenter launchActivityPresenter;
-    private WelcomeView welcomeViewMock;
+    private LaunchView launchViewMock;
     private FragmentActivity fragmentActivityMock;
 
     @Before
     protected void setUp() throws Exception {
         super.setUp();
-        welcomeViewMock = mock(WelcomeView.class);
+        launchViewMock = mock(LaunchView.class);
         fragmentActivityMock = mock(FragmentActivity.class);
-        when(welcomeViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock);
+        when(launchViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
+        launchActivityPresenter = new LaunchActivityPresenter(launchViewMock);
     }
 
     public void testOnClick() throws Exception {
@@ -49,7 +49,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(launchViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.HAMBURGER_HOME);
@@ -80,7 +80,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
-        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(launchViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.HAMBURGER_HOME);
@@ -103,7 +103,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         final BaseState baseStateThisMock = mock(BaseState.class);
         when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_home")).thenReturn(hamburgerStateMock);
         launchActivityPresenter.onStateComplete(baseStateThisMock);
-        verify(welcomeViewMock).finishActivityAffinity();
+        verify(launchViewMock).finishActivityAffinity();
         verify(hamburgerStateMock).setPresenter(launchActivityPresenter);
         verify(hamburgerStateMock).navigate(fragmentLauncherMock);
     }
@@ -119,7 +119,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        launchActivityPresenter = new LaunchActivityPresenter(welcomeViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(launchViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.HAMBURGER_HOME);
@@ -145,7 +145,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(null,null)).thenReturn(splashStateMock);
         launchActivityPresenter.onLoad();
-        verify(welcomeViewMock).hideActionBar();
+        verify(launchViewMock).hideActionBar();
         verify(splashStateMock).setPresenter(launchActivityPresenter);
         verify(splashStateMock, atLeastOnce()).setUiStateData(uiStateData);
         verify(splashStateMock).navigate(fragmentLauncherMock);

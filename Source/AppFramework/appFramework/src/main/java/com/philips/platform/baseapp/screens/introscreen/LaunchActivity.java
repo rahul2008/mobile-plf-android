@@ -21,8 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -34,7 +34,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBarListener, WelcomeView {
+public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBarListener, LaunchView {
     private TextView textView;
 
     @Override
@@ -43,7 +43,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBa
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_welcome_activity);
-        presenter.onEvent(0);
+        presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
     }
 
     @Override

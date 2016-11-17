@@ -3,10 +3,34 @@
     "firstState": "splash",
     "states": [
       {
-        "state": "splash",
+        "state": "firstState",
         "events": [
           {
-            "eventId": "onAppStartEvent",
+            "eventId": "onAppLaunch",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "splash"
+              }
+            ]
+          },
+          {
+            "eventId": "onBackPressed",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "splash",
+        "events": [
+
+          {
+            "eventId": "onSplashTimeOut",
             "nextStates": [
               {
                 "condition": [
