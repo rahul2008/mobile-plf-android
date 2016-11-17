@@ -32,7 +32,7 @@ node('Android') {
 
 /* next if-then + stage is mandatory for the platform CI pipeline integration */
 if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master")) {
-    stage('callIntegrationPipeline') {
+    stage('Trigger Integration Pipeline') {
         build job: "Platform-Infrastructure/ppc/ppc_android/${env.BRANCH_NAME}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'bll'], [$class: 'StringParameterValue', name: 'libraryName', value: 'BlueLib']]
     }
 }
