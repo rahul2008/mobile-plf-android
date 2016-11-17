@@ -17,7 +17,7 @@ node ('Ubuntu && 24.0.3') {
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/Library && ./gradlew clean assembleDebug'
+                sh 'cd ./source/Library && ./gradlew clean assembleDebug'
                 // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug'
 			}
 			
