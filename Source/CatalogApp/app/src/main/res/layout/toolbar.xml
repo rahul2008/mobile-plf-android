@@ -16,13 +16,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/hamburger"
-                android:layout_width="wrap_content"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
                 android:contentDescription="@string/hamburger_menu"
-                android:padding="5dp"
+                android:gravity="center"
+                android:padding="1dp"
                 app:srcCompat="@drawable/ic_hamburger_menu"/>
 
             <TextView
@@ -36,14 +39,16 @@
                 android:text="@string/catalog_app_name"
                 android:textColor="?attr/uitNavigationTextColor"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/theme_settings"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="match_parent"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="5dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
                 android:contentDescription="@string/page_tittle_theme_settings"
-                android:padding="10dp"
+                android:gravity="center"
+                android:padding="1dp"
                 app:srcCompat="@drawable/ic_theme_setting_entrance_icon"/>
 
             <TextView

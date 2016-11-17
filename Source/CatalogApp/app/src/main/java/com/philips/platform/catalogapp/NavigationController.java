@@ -3,12 +3,13 @@ package com.philips.platform.catalogapp;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.philips.platform.catalogapp.fragments.BaseFragment;
@@ -25,16 +26,17 @@ public class NavigationController {
     private FragmentManager supportFragmentManager;
 
     @Bind(R.id.hamburger)
-    ImageView hamburgerIcon;
+    ImageButton hamburgerIcon;
 
     @Bind(R.id.theme_settings)
-    ImageView themeSettingsIcon;
+    ImageButton themeSettingsIcon;
 
     @Bind(R.id.set_theme_settings)
     TextView setThemeTextView;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     @Bind(R.id.toolbar_title)
     TextView title;
 
@@ -59,7 +61,7 @@ public class NavigationController {
     }
 
     private void toggleHamburgerIcon() {
-        hamburgerIcon.setImageResource(R.drawable.ic_back_icon);
+        hamburgerIcon.setImageDrawable(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_back_icon, mainActivity.getTheme()));
         mainActivity.hamburgerIconVisible = false;
     }
 
@@ -139,7 +141,7 @@ public class NavigationController {
     }
 
     private void showHamburgerIcon() {
-        hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
+        hamburgerIcon.setImageDrawable(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_menu, mainActivity.getTheme()));
         mainActivity.hamburgerIconVisible = true;
         title.setText(R.string.catalog_app_name);
         mainActivity.titleText = R.string.catalog_app_name;

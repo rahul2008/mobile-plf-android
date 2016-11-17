@@ -11,6 +11,9 @@
 
         <item name="actionBarStyle">@style/UITNavigationBar</item>
         <item name="android:actionBarStyle">@style/UITNavigationBar</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">
+            ?attr/uitActionBarBackground
+        </item>
 
     </style>
 
