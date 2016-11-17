@@ -225,12 +225,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Test
-    public void testGetLocalCategorisedProductCatalog() throws Exception {
-        LocalProductCatalog localCatalog = new LocalProductCatalog(mContext, this);
-        localCatalog.getCategorizedProductList(mCTNS);
-    }
-
-    @Test
     public void testGetCategorisedProductCatalog() throws Exception {
         mProductCatalogPresenter.getCategorizedProductList(mCTNS);
     }

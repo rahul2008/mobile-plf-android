@@ -7,17 +7,21 @@ package com.philips.cdp.di.iap.applocal;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.products.LocalProductCatalog;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
@@ -26,11 +30,16 @@ import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
 public class LocalProductCatalogTest {
-    LocalProductCatalog mLocalProductCatalog;
 
     @Mock
-    Context mContext;
-    ProductCatalogPresenter.ProductCatalogListener listener = new ProductCatalogPresenter.ProductCatalogListener() {
+    private Context mContext;
+
+    private MockNetworkController mNetworkController;
+    private HybrisDelegate mHybrisDelegate;
+    LocalProductCatalog mLocalProductCatalog;
+
+    ProductCatalogPresenter.ProductCatalogListener listener =
+            new ProductCatalogPresenter.ProductCatalogListener() {
         @Override
         public void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
 
@@ -44,6 +53,9 @@ public class LocalProductCatalogTest {
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
+        mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
         mLocalProductCatalog = new LocalProductCatalog(mContext, listener);
     }
 
@@ -63,6 +75,14 @@ public class LocalProductCatalogTest {
     }
 
     @Test
+    public void testGetCategorizedProduct() throws Exception {
+        ArrayList<String> ctnList = new ArrayList<>();
+        ctnList.add("HX8071/10");
+        ctnList.add("HX9042/64");
+        mLocalProductCatalog.getCategorizedProductList(ctnList);
+    }
+
+    @Test
     public void testOnModelDataLoadFinished() throws Exception {
         mLocalProductCatalog.onModelDataLoadFinished(new Message());
     }
@@ -71,12 +91,6 @@ public class LocalProductCatalogTest {
     public void testOnModelDataError() throws Exception {
         Message msg = new Message();
         msg.obj = new IAPNetworkError(null, 1, null);
-        mLocalProductCatalog.onModelDataError(msg);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testOnModelDataErrorForNoProduct() throws Exception {
-        Message msg = new Message();
         mLocalProductCatalog.onModelDataError(msg);
     }
 
