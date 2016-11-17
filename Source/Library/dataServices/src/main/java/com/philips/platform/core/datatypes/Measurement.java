@@ -33,6 +33,6 @@ public interface Measurement extends BaseAppData, DateData, Serializable {
 
     void addMeasurementDetail(com.philips.platform.core.datatypes.MeasurementDetail measurementDetail);
 
-    com.philips.platform.core.datatypes.Moment getMoment();
+    MeasurementGroup getMeasurementGroup();
 
 }

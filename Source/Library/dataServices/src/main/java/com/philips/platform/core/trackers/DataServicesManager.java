@@ -19,6 +19,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -161,10 +162,17 @@ public class DataServicesManager {
         return momentDetail;
     }
 
-    @NonNull
+  /*  @NonNull
     public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment) {
         Measurement measurement = mDataCreater.createMeasurement(type, moment);
         moment.addMeasurement(measurement);
+        return measurement;
+    }*/
+
+    @NonNull
+    public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final MeasurementGroup measurementGroup) {
+        Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
+      //  measurementGroup.addMeasurement(measurement);
         return measurement;
     }
 

@@ -12,6 +12,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -26,6 +27,7 @@ import javax.inject.Singleton;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementType;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
@@ -74,11 +76,18 @@ public class OrmCreator implements BaseAppDataCreator {
         return createMomentDetail(type, (OrmMoment) moment);
     }
 
-    @Override
+   /* @Override
     @NonNull
     public Measurement createMeasurement(@NonNull final MeasurementType type,
                                          @NonNull final Moment moment) {
         return createMeasurement(type, (OrmMoment) moment);
+    }*/
+
+    @Override
+    @NonNull
+    public Measurement createMeasurement(@NonNull final MeasurementType type,
+                                         @NonNull final MeasurementGroup MeasurementGroup) {
+        return createMeasurement(type, (MeasurementGroup) MeasurementGroup);
     }
 
     @Override
@@ -102,11 +111,18 @@ public class OrmCreator implements BaseAppDataCreator {
         return new OrmMomentDetail(ormMomentDetailType, moment);
     }
 
-    @NonNull
+    /*@NonNull
     public OrmMeasurement createMeasurement(@NonNull final MeasurementType type,
                                             @NonNull final OrmMoment moment) {
         OrmMeasurementType ormMeasurementType = new OrmMeasurementType(type);
         return new OrmMeasurement(ormMeasurementType, moment);
+    }*/
+
+    @NonNull
+    public OrmMeasurement createMeasurement(@NonNull final MeasurementType type,
+                                            @NonNull final OrmMeasurementGroup ormMeasurementGroup) {
+        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(type);
+        return new OrmMeasurement(ormMeasurementType, ormMeasurementGroup);
     }
 
     @NonNull

@@ -67,9 +67,9 @@ public class TrackerDetails {
 
     public void applyDuration(@NonNull final DataServicesManager tracker, @NonNull final Moment moment, @NonNull final DateTime dateTime) {
         if (getDuration() > 0) {
-            Measurement measurement = tracker.createMeasurement(MeasurementType.DURATION, moment);
-            measurement.setDateTime(dateTime);
-            measurement.setValue(duration);
+     //       Measurement measurement = tracker.createMeasurement(MeasurementType.DURATION, moment);
+      //      measurement.setDateTime(dateTime);
+        //    measurement.setValue(duration);
         }
     }
 }

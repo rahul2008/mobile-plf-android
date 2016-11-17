@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -35,8 +36,10 @@ public interface BaseAppDataCreator {
     @NonNull
     MomentDetail createMomentDetail(@NonNull final MomentDetailType type, @NonNull final Moment moment);
 
-    @NonNull
-    Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment);
+    /*@NonNull
+    Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment);*/
+
+    Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final MeasurementGroup measurementGroup);
 
     @NonNull
     MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type, @NonNull final Measurement measurement);

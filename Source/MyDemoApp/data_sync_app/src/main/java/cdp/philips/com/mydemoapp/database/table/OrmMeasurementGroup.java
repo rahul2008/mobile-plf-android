@@ -7,6 +7,7 @@ import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
@@ -20,6 +21,10 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
 
     @DatabaseField(generatedId = true)
     private int id;
+
+   /* @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();*/
+
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
     private OrmMoment ormMoment;
@@ -38,4 +43,14 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     @DatabaseConstructor
     OrmMeasurementGroup() {
     }
+
+/*    @Override
+    public Collection<? extends OrmMeasurement> getMeasurements() {
+        return ormMeasurements;
+    }
+
+    @Override
+    public void addMeasurement(final Measurement measurement) {
+        ormMeasurements.add((OrmMeasurement) measurement);
+    }*/
 }

@@ -30,9 +30,11 @@ public interface Moment extends BaseAppData, DateData, Serializable {
 
     void setDateTime(@NonNull DateTime dateTime);
 
-    Collection<? extends Measurement> getMeasurements();
+  //  Collection<? extends Measurement> getMeasurements();
+  Collection<? extends MeasurementGroup> getMeasurementGroups();
 
-    void addMeasurement(Measurement measurement);
+    //void addMeasurement(Measurement measurement);
+    void addMeasurementGroup(MeasurementGroup measurementGroup);
 
     Collection<? extends com.philips.platform.core.datatypes.MomentDetail> getMomentDetails();
 

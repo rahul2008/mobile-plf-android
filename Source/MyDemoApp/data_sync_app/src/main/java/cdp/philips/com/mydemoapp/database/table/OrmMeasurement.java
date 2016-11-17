@@ -44,8 +44,11 @@ public class OrmMeasurement implements Measurement, Serializable {
     @DatabaseField(canBeNull = false)
     private DateTime dateTime = new DateTime();
 
+   /* @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
+    private OrmMoment ormMoment;*/
+
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
-    private OrmMoment ormMoment;
+    private OrmMeasurementGroup ormMeasurementGroup;
 
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmMeasurementDetail> ormMeasurementDetails = new EmptyForeignCollection<>();
@@ -54,9 +57,14 @@ public class OrmMeasurement implements Measurement, Serializable {
     OrmMeasurement() {
     }
 
-    public OrmMeasurement(final OrmMeasurementType type, final OrmMoment ormMoment) {
+   /* public OrmMeasurement(final OrmMeasurementType type, final OrmMoment ormMoment) {
         this.type = type;
         this.ormMoment = ormMoment;
+    }*/
+
+    public OrmMeasurement(final OrmMeasurementType type, final OrmMeasurementGroup ormMeasurementGroup) {
+        this.type = type;
+        this.ormMeasurementGroup = ormMeasurementGroup;
     }
 
     @Override
@@ -99,13 +107,18 @@ public class OrmMeasurement implements Measurement, Serializable {
         ormMeasurementDetails.add((OrmMeasurementDetail) measurementDetail);
     }
 
-    @Override
+   /* @Override
     public OrmMoment getMoment() {
         return ormMoment;
+    }*/
+
+    @Override
+    public OrmMeasurementGroup getMeasurementGroup() {
+        return ormMeasurementGroup;
     }
 
     @Override
     public String toString() {
-        return "[OrmMeasurement, id=" + id + ", OrmMeasurementType=" + type + ", value=" + value + ", dateTime=" + dateTime + ", ormMoment=" + ormMoment + "]";
+        return "[OrmMeasurement, id=" + id + ", OrmMeasurementType=" + type + ", value=" + value + ", dateTime=" + dateTime + ", ormMoment=" + ormMeasurementGroup + "]";
     }
 }

@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetailType;
@@ -21,6 +22,7 @@ import org.joda.time.DateTime;
 
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 
@@ -65,13 +67,25 @@ public class Database implements BaseAppDataCreator {
         }
     }
 
-    @NonNull
+    /*@NonNull
     @Override
     public OrmMeasurement createMeasurement(final MeasurementType type,
                                             final Moment moment) {
         try {
             final OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             return creator.createMeasurement(type, ormMoment);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            throw new IllegalArgumentException("Moment was not OrmMoment");
+        }
+    }*/
+
+    @NonNull
+    @Override
+    public OrmMeasurement createMeasurement(final MeasurementType type,
+                                            final MeasurementGroup measurementGroup) {
+        try {
+            final OrmMeasurementGroup ormMeasurementGroup = OrmTypeChecking.checkOrmType(measurementGroup, OrmMeasurementGroup.class);
+            return creator.createMeasurement(type, ormMeasurementGroup);
         } catch (OrmTypeChecking.OrmTypeException e) {
             throw new IllegalArgumentException("Moment was not OrmMoment");
         }

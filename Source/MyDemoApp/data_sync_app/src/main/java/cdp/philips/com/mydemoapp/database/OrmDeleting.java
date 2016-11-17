@@ -84,10 +84,10 @@ public class OrmDeleting {
     }
 
     private void deleteMomentMeasurements(@NonNull final OrmMoment moment) throws SQLException {
-        for (OrmMeasurement measurement : moment.getMeasurements()) {
-            deleteMeasurementDetails(measurement.getId());
-        }
-        deleteMeasurements(moment.getId());
+       // for (OrmMeasurement measurement : moment.getMeasurements()) {
+         //   deleteMeasurementDetails(measurement.getId());
+        //}
+        //deleteMeasurements(moment.getId());
     }
 
     private void deleteMomentDetails(@NonNull final OrmMoment moment) throws SQLException {

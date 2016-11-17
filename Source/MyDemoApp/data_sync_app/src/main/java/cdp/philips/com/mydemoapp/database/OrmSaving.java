@@ -58,8 +58,8 @@ public class OrmSaving {
     public void saveMoment(OrmMoment moment) throws SQLException {
         assureSynchronisationDataIsSaved(moment.getSynchronisationData());
         momentDao.createOrUpdate(moment);
-        assureMeasurementsAreSaved(moment.getMeasurements());
-        assureMomentDetailsAreSaved(moment.getMomentDetails());
+       // assureMeasurementsAreSaved(moment.getMeasurements());
+        //assureMomentDetailsAreSaved(moment.getMomentDetails());
     }
 
 

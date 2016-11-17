@@ -14,6 +14,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Measurement;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
@@ -56,8 +57,8 @@ public class OrmMoment implements Moment, Serializable {
     @DatabaseField
     private boolean synced;
 
-    @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();
+    /*@ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();*/
 
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmMomentDetail> ormMomentDetails = new EmptyForeignCollection<>();
@@ -125,7 +126,7 @@ public class OrmMoment implements Moment, Serializable {
         this.dateTime = dateTime;
     }
 
-    @Override
+   /* @Override
     public Collection<? extends OrmMeasurement> getMeasurements() {
         return ormMeasurements;
     }
@@ -133,6 +134,16 @@ public class OrmMoment implements Moment, Serializable {
     @Override
     public void addMeasurement(final Measurement measurement) {
         ormMeasurements.add((OrmMeasurement) measurement);
+    }*/
+
+    @Override
+    public Collection<? extends OrmMeasurementGroup> getMeasurementGroups() {
+        return ormMeasurementGroups;
+    }
+
+    @Override
+    public void addMeasurementGroup(final MeasurementGroup measurementGroup) {
+        ormMeasurementGroups.add((OrmMeasurementGroup) measurementGroup);
     }
 
     @Override
