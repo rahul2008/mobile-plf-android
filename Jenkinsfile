@@ -9,16 +9,16 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node ('iOS') {
+node ('Ubuntu && 24.0.3') {
 	timestamps {
 		stage ('Checkout') {
-			checkout scm
-            //checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/ip/in-app-purchase_android.git']]])
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/ip/in-app-purchase_android.git']]])
 			step([$class: 'StashNotifier'])
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug'
+                sh 'cd ./Source/Library && ./gradlew clean assembleDebug'
+                // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug'
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
