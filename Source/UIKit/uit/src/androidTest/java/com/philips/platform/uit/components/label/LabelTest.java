@@ -85,7 +85,7 @@ public class LabelTest {
     @Test
     public void verifyLabelNumericColor() {
         final int expectedTextColor = ContextCompat.getColor(getInstrumentation().getContext(), Gray75);
-        getTextLabel().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedTextColor)));
+        getNumericLabel().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedTextColor)));
     }
 
 

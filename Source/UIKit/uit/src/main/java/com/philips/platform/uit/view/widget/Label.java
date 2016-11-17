@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 
 import com.philips.platform.uit.R;
 import com.philips.platform.uit.utils.UIDUtils;
@@ -33,6 +34,7 @@ public class Label extends AppCompatTextView {
         int textColor = getDefaultLabelColor(attrsArray, themeArray);
         float textAlpha = getDefaultLabelAlpha(attrsArray, themeArray);
         setTextColor(UIDUtils.modulateColorAlpha(textColor, textAlpha));
+        setLabelTextSize(context, attrsArray);
         attrsArray.recycle();
         themeArray.recycle();
     }
@@ -47,5 +49,15 @@ public class Label extends AppCompatTextView {
     private float getDefaultLabelAlpha(final TypedArray attrsArray, final TypedArray themeArray) {
         float alpha = themeArray.getFloat(R.styleable.UIDLabel_uidLabelTextAlpha, 1.0f);
         return attrsArray.getFloat(R.styleable.UIDLabel_uidLabelTextAlpha, alpha);
+    }
+
+    //set text size from attributes
+    private void setLabelTextSize(Context context, final TypedArray attrsArray) {
+        int textSizeID = attrsArray.getResourceId(R.styleable.UIDLabel_uidLabelTextSize, -1);
+        int testSize = context.getResources().getDimensionPixelSize(R.dimen.uid_label_text_size);
+        if (textSizeID != -1) {
+            testSize = attrsArray.getDimensionPixelSize(R.styleable.UIDLabel_uidLabelTextSize, testSize);
+        }
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, testSize);
     }
 }

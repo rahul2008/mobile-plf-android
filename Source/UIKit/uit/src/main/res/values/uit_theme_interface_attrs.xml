@@ -90,5 +90,6 @@
     <declare-styleable name="UIDLabel">
         <attr name="uidLabelTextColor" format="reference|color"/>
         <attr name="uidLabelTextAlpha" format="float"/>
+        <attr name="uidLabelTextSize" format="dimension"/>
     </declare-styleable>
 </resources>
