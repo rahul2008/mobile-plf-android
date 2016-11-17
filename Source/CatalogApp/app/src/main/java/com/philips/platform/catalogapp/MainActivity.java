@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
         }
-        EventBus.getDefault().register(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EventBus.getDefault().register(this);
         navigationController = new NavigationController(this);
         navigationController.init(savedInstanceState);
     }
