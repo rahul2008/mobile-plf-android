@@ -13,10 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
@@ -58,8 +55,10 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         consentDialogPresenter=new ConsentDialogPresenter(getActivity());
         mProgressDialog = new ProgressDialog(getActivity());
         consentDetails=new ArrayList<>();
-        lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails);
+        lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
+        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
+        fetchConsent();
         return rootView;
 
     }
@@ -67,7 +66,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onResume() {
         super.onResume();
-        fetchConsent();
     }
 
     @Override
@@ -79,7 +77,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
                 dismissProgressDialog();
                 if (data == null) {
                     showProgressDialog();
-                    createDefaultConsent();
+                    consentDialogPresenter.createDefaultConsent();
                 }
             }
         });
@@ -139,6 +137,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
         dismissProgressDialog();
     }
@@ -146,30 +149,13 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStart() {
         super.onStart();
-        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
         Dialog dialog = getDialog();
-        dialog.setTitle("Consents");
+        dialog.setTitle(R.string.consents);
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
         }
-    }
-
-    private void createDefaultConsent() {
-        DataServicesManager mDataServices = DataServicesManager.getInstance();
-        Consent consent = mDataServices.createConsent();
-        boolean isSynchronized=true;
-        mDataServices.createConsentDetail
-                (consent, ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,isSynchronized);
-        mDataServices.createConsentDetail
-                (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,isSynchronized);
-        mDataServices.createConsentDetail
-                (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,isSynchronized);
-       mDataServices.save(consent);
     }
 
     private void showProgressDialog() {

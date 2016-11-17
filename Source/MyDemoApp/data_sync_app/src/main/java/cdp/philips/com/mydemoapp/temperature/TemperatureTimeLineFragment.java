@@ -96,9 +96,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
-        cancelPendingIntent();
-        mDataServicesManager.stopCore();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -189,6 +188,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onDestroy() {
         super.onDestroy();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
+        cancelPendingIntent();
+        mDataServicesManager.stopCore();
+
     }
 
     @Override

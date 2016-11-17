@@ -43,8 +43,6 @@ public class DataSyncApplication extends Application{
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
-        databaseHelper.getWritableDatabase();
         Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);

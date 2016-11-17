@@ -15,17 +15,23 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.sql.SQLException;
+
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener{
 
     private ActionBarListener actionBarListener;
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +41,15 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         if (savedInstanceState == null)
             if(user.isUserSignIn()){
                 showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
+                databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
+                databaseHelper.getWritableDatabase();
             }else {
                 startRegistrationFragment();
             }
         else{
             onRestoreInstanceState(savedInstanceState);
         }
+
     }
 
     void startRegistrationFragment(){
@@ -86,7 +95,12 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccess() {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+        try {
+            databaseHelper.getConsentDao().deleteBuilder().delete();
+            databaseHelper.getConsentDetailsDao().deleteBuilder().delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -146,6 +160,14 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
             finishAffinity();
         }else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(databaseHelper!=null && databaseHelper.isOpen()){
+            databaseHelper.close();
         }
     }
 }

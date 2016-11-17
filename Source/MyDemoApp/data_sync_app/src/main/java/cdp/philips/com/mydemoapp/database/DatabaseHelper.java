@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
 
-    private void dropTables(final ConnectionSource connectionSource) throws SQLException {
+    public void dropTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.dropTable(connectionSource, OrmMoment.class, true);
         TableUtils.dropTable(connectionSource, OrmMomentType.class, true);
         TableUtils.dropTable(connectionSource, OrmMomentDetail.class, true);
