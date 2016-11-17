@@ -159,11 +159,16 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     private void createDefaultConsent() {
         DataServicesManager mDataServices = DataServicesManager.getInstance();
         Consent consent = mDataServices.createConsent();
-        for (ConsentDetailType consentDetailType : ConsentDetailType.values()) {
-            mDataServices.createConsentDetail
-                    (consent, consentDetailType, ConsentDetailStatusType.REFUSED,
-                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,true);
-        }
+        boolean isSynchronized=true;
+        mDataServices.createConsentDetail
+                (consent, ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,isSynchronized);
+        mDataServices.createConsentDetail
+                (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,isSynchronized);
+        mDataServices.createConsentDetail
+                (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,isSynchronized);
        mDataServices.save(consent);
     }
 

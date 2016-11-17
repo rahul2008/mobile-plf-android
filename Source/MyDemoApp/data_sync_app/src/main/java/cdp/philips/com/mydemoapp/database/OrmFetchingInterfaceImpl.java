@@ -37,7 +37,7 @@ import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
+public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     static final String SYNCED_FIELD = "synced";
 
@@ -47,8 +47,8 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @NonNull
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
-    private final Dao<OrmConsent,Integer> consentDao;
-    private final Dao<OrmConsentDetail, Integer> consentDetailsDao ;
+    private final Dao<OrmConsent, Integer> consentDao;
+    private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
     private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
 
     private TemperatureMomentHelper mTemperatureMomentHelper;
@@ -68,13 +68,13 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     @Override
     public void fetchMoments() throws SQLException {
         QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
-            getActiveMoments(momentDao.query(queryBuilder.prepare()));
-        }
+        getActiveMoments(momentDao.query(queryBuilder.prepare()));
+    }
 
     @Override
     public void fetchConsents() throws SQLException {
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
-        ArrayList<OrmConsent> ormConsents =(ArrayList<OrmConsent>)consentDao.query(queryBuilder.prepare());
+        ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) consentDao.query(queryBuilder.prepare());
         notifySucessConsentChange(ormConsents);
     }
 
@@ -95,14 +95,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public void fetchMoments(@NonNull final MomentType type) throws SQLException {
-        Log.i("***SPO***","In fetchMoments - OrmFetchingInterfaceImpl");
+        Log.i("***SPO***", "In fetchMoments - OrmFetchingInterfaceImpl");
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.queryForEq("type_id", type.getId()));
     }
 
     @Override
-    public void fetchMoments(@NonNull final MomentType... types) throws SQLException{
+    public void fetchMoments(@NonNull final MomentType... types) throws SQLException {
         List<OrmMoment> ormMoments = new ArrayList<OrmMoment>();
         List<Integer> ids = new ArrayList<>(types.length);
         final int i = 0;
@@ -116,7 +116,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public void fetchLastMoment(final MomentType type) throws SQLException{
+    public void fetchLastMoment(final MomentType type) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
         Where<OrmMoment, Integer> where = builder.where();
         where.eq("type_id", type.getId());
@@ -131,7 +131,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public Object fetchMomentByGuid(@NonNull final String guid) throws SQLException{
+    public Object fetchMomentByGuid(@NonNull final String guid) throws SQLException {
         QueryBuilder<OrmSynchronisationData, Integer> syncDataQueryBuilder = getSyncQueryBuilderWithGuidFilter(guid);
 
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
@@ -147,17 +147,17 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public List<?> fetchNonSynchronizedMoments() throws SQLException{
-        Log.i("***SPO***","In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
+    public List<?> fetchNonSynchronizedMoments() throws SQLException {
+        Log.i("***SPO***", "In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
-        Log.i("***SPO***","In OrmFetchingInterfaceImpl after query builder");
+        Log.i("***SPO***", "In OrmFetchingInterfaceImpl after query builder");
         momentQueryBuilder.where().eq(SYNCED_FIELD, false);
-        Log.i("***SPO***","In OrmFetchingInterfaceImpl after where and before query");
+        Log.i("***SPO***", "In OrmFetchingInterfaceImpl after where and before query");
         return momentQueryBuilder.query();
     }
 
     @Override
-    public Object fetchMomentById(final int id) throws SQLException{
+    public Object fetchMomentById(final int id) throws SQLException {
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
         momentQueryBuilder.where().eq("id", id);
 
@@ -165,24 +165,24 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     public void getActiveMoments(final List<?> ormMoments) {
-        Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl");
+        Log.i("***SPO***", "In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
-            for (OrmMoment ormMoment : (List<OrmMoment>)ormMoments) {
+            for (OrmMoment ormMoment : (List<OrmMoment>) ormMoments) {
                 if (ormMoment.getSynchronisationData() == null || !ormMoment.getSynchronisationData().isInactive()) {
                     activeOrmMoments.add(ormMoment);
                 }
             }
         }
-        Log.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
+        Log.i("***SPO***", "In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
     }
 
     @Override
     public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException {
-        Log.i("***SPO***","In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
-        List<? extends Moment> ormMomentList = (List<? extends Moment>)fetchNonSynchronizedMoments();
-        Log.i("***SPO***","In OrmFetchingInterfaceImpl dataToSync.put");
+        Log.i("***SPO***", "In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
+        List<? extends Moment> ormMomentList = (List<? extends Moment>) fetchNonSynchronizedMoments();
+        Log.i("***SPO***", "In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
     }
@@ -197,16 +197,16 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
     public List<OrmConsent> fetchConsentsWithNonSynchronizedConsentDetails() throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         final List<OrmConsent> query = consentQueryBuilder.query();
-        for(OrmConsent ormConsent:query){
+        for (OrmConsent ormConsent : query) {
 
-            boolean isNonSyncConsentDetailExist=false;
-            for(OrmConsentDetail ormConsentDetail:ormConsent.getConsentDetails()){
-                if(!ormConsentDetail.getBackEndSynchronized()){
-                    isNonSyncConsentDetailExist=true;
+            boolean isNonSyncConsentDetailExist = false;
+            for (OrmConsentDetail ormConsentDetail : ormConsent.getConsentDetails()) {
+                if (!ormConsentDetail.getBackEndSynchronized()) {
+                    isNonSyncConsentDetailExist = true;
                 }
             }
 
-            if(!isNonSyncConsentDetailExist){
+            if (!isNonSyncConsentDetailExist) {
                 query.remove(ormConsent);
             }
         }
@@ -219,6 +219,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
         consentQueryBuilder.where().eq("beSynchronized", false);
 
+        return consentQueryBuilder.query();
+    }
+
+    public List<OrmConsentDetail> fetchAllConsentDetails() throws SQLException {
+        QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
         return consentQueryBuilder.query();
     }
 
