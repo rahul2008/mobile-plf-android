@@ -31,12 +31,18 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
         User user = new User(this);
-        if(user.isUserSignIn()){
-            showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
-        }else {
-            startRegistrationFragment();
+
+        if (savedInstanceState == null)
+            if(user.isUserSignIn()){
+                showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
+            }else {
+                startRegistrationFragment();
+            }
+        else{
+            onRestoreInstanceState(savedInstanceState);
         }
     }
+
 
     void startRegistrationFragment(){
         loadPlugIn();
@@ -47,6 +53,17 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         User userObject = new User(this);
         userObject.registerUserRegistrationListener(this);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
 
     private void runUserRegistration(){
         launchRegistrationFragment(false);
