@@ -80,7 +80,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     private String countryCode;
 
-    private boolean isChinaFlow;
+    private static boolean isChinaFlow;
 
     /**
      * {@code initialiseConfigParameters} method builds configuration for information in {@code EvalRegistrationSettings}
@@ -161,8 +161,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(PROD_CAPTURE_DOMAIN,"hffxcm638rna8wrxxggx2gykhc");
         map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"euwkgsf83m56hqknjxgnranezh");
         map.put(DEV_CAPTURE_DOMAIN_CHINA,"7629q5uxm2jyrbk7ehuwryj7a4");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA,"hqmhwxu7jtdcye758vvxux4ryb");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"vdgkb3z57jpv93mxub34x73mqu");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"vdgkb3z57jpv93mxub34x73mqu");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"hqmhwxu7jtdcye758vvxux4ryb");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"czwfzs7xh23ukmpf4fzhnksjmd");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA_OLD,"czwfzs7xh23ukmpf4fzhnksjmd");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"59fceb32hvkycquwn7fvhs9b99");
@@ -179,8 +179,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(PROD_CAPTURE_DOMAIN,"ddjbpmgpeifijdlibdio");
         map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"bdbppnbjfcibijknnfkk");
         map.put(DEV_CAPTURE_DOMAIN_CHINA,"ruaheighoryuoxxdwyfs");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA,"jndphelwbhuevcmovqtn");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"fhbmobeahciagddgfidm");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"fhbmobeahciagddgfidm");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"jndphelwbhuevcmovqtn");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"uyfpympodtnesxejzuic");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA_OLD,"uyfpympodtnesxejzuic");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"ddjbpmgpeifijdlibdio");
@@ -226,7 +226,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-      // serviceDiscoveryInterface.setHomeCountry("CN");
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        serviceDiscoveryInterface.setHomeCountry("CN");
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -240,11 +241,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     public void onSuccess(URL url) {
 
                         String janrainURL = url.toString().substring(8);//Please don't remove this line.
-                        // Hard coded the url for china will be replsed by service disover
-                        //jumpConfig.captureDomain = "philips-china-eu.eu-dev.janraincapture.com";
-                        jumpConfig.captureDomain = "philips-china-test.eu-dev.janraincapture.com";//Testing
-                        //previews it was like this
-                        //janrainURL.toString();
+                        jumpConfig.captureDomain = janrainURL.toString();
 
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);
 
@@ -317,6 +314,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 mPreferredLangCode = langCode;
 
                                                                                 try {
+                                                                                    RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " +jumpConfig);
                                                                                     Jump.reinitialize(mContext, jumpConfig);
                                                                                 } catch (Exception e) {
                                                                                     e.printStackTrace();
@@ -337,6 +335,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 mPreferredLangCode = langCode;
 
                                                                                 try {
+                                                                                    RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " +jumpConfig);
                                                                                     Jump.reinitialize(mContext, jumpConfig);
                                                                                 } catch (Exception e) {
                                                                                     e.printStackTrace();
@@ -345,7 +344,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                         Jump.reinitialize(mContext, jumpConfig);
                                                                                     }
                                                                                 }
-                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " +getIsChinaFlow());
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " + isChinaFlow());
                                                                             }
                                                                         });
 
@@ -362,7 +361,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     }
 
-    public boolean getIsChinaFlow() {
+    public boolean isChinaFlow() {
         return isChinaFlow;
     }
 

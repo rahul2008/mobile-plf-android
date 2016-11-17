@@ -219,12 +219,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private Intent createSMSActivationIntent() {
         String UUid = mUser.getJanrainUUID();
         String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid, mEtCodeNUmber.getNumber());
-        String url = "https://philips-china-eu.eu-dev.janraincapture.com/access/useVerificationCode";
+        String url = "https://philips-china-test.eu-dev.janraincapture.com/access/useVerificationCode";
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
 
         String bodyContent = "verification_code=" + verifiedMobileNumber;
+        RLog.i("MobileVerifyCodeFragment ", "verification_code" + verifiedMobileNumber);
         httpServiceIntent.putExtra("receiver", receiver);
         httpServiceIntent.putExtra("bodyContent", bodyContent);
         httpServiceIntent.putExtra("url", url);

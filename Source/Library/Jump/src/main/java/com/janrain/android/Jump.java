@@ -962,6 +962,7 @@ public class Jump {
                         state.flowCDN,
                         state.captureAppId, state.captureFlowName, flowVersion,
                         state.captureLocale);
+        System.out.println("FLOW CD : "+flowUrlString);
 
         //Before
        /* String flowUrlString =

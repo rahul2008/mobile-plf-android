@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.customviews;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -26,7 +27,10 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettings;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -44,13 +48,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     private RelativeLayout mRlEtEmail;
 
     private FrameLayout mFlInvalidFieldAlert;
-
     private String mSavedEmaillError;
     private String  country;
     public XEmail(Context context) {
         super(context);
         this.mContext = context;
         initUi(R.layout.reg_email);
+
     }
 
     public XEmail(Context context, AttributeSet attrs) {
@@ -59,9 +63,11 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         initUi(R.layout.reg_email);
         country = RegistrationHelper.getInstance().getCountryCode();
         checkingEmailorMobile();
+
     }
 
     public final void initUi(int resourceId) {
+        RLog.d(RLog.SERVICE_DISCOVERY,"China Flow : "+ RegistrationHelper.getInstance().isChinaFlow());
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
         mRlEtEmail = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
@@ -75,8 +81,9 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private void checkingEmailorMobile() {
         //need to changed by service discover as 01 or 02
-        if (country.equalsIgnoreCase("US")) {
-            mEtEmail.setHint(getResources().getString(R.string.CreateAccount_Email_PhoneNumber));
+        if (RegistrationHelper.getInstance().isChinaFlow()) {
+            mEtEmail.setHint(getResources().getString(R.string.CreateAccount_PhoneNumber));
+            mEtEmail.setInputType(InputType.TYPE_CLASS_NUMBER);
         }else {
             mEtEmail.setHint(getResources().getString(R.string.reg_EmailAddPlaceHolder_txtField));
         }
@@ -97,7 +104,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     private boolean validateEmail() {
         if (mEtEmail != null) {
             //need to change by service discover
-            if (country.equalsIgnoreCase("US")) {
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
                 if (isEmailandMobile()) return true;
             } else {
                 if (isEmail()) return true;
@@ -223,8 +230,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             if (mEtEmail.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                if (country.equalsIgnoreCase("US")) {
-                    setErrDescription(getResources().getString(R.string.InvalidEmail_PhoneNumber_ErrorMsg));
+                if (RegistrationHelper.getInstance().isChinaFlow()) {
+                    setErrDescription(getResources().getString(R.string.Invalid_PhoneNumber_ErrorMsg));
                 }else {
                     setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
                 }
@@ -244,10 +251,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
                         AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                if (country.equalsIgnoreCase("US")){
+                if (RegistrationHelper.getInstance().isChinaFlow()){
                     AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                             AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_MOBILE);
-                    setErrDescription(getResources().getString(R.string.InvalidEmail_PhoneNumber_ErrorMsg));
+                    setErrDescription(getResources().getString(R.string.Invalid_PhoneNumber_ErrorMsg));
                 }else {
 
                     AppTagging.trackAction(AppTagingConstants.SEND_DATA,

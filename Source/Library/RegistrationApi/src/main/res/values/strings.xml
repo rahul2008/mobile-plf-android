@@ -182,6 +182,9 @@
 
     <string name="Janrain_Error_Need_Mobile_Verification">Please verify your mobile number through the activation code sent to your mobile number</string>
     <string name="Mobile_TraditionalSignIn_Instruction_lbltxt">Having Problems?\n-  It may take some time for the SMS with the code to arrive\n-  If you did not receive an SMS press the \'Resend\' button</string>
+    <!--China flow New String-->
+    <string name="CreateAccount_PhoneNumber">Your phone number</string>
+    <string name="Invalid_PhoneNumber_ErrorMsg">I cannot recognize the phone number you entered. Please check.</string>
 
     <!--Need to be remove, once final localization done-->
     <string name="URX_SMS_Success">Success</string>
@@ -199,6 +202,8 @@
     <string name="Resend_SMS_title">Resend SMS</string>
     <string name="Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
     <string name="reg_merge_validate_password_mismatch_errortxt">The password is incorrect</string>
+
+
 
 
 

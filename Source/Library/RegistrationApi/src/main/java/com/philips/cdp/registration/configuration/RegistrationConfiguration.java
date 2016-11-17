@@ -60,11 +60,15 @@ public class RegistrationConfiguration {
                 if(isJSONValid(registrationClient)){
                     try {
                         JSONObject jsonObject = new JSONObject(registrationClient);
+                        System.out.println("jsonObject : "+jsonObject);
                         if(!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())){
                             registrationClient =  (String) jsonObject.get(RegistrationHelper.
                                     getInstance().getCountryCode());
+                            System.out.println("registrationClient : "+registrationClient);
+                            return registrationClient;
                         }else if(!jsonObject.isNull(DEFAULT)){
                             registrationClient = (String) jsonObject.get(DEFAULT);
+                            return registrationClient;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

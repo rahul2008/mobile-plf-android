@@ -11,6 +11,7 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -52,7 +53,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.STAGING);
+            initRegistration(Configuration.TESTING);
         }
     }
 
@@ -64,61 +65,6 @@ public class RegistrationApplication extends Application {
             mAppInfraInterface = new AppInfra.Builder().build(this);
         }
 
-        //China
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                        JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_DEVELOPMENT
-                , URConfigurationConstants.UR,
-                "qhq9jvkx35q8duef2fh6wwzceujjs9gs",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_TESTING
-                , URConfigurationConstants.UR,
-                "g8r8rbk4n5688xpsxqewmnwuqjb5ugag",configError);
-
-       /*
-       Non china
-       mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_DEVELOPMENT
-                , URConfigurationConstants.UR,
-                "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(
-                URConfigurationConstants.JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_TESTING
-                , URConfigurationConstants.UR,
-                "g52bfma28yjbd24hyjcswudwedcmqy7c",
-
-                configError);*/
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_EVALUATION
-                , URConfigurationConstants.UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_STAGING
-                , URConfigurationConstants.UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_PRODUCTION
-                , URConfigurationConstants.UR,
-                "9z23k3q8bhqyfwx78aru6bz8zksga54u",
-                configError);
-
-      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
-        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
-        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
-
-*/
-       /* mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
-                "appinfra",
-                "77000",
-                configError);*/
-     /*   mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.appState",
-               "appinfra",
-                configuration.getValue(),
-                configError);*/
 
 
 
@@ -193,7 +139,7 @@ public class RegistrationApplication extends Application {
         String countryCode = Locale.getDefault().getCountry();
 
         PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
+        localeManager.setInputLocale("zh", "CN");
 
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
@@ -207,8 +153,10 @@ public class RegistrationApplication extends Application {
                 "77000",
                 configError);
         System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
- }
+        System.out.println("Testing : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
+        System.out.println("COuntry : "+ RegistrationHelper.getInstance().getCountryCode());
 
+    }
     public void initHSDP(Configuration configuration) {
         if(mAppInfraInterface == null){
             mAppInfraInterface = new AppInfra.Builder().build(this);

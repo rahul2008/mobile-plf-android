@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,6 +39,7 @@ import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XPassword;
@@ -113,6 +113,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private boolean isSavedPasswordErr;
 
     private boolean isSavedVerifyEmail;
+
+    private RegistrationSettingsURL registrationSettingsURL;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -294,11 +296,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtPassword.clearFocus();
             if (mEtEmail.getEmailId().length() == 0) {
                 launchResetPasswordFragment();
-            } else if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
-                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in US");
+            } else if (registrationSettingsURL.isChinaFlow()) {
+                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in China");
                 getRegistrationFragment().addFragment(new ResetPasswordWebView());
             } else {
-                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in ELSE");
+                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in Other Country");
                 resetPassword();
             }
         } else if (id == R.id.btn_reg_resend) {
@@ -315,7 +317,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchResetPasswordFragment() {
-        if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
+        if (registrationSettingsURL.isChinaFlow()) {
             getRegistrationFragment().addFragment(new ResetPasswordWebView());
         } else {
             getRegistrationFragment().addResetPasswordFragment();
@@ -362,6 +364,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mPbSignInSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_sign_in_spinner);
         mPbForgotPasswdSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_forgot_spinner);
         mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_resend_spinner);
+        registrationSettingsURL=new RegistrationSettingsURL();
     }
 
     @Override
@@ -757,6 +760,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(false);
         mBtnSignInAccount.setEnabled(false);
         mBtnForgot.setEnabled(false);
+        registrationSettingsURL.isChinaFlow();
         if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
             getActivity().startService(createResendSMSIntent());
         } else {
