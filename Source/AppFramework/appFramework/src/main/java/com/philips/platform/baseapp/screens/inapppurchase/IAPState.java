@@ -89,6 +89,11 @@ public class IAPState extends BaseState {
         iapInterface.init(iapDependencies, iapSettings);
     }
 
+    @Override
+    public void updateDataModel() {
+
+    }
+
     /**
      * Data Model for CoCo is defined here to have minimal import files.
      */

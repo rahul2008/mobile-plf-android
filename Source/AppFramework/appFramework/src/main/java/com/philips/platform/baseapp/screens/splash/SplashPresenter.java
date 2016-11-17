@@ -39,7 +39,7 @@ public class SplashPresenter extends UIBasePresenter implements URStateListener 
     public void onEvent(int componentID) {
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SPLASH, APP_START);
         final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
-        baseState.setPresenter(this);
+        baseState.setStateListener(this);
         if (null != baseState) {
             if (baseState instanceof UserRegistrationState) {
                 ((UserRegistrationState) baseState).registerUIStateListener(this);
@@ -71,7 +71,7 @@ public class SplashPresenter extends UIBasePresenter implements URStateListener 
         this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SPLASH, "splash_home");
         if (null != this.baseState) {
             fragmentLauncher = getFragmentLauncher();
-            this.baseState.setPresenter(this);
+            this.baseState.setStateListener(this);
             finishActivity();
             this.baseState.navigate(fragmentLauncher);
         }

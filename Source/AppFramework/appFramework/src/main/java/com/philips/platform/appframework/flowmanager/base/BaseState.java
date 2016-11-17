@@ -75,7 +75,7 @@ abstract public class BaseState {
      * @param uiBasePresenter
      */
 
-    public void setPresenter(UIBasePresenter uiBasePresenter) {
+    public void setStateListener(UIBasePresenter uiBasePresenter) {
         this.uiBasePresenter = uiBasePresenter;
     }
 
@@ -86,4 +86,6 @@ abstract public class BaseState {
     public void setUiStateData(UIStateData uiStateData) {
         this.uiStateData = uiStateData;
     }
+
+    public abstract void updateDataModel();
 }

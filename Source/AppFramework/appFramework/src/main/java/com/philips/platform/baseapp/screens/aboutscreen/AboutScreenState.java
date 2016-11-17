@@ -39,5 +39,10 @@ public class AboutScreenState extends BaseState {
     public void init(Context context) {
 
     }
+
+    @Override
+    public void updateDataModel() {
+
+    }
 }
 

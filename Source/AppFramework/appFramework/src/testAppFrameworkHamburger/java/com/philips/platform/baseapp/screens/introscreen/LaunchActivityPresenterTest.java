@@ -74,7 +74,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.FIRST_STATE, "onBackPressed")).thenReturn(hamburgerStateMock);
         launchActivityPresenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
-        verify(hamburgerStateMock, atLeastOnce()).setPresenter(launchActivityPresenter);
+        verify(hamburgerStateMock, atLeastOnce()).setStateListener(launchActivityPresenter);
         verify(hamburgerStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
@@ -116,7 +116,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.FIRST_STATE, "onAppLaunch")).thenReturn(splashStateMock);
         launchActivityPresenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
-        verify(splashStateMock).setPresenter(launchActivityPresenter);
+        verify(splashStateMock).setStateListener(launchActivityPresenter);
         verify(splashStateMock, atLeastOnce()).setUiStateData(uiStateData);
         verify(splashStateMock).navigate(fragmentLauncherMock);
     }

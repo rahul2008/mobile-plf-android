@@ -53,7 +53,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         String eventState = getEventState(componentID);
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
         if (baseState != null) {
-            baseState.setPresenter(this);
+            baseState.setStateListener(this);
             baseState.setUiStateData(uiStateData);
             if (eventState.equals(SETTINGS_LOGIN)) {
                 ((UserRegistrationState) baseState).registerUIStateListener(this);
@@ -92,7 +92,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
     public void onStateComplete(BaseState baseState) {
         this.baseState =getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, SETTINGS_REGISTRATION);
         fragmentLauncher = getFragmentLauncher();
-        this.baseState.setPresenter(this);
+        this.baseState.setStateListener(this);
         settingsView.finishActivityAffinity();
         this.baseState.navigate(fragmentLauncher);
     }
@@ -108,7 +108,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
           //  ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
             baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, SETTINGS_LOGOUT);
             fragmentLauncher = getFragmentLauncher();
-            baseState.setPresenter(this);
+            baseState.setStateListener(this);
             baseState.navigate(fragmentLauncher);
         }
     }

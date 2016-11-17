@@ -37,4 +37,9 @@ public class DebugTestFragmentState extends BaseState {
     public void init(Context context) {
 
     }
+
+    @Override
+    public void updateDataModel() {
+
+    }
 }

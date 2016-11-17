@@ -69,7 +69,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.HAMBURGER_HOME, eventState);
         if(null != baseState) {
-            baseState.setPresenter(this);
+            baseState.setStateListener(this);
             baseState.setUiStateData(setStateData(componentID));
             fragmentLauncher = getFragmentLauncher();
             if (baseState instanceof SupportFragmentState) {
@@ -147,7 +147,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     public void onStateComplete(BaseState baseState) {
         this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SUPPORT, SUPPORT_PR);
         this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
-        this.baseState.setPresenter(this);
+        this.baseState.setStateListener(this);
         fragmentLauncher = getFragmentLauncher();
         this.baseState.navigate(fragmentLauncher);
     }

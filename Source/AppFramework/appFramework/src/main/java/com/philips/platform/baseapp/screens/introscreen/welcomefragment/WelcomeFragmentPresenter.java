@@ -46,7 +46,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         }
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         if(baseState!=null) {
-            baseState.setPresenter(this);
+            baseState.setStateListener(this);
             if (baseState instanceof UserRegistrationState)
                 ((UserRegistrationState) baseState).registerUIStateListener(this);
             fragmentLauncher = getFragmentLauncher();
@@ -82,7 +82,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         String eventState = getEventState(MENU_OPTION_HOME);
         this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         fragmentLauncher = getFragmentLauncher();
-        this.baseState.setPresenter(this);
+        this.baseState.setStateListener(this);
         welcomeFragmentView.finishActivityAffinity();
         this.baseState.navigate(fragmentLauncher);
         if(baseState instanceof UserRegistrationState)

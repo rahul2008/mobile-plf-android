@@ -58,6 +58,11 @@ public class SupportFragmentState extends BaseState implements CcListener {
 
     }
 
+    @Override
+    public void updateDataModel() {
+
+    }
+
     private void launchCC()
     {
         String[] ctnList = new String[((ConsumerCareData)getUiStateData()).getCtnList().size()];

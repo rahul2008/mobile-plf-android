@@ -30,4 +30,9 @@ public class SplashState extends BaseState {
     public void init(final Context context) {
 
     }
+
+    @Override
+    public void updateDataModel() {
+
+    }
 }

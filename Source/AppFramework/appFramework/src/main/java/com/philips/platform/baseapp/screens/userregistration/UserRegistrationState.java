@@ -67,6 +67,11 @@ public class UserRegistrationState extends BaseState implements UserRegistration
         initHSDP();
     }
 
+    @Override
+    public void updateDataModel() {
+
+    }
+
     public void initHSDP() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();

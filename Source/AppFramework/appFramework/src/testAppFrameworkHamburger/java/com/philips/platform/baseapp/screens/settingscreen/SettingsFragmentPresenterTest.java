@@ -72,7 +72,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"logout")).thenReturn(homeFragmentStateMock);
         settingsFragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
-        verify(homeFragmentStateMock, atLeastOnce()).setPresenter(settingsFragmentPresenter);
+        verify(homeFragmentStateMock, atLeastOnce()).setStateListener(settingsFragmentPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
@@ -105,7 +105,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"settings_registration")).thenReturn(hamburgerStateMock);
         settingsFragmentPresenter.onStateComplete(hamburgerStateMock);
         verify(settingsViewMock).finishActivityAffinity();
-        verify(hamburgerStateMock).setPresenter(settingsFragmentPresenter);
+        verify(hamburgerStateMock).setStateListener(settingsFragmentPresenter);
         verify(hamburgerStateMock).navigate(fragmentLauncherMock);
     }
 

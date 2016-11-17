@@ -39,5 +39,10 @@ public class DataSyncScreenState extends BaseState {
     public void init(Context context) {
 
     }
+
+    @Override
+    public void updateDataModel() {
+        
+    }
 }
 

@@ -113,7 +113,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
         when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
         hamburgerActivityPresenter.onEvent(0);
-        verify(homeFragmentStateMock, atLeastOnce()).setPresenter(hamburgerActivityPresenter);
+        verify(homeFragmentStateMock, atLeastOnce()).setStateListener(hamburgerActivityPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
@@ -149,7 +149,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.SUPPORT, "pr")).thenReturn(productRegistrationStateMock);
         hamburgerActivityPresenter.onStateComplete(productRegistrationStateMock);
-        verify(productRegistrationStateMock, atLeastOnce()).setPresenter(hamburgerActivityPresenter);
+        verify(productRegistrationStateMock, atLeastOnce()).setStateListener(hamburgerActivityPresenter);
         verify(productRegistrationStateMock, atLeastOnce()).setUiStateData(prStateData);
         verify(productRegistrationStateMock).navigate(fragmentLauncherMock);
     }

@@ -62,6 +62,11 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         new PRInterface().init(prodRegDependencies, uappSettings);
     }
 
+    @Override
+    public void updateDataModel() {
+
+    }
+
     /**
      * ProdRegUiListener interface implementation methods
      * @param list
