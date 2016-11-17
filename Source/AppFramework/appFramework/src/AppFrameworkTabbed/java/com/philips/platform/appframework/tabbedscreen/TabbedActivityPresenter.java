@@ -8,23 +8,18 @@ package com.philips.platform.appframework.tabbedscreen;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.baseapp.screens.datasevices.temperature.TemperatureTimeLineFragment;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.base.UIStateData;
+import com.philips.platform.baseapp.base.UIStateListener;
+import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
-import com.philips.platform.modularui.statecontroller.BaseState;
-import com.philips.platform.modularui.statecontroller.FragmentView;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIStateData;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
-import com.philips.platform.modularui.stateimpl.AboutScreenState;
-import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
-import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
-import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.IAPState;
-import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
-import com.philips.platform.modularui.stateimpl.SupportFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
@@ -36,20 +31,6 @@ import java.util.Arrays;
  */
 public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener {
 
-    private FragmentView fragmentView;
-    private AppFrameworkApplication appFrameworkApplication;
-    private FragmentLauncher fragmentLauncher;
-    private BaseState baseState;
-
-    /*Event ID */
-    private final int MENU_OPTION_HOME = 0;
-    private final int MENU_OPTION_SETTINGS = 1;
-    private final int MENU_OPTION_SHOP = 2;
-    private final int MENU_OPTION_SUPPORT = 3;
-    private final int MENU_OPTION_ABOUT = 4;
-    private final int MENU_OPTION_DATA_SYNC = 5;
-    private final int MENU_OPTION_PR = 6;
-
     /* event to state map */
     final String HOME_SETTINGS = "settings";
     final String HOME_IAP = "iap";
@@ -59,6 +40,18 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     final String HOME_FRAGMENT = "home_fragment";
     final String HOME_DATA_SYNC = "data_sync";
     final String SUPPORT_PR = "pr";
+    /*Event ID */
+    private final int MENU_OPTION_HOME = 0;
+    private final int MENU_OPTION_SETTINGS = 1;
+    private final int MENU_OPTION_SHOP = 2;
+    private final int MENU_OPTION_SUPPORT = 3;
+    private final int MENU_OPTION_ABOUT = 4;
+    private final int MENU_OPTION_DATA_SYNC = 5;
+    private final int MENU_OPTION_PR = 6;
+    private FragmentView fragmentView;
+    private AppFrameworkApplication appFrameworkApplication;
+    private FragmentLauncher fragmentLauncher;
+    private BaseState baseState;
 
     public TabbedActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);

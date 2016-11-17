@@ -2,24 +2,24 @@ package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
 
+import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
-import com.philips.platform.baseapp.condition.BaseCondition;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
-import com.philips.platform.modularui.statecontroller.BaseState;
-import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
-import com.philips.platform.modularui.stateimpl.AboutScreenState;
-import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
-import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
-import com.philips.platform.modularui.stateimpl.HomeFragmentState;
-import com.philips.platform.modularui.stateimpl.IAPState;
-import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
-import com.philips.platform.modularui.stateimpl.SettingsFragmentState;
-import com.philips.platform.modularui.stateimpl.SplashState;
-import com.philips.platform.modularui.stateimpl.SupportFragmentState;
-import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.modularui.stateimpl.WelcomeState;
+import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
+import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
+import com.philips.platform.baseapp.screens.datasevices.temperature.DataSyncScreenState;
+import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
+import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
+import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
+import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
+import com.philips.platform.baseapp.screens.splash.SplashState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 
 import java.util.Map;
 

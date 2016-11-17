@@ -7,13 +7,13 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.tabbedscreen.TabDependencies;
 import com.philips.platform.appframework.tabbedscreen.TabInterface;
 import com.philips.platform.appframework.tabbedscreen.TabLaunchInput;
 import com.philips.platform.appframework.tabbedscreen.TabSettings;
-import com.philips.platform.modularui.statecontroller.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
