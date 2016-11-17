@@ -237,10 +237,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private View.OnTouchListener onClickPurchaseDate() {
         return new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_RIGHT = 2;
-
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (date_EditText.getRight() - date_EditText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         int mYear;
                         int mMonthInt;
                         int mDay;
@@ -262,7 +259,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                         datePickerDialog.show();
                         return true;
                     }
-                }
                 return false;
             }
         };
