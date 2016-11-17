@@ -130,8 +130,7 @@
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             android:secondaryProgress="@integer/progress_bar_default_secondary_progress"
-            app:uid_linear_progress_bar="true"
-            app:uid_secondary_progress="true"/>
+            app:uid_linear_progress_bar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
@@ -139,7 +138,6 @@
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             android:secondaryProgress="@integer/progress_bar_default_secondary_progress"
-            app:uid_linear_progress_bar="true"
-            app:uid_secondary_progress="true"/>
+            app:uid_linear_progress_bar="true"/>
     </LinearLayout>
 </ScrollView>

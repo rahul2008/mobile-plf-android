@@ -19,7 +19,6 @@ import com.philips.platform.uit.thememanager.ThemeUtils;
 public class ProgressBar extends android.widget.ProgressBar {
 
     private Resources.Theme theme;
-    private boolean isSecondaryProgressBarEnabled;
     private boolean isLinearProgressBarEnabled;
 
     public ProgressBar(final Context context) {
@@ -42,7 +41,6 @@ public class ProgressBar extends android.widget.ProgressBar {
 
     private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.UIDProgressBarHorizontal);
-        isSecondaryProgressBarEnabled = a.getBoolean(R.styleable.UIDProgressBar_uid_secondary_progress, false);
         isLinearProgressBarEnabled = a.getBoolean(R.styleable.UIDProgressBar_uid_linear_progress_bar, false);
         a.recycle();
     }
