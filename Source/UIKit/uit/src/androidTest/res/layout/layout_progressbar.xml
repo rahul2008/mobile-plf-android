@@ -22,20 +22,20 @@
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
-            style="@style/UIDProgressBarHorizontalWithMargins"
+            style="@style/UIDProgressBarHorizontalIndeterminate"
             android:indeterminate="true"
             android:indeterminateBehavior="repeat"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
-            style="@style/UIDProgressBarHorizontalWithMargins"/>
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
-            style="@style/UIDProgressBarHorizontalWithMargins"/>
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
-            style="@style/UIDProgressBarHorizontal"/>
+            style="@style/UIDProgressBarHorizontalDeterminate"/>
     </LinearLayout>
 </ScrollView>

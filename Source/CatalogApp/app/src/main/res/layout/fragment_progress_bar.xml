@@ -82,16 +82,14 @@
 
             <com.philips.platform.uit.view.widget.ProgressBar
                 android:id="@+id/progress_bar_indeterminate_circular"
-                style="@style/UIDProgressBarCircularSmall"
-                android:indeterminate="true"
-                android:indeterminateBehavior="repeat"
-                app:uid_linear_progress_bar="false"/>
+                style="@style/UIDProgressBarCircularIndeterminate"
+                app:circularProgressBarSize="middle"/>
 
             <com.philips.platform.uit.view.widget.ProgressBar
                 android:id="@+id/progress_bar_determinate_circular"
-                style="@style/UIDProgressBarCircularBig"
+                style="@style/UIDProgressBarCircularDeterminate"
                 android:progress="@integer/progress_bar_default_progress"
-                app:uid_linear_progress_bar="false"/>
+                app:circularProgressBarSize="big"/>
         </LinearLayout>
 
         <View
@@ -111,22 +109,20 @@
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
-            style="@style/UIDProgressBarHorizontalWithMargins"
+            style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
-            android:indeterminate="true"
-            android:indeterminateBehavior="repeat"
             app:uid_linear_progress_bar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
-            style="@style/UIDProgressBarHorizontalWithMargins"
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             app:uid_linear_progress_bar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
-            style="@style/UIDProgressBarHorizontalWithMargins"
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             android:secondaryProgress="@integer/progress_bar_default_secondary_progress"
@@ -134,7 +130,7 @@
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
-            style="@style/UIDProgressBarHorizontal"
+            style="@style/UIDProgressBarHorizontalDeterminate"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             android:secondaryProgress="@integer/progress_bar_default_secondary_progress"

@@ -83,5 +83,11 @@
     <dimen name="uid_progress_bar_height">4dp</dimen>
     <dimen name="uid_progress_bar_margin_left">22dp</dimen>
     <dimen name="uid_progress_bar_margin_right">22dp</dimen>
+    <dimen name="uid_progress_bar_circular_small">24dp</dimen>
+    <dimen name="uid_progress_bar_circular_small_thickness">2dp</dimen>
+    <dimen name="uid_progress_bar_circular_middle">48dp</dimen>
+    <dimen name="uid_progress_bar_circular_middle_thickness">3dp</dimen>
+    <dimen name="uid_progress_bar_circular_big">88dp</dimen>
+    <dimen name="uid_progress_bar_circular_big_thickness">4dp</dimen>
 
 </resources>

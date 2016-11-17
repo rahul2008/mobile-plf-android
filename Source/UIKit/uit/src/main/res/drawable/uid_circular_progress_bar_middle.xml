@@ -8,7 +8,7 @@
             android:toDegrees="270">
             <shape
                 android:shape="ring"
-                android:thickness="2dp"
+                android:thickness="@dimen/uid_progress_bar_circular_middle_thickness"
                 android:useLevel="false"/>
         </rotate>
     </item>
@@ -20,7 +20,7 @@
             android:toDegrees="270">
             <shape
                 android:shape="ring"
-                android:thickness="2dp"/>
+                android:thickness="@dimen/uid_progress_bar_circular_middle_thickness"/>
         </rotate>
     </item>
 </layer-list>

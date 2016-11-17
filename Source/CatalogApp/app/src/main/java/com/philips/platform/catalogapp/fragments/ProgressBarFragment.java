@@ -23,6 +23,9 @@ public class ProgressBarFragment extends BaseFragment {
     @Bind(R.id.progress_bar_seekbar_value)
     SeekBar valueSeekbar;
 
+    @Bind(R.id.progress_bar_seekbar_scale)
+    SeekBar scaleSeekbar;
+
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -41,8 +44,8 @@ public class ProgressBarFragment extends BaseFragment {
         View root =  inflater.inflate(R.layout.fragment_progress_bar, container, false);
         ButterKnife.bind(this, root);
 
-        valueSeekbar.setOnSeekBarChangeListener(onSeekBarChangeListener);
-
+        valueSeekbar.setOnSeekBarChangeListener(onSeekBarChangedListener);
+        scaleSeekbar.setOnSeekBarChangeListener(onScaleSeekbarChangedListener);
         return root;
     }
 
@@ -60,10 +63,36 @@ public class ProgressBarFragment extends BaseFragment {
         determinateCircularProgressBar.setProgress(progress);
     }
 
-    private OnSeekBarChangeListener onSeekBarChangeListener = new OnSeekBarChangeListener() {
+    private OnSeekBarChangeListener onSeekBarChangedListener = new OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
             updateProgressBarValues(progress);
+        }
+
+        @Override
+        public void onStartTrackingTouch(final SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(final SeekBar seekBar) {
+
+        }
+    };
+
+    private OnSeekBarChangeListener onScaleSeekbarChangedListener = new OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+            if (progress == 0) {
+                determinateCircularProgressBar.setSize(ProgressBar.CircularProgressBarSize.SMALL);
+                determinateCircularProgressBar.invalidate();
+            } else if (progress == 1) {
+                determinateCircularProgressBar.setSize(ProgressBar.CircularProgressBarSize.MIDDLE);
+                determinateCircularProgressBar.invalidate();
+            } else if (progress == 2) {
+                determinateCircularProgressBar.setSize(ProgressBar.CircularProgressBarSize.BIG);
+                determinateCircularProgressBar.invalidate();
+            }
         }
 
         @Override

@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="UIDProgressBarHorizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+
+    <style name="UIDProgressBarHorizontalDeterminate" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minWidth">@dimen/uid_progress_bar_min_width</item>
+        <item name="android:indeterminate">false</item>
     </style>
 
-    <style name="UIDProgressBarHorizontalWithMargins" parent="UIDProgressBarHorizontal">
+    <style name="UIDProgressBarHorizontalIndeterminate" parent="UIDProgressBarHorizontalDeterminate">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateBehavior">repeat</item>
+    </style>
+
+    <style name="UIDProgressBarHorizontalDeterminateWithMargins" parent="UIDProgressBarHorizontalDeterminate">
         <item name="android:layout_marginLeft">@dimen/uid_progress_bar_margin_left</item>
         <item name="android:layout_marginRight">@dimen/uid_progress_bar_margin_right</item>
-        <item name="android:progressDrawable">@drawable/uid_secondary_progress_bar</item>
+        <item name="android:indeterminate">false</item>
     </style>
 
-    <style name="UIDProgressBarCircularSmall" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_height">24dp</item>
+    <style name="UIDProgressBarHorizontalIndeterminateWithMargins" parent="UIDProgressBarHorizontalDeterminateWithMargins">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateBehavior">repeat</item>
     </style>
 
-    <style name="UIDProgressBarCircularMiddle" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+    <style name="UIDProgressBarCircularDeterminate" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminate">false</item>
     </style>
 
-    <style name="UIDProgressBarCircularBig" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_width">88dp</item>
-        <item name="android:layout_height">88dp</item>
+    <style name="UIDProgressBarCircularIndeterminate" parent="UIDProgressBarCircularDeterminate">
+        <item name="android:indeterminate">true</item>
     </style>
 </resources>
