@@ -54,7 +54,22 @@ public class RegistrationConfiguration {
                         environment.getValue(), UR, configError);
         String registrationClient = null;
         if (obj != null) {
-            registrationClient = (String) obj;
+            if(obj instanceof String){
+                registrationClient = (String) obj;
+            }else if(obj instanceof JSONObject){
+                JSONObject jsonObject = (JSONObject)obj;
+                try {
+                if(!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())){
+                        registrationClient =  (String) jsonObject.get(RegistrationHelper.
+                                getInstance().getCountryCode());
+                }else if(!jsonObject.isNull(DEFAULT)){
+                    registrationClient = (String) jsonObject.get(DEFAULT);
+                }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
         } else {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
