@@ -31,8 +31,8 @@ public class OrmMeasurementGroupDetailType implements Serializable{
         this.description = momentType.getDescription();
     }
 
-    public MeasurementDetailType getType() {
-        return MeasurementDetailType.fromId(id);
+    public MeasurementGroupDetailType getType() {
+        return MeasurementGroupDetailType.fromId(id);
     }
 
     @Override

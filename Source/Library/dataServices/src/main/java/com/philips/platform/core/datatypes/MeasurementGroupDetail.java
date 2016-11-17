@@ -8,4 +8,11 @@ import java.io.Serializable;
 
 public interface MeasurementGroupDetail extends BaseAppData, Serializable {
 
+    public MeasurementGroupDetailType getType();
+
+    public String getValue();
+
+    public void setValue(final String value);
+
+    public MeasurementGroup getOrmMeasurementGroup();
 }
