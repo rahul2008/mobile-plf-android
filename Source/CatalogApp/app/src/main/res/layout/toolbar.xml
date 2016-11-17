@@ -21,18 +21,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentStart="true"
-                android:padding="5dp"
                 android:contentDescription="@string/hamburger_menu"
+                android:padding="5dp"
                 app:srcCompat="@drawable/ic_hamburger_menu"/>
 
             <TextView
                 android:id="@+id/toolbar_title"
+                style="@style/UIDActionBarTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="@string/catalog_app_name"/>
+                android:text="@string/catalog_app_name"
+                android:textColor="?attr/uitNavigationTextColor"/>
 
             <ImageView
                 android:id="@+id/theme_settings"
@@ -46,11 +48,13 @@
 
             <TextView
                 android:id="@+id/set_theme_settings"
+                style="@style/UIDActionBarTitleText"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
                 android:text="@string/set_theme_settings"
+                android:textColor="?attr/uitNavigationTextColor"
                 android:visibility="gone"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
