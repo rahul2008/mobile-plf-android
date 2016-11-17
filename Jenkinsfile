@@ -17,7 +17,7 @@ node ('Ubuntu') {
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug findbugs cC assembleRelease zipDocuments'
+                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug'
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
