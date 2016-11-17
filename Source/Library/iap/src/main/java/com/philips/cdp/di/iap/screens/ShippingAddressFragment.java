@@ -643,6 +643,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         return addressHashMap;
     }
 
+    @SuppressWarnings("unchecked")
     private void updateFields() {
         Bundle bundle = getArguments();
         mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);

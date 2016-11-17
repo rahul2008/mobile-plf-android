@@ -137,7 +137,7 @@
 <string name="iap_order_processing">Wird verarbeitet</string>
 <string name="iap_order_completed">Abgeschlossen</string>
 <string name="iap_not_shipped_msg">Ihre Bestellung wurde noch nicht versendet. Sie wird voraussichtlich innerhalb von 24 Stunden nach der Bestellbestätigung an den Kurierdienst übergeben.</string>
-<string name="iap_order_completed_text">Der Versand erfolgt durch \nFedEx (Päckchen) \nTrackingnummer ##</string>
+<string name="iap_order_completed_text">Der Versand erfolgt durch \nFedEx (Päckchen) \nTrackingnummer %1$s</string>
 <string name="iap_order_completed_text_without_track_id">Der Versand erfolgt durch \nFedEx (Päckchen)</string>
 <string name="iap_view_invoice">Rechnung anzeigen</string>
 <string name="iap_invoice">Rechnung</string>

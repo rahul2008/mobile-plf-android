@@ -40,6 +40,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     private List<PaymentMethod> mPaymentMethodList;
     private PaymentController mPaymentController;
 
+    @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_payment_method, container, false);

@@ -137,7 +137,7 @@
 <string name="iap_order_processing">處理中</string>
 <string name="iap_order_completed">已完成</string>
 <string name="iap_not_shipped_msg">您訂購的貨品尚未付運。我們會在確認訂單後的 24 小時內，將貨品送交給速遞公司送貨</string>
-<string name="iap_order_completed_text">您訂購的貨品將會由 \nFedEx(parcel postage) 運送\n追蹤號碼： ##</string>
+<string name="iap_order_completed_text">您訂購的貨品將會由 \nFedEx(parcel postage) 運送\n追蹤號碼： %1$s</string>
 <string name="iap_order_completed_text_without_track_id">您訂購的貨品將會由 \nFedEx(parcel postage) 運送</string>
 <string name="iap_view_invoice">查閱發票</string>
 <string name="iap_invoice">發票</string>

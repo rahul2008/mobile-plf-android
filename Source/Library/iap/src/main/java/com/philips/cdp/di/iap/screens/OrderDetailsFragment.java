@@ -32,6 +32,7 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -292,7 +293,9 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
             if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
-                mShippingStatus.setText(mContext.getString(R.string.iap_order_completed_text, detail.getConsignments().get(0).getTrackingID()));
+                String text = String.format(mContext.getString(R.string.iap_order_completed_text),
+                        detail.getConsignments().get(0).getTrackingID());
+                mShippingStatus.setText(text);
             } else {
                 mShippingStatus.setText(mContext.getString(R.string.iap_order_completed_text_without_track_id));
             }
@@ -316,11 +319,10 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         }
     }
 
-
-    @SuppressWarnings({"rawtype", "unchecked"})
+    @SuppressWarnings("unchecked")
     private boolean processResponseFromPrx(final Message msg) {
         if (msg.obj instanceof HashMap) {
-            final HashMap obj = (HashMap) msg.obj;
+            final HashMap<String, SummaryModel> obj = (HashMap<String, SummaryModel>) msg.obj;
             if (!obj.isEmpty()) {
                 updateUiOnProductList();
             } else {

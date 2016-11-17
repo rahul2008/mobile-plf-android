@@ -70,6 +70,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         mIsFromOnCreate = true;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);

@@ -137,7 +137,7 @@
 <string name="iap_order_processing">Traitement en cours</string>
 <string name="iap_order_completed">Terminé</string>
 <string name="iap_not_shipped_msg">Votre commande n’a pas encore été envoyée. Elle est normalement remise au transporteur dans les 24 heures qui suivent la confirmation de votre commande</string>
-<string name="iap_order_completed_text">Votre commande sera livrée par \nFedEx (colis postal) \nNuméro de suivi ##</string>
+<string name="iap_order_completed_text">Votre commande sera livrée par \nFedEx (colis postal) \nNuméro de suivi %1$s</string>
 <string name="iap_order_completed_text_without_track_id">Votre commande sera livrée par \nFedEx (colis postal)</string>
 <string name="iap_view_invoice">Voir la facture</string>
 <string name="iap_invoice">Facture</string>
