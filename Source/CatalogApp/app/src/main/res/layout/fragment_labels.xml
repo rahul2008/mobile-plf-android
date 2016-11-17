@@ -19,7 +19,7 @@
 
         <!--Label text top-->
         <TextView
-            style="@style/Label.Top"
+            style="@style/UIDLabel.Top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/layout_margin_left_right"
@@ -46,13 +46,13 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/Label"
+                style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Label text"/>
 
             <TextView
-                style="@style/LabelDescription.Slider"
+                style="@style/UIDLabelDescription.Slider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"

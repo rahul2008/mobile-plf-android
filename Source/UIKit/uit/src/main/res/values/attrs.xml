@@ -32,6 +32,10 @@
         <attr name="uitControlPrimaryAltTextDisabledAlpha" format="reference|float"/>
         <attr name="uitApplicationBackground" format="reference|color"/>
 
+        <!--Why do we need these???-->
+        <attr name="uidTextPrimary" format="reference|color"/>
+        <attr name="uidTextSecondary" format="reference|color"/>
+
     </declare-styleable>
 
 

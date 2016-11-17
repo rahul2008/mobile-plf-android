@@ -85,4 +85,10 @@
         <attr name="uitDialogDimStrongColor" format="reference|color"/>
         <attr name="uitDialogDimStrongColorAlpha" format="reference|float"/>
     </declare-styleable>
+
+    <!--Label-->
+    <declare-styleable name="UIDLabel">
+        <attr name="uidLabelTextColor" format="reference|color"/>
+        <attr name="uidLabelTextAlpha" format="float"/>
+    </declare-styleable>
 </resources>
