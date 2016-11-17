@@ -9,10 +9,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.rest.request.StringRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
@@ -249,8 +246,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         //previews it was like this
                         //janrainURL.toString();
 
-
-
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);
 
                         jumpConfig.engageAppId = getEngageId(url.toString());
@@ -295,51 +290,71 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                         jumpConfig.captureRecoverUri = modifiedUrl + "&loc=" + langCode + "_" + countryCode;
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + modifiedUrl);
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
+
+                                                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(
+                                                                "userreg.janrain.cdn", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                                                                    @Override
+                                                                    public void onError(ERRORVALUES errorvalues, String error) {
+                                                                        RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.resetpass : " + error);
+                                                                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onSuccess(URL url) {
+                                                                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" + url.toString());
+                                                                        jumpConfig.flowCDN = url.toString();
+
+                                                                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                                                                            @Override
+                                                                            public void onError(ERRORVALUES errorvalues, String error) {
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +"Service Deiscover inis at non China local");
+                                                                                setChinaFlow(false);
+                                                                                jumpConfig.captureLocale = locale;
+                                                                                mPreferredCountryCode = countryCode;
+                                                                                mPreferredLangCode = langCode;
+
+                                                                                try {
+                                                                                    Jump.reinitialize(mContext, jumpConfig);
+                                                                                } catch (Exception e) {
+                                                                                    e.printStackTrace();
+                                                                                    if (e instanceof RuntimeException) {
+                                                                                        mContext.deleteFile("jr_capture_flow");
+                                                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                                                    }
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onSuccess(URL url) {
+                                                                                String smsSupport=url.toString();
+                                                                                setChinaFlow(true);
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +smsSupport);
+                                                                                jumpConfig.captureLocale = locale;
+                                                                                mPreferredCountryCode = countryCode;
+                                                                                mPreferredLangCode = langCode;
+
+                                                                                try {
+                                                                                    Jump.reinitialize(mContext, jumpConfig);
+                                                                                } catch (Exception e) {
+                                                                                    e.printStackTrace();
+                                                                                    if (e instanceof RuntimeException) {
+                                                                                        mContext.deleteFile("jr_capture_flow");
+                                                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                                                    }
+                                                                                }
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " +getIsChinaFlow());
+                                                                            }
+                                                                        });
+
+                                                                    }
+                                                                });
+
                                                     }
                                                 });
-                                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-                                            @Override
-                                            public void onError(ERRORVALUES errorvalues, String error) {
-                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
-                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +"Service Deiscover inis at non China local");
-                                                setChinaFlow(false);
-                                                jumpConfig.captureLocale = locale;
-                                                mPreferredCountryCode = countryCode;
-                                                mPreferredLangCode = langCode;
-
-                                                try {
-                                                    Jump.reinitialize(mContext, jumpConfig);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                    if (e instanceof RuntimeException) {
-                                                        mContext.deleteFile("jr_capture_flow");
-                                                        Jump.reinitialize(mContext, jumpConfig);
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onSuccess(URL url) {
-                                                String smsSupport=url.toString();
-                                                setChinaFlow(true);
-                                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +smsSupport);
-                                                jumpConfig.captureLocale = locale;
-                                                mPreferredCountryCode = countryCode;
-                                                mPreferredLangCode = langCode;
-
-                                                try {
-                                                    Jump.reinitialize(mContext, jumpConfig);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                    if (e instanceof RuntimeException) {
-                                                        mContext.deleteFile("jr_capture_flow");
-                                                        Jump.reinitialize(mContext, jumpConfig);
-                                                    }
-                                                }
-                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " +getIsChinaFlow());
-                                            }
-                                        });
                                     }
                                 });
                     }
