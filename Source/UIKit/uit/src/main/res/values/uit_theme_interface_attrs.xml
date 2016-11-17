@@ -78,7 +78,6 @@
     <declare-styleable name="UIDProgressBar">
         <attr name="uitControlPrimaryTrackOff" format="reference|color"/>
         <attr name="uitControlPrimaryBuffer" format="reference|color"/>
-        <attr name="uitControlPrimaryDisabled" format="reference|color"/>
         <attr name="uitControlPrimaryTrackOffAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryBufferAlpha" format="reference|float"/>
         <attr format="boolean" name="uid_linear_progress_bar"/>
