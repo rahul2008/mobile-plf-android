@@ -50,12 +50,13 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
         if(componentID == 0) {
             hideActionBar();
             baseState = getApplicationContext().getTargetFlowManager().getNextState(null, null);
-            baseState.setUiStateData(getUiStateData());
+
         } else {
             baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         }
         if (!baseState.getStateID().equals(AppStates.REGISTRATION)) {
             baseState.setPresenter(this);
+            baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
         }
     }

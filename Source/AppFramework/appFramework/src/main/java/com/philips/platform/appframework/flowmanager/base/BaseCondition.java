@@ -12,7 +12,7 @@ public abstract class BaseCondition {
 
     private String conditionID;
 
-    BaseCondition(String conditionID){
+    public BaseCondition(String conditionID){
         this.conditionID = conditionID;
     }
 
