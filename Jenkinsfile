@@ -9,7 +9,7 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node ('Ubuntu && 24.0.3') {
+node ('iOS') {
 	timestamps {
 		stage ('Checkout') {
 			checkout scm
