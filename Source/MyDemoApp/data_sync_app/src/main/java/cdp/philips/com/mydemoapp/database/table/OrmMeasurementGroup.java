@@ -22,8 +22,8 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
-   /* @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();*/
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();
 
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
