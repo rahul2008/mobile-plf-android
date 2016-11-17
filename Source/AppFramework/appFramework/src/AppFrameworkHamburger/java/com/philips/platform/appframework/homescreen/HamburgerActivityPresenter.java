@@ -30,13 +30,12 @@ import java.util.Arrays;
  */
 public class HamburgerActivityPresenter extends UIBasePresenter implements UIStateListener {
 
-    public static final int MENU_OPTION_HOME = 0;
     private FragmentView fragmentView;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
 
-
     /*Event ID */
+    public static final int MENU_OPTION_HOME = 0;
     final int MENU_OPTION_SETTINGS = 1;
     final int MENU_OPTION_SHOP = 2;
     final int MENU_OPTION_SUPPORT = 3;
@@ -69,13 +68,15 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
         AppFrameworkApplication appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.HAMBURGER_HOME, eventState);
-        baseState.setPresenter(this);
-        baseState.setUiStateData(setStateData(componentID));
-        fragmentLauncher = getFragmentLauncher();
-        if (baseState instanceof SupportFragmentState) {
-            ((SupportFragmentState) baseState).registerUIStateListener(this);
+        if(null != baseState) {
+            baseState.setPresenter(this);
+            baseState.setUiStateData(setStateData(componentID));
+            fragmentLauncher = getFragmentLauncher();
+            if (baseState instanceof SupportFragmentState) {
+                ((SupportFragmentState) baseState).registerUIStateListener(this);
+            }
+            baseState.navigate(fragmentLauncher);
         }
-        baseState.navigate(fragmentLauncher);
     }
 
     protected AppFrameworkApplication getApplicationContext() {
