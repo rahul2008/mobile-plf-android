@@ -135,7 +135,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                                 for (Tag tag : tagList) {
                                                     tags += tag.getId() + ",";
                                                 }
-                                                tags = tags.substring(0, tags.length() - 2);
+                                                tags = tags.substring(0, tags.length() - 1);// remove last comma
                                             }
                                             contentItem.setTags(tags);
                                             downloadedContents.add(contentItem);
@@ -312,7 +312,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void deleteAllContents() {
-        mContentDatabaseHandler.deleteAll();
+        mContentDatabaseHandler.deleteAll(mServiceId);
     }
     // endregion
 

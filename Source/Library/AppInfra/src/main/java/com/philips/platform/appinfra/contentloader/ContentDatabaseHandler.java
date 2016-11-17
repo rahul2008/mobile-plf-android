@@ -402,10 +402,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return values;
     }
 
-    void deleteAll(){
+    void deleteAll(String serviceID){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ CONTENT_LOADER_STATES);
-        db.execSQL("delete from "+ CONTENT_TABLE);
+        db.execSQL("delete from "+ CONTENT_LOADER_STATES +" WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\"");
+        db.execSQL("delete from "+ CONTENT_TABLE +" WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\"");
         db.close();
         Log.d("DEL SUC", "" + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
 
