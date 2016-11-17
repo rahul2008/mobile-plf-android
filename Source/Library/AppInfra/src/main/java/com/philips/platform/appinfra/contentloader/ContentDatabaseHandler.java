@@ -336,7 +336,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         String getContentByIdQuery = null;
         try {
             if (tagIDs.length == 1) {
-                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\" AND " + KEY_TAG_IDS + " = \"" + tagIDs[0] + "\"";
+                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\" AND " + KEY_TAG_IDS + " LIKE \'%" + tagIDs[0] + "%\'";
             } else if (tagIDs.length > 1) {
                 String[] whereClause = new String[tagIDs.length];
                 int idCount = 0;
