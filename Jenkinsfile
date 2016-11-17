@@ -1,4 +1,4 @@
-/* following 2 lines are mandatory for the platform CI pipeline integration */
+/* following line is mandatory for the platform CI pipeline integration */
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
 
 node('Android') {
