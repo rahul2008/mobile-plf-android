@@ -59,6 +59,13 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 
         }
 
+        [Then(@"I select the present date as Date of Purchase")]
+        public void ThenISelectThePresentDateAsDateOfPurchase()
+        {
+            PRSuccess.Click(PRSuccess.Button.PROK);
+        }
+
+
         [Then(@"I verify that the user is able to see  successfull product message")]
         public void ThenIVerifyThatTheUserIsAbleToSeeSuccessfullProductMessage()
         {

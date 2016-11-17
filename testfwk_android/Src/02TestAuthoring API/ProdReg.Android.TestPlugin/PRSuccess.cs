@@ -40,7 +40,8 @@ namespace ProdReg.Android.TestPlugin
         public enum Button
         {
             PR_Continue,
-            PR_Back
+            PR_Back,
+            PROK
         }
 
         public static void Click(Button btn)
@@ -49,6 +50,8 @@ namespace ProdReg.Android.TestPlugin
                 _instance.GetElement(SearchBy.Id, ProductRegistration.Android.HomeScreen.PRContinue).Click();
             if (btn == Button.PR_Back)
                 _instance.GetElement(SearchBy.Id, ProductRegistration.Android.HomeScreen.PRBack).Click();
+            if (btn == Button.PROK)
+                _instance.GetElement(SearchBy.Id, ProductRegistration.Android.HomeScreen.PROK).Click();
         }
 
         public static string RepeatProdRegisterMessage()

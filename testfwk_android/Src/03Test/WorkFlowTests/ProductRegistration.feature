@@ -14,7 +14,7 @@ Scenario: Register a product
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen
 	Then I click on Philips Account
-	Then enter email as "datacore@mailinator.com" and password as "Philips@123"
+	Then enter email as "eno350582@gmail.com" and password as "Philips123"
 	Then I click on Log In button
 	Then accept terms conditions and click on continue
 	Then Verify that the user should land to home screen

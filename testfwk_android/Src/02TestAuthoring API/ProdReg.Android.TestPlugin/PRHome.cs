@@ -73,9 +73,19 @@ namespace ProdReg.Android.TestPlugin
                 _instance.ClickById(ProductRegistration.Android.HomeScreen.PRRegister);
             else if (btn == Button.DatePurchase)
             {
-                IMobilePageControl cnt = _instance.GetElement(SearchBy.ClassName, "android.widget.EditText");
-                cnt.Click();
-                cnt.Click();
+             
+               int[] coordinates = _instance.GetElementByXpath(ProductRegistration.Android.HomeScreen.DatePurchase).Coordinates;
+               int[] size = _instance.GetElementByXpath(ProductRegistration.Android.HomeScreen.DatePurchase).Size;
+               int x1 = coordinates[0] + size[1]-65;
+               int y1 = coordinates[1] + size[0] - 60;
+               int x2 = x1 + 5;
+               MobileDriver.Swipe(x1, y1, x2, y1);
+               
+              
+               
+                //IMobilePageControl cnt = _instance.GetElement(SearchBy.ClassName, "android.widget.EditText").Coordinates             
+               
+                
             }
         }
 
@@ -189,6 +199,7 @@ namespace ProdReg.Android.TestPlugin
             int y1 = cnt[1] + 100;
             int y2 = (cnt[1] + size[0] / 2 + 65);
             MobileDriver.Swipe(x1, y1, x1, y2);
+            
         }
 
     }
