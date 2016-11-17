@@ -48,7 +48,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
 
         fragmentLauncher = getFragmentLauncher();
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.FIRST_STATE, eventState);
-        if (!baseState.getStateID().equals(AppStates.REGISTRATION)) {
+        if (baseState != null && !baseState.getStateID().equals(AppStates.REGISTRATION)) {
             baseState.setPresenter(this);
             baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
