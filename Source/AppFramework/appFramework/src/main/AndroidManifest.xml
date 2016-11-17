@@ -10,7 +10,7 @@
         android:protectionLevel="signature" />
 
     <application
-        android:name="com.philips.platform.appframework.com.philips.platform.baseapp.base.AppFrameworkApplication"
+        android:name="com.philips.platform.baseapp.base.AppFrameworkApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/app_icon"

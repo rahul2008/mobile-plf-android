@@ -31,6 +31,15 @@
                 "nextState": "welcome"
               }
             ]
+          },
+          {
+            "eventId": "splash_home",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
           }
         ]
       },
@@ -129,15 +138,6 @@
               {
                 "condition": [],
                 "nextState": "iap"
-              }
-            ]
-          },
-          {
-            "eventId": "data_sync",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "data_sync"
               }
             ]
           }
