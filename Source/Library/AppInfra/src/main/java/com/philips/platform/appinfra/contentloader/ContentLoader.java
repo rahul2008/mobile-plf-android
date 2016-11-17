@@ -41,7 +41,6 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private final int downloadLimit;
     private int contentDownloadedCount;
     private List downloadedContents;
-    private Calendar expiryDate;
     private ContentDatabaseHandler mContentDatabaseHandler;
     // region public methods
 
@@ -74,15 +73,24 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     @Override
     public void refresh(final OnRefreshListener refreshListener) {
 
-        downloadedContents.clear();
-        if (downloadInProgress.compareAndSet(false, true)) {
-            downloadContent(refreshListener);
-        } else {
-            Log.i("CL REFRSH ERR", "" + "download already in progress");
-            refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
+        long contentLoaderExpiryTime =  mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
+        Calendar  calendar = Calendar.getInstance();
+        long currentTime= calendar.getTime().getTime();
+        if(contentLoaderExpiryTime<currentTime)// if content loader is expired then refresh
+        {
+            downloadedContents.clear();
+            if (downloadInProgress.compareAndSet(false, true)) {
+                downloadContent(refreshListener);
+            } else {
+                Log.i("CL REFRSH ERR", "" + "download already in progress");
+                refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
 
+            }
+        }else{
+            //content loader already updated
+            refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
+            Log.i("CL REFRSH NA", "" + "content loader already uptodate");
         }
-
     }
 
     private void downloadContent(final OnRefreshListener refreshListener) {
@@ -140,9 +148,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                             }
                             if (contentDownloadedCount < downloadLimit) { // download is over
                                 Log.i("CL REFRSH RESP", "download completed");
-                                expiryDate = Calendar.getInstance();
-                                expiryDate.add(Calendar.HOUR_OF_DAY, mMaxAgeInHours);
-                                mContentDatabaseHandler.addContents(downloadedContents, mServiceId, expiryDate.getTime().getTime());
+                                mContentDatabaseHandler.addContents(downloadedContents, mServiceId, expiryTimeforUserInputTime(mMaxAgeInHours));
                                 clearParamsAndHeaders();// clear headerd and params from rest client
                                 downloadInProgress.set(false);
                                 offset = 0;
@@ -303,6 +309,11 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
             listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given TAG(s) not found in DB");
         }
     }
+
+    @Override
+    public void deleteAllContents() {
+        mContentDatabaseHandler.deleteAll();
+    }
     // endregion
 
     // region Private methods
@@ -351,4 +362,13 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         }
         downloadedContents.clear();
     }
+
+    private long expiryTimeforUserInputTime(int userInputExpiryTime){
+        long expiryTime=0;
+       Calendar  expiryDate = Calendar.getInstance();
+        expiryDate.add(Calendar.HOUR_OF_DAY, userInputExpiryTime);
+        expiryTime=expiryDate.getTime().getTime();
+        return expiryTime;
+    }
+
 }
