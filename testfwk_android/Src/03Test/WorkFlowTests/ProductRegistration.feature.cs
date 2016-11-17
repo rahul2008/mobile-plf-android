@@ -4,7 +4,7 @@
 //      SpecFlow Version:1.9.0.77
 //      SpecFlow Generator Version:1.9.0.0
 //      Runtime Version:4.0.30319.34209
-// 
+//
 //      Changes to this file may cause incorrect behavior and will be lost if
 //      the code is regenerated.
 //  </auto-generated>
@@ -14,8 +14,8 @@
 namespace Philips.CDP.Automation.IAP.Tests.Workflows
 {
     using TechTalk.SpecFlow;
-    
-    
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [TechTalk.SpecRun.FeatureAttribute("US12105 - ProductRegistration", Description=@"As tester I want to automated e2e scenarios of Product Registration BaseApp in Reference App context for Android
@@ -27,12 +27,12 @@ US12315 Requirement:
 2a) The system shall provide the ability to register a product (create a separate feature file for the same)", SourceFile="ProductRegistration.feature", SourceLine=0)]
     public partial class US12105_ProductRegistrationFeature
     {
-        
+
         private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
+
 #line 1 "ProductRegistration.feature"
 #line hidden
-        
+
         [TechTalk.SpecRun.FeatureInitialize()]
         public virtual void FeatureSetup()
         {
@@ -46,34 +46,34 @@ US12315 Requirement:
 2a) The system shall provide the ability to register a product (create a separate feature file for the same)", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
-        
+
         [TechTalk.SpecRun.FeatureCleanup()]
         public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
-        
+
         public virtual void TestInitialize()
         {
         }
-        
+
         [TechTalk.SpecRun.ScenarioCleanup()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
         }
-        
+
         public virtual void ScenarioSetup(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioStart(scenarioInfo);
         }
-        
+
         public virtual void ScenarioCleanup()
         {
             testRunner.CollectScenarioErrors();
         }
-        
+
         [TechTalk.SpecRun.ScenarioAttribute("Register a product", new string[] {
                 "mytag"}, SourceLine=10)]
         public virtual void RegisterAProduct()
@@ -123,7 +123,7 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
-        
+
         [TechTalk.SpecRun.ScenarioAttribute("Check the behaviour registering the product that is already registered", SourceLine=34)]
         public virtual void CheckTheBehaviourRegisteringTheProductThatIsAlreadyRegistered()
         {
@@ -133,7 +133,7 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
-        
+
         [TechTalk.SpecRun.TestRunCleanup()]
         public virtual void TestRunCleanup()
         {
