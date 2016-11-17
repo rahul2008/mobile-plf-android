@@ -3,28 +3,49 @@
 
     <style name="UITNavigationBar" parent="Theme.AppCompat.Light.NoActionBar" tools:ignore="NewApi">
         <item name="android:background">?attr/uitActionBarBackground</item>
-        <item name="background">?attr/uitActionBarBackground</item>
-        <item name="android:textColorPrimary">?attr/uitControlPrimaryTextColor</item>
-
+        <item name="android:maxHeight">@dimen/uit_navigation_bar_max_height</item>
+        <item name="android:colorPrimary">?attr/uitActionBarBackground</item>
+        <item name="android:colorPrimaryDark">?attr/uitActionBarBackground</item>
+        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
+        <item name="android:titleTextStyle">@style/UIDActionBarTitleText</item>
+        <item name="titleTextStyle">@style/UIDActionBarTitleText</item>
+        <item name="actionBarSize">@dimen/uid_navigation_bar_height</item>
+        <item name="android:actionBarSize">@dimen/uid_navigation_bar_height</item>
     </style>
 
     <style name="UITNavigationbarUltraLight">
         <item name="uitActionBarBackground">@color/uitColorWhite</item>
+        <item name="uitNavigationTextColor">@color/uit_gray_level_75</item>
     </style>
 
     <style name="UITNavigationbarVeryLight">
         <item name="uitActionBarBackground">?attr/uitColorLevel10</item>
+        <item name="uitNavigationTextColor">?attr/uitColorLevel75</item>
     </style>
 
     <style name="UITNavigationbarLight">
         <item name="uitActionBarBackground">?attr/uitColorLevel25</item>
+        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
     </style>
 
     <style name="UITNavigationbarBright">
         <item name="uitActionBarBackground">?attr/uitColorLevel40</item>
+        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
     </style>
 
     <style name="UITNavigationbarVeryDark">
         <item name="uitActionBarBackground">?attr/uitColorLevel70</item>
+        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
     </style>
+
+    <style name="UIDActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">?attr/uitNavigationTextColor</item>
+        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
+    </style>
+
+    <style name="UIDActionBarTabText" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">?attr/uitNavigationTextColor</item>
+        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
+    </style>
+
 </resources>

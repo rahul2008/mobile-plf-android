@@ -97,9 +97,6 @@
 
         <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel10</item>
 
-        <!--<item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
-        <item name="uitDialogBodyTextColor">@color/uit_gray_level_75</item>-->
-
     </style>
 
     <style name="VeryLight">
