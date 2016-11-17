@@ -16,6 +16,7 @@ import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -26,6 +27,8 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * This class contains all initialization & Launching details of Consumer Care
  */
@@ -36,6 +39,9 @@ public class SupportFragmentState extends BaseState implements CcListener {
     private FragmentLauncher fragmentLauncher;
     private UIStateListener supportListener;
 
+
+
+    private String[] ctnList;
     public SupportFragmentState() {
         super(AppStates.SUPPORT);
     }
@@ -46,6 +52,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        updateDataModel();
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         this.activityContext = fragmentLauncher.getFragmentActivity();
         DigitalCareConfigManager.getInstance().registerCcListener(this);
@@ -60,15 +67,22 @@ public class SupportFragmentState extends BaseState implements CcListener {
 
     @Override
     public void updateDataModel() {
-
+        String[] ctnList = new String[new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist))).size()];
+        ctnList = (new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist))).toArray(ctnList));
+        setCtnList(ctnList);
+    }
+    public String[] getCtnList() {
+        return ctnList;
     }
 
+    public void setCtnList(String[] ctnList) {
+
+        this.ctnList = ctnList;
+    }
     private void launchCC()
     {
-        String[] ctnList = new String[((ConsumerCareData)getUiStateData()).getCtnList().size()];
-        ctnList = ((ConsumerCareData)getUiStateData()).getCtnList().toArray(ctnList);
 
-        ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(ctnList);
+        ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(getCtnList());
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
         CcInterface ccInterface = new CcInterface();
@@ -114,20 +128,5 @@ public class SupportFragmentState extends BaseState implements CcListener {
     @Override
     public boolean onSocialProviderItemClicked(String s) {
         return false;
-    }
-
-    /**
-     * Data Model for CoCo is defined here to have minimal import files.
-     */
-    public class ConsumerCareData extends UIStateData {
-        private ArrayList<String> ctnList = null;
-
-        public ArrayList<String> getCtnList() {
-            return ctnList;
-        }
-
-        public void setCtnList(ArrayList<String> ctnList) {
-            this.ctnList = ctnList;
-        }
     }
 }

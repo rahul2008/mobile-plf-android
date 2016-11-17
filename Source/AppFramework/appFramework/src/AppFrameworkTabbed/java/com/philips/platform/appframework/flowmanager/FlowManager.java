@@ -14,7 +14,7 @@ import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.datasevices.temperature.DataSyncScreenState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
@@ -55,7 +55,7 @@ public class FlowManager extends BaseUiFlowManager {
         uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
         uiStateMap.put(AppStates.DEBUG, new DebugTestFragmentState());
         uiStateMap.put(AppStates.SETTINGS, new SettingsFragmentState());
-        uiStateMap.put(AppStates.IAP, new IAPState());
+        uiStateMap.put(AppStates.IAP, new IAPRetailerFlowState());
         uiStateMap.put(AppStates.PR, new ProductRegistrationState());
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());

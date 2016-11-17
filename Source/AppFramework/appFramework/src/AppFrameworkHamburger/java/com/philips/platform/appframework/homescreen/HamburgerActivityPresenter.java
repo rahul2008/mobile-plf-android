@@ -96,14 +96,11 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return settingsStateData;
             case MENU_OPTION_SHOP:
-                IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
-                iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
-                iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData iapStateData = new UIStateData();
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
-                SupportFragmentState.ConsumerCareData supportStateData = new SupportFragmentState().new ConsumerCareData();
-                supportStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData supportStateData = new UIStateData();
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return supportStateData;
             case MENU_OPTION_ABOUT:
@@ -117,8 +114,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
             case MENU_OPTION_PR:
-                ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
-                prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData prStateDataModel = new UIStateData();
                 return prStateDataModel;
             case MENU_OPTION_DATA_SYNC:
                 UIStateData syncStateData = new UIStateData();

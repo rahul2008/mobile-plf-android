@@ -73,11 +73,11 @@ public class HamburgerActivityPresenterTest extends TestCase {
         when(fragmentActivityMock.getResources()).thenReturn(resourcesMock);
         assertEquals(true, hamburgerActivityPresenter.setStateData(0) instanceof UIStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(1) instanceof UIStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof IAPState.InAppStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof SupportFragmentState.ConsumerCareData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof UIStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(4) instanceof UIStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof UIStateData);
-        assertFalse(hamburgerActivityPresenter.setStateData(5) instanceof SupportFragmentState.ConsumerCareData);
+        assertFalse(hamburgerActivityPresenter.setStateData(5) instanceof UIStateData);
     }
 
     public void testOnClick() {

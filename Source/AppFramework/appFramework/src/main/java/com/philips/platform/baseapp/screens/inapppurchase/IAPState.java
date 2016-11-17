@@ -12,12 +12,12 @@ import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * This class contains all initialization & Launching details of IAP
  */
-public class IAPState extends BaseState {
+public abstract class IAPState extends BaseState {
 
     /**
      IAP flow constants, values for IAP views should start from 4000 series
@@ -39,6 +39,8 @@ public class IAPState extends BaseState {
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
+    protected int launchType;
+    protected ArrayList<String> ctnList = null;
 
     public IAPState() {
         super(AppStates.IAP);
@@ -50,6 +52,7 @@ public class IAPState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        updateDataModel();
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
@@ -60,15 +63,33 @@ public class IAPState extends BaseState {
         switch (iapFlowType){
             case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
            // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
-          //  case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
-            default:return IAPState.IAP_CATALOG_VIEW;
+           // case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
+            default:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
         }
     }
+
+
+    public ArrayList<String> getCtnList() {
+        return ctnList;
+    }
+
+    public void setCtnList(ArrayList<String> ctnList) {
+        this.ctnList = ctnList;
+    }
+
+    public int getLaunchType() {
+        return launchType;
+    }
+
+    public void setLaunchType(int launchType) {
+        this.launchType = getIAPFlowType(launchType);
+    }
+
     private void launchIAP() {
-        IAPInterface iapInterface = ((AppFrameworkApplication) activityContext.getApplicationContext()).getIap().getIapInterface();
-        IAPFlowInput iapFlowInput = new IAPFlowInput(((InAppStateData)getUiStateData()).getCtnList());
+        IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
+        IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(getIAPFlowType(((InAppStateData)getUiStateData()).getIapFlow()), iapFlowInput);
+        iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
@@ -79,44 +100,17 @@ public class IAPState extends BaseState {
         }
     }
 
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) activityContext.getApplicationContext();
+    }
+
     @Override
     public void init(Context context) {
         applicationContext=context;
         iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(applicationContext);
+        IAPSettings iapSettings = new IAPSettings(getApplicationContext());
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
         iapSettings.setUseLocalData(true);
         iapInterface.init(iapDependencies, iapSettings);
-    }
-
-    @Override
-    public void updateDataModel() {
-
-    }
-
-    /**
-     * Data Model for CoCo is defined here to have minimal import files.
-     */
-    public class InAppStateData extends UIStateData {
-
-        private int iapFlow;
-        private ArrayList<String> ctnList = null;
-
-        public ArrayList<String> getCtnList() {
-            return ctnList;
-        }
-
-        public void setCtnList(ArrayList<String> ctnList) {
-            this.ctnList = ctnList;
-        }
-
-        public int getIapFlow() {
-            return iapFlow;
-        }
-
-        public void setIapFlow(int iapFlow) {
-            this.iapFlow = iapFlow;
-        }
-
     }
 }

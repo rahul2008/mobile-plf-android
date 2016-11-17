@@ -88,29 +88,25 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return settingsStateData;
             case MENU_OPTION_SHOP:
-                IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
-                iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
-                iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData iapStateData = new UIStateData();
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
-                SupportFragmentState.ConsumerCareData supportStateData = new SupportFragmentState().new ConsumerCareData();
-                supportStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData supportStateData = new UIStateData();
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return supportStateData;
             case MENU_OPTION_ABOUT:
                 UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
-            //Commented as part of removing the Flow A for IAP.
+            // Commented as part of Plan A removal.
             /*case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
                 uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
-                uiStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist))));
+                uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
             case MENU_OPTION_PR:
-                ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
-                prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData prStateDataModel = new UIStateData();
                 return prStateDataModel;
             case MENU_OPTION_DATA_SYNC:
                 UIStateData syncStateData = new UIStateData();

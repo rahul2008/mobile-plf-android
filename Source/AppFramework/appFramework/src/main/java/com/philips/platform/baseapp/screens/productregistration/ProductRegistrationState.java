@@ -18,6 +18,7 @@ import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -27,6 +28,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,6 +39,26 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     private Context activityContext;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
+    private ArrayList<String> ctnList = null;
+
+    public ArrayList<String> getCtnList() {
+        return ctnList;
+    }
+
+    public void setCtnList(ArrayList<String> ctnList) {
+        this.ctnList = ctnList;
+    }
+
+    public  ArrayList<Product> getProductList(){
+        Product product = new Product(getCtnList().get(0), Sector.B2C, Catalog.CONSUMER);
+        product.setSerialNumber("");
+        product.setPurchaseDate("");
+        product.setFriendlyName("");
+        product.sendEmail(false);
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        return products;
+    }
 
     public ProductRegistrationState(){
         super(AppStates.PR);
@@ -48,6 +70,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        updateDataModel();
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         launchPR();
@@ -64,7 +87,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
 
     @Override
     public void updateDataModel() {
-
+        setCtnList(new ArrayList<>(Arrays.asList(applicationContext.getResources().getStringArray(R.array.productselection_ctnlist))));
     }
 
     /**
@@ -92,10 +115,9 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
      * Launch PR method
      */
     public void launchPR(){
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(((ProductRegistrationData)getUiStateData()).getProductData());
+
         PRLaunchInput prodRegLaunchInput;
-        prodRegLaunchInput = new PRLaunchInput(products, false);
+        prodRegLaunchInput = new PRLaunchInput(getProductList(), false);
         prodRegLaunchInput.setProdRegUiListener(this);
         new PRInterface().launch(fragmentLauncher,prodRegLaunchInput);
     }
@@ -104,24 +126,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
      * Data Model for CoCo is defined here to have minimal import files.
      */
     public class ProductRegistrationData extends UIStateData {
-        private ArrayList<String> ctnList = null;
 
-        public ArrayList<String> getCtnList() {
-            return ctnList;
-        }
-
-        public void setCtnList(ArrayList<String> ctnList) {
-            this.ctnList = ctnList;
-        }
-
-        public Product getProductData(){
-            Product product = new Product(getCtnList().get(0), Sector.B2C, Catalog.CONSUMER);
-            product.setSerialNumber("");
-            product.setPurchaseDate("");
-            product.setFriendlyName("");
-            product.sendEmail(false);
-            return product;
-        }
 
     }
 }

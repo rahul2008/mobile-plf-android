@@ -42,7 +42,7 @@ public class DataSyncScreenState extends BaseState {
 
     @Override
     public void updateDataModel() {
-        
+
     }
 }
 
