@@ -5,14 +5,18 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.launcher.commliballexample.appliance.BleReferenceAppliance;
+import com.launcher.commliballexample.appliance.BleReferenceApplianceFactory;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.port.common.FirmwarePort;
+import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.commlib.CommLibContext;
 import com.philips.cdp2.commlib.CommLibContextBuilder;
-import com.philips.cdp2.commlib.strategy.BleStrategy;
 import com.philips.cdp2.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -23,16 +27,14 @@ import com.philips.pins.shinelib.SHNResult;
 public class MainActivity extends AppCompatActivity {
 
     private static final long TIMEOUT = 10000L;
-    private static final String PORTNAME_FIRMWARE = "firmware";
-    private static final int PRODUCT_ID = 0;
 
     private TextView txtState;
     private TextView txtResult;
 
+    private BleReferenceApplianceFactory applianceFactory;
+    private CommLibContext commLibContext;
     private SHNCentral shnCentral;
     private SHNDevice device;
-    private CommLibContext commLibContext;
-    private BleStrategy strategy;
 
     private SHNDeviceScanner.SHNDeviceScannerListener scannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
             device = shnDeviceFoundInfo.getShnDevice();
             shnCentral.getShnDeviceScanner().stopScanning();
             commLibContext.getBleDeviceCache().deviceFound(shnDeviceScanner, shnDeviceFoundInfo);
-            hookupStrategy(shnDeviceFoundInfo.getDeviceAddress());
+
+            connectToDevice();
         }
 
         @Override
@@ -53,18 +56,52 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
             if (SHNDevice.State.Connected.equals(shnDevice.getState())) {
-                performGet();
+
+                NetworkNode networkNode = createNetworkNode(device);
+                final BleReferenceAppliance appliance = applianceFactory.createApplianceForNode(networkNode);
+
+                if (appliance == null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            txtResult.setText(getString(R.string.lblGetPropsFailed, "Appliance is null."));
+                            txtState.setText(R.string.lblDone);
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
+                                @Override
+                                public void onPortUpdate(FirmwarePort firmwarePort) {
+                                    final FirmwarePortProperties portProperties = firmwarePort.getPortProperties();
+
+                                    txtResult.setText(getString(R.string.lblGetPropsSuccess, portProperties.getVersion()));
+                                    txtState.setText(R.string.lblDone);
+                                }
+
+                                @Override
+                                public void onPortError(FirmwarePort diCommPort, Error error, String s) {
+                                    txtResult.setText(getString(R.string.lblGetPropsFailed, s));
+                                    txtState.setText(R.string.lblDone);
+                                }
+                            });
+                            appliance.getFirmwarePort().getPortProperties();
+                        }
+                    });
+                }
             }
         }
 
         @Override
         public void onFailedToConnect(SHNDevice shnDevice, SHNResult shnResult) {
-
+            // NOOP
         }
 
         @Override
         public void onReadRSSI(int i) {
-
+            // NOOP
         }
     };
 
@@ -76,16 +113,11 @@ public class MainActivity extends AppCompatActivity {
         txtState = (TextView) findViewById(R.id.txtState);
         txtResult = (TextView) findViewById(R.id.txtResult);
 
-        CommLibContextBuilder<DICommAppliance> builder = new CommLibContextBuilder<>(this);
-        builder.setApplianceFactory(new DICommApplianceFactory<DICommAppliance>() {
+        CommLibContextBuilder<BleReferenceAppliance> builder = new CommLibContextBuilder<>(this, new CommLibContextBuilder.ApplianceFactoryBuilder<BleReferenceAppliance>() {
             @Override
-            public boolean canCreateApplianceForNode(final NetworkNode networkNode) {
-                return false;
-            }
-
-            @Override
-            public DICommAppliance createApplianceForNode(final NetworkNode networkNode) {
-                return null;
+            public DICommApplianceFactory<BleReferenceAppliance> create(@NonNull BleDeviceCache bleDeviceCache) {
+                applianceFactory = new BleReferenceApplianceFactory(bleDeviceCache);
+                return applianceFactory;
             }
         });
 
@@ -112,42 +144,22 @@ public class MainActivity extends AppCompatActivity {
         shnCentral.getShnDeviceScanner().startScanning(scannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, TIMEOUT);
     }
 
-    private void hookupStrategy(String deviceAddress) {
-        txtState.setText(R.string.lblHookingUpStrategy);
-        strategy = new BleStrategy(deviceAddress, commLibContext.getBleDeviceCache());
-        connectToDevice();
+    private NetworkNode createNetworkNode(final SHNDevice shnDevice) {
+        NetworkNode networkNode = new NetworkNode();
+
+        networkNode.setBootId(-1L);
+        networkNode.setCppId(shnDevice.getAddress()); // TODO cloud identifier; hijacked address for now
+        networkNode.setName(shnDevice.getName()); // TODO Friendly name
+        networkNode.setModelName(BleReferenceAppliance.MODELNAME); // TODO model name, e.g. Polaris
+        networkNode.setModelType(null); // TODO model type, e.g. FC8932
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+
+        return networkNode;
     }
 
     private void connectToDevice() {
         txtState.setText(R.string.lblConnectingToDevice);
         device.registerSHNDeviceListener(deviceListener);
         device.connect();
-    }
-
-    private void performGet() {
-        txtState.setText(getString(R.string.lblPerformingGetProperties, PORTNAME_FIRMWARE));
-        strategy.getProperties(PORTNAME_FIRMWARE, PRODUCT_ID, new ResponseHandler() {
-            @Override
-            public void onSuccess(final String s) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        txtResult.setText(s);
-                        txtState.setText(R.string.lblDone);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(final Error error, final String s) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        txtResult.setText(getString(R.string.lblGetPropsFailed, error + " " + s));
-                        txtState.setText(R.string.lblDone);
-                    }
-                });
-            }
-        });
     }
 }

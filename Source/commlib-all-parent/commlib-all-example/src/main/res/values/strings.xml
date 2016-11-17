@@ -7,5 +7,6 @@
     <string name="lblConnectingToDevice">Connecting to device…</string>
     <string name="lblPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
     <string name="lblDone">Job\'s done!</string>
+    <string name="lblGetPropsSuccess">GetProps success: (%1$s)</string>
     <string name="lblGetPropsFailed">GetProps failed: (%1$s)</string>
 </resources>

@@ -22,19 +22,25 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
  * @param <A> the appliance type
  */
 public final class CommLibContextBuilder<A extends DICommAppliance> {
+
+    public interface ApplianceFactoryBuilder<B extends DICommAppliance> {
+        DICommApplianceFactory<B> create(@NonNull BleDeviceCache bleDeviceCache);
+    }
+
     private final Context mContext;
+    private final ApplianceFactoryBuilder<A> applianceFactoryBuilder;
     private DICommApplianceDatabase<A> mApplianceDatabase;
     private CloudController mCloudController;
     private DICommApplianceFactory<A> mApplianceFactory;
-    private SHNCentral mShnCentral;
 
     /**
      * Instantiates a new CommLibBuilder.
      *
      * @param context the context
      */
-    public CommLibContextBuilder(@NonNull final Context context) {
+    public CommLibContextBuilder(@NonNull final Context context, ApplianceFactoryBuilder<A> applianceFactoryBuilder) {
         mContext = context;
+        this.applianceFactoryBuilder = applianceFactoryBuilder;
     }
 
     /**
@@ -43,41 +49,40 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
      * @return the CommLibContext
      */
     public final CommLibContext create() {
-        // TODO register DiComm plugin
-        // TODO initialize BLEStrategy
+        BleDeviceCache deviceCache = new BleDeviceCache();
 
+        SHNCentral shnCentral;
         try {
-            initBlueLib();
+            shnCentral = createBlueLib();
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new CommLibInitializationException(e);
         }
-        createDiscoveryManager();
 
-        DiscoveryManager<A> discoveryManager = (DiscoveryManager<A>) DiscoveryManager.getInstance();
+        DICommApplianceFactory<A> applianceFactory = applianceFactoryBuilder.create(deviceCache);
 
-        return new CommLibContext<A>(discoveryManager, mShnCentral);
+        DiscoveryManager<A> discoveryManager = createCommLib(applianceFactory);
+
+        return new CommLibContext<A>(discoveryManager, shnCentral, deviceCache);
     }
 
     /**
      * Create a DiscoveryManager.
      *
+     * @param applianceFactory the appliance factory
      * @return the DiscoveryManager
      */
-    private void createDiscoveryManager() {
+    private DiscoveryManager<A> createCommLib(DICommApplianceFactory<A> applianceFactory) {
         if (DICommClientWrapper.getContext() == null) {
-            DICommClientWrapper.initializeDICommLibrary(mContext, mApplianceFactory, mApplianceDatabase, mCloudController);
+            DICommClientWrapper.initializeDICommLibrary(mContext, applianceFactory, mApplianceDatabase, mCloudController);
         }
+        return (DiscoveryManager<A>) DiscoveryManager.getInstance();
     }
 
-    private void initBlueLib() throws SHNBluetoothHardwareUnavailableException {
+    private SHNCentral createBlueLib() throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(mContext);
         builder.showPopupIfBLEIsTurnedOff(true);
 
-        mShnCentral = builder.create();
-
-        // FIXME Use DiComm plugin
-        // SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
-        // mShnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
+        return builder.create();
     }
 
     /**
@@ -88,17 +93,6 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
      */
     public CommLibContextBuilder<A> setApplianceDatabase(@NonNull DICommApplianceDatabase<A> database) {
         mApplianceDatabase = database;
-        return this;
-    }
-
-    /**
-     * Sets appliance factory.
-     *
-     * @param applianceFactory the appliance factory
-     * @return the appliance factory
-     */
-    public CommLibContextBuilder<A> setApplianceFactory(DICommApplianceFactory<A> applianceFactory) {
-        mApplianceFactory = applianceFactory;
         return this;
     }
 

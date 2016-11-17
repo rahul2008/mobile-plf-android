@@ -31,13 +31,12 @@ public final class CommLibContext<A extends DICommAppliance> {
      *
      * @param discoveryManager the discovery manager
      * @param shnCentral       the shn central
-     *
+     * @param deviceCache      the device cache
      */
-    CommLibContext(final @NonNull DiscoveryManager<A> discoveryManager, final @NonNull SHNCentral shnCentral) {
+    CommLibContext(final @NonNull DiscoveryManager<A> discoveryManager, final @NonNull SHNCentral shnCentral, @NonNull BleDeviceCache deviceCache) {
         mDiscoveryManager = discoveryManager;
         mShnCentral = shnCentral;
-        mBleDeviceCache = new BleDeviceCache();
-        // TODO register BleDeviceCache as device listener on SHNDeviceScanner
+        mBleDeviceCache = deviceCache;
     }
 
     /**
