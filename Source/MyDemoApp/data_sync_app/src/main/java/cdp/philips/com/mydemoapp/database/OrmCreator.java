@@ -109,9 +109,9 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull Consent consent) {
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
         OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
-        boolean isSynchronized=false;
+
         return new OrmConsentDetail(ormConsentDetailType, status, version, deviceIdentificationNumber, (OrmConsent) consent,isSynchronized);
     }
 

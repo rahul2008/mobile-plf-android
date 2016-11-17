@@ -1,5 +1,6 @@
 package com.philips.platform.core.dbinterfaces;
 
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 
@@ -13,11 +14,8 @@ public interface DBUpdatingInterface {
     int processMoment(int updatedCount, final Moment moment);
     void updateOrSaveMomentInDatabase(final Moment ormMoment);
     Moment getOrmMoment(final Moment moment);
-    ConsentDetail getOrmConsentDetail(final ConsentDetail consentDetail);
     int processMomentsReceivedFromBackend(final List<? extends Moment> moments);
     void updateFailed(Exception e);
     void postRetrofitError(Throwable error);
-
-    //TODO: save Consent ad saveBackened consent can they be merged to one API
-    void updateConsentDetails(List<ConsentDetail> consentDetails);
+    void updateConsent(final Consent consent);
 }

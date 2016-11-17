@@ -33,8 +33,9 @@ public class ConsentsConverter {
     @NonNull
     public Consent convertToAppConsentDetails(@NonNull final List<UCoreConsentDetail> uCoreConsentDetails, @NonNull final String creatorId) {
         Consent consent = dataCreator.createConsent(creatorId);
-        for (UCoreConsentDetail uCoreConsent : uCoreConsentDetails) {
-            ConsentDetail consentDetail = dataCreator.createConsentDetail(ConsentDetailType.fromDescription(uCoreConsent.getName()), uCoreConsent.getStatus(), uCoreConsent.getDocumentVersion(), uCoreConsent.getDeviceIdentificationNumber(), consent);
+        for (UCoreConsentDetail uCoreConsentDetail : uCoreConsentDetails) {
+            //Needs to be modified later
+            ConsentDetail consentDetail = dataCreator.createConsentDetail(ConsentDetailType.fromDescription(uCoreConsentDetail.getName()), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber(),false, consent);
             consent.addConsentDetails(consentDetail);
         }
 

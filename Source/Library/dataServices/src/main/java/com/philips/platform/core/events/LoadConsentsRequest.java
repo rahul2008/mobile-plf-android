@@ -26,14 +26,6 @@ public class LoadConsentsRequest extends Event {
         type = null;
     }
 
-    //TODO: Spoorti: probably not used, but if it makes sence to have it in future its OK to have
-    public LoadConsentsRequest(final @NonNull ConsentDetailType... type) {
-        this.type = type[0];
-        this.types = type;
-    }
-
-
-
     public boolean hasType() {
         return type != null;
     }

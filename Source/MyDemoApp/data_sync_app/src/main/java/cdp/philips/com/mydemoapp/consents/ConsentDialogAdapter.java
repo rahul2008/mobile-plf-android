@@ -11,6 +11,7 @@ import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.ConsentDetailType;
+import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
@@ -28,16 +29,12 @@ import cdp.philips.com.mydemoapp.temperature.TemperaturePresenter;
 
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
-    final ArrayList<? extends ConsentDetail> consentDetails;
+    private ArrayList<? extends ConsentDetail> consentDetails;
     private Consent mConsent;
-    //TODO: Spoorti - Is it required ?
-    private LinkedHashMap<ConsentDetailType, ConsentDetailStatusType> mConsentMap;
 
-    public ConsentDialogAdapter(final Context context, OrmConsent ormConsent) {
+    public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails) {
         mContext = context;
-        mConsent = ormConsent;
-        this.consentDetails = new ArrayList(ormConsent.getConsentDetails());
-        mConsentMap = new LinkedHashMap<>();
+        this.consentDetails = consentDetails;
     }
 
     @Override
@@ -65,7 +62,6 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
                         consentDetails.get(position).setStatus(ConsentDetailStatusType.REFUSED.name());
                     }
                     consentDetails.get(position).setBackEndSynchronized(false);
-                    mConsent.setBackEndSynchronized(false);
                 }
             });
         }
@@ -87,9 +83,8 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         return consentDetails.size();
     }
 
-    //TODO: Spoorti - Can this be made private, UpdateConsentDetails is calling just another API ? Can we have only one API?
     public void updateConsentDetails() {
-        updateConsentDetails(mConsent);
+        DataServicesManager.getInstance().save(mConsent);
     }
 
 
@@ -102,9 +97,11 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    //TODO: Spoorti - merge it with updateConsentDetails()
-    public void updateConsentDetails(Consent consent) {
-        DataServicesManager.getInstance().save(consent);
+
+
+    public void setData(OrmConsent consent) {
+        this.consentDetails = new ArrayList(consent.getConsentDetails());
+        this.mConsent=consent;
     }
 
 }

@@ -3,6 +3,7 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
@@ -13,6 +14,7 @@ import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentDetailsUpdateRequest;
+import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
@@ -56,14 +58,11 @@ public class UpdatingMonitor extends EventMonitor{
             eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
-    public void onEventAsync(final ConsentDetailsUpdateRequest consentUpdateRequest) {
+
+    public void onEventAsync(final DatabaseConsentUpdateRequest consentUpdateRequest) {
         int requestId = consentUpdateRequest.getEventId();
-        List<ConsentDetail> consentDetails = consentUpdateRequest.getConsentDetails();
-        List<ConsentDetail> ormConsentDetails=new ArrayList<>();
-       // moment.setSynced(false);
-        for(ConsentDetail consentDetail:consentDetails){
-            ormConsentDetails.add(dbUpdatingInterface.getOrmConsentDetail(consentDetail));
-        }
+        Consent consent = consentUpdateRequest.getConsent();
+
     }
 
     public void onEventBackgroundThread(final BackendResponse error) {

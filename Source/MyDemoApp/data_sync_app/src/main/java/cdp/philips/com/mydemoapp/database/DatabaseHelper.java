@@ -48,7 +48,6 @@ import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String TAG = DatabaseHelper.class.getSimpleName();
     public static final String DATABASE_NAME = "DataService.db";
-    //TODO: Spoorti - Please dont hard code this value. Major issue
     public static final int DATABASE_VERSION = 2;
     private final UuidGenerator uuidGenerator;
     private final String packageName;
@@ -107,22 +106,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return consentDetailTypeDao;
     }
-
-    //TODO: Spoorti - remove if not used. In case its there in uGrow please check where they are uing?
-    private void insertConsents() {
-
-    }
-
-    //TODO: Spoorti - remove if not used. In case its there in uGrow please check where they are uing?
-    private void insertConsentsDetail() {
-
-    }
-
-    //TODO: Spoorti - remove if not used. In case its there in uGrow please check where they are uing?
-    private void insertConcentsType() {
-
-    }
-
     private void insertMeasurementTypes() throws SQLException {
         MeasurementType[] values = MeasurementType.values();
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();

@@ -1,9 +1,8 @@
 package cdp.philips.com.mydemoapp.database;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
@@ -20,13 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
-
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import retrofit.RetrofitError;
 
@@ -72,7 +70,27 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateConsentDetails(List<ConsentDetail> consentDetails) {
+    public void updateConsent(Consent consent) {
+        try {
+            OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+            Log.d("Creator ID MODI",ormConsent.getCreatorId());
+
+            if (consentInDatabase != null) {
+
+                int id = consentInDatabase.getId();
+                deleting.deleteConsent(consentInDatabase);
+                ormConsent.setId(id);
+                saving.saveConsent(ormConsent);
+
+            }else{
+                saving.saveConsent(ormConsent);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -169,16 +187,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            Log.e(TAG, "Eror while type checking");
-        }
-        return null;
-    }
-
-    @Override
-    public ConsentDetail getOrmConsentDetail(ConsentDetail consentDetail) {
-        try {
-            return OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
-        } catch (OrmTypeChecking.OrmTypeException e) {
             Log.e(TAG, "Eror while type checking");
         }
         return null;

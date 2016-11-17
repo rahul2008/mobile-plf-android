@@ -64,14 +64,6 @@ public class TemperaturePresenter {
         createMeasurementDetail(measurementDetail);
     }
 
-    //TODO: Spoorti - Can this be commented
-    public void updateMoment(String momemtDetail, String measurement, String measurementDetail) {
-        mMoment = mDataServices.createMoment(mMomentType);
-        mMoment.setDateTime(DateTime.now());
-        createMomentDetail(momemtDetail);
-        createMeasurement(measurement);
-        createMeasurementDetail(measurementDetail);
-    }
 
     public void createMeasurementDetail(String value) {
         MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, mMeasurement);

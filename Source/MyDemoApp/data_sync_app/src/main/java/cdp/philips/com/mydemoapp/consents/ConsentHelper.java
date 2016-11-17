@@ -32,48 +32,28 @@ public class ConsentHelper {
 
     private final DataServicesManager dataServicesManager;
 
-    //TODO: Spoorti - No need to inject DataServicesManager here ad its already a singleton class and can be fetched from any where
-    public ConsentHelper(DataServicesManager dataServicesManager) {
+    public ConsentHelper() {
+        this.dataServicesManager = DataServicesManager.getInstance();
         this.mDataCreator = dataServicesManager.getDataCreater();
         this.userRegistrationFacade = (UserRegistrationFacadeImpl) dataServicesManager.getUserRegistrationImpl();
-        this.dataServicesManager = dataServicesManager;
+
     }
 
-    //TODO: Spoorti - dataCreater.create should be part of library? Is it here since the creation of consent should not be delegated to library?
-    public void addConsent(@NonNull Consent consent, @NonNull final ConsentDetailType consentDetailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
+    public void addConsentDetails(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
         if (consent == null) {
             consent = mDataCreator.createConsent(userRegistrationFacade.getUserProfile().getGUid());
         }
-        addConsentDetails(consent, consentDetailType, consentDetailStatusType, deviceIdentificationNumber);
-    }
-
-    public void sendUpdateRequest(final Consent consent) {
-        dataServicesManager.save(consent);
-    }
-
-    public void createDeafultConsentRequest(final Consent consent) {
-        dataServicesManager.createDefault(consent);
-    }
-
-    public void addConsentDetails(@NonNull final Consent consent, @NonNull final ConsentDetail consentDetail) {
-        createAndAddConsentDetail(consent, consentDetail.getType(), consentDetail.getStatus(), consentDetail.getDeviceIdentificationNumber());
-    }
-
-    //TODO: Spoorti - One API is calling another API without doing any action? Why ?
-    //TODO: Spoorti - Create Consent detail should call DataServicesManager.createConsentDetail
-    //TODO: Spoorti - Why are so many parameters getting injected?
-    private void addConsentDetails(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
-        createAndAddConsentDetail(consent, detailType, consentDetailStatusType, deviceIdentificationNumber);
+        createAndAddConsentDetail(consent, detailType, consentDetailStatusType, deviceIdentificationNumber,isSynchronized);
     }
     //TODO: Spoorti - can this be merged with addConsentDetails
-    private void createAndAddConsentDetail(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
-        ConsentDetail consentDetail = mDataCreator.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, consent);
+    private void createAndAddConsentDetail(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,boolean isSynchronized) {
+        ConsentDetail consentDetail = mDataCreator.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
         consent.addConsentDetails(consentDetail);
     }
 
     //TODO: Spoorti - above API and This api looks almost same? Y 2 APIs are required
-    private void createAndAddConsentDetail(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final String consentDetailStatusType, final String deviceIdentificationNumber) {
-        ConsentDetail consentDetail = mDataCreator.createConsentDetail(detailType, consentDetailStatusType, Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, consent);
+    private void createAndAddConsentDetail(@NonNull final Consent consent, @NonNull final ConsentDetailType detailType, final String consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
+        ConsentDetail consentDetail = mDataCreator.createConsentDetail(detailType, consentDetailStatusType, Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
         consent.addConsentDetails(consentDetail);
     }
 

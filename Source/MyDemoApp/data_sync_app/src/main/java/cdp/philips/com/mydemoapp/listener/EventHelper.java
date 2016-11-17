@@ -46,10 +46,6 @@ public class EventHelper {
         return urMap;
     }
 
-    /*public void setEventMap(Map<Integer, ArrayList<DBChangeListener>> eventMap) {
-        this.eventMap = eventMap;
-    }*/
-
     public static EventHelper getInstance() {
         synchronized (EventHelper.class) {
             if (eventHelper == null) {

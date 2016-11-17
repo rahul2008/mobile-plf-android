@@ -35,8 +35,6 @@ public class OrmConsent implements Consent, Serializable {
     @DatabaseField(canBeNull = false)
     private DateTime dateTime = new DateTime();
 
-    @DatabaseField(canBeNull = true)
-    private boolean beSynchronized;
 
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmConsentDetail> ormConsentDetails = new EmptyForeignCollection<>();
@@ -69,11 +67,6 @@ public class OrmConsent implements Consent, Serializable {
     }
 
     @Override
-    public void setDateTime(@NonNull final DateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    @Override
     public Collection<? extends OrmConsentDetail> getConsentDetails() {
         return ormConsentDetails;
     }
@@ -85,17 +78,7 @@ public class OrmConsent implements Consent, Serializable {
     }
 
     @Override
-    public boolean isSynchronized() {
-        return beSynchronized;
-    }
-
-    @Override
-    public void setBackEndSynchronized(boolean backEndSynchronized) {
-        this.beSynchronized = backEndSynchronized;
-    }
-
-    @Override
     public String toString() {
-        return "[OrmConsent, id=" + id + ", creatorId=" + creatorId + ", dateTime=" + dateTime + ", beSynchronized" + beSynchronized + "]";
+        return "[OrmConsent, id=" + id + ", creatorId=" + creatorId + ", dateTime=" + dateTime + "]";
     }
 }

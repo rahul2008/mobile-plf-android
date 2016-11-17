@@ -51,6 +51,6 @@ public interface BaseAppDataCreator {
     Consent createConsent(@NonNull final String creatorId);
 
     @NonNull
-    ConsentDetail createConsentDetail(@NonNull final ConsentDetailType type, @NonNull final String status, @NonNull final String version, final String deviceIdentificationNumber, @NonNull final Consent consent);
+    ConsentDetail createConsentDetail(@NonNull final ConsentDetailType type, @NonNull final String status, @NonNull final String version, final String deviceIdentificationNumber,boolean isSynchronized,@NonNull final Consent consent);
 
 }

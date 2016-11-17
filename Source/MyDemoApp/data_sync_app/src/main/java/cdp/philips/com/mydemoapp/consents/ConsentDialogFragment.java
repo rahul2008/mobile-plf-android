@@ -10,11 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -25,7 +25,6 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
-import cdp.philips.com.mydemoapp.temperature.TemperaturePresenter;
 
 /**
  * Created by sangamesh on 08/11/16.
@@ -37,9 +36,9 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     private Button mBtnOk;
     private Button mBtnCancel;
     private ConsentDialogAdapter lConsentAdapter;
-    ProgressBar mProgressBar;
-
-    //TODO: Spoorti - Have a Presenter, consentPresenter
+    ConsentDialogPresenter consentDialogPresenter;
+    private ProgressDialog mProgressDialog;
+    ArrayList<? extends ConsentDetail> consentDetails;
 
     @Nullable
     @Override
@@ -56,27 +55,34 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         mBtnCancel.setOnClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressbar_consent);
-        fetchConsent();
-        showProgressBar();
+        consentDialogPresenter=new ConsentDialogPresenter(getActivity());
+        mProgressDialog = new ProgressDialog(getActivity());
+        consentDetails=new ArrayList<>();
+        lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails);
+        mRecyclerView.setAdapter(lConsentAdapter);
         return rootView;
 
     }
 
     @Override
-    public void onSuccess(ArrayList<? extends Object> data) {
+    public void onResume() {
+        super.onResume();
+        fetchConsent();
+    }
+
+    @Override
+    public void onSuccess(final ArrayList<? extends Object> data) {
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                dismissProgressBar();
+                dismissProgressDialog();
+                if (data == null) {
+                    showProgressDialog();
+                    createDefaultConsent();
+                }
             }
         });
-        //TODO: showProressBar should be present inside run on UI Thread
-        if (data == null) {
-            showProgressBar();
-            createDefaultConsent();
-        }
     }
 
     @Override
@@ -87,12 +93,10 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //TODO: Dont create a new Adapter here, Its mandatory please remove from here
-                    lConsentAdapter = new ConsentDialogAdapter(getActivity(), ormConsent);
-                    mRecyclerView.setAdapter(lConsentAdapter);
+                    lConsentAdapter.setData(ormConsent);
                     lConsentAdapter.notifyDataSetChanged();
                     mBtnOk.setEnabled(true);
-                    dismissProgressBar();
+                    dismissProgressDialog();
                 }
             });
         }
@@ -100,22 +104,16 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     }
 
     @Override
-    public void onFailure(Exception exception) {
-        //TODO: Please give the exception as Toast
+    public void onFailure(final Exception exception) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                dismissProgressBar();
+                dismissProgressDialog();
+                Toast.makeText(getActivity(),exception.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
 
-    }
-
-    //TODO: This is not discussed as part of interface. Please Allign with Ajay in case its very important
-    @Override
-    public void onBackEndConsentSuccess(Consent consent) {
-        fetchConsent();
     }
 
     @Override
@@ -123,14 +121,18 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         switch (v.getId()) {
             case R.id.btnOK:
                 lConsentAdapter.updateConsentDetails();
-                //TODO: Spoorti - Check if its showing only then dismiss
-                getDialog().dismiss();
+                dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:
-                //TODO: Spoorti - Check if its showing only then dismiss, check all the places
-                getDialog().dismiss();
+                dismissConsentDialog(getDialog());
                 break;
 
+        }
+    }
+
+    private void dismissConsentDialog(Dialog dialog){
+        if(dialog!=null && dialog.isShowing()){
+            dialog.dismiss();
         }
     }
 
@@ -138,7 +140,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     public void onStop() {
         super.onStop();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
-        dismissProgressBar();
+        dismissProgressDialog();
     }
 
     @Override
@@ -154,41 +156,33 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         }
     }
 
-    //TODO: Spoorti - Can this be private
-    public void createDefaultConsent() {
-        //TODO: Spoorti - As discussed we added all the types since it was taking time to remove.
-        // Logcally Types can have n type but sync should happen from Details table wich ever is eneterd
-        // keep all the types in TYPE Table and add only few in Detail. Check if sync happens only for those in detail
+    private void createDefaultConsent() {
         DataServicesManager mDataServices = DataServicesManager.getInstance();
         Consent consent = mDataServices.createConsent();
-        ConsentHelper consentHelper = new ConsentHelper(mDataServices);
-
         for (ConsentDetailType consentDetailType : ConsentDetailType.values()) {
-            consentHelper.addConsent
+            mDataServices.createConsentDetail
                     (consent, consentDetailType, ConsentDetailStatusType.REFUSED,
-                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,true);
         }
-
-        consentHelper.createDeafultConsentRequest(consent);
+       mDataServices.save(consent);
     }
 
-    //TODO: Spoorti - It should be like, getDialog.show() instead of visible and invisible
-    private void showProgressBar() {
-        mProgressBar.setVisibility(View.VISIBLE);
+    private void showProgressDialog() {
+        if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+            mProgressDialog.setMessage("loading consents");
+            mProgressDialog.show();
+        }
     }
 
-    //TODO: Spoorti - It should be like, getDialog.dismiss() instead of visible and invisible
-    private void dismissProgressBar() {
-        mProgressBar.setVisibility(View.GONE);
+    private void dismissProgressDialog() {
+        if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
     public void fetchConsent() {
+        showProgressDialog();
         DataServicesManager.getInstance().fetchConsent();
-    }
-
-    //TODO: Spoorti - If not used thenremove it
-    public void fetchBackendConsent() {
-        DataServicesManager.getInstance().fetchBackEndConsent();
     }
 
 

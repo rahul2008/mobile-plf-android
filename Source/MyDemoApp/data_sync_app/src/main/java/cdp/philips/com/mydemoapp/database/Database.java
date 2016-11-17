@@ -109,10 +109,10 @@ public class Database implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull Consent consent) {
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
         try {
             OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            return creator.createConsentDetail(type, status, version, deviceIdentificationNumber, ormConsent);
+            return creator.createConsentDetail(type, status, version, deviceIdentificationNumber,isSynchronized, ormConsent);
         } catch (OrmTypeChecking.OrmTypeException e) {
             throw new IllegalArgumentException("Consent was not OrmConsent");
         }

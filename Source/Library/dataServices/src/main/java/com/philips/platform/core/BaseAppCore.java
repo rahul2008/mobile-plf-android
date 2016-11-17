@@ -116,8 +116,8 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull Consent consent) {
-       return database.createConsentDetail(type, status, version, deviceIdentificationNumber, consent);
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,@NonNull boolean isSynchronized, @NonNull Consent consent) {
+       return database.createConsentDetail(type, status, version, deviceIdentificationNumber,isSynchronized,consent);
     }
 
 

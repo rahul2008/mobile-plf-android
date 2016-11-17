@@ -62,10 +62,7 @@ public class ConsentsMonitor extends EventMonitor {
     public void onEventAsync(ConsentBackendSaveRequest event) {
         if (event.getRequestType() == ConsentBackendSaveRequest.RequestType.SAVE) {
             saveConsent(event);
-        }// There is no updateConsent for this UserStory, will be implemented when we take this story
-
-        //For tesing
-        //eventing.post(new ConsentBackendGetRequest(1));
+        }
     }
 
     public void onEventAsync(ConsentBackendListSaveRequest event) {
@@ -100,7 +97,6 @@ public class ConsentsMonitor extends EventMonitor {
                 for (ConsentDetail consentDetail:consent.getConsentDetails()){
                     consentDetail.setBackEndSynchronized(true);
                 }
-                consent.setBackEndSynchronized(true);
                 Log.i("***SPO***","Get Consent called After ConsentsClient before sending consents response");
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
             } else {
@@ -143,13 +139,9 @@ public class ConsentsMonitor extends EventMonitor {
             for (ConsentDetail consentDetail:consent.getConsentDetails()){
                 consentDetail.setBackEndSynchronized(true);
             }
-            consent.setBackEndSynchronized(true);
-            //TODO: Why is it commented?
-            //eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
-            eventing.post(new DatabaseConsentSaveRequest(consent,false, true));
+            eventing.post(new DatabaseConsentSaveRequest(consent,true));
         } catch (RetrofitError error) {
-            //TODO: Error should be notified to UI
-           // postError(event.getEventId(), error);
+            postError(event.getEventId(), error);
         }
     }
 

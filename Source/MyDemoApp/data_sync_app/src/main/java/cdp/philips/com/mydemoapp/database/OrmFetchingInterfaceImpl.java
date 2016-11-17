@@ -13,14 +13,10 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.datasync.consent.UCoreConsentDetail;
 
-import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -193,16 +189,30 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
 
     @Override
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends Consent> consentList = fetchNonSynchronizedConsents();
+        List<? extends Consent> consentList = fetchConsentsWithNonSynchronizedConsentDetails();
         dataToSync.put(Consent.class, consentList);
         return dataToSync;
     }
 
-    public List<OrmConsent> fetchNonSynchronizedConsents() throws SQLException {
+    public List<OrmConsent> fetchConsentsWithNonSynchronizedConsentDetails() throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
-        consentQueryBuilder.where().eq("beSynchronized", false);
+        final List<OrmConsent> query = consentQueryBuilder.query();
+        for(OrmConsent ormConsent:query){
 
-        return consentQueryBuilder.query();
+            boolean isNonSyncConsentDetailExist=false;
+            for(OrmConsentDetail ormConsentDetail:ormConsent.getConsentDetails()){
+                if(!ormConsentDetail.getBackEndSynchronized()){
+                    isNonSyncConsentDetailExist=true;
+                }
+            }
+
+            if(!isNonSyncConsentDetailExist){
+                query.remove(ormConsent);
+            }
+        }
+        //consentQueryBuilder.where().eq("beSynchronized", false);
+
+        return query;
     }
 
     public List<OrmConsentDetail> fetchNonSynchronizedConsentDetails() throws SQLException {

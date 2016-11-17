@@ -18,6 +18,8 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -30,11 +32,9 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.events.ConsentBackendGetRequest;
-import com.philips.platform.core.events.ConsentDetailsUpdateRequest;
+import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
-import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -127,11 +127,11 @@ public class DataServicesManager {
         return mDataServicesManager;
     }
 
-    public UCoreAccessProvider getUCoreAccessProvider(){
+    public UCoreAccessProvider getUCoreAccessProvider() {
         return (UCoreAccessProvider) mBackendIdProvider;
     }
 
-    public BaseAppDataCreator getDataCreater(){
+    public BaseAppDataCreator getDataCreater() {
         return mDataCreater;
     }
 
@@ -140,12 +140,13 @@ public class DataServicesManager {
         mEventing.post(new MomentSaveRequest(moment));
         return moment;
     }
+
     public Moment update(@NonNull final Moment moment) {
         mEventing.post(new MomentUpdateRequest(moment));
         return moment;
     }
 
-    public void fetch(final @NonNull MomentType... type){
+    public void fetch(final @NonNull MomentType... type) {
         mEventing.post(new LoadMomentsRequest(type[0]));
     }
 
@@ -153,7 +154,7 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(momentID));
     }
 
-    public void fetchAllData(){
+    public void fetchAllData() {
         mEventing.post(new LoadMomentsRequest());
     }
 
@@ -188,19 +189,19 @@ public class DataServicesManager {
         mEventing.post(new MomentDeleteRequest(moment));
     }
 
-    public void updateMoment(Moment moment){
+    public void updateMoment(Moment moment) {
         mEventing.post((new MomentUpdateRequest(moment)));
     }
 
-    public void synchchronize(){
+    public void synchchronize() {
         sendPullDataEvent();
     }
 
     //TODO: In case fetchers and senders are passed as null, we can create pullsynchronize and pushsynchronise and start
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
+    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
-        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
+        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
         monitor.start(mEventing);
     }
 
@@ -217,11 +218,10 @@ public class DataServicesManager {
 
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
-        if(mCore !=null) {
+        if (mCore != null) {
             mCore.start();
-        }
-        else{
-            mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        } else {
+            mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         }
         mEventing.post(new ReadDataFromBackendRequest(null));
     }
@@ -250,7 +250,7 @@ public class DataServicesManager {
         mMonitors.add(mLoggingMonitor);
         mMonitors.add(mExceptionMonitor);
 
-        mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         mCore.start();
     }
 
@@ -281,12 +281,7 @@ public class DataServicesManager {
     }
 
     public void save(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, false, false));
-    }
-
-    //TODO: Spoorti - Its not part of interface Doc
-    public void createDefault(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, true, false));
+        mEventing.post(new DatabaseConsentSaveRequest(consent,false));
     }
 
     @NonNull
@@ -294,31 +289,20 @@ public class DataServicesManager {
         mEventing.post(new LoadConsentsRequest());
     }
 
-    //TODO: Spoorti - Its not part of interface Doc
-    @NonNull
-    public void fetchBackEndConsent() {
-        mEventing.post(new ConsentBackendGetRequest(1));
-    }
-
-    //TODO: Spoorti Dont use 2 APIs createConsent and createDefaultConsent, In case requires change in interface please check with Ajay
     @NonNull
     public Consent createConsent() {
-        return mDataCreater.createConsent(mBackendIdProvider.getUserId());
+        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
     }
 
-    //TODO: have an API for createConsentDetail
-    @NonNull
-    public void createDefaultConsent() {
-        Consent consent = mDataCreater.createConsent(mBackendIdProvider.getUserId());
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
+        if (consent == null) {
+            consent = createConsent();
+        }
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
+        consent.addConsentDetails(consentDetail);
     }
 
-    //TODO: Spoorti - Its not part of interface Doc
-    public void updateConsentDetails(List<ConsentDetail> consentDetails) {
-        mEventing.post(new ConsentDetailsUpdateRequest(consentDetails));
+    public void UpdateConsent(@NonNull final Consent consent) {
+
     }
-
-
-    //Missing APIs
-    //Update(Consent)
-    //createConsentDetail
 }
