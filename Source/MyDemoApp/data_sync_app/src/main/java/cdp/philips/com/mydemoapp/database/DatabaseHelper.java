@@ -15,6 +15,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
@@ -26,6 +27,9 @@ import java.util.List;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementType;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
@@ -53,6 +57,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementType, Integer> measurementTypeDao;
     private Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
     private Dao<OrmMeasurementDetailType, Integer> measurementDetailTypeDao;
+    private Dao<OrmMeasurementGroupDetailType, Integer> measurementGroupDetailTypes;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     TemperatureMomentHelper mTemperatureMomentHelper;
 
@@ -80,6 +85,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMeasurementTypes();
         insertMomentDetailsTypes();
         insertMeasurementDetailTypes();
+        insertMeasurementGroupDetailType();
     }
 
     private void insertMeasurementTypes() throws SQLException {
@@ -114,6 +120,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    private void insertMeasurementGroupDetailType() throws SQLException {
+        Dao<OrmMeasurementGroupDetailType, Integer> measurementGroupDetailTypes = getMeasurementGroupDetailTypeDao();
+        MeasurementGroupDetailType[] values = MeasurementGroupDetailType.values();
+        for (final MeasurementGroupDetailType value : values) {
+            measurementGroupDetailTypes.createOrUpdate(new OrmMeasurementGroupDetailType(value));
+        }
+    }
+
 
     private void createTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.createTable(connectionSource, OrmMoment.class);
@@ -125,6 +139,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmMeasurementDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementDetailType.class);
         TableUtils.createTable(connectionSource, OrmSynchronisationData.class);
+        TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
+        TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
+        TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
     }
 
     @Override
@@ -191,6 +208,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             momentTypeDao = getDao(OrmMomentType.class);
         }
         return momentTypeDao;
+    }
+
+    public Dao<OrmMeasurementGroupDetailType, Integer> getMeasurementGroupDetailTypeDao() throws SQLException {
+        if (measurementGroupDetailTypes == null) {
+            measurementGroupDetailTypes = getDao(OrmMeasurementGroupDetailType.class);
+        }
+        return measurementGroupDetailTypes;
     }
 
     public Dao<OrmMomentDetail, Integer> getMomentDetailDao() throws SQLException {

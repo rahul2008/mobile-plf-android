@@ -62,6 +62,9 @@ public class OrmMoment implements Moment, Serializable {
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmMomentDetail> ormMomentDetails = new EmptyForeignCollection<>();
 
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurementGroup> ormMeasurementGroups = new EmptyForeignCollection<>();
+
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmSynchronisationData synchronisationData;
 
