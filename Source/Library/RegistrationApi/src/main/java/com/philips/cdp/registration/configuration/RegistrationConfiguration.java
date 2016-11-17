@@ -15,6 +15,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,17 +57,18 @@ public class RegistrationConfiguration {
         if (obj != null) {
             if(obj instanceof String){
                 registrationClient = (String) obj;
-            }else if(obj instanceof JSONObject){
-                JSONObject jsonObject = (JSONObject)obj;
-                try {
-                if(!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())){
-                        registrationClient =  (String) jsonObject.get(RegistrationHelper.
-                                getInstance().getCountryCode());
-                }else if(!jsonObject.isNull(DEFAULT)){
-                    registrationClient = (String) jsonObject.get(DEFAULT);
-                }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(isJSONValid(registrationClient)){
+                    try {
+                        JSONObject jsonObject = new JSONObject(registrationClient);
+                        if(!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())){
+                            registrationClient =  (String) jsonObject.get(RegistrationHelper.
+                                    getInstance().getCountryCode());
+                        }else if(!jsonObject.isNull(DEFAULT)){
+                            registrationClient = (String) jsonObject.get(DEFAULT);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -78,6 +80,20 @@ public class RegistrationConfiguration {
         return registrationClient;
     }
 
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Get Microsite Id
