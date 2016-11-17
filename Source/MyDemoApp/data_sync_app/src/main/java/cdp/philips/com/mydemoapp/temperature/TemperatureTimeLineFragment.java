@@ -2,6 +2,7 @@ package cdp.philips.com.mydemoapp.temperature;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -59,6 +60,7 @@ import static android.content.Context.ALARM_SERVICE;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener{
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
@@ -70,12 +72,19 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
     private TextView mTvSetCosents;
+    private Context mContext;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -112,17 +121,17 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
-        mDataServicesManager.initialize(getContext(), creator, new UserRegistrationFacadeImpl(getContext(), new User(getContext())));
-        mDataServicesManager.initializeSyncMonitors(null,null);
+        mDataServicesManager.initialize(mContext, creator, new UserRegistrationFacadeImpl(mContext, new User(mContext)));
+        mDataServicesManager.initializeSyncMonitors(null, null);
 
-        alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
+        alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
         mTemperaturePresenter.fetchData();
     }
 
     void injectDBInterfacesToCore() {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(getContext(), new UuidGenerator());
+        final DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
@@ -165,9 +174,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(getContext(), BaseAppBroadcastReceiver.class);
+        Intent intent = new Intent(mContext, BaseAppBroadcastReceiver.class);
         intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
-        return PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        return PendingIntent.getBroadcast(mContext, 0, intent, 0);
     }
 
     public void cancelPendingIntent() {
@@ -226,12 +235,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             public void run() {
                 if (e != null && e.getMessage() != null) {
                     Log.i(TAG, "http : UI update Failed" + e.getMessage());
-                    if (getContext() != null)
-                        Toast.makeText(getContext(), "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (mContext != null)
+                        Toast.makeText(mContext, "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.i(TAG, "http : UI update Failed");
-                    if (getContext() != null)
-                        Toast.makeText(getContext(), "UI update Failed", Toast.LENGTH_SHORT).show();
+                    if (mContext != null)
+                        Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });

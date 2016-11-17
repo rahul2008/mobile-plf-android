@@ -33,9 +33,8 @@ public class EventHelper {
     //Key is the unique tag for UI .
 
     private EventHelper() {
-        //TODO: Spoorti - check for compiler warnings
-        eventMap = new HashMap<Integer, ArrayList<DBChangeListener>>();
-        urMap = new HashMap<Integer, ArrayList<UserRegistrationFailureListener>>();
+        eventMap = new HashMap<>();
+        urMap = new HashMap<>();
     }
 
     public Map<Integer, ArrayList<DBChangeListener>> getEventMap() {
@@ -45,6 +44,10 @@ public class EventHelper {
     public Map<Integer, ArrayList<UserRegistrationFailureListener>> getURMap() {
         return urMap;
     }
+
+    /*public void setEventMap(Map<Integer, ArrayList<DBChangeListener>> eventMap) {
+        this.eventMap = eventMap;
+    }*/
 
     public static EventHelper getInstance() {
         synchronized (EventHelper.class) {

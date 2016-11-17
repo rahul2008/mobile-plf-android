@@ -103,16 +103,14 @@ public class DataServicesManager {
     @Inject
     Backend mBackend;
 
-    AppComponent mAppComponent;
-
     private BackendIdProvider mBackendIdProvider;
     private BaseAppCore mCore;
 
     private DBMonitors mDbMonitors;
     private List<EventMonitor> mMonitors = new ArrayList<>();
 
-    private static DataServicesManager mDataServicesManager;
-    private Context mContext;
+    private static DataServicesManager sDataServicesManager;
+
     private UserRegistrationFacade mUserRegistrationFacadeImpl;
 
     @Singleton
@@ -121,10 +119,10 @@ public class DataServicesManager {
     }
 
     public static DataServicesManager getInstance() {
-        if (mDataServicesManager == null) {
-            return mDataServicesManager = new DataServicesManager();
+        if (sDataServicesManager == null) {
+            return sDataServicesManager = new DataServicesManager();
         }
-        return mDataServicesManager;
+        return sDataServicesManager;
     }
 
     public UCoreAccessProvider getUCoreAccessProvider() {
@@ -205,17 +203,6 @@ public class DataServicesManager {
         monitor.start(mEventing);
     }
 
- /*   private void sendPushEvent() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("***SPO***", "In DataServicesManager.sendPushEvent");
-                mEventing.post(new WriteDataToBackendRequest());
-            }
-        }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
-
-    }*/
-
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
         if (mCore != null) {
@@ -236,14 +223,12 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
-
-        mContext = context;
         this.mDataCreater = creator;
         this.mUserRegistrationFacadeImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
-        mAppComponent.injectApplication(this);
+
         mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
 
         mMonitors = new ArrayList<>();
@@ -264,17 +249,33 @@ public class DataServicesManager {
     }
 
 
-    protected void prepareInjectionsGraph(Context context) {
+    private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(mEventing);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
-        mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        AppComponent appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        appComponent.injectApplication(this);
     }
 
     public void stopCore() {
         mCore.stop();
+        releaseInstances();
     }
+
+    private void releaseInstances() {
+        mUserRegistrationFacadeImpl = null;
+        mBackendIdProvider = null;
+        mBackend = null;
+        mDataCreater = null;
+        mDataPullSynchronise = null;
+        mDataPushSynchronise = null;
+        mDbMonitors = null;
+        mExceptionMonitor = null;
+        mLoggingMonitor = null;
+        mSharedPreferences = null;
+    }
+
 
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;

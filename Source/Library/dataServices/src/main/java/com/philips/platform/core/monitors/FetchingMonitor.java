@@ -34,7 +34,7 @@ import java.util.Map;
 public class FetchingMonitor extends EventMonitor {
 
     @NonNull
-    DBFetchingInterface dbInterface;
+    private DBFetchingInterface dbInterface;
 
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
