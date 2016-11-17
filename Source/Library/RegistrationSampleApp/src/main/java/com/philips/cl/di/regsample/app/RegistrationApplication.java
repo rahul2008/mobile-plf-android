@@ -111,19 +111,17 @@ public class RegistrationApplication extends Application {
         System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
 
 */
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                PILCONFIGURATION_MICROSITE_ID,
-                URConfigurationConstants.UR,
+       /* mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
+                "appinfra",
                 "77000",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                PILCONFIGURATION_REGISTRATION_ENVIRONMENT,
-                URConfigurationConstants.UR,
+                configError);*/
+     /*   mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.appState",
+               "appinfra",
                 configuration.getValue(),
-                configError);
-       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-*/
+                configError);*/
+
+
+
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(URConfigurationConstants.
                 FLOW_EMAIL_VERIFICATION_REQUIRED,
@@ -203,7 +201,13 @@ public class RegistrationApplication extends Application {
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
 
-    }
+
+       mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
+                "appinfra",
+                "77000",
+                configError);
+        System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
+ }
 
     public void initHSDP(Configuration configuration) {
         if(mAppInfraInterface == null){
@@ -356,12 +360,12 @@ public class RegistrationApplication extends Application {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        mAppInfraInterface.
+       /* mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.micrositeId",
                 AI,
                 "77000",
-                configError);
+                configError);*/
 
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(

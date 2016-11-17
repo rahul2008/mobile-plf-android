@@ -91,16 +91,7 @@ public class RegistrationCoppaApplication extends Application {
         System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
 
 */
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                PILCONFIGURATION_MICROSITE_ID,
-                UR,
-                "77000",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                PILCONFIGURATION_REGISTRATION_ENVIRONMENT,
-                UR,
-                configuration.getValue(),
-                configError);
+
        /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
         System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 */
@@ -194,6 +185,10 @@ public class RegistrationCoppaApplication extends Application {
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
 
+        mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
+                "appinfra",
+                "77000",
+                configError);
     }
 
     final String AI = "appinfra";
