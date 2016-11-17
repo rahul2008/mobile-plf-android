@@ -69,6 +69,7 @@ public class JSONHelper {
      *                      or {@link android.app.Activity} object.
      * @return Local Json file data as String
      */
+    // TODO: Deepthi , pow sleep review comments is addressed?
     private String readJsonFromFile(String localFilePath, Context context) {
         String json = null;
         InputStreamReader is = null;

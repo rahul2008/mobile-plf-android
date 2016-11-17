@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// TODO: Deepthi , package name rename to models not pojo
 public final class AppFlow {
 
     private String firstState;

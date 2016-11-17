@@ -36,6 +36,8 @@ public abstract class BaseUiFlowManager {
      * @param key Condition ID for which the BaseCondition type object need to be created.
      * @return Object of BaseCondition type.
      */
+    // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
+    // put @nonNull for all public APIs and make sure it behaves properly when they send null values and app does not crash.
     public BaseCondition getCondition(String key) {
         return conditionMap.get(key);
     }
@@ -50,10 +52,13 @@ public abstract class BaseUiFlowManager {
      * @param key state ID.
      * @return Object to BaseState if available or 'null'.
      */
+    // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
     public BaseState getState(String key) {
         return stateMap.get(key);
     }
 
+    // TODO: Deepthi we need to change to string
+    // TODO: Deepthi please rename to  AppFlow.json
     public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
         this.context = context;
         mapAppFlowStates(jsonPath);
@@ -77,6 +82,7 @@ public abstract class BaseUiFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
+    // TODO: Deepthi make it eventId
     public BaseState getNextState(String currentState, String event) {
         String string;
         if(null != currentState && null != event) {
@@ -135,6 +141,7 @@ public abstract class BaseUiFlowManager {
         return isConditionSatisfies;
     }
 
+    // TODO: Deepthi change to string
     private void mapAppFlowStates(@IdRes final int jsonPath) {
        appFlowModel = AppFrameworkDataParser.getAppFlow(context, jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {

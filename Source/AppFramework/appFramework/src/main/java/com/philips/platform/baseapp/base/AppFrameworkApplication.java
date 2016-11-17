@@ -28,6 +28,7 @@ import java.util.Locale;
  * Application class is used for initialization
  */
 public class AppFrameworkApplication extends Application {
+    // TODO: Deepthi , should these be static.
     public static AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;

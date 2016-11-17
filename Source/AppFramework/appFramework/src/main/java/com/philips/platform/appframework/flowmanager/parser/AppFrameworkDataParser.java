@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// TODO: Deepthi , rename to AppFlowParser
 public class AppFrameworkDataParser {
 
     /**
@@ -31,6 +32,7 @@ public class AppFrameworkDataParser {
      *                or {@link android.app.Activity} object.
      * @return Object to 'AppFlowModel' class or 'null'
      */
+    // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
     public static AppFlowModel getAppFlow(Context context, @IdRes int jsonPath) {
         String appFlowResponse;
         final JSONHelper jsonHelper = new JSONHelper(context);
@@ -40,6 +42,8 @@ public class AppFrameworkDataParser {
             appFlow = new Gson().fromJson(appFlowResponse, AppFlowModel.class);
         } catch (JsonSyntaxException e) {
             // This code has been added to handle the cases of JSON parsing error/exception
+            // TODO: Deepthi , please remove this , we cannot do like this, need to discuss.
+            // Need to handle error properly
             appFlowResponse = jsonHelper.readJsonFromFile
                     (R.string.com_philips_app_fmwk_app_flow_url, context);
             appFlow = new Gson().fromJson(appFlowResponse, AppFlowModel.class);
