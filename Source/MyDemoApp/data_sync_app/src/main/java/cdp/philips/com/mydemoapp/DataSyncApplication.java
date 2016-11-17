@@ -41,8 +41,6 @@ public class DataSyncApplication extends Application{
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
-        loggingInterface.enableConsoleLog(true);
-        loggingInterface.enableFileLog(true);
         setLocale();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
@@ -122,7 +120,7 @@ public class DataSyncApplication extends Application{
 
         initHSDP();
 
-        ArrayList<String> providers = new ArrayList<String>();
+        ArrayList<String> providers = new ArrayList<>();
         providers.add("facebook");
         providers.add("googleplus");
         providers.add("sinaweibo");
@@ -151,7 +149,7 @@ public class DataSyncApplication extends Application{
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
-        editor.commit();
+        editor.apply();
 
 
         String languageCode = Locale.getDefault().getLanguage();
@@ -172,9 +170,6 @@ public class DataSyncApplication extends Application{
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = gAppInfra.getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = gAppInfra.
-                getConfigInterface();
-
         //Dynamically set the values to appInfar and app state
 
         AppConfigurationInterface.AppConfigurationError configError = new

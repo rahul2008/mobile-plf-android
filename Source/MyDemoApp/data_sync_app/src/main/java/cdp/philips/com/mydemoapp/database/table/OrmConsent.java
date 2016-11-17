@@ -37,7 +37,7 @@ public class OrmConsent implements Consent, Serializable {
 
 
     @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmConsentDetail> ormConsentDetails = new EmptyForeignCollection<>();
+    private ForeignCollection<OrmConsentDetail> ormConsentDetails = new EmptyForeignCollection<>();
 
     @DatabaseConstructor
     OrmConsent() {
