@@ -64,7 +64,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
      * Any changes for hamburger menu options should be made here
      */
     @Override
-    public void onClick(int componentID) {
+    public void onEvent(int componentID) {
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.TAB_HOME, eventState);
@@ -141,10 +141,6 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         return fragmentLauncher;
     }
 
-    @Override
-    public void onLoad() {
-
-    }
 
     @Override
     public void onStateComplete(BaseState baseState) {

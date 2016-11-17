@@ -59,12 +59,12 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
     }
 
     private void setViewPager() {
-        presenter.onClick(0);
+        presenter.onEvent(0);
         topLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(final TabLayout.Tab tab) {
-                presenter.onClick(tab.getPosition());
+                presenter.onEvent(tab.getPosition());
             }
 
             @Override
