@@ -8,15 +8,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/progress_bar_margin_top">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginStart="@dimen/uid_progress_bar_margin_left"
-            android:layout_marginEnd="@dimen/uid_progress_bar_margin_right"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
+            android:layout_marginStart="@dimen/progress_bar_margin_left_right"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/progress_bar_scale"/>
+
+            <SeekBar
+                android:id="@+id/progress_bar_seekbar_scale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/progress_bar_margin_left_right"
+                android:max="2"
+                android:progress="0"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:background="?attr/uitApplicationBackground"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
+            android:layout_marginStart="@dimen/progress_bar_margin_left_right"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -24,11 +52,11 @@
                 android:text="@string/progress_bar_value"/>
 
             <SeekBar
+                android:id="@+id/progress_bar_seekbar_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/uid_progress_bar_margin_left"
-                android:id="@+id/progress_bar_seekbar_value"
-                android:progress="50"/>
+                android:layout_marginStart="@dimen/progress_bar_margin_left_right"
+                android:progress="@integer/progress_bar_default_progress"/>
         </LinearLayout>
 
         <View
@@ -39,7 +67,41 @@
         <TextView
             style="@style/ButtonsCategoryStyle"
             android:layout_height="32dp"
-            android:layout_marginTop="12dp"
+            android:text="@string/progress_bar_circular_subtitle"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:background="?attr/uitApplicationBackground"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="132dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uit.view.widget.ProgressBar
+                android:id="@+id/progress_bar_indeterminate_circular"
+                style="@style/UIDProgressBarCircularSmall"
+                android:indeterminate="true"
+                android:indeterminateBehavior="repeat"
+                app:uid_linear_progress_bar="false"/>
+
+            <com.philips.platform.uit.view.widget.ProgressBar
+                android:id="@+id/progress_bar_determinate_circular"
+                style="@style/UIDProgressBarCircularBig"
+                android:progress="@integer/progress_bar_default_progress"
+                app:uid_linear_progress_bar="false"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:background="?attr/uitApplicationBackground"/>
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:layout_height="32dp"
             android:text="@string/progress_bar_linear_subtitle"/>
 
         <View
@@ -52,23 +114,32 @@
             style="@style/UIDProgressBarHorizontalWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:indeterminate="true"
-            android:indeterminateBehavior="repeat"/>
+            android:indeterminateBehavior="repeat"
+            app:uid_linear_progress_bar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
             style="@style/UIDProgressBarHorizontalWithMargins"
-            android:layout_marginTop="@dimen/progress_bar_margin_top"/>
+            android:layout_marginTop="@dimen/progress_bar_margin_top"
+            android:progress="@integer/progress_bar_default_progress"
+            app:uid_linear_progress_bar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
             style="@style/UIDProgressBarHorizontalWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
-            app:uit_secondary_progress="true"/>
+            android:progress="@integer/progress_bar_default_progress"
+            android:secondaryProgress="@integer/progress_bar_default_secondary_progress"
+            app:uid_linear_progress_bar="true"
+            app:uid_secondary_progress="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
             style="@style/UIDProgressBarHorizontal"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
-            app:uit_secondary_progress="true"/>
+            android:progress="@integer/progress_bar_default_progress"
+            android:secondaryProgress="@integer/progress_bar_default_secondary_progress"
+            app:uid_linear_progress_bar="true"
+            app:uid_secondary_progress="true"/>
     </LinearLayout>
 </ScrollView>

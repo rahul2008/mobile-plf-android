@@ -32,6 +32,9 @@ public class ProgressBarFragment extends BaseFragment {
     @Bind(R.id.progress_bar_wide)
     ProgressBar wideProgressBar;
 
+    @Bind(R.id.progress_bar_determinate_circular)
+    ProgressBar determinateCircularProgressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class ProgressBarFragment extends BaseFragment {
         secondaryProgressBar.setSecondaryProgress(progress+10);
         wideProgressBar.setProgress(progress);
         wideProgressBar.setSecondaryProgress(progress+10);
+        determinateCircularProgressBar.setProgress(progress);
     }
 
     private OnSeekBarChangeListener onSeekBarChangeListener = new OnSeekBarChangeListener() {

@@ -23,4 +23,7 @@
 
     <!--ProgressBar test page-->
     <dimen name="progress_bar_margin_top">60dp</dimen>
+    <dimen name="progress_bar_margin_left_right">24dp</dimen>
+    <integer name="progress_bar_default_progress">50</integer>
+    <integer name="progress_bar_default_secondary_progress">60</integer>
 </resources>
