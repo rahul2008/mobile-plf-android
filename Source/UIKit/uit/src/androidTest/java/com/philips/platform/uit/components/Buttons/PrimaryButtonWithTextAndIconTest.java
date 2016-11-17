@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.uit.components.Buttons;
+package com.philips.platform.uit.components.buttons;
 
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;

@@ -64,5 +64,9 @@
     <dimen name="alerttitletext_linespacing">4dp</dimen>
 
 
+    <!--Label dimens -->
+    <dimen name="label_fontsize">16sp</dimen>
+
+
 
 </resources>
