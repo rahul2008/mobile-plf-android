@@ -8,10 +8,10 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -90,6 +90,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private ScrollView mSvRootLayout;
 
+    private ProgressDialog mProgressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreate");
@@ -104,7 +106,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-        EventHelper.getInstance().registerEventNotification(RegConstants.PARSING_COMPLETED, this);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS,
                 "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
@@ -116,6 +117,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
 
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
         initUI(view);
         handleOrientation(view);
         return view;
@@ -127,7 +132,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     @Override
-    public void onViewStateRestored( Bundle savedInstanceState) {
+    public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -175,7 +180,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 this);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
                 this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.PARSING_COMPLETED, this);
         RLog.i(RLog.EVENT_LISTENERS,
                 "HomeFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         super.onDestroy();
@@ -352,20 +356,47 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 //        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
 //            getRegistrationFragment().addFragment(new MobileSignInAccountFragment());
 //        }else {
-            getRegistrationFragment().addFragment(new SignInAccountFragment());
+        // getRegistrationFragment().addFragment(new SignInAccountFragment());
 //        }
+
+
+        if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+            getRegistrationFragment().addFragment(new SignInAccountFragment());
+            return;
+        }
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
+            showProgressDialog();
+            mFlowId = 2;
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+        }
     }
+
+    int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
 
     private void launchCreateAccountFragment() {
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
-
-        getRegistrationFragment().addFragment(new CreateAccountFragment());
+        if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+            getRegistrationFragment().addFragment(new CreateAccountFragment());
+            return;
+        }
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
+            showProgressDialog();
+            mFlowId = 1;
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+        }
     }
 
     private void makeProgressVisible() {
         if (getView() != null) {
             getView().findViewById(R.id.sv_root_layout).setVisibility(View.INVISIBLE);
             getView().findViewById(R.id.ll_root_layout).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void makeProgressInvisible() {
+        if (getView() != null) {
+            getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
         }
     }
 
@@ -378,9 +409,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
-            mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
+                return;
+            }
+            showProgressDialog();
+            mFlowId = 3;
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
-    }
+}
 
     @Override
     public void setViewParams(Configuration config, int width) {
@@ -402,25 +439,34 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         return R.string.reg_SigIn_TitleTxt;
     }
 
-    private Handler mHandler = new Handler();
-
     @Override
     public void onEventReceived(String event) {
         RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived isHomeFragment :onEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
+            //Navigate to next action
+            hideProgressDialog();
+            if (mFlowId == 1) {
+                getRegistrationFragment().addFragment(new CreateAccountFragment());
+            }
+
+            if (mFlowId == 2) {
+                getRegistrationFragment().addFragment(new SignInAccountFragment());
+            }
+
+            if (mFlowId == 3) {
+                mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
+            }
+
+            mFlowId = 0;
+
             // handleJanrainInitPb();
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
+            makeProgressVisible();
+            hideProgressDialog();
+            mFlowId = 0;
+            //dismiss dialog
             // enableControls(false);
             // handleJanrainInitPb();
-        } else if (RegConstants.PARSING_COMPLETED.equals(event)) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    enableControls(true);
-                    // handleSocialProvider();
-                }
-            });
-
         }
     }
 
@@ -579,7 +625,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 //    }
 
     private void handlePrivacyPolicy() {
-      getRegistrationFragment().getUserRegistrationUIEventListener().
+        getRegistrationFragment().getUserRegistrationUIEventListener().
                 onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
     }
 
@@ -610,9 +656,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (user.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
-            if (FieldsValidator.isValidEmail(mUser.getEmail())){
+            if (FieldsValidator.isValidEmail(mUser.getEmail())) {
                 launchAccountActivationFragment();
-            }else {
+            } else {
                 getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
             }
 
@@ -801,6 +847,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             trackPage(AppTaggingPages.GOOGLE_PLUS);
         } else if (mProvider.equalsIgnoreCase(SocialProvider.TWITTER)) {
             trackPage(AppTaggingPages.TWITTER);
+        }
+    }
+
+
+    private void showProgressDialog() {
+        if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
         }
     }
 }
