@@ -314,6 +314,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onFetchAssetSuccess(final Message msg) {
         if (mContext == null) return;
@@ -362,7 +363,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
-
+    @SuppressWarnings("unchecked")
     @Override
     public void onModelDataLoadFinished(Message msg) {
         HashMap<String, SummaryModel> msgObj = (HashMap<String, SummaryModel>) msg.obj;
@@ -460,7 +461,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     @Override
-    public void onLoadFinished(ArrayList data) {
+    public void onLoadFinished(ArrayList<StoreEntity> data) {
         dismissProgressDialog();
         buyFromRetailers(data);
     }

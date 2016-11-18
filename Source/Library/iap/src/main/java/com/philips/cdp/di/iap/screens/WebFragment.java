@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,9 +76,17 @@ public abstract class WebFragment extends InAppBaseFragment {
     }
 
     private class IAPWebViewClient extends WebViewClient {
+
+        @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
             return WebFragment.this.shouldOverrideUrlLoading(url);
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return WebFragment.this.shouldOverrideUrlLoading(request.getUrl().toString());
         }
 
         @Override

@@ -27,7 +27,6 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
@@ -71,6 +70,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         mIsFromOnCreate = true;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
@@ -210,19 +210,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            dismissProgressDialog();
-        } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            dismissProgressDialog();
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
-            if (deliveryModeList.size() > 0) {
-                CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-            }
-        }
+       handleDeliveryMode(msg, mAddressController);
     }
 
     @Override

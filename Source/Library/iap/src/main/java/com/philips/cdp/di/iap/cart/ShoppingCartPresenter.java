@@ -54,8 +54,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public ShoppingCartPresenter() {
     }
 
-    @SuppressWarnings({"rawtype", "unchecked"})
-    public ShoppingCartPresenter(Context context, ShoppingCartListener listener) {
+    public ShoppingCartPresenter(Context context, ShoppingCartListener<?> listener) {
         super(context, listener);
     }
 
