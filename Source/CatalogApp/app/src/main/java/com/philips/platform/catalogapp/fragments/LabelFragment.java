@@ -24,7 +24,14 @@ public class LabelFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         FragmentLabelsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_labels, container, false);
         binding.setLabelFrag(this);
+        restoreUI(savedInstanceState);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putInt("progress", Integer.valueOf(description.get()));
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -34,5 +41,11 @@ public class LabelFragment extends BaseFragment {
 
     public void setProgress(int progress) {
         description.set(String.valueOf(progress));
+    }
+
+    private void restoreUI(final Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            setProgress(savedInstanceState.getInt("progress"));
+        }
     }
 }
