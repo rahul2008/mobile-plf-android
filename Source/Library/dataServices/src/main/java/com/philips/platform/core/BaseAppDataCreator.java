@@ -12,6 +12,8 @@ import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -43,6 +45,15 @@ public interface BaseAppDataCreator {
 
     @NonNull
     MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type, @NonNull final Measurement measurement);
+
+    @NonNull
+    MeasurementGroup createMeasurementGroup(@NonNull final MeasurementGroup measurementGroup);
+
+    @NonNull
+    MeasurementGroup createMeasurementGroup(@NonNull final Moment moment);
+
+    @NonNull
+    MeasurementGroupDetail createMeasurementGroupDetail(@NonNull final MeasurementGroupDetailType type, @NonNull final MeasurementGroup measurementGroup);
 
     @NonNull
     SynchronisationData createSynchronisationData(@NonNull final String guid, final boolean inactive, @NonNull final DateTime lastModifiedTime, final int version);

@@ -36,6 +36,11 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     ForeignCollection<OrmMeasurementGroup> ormMeasurementGroups = new EmptyForeignCollection<>();
 
     @Override
+    public void addMeasurement(Measurement measurement) {
+        ormMeasurements.add((OrmMeasurement) measurement);
+    }
+
+    @Override
     public int getId() {
         return 0;
     }

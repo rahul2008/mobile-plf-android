@@ -12,6 +12,8 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetailType;
@@ -103,6 +105,43 @@ public class Database implements BaseAppDataCreator {
             throw new IllegalArgumentException("Measurement was not OrmMeasurement");
         }
     }
+
+    @NonNull
+    @Override
+    public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
+        try {
+            final MeasurementGroup ormMeasurementGroup =
+                    OrmTypeChecking.checkOrmType(measurementGroup, MeasurementGroup.class);
+            return creator.createMeasurementGroup(ormMeasurementGroup);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            throw new IllegalArgumentException("Measurement was not OrmMeasurement");
+        }
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
+        try {
+            final MeasurementGroup ormMeasurementGroup =
+                    OrmTypeChecking.checkOrmType(moment, MeasurementGroup.class);
+            return creator.createMeasurementGroup(ormMeasurementGroup);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            throw new IllegalArgumentException("Measurement was not OrmMeasurement");
+        }
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull MeasurementGroupDetailType type, @NonNull MeasurementGroup measurementGroup) {
+        try {
+            final OrmMeasurementGroup ormMeasurementGroup =
+                    OrmTypeChecking.checkOrmType(measurementGroup, OrmMeasurementGroup.class);
+            return creator.createMeasurementGroupDetail(type, ormMeasurementGroup);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            throw new IllegalArgumentException("Measurement was not OrmMeasurement");
+        }
+    }
+
 
     @NonNull
     @Override

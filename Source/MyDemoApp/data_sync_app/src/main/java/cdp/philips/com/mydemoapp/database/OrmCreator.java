@@ -13,6 +13,8 @@ import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -95,6 +97,24 @@ public class OrmCreator implements BaseAppDataCreator {
     public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
                                                      @NonNull final Measurement measurement) {
         return createMeasurementDetail(type, (OrmMeasurement) measurement);
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
+        return createMeasurementGroup(measurementGroup);
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
+        return createMeasurementGroup(moment);
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull MeasurementGroupDetailType type, @NonNull MeasurementGroup measurementGroup) {
+        return createMeasurementGroupDetail(type,measurementGroup);
     }
 
     @NonNull

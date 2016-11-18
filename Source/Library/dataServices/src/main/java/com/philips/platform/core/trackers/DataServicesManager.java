@@ -172,8 +172,14 @@ public class DataServicesManager {
     @NonNull
     public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
-      //  measurementGroup.addMeasurement(measurement);
+        measurementGroup.addMeasurement(measurement);
         return measurement;
+    }
+
+    @NonNull
+    public MeasurementGroup createMeasurementGroup(@NonNull final MeasurementGroup measurementGroup) {
+        MeasurementGroup measurementGroups = mDataCreater.createMeasurementGroup(measurementGroup);
+        return measurementGroups;
     }
 
     @NonNull
