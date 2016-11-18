@@ -13,6 +13,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.userregistration.URStateListener;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -20,10 +21,10 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class LaunchActivityPresenter extends UIBasePresenter implements URStateListener {
+public class LaunchActivityPresenter extends UIBasePresenter{
 
     public static final int APP_LAUNCH_STATE = 890;
-    private static final int USER_REGISTRATION_STATE = 889;
+   // private static final int USER_REGISTRATION_STATE = 889;
     private LaunchView launchView;
     private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
@@ -48,7 +49,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
 
         fragmentLauncher = getFragmentLauncher();
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.FIRST_STATE, eventState);
-        if (baseState != null && !baseState.getStateID().equals(AppStates.REGISTRATION)) {
+        if (baseState != null && !(baseState instanceof UserRegistrationState)) {
             baseState.setStateListener(this);
             baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
@@ -63,8 +64,8 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return LAUNCH_BACK_PRESSED;
-            case USER_REGISTRATION_STATE:
-                return WELCOME_REGISTRATION;
+            /*case USER_REGISTRATION_STATE:
+                return WELCOME_REGISTRATION;*/
             case APP_LAUNCH_STATE:
                 return APP_LAUNCH;
             default:return null;
@@ -85,18 +86,5 @@ public class LaunchActivityPresenter extends UIBasePresenter implements URStateL
 
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) launchView.getFragmentActivity().getApplicationContext();
-    }
-    @Override
-    public void onStateComplete(BaseState baseState) {
-    }
-
-    @Override
-    public void onLogoutSuccess() {
-
-    }
-
-    @Override
-    public void onLogoutFailure() {
-
     }
 }

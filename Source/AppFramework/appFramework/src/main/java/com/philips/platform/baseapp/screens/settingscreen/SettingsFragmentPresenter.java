@@ -21,7 +21,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
  */
-public class SettingsFragmentPresenter extends UIBasePresenter implements URStateListener {
+public class SettingsFragmentPresenter extends UIBasePresenter{
 
     private static final int USER_REGISTRATION_STATE = 999;
     private static final int HOME_ACTIVITY_STATE = 998;
@@ -55,9 +55,6 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         if (baseState != null) {
             baseState.setStateListener(this);
             baseState.setUiStateData(uiStateData);
-            if (eventState.equals(SETTINGS_LOGIN)) {
-                ((UserRegistrationState) baseState).registerUIStateListener(this);
-            }
             fragmentLauncher = getFragmentLauncher();
             baseState.navigate(fragmentLauncher);
         }
@@ -84,39 +81,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
         return fragmentLauncher;
     }
 
-    /**
-     * For setting the next state
-     * @param baseState
-     */
-    @Override
-    public void onStateComplete(BaseState baseState) {
-        this.baseState =getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, SETTINGS_REGISTRATION);
-        fragmentLauncher = getFragmentLauncher();
-        this.baseState.setStateListener(this);
-        settingsView.finishActivityAffinity();
-        this.baseState.navigate(fragmentLauncher);
-    }
-
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) settingsView.getFragmentActivity().getApplicationContext();
     }
 
-    @Override
-    public void onLogoutSuccess() {
-        final FragmentActivity fragmentActivity = settingsView.getFragmentActivity();
-        if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-          //  ((AppFrameworkBaseActivity) fragmentActivity).setCartItemCount(0);
-            baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, SETTINGS_LOGOUT);
-            fragmentLauncher = getFragmentLauncher();
-            baseState.setStateListener(this);
-            baseState.navigate(fragmentLauncher);
-        }
-    }
-
-    @Override
-    public void onLogoutFailure() {
-
-    }
 
     protected String getEventState(final int componentID) {
         switch (componentID) {

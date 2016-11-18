@@ -13,6 +13,9 @@ public class AppStates {
     public static final String SUPPORT = "support";
     public static final String SPLASH = "splash";
     public static final String REGISTRATION = "registration";
+    public static final String SPLASH_REGISTRATION = "splash_registration";
+    public static final String WELCOME_REGISTRATION = "welcome_registration";
+    public static final String SETTINGS_REGISTRATION = "settings_registration";
     public static final String HOME_FRAGMENT = "home_fragment";
     public static final String ABOUT = "about";
     public static final String DEBUG = "debug";

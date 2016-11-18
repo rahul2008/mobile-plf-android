@@ -24,6 +24,7 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -55,7 +56,7 @@ public class SettingsAdapter extends BaseAdapter{
                            UIBasePresenter fragmentPresenter) {
         activityContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        userRegistrationState = new UserRegistrationState();
+        userRegistrationState = new UserRegistrationSettingsState();
         this.settingsItemList = settingsItemList;
         this.fragmentPresenter = fragmentPresenter;
         sharedPreferenceUtility = new SharedPreferenceUtility(context);

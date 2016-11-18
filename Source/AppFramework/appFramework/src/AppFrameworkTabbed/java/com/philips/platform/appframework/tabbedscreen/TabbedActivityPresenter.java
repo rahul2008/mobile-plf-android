@@ -29,7 +29,7 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener {
+public class TabbedActivityPresenter extends UIBasePresenter{
 
     /* event to state map */
     final String HOME_SETTINGS = "settings";
@@ -68,12 +68,9 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.TAB_HOME, eventState);
-        baseState.setPresenter(this);
+        baseState.setStateListener(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
-        if (baseState instanceof SupportFragmentState) {
-            ((SupportFragmentState) baseState).registerUIStateListener(this);
-        }
         baseState.navigate(fragmentLauncher);
     }
 
@@ -137,15 +134,6 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         return fragmentLauncher;
     }
 
-
-    @Override
-    public void onStateComplete(BaseState baseState) {
-        appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
-        this.baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.SUPPORT, SUPPORT_PR);
-        this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
-        this.baseState.setPresenter(this);
-        this.baseState.navigate(fragmentLauncher);
-    }
 
     // TODO: Deepthi, is this expected? deviation from ios i think.
     private String getEventState(int componentID) {

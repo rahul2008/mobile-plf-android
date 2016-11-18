@@ -36,7 +36,7 @@
                 "condition": [
                   "conditionAppLaunch"
                 ],
-                "nextState": "registration"
+                "nextState": "splash_registration"
               },
               {
                 "condition": [
@@ -75,7 +75,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "registration"
+                "nextState": "welcome_registration"
               }
             ]
           },
@@ -84,7 +84,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "registration"
+                "nextState": "welcome_registration"
               }
             ]
           },
@@ -216,7 +216,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "registration"
+                "nextState": "settings_registration"
               }
             ]
           },

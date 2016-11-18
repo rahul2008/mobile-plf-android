@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -80,7 +81,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     }
 
     private ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
-        userRegistrationState = new UserRegistrationState();
+        userRegistrationState = new UserRegistrationSettingsState();
         if (userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
             return settingScreenItemList;
         }

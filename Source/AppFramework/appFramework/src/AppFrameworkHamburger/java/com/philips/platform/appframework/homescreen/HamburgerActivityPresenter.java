@@ -26,7 +26,7 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class HamburgerActivityPresenter extends UIBasePresenter implements UIStateListener {
+public class HamburgerActivityPresenter extends UIBasePresenter {
 
     /*Event ID */
     public static final int MENU_OPTION_HOME = 0;
@@ -68,9 +68,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
             baseState.setStateListener(this);
             baseState.setUiStateData(setStateData(componentID));
             fragmentLauncher = getFragmentLauncher();
-            if (baseState instanceof SupportFragmentState) {
-                ((SupportFragmentState) baseState).registerUIStateListener(this);
-            }
             baseState.navigate(fragmentLauncher);
         }
     }
@@ -129,17 +126,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     protected FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
         return fragmentLauncher;
-    }
-
-    // TODO: Deepthi, This seems to be hardcoded without even checking the uistate, we are taking decision here.
-    // cant we move this to json ?
-    @Override
-    public void onStateComplete(BaseState baseState) {
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SUPPORT, SUPPORT_PR);
-        this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
-        this.baseState.setStateListener(this);
-        fragmentLauncher = getFragmentLauncher();
-        this.baseState.navigate(fragmentLauncher);
     }
 
     // TODO: Deepthi, is this expected? deviation from ios i think. - (Rakesh -As disscussed. Needed to convert int ID for views into Strings )

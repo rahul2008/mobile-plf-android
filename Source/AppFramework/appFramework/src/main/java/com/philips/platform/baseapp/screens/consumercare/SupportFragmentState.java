@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp.screens.consumercare;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
@@ -25,6 +26,7 @@ import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.base.UIStateListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,8 +39,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private FragmentLauncher fragmentLauncher;
-    private UIStateListener supportListener;
-
+    private BaseState baseState;
+    final String SUPPORT_PR = "pr";
 
 
     private String[] ctnList;
@@ -53,11 +55,19 @@ public class SupportFragmentState extends BaseState implements CcListener {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        this.activityContext = fragmentLauncher.getFragmentActivity();
+        this.activityContext = getFragmentActivity();
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
         updateDataModel();
         launchCC();
+    }
+
+    public FragmentActivity getFragmentActivity() {
+        return fragmentLauncher.getFragmentActivity();
+    }
+
+    public AppFrameworkApplication getApplicationContext(){
+        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
     }
 
     @Override
@@ -102,7 +112,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
      * @param uiStateListener
      */
     public void registerUIStateListener(UIStateListener uiStateListener) {
-        this.supportListener = (UIStateListener) getPresenter();
+
     }
 
 
@@ -114,7 +124,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            supportListener.onStateComplete(this);
+            this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SUPPORT, SUPPORT_PR);
+            this.baseState.navigate(new FragmentLauncher(getFragmentActivity(),((AppFrameworkBaseActivity)getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
             return true;
         }
         return false;

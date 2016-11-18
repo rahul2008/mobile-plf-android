@@ -19,7 +19,9 @@ import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeS
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSplashState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationWelcomeState;
 
 import java.util.Map;
 
@@ -49,7 +51,9 @@ public class FlowManager extends BaseUiFlowManager {
     @Override
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
-        uiStateMap.put(AppStates.REGISTRATION, new UserRegistrationState());
+        uiStateMap.put(AppStates.SPLASH_REGISTRATION, new UserRegistrationSplashState());
+        uiStateMap.put(AppStates.WELCOME_REGISTRATION, new UserRegistrationWelcomeState());
+        uiStateMap.put(AppStates.SETTINGS_REGISTRATION, new UserRegistrationSettingsState());
         uiStateMap.put(AppStates.HOME_FRAGMENT, new HomeFragmentState());
         uiStateMap.put(AppStates.TAB_HOME, new HomeTabbedActivityState());
         uiStateMap.put(AppStates.ABOUT, new AboutScreenState());

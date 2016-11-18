@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSplashState;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.baseapp.screens.datasevices.database.DatabaseHelper;
 import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
@@ -52,7 +53,7 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        userRegistrationState = new UserRegistrationState();
+        userRegistrationState = new UserRegistrationSplashState();
         userRegistrationState.init(this);
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);

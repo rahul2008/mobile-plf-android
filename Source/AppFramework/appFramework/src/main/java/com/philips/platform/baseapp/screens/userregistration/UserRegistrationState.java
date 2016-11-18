@@ -8,6 +8,7 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
@@ -36,17 +37,20 @@ import static com.philips.platform.baseapp.base.AppFrameworkApplication.appInfra
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public class UserRegistrationState extends BaseState implements UserRegistrationListener, ActionBarListener, UserRegistrationUIEventListener {
+public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, ActionBarListener,UserRegistrationUIEventListener{
 
     final String AI = "appinfra";
     private Context activityContext;
     private User userObject;
-    private URStateListener userRegistrationListener;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
 
-    public UserRegistrationState() {
-        super(AppStates.REGISTRATION);
+    /**
+     * AppFlowState constructor
+     *
+     */
+    public UserRegistrationState(String stateID) {
+        super(stateID);
     }
 
     /**
@@ -56,10 +60,18 @@ public class UserRegistrationState extends BaseState implements UserRegistration
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        activityContext = fragmentLauncher.getFragmentActivity();
+        activityContext = getFragmentActivity();
+        updateDataModel();
         launchUR();
     }
 
+    public FragmentActivity getFragmentActivity() {
+        return fragmentLauncher.getFragmentActivity();
+    }
+
+    public AppFrameworkApplication getApplicationContext(){
+        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+    }
     @Override
     public void init(Context context) {
         this.applicationContext = context;
@@ -121,50 +133,6 @@ public class UserRegistrationState extends BaseState implements UserRegistration
 
     }
 
-    /**
-     * UserRegistrationUIEventListener interface implementation methods
-     * @param activity
-     */
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        if (null != activity) {
-            userRegistrationListener.onStateComplete(this);
-        }
-    }
-
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-
-    }
-
-    /**
-     * UserRegistrationListener interface implementation methods
-     */
-    @Override
-    public void onUserLogoutSuccess() {
-        userRegistrationListener.onLogoutSuccess();
-        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, getUserObject(activityContext));
-        userRegistrationFacade.clearUserData();
-    }
-
-    @Override
-    public void onUserLogoutFailure() {
-        userRegistrationListener.onLogoutFailure();
-    }
-
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
-        userRegistrationListener.onLogoutSuccess();
-        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, getUserObject(activityContext));
-        userRegistrationFacade.clearUserData();
-    }
-
-
     public User getUserObject(Context context) {
         userObject = new User(context);
         return userObject;
@@ -175,8 +143,8 @@ public class UserRegistrationState extends BaseState implements UserRegistration
      * @param uiStateListener
      */
     public void registerUIStateListener(URStateListener uiStateListener){
-        this.userRegistrationListener = (URStateListener) getPresenter();
     }
+
 
     /**
      * Launch registration fragment

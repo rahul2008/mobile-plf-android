@@ -44,6 +44,11 @@ public class HomeTabbedActivityState extends BaseState {
 
     }
 
+    @Override
+    public void updateDataModel() {
+
+    }
+
     private void launchTabScreen() {
         TabDependencies tabDependencies = new TabDependencies(AppFrameworkApplication.appInfra);
         TabSettings tabSettings = new TabSettings(fragmentLauncher.getFragmentActivity());

@@ -18,7 +18,7 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-public class WelcomeFragmentPresenter extends UIBasePresenter implements URStateListener {
+public class WelcomeFragmentPresenter extends UIBasePresenter{
 
     private final int MENU_OPTION_HOME = 0;
     private AppFrameworkApplication appFrameworkApplication;
@@ -47,8 +47,6 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         if(baseState!=null) {
             baseState.setStateListener(this);
-            if (baseState instanceof UserRegistrationState)
-                ((UserRegistrationState) baseState).registerUIStateListener(this);
             fragmentLauncher = getFragmentLauncher();
             baseState.navigate(fragmentLauncher);
         }
@@ -76,28 +74,4 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return WELCOME_HOME;
     }
 
-    // TODO: Deepthi, check for condition and event and then take decision, can we move to json, pls check.- Will move to json
-    @Override
-    public void onStateComplete(final BaseState baseState) {
-        String eventState = getEventState(MENU_OPTION_HOME);
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
-        fragmentLauncher = getFragmentLauncher();
-        this.baseState.setStateListener(this);
-        welcomeFragmentView.finishActivityAffinity();
-        this.baseState.navigate(fragmentLauncher);
-        if(baseState instanceof UserRegistrationState)
-        {
-            ((UserRegistrationState) baseState).unregisterUserRegistrationListener();
-        }
-    }
-
-    @Override
-    public void onLogoutSuccess() {
-
-    }
-
-    @Override
-    public void onLogoutFailure() {
-
-    }
 }

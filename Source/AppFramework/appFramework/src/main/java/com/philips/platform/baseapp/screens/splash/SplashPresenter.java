@@ -18,7 +18,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Spalsh presenter loads the splash screen and sets the next state after splash
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
-public class SplashPresenter extends UIBasePresenter implements URStateListener {
+public class SplashPresenter extends UIBasePresenter{
     private final LaunchView uiView;
     private String APP_START = "onSplashTimeOut";
     private BaseState baseState;
@@ -42,21 +42,10 @@ public class SplashPresenter extends UIBasePresenter implements URStateListener 
         baseState.setStateListener(this);
         if (null != baseState) {
             if (baseState instanceof UserRegistrationState) {
-                ((UserRegistrationState) baseState).registerUIStateListener(this);
                 uiView.showActionBar();
             }
             baseState.navigate(fragmentLauncher);
         }
-    }
-
-    @Override
-    public void onLogoutSuccess() {
-
-    }
-
-    @Override
-    public void onLogoutFailure() {
-
     }
 
     protected FragmentLauncher getFragmentLauncher() {
@@ -65,16 +54,6 @@ public class SplashPresenter extends UIBasePresenter implements URStateListener 
     }
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
-    }
-    @Override
-    public void onStateComplete(BaseState baseState) {
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SPLASH, "splash_home");
-        if (null != this.baseState) {
-            fragmentLauncher = getFragmentLauncher();
-            this.baseState.setStateListener(this);
-            finishActivity();
-            this.baseState.navigate(fragmentLauncher);
-        }
     }
     protected void finishActivity() {
         uiView.finishActivityAffinity();

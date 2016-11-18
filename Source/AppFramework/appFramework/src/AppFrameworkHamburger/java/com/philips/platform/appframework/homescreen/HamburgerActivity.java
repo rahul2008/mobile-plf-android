@@ -31,6 +31,7 @@ import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.baseapp.base.FragmentView;
@@ -257,7 +258,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     @Override
     protected void onResume() {
         super.onResume();
-        userRegistrationState = new UserRegistrationState();
+        userRegistrationState = new UserRegistrationSettingsState();
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
            // addIapCartCount();
         }
