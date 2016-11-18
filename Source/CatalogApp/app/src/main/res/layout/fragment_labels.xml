@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/component_bottom_spacing"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/label_text"/>
 
             <LinearLayout
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/component_bottom_spacing"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/label_text"/>
 
             <com.philips.platform.uit.view.widget.TextEditBox
@@ -84,7 +84,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/component_bottom_spacing"
+                android:layout_marginTop="@dimen/label_textbox_margin"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right">
 
@@ -178,7 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/component_bottom_spacing"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:orientation="horizontal">
 
                 <com.philips.platform.uit.view.widget.Label
