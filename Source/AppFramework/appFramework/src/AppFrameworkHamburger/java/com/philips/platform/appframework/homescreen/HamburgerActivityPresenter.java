@@ -7,18 +7,16 @@ package com.philips.platform.appframework.homescreen;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.base.UIStateListener;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
-import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
@@ -30,10 +28,6 @@ import java.util.Arrays;
  */
 public class HamburgerActivityPresenter extends UIBasePresenter implements UIStateListener {
 
-    private FragmentView fragmentView;
-    private FragmentLauncher fragmentLauncher;
-    private BaseState baseState;
-
     /*Event ID */
     public static final int MENU_OPTION_HOME = 0;
     final int MENU_OPTION_SETTINGS = 1;
@@ -42,7 +36,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     final int MENU_OPTION_ABOUT = 4;
     final int MENU_OPTION_DATA_SYNC = 5;
     final int MENU_OPTION_PR = 6;
-
     /* event to state map */
     final String HOME_SETTINGS = "settings";
     final String HOME_IAP = "iap";
@@ -52,6 +45,9 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     final String HOME_FRAGMENT = "home_fragment";
     final String HOME_DATA_SYNC = "data_sync";
     final String SUPPORT_PR = "pr";
+    private FragmentView fragmentView;
+    private FragmentLauncher fragmentLauncher;
+    private BaseState baseState;
 
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
@@ -83,8 +79,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
         return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
-    // TODO: Deepthi, when we already know that we need to set certain data for each menu click and that too for which component, why do we ask flow manager to give only state?
-    // So here atleast i see launch type is already causing problems + data models was anyways a concern.
     protected UIStateData setStateData(final int componentID) {
         switch (componentID) {
             case MENU_OPTION_HOME:

@@ -3,38 +3,32 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.pojo;
+package com.philips.platform.appframework.flowmanager.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Deepthi , package name rename to models not pojo
-public final class AppFlow {
+public final class AppFlowNextState {
 
-    private String firstState;
-    private List<AppFlowState> states = new ArrayList<>();
+    private List<String> condition = new ArrayList<String>();
+    private String nextState;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     *
-     * @return
-     *     The firstState
+     * @return The condition
      */
-    public String getFirstState() {
-        return firstState;
+    public List<String> getCondition() {
+        return condition;
     }
 
     /**
-     *
-     * @return
-     *     The states
+     * @return The nextState
      */
-    public List<AppFlowState> getStates() {
-        return states;
+    public String getNextState() {
+        return nextState;
     }
-
 
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

@@ -4,7 +4,7 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.appframework.flowmanager.pojo;
+package com.philips.platform.appframework.flowmanager.models;
 @SuppressWarnings("serial")
 public final class AppFlowModel{
 

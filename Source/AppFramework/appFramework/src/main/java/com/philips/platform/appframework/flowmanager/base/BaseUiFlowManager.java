@@ -7,28 +7,37 @@ package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 
-import com.philips.platform.appframework.flowmanager.parser.AppFrameworkDataParser;
-import com.philips.platform.appframework.flowmanager.pojo.AppFlowEvent;
-import com.philips.platform.appframework.flowmanager.pojo.AppFlowModel;
-import com.philips.platform.appframework.flowmanager.pojo.AppFlowNextState;
+import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
+import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
+import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
+import com.philips.platform.appframework.flowmanager.parser.AppFlowParser;
 
 import java.util.List;
 import java.util.Map;
 
 public abstract class BaseUiFlowManager {
 
+    protected Map<String, BaseState> stateMap;
+    protected Map<String, BaseCondition> conditionMap;
     private Map<String, List<AppFlowEvent>> appFlowMap;
     private BaseState currentState;
     private Context context;
     private AppFlowModel appFlowModel;
     private List<AppFlowEvent> appFlowEvents;
-    protected Map<String, BaseState> stateMap;
 
-    protected Map<String, BaseCondition> conditionMap;
-
+    // TODO: Deepthi we need to change to string
+    public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
+        this.context = context;
+        mapAppFlowStates(jsonPath);
+        stateMap = new ArrayMap<>();
+        conditionMap = new ArrayMap<>();
+        populateStateMap(stateMap);
+        populateConditionMap(conditionMap);
+    }
 
     /**
      * This method will creates and return the object of BaseCondition depending upon Condition ID.
@@ -38,6 +47,7 @@ public abstract class BaseUiFlowManager {
      */
     // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
     // put @nonNull for all public APIs and make sure it behaves properly when they send null values and app does not crash.
+    @NonNull
     public BaseCondition getCondition(String key) {
         return conditionMap.get(key);
     }
@@ -57,18 +67,7 @@ public abstract class BaseUiFlowManager {
         return stateMap.get(key);
     }
 
-    // TODO: Deepthi we need to change to string
-    // TODO: Deepthi please rename to  AppFlow.json
-    public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
-        this.context = context;
-        mapAppFlowStates(jsonPath);
-        stateMap = new ArrayMap<>();
-        conditionMap = new ArrayMap<>();
-        populateStateMap(stateMap);
-        populateConditionMap(conditionMap);
-    }
-
-
+    @NonNull
     public BaseState getCurrentState() {
         return currentState;
     }
@@ -82,15 +81,14 @@ public abstract class BaseUiFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    // TODO: Deepthi make it eventId
-    public BaseState getNextState(String currentState, String event) {
+    public BaseState getNextState(String currentState, String eventId) {
         String string;
-        if(null != currentState && null != event) {
+        if (null != currentState && null != eventId) {
             appFlowEvents = getAppFlowEvents(currentState);
             if (appFlowEvents != null) {
                 for (final AppFlowEvent appFlowEvent : appFlowEvents) {
                     string = appFlowEvent.getEventId();
-                    if (appFlowEvent.getEventId() != null && string.equals(event)) {
+                    if (appFlowEvent.getEventId() != null && string.equals(eventId)) {
                         final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                         BaseState appFlowNextState = getUiState(appFlowNextStates);
                         if (appFlowNextState != null)
@@ -143,9 +141,9 @@ public abstract class BaseUiFlowManager {
 
     // TODO: Deepthi change to string
     private void mapAppFlowStates(@IdRes final int jsonPath) {
-       appFlowModel = AppFrameworkDataParser.getAppFlow(context, jsonPath);
+        appFlowModel = AppFlowParser.getAppFlow(context, jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
-            appFlowMap = AppFrameworkDataParser.getAppFlowMap(appFlowModel.getAppFlow());
+            appFlowMap = AppFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
         }
     }
 
