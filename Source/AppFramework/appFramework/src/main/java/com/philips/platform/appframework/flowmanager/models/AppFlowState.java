@@ -3,31 +3,31 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.pojo;
+package com.philips.platform.appframework.flowmanager.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class AppFlowNextState {
+public final class AppFlowState {
 
-    private List<String> condition = new ArrayList<String>();
-    private String nextState;
+    private String state;
+    private List<AppFlowEvent> events = new ArrayList<AppFlowEvent>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * @return The condition
+     * @return The state
      */
-    public List<String> getCondition() {
-        return condition;
+    public String getState() {
+        return state;
     }
 
     /**
-     * @return The nextState
+     * @return The events
      */
-    public String getNextState() {
-        return nextState;
+    public List<AppFlowEvent> getEvents() {
+        return events;
     }
 
     public Map<String, Object> getAdditionalProperties() {

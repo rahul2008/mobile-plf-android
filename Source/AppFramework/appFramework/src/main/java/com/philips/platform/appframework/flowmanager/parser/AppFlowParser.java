@@ -10,18 +10,16 @@ import android.support.annotation.IdRes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.pojo.AppFlow;
-import com.philips.platform.appframework.flowmanager.pojo.AppFlowEvent;
-import com.philips.platform.appframework.flowmanager.pojo.AppFlowModel;
-import com.philips.platform.appframework.flowmanager.pojo.AppFlowState;
+import com.philips.platform.appframework.flowmanager.models.AppFlow;
+import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
+import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
+import com.philips.platform.appframework.flowmanager.models.AppFlowState;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Deepthi , rename to AppFlowParser
-public class AppFrameworkDataParser {
+public class AppFlowParser {
 
     /**
      * This method will return the object of AppFlow class or 'null'.
@@ -36,18 +34,14 @@ public class AppFrameworkDataParser {
     public static AppFlowModel getAppFlow(Context context, @IdRes int jsonPath) {
         String appFlowResponse;
         final JSONHelper jsonHelper = new JSONHelper(context);
-        AppFlowModel appFlow;
+        AppFlowModel appFlow = null;
         try {
             appFlowResponse = jsonHelper.getJsonForAppFlow(jsonPath);
             appFlow = new Gson().fromJson(appFlowResponse, AppFlowModel.class);
         } catch (JsonSyntaxException e) {
-            // This code has been added to handle the cases of JSON parsing error/exception
-            // TODO: Deepthi , please remove this , we cannot do like this, need to discuss.
-            // Need to handle error properly
-            appFlowResponse = jsonHelper.readJsonFromFile
-                    (R.string.com_philips_app_fmwk_app_flow_url, context);
-            appFlow = new Gson().fromJson(appFlowResponse, AppFlowModel.class);
+            e.printStackTrace();
         }
+
         return appFlow;
     }
 
