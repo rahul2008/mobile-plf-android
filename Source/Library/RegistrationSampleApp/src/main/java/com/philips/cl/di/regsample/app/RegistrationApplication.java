@@ -66,70 +66,6 @@ public class RegistrationApplication extends Application {
         }
 
 
-
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                FLOW_EMAIL_VERIFICATION_REQUIRED,
-                URConfigurationConstants.UR,
-                "" + true,
-                configError);
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED,
-                URConfigurationConstants.UR,
-                "" + true,
-                configError);
-       /* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
-        System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
-*/
-        String minAge = "{ \"NL\":12 ,\"GB\":16,\"default\": 16}";
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                FLOW_MINIMUM_AGE_LIMIT,
-                URConfigurationConstants.UR,
-                minAge,
-                configError);
-      /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
-        System.out.println("GB age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("GB"));
-        System.out.println("default age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("default"));
-        System.out.println("unknown age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("unknown"));
-*/
-        ArrayList<String> providers = new ArrayList<String>();
-        providers.add("facebook");
-        providers.add("googleplus");
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                SIGNIN_PROVIDERS +
-                        "NL",
-                URConfigurationConstants.UR,
-                providers,
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                SIGNIN_PROVIDERS +
-                        "US",
-                URConfigurationConstants.UR,
-                providers,
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        URConfigurationConstants.DEFAULT,
-                URConfigurationConstants.UR,
-                providers,
-                configError);
-
-       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
-        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
-        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
-*/
-
-        //Store current environment
-
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
@@ -153,9 +89,6 @@ public class RegistrationApplication extends Application {
                 "appinfra",
                 "77000",
                 configError);
-        System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-        System.out.println("Testing : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-        System.out.println("COuntry : "+ RegistrationHelper.getInstance().getCountryCode());
 
     }
     public void initHSDP(Configuration configuration) {
