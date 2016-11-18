@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport.ports;
 
 import android.os.Handler;

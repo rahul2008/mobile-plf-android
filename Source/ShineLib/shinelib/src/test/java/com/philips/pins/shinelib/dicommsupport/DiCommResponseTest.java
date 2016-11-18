@@ -1,6 +1,8 @@
 package com.philips.pins.shinelib.dicommsupport;
 
 import com.philips.pins.shinelib.RobolectricTest;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +10,6 @@ import org.mockito.Mock;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidParameterException;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -54,14 +55,14 @@ public class DiCommResponseTest extends RobolectricTest {
         new DiCommResponse(diCommMessageMock);
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidPayloadFormatException.class)
     public void whenPayloadIsNullThenExceptionIsGenerated() throws Exception {
         when(diCommMessageMock.getPayload()).thenReturn(null);
 
         new DiCommResponse(diCommMessageMock);
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidPayloadFormatException.class)
     public void whenPayloadIsEmptyThenExceptionIsGenerated() throws Exception {
         byte[] data = new byte[0];
         when(diCommMessageMock.getPayload()).thenReturn(data);
@@ -69,7 +70,7 @@ public class DiCommResponseTest extends RobolectricTest {
         new DiCommResponse(diCommMessageMock);
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void whenMessageTypeIsNotResponseThenExceptionIsGenerated() throws Exception {
         when(diCommMessageMock.getMessageType()).thenReturn(MessageType.GetPropsRequest);
 
@@ -100,7 +101,7 @@ public class DiCommResponseTest extends RobolectricTest {
         assertEquals(StatusCode.OutOfMemory, response.getStatus());
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidPayloadFormatException.class)
     public void whenResponseInvalidStatusThenExceptionIsGenerated() throws Exception {
         byte[] data = {(byte) 15};
         when(diCommMessageMock.getPayload()).thenReturn(data);
@@ -108,7 +109,7 @@ public class DiCommResponseTest extends RobolectricTest {
         new DiCommResponse(diCommMessageMock);
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidPayloadFormatException.class)
     public void whenResponseHasNoPropertiesThenExceptionIsGenerated() throws Exception {
         byte[] data = {StatusCode.NoError.getDiCommStatusCode()};
         when(diCommMessageMock.getPayload()).thenReturn(data);
@@ -125,7 +126,7 @@ public class DiCommResponseTest extends RobolectricTest {
         assertEquals(VALUE, properties.get(KEY));
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidPayloadFormatException.class)
     public void whenResponseDataHasWrongFormatThenExceptionIsGenerated() throws Exception {
         String notJSONData = "{\"" + KEY + "\":" + VALUE;
 
@@ -148,7 +149,7 @@ public class DiCommResponseTest extends RobolectricTest {
         assertEquals(VALUE, properties.get(key));
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidMessageTerminationException.class)
     public void whenResponseDataHasNoTrailingZeroThenExceptionIsGenerated() throws Exception {
         byte[] jsonDataBytes = DATA_JSON.getBytes(StandardCharsets.UTF_8);
         byte[] data = new byte[jsonDataBytes.length + 2];
@@ -162,7 +163,7 @@ public class DiCommResponseTest extends RobolectricTest {
         new DiCommResponse(diCommMessageMock);
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidPayloadFormatException.class)
     public void whenResponseDataHasNoTrailingZeroThenExceptionIsGenerated2() throws Exception {
         byte[] jsonDataBytes = DATA_JSON.getBytes(StandardCharsets.UTF_8);
         byte[] data = new byte[jsonDataBytes.length + 1];
@@ -175,7 +176,7 @@ public class DiCommResponseTest extends RobolectricTest {
         new DiCommResponse(diCommMessageMock);
     }
 
-    @Test
+    @Test(expected = InvalidPayloadFormatException.class)
     public void whenResponseHasNoJSONThenStatusCodeIsRead() throws Exception {
         byte[] data = new byte[2];
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
