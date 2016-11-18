@@ -151,8 +151,6 @@ public class ThemeSettingsFragment extends BaseFragment {
         menu.findItem(R.id.theme_settings).setVisible(false);
     }
 
-
-
     @NonNull
     private ThemeColorAdapter getColorRangeAdapter() {
         colorRangeAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
