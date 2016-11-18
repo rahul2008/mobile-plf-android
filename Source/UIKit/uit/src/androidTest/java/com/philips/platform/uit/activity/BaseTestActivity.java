@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
@@ -26,6 +27,7 @@ public class BaseTestActivity extends AppCompatActivity {
         UITHelper.injectCalligraphyFonts();
         UITHelper.init(getThemeConfig());
         super.onCreate(savedInstanceState);
+        setSupportActionBar((Toolbar) findViewById(com.philips.platform.uit.test.R.id.toolbar));
     }
 
     private ThemeConfiguration getThemeConfig() {

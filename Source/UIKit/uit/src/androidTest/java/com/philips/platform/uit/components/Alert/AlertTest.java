@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.uit.components.Alert;
+package com.philips.platform.uit.components.alert;
 
 import android.content.Context;
 import android.content.res.Resources;

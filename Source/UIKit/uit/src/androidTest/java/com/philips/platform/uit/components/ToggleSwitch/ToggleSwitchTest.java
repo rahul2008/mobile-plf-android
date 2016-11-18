@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  */
-package com.philips.platform.uit.components.ToggleSwitch;
+package com.philips.platform.uit.components.toggleSwitch;
 
 import android.content.Context;
 import android.content.res.Resources;

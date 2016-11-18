@@ -51,6 +51,10 @@
     <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
     <dimen name="alert_width">272dp</dimen>
 
+    <dimen name="navigation_icon_padding">16dp</dimen>
+    <dimen name="navigation_height">48dp</dimen>
+    <dimen name="navigation_left_margin">16dp</dimen>
+    <dimen name="navigation_right_margin">16dp</dimen>
 
     <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
     <dimen name="alertcontent_top_padding">20dp</dimen>
