@@ -76,6 +76,10 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         launchPR();
     }
 
+    public AppFrameworkApplication getApplicationContext(){
+      return  (AppFrameworkApplication)activityContext.getApplicationContext();
+    }
+
     @Override
     public void init(Context context) {
         applicationContext = context;
@@ -87,7 +91,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
 
     @Override
     public void updateDataModel() {
-        setCtnList(new ArrayList<>(Arrays.asList(applicationContext.getResources().getStringArray(R.array.productselection_ctnlist))));
+        setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
     }
 
     /**

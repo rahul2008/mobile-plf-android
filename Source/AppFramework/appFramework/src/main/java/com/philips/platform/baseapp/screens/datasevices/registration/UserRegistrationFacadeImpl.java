@@ -38,7 +38,7 @@ import retrofit.RetrofitError;
 public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
     static final String KEY_PROFILE_PHOTO_SET = "PROFILE_PHOTO_SET";
 
-    // TODO: This I do not want
+    // TODO: This I do not want - (Rakesh - TO be done by Dataservices)
     @NonNull
     private final Context context;
 
@@ -148,7 +148,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
         return userProfile;
     }
 
-    // TODO: We may have to ask the common component to take care of this
+    // TODO: We may have to ask the common component to take care of this - (Rakesh - TO be done by Dataservices)
     private synchronized void refreshAccessTokenUsingWorkAround() {
         if(accessTokenRefreshInProgress){
             return;

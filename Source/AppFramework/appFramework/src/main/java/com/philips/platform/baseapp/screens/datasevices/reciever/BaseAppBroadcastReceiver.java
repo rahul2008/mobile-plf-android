@@ -37,7 +37,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
         if (action == null) {
             return;
         }
-        //TODO: review changing connection
+        //TODO: review changing connection - (Rakesh - TO be done by Dataservices)
         if (isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
             mDataServices.synchchronize();
         }

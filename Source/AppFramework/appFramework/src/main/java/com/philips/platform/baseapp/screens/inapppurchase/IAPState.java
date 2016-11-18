@@ -95,7 +95,7 @@ public abstract class IAPState extends BaseState {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
         } catch (RuntimeException e) {
-            //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors
+            //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors - (Had sent mail to Thiru long time ago. NO response. Will send another one to Bopanna)
             Toast.makeText(activityContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

@@ -148,7 +148,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
         this.baseState.navigate(fragmentLauncher);
     }
 
-    // TODO: Deepthi, is this expected? deviation from ios i think.
+    // TODO: Deepthi, is this expected? deviation from ios i think. - (Rakesh -As disscussed. Needed to convert int ID for views into Strings )
     public String getEventState(int componentID) {
 
         switch (componentID) {

@@ -63,7 +63,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return new FragmentLauncher(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getContainerId(), welcomeFragmentView.getActionBarListener());
     }
 
-    // TODO: Deepthi, revisit this switch
+    // TODO: Deepthi, revisit this switch - (As discussed we need to have this to convert from int ID to string for json)
     protected String getEventState(final int componentID) {
         switch (componentID) {
             case R.id.welcome_skip_button:
@@ -76,7 +76,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
         return WELCOME_HOME;
     }
 
-    // TODO: Deepthi, check for condition and event and then take decision, can we move to json, pls check.
+    // TODO: Deepthi, check for condition and event and then take decision, can we move to json, pls check.- Will move to json
     @Override
     public void onStateComplete(final BaseState baseState) {
         String eventState = getEventState(MENU_OPTION_HOME);
