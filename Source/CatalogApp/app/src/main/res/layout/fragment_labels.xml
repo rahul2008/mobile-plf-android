@@ -43,7 +43,7 @@
                     android:checked="true"/>
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabel.Control"
+                    style="@style/UIDLabelDescription.ControlLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_item_text"/>
@@ -55,7 +55,7 @@
                     android:checked="true"/>
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabel.Control"
+                    style="@style/UIDLabelDescription.ControlLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_item_text"/>
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
-                    android:text="@string/label_label_left"/>
+                    android:text="@string/label_label_right"/>
             </LinearLayout>
 
             <RelativeLayout
@@ -134,6 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:layout_marginBottom="@dimen/component_bottom_spacing"
                 android:orientation="horizontal">
 
                 <SeekBar
@@ -143,8 +144,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:layout_marginRight="@dimen/layout_margin_left_right"
-                    android:progress="@{labelFrag.soundProgress}"
-                    android:onProgressChanged="@{(v, progress, frmUser) -> labelFrag.setSoundProgress(progress, frmUser)}"/>
+                    android:onProgressChanged="@{(v, progress, frmUser) -> labelFrag.setSoundProgress(progress, frmUser)}"
+                    android:progress="@{labelFrag.soundProgress}"/>
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -152,8 +153,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/high_audio"
-                    android:onClick="@{(v)-> labelFrag.incrementSound()}"/>
+                    android:onClick="@{(v)-> labelFrag.incrementSound()}"
+                    app:srcCompat="@drawable/high_audio"/>
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -162,8 +163,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/low_audio"
-                    android:onClick="@{(v)-> labelFrag.decrementSound()}"/>
+                    android:onClick="@{(v)-> labelFrag.decrementSound()}"
+                    app:srcCompat="@drawable/low_audio"/>
             </RelativeLayout>
             <!--Audio buttons group [END[-->
 

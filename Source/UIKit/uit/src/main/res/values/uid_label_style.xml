@@ -32,6 +32,10 @@
         <item name="uidLabelTextAlpha">@dimen/uit_alpha_per_100</item>
     </style>
 
+    <style name="UIDLabelDescription.ControlLeft">
+        <item name="android:layout_marginStart">@dimen/uid_label_margin_left_control</item>
+    </style>
+
     <style name="UIDLabelDescription.Slider">
         <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
     </style>
