@@ -24,6 +24,9 @@
     <!--ProgressBar test page-->
     <dimen name="progress_bar_margin_top">60dp</dimen>
     <dimen name="progress_bar_margin_left_right">24dp</dimen>
+    <dimen name="progress_bar_circular_area_height">132dp</dimen>
+    <dimen name="progress_bar_seekbar_area_height">48dp</dimen>
     <integer name="progress_bar_default_progress">50</integer>
     <integer name="progress_bar_default_secondary_progress">60</integer>
+    <integer name="progress_bar_scale_bar_max">2</integer>
 </resources>

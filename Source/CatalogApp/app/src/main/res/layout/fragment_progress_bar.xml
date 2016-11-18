@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/progress_bar_seekbar_area_height"
             android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
             android:layout_marginStart="@dimen/progress_bar_margin_left_right"
             android:gravity="center_vertical"
@@ -29,8 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/progress_bar_margin_left_right"
-                android:max="2"
-                android:progress="0"/>
+                android:max="@integer/progress_bar_scale_bar_max"/>
         </LinearLayout>
 
         <View
@@ -40,7 +39,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/progress_bar_seekbar_area_height"
             android:layout_marginEnd="@dimen/progress_bar_margin_left_right"
             android:layout_marginStart="@dimen/progress_bar_margin_left_right"
             android:gravity="center_vertical"
@@ -66,7 +65,6 @@
 
         <TextView
             style="@style/ButtonsCategoryStyle"
-            android:layout_height="32dp"
             android:text="@string/progress_bar_circular_subtitle"/>
 
         <View
@@ -76,7 +74,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="132dp"
+            android:layout_height="@dimen/progress_bar_circular_area_height"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -141,7 +139,6 @@
 
         <TextView
             style="@style/ButtonsCategoryStyle"
-            android:layout_height="32dp"
             android:text="@string/progress_bar_linear_subtitle"/>
 
         <View
