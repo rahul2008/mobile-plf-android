@@ -24,6 +24,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -90,7 +91,13 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
 
             HsdpUser hsdpUser = new HsdpUser(mContext);
-            hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+            String emailorMobile;
+            if (FieldsValidator.isValidEmail(user.getEmail())){
+                emailorMobile = user.getEmail();
+            }else {
+                emailorMobile =user.getMobile();
+            }
+            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {

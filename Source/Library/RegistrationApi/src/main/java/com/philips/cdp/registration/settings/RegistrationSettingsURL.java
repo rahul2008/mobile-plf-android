@@ -331,6 +331,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 setChinaFlow(true);
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +smsSupport);
                                                                                 jumpConfig.captureLocale = locale;
+                                                                                jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
                                                                                 mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;
 

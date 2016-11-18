@@ -139,6 +139,7 @@ public class RegistrationApplication extends Application {
         String countryCode = Locale.getDefault().getCountry();
 
         PILLocaleManager localeManager = new PILLocaleManager(this);
+      //  localeManager.setInputLocale(languageCode, countryCode);
         localeManager.setInputLocale("zh", "CN");
 
         initAppIdentity(configuration);

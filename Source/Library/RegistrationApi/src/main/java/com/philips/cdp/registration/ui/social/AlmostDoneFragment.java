@@ -42,6 +42,7 @@ import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -501,9 +502,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
         } else {
             User user = new User(mContext);
-            String email = user.getEmail();
-            if (email != null) {
-                RegPreferenceUtility.storePreference(mContext, email, true);
+            String emailorMobile;
+            if (FieldsValidator.isValidEmail(user.getEmail())){
+                emailorMobile = user.getEmail();
+            }else {
+                emailorMobile =user.getMobile();
+            }
+            if (emailorMobile != null) {
+                RegPreferenceUtility.storePreference(mContext, emailorMobile, true);
             }
         }
     }

@@ -38,6 +38,7 @@ import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -319,8 +320,13 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     private void launchWelcomeFragment() {
-        String emailId = mUser.getEmail();
-        if (emailId != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailId)) {
+        String emailorMobile;
+        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+            emailorMobile = mUser.getEmail();
+        }else {
+            emailorMobile =mUser.getMobile();
+        }
+        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailorMobile)) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

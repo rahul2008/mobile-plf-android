@@ -624,8 +624,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchWelcomeFragment() {
-        String emailId = mUser.getEmail();
-        if (emailId != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailId)) {
+        String emailorMobile;
+        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+            emailorMobile = mUser.getEmail();
+        }else {
+            emailorMobile =mUser.getMobile();
+        }
+        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailorMobile)) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

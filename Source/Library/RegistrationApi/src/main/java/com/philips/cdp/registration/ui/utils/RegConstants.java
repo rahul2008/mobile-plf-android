@@ -150,8 +150,6 @@ public class RegConstants {
 
     public static final String COPPA_STATUS = "CoppaStatus";
 
-    public static final boolean IS_MOBILE_NUMBER_LOG_IN = false;
-
     public static final int VERIFY_CODE_ENTER = 7;
 
     public static final String IS_FROM_PARENTAL_CONSENT = "ParentalConsent";
