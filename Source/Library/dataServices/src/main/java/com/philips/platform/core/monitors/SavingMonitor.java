@@ -44,16 +44,7 @@ public class SavingMonitor extends EventMonitor {
             eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
             return;
         }
-        //For default consent(By Default all consent Details are synchronized) Save ,do not send to DataCore
-        //So check consentDetails Sync status before sending to DataCore
-        boolean sendToDataCore = false;
-        for (ConsentDetail consentDetail : consent.getConsentDetails()) {
-            if (!consentDetail.getBackEndSynchronized()) {
-                sendToDataCore = true;
-            }
-        }
-
-        if (!consentSaveRequest.isUpdateSyncFlag() && sendToDataCore) {
+        if (!consentSaveRequest.isUpdateSyncFlag()) {
             eventing.post(new ConsentBackendSaveRequest(ConsentBackendSaveRequest.RequestType.SAVE, consentSaveRequest.getConsent()));
         }
 

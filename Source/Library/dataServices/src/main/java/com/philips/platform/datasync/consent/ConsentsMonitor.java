@@ -48,8 +48,8 @@ public class ConsentsMonitor extends EventMonitor {
 
     @Inject
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
-            @NonNull final ConsentsConverter consentsConverter,
-            @NonNull final GsonConverter gsonConverter) {
+                           @NonNull final ConsentsConverter consentsConverter,
+                           @NonNull final GsonConverter gsonConverter) {
 
         mDataServicesManager=DataServicesManager.getInstance();
         this.accessProvider = mDataServicesManager.getUCoreAccessProvider();;
@@ -59,15 +59,16 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     //TODO: Commented part can you clearify with Ajay
+    //TODO: NO need to check to SAVE
     public void onEventAsync(ConsentBackendSaveRequest event) {
         if (event.getRequestType() == ConsentBackendSaveRequest.RequestType.SAVE) {
-            saveConsent(event);
+            sendToBackend(event);
         }
     }
 
     public void onEventAsync(ConsentBackendListSaveRequest event) {
         for (Consent consent : event.getConsentList()) {
-            saveConsent(new ConsentBackendSaveRequest(ConsentBackendSaveRequest.RequestType.SAVE, consent));
+            sendToBackend(new ConsentBackendSaveRequest(ConsentBackendSaveRequest.RequestType.SAVE, consent));
         }
         eventing.post(new ConsentBackendListSaveResponse());
     }
@@ -114,7 +115,7 @@ public class ConsentsMonitor extends EventMonitor {
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private void saveConsent(ConsentBackendSaveRequest event) {
+    private void sendToBackend(ConsentBackendSaveRequest event) {
         if (isUserInvalid()) {
             postError(event.getEventId(), getNonLoggedInError());
             return;
@@ -124,6 +125,17 @@ public class ConsentsMonitor extends EventMonitor {
         Consent consent = event.getConsent();
 
         if (consent == null) {
+            return;
+        }
+        //Check if all Consents are synchronized ,then do not send to uCore
+        boolean isAllConsentDetailsSynced=true;
+        for (ConsentDetail consentDetail:consent.getConsentDetails()){
+            if(!consentDetail.getBackEndSynchronized()){
+                isAllConsentDetailsSynced=false;
+                break;
+            }
+        }
+        if(isAllConsentDetailsSynced){
             return;
         }
 

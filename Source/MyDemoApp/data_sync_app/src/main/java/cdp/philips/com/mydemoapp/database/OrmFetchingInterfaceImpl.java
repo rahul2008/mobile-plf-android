@@ -13,6 +13,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -222,17 +223,20 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return consentQueryBuilder.query();
     }
 
-    public List<OrmConsentDetail> fetchAllConsentDetails() throws SQLException {
-        QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
-        return consentQueryBuilder.query();
-    }
-
     public OrmConsent fetchConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         consentQueryBuilder.where().eq("creatorId", creatorId);
-
-        return consentQueryBuilder.queryForFirst();
+        if(consentQueryBuilder.query().isEmpty()){
+            return null;
+        }
+        return consentQueryBuilder.query().get(consentQueryBuilder.query().size()-1); //equivalent to query for last
     }
+
+    public List<OrmConsent> fetchAllConsent() throws SQLException {
+        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
+        return consentQueryBuilder.query();
+    }
+
 
     public List<OrmConsent> fetchAllConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();

@@ -77,7 +77,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
                 dismissProgressDialog();
                 if (data == null) {
                     showProgressDialog();
-                    consentDialogPresenter.createDefaultConsent();
+                    consentDialogPresenter.createSaveDefaultConsent();
                 }
             }
         });

@@ -2,6 +2,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.MomentType;
 
 import java.sql.SQLException;

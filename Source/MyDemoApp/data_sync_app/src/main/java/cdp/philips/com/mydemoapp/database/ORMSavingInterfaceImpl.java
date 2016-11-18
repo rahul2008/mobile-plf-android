@@ -108,7 +108,9 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         Log.d("Creator ID MODI",ormConsent.getCreatorId());
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
-            deleting.deleteConsent(consentInDatabase);
+            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
+                deleting.deleteConsent(ormConsentInDB);
+            }
             ormConsent.setId(id);
             saving.saveConsent(ormConsent);
         }else{
@@ -133,6 +135,9 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                 }
             }
             ormConsent.setId(id);
+            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
+                deleting.deleteConsent(ormConsentInDB);
+            }
             deleting.deleteConsent(consentInDatabase);
            // updating.updateConsent(consentInDatabase);
 
