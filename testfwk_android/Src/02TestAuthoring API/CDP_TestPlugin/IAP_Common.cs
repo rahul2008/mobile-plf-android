@@ -96,7 +96,6 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
         {
             List<String> ScreenTitleIDs = new List<String>();
             ScreenTitleIDs.Add(ObjectRepository.ScreenTitle);
-            ScreenTitleIDs.Add("com.philips.cdp.di.iapdemo:id/demo_title");
             IMobilePageControl titleElem = null;
             foreach(String id in ScreenTitleIDs)
             {

@@ -207,34 +207,6 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
                     }
                     Thread.Sleep(500);
                 }
-                if (i == 60)
-                    Logger.Info("Product screen title is not shown:  try: " + retry);
-                for (; i < 60; i++)
-                {
-                    if (_instance.GetElementNoWait(null, SearchBy.Id, ObjectRepository.ProductDetailsArrow) != null)
-                    {
-                        int count = _getProductListed().Count;
-                        if (count == 3)
-                        {
-                            Logger.Info("Products are loaded: count:" + count + " try: " + retry);
-                            return true;
-                        }
-                        else
-                            Logger.Info("Products are loaded: count mismatch:" + count + " try: " + retry);
-                    }
-                }
-                Logger.Info("Product items are not loaded:  try: " + retry);
-                Click(Button.productScreen_BackButton);
-                String title = GetScreenTitle();
-                switch (title)
-                {
-                    case "E-Commerce Demo App":
-                        HomeScreen.Click(HomeScreen.Button.Shop_Now);
-                        break;
-                    default:
-                        Logger.Info("ProductScreen retry: this is not implemented: " + title);
-                        break;
-                }
 
             }
             Logger.Info("ProductScreen retry: failed to load products after 3 tries");
