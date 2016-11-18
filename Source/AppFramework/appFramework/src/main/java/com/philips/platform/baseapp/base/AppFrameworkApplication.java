@@ -36,8 +36,8 @@ import java.util.Locale;
  */
 public class AppFrameworkApplication extends Application {
     // TODO: Deepthi , should these be static.
-    public static AppInfraInterface appInfra;
-    public static LoggingInterface loggingInterface;
+    public AppInfraInterface appInfra;
+    public LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
     UserRegistrationState userRegistrationState;
     IAPState iapState;
@@ -69,6 +69,15 @@ public class AppFrameworkApplication extends Application {
         iapState.init(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
+    }
+
+
+    public LoggingInterface getLoggingInterface() {
+        return loggingInterface;
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return appInfra;
     }
 
     @Nullable

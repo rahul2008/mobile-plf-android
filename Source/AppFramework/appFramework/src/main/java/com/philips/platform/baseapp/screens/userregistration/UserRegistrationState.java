@@ -31,7 +31,6 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.Locale;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
-import static com.philips.platform.baseapp.base.AppFrameworkApplication.appInfra;
 
 /**
  * This class contains all initialization & Launching details of UR
@@ -87,7 +86,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void initHSDP() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        appInfra.
+        ((AppFrameworkApplication)applicationContext).getAppInfra().
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 UR,
@@ -95,21 +94,21 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 "uGrow",
                 configError);
 
-        appInfra.
+        ((AppFrameworkApplication)applicationContext).getAppInfra().
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Secret",
                 UR,
                 "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
                 configError);
 
-        appInfra.
+        ((AppFrameworkApplication)applicationContext).getAppInfra().
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Shared",
                 UR,
                 "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
                 configError);
 
-        appInfra.
+        ((AppFrameworkApplication)applicationContext).getAppInfra().
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 UR,
@@ -171,7 +170,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         PILLocaleManager localeManager = new PILLocaleManager(applicationContext);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        URDependancies urDependancies = new URDependancies(AppFrameworkApplication.appInfra);
+        URDependancies urDependancies = new URDependancies(((AppFrameworkApplication)applicationContext).getAppInfra());
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);

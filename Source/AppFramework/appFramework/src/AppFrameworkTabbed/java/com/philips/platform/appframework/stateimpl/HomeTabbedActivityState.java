@@ -50,7 +50,7 @@ public class HomeTabbedActivityState extends BaseState {
     }
 
     private void launchTabScreen() {
-        TabDependencies tabDependencies = new TabDependencies(AppFrameworkApplication.appInfra);
+        TabDependencies tabDependencies = new TabDependencies(((AppFrameworkApplication)fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra());
         TabSettings tabSettings = new TabSettings(fragmentLauncher.getFragmentActivity());
         TabLaunchInput tabLaunchInput = new TabLaunchInput();
 

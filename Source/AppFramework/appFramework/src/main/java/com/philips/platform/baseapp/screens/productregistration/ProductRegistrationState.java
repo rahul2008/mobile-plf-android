@@ -83,7 +83,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     @Override
     public void init(Context context) {
         applicationContext = context;
-        PRDependencies prodRegDependencies = new PRDependencies(AppFrameworkApplication.appInfra);
+        PRDependencies prodRegDependencies = new PRDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
 
         UappSettings uappSettings = new UappSettings(applicationContext);
         new PRInterface().init(prodRegDependencies, uappSettings);

@@ -101,7 +101,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
         ccLaunchInput.setProductModelSelectionType(productsSelection);
         ccLaunchInput.setConsumerCareListener(this);
-        CcDependencies ccDependencies = new CcDependencies(AppFrameworkApplication.appInfra);
+        CcDependencies ccDependencies = new CcDependencies(getApplicationContext().getAppInfra());
 
         ccInterface.init(ccDependencies, ccSettings);
         ccInterface.launch(fragmentLauncher, ccLaunchInput);

@@ -65,7 +65,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG,
+        ((AppFrameworkApplication)getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
                 " IntroductionScreen Activity Created ");
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
