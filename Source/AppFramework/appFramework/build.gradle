@@ -1,12 +1,6 @@
 apply plugin: 'com.android.application'
-
 archivesBaseName = "referenceApp"
-
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
+apply plugin: 'jacoco-everywhere'
 
 def coverageSourceDirs = [
         '../appFramework/src/main/java'
@@ -24,6 +18,7 @@ buildscript {
     }
 
     dependencies {
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
@@ -192,6 +187,18 @@ android {
         multiDexEnabled true
     }
 
+    productFlavors {
+        AppFrameworkHamburger {
+            applicationId = "com.philips.platform.hamburger"
+            resValue "string", "af_app_name", "AF Hamburger"
+
+        }
+        AppFrameworkTabbed {
+            applicationId = "com.philips.platform.tabbed"
+            resValue "string", "af_app_name", "AF Tabbed"
+        }
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -201,7 +208,9 @@ android {
     }
 
     dexOptions {
+        incremental = false;
         preDexLibraries = false
+        jumboMode = false
     }
     buildTypes {
         release {
@@ -216,7 +225,6 @@ android {
             shrinkResources false
             debuggable true
             testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
         }
     }
 
@@ -372,7 +380,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         html.enabled = false
     }
 }
-
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
@@ -401,5 +408,4 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         xml.enabled = true
         html.enabled = true
     }
-
 }
