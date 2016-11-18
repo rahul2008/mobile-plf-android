@@ -39,19 +39,16 @@ public class Label extends AppCompatTextView {
         themeArray.recycle();
     }
 
-    //Try to find first in theme array before looking in attributes array
     private int getDefaultLabelColor(final TypedArray attrsArray, final TypedArray themeArray) {
         int color = themeArray.getColor(R.styleable.UIDLabel_uidLabelTextColor, Color.WHITE);
         return attrsArray.getColor(R.styleable.UIDLabel_uidLabelTextColor, color);
     }
 
-    //Try to find first in theme array before looking in attributes array
     private float getDefaultLabelAlpha(final TypedArray attrsArray, final TypedArray themeArray) {
         float alpha = themeArray.getFloat(R.styleable.UIDLabel_uidLabelTextAlpha, 1.0f);
         return attrsArray.getFloat(R.styleable.UIDLabel_uidLabelTextAlpha, alpha);
     }
 
-    //set text size from attributes
     private void setLabelTextSize(Context context, final TypedArray attrsArray) {
         int textSizeID = attrsArray.getResourceId(R.styleable.UIDLabel_uidLabelTextSize, -1);
         int testSize = context.getResources().getDimensionPixelSize(R.dimen.uid_label_text_size);

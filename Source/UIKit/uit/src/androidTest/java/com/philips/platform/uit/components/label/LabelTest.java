@@ -1,37 +1,19 @@
-/*
- * (C) Koninklijke Philips N.V., 2016.
- * All rights reserved.
- *
- */
-
 /**
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
 package com.philips.platform.uit.components.label;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
-import com.philips.platform.uit.R;
 import com.philips.platform.uit.activity.BaseTestActivity;
-import com.philips.platform.uit.matcher.DrawableMatcher;
-import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
-import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
-import com.philips.platform.uit.view.widget.TextEditBox;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -39,16 +21,12 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.platform.uit.test.R.color.Gray75;
-import static com.philips.platform.uit.test.R.color.GroupBlue75;
 import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class LabelTest {
 
     private Resources testResources;
-    private Context activityContext;
-    private Context instrumentationContext;
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
@@ -58,7 +36,6 @@ public class LabelTest {
         final BaseTestActivity activity = mActivityTestRule.getActivity();
         activity.switchTo(com.philips.platform.uit.test.R.layout.layout_labels);
         testResources = getInstrumentation().getContext().getResources();
-        activityContext = activity;
     }
 
     //*********************************Label layout TestScenarios**************************//
