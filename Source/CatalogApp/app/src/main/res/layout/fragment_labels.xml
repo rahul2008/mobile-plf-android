@@ -74,7 +74,6 @@
                 android:id="@+id/tb1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/component_bottom_spacing"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
                 android:hint="@string/label_input_text"/>
