@@ -17,6 +17,10 @@ node('Android') {
         sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew assembleLocalDev'
     }
 
+    stage('Archive App') {
+        step([$class: 'ArtifactArchiver', artifacts: 'Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+    }
+
     stage('Tests') {
         sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
         sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testLocalDev'
