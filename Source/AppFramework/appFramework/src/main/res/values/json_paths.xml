@@ -9,5 +9,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
     <string name="com_philips_app_fmwk_app_flow_url">json/Appflow.json</string>
-    <string name="com_philips_lumea_device_details_json_file_path">json/devicesDetails.json</string>
 </resources>

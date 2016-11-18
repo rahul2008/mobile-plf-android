@@ -31,14 +31,14 @@ import java.util.Map;
  */
 
 public class FlowManager extends BaseUiFlowManager {
-
     private static FlowManager flowManager = null;
 
-    private FlowManager(Context context, int jsonPath) {
+    // TODO: Deepthi to support download from cloud  ?
+    private FlowManager(Context context, String jsonPath) {
         super(context, jsonPath);
     }
 
-    public static synchronized FlowManager getInstance(Context context, int jsonPath) {
+    public static synchronized FlowManager getInstance(Context context, String jsonPath) {
         if (flowManager == null) {
             synchronized (FlowManager.class) {
                 if (flowManager == null)

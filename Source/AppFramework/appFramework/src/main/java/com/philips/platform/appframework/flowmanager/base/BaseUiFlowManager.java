@@ -6,11 +6,11 @@
 package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 
+import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
@@ -30,7 +30,7 @@ public abstract class BaseUiFlowManager {
     private List<AppFlowEvent> appFlowEvents;
 
     // TODO: Deepthi we need to change to string
-    public BaseUiFlowManager(final Context context, @IdRes final int jsonPath) {
+    public BaseUiFlowManager(final Context context, final String jsonPath) {
         this.context = context;
         mapAppFlowStates(jsonPath);
         stateMap = new ArrayMap<>();
@@ -103,7 +103,7 @@ public abstract class BaseUiFlowManager {
             }
         }
         else {
-            return getFirstState();
+            return stateMap.get(AppStates.FIRST_STATE);
         }
         return null;
     }
@@ -139,15 +139,10 @@ public abstract class BaseUiFlowManager {
         return isConditionSatisfies;
     }
 
-    // TODO: Deepthi change to string
-    private void mapAppFlowStates(@IdRes final int jsonPath) {
-        appFlowModel = AppFlowParser.getAppFlow(context, jsonPath);
+    private void mapAppFlowStates(final String jsonPath) {
+        appFlowModel = AppFlowParser.getAppFlow(jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             appFlowMap = AppFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
         }
-    }
-
-    private final BaseState getFirstState() {
-        return getState(appFlowModel.getAppFlow().getFirstState());
     }
 }
