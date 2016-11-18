@@ -27,7 +27,7 @@
     <style name="ButtonsCategoryStyle">
         <item name="android:layout_height">@dimen/button_category_divider_height</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">?attr/uitColorLevel75</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:textSize">@dimen/button_category_text_size</item>
         <item name="android:background">?attr/uitApplicationBackground</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
