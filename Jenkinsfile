@@ -18,7 +18,7 @@ node('Android') {
     }
 
     stage('Archive App') {
-        step([$class: 'ArtifactArchiver', artifacts: 'Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        step([$class: 'ArtifactArchiver', artifacts: 'android-commlib-all/Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
     }
 
     stage('Tests') {
