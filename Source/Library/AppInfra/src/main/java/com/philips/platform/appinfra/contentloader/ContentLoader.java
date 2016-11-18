@@ -80,6 +80,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         {
             downloadedContents.clear();
             if (downloadInProgress.compareAndSet(false, true)) {
+                mState=STATE.REFRESHING;
                 downloadContent(refreshListener);
             } else {
                 Log.i("CL REFRSH ERR", "" + "download already in progress");
@@ -87,6 +88,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
             }
         }else{
+            mState=STATE.CACHED_DATA_AVAILABLE;
             //content loader already updated
             refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
             Log.i("CL REFRSH NA", "" + "content loader already uptodate");
@@ -182,6 +184,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void clearCache() {
+        mContentDatabaseHandler.clearCacheForContentLoader( mServiceId);
     }
 
     @Override
@@ -241,7 +244,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 }
                 for(ContentItem ci:contentItems){
                     Content c = mClassType.newInstance();
-                    c = gson.fromJson(contentItem.getRawData(), mClassType);
+                    c = gson.fromJson(ci.getRawData(), mClassType);
                     result.add(c);
                 }
 
@@ -271,7 +274,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 }
                 for(ContentItem ci:contentItems){
                     Content c = mClassType.newInstance();
-                    c = gson.fromJson(contentItem.getRawData(), mClassType);
+                    c = gson.fromJson(ci.getRawData(), mClassType);
                     result.add(c);
                 }
                 listener.onSuccess(result);
@@ -298,7 +301,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 }
                 for(ContentItem ci:contentItems){
                     Content c = mClassType.newInstance();
-                    c = gson.fromJson(contentItem.getRawData(), mClassType);
+                    c = gson.fromJson(ci.getRawData(), mClassType);
                     result.add(c);
                 }
                 listener.onSuccess(result);
@@ -310,10 +313,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         }
     }
 
-    @Override
-    public void deleteAllContents() {
-        mContentDatabaseHandler.deleteAll(mServiceId);
-    }
+
     // endregion
 
     // region Private methods
