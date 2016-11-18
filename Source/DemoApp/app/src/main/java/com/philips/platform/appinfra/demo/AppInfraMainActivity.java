@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
@@ -30,7 +31,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader"};
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +212,12 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 Intent contentLoaderActivity = new Intent(AppInfraMainActivity.this,
                         ContentLoaderActivity.class);
                 startActivity(contentLoaderActivity);
+                break;
+
+            case 12:
+                Intent whiteBoxAPISignInIntent = new Intent(AppInfraMainActivity.this,
+                        WhiteBoxAPIActivity.class);
+                startActivity(whiteBoxAPISignInIntent);
                 break;
         }
 
