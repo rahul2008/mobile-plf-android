@@ -7,6 +7,7 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ import com.philips.platform.catalogapp.databinding.FragmentLabelsBinding;
 
 public class LabelFragment extends BaseFragment {
     public ObservableField<String> description = new ObservableField<>("0");
+    public ObservableInt soundProgress = new ObservableInt(0);
+
+    private static final int SOUND_PROGRESS_JUMP = 25;
 
     @Nullable
     @Override
@@ -31,6 +35,7 @@ public class LabelFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         outState.putInt("progress", Integer.valueOf(description.get()));
+        outState.putInt("soundProgress", soundProgress.get());
         super.onSaveInstanceState(outState);
     }
 
@@ -43,9 +48,24 @@ public class LabelFragment extends BaseFragment {
         description.set(String.valueOf(progress));
     }
 
+    public void setSoundProgress(int progress, boolean frmUser) {
+        if (frmUser) {
+            soundProgress.set(progress);
+        }
+    }
+
+    public void incrementSound() {
+        soundProgress.set(Math.min(100, soundProgress.get() + SOUND_PROGRESS_JUMP));
+    }
+
+    public void decrementSound() {
+        soundProgress.set(Math.max(0, soundProgress.get() - SOUND_PROGRESS_JUMP));
+    }
+
     private void restoreUI(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             setProgress(savedInstanceState.getInt("progress"));
+            soundProgress.set(savedInstanceState.getInt("soundProgress"));
         }
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -102,6 +103,70 @@
             </LinearLayout>
             <!--Horizontal text box [END]-->
 
+            <!--Audio buttons group [START[-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uit.view.widget.Label
+                    style="@style/UIDLabel.Slider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/label_label_left"/>
+
+                <com.philips.platform.uit.view.widget.Label
+                    style="@style/UIDLabel.Slider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:text="@string/label_label_left"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/label_slider_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:progress="@{labelFrag.soundProgress}"
+                    android:onProgressChanged="@{(v, progress, frmUser) -> labelFrag.setSoundProgress(progress, frmUser)}"/>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/high_audio"
+                    android:onClick="@{(v)-> labelFrag.incrementSound()}"/>
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/low_audio"
+                    android:onClick="@{(v)-> labelFrag.decrementSound()}"/>
+            </RelativeLayout>
+            <!--Audio buttons group [END[-->
+
             <!--Slider group [START]-->
             <TextView
                 style="@style/ButtonsCategoryStyle"
@@ -133,9 +198,9 @@
                 android:id="@+id/label_slider_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin_left_right"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
-                android:layout_marginBottom="@dimen/layout_margin_left_right"
                 android:onProgressChanged="@{(v, progress, frmUser) -> labelFrag.setProgress(progress)}"/>
             <!--Slider group [END]-->
         </LinearLayout>

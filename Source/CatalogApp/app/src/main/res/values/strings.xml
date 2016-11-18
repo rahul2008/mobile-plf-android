@@ -66,4 +66,6 @@
     <string name="label_text">Label text</string>
     <string name="label_description">Description label</string>
     <string name="label_item_text">Item text</string>
+    <string name="label_label_left">Label left</string>
+    <string name="label_item_right">Label right</string>
 </resources>
