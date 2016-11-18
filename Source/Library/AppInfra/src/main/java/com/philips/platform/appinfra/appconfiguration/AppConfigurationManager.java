@@ -14,13 +14,18 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by 310238114 on 7/25/2016.
@@ -154,6 +159,30 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         } else {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         }
+                    } else if (object instanceof HashMap) { // if object is MAP
+                        Map map = (Map) object;
+                        Set keyset = map.keySet();
+                        Iterator keyItr = keyset.iterator();
+                        Object objectKey = keyItr.next();
+                        //Set valueset = map.entrySet();
+
+                        //Iterator valueItr = valueset.iterator();
+                        Object value= map.get(objectKey); // value for key:objectKey
+                        if (null == value) {
+                            throw new IllegalArgumentException("Invalid Argument Exception");
+                        } else {
+
+                            if (objectKey instanceof String) { // if keys are String
+                                if (value instanceof String || value instanceof Integer) { // if value are Integer OR String
+                                    JSONObject jsonObject = new JSONObject(object.toString());
+                                    cocoJSONobject.put(key, jsonObject);
+                                } else {
+                                    throw new IllegalArgumentException("Invalid Argument Exception");
+                                }
+                            } else {
+                                throw new IllegalArgumentException("Invalid Argument Exception");
+                            }
+                        }
                     } else if (object instanceof Integer || object instanceof String || null == object) {
 
                         cocoJSONobject.put(key, object);
@@ -224,11 +253,32 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                                 list.add(jsonArray.opt(iCount));
                             }
                             object = list;
+                        }else if (cocoJSONobject.opt(key) instanceof JSONObject ){
+
+                            try {
+                                object=jsonToMap(cocoJSONobject.opt(key));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
             }
         }
         return object;
+    }
+
+    private  Map jsonToMap(Object JSON) throws JSONException {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        JSONObject jObject= new JSONObject(JSON.toString());
+        Iterator<?> keys = jObject.keys();
+
+        while( keys.hasNext() ){
+            String key = (String)keys.next();
+            Object value = jObject.get(key);
+            map.put(key, value);
+
+        }
+        return map;
     }
 }

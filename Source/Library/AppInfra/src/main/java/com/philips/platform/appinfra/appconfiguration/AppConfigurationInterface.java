@@ -22,6 +22,8 @@ public interface AppConfigurationInterface {
      * if value in number then 'Integer' Object is returned
      * if value is array of literal then 'array of String' Object is returned
      * if value is array of number then 'array of Integer' Object is returned
+     *  HashMap<String,String> is returned if value is so</>
+     *  HashMap<String,Integer> is returned if value is so</>
      */
     Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws
             IllegalArgumentException;
@@ -31,7 +33,7 @@ public interface AppConfigurationInterface {
      *
      * @param key         the group name
      * @param group       the key
-     * @param object      the object (String/Integer/String[]/Integer[]/null)   null to be passed to delete key
+     * @param object      the object (String/Integer/String[]/Integer[]/null/HashMap<String,String>/HashMap<String,Integer></>)   null to be passed to delete key
      * @param configError the configError object as OUT parameter
      * @return the set operation status (success/failure)
      */
