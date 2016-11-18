@@ -4,7 +4,6 @@
  */
 package com.philips.platform.uit.view.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -42,13 +41,6 @@ public class ProgressBar extends android.widget.ProgressBar {
         obtainStyleAttributes(context, attrs, defStyleAttr);
 
         initProgressBar();
-    }
-
-    @SuppressLint("WrongCall")
-    public void setSize(CircularProgressBarSize size) {
-        circularProgressBarSize = size;
-        initCircularProgressBar();
-        onMeasure(20, 20);
     }
 
     private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
