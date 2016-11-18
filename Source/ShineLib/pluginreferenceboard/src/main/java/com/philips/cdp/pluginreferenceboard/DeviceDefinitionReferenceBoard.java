@@ -36,21 +36,11 @@ class DeviceDefinitionReferenceBoard implements SHNDeviceDefinitionInfo.SHNDevic
         SHNDeviceImpl device = new SHNDeviceImpl(shnCentral.getBTDevice(deviceAddress), shnCentral, shnDeviceDefinitionInfo.getDeviceTypeName());
 
         // only registered capabilities are exposed to the user of the plugin
-        registerBatteryCapability(device);
         registerDeviceInformationCapability(shnCentral, device);
         registerFirmwareUpdateCapability(shnCentral.getInternalHandler(), device);
 
         // the SHNDevice implementation needs to be wrapped for thread safety
         return new SHNDeviceWrapper(device);
-    }
-
-    private void registerBatteryCapability(SHNDeviceImpl device) {
-        SHNServiceBattery batteryService = new SHNServiceBattery(new SHNFactory(null));
-        // it is important to register the service for SHNDeviceImpl. SHNDeviceImpl is waiting for all registered services to indicate 'ready' before changing state to 'Connected'
-        device.registerService(batteryService.getShnService());
-
-        SHNCapabilityBattery capabilityBattery = new SHNCapabilityBatteryImpl(batteryService);
-        device.registerCapability(capabilityBattery, SHNCapabilityType.BATTERY);
     }
 
     private void registerDeviceInformationCapability(SHNCentral shnCentral, SHNDeviceImpl device) {
