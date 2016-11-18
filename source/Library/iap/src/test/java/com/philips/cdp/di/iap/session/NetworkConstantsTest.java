@@ -1,16 +1,19 @@
-package com.philips.cdp.di.iap.session;
-
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
-import java.util.Locale;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class NetworkConstantsTest extends TestCase {
+package com.philips.cdp.di.iap.session;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+
+import java.util.Locale;
+
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(RobolectricTestRunner.class)
+public class NetworkConstantsTest {
 
     @Test
     public void testPRXConstant() {
