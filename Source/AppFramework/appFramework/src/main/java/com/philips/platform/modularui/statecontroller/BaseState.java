@@ -6,7 +6,6 @@
 package com.philips.platform.modularui.statecontroller;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -23,7 +22,7 @@ abstract public class BaseState {
      */
 
     @StringDef({BaseAppState.ABOUT, BaseAppState.DEBUG,BaseAppState.HOME_FRAGMENT,BaseAppState.IAP,BaseAppState.PR,BaseAppState.REGISTRATION,BaseAppState.SETTINGS,
-            BaseAppState.SPLASH, BaseAppState.SUPPORT,BaseAppState.WELCOME,BaseAppState.DATA_SYNC})
+            BaseAppState.SPLASH, BaseAppState.SUPPORT,BaseAppState.WELCOME,BaseAppState.DATA_SYNC,BaseAppState.CONNECTIVITY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIStateDef {}
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+
 archivesBaseName = "referenceApp"
 apply plugin: 'jacoco-everywhere'
 
@@ -189,13 +190,13 @@ android {
 
     productFlavors {
         AppFrameworkHamburger {
-            applicationId = "com.philips.platform.hamburger"
-            resValue "string", "af_app_name", "AF Hamburger"
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
 
         }
         AppFrameworkTabbed {
-            applicationId = "com.philips.platform.tabbed"
-            resValue "string", "af_app_name", "AF Tabbed"
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
         }
     }
 

@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.appframework.flowmanager.TabbedAppState;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
@@ -19,10 +18,6 @@ import com.philips.platform.modularui.statecontroller.FragmentView;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
-import com.philips.platform.modularui.stateimpl.AboutScreenState;
-import com.philips.platform.modularui.stateimpl.DataSyncScreenState;
-import com.philips.platform.modularui.stateimpl.DebugTestFragmentState;
-import com.philips.platform.modularui.stateimpl.HomeFragmentState;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.SupportFragmentState;

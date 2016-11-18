@@ -140,6 +140,15 @@
                 "nextState": "data_sync"
               }
             ]
+          },
+          {
+            "eventId": "connectivity",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "connectivity"
+              }
+            ]
           }
         ]
       },

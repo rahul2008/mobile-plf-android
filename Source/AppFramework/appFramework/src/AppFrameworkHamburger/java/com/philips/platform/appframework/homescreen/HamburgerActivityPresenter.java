@@ -36,14 +36,14 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
 
-
     /*Event ID */
     final int MENU_OPTION_SETTINGS = 1;
     final int MENU_OPTION_SHOP = 2;
     final int MENU_OPTION_SUPPORT = 3;
     final int MENU_OPTION_ABOUT = 4;
     final int MENU_OPTION_DATA_SYNC = 5;
-    final int MENU_OPTION_PR = 6;
+    final int MENU_OPTION_PR = 7;
+    final int MENU_OPTION_CONNECTIVITY = 6;
 
     /* event to state map */
     final String HOME_SETTINGS = "settings";
@@ -54,6 +54,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     final String HOME_FRAGMENT = "home_fragment";
     final String HOME_DATA_SYNC = "data_sync";
     final String SUPPORT_PR = "pr";
+    final String CONNECTIVITY = "connectivity";
 
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
@@ -124,6 +125,10 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
+            case MENU_OPTION_CONNECTIVITY:
+                UIStateData connectivityStateData = new UIStateData();
+                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return connectivityStateData;
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
@@ -178,6 +183,8 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return HOME_DATA_SYNC;
+            case MENU_OPTION_CONNECTIVITY:
+                return CONNECTIVITY;
             default:
                 return HOME_FRAGMENT;
         }

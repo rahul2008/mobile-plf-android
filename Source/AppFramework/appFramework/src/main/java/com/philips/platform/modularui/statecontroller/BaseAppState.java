@@ -16,6 +16,7 @@ public class BaseAppState {
     public static final String PR = "pr";
     public static final String SETTINGS = "settings";
     public static final String DATA_SYNC = "data_sync";
+    public static final String CONNECTIVITY = "connectivity";
 
     protected Map<String, BaseState> stateMap;
 
