@@ -19,7 +19,6 @@ import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -323,10 +322,10 @@ public class PairingHandler<T extends DICommAppliance> {
             secretKey = generateRandomSecretKey();
 
             PairingPort pairingPort = mAppliance.getPairingPort();
-            pairingPort.addPortListener(new DICommPortListener() {
+            pairingPort.addPortListener(new DICommPortListener<PairingPort>() {
 
                 @Override
-                public void onPortUpdate(DICommPort<?> port) {
+                public void onPortUpdate(PairingPort port) {
                     DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
 
                     if (PAIRING_DI_COMM_RELATIONSHIP.equals(currentRelationshipType)) {
@@ -338,7 +337,7 @@ public class PairingHandler<T extends DICommAppliance> {
                 }
 
                 @Override
-                public void onPortError(DICommPort<?> port, Error error, String errorData) {
+                public void onPortError(PairingPort port, Error error, String errorData) {
                     DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
 
                     notifyListenerFailed();

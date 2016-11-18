@@ -40,10 +40,10 @@ public class StartDcsRequest extends Request {
                 lock.wait(TIME_OUT);
 
                 if (cloudController.getState() != CloudController.ICPClientDCSState.STARTED) {
-                    return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+                    return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
                 }
             } catch (InterruptedException e) {
-                return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+                return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
             }
         }
 
