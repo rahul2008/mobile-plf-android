@@ -11,7 +11,7 @@
     </style>
 
     <style name="UIDLabel.Left">
-        <item name="android:layout_marginBottom">@dimen/uid_label_margin_start</item>
+        <item name="android:layout_marginRight">@dimen/uid_label_margin_start</item>
     </style>
 
     <style name="UIDLabel.Control">

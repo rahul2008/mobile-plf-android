@@ -13,26 +13,84 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <TextView
             style="@style/ButtonsCategoryStyle"
-            android:text="Label"/>
+            android:text="@string/label_title_text"/>
 
-        <!--Label text top-->
+        <com.philips.platform.uit.view.widget.Label
+            style="@style/UIDLabel.Top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/component_bottom_spacing"
+            android:layout_marginLeft="@dimen/layout_margin_left_right"
+            android:text="@string/label_text"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_left_right"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"/>
+            <com.philips.platform.uit.view.widget.Label
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/UIDLabel.Control"
+                android:text="@string/label_item_text"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:checked="true"/>
+            <com.philips.platform.uit.view.widget.Label
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/UIDLabel.Control"
+                android:text="@string/label_item_text"/>
+        </LinearLayout>
+
+        <!--Label text top [START]-->
         <com.philips.platform.uit.view.widget.Label
             style="@style/UIDLabel.Top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/layout_margin_left_right"
             android:layout_marginTop="@dimen/component_bottom_spacing"
-            android:text="Label text"/>
+            android:text="@string/label_text"/>
 
         <com.philips.platform.uit.view.widget.TextEditBox
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/component_bottom_spacing"
             android:layout_marginLeft="@dimen/layout_margin_left_right"
-            android:hint="Label text"/>
+            android:layout_marginRight="@dimen/layout_margin_left_right"
+            android:hint="@string/label_input_text"/>
+        <!--Label text top [END]-->
 
+        <!--Horizontal text box [START]-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_left_right"
+            android:layout_marginRight="@dimen/layout_margin_left_right"
+            android:layout_marginBottom="@dimen/component_bottom_spacing">
+            <com.philips.platform.uit.view.widget.Label
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/UIDLabel.Left"
+                android:text="@string/label_text"/>
+            <com.philips.platform.uit.view.widget.TextEditBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/label_input_text"/>
+        </LinearLayout>
+        <!--Horizontal text box [END]-->
+
+        <!--Slider group [START]-->
         <TextView
             style="@style/ButtonsCategoryStyle"
             android:layout_marginTop="@dimen/component_bottom_spacing"
@@ -49,7 +107,7 @@
                 style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Label text"/>
+                android:text="@string/label_description"/>
 
             <com.philips.platform.uit.view.widget.Label
                 style="@style/UIDLabelDescription.Slider"
@@ -65,5 +123,6 @@
             android:layout_marginLeft="@dimen/layout_margin_left_right"
             android:layout_marginRight="@dimen/layout_margin_left_right"
             android:onProgressChanged="@{(v, progress, frmUser) -> labelFrag.setProgress(progress)}"/>
+        <!--Slider group [END]-->
     </LinearLayout>
 </layout>
