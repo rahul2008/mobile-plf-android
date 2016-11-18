@@ -5,6 +5,7 @@ package com.philips.platform.core.datatypes;
  * All rights reserved.
  */
 public class UserCredentials {
+    //TODO: Spoorti: Check if this class can be removed (Action on Spoorti)
     private String hsdpUUID;
     private String hsdpToken;
     private String janrainUUID;

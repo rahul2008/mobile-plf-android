@@ -38,7 +38,7 @@ public class LoadMomentsRequest extends Event {
         this.type = null;
     }
 
-    public int getMomentID(){
+    public int getMomentID() {
         return momentID;
     }
 

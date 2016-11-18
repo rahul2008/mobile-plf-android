@@ -16,6 +16,8 @@ import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.consent.ConsentDataSender;
+import com.philips.platform.datasync.moments.MomentsDataSender;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -99,7 +101,11 @@ public class DataPushSynchronise extends EventMonitor {
         Log.i("***SPO***","DataPushSynchronize startAllSenders");
         for (final com.philips.platform.datasync.synchronisation.DataSender sender : senders) {
             Log.i("***SPO***","DataPushSynchronize startAllSenders inside loop");
-            sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+
+           // if(sender instanceof MomentsDataSender) {
+                sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+            //}
+
 
            /* executor.execute(new Runnable() {
                 @Override

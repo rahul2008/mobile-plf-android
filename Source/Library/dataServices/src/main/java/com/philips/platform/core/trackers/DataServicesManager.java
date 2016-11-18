@@ -16,6 +16,10 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -29,6 +33,8 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -77,9 +83,11 @@ public class DataServicesManager {
 
     private BaseAppDataCreator mDataCreater;
 
+    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPullSynchronise mDataPullSynchronise;
 
+    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPushSynchronise mDataPushSynchronise;
 
@@ -187,6 +195,7 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
+    //TODO: In case fetchers and senders are passed as null, we can create pullsynchronize and pushsynchronise and start
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
@@ -270,5 +279,31 @@ public class DataServicesManager {
 
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;
+    }
+
+    public void save(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent,false));
+    }
+
+    @NonNull
+    public void fetchConsent() {
+        mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public Consent createConsent() {
+        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
+    }
+
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
+        if (consent == null) {
+            consent = createConsent();
+        }
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
+        consent.addConsentDetails(consentDetail);
+    }
+
+    public void UpdateConsent(@NonNull final Consent consent) {
+
     }
 }

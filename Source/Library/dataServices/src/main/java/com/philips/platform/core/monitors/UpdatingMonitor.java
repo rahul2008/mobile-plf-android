@@ -3,6 +3,8 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -11,12 +13,15 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.ConsentDetailsUpdateRequest;
+import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +56,13 @@ public class UpdatingMonitor extends EventMonitor{
             dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
             dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
             eventing.post(new MomentChangeEvent(requestId, moment));
+    }
+
+
+    public void onEventAsync(final DatabaseConsentUpdateRequest consentUpdateRequest) {
+        int requestId = consentUpdateRequest.getEventId();
+        Consent consent = consentUpdateRequest.getConsent();
+
     }
 
     public void onEventBackgroundThread(final BackendResponse error) {

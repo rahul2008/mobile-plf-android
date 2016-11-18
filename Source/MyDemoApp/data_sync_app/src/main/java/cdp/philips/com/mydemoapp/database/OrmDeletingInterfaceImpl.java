@@ -52,8 +52,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             ormDeleting.deleteAll();
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            if(e.getMessage()!=null){
-                Log.i("***SPO***","exception = " + e.getMessage());
+            if (e.getMessage() != null) {
+                Log.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -82,8 +82,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             //  notifyAllSuccess(moment);
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            if(e.getMessage()!=null){
-                Log.i("***SPO***","exception = " + e.getMessage());
+            if (e.getMessage() != null) {
+                Log.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -101,8 +101,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            if(e.getMessage()!=null){
-                Log.i("***SPO***","Exception = " + e.getMessage());
+            if (e.getMessage() != null) {
+                Log.i("***SPO***", "Exception = " + e.getMessage());
             }
         }
         return null;

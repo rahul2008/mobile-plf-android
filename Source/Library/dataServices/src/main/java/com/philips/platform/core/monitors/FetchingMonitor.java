@@ -16,6 +16,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
@@ -62,6 +63,9 @@ public class FetchingMonitor extends EventMonitor {
             Log.i("***SPO***","In Fetching Monitor before putMomentsForSync");
             dataToSync = dbInterface.putMomentsForSync(dataToSync);
             Log.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+
+            dataToSync = dbInterface.putConsentForSync(dataToSync);
+
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             Log.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
@@ -78,6 +82,16 @@ public class FetchingMonitor extends EventMonitor {
             } else {
                 dbInterface.fetchMoments();
             }
+        } catch (SQLException e) {
+            eventing.post(new ExceptionEvent("Loading in graph", e));
+        }
+    }
+
+
+
+    public void onEventBackgroundThread(LoadConsentsRequest event) {
+        try {
+            dbInterface.fetchConsents();
         } catch (SQLException e) {
             eventing.post(new ExceptionEvent("Loading in graph", e));
         }

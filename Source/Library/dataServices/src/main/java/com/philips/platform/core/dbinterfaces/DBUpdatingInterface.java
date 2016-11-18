@@ -1,5 +1,7 @@
 package com.philips.platform.core.dbinterfaces;
 
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 
 import java.util.List;
@@ -15,4 +17,5 @@ public interface DBUpdatingInterface {
     int processMomentsReceivedFromBackend(final List<? extends Moment> moments);
     void updateFailed(Exception e);
     void postRetrofitError(Throwable error);
+    void updateConsent(final Consent consent);
 }

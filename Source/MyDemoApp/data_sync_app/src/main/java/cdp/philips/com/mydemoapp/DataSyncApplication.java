@@ -15,13 +15,9 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.core.utils.UuidGenerator;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
-import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -29,7 +25,7 @@ import cdp.philips.com.mydemoapp.database.DatabaseHelper;
  */
 
 
-public class DataSyncApplication extends Application{
+public class DataSyncApplication extends Application {
 
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
@@ -40,20 +36,16 @@ public class DataSyncApplication extends Application{
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
-        loggingInterface.enableConsoleLog(true);
-        loggingInterface.enableFileLog(true);
         setLocale();
+        //Stetho.initializeWithDefaults(this);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
-        databaseHelper.getWritableDatabase();
-       // Stetho.initializeWithDefaults(this);
-        LeakCanary.install(this);
         initializeUserRegistrationLibrary(Configuration.STAGING);
     }
 
-    /**For doing dynamic initialisation Of User registration
+    /**
+     * For doing dynamic initialisation Of User registration
      *
-     * @param configuration  The environment ype as required by UR
+     * @param configuration The environment ype as required by UR
      */
     public void initializeUserRegistrationLibrary(Configuration configuration) {
         final String UR = "UserRegistration";
@@ -121,7 +113,7 @@ public class DataSyncApplication extends Application{
 
         initHSDP();
 
-        ArrayList<String> providers = new ArrayList<String>();
+        ArrayList<String> providers = new ArrayList<>();
         providers.add("facebook");
         providers.add("googleplus");
         providers.add("sinaweibo");
@@ -150,7 +142,7 @@ public class DataSyncApplication extends Application{
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
-        editor.commit();
+        editor.apply();
 
 
         String languageCode = Locale.getDefault().getLanguage();
@@ -168,12 +160,10 @@ public class DataSyncApplication extends Application{
     }
 
     final String AI = "appinfra";
+
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = gAppInfra.getAppIdentity();
-        AppConfigurationInterface appConfigurationInterface = gAppInfra.
-                getConfigInterface();
-
         //Dynamically set the values to appInfar and app state
 
         AppConfigurationInterface.AppConfigurationError configError = new
