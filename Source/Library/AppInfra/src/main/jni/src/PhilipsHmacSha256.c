@@ -10,7 +10,7 @@
 
 JNIEXPORT jbyteArray JNICALL Java_com_philips_platform_appinfra_whiteboxapi_GenerateHmacLib_pshmac(JNIEnv *env, jclass thisClass, jbyteArray keyJNI, jbyteArray messageJNI)
 {
-    __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, "####### JNI Called 1");
+    __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, " JNI Lib called");
 	// Convert the incoming JNI jbytearrays to jboolean[] (mapped to unsigned char in C)
     	unsigned char *key = (*env)->GetByteArrayElements(env, keyJNI, NULL);
     	if (NULL == key) return NULL;
@@ -24,7 +24,6 @@ JNIEXPORT jbyteArray JNICALL Java_com_philips_platform_appinfra_whiteboxapi_Gene
       sha256_state_t inner;
       init_sha256(&inner);
       inner->encrypted = 1;
-        __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, "####### 2");
       for (int i = 0; i < 8; i ++)
         {
           unsigned int temp = 0;
@@ -35,8 +34,6 @@ JNIEXPORT jbyteArray JNICALL Java_com_philips_platform_appinfra_whiteboxapi_Gene
           inner->H[i] = temp;
         }
       inner->processed_length=64;
-        __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, "####### 3");
-
       sha256_state_t outer;
       init_sha256(&outer);
       outer->encrypted = 1;
@@ -57,7 +54,6 @@ JNIEXPORT jbyteArray JNICALL Java_com_philips_platform_appinfra_whiteboxapi_Gene
     	// Release resources
     	(*env)->ReleaseByteArrayElements(env, keyJNI, key, 0);
     	(*env)->ReleaseByteArrayElements(env, messageJNI, message, 0);
-    __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, "####### 4");
       unsigned char *iresult;
       int iresult_len;
       extract_data_sha256(inner,&iresult,&iresult_len);
@@ -66,7 +62,6 @@ JNIEXPORT jbyteArray JNICALL Java_com_philips_platform_appinfra_whiteboxapi_Gene
       finish_sha256(outer);
 
       extract_data_sha256(outer,&iresult,&iresult_len);
-        __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, "####### ");
     	// Create a jbyteArray containing the signature
     	jbyteArray resultJNI = (*env)->NewByteArray(env, 32);
     	if (NULL == resultJNI) return NULL;
