@@ -70,9 +70,9 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        updateDataModel();
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
+        updateDataModel();
         launchPR();
     }
 

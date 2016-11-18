@@ -52,10 +52,10 @@ public abstract class IAPState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        updateDataModel();
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+        updateDataModel();
         launchIAP();
     }
 
@@ -106,9 +106,9 @@ public abstract class IAPState extends BaseState {
 
     @Override
     public void init(Context context) {
-        applicationContext=context;
+        applicationContext = context;
         iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(getApplicationContext());
+        IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(AppFrameworkApplication.appInfra);
         iapSettings.setUseLocalData(true);
         iapInterface.init(iapDependencies, iapSettings);

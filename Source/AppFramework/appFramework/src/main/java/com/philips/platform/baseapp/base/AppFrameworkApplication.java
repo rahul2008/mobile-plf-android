@@ -15,6 +15,7 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.baseapp.screens.datasevices.database.DatabaseHelper;
 import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
@@ -55,7 +56,7 @@ public class AppFrameworkApplication extends Application {
         userRegistrationState.init(this);
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
-        iapState = new IAPState();
+        iapState = new IAPRetailerFlowState();
         iapState.init(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();

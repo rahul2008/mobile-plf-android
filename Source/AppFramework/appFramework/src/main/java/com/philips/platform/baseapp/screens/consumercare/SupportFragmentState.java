@@ -52,11 +52,11 @@ public class SupportFragmentState extends BaseState implements CcListener {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        updateDataModel();
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         this.activityContext = fragmentLauncher.getFragmentActivity();
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+        updateDataModel();
         launchCC();
     }
 
