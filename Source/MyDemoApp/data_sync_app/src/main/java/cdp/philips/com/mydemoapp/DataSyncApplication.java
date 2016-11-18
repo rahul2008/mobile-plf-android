@@ -30,7 +30,7 @@ import cdp.philips.com.mydemoapp.database.DatabaseHelper;
  */
 
 
-public class DataSyncApplication extends Application{
+public class DataSyncApplication extends Application {
 
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
@@ -42,15 +42,15 @@ public class DataSyncApplication extends Application{
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-
         Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
     }
 
-    /**For doing dynamic initialisation Of User registration
+    /**
+     * For doing dynamic initialisation Of User registration
      *
-     * @param configuration  The environment ype as required by UR
+     * @param configuration The environment ype as required by UR
      */
     public void initializeUserRegistrationLibrary(Configuration configuration) {
         final String UR = "UserRegistration";
@@ -165,6 +165,7 @@ public class DataSyncApplication extends Application{
     }
 
     final String AI = "appinfra";
+
     private void initAppIdentity(Configuration configuration) {
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = gAppInfra.getAppIdentity();

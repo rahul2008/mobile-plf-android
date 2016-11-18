@@ -57,8 +57,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         consentDetails=new ArrayList<>();
         lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
-        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
-        fetchConsent();
         return rootView;
 
     }
@@ -66,6 +64,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onResume() {
         super.onResume();
+        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
+        fetchConsent();
     }
 
     @Override
@@ -142,6 +142,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
         dismissProgressDialog();
     }
@@ -160,7 +165,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     private void showProgressDialog() {
         if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-            mProgressDialog.setMessage("loading consents");
             mProgressDialog.show();
         }
     }
