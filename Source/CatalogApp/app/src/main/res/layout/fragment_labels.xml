@@ -24,7 +24,7 @@
                 android:text="@string/label_title_text"/>
 
             <com.philips.platform.uit.view.widget.Label
-                style="@style/UIDLabel.Top"
+                style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
@@ -43,7 +43,7 @@
                     android:checked="true"/>
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabelDescription.ControlLeft"
+                    style="@style/UIDLabelDescription.MarginStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_item_text"/>
@@ -55,7 +55,7 @@
                     android:checked="true"/>
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabelDescription.ControlLeft"
+                    style="@style/UIDLabelDescription.MarginStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_item_text"/>
@@ -63,7 +63,7 @@
 
             <!--Label text top [START]-->
             <com.philips.platform.uit.view.widget.Label
-                style="@style/UIDLabel.Top"
+                style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
@@ -88,7 +88,7 @@
                 android:layout_marginRight="@dimen/layout_margin_left_right">
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabel.Left"
+                    style="@style/UIDLabel.MarginEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_text"/>
@@ -112,7 +112,7 @@
                 android:orientation="horizontal">
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabel.Slider"
+                    style="@style/UIDLabel.SliderMarginBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -120,7 +120,7 @@
                     android:text="@string/label_label_left"/>
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabel.Slider"
+                    style="@style/UIDLabel.SliderMarginBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -187,7 +187,7 @@
                     android:text="@string/label_description"/>
 
                 <com.philips.platform.uit.view.widget.Label
-                    style="@style/UIDLabelDescription.Slider"
+                    style="@style/UIDLabelDescription.SliderMarginBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/layout_margin_left_right"

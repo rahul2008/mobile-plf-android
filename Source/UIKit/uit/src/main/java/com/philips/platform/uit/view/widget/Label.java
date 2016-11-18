@@ -50,11 +50,8 @@ public class Label extends AppCompatTextView {
     }
 
     private void setLabelTextSize(Context context, final TypedArray attrsArray) {
-        int textSizeID = attrsArray.getResourceId(R.styleable.UIDLabel_uidLabelTextSize, -1);
-        int testSize = context.getResources().getDimensionPixelSize(R.dimen.uid_label_text_size);
-        if (textSizeID != -1) {
-            testSize = attrsArray.getDimensionPixelSize(R.styleable.UIDLabel_uidLabelTextSize, testSize);
-        }
-        setTextSize(TypedValue.COMPLEX_UNIT_PX, testSize);
+        int textSize = context.getResources().getDimensionPixelSize(R.dimen.uid_label_text_size);
+        textSize = attrsArray.getDimensionPixelSize(R.styleable.UIDLabel_uidLabelTextSize, textSize);
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
     }
 }
