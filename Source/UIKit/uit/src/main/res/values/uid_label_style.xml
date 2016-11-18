@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="UIDLabel">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
@@ -7,6 +8,10 @@
 
     <style name="UIDLabel.Top">
         <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom</item>
+    </style>
+
+    <style name="UIDLabel.Left">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_start</item>
     </style>
 
     <style name="UIDLabel.Control">
@@ -20,7 +25,7 @@
     <style name="UIDLabel.Slider">
         <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
     </style>
-    
+
     <style name="UIDLabelDescription">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
