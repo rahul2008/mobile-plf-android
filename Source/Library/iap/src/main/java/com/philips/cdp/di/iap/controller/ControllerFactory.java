@@ -29,9 +29,8 @@ public class ControllerFactory {
         return mIsPlanB;
     }
 
-    @SuppressWarnings({"rawtype", "unchecked"})
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
-                                                    ShoppingCartPresenter.ShoppingCartListener listener) {
+                                                    ShoppingCartPresenter.ShoppingCartListener<?> listener) {
         ShoppingCartAPI api;
         if (mIsPlanB) {
             api = new LocalShoppingCartPresenter(context, listener);

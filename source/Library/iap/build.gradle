@@ -251,7 +251,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/analytics/*.class',
                        '**/utils/*.class',
                        '**/activity/*.class',
-                       '**/Fragments/*.class']
+                       '**/screens/*.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)

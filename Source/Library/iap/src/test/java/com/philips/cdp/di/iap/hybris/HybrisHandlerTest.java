@@ -7,9 +7,11 @@ package com.philips.cdp.di.iap.hybris;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,17 +20,24 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
+import static junit.framework.Assert.*;
+
 public class HybrisHandlerTest {
-    private HybrisHandler hybrisHandler;
-    private IAPListener ipIapListener;
     @Mock
-    Context contextMock;
+    Context mContext;
+
+    @Mock
+    Message mMessage;
+
+    private HybrisHandler mHybrisHandler;
+    private IAPListener mIAPListener;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        hybrisHandler = new HybrisHandler(contextMock);
-        ipIapListener = new IAPListener() {
+
+        mHybrisHandler = new HybrisHandler(mContext);
+        mIAPListener = new IAPListener() {
             @Override
             public void onGetCartCount(int count) {
 
@@ -62,25 +71,29 @@ public class HybrisHandlerTest {
     }
 
 
-    @Test(expected = NullPointerException.class)
-    public void getCompleteProductList() throws Exception {
-        hybrisHandler.getCompleteProductList(ipIapListener);
+    @Test(expected = RuntimeException.class)
+    public void testGetCompleteProductList() throws Exception {
+        mHybrisHandler.getCompleteProductList(mIAPListener);
     }
 
     @Test(expected = NullPointerException.class)
-    public void getProductCount() throws Exception {
-        hybrisHandler.getProductCount(ipIapListener);
+    public void testGetProductCount() throws Exception {
+        mHybrisHandler.getProductCartCount(mIAPListener);
     }
 
     @Test
-    public void getIAPErrorCodeForUnknownError() throws Exception {
-        hybrisHandler.getIAPErrorCode(new Message());
+    public void testIAPErrorCodeForUnknownError() throws Exception {
+        assertEquals(IAPConstant.IAP_ERROR_UNKNOWN, mHybrisHandler.getIAPErrorCode(new Message()));
     }
 
-    @Test(expected = RuntimeException.class)
-    public void getIAPErrorCode() throws Exception {
-        Message msg = new Message();
-        msg.obj = new IAPNetworkError(null, 0, null);
-        hybrisHandler.getIAPErrorCode(msg);
+    @Test(expected = NullPointerException.class)
+    public void testStoreInitialization(){
+        assertFalse(HybrisDelegate.getInstance().getStore().isStoreInitialized());
+    }
+
+    @Test
+    public void testStoreInitializationWithHybrisInitialization(){
+        TestUtils.getStubbedHybrisDelegate();
+        assertTrue(HybrisDelegate.getInstance().getStore().isStoreInitialized());
     }
 }

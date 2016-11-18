@@ -137,7 +137,7 @@
 <string name="iap_order_processing">正在处理</string>
 <string name="iap_order_completed">已完成</string>
 <string name="iap_not_shipped_msg">您的订单尚未发货。预计将在您的订单确认后 24 小时之内移交给发货方。</string>
-<string name="iap_order_completed_text">您的订单将由 \n联邦快递（运费）配送 \n追踪编号 ##</string>
+<string name="iap_order_completed_text">您的订单将由 \n联邦快递（运费）配送 \n追踪编号 %1$s</string>
 <string name="iap_order_completed_text_without_track_id">您的订单将由 \n联邦快递（运费）配送</string>
 <string name="iap_view_invoice">查看发票</string>
 <string name="iap_invoice">发票</string>

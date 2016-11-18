@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.products.LocalProductCatalog;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
@@ -62,6 +63,12 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         mCTNS.add("HX9023/64");
         mCTNS.add("HX9003/64");
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
+    }
+
+    @Test
+    public void testGetLocalProductCatalogSuccessResponse(){
+        LocalProductCatalog localCatalog = new LocalProductCatalog(mContext, this);
+        assertFalse(localCatalog.getProductCatalog(0, 20, null));
     }
 
     @Test
@@ -207,6 +214,13 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     public void testNetworkError() throws Exception {
         Message msg = new Message();
         msg.obj = new IAPNetworkError(null, 0, null);
+        mProductCatalogPresenter.onModelDataError(msg);
+    }
+
+    @Test
+    public void testNonIAPNetworkError() throws Exception {
+        Message msg = new Message();
+        msg.obj = new Error();
         mProductCatalogPresenter.onModelDataError(msg);
     }
 

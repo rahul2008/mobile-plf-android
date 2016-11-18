@@ -17,8 +17,10 @@ import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -314,10 +316,49 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
     @Test
-    public void testGetRetailersInformation() {
+    public void testGetRetailersInformation() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
-        mShoppingCartPresenter.getRetailersInformation("HX8331/11");
+        mShoppingCartPresenter.getRetailersInformation("HX8071/10");
+
+        new AbstractModel.DataLoadListener() {
+            @Override
+            public void onModelDataLoadFinished(Message msg) {
+                assertTrue(msg.obj instanceof WebResults);
+            }
+
+            @Override
+            public void onModelDataError(Message msg) {
+
+            }
+        };
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "retailers.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetRetailersInformationErrorResponse() throws JSONException {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.getRetailersInformation("HX8071/10");
+
+        new AbstractModel.DataLoadListener() {
+            @Override
+            public void onModelDataLoadFinished(Message msg) {
+                assertTrue(msg.obj instanceof WebResults);
+            }
+
+            @Override
+            public void onModelDataError(Message msg) {
+
+            }
+        };
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "retailers.txt"));
+        mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test

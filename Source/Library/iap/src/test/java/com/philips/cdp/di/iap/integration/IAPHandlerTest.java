@@ -34,6 +34,7 @@ public class IAPHandlerTest {
     AppInfra mAppInfra;
     @Mock
     Context mContext;
+
     private MockIAPSetting mIAPSetting;
     private MockIAPHandler mMockIAPHandler;
     private IAPListener mIapListener;

@@ -16,7 +16,13 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.cart.IAPCartListener;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -196,5 +202,21 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     @Override
     public boolean handleBackEvent() {
         return false;
+    }
+
+    public void handleDeliveryMode(Message msg, AddressController addressController) {
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            dismissProgressDialog();
+        } else if ((msg.obj instanceof IAPNetworkError)) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            dismissProgressDialog();
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            if (deliveryModeList.size() > 0) {
+                CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+                addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            }
+        }
     }
 }

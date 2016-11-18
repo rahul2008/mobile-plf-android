@@ -20,6 +20,8 @@ import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class OAuthController implements OAuthListener {
@@ -64,7 +66,7 @@ public class OAuthController implements OAuthListener {
         SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
         network.performRequest(createOAuthRequest(mOAuthRequest), new SynchronizedNetworkListener() {
             @Override
-            public void onSyncRequestSuccess(final Response response) {
+            public void onSyncRequestSuccess(final Response<JSONObject> response) {
                 if (response != null && response.result != null) {
                     mOAuthRequest.parseResponse(response.result);
                     access_token = mOAuthRequest.getAccessToken();
@@ -92,7 +94,7 @@ public class OAuthController implements OAuthListener {
         SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
         network.performRequest(createOAuthRequest(requestModel), new SynchronizedNetworkListener() {
             @Override
-            public void onSyncRequestSuccess(final Response response) {
+            public void onSyncRequestSuccess(final Response<JSONObject> response) {
                 if (response != null && response.result != null) {
                     mOAuthRequest.parseResponse(response.result);
                     access_token = mOAuthRequest.getAccessToken();
