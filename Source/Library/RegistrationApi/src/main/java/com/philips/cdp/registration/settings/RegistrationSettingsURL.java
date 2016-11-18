@@ -36,8 +36,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
 
-    public static final String EVAL_CAPTURE_DOMAIN_CHINA_OLD = "https://philips-china-staging.capture.cn.janrain.com";
-
     public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";
 
     private String LOG_TAG = "RegistrationAPI";
@@ -164,7 +162,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN_CHINA,"vdgkb3z57jpv93mxub34x73mqu");
         map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"hqmhwxu7jtdcye758vvxux4ryb");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"czwfzs7xh23ukmpf4fzhnksjmd");
-        map.put(EVAL_CAPTURE_DOMAIN_CHINA_OLD,"czwfzs7xh23ukmpf4fzhnksjmd");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"59fceb32hvkycquwn7fvhs9b99");
         RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
         RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain Map : " + map.get(domain));
@@ -182,7 +179,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN_CHINA,"fhbmobeahciagddgfidm");
         map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"jndphelwbhuevcmovqtn");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"uyfpympodtnesxejzuic");
-        map.put(EVAL_CAPTURE_DOMAIN_CHINA_OLD,"uyfpympodtnesxejzuic");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"ddjbpmgpeifijdlibdio");
         RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
         RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
@@ -227,7 +223,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-        serviceDiscoveryInterface.setHomeCountry("CN");
+        serviceDiscoveryInterface.setHomeCountry(RegistrationHelper.getInstance().getCountryCode());
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -238,15 +234,19 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     }
 
                     @Override
-                    public void onSuccess(URL url) {
+                    public void onSuccess(URL url ) {
+                        String urlLocal = url.toString();
+                        if (urlLocal.equalsIgnoreCase("https://philips-china-staging.capture.cn.janrain.com")){
+                            urlLocal="https://philips-cn-staging.capture.cn.janrain.com";
+                        }
 
-                        String janrainURL = url.toString().substring(8);//Please don't remove this line.
-                        jumpConfig.captureDomain = janrainURL.toString();
+                            String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
+                        jumpConfig.captureDomain = janrainURL;
 
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
 
-                        jumpConfig.engageAppId = getEngageId(url.toString());
-                        jumpConfig.captureAppId = getCaptureId(url.toString());
+                        jumpConfig.engageAppId = getEngageId(urlLocal);
+                        jumpConfig.captureAppId = getCaptureId(urlLocal);
 
 
                         if (jumpConfig.engageAppId== null || jumpConfig.captureAppId==null)
@@ -332,7 +332,11 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +smsSupport);
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
-                                                                                mPreferredCountryCode = countryCode;
+                                                                                // If configuration is Staging pass this
+                                                                                if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(Configuration.STAGING.getValue())) {
+                                                                                    jumpConfig.flowCDN = "https://janrain-capture-static.cn.janrain.com";
+                                                                                }
+                                                                                 mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;
 
                                                                                 try {

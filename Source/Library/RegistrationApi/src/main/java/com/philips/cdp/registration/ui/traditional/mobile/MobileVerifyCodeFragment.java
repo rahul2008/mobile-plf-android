@@ -26,12 +26,17 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.janrain.android.Jump;
+import com.janrain.android.JumpConfig;
+import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -47,9 +52,13 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaConstants;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONObject;
+
+import java.net.URL;
 
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements RefreshUserHandler, HttpClientServiceReceiver.Listener {
 
@@ -80,6 +89,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private final long interval = 1 * 1000;
     private CountDownTimer countDownTimer;
     private boolean isAccountActivate;
+
+    public static final String DEV_VERFICATION_CODE = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode";
+    public static final String EVAL_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
+    public static final String PROD_VERFICATION_CODE = "https://www.philips.com.cn/api/v1/user/requestVerificationSmsCode";
+    public static final String STAGE_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
+    public static final String TEST_VERFICATION_CODE = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -219,6 +235,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private Intent createSMSActivationIntent() {
         String UUid = mUser.getJanrainUUID();
         String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid, mEtCodeNUmber.getNumber());
+        System.out.println("JUMP URL : "+Jump.getCaptureDomain());
         String url = "https://philips-china-test.eu-dev.janraincapture.com/access/useVerificationCode";
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
@@ -383,9 +400,18 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private Intent createResendSMSIntent() {
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
+        String  eMobileNumber;
+        System.out.println("Configration : "+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        if (!mUser.getMobile().contains("86")){
+            eMobileNumber="86"+mUser.getMobile();
+        }else {
+            eMobileNumber=mUser.getMobile();
+        }
+        String url = initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment())+"?provider=" +
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + eMobileNumber;
 
-        String url = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mUser.getMobile();
+        System.out.println("RESEND URL : "+url);
+
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
@@ -415,4 +441,22 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
             RegAlertDialog.dismissDialog();
         }
     };
+    private String initializePRXLinks(String registrationEnv) {
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
+            return DEV_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
+            return PROD_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
+            return STAGE_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
+            return TEST_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
+            return EVAL_VERFICATION_CODE;
+        }
+        return null;
+    }
 }

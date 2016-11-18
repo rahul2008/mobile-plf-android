@@ -118,6 +118,30 @@
                     android:enabled="false"
                     android:text="@string/reg_Create_Account_CreateMyPhilips_btntxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:visibility="gone">
+
+                    <com.philips.cdp.registration.ui.customviews.XTextView
+                        android:id="@+id/tv_country"
+                        style="@style/reg_textStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/Reg_Country"
+                        reglib:fontAssetName="CentraleSans-Book.OTF"/>
+
+                    <com.philips.cdp.registration.ui.customviews.XTextView
+                        android:id="@+id/tv_country_displat"
+                        style="@style/reg_textStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_country"
+                        android:gravity="center"
+                        android:text="@string/Reg_Country"
+                        reglib:fontAssetName="CentraleSans-Book.OTF"/>
+                </RelativeLayout>
+
 
                 <com.philips.cdp.registration.ui.customviews.XRegError
                     android:id="@+id/reg_error_msg"

@@ -217,5 +217,72 @@
     <string name="Opt_In_What_Are_You_Going_To_Get">What are you going to get?</string>
     <string name="Opt_In_Special_Offers">Special offers, promotions and first hand information about new product releases. Tailored for you!</string>
     <string name="Opt_In_Receive_Promotional">Receive promotional communications of Philips based on my preferences and online behavior\n%s</string>
+    <string name="Reg_Country">Country</string>
+    <string name="Reg_Search">Search..</string>
+
+    <string-array name="CountryCodes" >
+        <item>Australia, AU</item>
+        <item>Bulgaria, BG</item>
+        <item>Rwanda, RW</item>
+        <item>Czech Republic, CZ</item>
+        <item>Denmark, DK</item>
+        <item>Austria, AT</item>
+        <item>Switzerland, CH</item>
+        <item>Germany, DE</item>
+        <item>Greece, GR</item>
+        <item>Canada, CA</item>
+        <item>United Kingdom, GB</item>
+        <item>Hong Kong (China), HK</item>
+        <item>Indonesia, ID</item>
+        <item>Ireland, IE</item>
+        <item>India, IN</item>
+        <item>Malaysia, MY</item>
+        <item>New Zealand, NZ</item>
+        <item>Philippines, PH</item>
+        <item>Pakistan, PK</item>
+        <item>Saudi Arabia, SA</item>
+        <item>Singapore, SG</item>
+        <item>United States, US</item>
+        <item>South Africa, ZA</item>
+        <item>Argentina, AR</item>
+        <item>Chile, CL</item>
+        <item>Colombia, CO</item>
+        <item>Spain, ES</item>
+        <item>Mexico, MX</item>
+        <item>Peru, PE</item>
+        <item>Estonia, EE</item>
+        <item>Finland, FI</item>
+        <item>Belgium, BE</item>
+        <item>France, FR</item>
+        <item>Croatia, HR</item>
+        <item>Hungary, HU</item>
+        <item>Italy, IT</item>
+        <item>Japan, JP</item>
+        <item>South Korea, KR</item>
+        <item>Lithuania, LT</item>
+        <item>Latvia, LV</item>
+        <item>Netherlands, NL</item>
+        <item>Norway, NO</item>
+        <item>Poland, PL</item>
+        <item>Brazil, BR</item>
+        <item>Portugal, PT</item>
+        <item>Romania, RO</item>
+        <item>Russia, RU</item>
+        <item>Ukraine, UA</item>
+        <item>Slovenia, SI</item>
+        <item>Slovakia, SK</item>
+        <item>Sweden, SE</item>
+        <item>Thailand, TH</item>
+        <item>Turkey, TR</item>
+        <item>Vietnam, VN</item>
+        <item>China, CN</item>
+        <item>Taiwan, TW</item>
+
+
+
+
+
+    </string-array>
+
 
 </resources>

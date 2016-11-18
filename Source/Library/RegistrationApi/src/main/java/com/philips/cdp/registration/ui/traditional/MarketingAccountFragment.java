@@ -33,6 +33,8 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -235,7 +237,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !mUser.getEmailVerificationStatus()) {
-            launchAccountActivateFragment();
+            if (FieldsValidator.isValidEmail(mUser.getEmail().toString())){
+                launchAccountActivateFragment();
+            }else {
+                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+            }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && mUser.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
