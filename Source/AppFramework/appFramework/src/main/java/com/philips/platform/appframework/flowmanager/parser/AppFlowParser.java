@@ -5,9 +5,6 @@
 */
 package com.philips.platform.appframework.flowmanager.parser;
 
-import android.content.Context;
-import android.support.annotation.IdRes;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.platform.appframework.flowmanager.models.AppFlow;
@@ -15,6 +12,10 @@ import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowState;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,22 +27,19 @@ public class AppFlowParser {
      * It request 'getJsonFromURL' to download the AppFlow json by sending the server URL.
      * it also send the path of prepackaged AppFlow Json file to handle the offline/error scenarios.
      *
-     * @param context The context to use.  Usually your {@link android.app.Application}
      *                or {@link android.app.Activity} object.
      * @return Object to 'AppFlowModel' class or 'null'
      */
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
-    public static AppFlowModel getAppFlow(Context context, @IdRes int jsonPath) {
-        String appFlowResponse;
-        final JSONHelper jsonHelper = new JSONHelper(context);
+    public static AppFlowModel getAppFlow(String jsonPath) {
         AppFlowModel appFlow = null;
         try {
-            appFlowResponse = jsonHelper.getJsonForAppFlow(jsonPath);
-            appFlow = new Gson().fromJson(appFlowResponse, AppFlowModel.class);
-        } catch (JsonSyntaxException e) {
+            InputStream is = new FileInputStream(jsonPath);
+            final InputStreamReader inputStreamReader = new InputStreamReader(is);
+            appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+        } catch (JsonSyntaxException | FileNotFoundException e) {
             e.printStackTrace();
         }
-
         return appFlow;
     }
 
