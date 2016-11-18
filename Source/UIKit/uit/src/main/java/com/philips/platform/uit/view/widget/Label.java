@@ -34,7 +34,7 @@ public class Label extends AppCompatTextView {
         int textColor = getDefaultLabelColor(attrsArray, themeArray);
         float textAlpha = getDefaultLabelAlpha(attrsArray, themeArray);
         setTextColor(UIDUtils.modulateColorAlpha(textColor, textAlpha));
-        setLabelTextSize(context, attrsArray);
+        setLabelTextSize(attrsArray);
         attrsArray.recycle();
         themeArray.recycle();
     }
@@ -52,8 +52,8 @@ public class Label extends AppCompatTextView {
     }
 
     //set text size from attributes
-    private void setLabelTextSize(Context context, final TypedArray attrsArray) {
-        int  textSize = attrsArray.getDimensionPixelSize(R.styleable.UIDLabel_uidLabelTextSize, -1);
+    private void setLabelTextSize(final TypedArray attrsArray) {
+        int textSize = attrsArray.getDimensionPixelSize(R.styleable.UIDLabel_uidLabelTextSize, -1);
         setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
     }
 }
