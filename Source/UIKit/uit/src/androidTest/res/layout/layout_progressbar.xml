@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,31 +11,54 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_height="32dp"
             android:layout_width="match_parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/uitApplicationBackground"/>
+            android:background="?attr/uitApplicationBackground" />
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
             style="@style/UIDProgressBarHorizontalIndeterminate"
             android:indeterminate="true"
-            android:indeterminateBehavior="repeat"/>
+            android:indeterminateBehavior="repeat" />
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
-            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"/>
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins" />
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
-            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"/>
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins" />
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
-            style="@style/UIDProgressBarHorizontalDeterminate"/>
+            style="@style/UIDProgressBarHorizontalDeterminate" />
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.philips.platform.uit.view.widget.ProgressBar
+            android:id="@+id/progress_bar_determinate_circular_small"
+            style="@style/UIDProgressBarCircularDeterminate"
+            app:circularProgressBarSize="small" />
+
+        <com.philips.platform.uit.view.widget.ProgressBar
+            android:id="@+id/progress_bar_determinate_circular_middle"
+            style="@style/UIDProgressBarCircularDeterminate"
+            app:circularProgressBarSize="middle" />
+
+        <com.philips.platform.uit.view.widget.ProgressBar
+            android:id="@+id/progress_bar_determinate_circular_big"
+            style="@style/UIDProgressBarCircularDeterminate"
+            app:circularProgressBarSize="big" />
     </LinearLayout>
+
+
 </ScrollView>

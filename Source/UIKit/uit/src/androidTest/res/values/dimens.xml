@@ -45,6 +45,12 @@
     <dimen name="linearprogressbar_minwidth">96dp</dimen>
     <dimen name="linearprogressbar_leftmargin">22dp</dimen>
 
+    <!--CircularProgressBar dimens-->
+    <dimen name="circularprogressbar_small_heightwidth">24dp</dimen>
+    <dimen name="circularprogressbar_middle_heightwidth">48dp</dimen>
+    <dimen name="circularprogressbar_large_heightwidth">88dp</dimen>
+
+
     <!--Alert dimens-->
     <dimen name="alert_corner_radius">2dp</dimen>
     <dimen name="alert_font_size">16sp</dimen>
@@ -53,7 +59,6 @@
     <dimen name="alerttitle_icon_leftrighttop_margin">27dp</dimen>
     <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
     <dimen name="alert_width">272dp</dimen>
-
     <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
     <dimen name="alertcontent_top_padding">20dp</dimen>
     <dimen name="alertcontent_leftrightbottom_margin">24dp</dimen>
