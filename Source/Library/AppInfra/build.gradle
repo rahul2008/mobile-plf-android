@@ -27,7 +27,6 @@ buildscript {
 }
 
 apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
@@ -129,7 +128,7 @@ android {
     buildToolsVersion "24.0.3"
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
