@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -67,11 +68,6 @@ public class ThemeSettingsFragment extends BaseFragment {
     private int colorRangeSelectedPosition;
     private int contentSelectedPosition;
     private int navigationSelectedPosition;
-
-    @Override
-    public boolean showThemeSettingsIcon() {
-        return false;
-    }
 
     @Nullable
     @Override
@@ -147,6 +143,15 @@ public class ThemeSettingsFragment extends BaseFragment {
 
         setLayoutOrientation(colorRangeListview);
     }
+
+    @Override
+    public void onPrepareOptionsMenu(final Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.set_theme_settings).setVisible(true);
+        menu.findItem(R.id.theme_settings).setVisible(false);
+    }
+
+
 
     @NonNull
     private ThemeColorAdapter getColorRangeAdapter() {

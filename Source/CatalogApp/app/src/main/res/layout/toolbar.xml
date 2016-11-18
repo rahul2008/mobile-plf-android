@@ -11,58 +11,6 @@
         style="?attr/actionBarStyle"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/hamburger"
-                style="?attr/actionButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:contentDescription="@string/hamburger_menu"
-                android:gravity="center"
-                android:padding="1dp"
-                app:srcCompat="@drawable/ic_hamburger_menu"/>
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@style/UIDActionBarTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:maxLines="1"
-                android:text="@string/catalog_app_name"
-                android:textColor="?attr/uitNavigationTextColor"/>
-
-            <ImageButton
-                android:id="@+id/theme_settings"
-                style="?attr/actionButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/page_tittle_theme_settings"
-                android:gravity="center"
-                app:srcCompat="@drawable/ic_theme_setting_entrance_icon"/>
-
-            <TextView
-                android:id="@+id/set_theme_settings"
-                style="@style/UIDActionBarTitleText"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="@string/set_theme_settings"
-                android:textColor="?attr/uitNavigationTextColor"
-                android:visibility="gone"/>
-
-        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="UITNavigationBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="UITNavigationBar" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="height">@dimen/uit_navigation_bar_max_height</item>
         <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
         <item name="android:titleTextStyle">@style/UIDActionBarTitleText</item>

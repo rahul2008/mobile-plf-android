@@ -6,15 +6,14 @@
 package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.philips.platform.catalogapp.BuildConfig;
 import com.philips.platform.catalogapp.R;
@@ -54,13 +53,14 @@ public class PreviewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle(R.string.page_tittle_preview);
 
-        final ActionBar supportActionBar = getSupportActionBar();
-        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_back_icon, getTheme()));
 
-    }
-
-    private Drawable getIcon() {
-        return VectorDrawableCompat.create(getResources(), R.drawable.ic_theme_setting_entrance_icon, getTheme());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                finish();
+            }
+        });
     }
 
     @Override

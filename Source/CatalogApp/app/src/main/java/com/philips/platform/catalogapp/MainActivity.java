@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
@@ -113,6 +115,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        navigationController.onCreateOptionsMenu(menu, this);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.theme_settings:
+                navigationController.loadThemeSettingsPage();
+                break;
+            case R.id.set_theme_settings:
+                saveThemeSettings();
+                restartActivity();
+                break;
+            case android.R.id.home:
+                onBackPressed();
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        navigationController.onPrepareOptionsMenu(menu, this);
+
+        return true;
+    }
+
+    @Override
     protected void onSaveInstanceState(final Bundle outState) {
         outState.putBoolean(HAMBURGER_BUTTON_DISPLAYED, hamburgerIconVisible);
         outState.putBoolean(THEMESETTINGS_BUTTON_DISPLAYED, themeSettingsIconVisible);
@@ -145,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public void showThemeSettingsIcon() {
-        navigationController.showThemeSettings();
-    }
-
     public void saveThemeSettings() {
         saveThemeValues(UITHelper.COLOR_RANGE, colorRange.name());
         saveThemeValues(UITHelper.NAVIGATION_RANGE, navigationColor.name());
@@ -157,6 +185,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void showFragment(final BaseFragment fragment) {
         navigationController.switchFragment(fragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        navigationController.processBackButton();
     }
 
     public NavigationController getNavigationController() {
