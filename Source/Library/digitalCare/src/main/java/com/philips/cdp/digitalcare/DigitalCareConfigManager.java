@@ -52,7 +52,7 @@ public class DigitalCareConfigManager {
     private static Locale mLocaleMatchWithCountryFallBack = null;
     //  private static Locale mLocaleMatchWithLanguageFallBack = null;
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
-    private static UiLauncher mUiLauncher = null;
+    private UiLauncher mUiLauncher = null;
     AppInfraInterface mAppInfraInterface;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private CcListener mCcListener = null;
