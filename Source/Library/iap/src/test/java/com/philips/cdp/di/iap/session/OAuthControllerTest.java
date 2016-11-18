@@ -6,10 +6,13 @@ package com.philips.cdp.di.iap.session;
 
 import android.os.Message;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,33 +20,38 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static junit.framework.Assert.*;
+
 @RunWith(RobolectricTestRunner.class)
 public class OAuthControllerTest {
     OAuthController mOAuthController;
+
     @Mock
     RefreshOAuthRequest mRefreshOAuthRequest;
+
     @Mock
     AbstractModel model;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        TestUtils.getStubbedHybrisDelegate();
         mOAuthController = new OAuthController();
     }
 
     @Test
-    public void getAccessToken() throws Exception {
+    public void testGetAccessToken() throws Exception {
         mOAuthController.getAccessToken();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void refreshToken() throws Exception {
-        mOAuthController.refreshToken(null);
+    @Test
+    public void testResetAccessToken() throws Exception {
+        mOAuthController.resetAccessToken();
     }
 
-    @Test
-    public void resetAccessToken() throws Exception {
-        mOAuthController.resetAccessToken();
+    @Test(expected = NullPointerException.class)
+    public void testRefreshToken() throws Exception {
+        mOAuthController.refreshToken(null);
     }
 
     @Test(expected = RuntimeException.class)
@@ -61,14 +69,14 @@ public class OAuthControllerTest {
         });
     }
 
-    @Test
-    public void createOAuthRequest() throws Exception {
-        mOAuthController.createOAuthRequest(model);
-    }
-
     @Test(expected = NullPointerException.class)
     public void requestSyncOAuthToken() throws Exception {
         mOAuthController.requestSyncOAuthToken(model);
+    }
+
+    @Test
+    public void createOAuthRequest() throws Exception {
+        mOAuthController.createOAuthRequest(model);
     }
 
     @Test
@@ -82,7 +90,14 @@ public class OAuthControllerTest {
     }
 
     @Test
-    public void isInvalidGrantError() throws Exception {
-        mOAuthController.isInvalidGrantError(new VolleyError());
+    public void isInvalidGrantErrorSuccessResponse() throws Exception {
+        JSONObject obj = new JSONObject(TestUtils.readFile(OAuthControllerTest.class, "server_error.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
+        assertTrue(mOAuthController.isInvalidGrantError(new VolleyError(networkResponse)));
+    }
+
+    @Test
+    public void isInvalidGrantErrorNotSuccessResponse() throws Exception {
+        assertFalse(mOAuthController.isInvalidGrantError(new VolleyError()));
     }
 }
