@@ -15,10 +15,12 @@ node ('Ubuntu && 24.0.3') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/ur/user_registration_android.git']]])
 			step([$class: 'StashNotifier'])
 		}
-		//try {
+		try {
 			stage ('build') {
-                // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug'
-                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleRelease'
+                echo "fetch git config"
+                sh 'git config --list'
+                echo "******"
+                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug --stacktrace'
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
@@ -28,11 +30,11 @@ node ('Ubuntu && 24.0.3') {
             	}            
             }
             
-		//} //end try
+		} //end try
 		
-		//catch(err) {
-        //    echo "Someone just broke the build"
-        //}
+		catch(err) {
+            echo "Someone just broke the build"
+        }
 
         stage('informing') {
         	step([$class: 'StashNotifier'])
