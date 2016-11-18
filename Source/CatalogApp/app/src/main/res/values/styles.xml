@@ -29,7 +29,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">?attr/uitColorLevel75</item>
         <item name="android:textSize">@dimen/button_category_text_size</item>
-        <item name="android:background">?attr/uitColorLevel05</item>
+        <item name="android:background">?attr/uitApplicationBackground</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:paddingLeft">@dimen/layout_margin_left_right</item>
