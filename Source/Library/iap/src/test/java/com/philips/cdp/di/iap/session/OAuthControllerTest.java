@@ -12,6 +12,7 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class OAuthControllerTest {
@@ -92,6 +94,13 @@ public class OAuthControllerTest {
     @Test
     public void isInvalidGrantErrorSuccessResponse() throws Exception {
         JSONObject obj = new JSONObject(TestUtils.readFile(OAuthControllerTest.class, "server_error.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
+        assertTrue(mOAuthController.isInvalidGrantError(new VolleyError(networkResponse)));
+    }
+
+    @Test(expected = JSONException.class)
+    public void isInvalidGrantErrorExceptionResponse() throws Exception {
+        JSONObject obj = new JSONObject(TestUtils.readFile(OAuthControllerTest.class, "json_exception.txt"));
         NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
         assertTrue(mOAuthController.isInvalidGrantError(new VolleyError(networkResponse)));
     }
