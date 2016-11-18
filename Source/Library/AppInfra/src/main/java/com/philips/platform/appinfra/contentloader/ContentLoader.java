@@ -26,17 +26,14 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 
 /*
  * Created by 310209604 on 2016-08-10.
@@ -47,7 +44,6 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private final int downloadLimit;
     private int contentDownloadedCount;
     private List downloadedContents;
-    private Calendar expiryDate;
     private ContentDatabaseHandler mContentDatabaseHandler;
     // region public methods
 
@@ -80,124 +76,34 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     @Override
     public void refresh(final OnRefreshListener refreshListener) {
 
-        downloadedContents.clear();
-        if (downloadInProgress.compareAndSet(false, true)) {
-            downloadContent(refreshListener);
+        long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
+        Calendar calendar = Calendar.getInstance();
+        long currentTime = calendar.getTime().getTime();
+        if (contentLoaderExpiryTime < currentTime)// if content loader is expired then refresh
+        {
+            downloadedContents.clear();
+            if (downloadInProgress.compareAndSet(false, true)) {
+                downloadContent(refreshListener);
+            } else {
+                Log.i("CL REFRSH ERR", "" + "download already in progress");
+                refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
+
+            }
         } else {
-            Log.i("CL REFRSH ERR", "" + "download already in progress");
-            refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
-
+            //content loader already updated
+            refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
+            Log.i("CL REFRSH NA", "" + "content loader already uptodate");
         }
-
     }
 
     private void downloadContent(final OnRefreshListener refreshListener) {
-        // mAppInfra.
         final Gson gson = new Gson();
         JsonObjectRequest jsonRequest = null;
-
-//        try {
-//            jsonRequest = new JsonObjectRequest(Request.Method.GET,
-//                    mServiceId, null
-//                    , new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    JsonObject jsonObjectTree = null;
-//                    Log.i("CL REFRSH RESP", "download completed for Offset: " + offset + " and Limit: " + downloadLimit);
-//                    JSONObject serviceResponseJSON = (JSONObject) response; // cast object to org.json.JSONObject
-//                    JsonElement serviceResponseJson = gson.fromJson(serviceResponseJSON.toString(), JsonElement.class); // cast org.json.JSONObject to gson.JsonElement
-//                    Log.i("CL REFRSH RESP", "" + serviceResponseJson);
-//                    if (mClassType.equals(ContentArticle.class)) { // if conent is ContentArticle
-//                        if (serviceResponseJson.isJsonObject()) {
-//                            jsonObjectTree = serviceResponseJson.getAsJsonObject();
-//                            jsonObjectTree = jsonObjectTree.getAsJsonObject("result");
-//                        }
-//                        JsonElement content = jsonObjectTree.get(mContentType);
-//                        JsonArray contentList = null;
-//                        if (null != content) {
-//                            if (content.isJsonArray()) {
-//                                contentList = content.getAsJsonArray();
-//                            }
-//                            contentDownloadedCount = contentList.size();
-//                            if (null != contentList && contentList.size() > 0) {
-//                                for (int contentCount = 0; contentCount < contentList.size(); contentCount++) {
-//                                    Log.i("CL Ariticle", "" + contentList.get(contentCount));
-//                                    ContentArticle contentArticle = gson.fromJson(contentList.get(contentCount), ContentArticle.class);
-//                                    ContentItem contentItem = new ContentItem();
-//                                    contentItem.setId(contentArticle.getId());
-//                                    contentItem.setServiceId(mServiceId);
-//                                    contentItem.setRawData(contentList.get(contentCount).toString());
-//                                    contentItem.setVersionNumber(contentArticle.getVersion());
-//                                    List<Tag> tagList = contentArticle.getTags();
-//                                    String tags = "";
-//                                    if (null != tagList && tagList.size() > 0) {
-//                                        for (Tag tag : tagList) {
-//                                            tags += tag.getId() + ",";
-//                                        }
-//                                        tags = tags.substring(0, tags.length() - 2);
-//                                    }
-//                                    contentItem.setTags(tags);
-//                                    downloadedContents.add(contentItem);
-//                                    String articleId = contentItem.getId();
-//                                    Log.i("CL Ariticle", "" + articleId + "  TAGs ");
-//                                            /* TBD push this item in DB,( id-primary key, tags, modDate, content json)*/
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (contentDownloadedCount < downloadLimit) { // download is over
-//                        Log.i("CL REFRSH RESP", "download completed");
-//                        expiryDate = Calendar.getInstance();
-//                        expiryDate.add(Calendar.HOUR_OF_DAY, mMaxAgeInHours);
-//                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId, expiryDate.getTime().getTime());
-//                        clearParamsAndHeaders();// clear headerd and params from rest client
-//                        downloadInProgress.set(false);
-//                        offset = 0;
-//                        contentDownloadedCount = 0;
-//                        refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.REFRESHED_FROM_SERVER);
-//                    } else {// download next
-//                        contentDownloadedCount = 0;
-//                        offset += downloadLimit;// next offset
-//                        downloadContent(refreshListener); // recursive call for next download
-//                    }
-//
-//                }
-//            }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Log.i("CL REFRSH Error:", "" + error.networkResponse.statusCode);
-//                    String responseBody = null;
-//                    try {
-//                        responseBody = new String(error.networkResponse.data, "utf-8" );
-//                        JSONObject jsonObject = new JSONObject( responseBody );
-//
-//                    } catch (UnsupportedEncodingException|JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    clearParamsAndHeaders();// clear headerd and params from rest client
-//                    refreshListener.onError(ERROR.SERVER_ERROR, error.toString());
-//                    downloadInProgress.set(false);
-//                    contentDownloadedCount = 0;
-//                    downloadedContents.clear();
-//                    offset = 0;
-//                }
-//            }, null, null);
-//            jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
-//                    10000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        } catch (Exception e) {
-//            Log.e("LOG REST SD", e.toString());
-//            e.printStackTrace();
-//        }
-//        if (null != jsonRequest) {
-//            mRestInterface.getRequestQueue().add(jsonRequest);
-//        }
 
         // to used when serviceId is ready
         try {
             jsonRequest = new JsonObjectRequest(Request.Method.GET,
-                    mServiceId, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE ,getOffsetPath(offset),null,new Response.Listener<JSONObject>() {
+                    mServiceId, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE, getOffsetPath(offset), null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     JsonObject jsonObjectTree = null;
@@ -232,7 +138,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                         for (Tag tag : tagList) {
                                             tags += tag.getId() + ",";
                                         }
-                                        tags = tags.substring(0, tags.length() - 2);
+                                        tags = tags.substring(0, tags.length() - 1);// remove last comma
                                     }
                                     contentItem.setTags(tags);
                                     downloadedContents.add(contentItem);
@@ -245,9 +151,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     }
                     if (contentDownloadedCount < downloadLimit) { // download is over
                         Log.i("CL REFRSH RESP", "download completed");
-                        expiryDate = Calendar.getInstance();
-                        expiryDate.add(Calendar.HOUR_OF_DAY, mMaxAgeInHours);
-                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId, expiryDate.getTime().getTime());
+                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId, expiryTimeforUserInputTime(mMaxAgeInHours));
                         clearParamsAndHeaders();// clear headerd and params from rest client
                         downloadInProgress.set(false);
                         offset = 0;
@@ -259,6 +163,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                         downloadContent(refreshListener); // recursive call for next download
                     }
                 }
+
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
@@ -271,6 +176,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     offset = 0;
                 }
             });
+            jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         } catch (Exception e) {
             mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "ContentLoader", e.toString());
         }
@@ -409,6 +317,11 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
             listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given TAG(s) not found in DB");
         }
     }
+
+    @Override
+    public void deleteAllContents() {
+        mContentDatabaseHandler.deleteAll(mServiceId);
+    }
     // endregion
 
     // region Private methods
@@ -457,4 +370,13 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         }
         downloadedContents.clear();
     }
+
+    private long expiryTimeforUserInputTime(int userInputExpiryTime) {
+        long expiryTime = 0;
+        Calendar expiryDate = Calendar.getInstance();
+        expiryDate.add(Calendar.HOUR_OF_DAY, userInputExpiryTime);
+        expiryTime = expiryDate.getTime().getTime();
+        return expiryTime;
+    }
+
 }
