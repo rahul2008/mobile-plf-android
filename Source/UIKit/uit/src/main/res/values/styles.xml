@@ -9,11 +9,17 @@
         <item name="switchStyle">@style/UIDSwitchStyle</item>
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
 
+        <!-- Action bar and toolbar style-->
         <item name="actionBarStyle">@style/UITNavigationBar</item>
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
-        </item>
         <item name="android:actionBarStyle">@style/UITNavigationBar</item>
+        <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/UIDToolbar</item>
+        <item name="toolbarStyle">@style/UIDToolbar</item>
+        <item name="toolbarNavigationButtonStyle">@style/UIDToolbarNavigationButton</item>
+
+        <!-- Navigation color for lolipop-->
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/uitContentPrimary
+        </item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">
             ?attr/uitActionBarBackground
         </item>
@@ -22,5 +28,9 @@
         <item name="android:colorPrimaryDark" tools:targetApi="lollipop">
             ?attr/uitActionBarBackground
         </item>
+
+
     </style>
+
+
 </resources>
