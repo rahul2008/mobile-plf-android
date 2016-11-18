@@ -24,7 +24,7 @@ public class ContentLoaderActivity  extends AppCompatActivity {
     Button buttonTriggerApi;
     TextView input;
     TextView textViewResponse;
-    private final String[] APIlist ={"Refresh","Get All Content","Get Content by ID","Get Content by IDs","Get Content by TAG","Get Content by TAGs - OR","Get Content by TAGs - AND"};
+    private final String[] APIlist ={"Refresh","Get All Content","Get Content by ID","Get Content by IDs","Get Content by TAG","Get Content by TAGs - OR","Get Content by TAGs - AND","Delete All"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,6 +165,10 @@ public class ContentLoaderActivity  extends AppCompatActivity {
                             textViewResponse.setText(contents.toString());
                         }
                     });
+                    break;
+
+                case "Delete All":
+                    mContentLoader.deleteAllContents();
                     break;
 
             }
