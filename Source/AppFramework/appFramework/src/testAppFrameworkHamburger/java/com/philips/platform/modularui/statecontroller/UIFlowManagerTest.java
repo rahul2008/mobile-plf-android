@@ -17,6 +17,9 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import junit.framework.TestCase;
 
+import java.io.File;
+import java.io.InputStream;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,7 +44,12 @@ public class UIFlowManagerTest extends TestCase {
     public void testNavigateToState() {
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        uiFlowManager = new JUnitFlowManager(appFrameworkApplicationMock, R.string.com_philips_app_fmwk_app_flow_url);
+        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
+        InputStream inputStream = mock(InputStream.class);
+        when(appFrameworkApplicationMock.getInputStream(resId)).thenReturn(inputStream);
+        File file = mock(File.class);
+        when(appFrameworkApplicationMock.createFileFromInputStream(inputStream)).thenReturn(file);
+        uiFlowManager = new JUnitFlowManager(appFrameworkApplicationMock, file.getPath());
         BaseState baseState = mock(BaseState.class);
         when(baseState.getStateID()).thenReturn(AppStates.WELCOME);
         UiLauncher uiLauncher = mock(UiLauncher.class);

@@ -65,7 +65,6 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.HAMBURGER_HOME, eventState);
         if(null != baseState) {
-            baseState.setStateListener(this);
             baseState.setUiStateData(setStateData(componentID));
             fragmentLauncher = getFragmentLauncher();
             baseState.navigate(fragmentLauncher);

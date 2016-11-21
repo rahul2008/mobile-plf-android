@@ -53,7 +53,6 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
         String eventState = getEventState(componentID);
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
         if (baseState != null) {
-            baseState.setStateListener(this);
             baseState.setUiStateData(uiStateData);
             fragmentLauncher = getFragmentLauncher();
             baseState.navigate(fragmentLauncher);

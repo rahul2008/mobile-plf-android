@@ -66,12 +66,10 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_skip")).thenReturn(userRegStateMock);
         welcomeFragmentPresenter.onEvent(R.id.welcome_skip_button);
         verify(welcomeFragmentViewMock).showActionBar();
-        verify(userRegStateMock, atLeastOnce()).setStateListener(welcomeFragmentPresenter);
         verify(userRegStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
-    public void testOnStateComplete() throws Exception {
-        final UserRegistrationState userRegStateMock = mock(UserRegistrationState.class);
+    public void testOnBackPress() throws Exception {
         final HamburgerActivityState hamburgerActivityStateMock = mock(HamburgerActivityState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
@@ -95,8 +93,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_home")).thenReturn(hamburgerActivityStateMock);
-        welcomeFragmentPresenter.onStateComplete(userRegStateMock);
-        verify(hamburgerActivityStateMock, atLeastOnce()).setStateListener(welcomeFragmentPresenter);
+        welcomeFragmentPresenter.onEvent(0);
         verify(hamburgerActivityStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 

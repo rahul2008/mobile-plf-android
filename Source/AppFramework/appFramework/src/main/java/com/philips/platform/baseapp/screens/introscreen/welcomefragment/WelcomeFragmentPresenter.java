@@ -46,7 +46,6 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
         }
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
         if(baseState!=null) {
-            baseState.setStateListener(this);
             fragmentLauncher = getFragmentLauncher();
             baseState.navigate(fragmentLauncher);
         }

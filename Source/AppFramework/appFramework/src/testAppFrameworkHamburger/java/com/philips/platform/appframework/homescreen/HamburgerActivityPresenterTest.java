@@ -14,6 +14,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIStateData;
+import com.philips.platform.baseapp.screens.datasevices.temperature.DataSyncScreenState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
@@ -24,6 +25,7 @@ import junit.framework.TestCase;
 import java.util.ArrayList;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -77,7 +79,6 @@ public class HamburgerActivityPresenterTest extends TestCase {
         assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof UIStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(4) instanceof UIStateData);
         assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof UIStateData);
-        assertFalse(hamburgerActivityPresenter.setStateData(5) instanceof UIStateData);
     }
 
     public void testOnClick() {
@@ -113,14 +114,13 @@ public class HamburgerActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
         when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
         hamburgerActivityPresenter.onEvent(0);
-        verify(homeFragmentStateMock, atLeastOnce()).setStateListener(hamburgerActivityPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
-    public void testOnStateComplete() {
-        final ProductRegistrationState.ProductRegistrationData prStateData = mock(ProductRegistrationState.ProductRegistrationData.class);
-        final ProductRegistrationState productRegistrationStateMock = mock(ProductRegistrationState.class);
+    public void testDataServicesLaunch() {
+        final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
+        final DataSyncScreenState dataSyncStateMock = mock(DataSyncScreenState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
@@ -129,9 +129,10 @@ public class HamburgerActivityPresenterTest extends TestCase {
                 super.setState(AppStates.HAMBURGER_HOME);
             }
 
+            @NonNull
             @Override
             protected UIStateData setStateData(final int componentID) {
-                return prStateData;
+                return uiStateData;
             }
 
             @Override
@@ -145,12 +146,10 @@ public class HamburgerActivityPresenterTest extends TestCase {
             }
         };
 
-        JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
-        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(AppStates.SUPPORT, "pr")).thenReturn(productRegistrationStateMock);
-        hamburgerActivityPresenter.onStateComplete(productRegistrationStateMock);
-        verify(productRegistrationStateMock, atLeastOnce()).setStateListener(hamburgerActivityPresenter);
-        verify(productRegistrationStateMock, atLeastOnce()).setUiStateData(prStateData);
-        verify(productRegistrationStateMock).navigate(fragmentLauncherMock);
+        JUnitFlowManager uiFlowManager = mock(JUnitFlowManager.class);
+        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
+        when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "data_sync")).thenReturn(dataSyncStateMock);
+        hamburgerActivityPresenter.onEvent(5);
+        verify(dataSyncStateMock, times(1)).navigate(fragmentLauncherMock);
     }
 }

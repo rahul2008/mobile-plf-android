@@ -11,6 +11,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
@@ -42,7 +43,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         settingsFragmentPresenter = new SettingsFragmentPresenter(settingsViewMock);
     }
 
-    public void testOnClick() throws Exception {
+    public void testLogOut() throws Exception {
         HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
         final UIStateData uiStateMock = mock(UIStateData.class);
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
@@ -72,12 +73,11 @@ public class SettingsFragmentPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"logout")).thenReturn(homeFragmentStateMock);
         settingsFragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
-        verify(homeFragmentStateMock, atLeastOnce()).setStateListener(settingsFragmentPresenter);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
-    public void testOnStateComplete() throws Exception {
-        final HamburgerActivityState hamburgerStateMock = mock(HamburgerActivityState.class);
+    public void testLogIn() throws Exception {
+        final UserRegistrationSettingsState settingsURStateMock = mock(UserRegistrationSettingsState.class);
         final UIStateData uiStateMock = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
@@ -102,11 +102,9 @@ public class SettingsFragmentPresenterTest extends TestCase {
         JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"settings_registration")).thenReturn(hamburgerStateMock);
-        settingsFragmentPresenter.onStateComplete(hamburgerStateMock);
-        verify(settingsViewMock).finishActivityAffinity();
-        verify(hamburgerStateMock).setStateListener(settingsFragmentPresenter);
-        verify(hamburgerStateMock).navigate(fragmentLauncherMock);
+        when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"login")).thenReturn(settingsURStateMock);
+        settingsFragmentPresenter.onEvent(1000004);
+        verify(settingsURStateMock).navigate(fragmentLauncherMock);
     }
 
     /*public void testGetUIState() {

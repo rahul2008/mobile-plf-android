@@ -81,7 +81,7 @@ public class AppFrameworkApplication extends Application {
     }
 
     @Nullable
-    private InputStream getInputStream(final int resId) {
+    public InputStream getInputStream(final int resId) {
         InputStream inputStream = null;
         try {
             inputStream = getAssets().open(getString(resId));
@@ -116,7 +116,7 @@ public class AppFrameworkApplication extends Application {
         return targetFlowManager;
     }
 
-    private File createFileFromInputStream(InputStream inputStream) {
+    public File createFileFromInputStream(InputStream inputStream) {
 
         try {
             String filename = "tempFile";

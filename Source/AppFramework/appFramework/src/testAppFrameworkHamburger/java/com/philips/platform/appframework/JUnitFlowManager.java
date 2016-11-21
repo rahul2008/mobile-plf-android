@@ -26,7 +26,7 @@ public class JUnitFlowManager extends BaseUiFlowManager {
 
     }
 
-    public JUnitFlowManager(Context context, int jsonPath) {
+    public JUnitFlowManager(Context context, String jsonPath) {
         super(context, jsonPath);
     }
 
