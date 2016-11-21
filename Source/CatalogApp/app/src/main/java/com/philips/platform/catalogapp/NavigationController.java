@@ -158,4 +158,9 @@ public class NavigationController {
     public void setTitleText(final int titleId) {
         toolbar.setTitle(titleId);
     }
+
+    //Needed only untill we have hamburger
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 }

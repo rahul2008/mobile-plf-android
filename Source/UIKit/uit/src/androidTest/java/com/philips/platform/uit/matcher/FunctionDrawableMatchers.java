@@ -75,6 +75,7 @@ public class FunctionDrawableMatchers {
             }
         };
     }
+
     /**
      * Must be operated on drawables. If the target is ColorStateList, use another function instead.
      *
@@ -160,7 +161,7 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                if(!UIDUtils.isMinLollipop()) {
+                if (!UIDUtils.isMinLollipop()) {
                     return true; //RippleDrawable not supported before 5.0
                 }
 
@@ -177,7 +178,7 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                if(!UIDUtils.isMinLollipop()) {
+                if (!UIDUtils.isMinLollipop()) {
                     return true; //RippleDrawable not supported before 5.0
                 }
 

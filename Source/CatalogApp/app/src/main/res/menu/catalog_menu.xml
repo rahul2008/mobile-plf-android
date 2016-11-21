@@ -9,6 +9,16 @@
         android:title="@string/page_tittle_theme_settings"
         app:showAsAction="ifRoom"></item>
     <item
+        android:id="@+id/none"
+        android:icon="@drawable/ic_share_icon"
+        android:title="@string/page_tittle_theme_settings"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/some"
+        android:icon="@drawable/ic_transparent_done"
+        android:title="@string/page_tittle_theme_settings"
+        app:showAsAction="ifRoom"></item>
+    <item
         android:id="@+id/set_theme_settings"
         android:title="@string/set_theme_settings"
         android:visible="false"

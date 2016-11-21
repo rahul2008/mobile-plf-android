@@ -52,9 +52,14 @@
     <dimen name="alert_width">272dp</dimen>
 
     <dimen name="navigation_icon_padding">16dp</dimen>
-    <dimen name="navigation_height">48dp</dimen>
+    <dimen name="navigation_height">56dp</dimen>
     <dimen name="navigation_left_margin">16dp</dimen>
     <dimen name="navigation_right_margin">16dp</dimen>
+    <dimen name="navigation_icon_size">24dp</dimen>
+    <dimen name="navigation_title_margin">24dp</dimen>
+    <dimen name="navigation_height_land">48dp</dimen>
+    <dimen name="navigation_title_text_size">20sp</dimen>
+    <dimen name="navigation_title_text_spacing">24dp</dimen>
 
     <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
     <dimen name="alertcontent_top_padding">20dp</dimen>

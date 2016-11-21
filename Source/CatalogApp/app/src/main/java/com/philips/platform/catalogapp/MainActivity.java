@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -131,10 +132,18 @@ public class MainActivity extends AppCompatActivity {
                 restartActivity();
                 break;
             case android.R.id.home:
-                onBackPressed();
+                if (navigationController.hasBackStack()) {
+                    onBackPressed();
+                } else {
+                    showSnackBar();
+                }
         }
 
         return true;
+    }
+
+    private void showSnackBar() {
+        Snackbar.make(navigationController.getToolbar(), "Hamburger is not ready yet", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
