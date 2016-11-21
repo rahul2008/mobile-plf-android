@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -174,7 +173,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     String buildUrl() {
         final AppIdentityInterface identityManager = mAppInfra.getAppIdentity(); // TODO RayKlo don't recreate existing instances
         final InternationalizationInterface localManager = mAppInfra.getInternationalization();
-        localManager.getUILocale();
+        Locale localeForURL = localManager.getUILocale();
         final AppIdentityInterface.AppState state = identityManager.getAppState();
         String service_environment = identityManager.getServiceDiscoveryEnvironment();
         String tags = null;
@@ -219,7 +218,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
         if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
                 localManager.getUILocale() != null && tags != null && environment != null) {
-            url = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localManager.getUILocale() + "&tags=" + tags;
+            url = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localeForURL.getLanguage() + "_" + localeForURL.getCountry() + "&tags=" + tags;
 
             String countryHome = getCountry(serviceDiscovery);
             if (countryHome != null) {
@@ -246,7 +245,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             countryCodeSource = OnGetHomeCountryListener.SOURCE.SIMCARD;
         } else if (countrySource != null && countrySource.equalsIgnoreCase("GEOIP")) {
             countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-        }else if(countrySource != null && countrySource.equalsIgnoreCase("STOREDPREFERENCE")){
+        } else if (countrySource != null && countrySource.equalsIgnoreCase("STOREDPREFERENCE")) {
             countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
         }
 
@@ -415,7 +414,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void filterDataForUrlbyLang(ServiceDiscovery service, String serviceId, OnGetServiceUrlListener onGetServiceUrlListener) {
         if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByLanguage().getConfigs() != null) {
             try {
-                final URL url = new URL(service.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
+                URL url = new URL(service.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
+                if (url.toString().contains("%22")) {
+                    url = new URL(url.toString().replace("%22", "\""));
+                }
                 if (url == null) {
                     onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 } else {
@@ -424,7 +426,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } catch (MalformedURLException e) {
                 onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             }
-        }else if(onGetServiceUrlListener != null){
+        } else if (onGetServiceUrlListener != null) {
             onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
     }
@@ -433,18 +435,19 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByCountry().getConfigs() != null) {
             try {
                 URL url = new URL(service.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId));
+                if (url.toString().contains("%22")) {
+                    url = new URL(url.toString().replace("%22", "\""));
+                }
                 if (url == null) {
                     onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
                 } else {
-                    onGetServiceUrlListener.onSuccess(new URL(service.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId)));
+                    onGetServiceUrlListener.onSuccess(url);
                 }
-
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
             }
-
-        }else{
+        } else {
             onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
     }
@@ -456,7 +459,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else {
                 onGetServiceLocaleListener.onSuccess(service.getMatchByLanguage().getLocale());
             }
-        }else if(onGetServiceLocaleListener != null){
+        } else if (onGetServiceLocaleListener != null) {
             onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
     }
@@ -468,7 +471,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else {
                 onGetServiceLocaleListener.onSuccess(service.getMatchByCountry().getLocale());
             }
-        }else{
+        } else {
             onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
     }
@@ -478,17 +481,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if (onGetServiceUrlMapListener != null && serviceIds != null && service.getMatchByLanguage().getConfigs() != null) {
             final int configSize = service.getMatchByLanguage().getConfigs().size();
             getUrlsMapper(service, configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
-        }else if(onGetServiceUrlMapListener != null){
+        } else if (onGetServiceUrlMapListener != null) {
             onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
     }
 
     private void filterDataForUrlbyCountry(ServiceDiscovery service, ArrayList<String> serviceIds, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
         String dataByUrl = "urlbycountry";
-        if (onGetServiceUrlMapListener != null && serviceIds != null&& service.getMatchByCountry().getConfigs() != null) {
+        if (onGetServiceUrlMapListener != null && serviceIds != null && service.getMatchByCountry().getConfigs() != null) {
             final int configSize = service.getMatchByCountry().getConfigs().size();
             getUrlsMapper(service, configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener);
-        }else{
+        } else {
             onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
     }
@@ -511,7 +514,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 if (urls != null) {
                     for (final String key : urls.keySet()) {
                         if (key.equalsIgnoreCase(serviceIds.get(i).trim())) {
-                            final String serviceUrlval = urls.get(key);
+                            String serviceUrlval = urls.get(key);
+                            if (serviceUrlval.contains("%22")) {
+                                serviceUrlval = serviceUrlval.replace("%22", "\"");
+                            }
                             ServiceDiscoveyService sdService = new ServiceDiscoveyService();
                             sdService.init(modelLocale, serviceUrlval);
                             responseMap.put(key, sdService);

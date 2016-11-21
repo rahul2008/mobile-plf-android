@@ -17,6 +17,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
@@ -148,17 +149,20 @@ public class RequestItemManager {
 //
 //                    }
 //                }
-                if(localeList.size() > 0){
+                if (localeList.size() > 0) {
                     Locale mLocale = mAppInfra.getInternationalization().getUILocale();
+                    String localString = mLocale.getLanguage() + "_" + mLocale.getCountry();
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Locale",
+                            localString);
                     for (int i = 0; i < localeList.size(); i++) {
-                            if (mLocale.getDefault().toString().equals(localeList.get(i))) {
-                                matchByCountry.setLocale(localeList.get(i));
-                                configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
-                                break;
-                            }else{
-                                matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
-                                configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
-                            }
+                        if (localString.equals(localeList.get(i))) {
+                            matchByCountry.setLocale(localeList.get(i));
+                            configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
+                            break;
+                        } else {
+                            matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
+                            configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+                        }
 
                     }
                 }
@@ -216,7 +220,7 @@ public class RequestItemManager {
                 if (null == resultsLanguageJSONArray) {
                     resultsLanguageJSONArray = new JSONArray();
                     resultsLanguageJSONArray.put(matchByLanguageJSONObject.optJSONObject("results"));
-                }else if(resultsLanguageJSONArray.length()>0){
+                } else if (resultsLanguageJSONArray.length() > 0) {
                     matchByLanguage.setLocale(resultsLanguageJSONArray.getJSONObject(0).optString("locale"));
                     ArrayList<MatchByCountryOrLanguage.Config> matchByLanguageConfigs = new ArrayList<MatchByCountryOrLanguage.Config>();
                     JSONArray configLanguageJSONArray = resultsLanguageJSONArray.getJSONObject(0).optJSONArray("configs");
@@ -248,7 +252,6 @@ public class RequestItemManager {
                     }
                     matchByLanguage.setConfigs(matchByLanguageConfigs);
                 }
-
 
 
                 result.setMatchByLanguage(matchByLanguage);

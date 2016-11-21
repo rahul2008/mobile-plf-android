@@ -3,9 +3,14 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 /**
  * Created by 310200764 on 9/1/2015.
@@ -16,19 +21,27 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
     private static final String TAG = ApplicationLifeCycleHandler.class.getSimpleName();
     public static boolean isInBackground = true;
 
-    AppTaggingInterface mAppTaggingInterface;
+    private AppInfra mAppInfra;
+    private AppTaggingInterface mAppTaggingInterface;
 
-    public ApplicationLifeCycleHandler(AppTaggingInterface appTaggingInterface) {
-        mAppTaggingInterface = appTaggingInterface;
+    public ApplicationLifeCycleHandler(AppInfra appInfra) {
+        mAppInfra = appInfra;
+        mAppTaggingInterface = appInfra.getTagging();
     }
 
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                "ApplicationLifeCycleHandler", "Created");
+
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                "ApplicationLifeCycleHandler", "Started");
+
     }
 
     @Override
@@ -36,49 +49,62 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
         if (isInBackground) {
 
-        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in ForeGround");
-        Log.i("AppleResumed", "Resumed");
-
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                    "ApplicationLifeCycleHandler", "Resumed");
+        mAppTaggingInterface.trackActionWithInfo("sendData", "appStatus", "ForeGround");
             isInBackground = false;
         }
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler", "AppState", "App is in Background");
-        Log.i("LifePaused", "Paused");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                "ApplicationLifeCycleHandler", "Paused");
+
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        Log.i("LifeStopped", "Stopped");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                "ApplicationLifeCycleHandler", "Stopped");
+
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-        Log.i("LifeStopped", "Stopped");
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        Log.i("LifeDestroyed", "Destroyed");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                "ApplicationLifeCycleHandler", "Destroyed");
+
+        Log.i("LifeDestroyed", "");
+
     }
 
     @Override
     public void onConfigurationChanged(Configuration configuration) {
-        Log.i("LifeConfiguration", "ConfigurationChanged");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                "ApplicationLifeCycleHandler", "ConfigurationChanged");
+//        Intent i = mAppInfra.getAppInfraContext().getApplicationContext().getPackageManager().getLaunchIntentForPackage(mAppInfra.getAppInfraContext().getPackageName());
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+//        mAppInfra.getAppInfraContext().startActivity(i);
     }
 
     @Override
     public void onLowMemory() {
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                "ApplicationLifeCycleHandler", "onLowMemory");
     }
 
     @Override
     public void onTrimMemory(int i) {
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            Log.i("AppleBackground", "AppisInBackground");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                    "ApplicationLifeCycleHandler", "Background");
 
-//            mAppTaggingInterface.trackPageWithInfo("ApplicationLifeCycleHandler","AppState", "App is in Background");
+            mAppTaggingInterface.trackActionWithInfo("sendData","appStatus", "Background");
             isInBackground = true;
         }
     }

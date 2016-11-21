@@ -36,35 +36,22 @@ import java.util.TimeZone;
 public class AppTagging implements AppTaggingInterface {
 
     private String mLanguage;
-    private String prevPage;
+    private static String prevPage;
 
     private final AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
 
     private Locale mLocale;
-
-    private final AppConfigurationInterface.AppConfigurationError configError;
-
-    private final SecureStorageInterface ssi;
-    private final SecureStorage.SecureStorageError mSecureStorageError;
     private final static String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
 
 
     public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
-
-        ssi = mAppInfra.getSecureStorage();
-        mSecureStorageError = new SecureStorage.SecureStorageError();
         init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext());
 
-
-        configError = new AppConfigurationInterface
-                .AppConfigurationError();
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
-
-
     }
 
     /*
@@ -98,10 +85,10 @@ public class AppTagging implements AppTaggingInterface {
 
     private void init(Locale locale, Context context) {
         mLocale = locale;
-        prevPage = "TaggingPageInitialization";
         Config.setContext(context);
 
     }
+
 
     /**
      * Reading from Adobe json
@@ -157,6 +144,9 @@ public class AppTagging implements AppTaggingInterface {
      **/
 
     private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
+
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                .AppConfigurationError();
         if (getPrivacyConsentForSensitiveData()) {
             if (mAppInfra.getConfigInterface() != null) {
                 try {
@@ -357,15 +347,21 @@ public class AppTagging implements AppTaggingInterface {
     // Sets the value of Privacy Consent For Sensitive Data and stores in preferences
     @Override
     public void setPrivacyConsentForSensitiveData(boolean valueContent) {
-        ssi.storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), mSecureStorageError);
+        mAppInfra.getSecureStorage().storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), getSecureStorageErrorValue());
     }
 
     @Override
     public boolean getPrivacyConsentForSensitiveData() {
         boolean consentValue;
-        String consentValueString = ssi.fetchValueForKey(AIL_PRIVACY_CONSENT, mSecureStorageError);
+        String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
         consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
+        Log.i("consentValue", ""+consentValue);
         return consentValue;
+    }
+
+    private SecureStorage.SecureStorageError getSecureStorageErrorValue(){
+
+        return new SecureStorage.SecureStorageError();
     }
 
 

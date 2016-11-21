@@ -11,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.adobe.mobile.Config;
 import com.adobe.mobile.Target;
@@ -59,10 +58,9 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void loadfromDisk() {
         ArrayList<String> testList = new ArrayList<>();
-        if (getCachefromPreference() != null) {
+        if (getCachefromPreference() != null ) {
             mCacheModel = getCachefromPreference();
-            if(mCacheModel.getTestValues() != null
-                    && mCacheModel.getTestValues().size() > 0){
+            if(mCacheModel.getTestValues() != null && mCacheModel.getTestValues().size() > 0) {
                 mCacheStatusValue = mCacheModel.getTestValues();
             }
         }
@@ -205,6 +203,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 CacheModel.ValueModel updatedVal = new CacheModel.ValueModel();
                 updatedVal.setTestValue(content);
                 updatedVal.setUpdateType(updateType.name());
+                updatedVal.setAppVersion(getAppVersion());
                 mCacheStatusValue.put(testName, updatedVal);
                 mCacheModel.setTestValues(mCacheStatusValue);
             }
@@ -333,6 +332,7 @@ public class ABTestClientManager implements ABTestClientInterface {
         String defaultValue = null;
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
                 "Refreshing cache upto" + variableType);
+        loadfromDisk();
         mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_PARTIALLY_UPDATED;
         HashMap<String, CacheModel.ValueModel> val = mCacheStatusValue;
         if (val.size() > 0) {

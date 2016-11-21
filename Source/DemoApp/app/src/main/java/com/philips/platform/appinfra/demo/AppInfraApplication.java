@@ -21,8 +21,10 @@ import java.net.URL;
  * Created by deepakpanigrahi on 5/18/16.
  */
 public class AppInfraApplication extends Application {
-     public static AppTaggingInterface mAIAppTaggingInterface;
-     public static AppInfraInterface gAppInfra;
+    public static AppTaggingInterface mAIAppTaggingInterface;
+    public static AppInfraInterface gAppInfra;
+    private AppInfra mAppInfra;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -30,22 +32,22 @@ public class AppInfraApplication extends Application {
         LeakCanary.install(this);
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
+        mAppInfra = (AppInfra)gAppInfra;
+        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
-        mAIAppTaggingInterface.setPrivacyConsentForSensitiveData(true);
         gAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                Log.i("SUCCESS ***", ""+url);
+                Log.i("SUCCESS ***", "" + url);
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.i("ERRORVALUES ***", ""+message);
+                Log.i("ERRORVALUES ***", "" + message);
             }
         });
 
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAIAppTaggingInterface);
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
 
