@@ -156,6 +156,11 @@ public class DataServicesManager {
     }
 
     @NonNull
+    public MeasurementGroup createMeasurementGroup(@NonNull final Moment moment) {
+        return mDataCreater.createMeasurementGroup(moment);
+    }
+
+    @NonNull
     public MomentDetail createMomentDetail(@NonNull final MomentDetailType type, @NonNull final Moment moment) {
         MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
@@ -178,8 +183,7 @@ public class DataServicesManager {
 
     @NonNull
     public MeasurementGroup createMeasurementGroup(@NonNull final MeasurementGroup measurementGroup) {
-        MeasurementGroup measurementGroups = mDataCreater.createMeasurementGroup(measurementGroup);
-        return measurementGroups;
+        return mDataCreater.createMeasurementGroup(measurementGroup);
     }
 
     @NonNull

@@ -67,13 +67,17 @@ public class OrmDeleting {
 
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
         deleteMomentDetails(moment);
-        deleteMomentMeasurements(moment);
+        deleteMeasurementGroups(moment);
         deleteSynchronisationData(moment.getSynchronisationData());
         momentDao.delete(moment);
     }
 
+    private void deleteMeasurementGroups(OrmMoment moment) throws SQLException {
+        deleteMeasurements(moment);
+    }
+
     public void deleteMomentAndMeasurementDetails(@NonNull final OrmMoment ormMoment) throws SQLException {
-        deleteMomentMeasurements(ormMoment);
+        deleteMeasurements(ormMoment);
         deleteMomentDetails(ormMoment);
     }
 
@@ -83,7 +87,7 @@ public class OrmDeleting {
         }
     }
 
-    private void deleteMomentMeasurements(@NonNull final OrmMoment moment) throws SQLException {
+    private void deleteMeasurements(@NonNull final OrmMoment moment) throws SQLException {
        // for (OrmMeasurement measurement : moment.getMeasurements()) {
          //   deleteMeasurementDetails(measurement.getId());
         //}

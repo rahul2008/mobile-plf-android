@@ -34,9 +34,13 @@ public class UCoreMoment {
     @Expose
     private int version;
 
+    /*@Expose
+    @Nullable
+    private List<UCoreMeasurement> measurements;*/
+
     @Expose
     @Nullable
-    private List<UCoreMeasurement> measurements;
+    private List<UCoreMeasurementGroups> measurementGroups;
 
     @Expose
     @Nullable
@@ -106,13 +110,22 @@ public class UCoreMoment {
         this.version = version;
     }
 
-    @Nullable
+    /*@Nullable
     public List<UCoreMeasurement> getMeasurements() {
         return measurements;
+    }*/
+
+    @Nullable
+    public List<UCoreMeasurementGroups> getMeasurementGroups() {
+        return measurementGroups;
     }
 
-    public void setMeasurements(@Nullable final List<UCoreMeasurement> measurements) {
+    /*public void setMeasurements(@Nullable final List<UCoreMeasurement> measurements) {
         this.measurements = measurements;
+    }*/
+
+    public void setMeasurementGroups(@Nullable final List<UCoreMeasurementGroups> measurementGroups) {
+        this.measurementGroups = measurementGroups;
     }
 
     @Nullable

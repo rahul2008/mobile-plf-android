@@ -9,6 +9,8 @@ package com.philips.platform.datasync.conversion;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
@@ -37,6 +39,9 @@ public class MomentTypeMap {
     private final Map<String, MeasurementDetailType> toMeasurementDetailTypeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     @NonNull
+    private final Map<String, MeasurementGroupDetailType> toMeasurementGroupDetailTypeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+    @NonNull
     private final Map<String, MomentDetailType> toMomentDetailTypeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     @NonNull
@@ -44,6 +49,9 @@ public class MomentTypeMap {
 
     @NonNull
     private final Map<MeasurementType, String> fromMeasurementTypeMap;
+
+    @NonNull
+    private final Map<MeasurementGroupDetailType, String> fromMeasurementGroupDetailTypeMap;
 
     @NonNull
     private final Map<MomentDetailType, String> fromMomentDetailTypeMap;
@@ -66,7 +74,8 @@ public class MomentTypeMap {
         toMeasurementTypeMap.put("Length", MeasurementType.LENGTH);
         fromMeasurementTypeMap = createInvertedMap(toMeasurementTypeMap);
 
-
+        toMeasurementGroupDetailTypeMap.put("TEMP_OF_DAY",MeasurementGroupDetailType.TEMP_OF_DAY);
+        fromMeasurementGroupDetailTypeMap = createInvertedMap(toMeasurementGroupDetailTypeMap);
 
         toMomentDetailTypeMap.put("Note", MomentDetailType.NOTE);
         toMomentDetailTypeMap.put("Photo", MomentDetailType.PHOTO);
@@ -94,6 +103,12 @@ public class MomentTypeMap {
     public MomentType getMomentType(@NonNull final String dsMomentString) {
         MomentType type = toMomentTypeMap.get(dsMomentString);
         return type == null ? MomentType.UNKNOWN : type;
+    }
+
+    @NonNull
+    public MeasurementGroupDetailType getMeasurementGroupDeatilType(@NonNull final String dsMomentString) {
+        MeasurementGroupDetailType type = toMeasurementGroupDetailTypeMap.get(dsMomentString);
+        return type == null ? MeasurementGroupDetailType.UNKNOWN:type;
     }
 
     @NonNull

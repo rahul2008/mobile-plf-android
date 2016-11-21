@@ -30,6 +30,8 @@ import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementType;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
@@ -89,7 +91,7 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     public Measurement createMeasurement(@NonNull final MeasurementType type,
                                          @NonNull final MeasurementGroup MeasurementGroup) {
-        return createMeasurement(type, (MeasurementGroup) MeasurementGroup);
+        return createMeasurement(type, (OrmMeasurementGroup) MeasurementGroup);
     }
 
     @Override
@@ -102,19 +104,19 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
-        return createMeasurementGroup(measurementGroup);
+        return createMeasurementGroup((OrmMeasurementGroup)measurementGroup);
     }
 
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
-        return createMeasurementGroup(moment);
+        return createMeasurementGroup((OrmMoment)moment);
     }
 
     @NonNull
     @Override
     public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull MeasurementGroupDetailType type, @NonNull MeasurementGroup measurementGroup) {
-        return createMeasurementGroupDetail(type,measurementGroup);
+        return createMeasurementGroupDetail(type,(OrmMeasurementGroup) measurementGroup);
     }
 
     @NonNull
@@ -152,7 +154,21 @@ public class OrmCreator implements BaseAppDataCreator {
         return new OrmMeasurementDetail(ormMeasurementDetailType, measurement);
     }
 
+    @NonNull
+    public OrmMeasurementGroup createMeasurementGroup(@NonNull OrmMoment ormMoment) {
+        return new OrmMeasurementGroup(ormMoment);
+    }
 
 
+    @NonNull
+    public OrmMeasurementGroup createMeasurementGroup(@NonNull OrmMeasurementGroup ormMeasurementGroup) {
+        return new OrmMeasurementGroup(ormMeasurementGroup);
+    }
 
+    @NonNull
+    public OrmMeasurementGroupDetail createMeasurementGroupDetail(@NonNull final MeasurementGroupDetailType type,
+                                                                  @NonNull final OrmMeasurementGroup measurementGroup) {
+        OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(type);
+        return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType,measurementGroup);
+    }
 }

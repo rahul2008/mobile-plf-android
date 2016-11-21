@@ -12,6 +12,9 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -19,6 +22,7 @@ import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.conversion.MeasurementDetailValueMap;
+import com.philips.platform.datasync.conversion.MeasurementGroupDetailTypeMap;
 import com.philips.platform.datasync.conversion.MomentTypeMap;
 
 import org.joda.time.DateTime;
@@ -42,56 +46,194 @@ public class MomentsConverter {
 
     private MeasurementDetailValueMap measurementDetailValueMap;
 
+    private MeasurementGroupDetailTypeMap measurementGroupDetailValueMap;
+
     @NonNull
     private BaseAppDataCreator baseAppDataCreater;
 
     @Inject
     public MomentsConverter(@NonNull final MomentTypeMap momentTypeMap,
-                            @NonNull final MeasurementDetailValueMap measurementDetailValueMap) {
+                            @NonNull final MeasurementDetailValueMap measurementDetailValueMap,
+                            @NonNull final MeasurementGroupDetailTypeMap measurementGroupDetailTypeMap) {
         this.momentTypeMap = momentTypeMap;
         this.measurementDetailValueMap = measurementDetailValueMap;
+        this.measurementGroupDetailValueMap = measurementGroupDetailTypeMap;
         DataServicesManager manager = DataServicesManager.getInstance();
         this.baseAppDataCreater = manager.getDataCreater();
     }
 
     @NonNull
-    public List<Moment> convert(@NonNull final List<com.philips.platform.datasync.moments.UCoreMoment> uCoreMoments) {
+    public List<Moment> convert(@NonNull final List<UCoreMoment> uCoreMoments) {
         List<Moment> momentList = new ArrayList<>();
-        for (com.philips.platform.datasync.moments.UCoreMoment uCoreMoment : uCoreMoments) {
+        for (UCoreMoment uCoreMoment : uCoreMoments) {
             Moment moment = createMoment(uCoreMoment);
             momentList.add(moment);
         }
         return momentList;
     }
 
+//    @NonNull
+//    private Moment createMoment(@NonNull final UCoreMoment uCoreMoment) {
+//        Moment moment = baseAppDataCreater.createMomentWithoutUUID(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
+//                momentTypeMap.getMomentType(uCoreMoment.getType()));
+//        moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
+//
+//        addSynchronisationData(moment, uCoreMoment);
+//
+//        List<UCoreDetail> details = uCoreMoment.getDetails();
+//        if (details != null) {
+//            addToUCoreMomentDetails(moment, details);
+//        }
+//
+//        List<UCoreMeasurement> measurements = uCoreMoment.getMeasurements();
+//        if (measurements != null) {
+//            addMeasurements(moment, measurements);
+//        }
+//
+//        return moment;
+//    }
+
     @NonNull
-    private Moment createMoment(@NonNull final com.philips.platform.datasync.moments.UCoreMoment uCoreMoment) {
+    private Moment createMoment(@NonNull final UCoreMoment uCoreMoment) {
         Moment moment = baseAppDataCreater.createMomentWithoutUUID(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
                 momentTypeMap.getMomentType(uCoreMoment.getType()));
         moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
 
         addSynchronisationData(moment, uCoreMoment);
 
-        List<com.philips.platform.datasync.moments.UCoreDetail> details = uCoreMoment.getDetails();
+        List<UCoreDetail> details = uCoreMoment.getDetails();
         if (details != null) {
             addToUCoreMomentDetails(moment, details);
         }
 
-        List<com.philips.platform.datasync.moments.UCoreMeasurement> measurements = uCoreMoment.getMeasurements();
-        if (measurements != null) {
-            addMeasurements(moment, measurements);
+        List<UCoreMeasurementGroups> measurementGroups = uCoreMoment.getMeasurementGroups();//only one entry will come here
+        if (measurementGroups != null) {
+            addMeasurementGroupsToMoment(moment, measurementGroups);
         }
-
         return moment;
     }
 
-    private void addSynchronisationData(@NonNull final Moment moment, @NonNull final com.philips.platform.datasync.moments.UCoreMoment uCoreMoment) {
+//    @NonNull
+//    private void addMeasurementGroupsToMoment(Moment moment, List<UCoreMeasurementGroups> measurementGroups) {
+//        for (UCoreMeasurementGroups uCoreMeasurementGroups : measurementGroups) {
+//            MeasurementGroup measurementGroup = baseAppDataCreater.createMeasurementGroup(moment);
+//            if(uCoreMeasurementGroups.getMeasurementGroupDetails()!=null){
+//                addToMeasurementGroupDeatil(uCoreMeasurementGroups, measurementGroup);
+//            }
+//
+//            if(uCoreMeasurementGroups.getMeasurements()!=null){
+//                addMeasurements(measurementGroup,uCoreMeasurementGroups.getMeasurements());
+//            }
+//
+//            Collection<? extends UCoreMeasurementGroups> uCoreMeasurementGroups1 = uCoreMeasurementGroups.getMeasurementGroups();
+//            MeasurementGroup measurementGroup1 = measurementGroup;
+//            if(uCoreMeasurementGroups1!=null){
+//                for(UCoreMeasurementGroups uCoreMeasurementGroup : uCoreMeasurementGroups1){
+//                    measurementGroup1 = baseAppDataCreater.createMeasurementGroup(measurementGroup);
+//                    if(uCoreMeasurementGroup.getMeasurementGroupDetails()!=null){
+//                        addToMeasurementGroupDeatil(uCoreMeasurementGroup, measurementGroup1);
+//                    }
+//                    if(uCoreMeasurementGroup.getMeasurements()!=null){
+//                        addMeasurements(measurementGroup1,uCoreMeasurementGroup.getMeasurements());
+//                    }
+//                }
+//            }
+//
+//            moment.addMeasurementGroup(measurementGroup1);
+//        }
+//
+//    }
+
+    @NonNull
+    private void addMeasurementGroupsToMoment(Moment moment, List<UCoreMeasurementGroups> measurementGroups) {
+        MeasurementGroup parentOrmToAttachMoment = null;
+        for (UCoreMeasurementGroups uCoreMeasurementGroups : measurementGroups) {
+            MeasurementGroup parentOrm = baseAppDataCreater.createMeasurementGroup(moment);
+            parentOrmToAttachMoment = parentOrm;
+
+            UCoreMeasurementGroups parentUCore = uCoreMeasurementGroups;
+
+            addMeasurementsAndDeatilsToMeasurementGroup(parentUCore, parentOrm);
+
+            List<UCoreMeasurementGroups> childUCoreList = parentUCore.getMeasurementGroups();
+            int i = 0;
+            while (childUCoreList!=null){
+                UCoreMeasurementGroups childUCore = childUCoreList.get(i);
+                MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
+                addMeasurementsAndDeatilsToMeasurementGroup(childUCore, childOrm);
+                parentOrmToAttachMoment.addMeasurementGroup(childOrm);
+                parentOrm = childOrm;
+                childUCoreList = childUCore.getMeasurementGroups();
+                i++;
+            }
+
+            /*Collection<? extends UCoreMeasurementGroups> uCoreMeasurementGroups1 = uCoreMeasurementGroups.getMeasurementGroups();
+            MeasurementGroup measurementGroup1 = measurementGroup;
+            if(uCoreMeasurementGroups1!=null){
+                for(UCoreMeasurementGroups uCoreMeasurementGroup : uCoreMeasurementGroups1){
+                    measurementGroup1 = baseAppDataCreater.createMeasurementGroup(measurementGroup);
+                    addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroup, measurementGroup1);
+                }
+            }
+
+            moment.addMeasurementGroup(measurementGroup1);*/
+        }
+
+        moment.addMeasurementGroup(parentOrmToAttachMoment);
+
+    }
+
+    private void addMeasurementsAndDeatilsToMeasurementGroup(UCoreMeasurementGroups uCoreMeasurementGroups, MeasurementGroup parent) {
+        if(uCoreMeasurementGroups.getMeasurementGroupDetails()!=null){
+            addToMeasurementGroupDeatil(uCoreMeasurementGroups, parent);
+        }
+
+        if(uCoreMeasurementGroups.getMeasurements()!=null){
+            addMeasurements(parent,uCoreMeasurementGroups.getMeasurements());
+        }
+    }
+
+    private void addToMeasurementGroupDeatil(UCoreMeasurementGroups uCoreMeasurementGroups, MeasurementGroup measurementGroup) {
+        for (UCoreMeasurementGroupDetail uCoreDetail : uCoreMeasurementGroups.getMeasurementGroupDetails()) {
+            MeasurementGroupDetailType type = momentTypeMap.getMeasurementGroupDeatilType(uCoreDetail.getType());
+            if (!MomentDetailType.UNKNOWN.equals(type)) {
+                MeasurementGroupDetail measurementGroupDetail = baseAppDataCreater.createMeasurementGroupDetail(type, measurementGroup);
+                measurementGroupDetail.setValue(uCoreDetail.getValue());
+                measurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
+            }
+        }
+    }
+
+
+    /*
+        private MeasurementGroup createMeasurementGroup(UCoreMeasurementGroups uCoreMeasurementGroups) {
+            MeasurementGroup measurementGroup = baseAppDataCreater.createMeasurementGroup(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
+                    momentTypeMap.getMomentType(uCoreMoment.getType()));
+            moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
+
+            addSynchronisationData(moment, uCoreMoment);
+
+            List<UCoreDetail> details = uCoreMoment.getDetails();
+            if (details != null) {
+                addToUCoreMomentDetails(moment, details);
+            }
+
+            List<UCoreMeasurementGroups> measurementGroups = uCoreMoment.getMeasurementGroups();
+            if (measurementGroups != null) {
+                addMeasurementGroupsToMoment(moment, measurementGroups);
+            }
+
+            return moment;
+        }
+
+    */
+    private void addSynchronisationData(@NonNull final Moment moment, @NonNull final UCoreMoment uCoreMoment) {
         SynchronisationData synchronisationData = baseAppDataCreater.createSynchronisationData(uCoreMoment.getGuid(), uCoreMoment.getInactive(), new DateTime(uCoreMoment.getLastModified()), uCoreMoment.getVersion());
         moment.setSynchronisationData(synchronisationData);
     }
 
-    private void addToUCoreMomentDetails(@NonNull final Moment moment, @NonNull final List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList) {
-        for (com.philips.platform.datasync.moments.UCoreDetail uCoreDetail : uCoreDetailList) {
+    private void addToUCoreMomentDetails(@NonNull final Moment moment, @NonNull final List<UCoreDetail> uCoreDetailList) {
+        for (UCoreDetail uCoreDetail : uCoreDetailList) {
             MomentDetailType type = momentTypeMap.getMomentDetailType(uCoreDetail.getType());
             if (!MomentDetailType.UNKNOWN.equals(type)) {
                 MomentDetail momentDetail = baseAppDataCreater.createMomentDetail(type, moment);
@@ -101,26 +243,44 @@ public class MomentsConverter {
         }
     }
 
-    private void addMeasurements(@NonNull final Moment moment, @NonNull final List<com.philips.platform.datasync.moments.UCoreMeasurement> uCoreMeasurementList) {
-        for (com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement : uCoreMeasurementList) {
+    private void addMeasurements(@NonNull final MeasurementGroup measurementGroup, @NonNull final List<UCoreMeasurement> uCoreMeasurementList) {
+        for (UCoreMeasurement uCoreMeasurement : uCoreMeasurementList) {
             MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getType());
             if (!MeasurementType.UNKNOWN.equals(type)) {
-            //    Measurement measurement = baseAppDataCreater.createMeasurement(type, moment);
-              //  measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
-               // measurement.setValue(uCoreMeasurement.getValue());
+                Measurement measurement = baseAppDataCreater.createMeasurement(type, measurementGroup);
+                measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
+                measurement.setValue(uCoreMeasurement.getValue());
 
-                List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList = uCoreMeasurement.getDetails();
+                List<UCoreDetail> uCoreDetailList = uCoreMeasurement.getDetails();
                 if (uCoreDetailList != null) {
-                 //   addMeasurementDetails(measurement, uCoreDetailList);
+                    addMeasurementDetails(measurement, uCoreDetailList);
                 }
 
-           //     moment.addMeasurement(measurement);
+                measurementGroup.addMeasurement(measurement);
             }
         }
     }
 
-    private void addMeasurementDetails(@NonNull final Measurement measurement, @NonNull final List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList) {
-        for (com.philips.platform.datasync.moments.UCoreDetail uCoreDetail : uCoreDetailList) {
+/*    private void addMeasurements(@NonNull final Moment moment, @NonNull final List<UCoreMeasurement> uCoreMeasurementList) {
+        for (UCoreMeasurement uCoreMeasurement : uCoreMeasurementList) {
+            MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getType());
+            if (!MeasurementType.UNKNOWN.equals(type)) {
+                Measurement measurement = baseAppDataCreater.createMeasurement(type, moment);
+                measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
+                measurement.setValue(uCoreMeasurement.getValue());
+
+                List<UCoreDetail> uCoreDetailList = uCoreMeasurement.getDetails();
+                if (uCoreDetailList != null) {
+                    addMeasurementDetails(measurement, uCoreDetailList);
+                }
+
+                moment.addMeasurement(measurement);
+            }
+        }
+    }*/
+
+    private void addMeasurementDetails(@NonNull final Measurement measurement, @NonNull final List<UCoreDetail> uCoreDetailList) {
+        for (UCoreDetail uCoreDetail : uCoreDetailList) {
             MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
             if (!MeasurementDetailType.UNKNOWN.equals(type)) {
                 final MeasurementDetail measurementDetail = baseAppDataCreater.createMeasurementDetail(type, measurement);
@@ -133,28 +293,72 @@ public class MomentsConverter {
         }
     }
 
+  /*  private void addMeasurementGroupDetails(@NonNull final MeasurementGroup measurementGroup, @NonNull final List<UCoreMeasurementGroupDetail> uCoreDetailList) {
+        for (UCoreMeasurementGroupDetail uCoreDetail : uCoreDetailList) {
+            MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
+            if (!MeasurementDetailType.UNKNOWN.equals(type)) {
+                final MeasurementGroupDetail measurementGroupDetail = baseAppDataCreater.createMeasurementGroupDetail(type, measurementGroup);
+                String value = uCoreDetail.getValue();
+                if (!value.equals(MeasurementDetailValueMap.UNKNOWN_NAME)) {
+                    measurementGroupDetail.setValue(value);
+                    measurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
+                }
+            }
+        }
+    }
+*/
     /// This is the part which converts App moment to UCore moment
+//    public com.philips.platform.datasync.moments.UCoreMoment convertToUCoreMoment(Moment moment) {
+//        UCoreMoment uCoreMoment = new UCoreMoment();
+//
+//        uCoreMoment.setTimestamp(moment.getDateTime().toString());
+//        String momentTypeString = momentTypeMap.getMomentTypeString(moment.getType());
+//        uCoreMoment.setType(momentTypeString);
+//
+//        List<UCoreMeasurement> uCoreMeasurementList = new ArrayList<>();
+//        List<UCoreDetail> uCoreMomentList = new ArrayList<>();
+//
+//        addToUCoreMomentDetails(moment.getMomentDetails(), uCoreMomentList);
+//        addToUCoreMeasurements(moment.getMeasurements(), uCoreMeasurementList);
+//
+//        uCoreMoment.setDetails(uCoreMomentList);
+//        uCoreMoment.setMeasurements(uCoreMeasurementList);
+//
+//        setVersion(uCoreMoment, moment.getSynchronisationData());
+//        return uCoreMoment;
+//    }
+
     public com.philips.platform.datasync.moments.UCoreMoment convertToUCoreMoment(Moment moment) {
-        com.philips.platform.datasync.moments.UCoreMoment uCoreMoment = new com.philips.platform.datasync.moments.UCoreMoment();
+        UCoreMoment uCoreMoment = new UCoreMoment();
 
         uCoreMoment.setTimestamp(moment.getDateTime().toString());
         String momentTypeString = momentTypeMap.getMomentTypeString(moment.getType());
         uCoreMoment.setType(momentTypeString);
 
-        List<com.philips.platform.datasync.moments.UCoreMeasurement> uCoreMeasurementList = new ArrayList<>();
-        List<com.philips.platform.datasync.moments.UCoreDetail> uCoreMomentList = new ArrayList<>();
+        List<UCoreMeasurementGroups> uCoreMeasurementGroupList = new ArrayList<>();
+        List<UCoreDetail> uCoreMomentList = new ArrayList<>();
 
         addToUCoreMomentDetails(moment.getMomentDetails(), uCoreMomentList);
-    //    addToUCoreMeasurements(moment.getMeasurements(), uCoreMeasurementList);
-
+        //addToUCoreMeasurements(moment.getMeasurements(), uCoreMeasurementList);
+      //  addToUCoreMeaurementGroups(moment.getMeasurementGroups(),uCoreMeasurementGroupList);
         uCoreMoment.setDetails(uCoreMomentList);
-        uCoreMoment.setMeasurements(uCoreMeasurementList);
+        uCoreMoment.setMeasurementGroups(uCoreMeasurementGroupList);
 
         setVersion(uCoreMoment, moment.getSynchronisationData());
         return uCoreMoment;
     }
 
-    private void setVersion(final com.philips.platform.datasync.moments.UCoreMoment uCoreMoment, final SynchronisationData synchronisationData) {
+   /* private void addToUCoreMeaurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
+        for (MeasurementGroup measurementGroup : measurementGroups) {
+            UCoreMeasurementGroups uCoreMeasurementGroups = new UCoreMeasurementGroups();
+            uCoreMeasurementGroups.setMeasurementGroups(measurementGroups.getMeasurementGroups());
+
+            addToUCoreMeasurementDetails(measurement.getMeasurementDetails(), uCoreMeasurement);
+            uCoreMeasurementGroupList.add(uCoreMeasurement);
+        }
+    }
+*/
+    private void setVersion(final UCoreMoment uCoreMoment, final SynchronisationData synchronisationData) {
         if (synchronisationData != null) {
             uCoreMoment.setVersion(synchronisationData.getVersion());
         }
@@ -163,7 +367,7 @@ public class MomentsConverter {
     private void addToUCoreMomentDetails(Collection<? extends MomentDetail> momentDetails, List<com.philips.platform.datasync.moments.UCoreDetail> momentDetailList) {
 
         for (MomentDetail momentDetail : momentDetails) {
-            com.philips.platform.datasync.moments.UCoreDetail detail = new com.philips.platform.datasync.moments.UCoreDetail();
+            UCoreDetail detail = new UCoreDetail();
             detail.setType(momentTypeMap.getMomentDetailTypeString(momentDetail.getType()));
             detail.setValue(momentDetail.getValue());
 
@@ -171,31 +375,31 @@ public class MomentsConverter {
         }
     }
 
-    private void addToUCoreMeasurements(Collection<? extends Measurement> measurements, List<com.philips.platform.datasync.moments.UCoreMeasurement> uCoreMeasurementList) {
+    private void addToUCoreMeasurements(Collection<? extends Measurement> measurements, List<UCoreMeasurement> uCoreMeasurementList) {
         for (Measurement measurement : measurements) {
-            com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement = new com.philips.platform.datasync.moments.UCoreMeasurement();
+            UCoreMeasurement uCoreMeasurement = new UCoreMeasurement();
             uCoreMeasurement.setTimestamp(measurement.getDateTime().toString());
             uCoreMeasurement.setType(momentTypeMap.getMeasurementTypeString(measurement.getType()));
             uCoreMeasurement.setValue(measurement.getValue());
 
-            addToUCoreMeasurementDetails(measurement.getMeasurementDetails(), uCoreMeasurement);
+     //       addToUCoreMeasurementDetails(measurement.getMeasurementDetails(), uCoreMeasurement);
             uCoreMeasurementList.add(uCoreMeasurement);
         }
     }
 
-    private void addToUCoreMeasurementDetails(Collection<? extends MeasurementDetail> measurementDetails, com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement) {
-        List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList = new ArrayList<>();
+   /* private void addToUCoreMeasurementDetails(Collection<? extends MeasurementDetail> measurementDetails, com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement) {
+        List<UCoreDetail> uCoreDetailList = new ArrayList<>();
 
         for (MeasurementDetail measurementDetail : measurementDetails) {
-            com.philips.platform.datasync.moments.UCoreDetail uCoreDetail = new com.philips.platform.datasync.moments.UCoreDetail();
+            UCoreDetail uCoreDetail = new UCoreDetail();
             uCoreDetail.setType(momentTypeMap.getMeasurementDetailTypeString(measurementDetail.getType()));
 
-           // uCoreDetail.setValue(measurementDetailValueMap.getString(measurementDetail.getType(), measurementDetail.getValue()));
+            uCoreDetail.setValue(measurementDetailValueMap.getString(measurementDetail.getType(), measurementDetail.getValue()));
             uCoreDetail.setValue(measurementDetail.getValue());
 
             uCoreDetailList.add(uCoreDetail);
         }
         uCoreMeasurement.setDetails(uCoreDetailList);
-    }
+    }*/
 
 }

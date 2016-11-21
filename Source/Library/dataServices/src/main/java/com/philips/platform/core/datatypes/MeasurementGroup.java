@@ -7,9 +7,16 @@ import java.util.Collection;
  */
 
 public interface MeasurementGroup {
-    /*Collection<? extends Measurement> getMeasurements();*/
+    Collection<? extends Measurement> getMeasurements();
+
+    public Collection<? extends MeasurementGroup> getMeasurementGroups();
 
     void addMeasurement(Measurement measurement);
+
+    void addMeasurementGroup(MeasurementGroup measurementGroup);
+    public Collection<? extends MeasurementGroupDetail> getMeasurementGroupDetails();
+
+    public void addMeasurementGroupDetail(final MeasurementGroupDetail measurementGroupDetail);
 
     int getId();
 }

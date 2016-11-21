@@ -4,7 +4,9 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.philips.platform.core.datatypes.Measurement;
+import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -33,11 +35,43 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     private OrmMeasurementGroup ormMeasurementGroup;
 
     @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurementGroupDetail> ormMeasurementGroupDetails = new EmptyForeignCollection<>();
+
+    @ForeignCollectionField(eager = true)
     ForeignCollection<OrmMeasurementGroup> ormMeasurementGroups = new EmptyForeignCollection<>();
+
+    public OrmMeasurementGroup(OrmMeasurementGroup ormMeasurementGroup) {
+        this.ormMeasurementGroup = ormMeasurementGroup;
+    }
+
+    @Override
+    public Collection<? extends Measurement> getMeasurements() {
+        return ormMeasurements;
+    }
+
+    @Override
+    public Collection<? extends MeasurementGroup> getMeasurementGroups() {
+        return ormMeasurementGroups;
+    }
 
     @Override
     public void addMeasurement(Measurement measurement) {
         ormMeasurements.add((OrmMeasurement) measurement);
+    }
+
+    @Override
+    public void addMeasurementGroup(MeasurementGroup measurementGroup) {
+        ormMeasurementGroups.add((OrmMeasurementGroup) measurementGroup);
+    }
+
+    @Override
+    public Collection<? extends OrmMeasurementGroupDetail> getMeasurementGroupDetails() {
+        return ormMeasurementGroupDetails;
+    }
+
+    @Override
+    public void addMeasurementGroupDetail(final MeasurementGroupDetail measurementGroupDetail) {
+        ormMeasurementGroupDetails.add((OrmMeasurementGroupDetail) measurementGroupDetail);
     }
 
     @Override
@@ -46,7 +80,11 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     }
 
     @DatabaseConstructor
-    OrmMeasurementGroup() {
+    public OrmMeasurementGroup() {
+    }
+
+    public OrmMeasurementGroup(OrmMoment ormMoment) {
+        this.ormMoment = ormMoment;
     }
 
 /*    @Override

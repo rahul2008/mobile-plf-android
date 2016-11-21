@@ -6,7 +6,7 @@ package com.philips.platform.core.datatypes;
 
 public enum MeasurementGroupDetailType {
     UNKNOWN(-1, "UNKNOWN"),
-    LOCATION(77, "TEMP_OF_DAY"),;
+    TEMP_OF_DAY(77, "TEMP_OF_DAY"),;
 
     private final int id;
     private final String description;
