@@ -18,9 +18,8 @@ node ('Ubuntu && 24.0.3') {
 		try {
 			stage ('build') {
                 echo "fetch git config"
-                sh 'git config --list'
                 echo "******"
-                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug --stacktrace'
+                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug'
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
