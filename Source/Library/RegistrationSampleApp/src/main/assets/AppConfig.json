@@ -1,12 +1,11 @@
 {
   "UserRegistration": {
-    "JanRainConfiguration.RegistrationClientID.DEVELOPMENT": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
-    "JanRainConfiguration.RegistrationClientID.TESTING": "g52bfma28yjbd24hyjcswudwedcmqy7c",
-    "JJanRainConfiguration.RegistrationClientID.EVALUATION": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-    "JanRainConfiguration.RegistrationClientID.STAGING": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-    "JanRainConfiguration.RegistrationClientID.PRODUCTION": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
-    "PILConfiguration.MicrositeID": "77000",
-    "PILConfiguration.RegistrationEnvironment": "Staging",
+    "JanRainConfiguration.RegistrationClientID.Development": "{\"CN\":\"qhq9jvkx35q8duef2fh6wwzceujjs9gs\",\"default\":\"8kaxdrpvkwyr7pnp987amu4aqb4wmnte\"}",
+    "JanRainConfiguration.RegistrationClientID.Testing": "{\"CN\":\"g8r8rbk4n5688xpsxqewmnwuqjb5ugag\",\"default\":\"g52bfma28yjbd24hyjcswudwedcmqy7c\"}",
+    "JanRainConfiguration.RegistrationClientID.Evaluation": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
+   "JanRainConfiguration.RegistrationClientID.Staging": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
+    "JanRainConfiguration.RegistrationClientID.Production": "{\"CN\":\"\",\"default\":\"9z23k3q8bhqyfwx78aru6bz8zksga54u\"}",
+
     "Flow.EmailVerificationRequired" : "true",
     "Flow.TermsAndConditionsAcceptanceRequired" : "true",
    "Flow.MinimumAgeLimit" : "{ \"NL\":12 ,\"GB\":16,\"default\": 16}",

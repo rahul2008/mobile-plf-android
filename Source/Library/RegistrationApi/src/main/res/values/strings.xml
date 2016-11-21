@@ -13,7 +13,7 @@
     <string name="reg_SocialAccountMerger_ErrorMsg" formatted="false">You have already registered with another %s account, please log in to %s account.</string>
     <string name="reg_Janrain_Error_Need_Email_Verification">Please verify your email address through the activation link sent to your email account</string>
     <string name="reg_JanRain_Invalid_Input">Invalid input ,Please check and enter correct details.</string>
-    <string name="reg_JanRain_Invalid_Credentials">The email address or password you entered is incorrect.</string>
+    <string name="reg_JanRain_Invalid_Credentials">The username or password you entered is incorrect.</string>
     <string name="reg_JanRain_Error_Check_Internet">Problem in network connection.</string>
     <string name="reg_JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
     <string name="reg_JanRain_Server_Connection_Failed">Failed to connect to the server, Please try again after some time.</string>
@@ -160,6 +160,53 @@
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="LegalNoticeForPrivacy">Please read our %s</string>
 
+
+    <!--China flow-->
+    <string name="PhoneNumberPlaceHolder_txtField">Enter your phonenumber</string>
+    <string name="InvalidPhoneNumber_ErrorMsg">Invalid Phone Number</string>
+    <string name="Register_Using_Email_btnTxt">Register using email</string>
+    <string name="PhoneAddPlaceHolder_txtField">Enter phone number</string>
+    <string name="Login_using_email_btntxt">Log in using email</string>
+    <string name="Receive_china_Philips_News_lbltxt">Receive Philips promotional communications based on my preferences and online behavior\n%s</string>
+    <string name="InitialSignedIn_SigninMobileNumberText">You have logged in with number: %s</string>
+    <string name="Account_ActivationCode_Title_lbltxt">We have sent an SMS with a code to your phone, please enter this code to log in.</string>
+    <string name="Account_ActivationCode_Verify_Account">Verify account</string>
+    <string name="Account_ActivationCode_EnterCode_placeholdertxt">Enter Code</string>
+    <string name="Account_ActivationCode_resendtxt">resend</string>
+    <string name="Account_ActivationCode_Instruction_lbltxt">Having problems?\n-  It may take some time for the SMS with the code to arrive \n-  if you did not recive an SMS when the countdown clock ends, press the Resend button</string>
+    <string name="Account_ActivationCode_ErrorTxt">The code is incorrect, click to resend </string>
+
+    <string name="CreateAccount_Email_PhoneNumber">Your email or phone number</string>
+    <string name="InvalidEmail_PhoneNumber_ErrorMsg">Invalid email or phone number</string>
+    <string name="CreateAccount_Using_Phone_Alreadytxt">This phone number is already in use.</string>
+
+    <string name="Janrain_Error_Need_Mobile_Verification">Please verify your mobile number through the activation code sent to your mobile number</string>
+    <string name="Mobile_TraditionalSignIn_Instruction_lbltxt">Having Problems?\n-  It may take some time for the SMS with the code to arrive\n-  If you did not receive an SMS press the \'Resend\' button</string>
+    <!--China flow New String-->
+    <string name="CreateAccount_PhoneNumber">Your phone number</string>
+    <string name="Invalid_PhoneNumber_ErrorMsg">I cannot recognize the phone number you entered. Please check.</string>
+
+    <!--Need to be remove, once final localization done-->
+    <string name="URX_SMS_Success">Success</string>
+    <string name="URX_SMS_Invalid_PhoneNumber">Provided phone number is not valid. Please check and try again.</string>
+    <string name="URX_SMS_PhoneNumber_UnAvail_ForSMS">Provided phone number is not enabled for SMS.</string>
+    <string name="URX_SMS_UnSupported_Country_ForSMS">Provided phone number is not supported by the country.</string>
+    <string name="URX_SMS_Limit_Reached">The limit has been reached for phone number. Please try again after some time.</string>
+    <string name="URX_SMS_InternalServerError">Internal server error sending SMS. Please try again later.</string>
+    <string name="URX_SMS_NoInformation_Available">No information available.</string>
+    <string name="URX_SMS_Not_Sent">SMS has not been sent.</string>
+    <string name="URX_SMS_Already_Verified">SMS not sent. Account already verified.</string>
+    <string name="URX_Invalid_Credentials">The phone number or password you entered is incorrect.</string>
+    <string name="Mobile_Verification_Invalid_Code">Invaild verification code.</string>
+
+    <string name="Resend_SMS_title">Resend SMS</string>
+    <string name="Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
+    <string name="reg_merge_validate_password_mismatch_errortxt">The password is incorrect</string>
+
+
+
+
+
     <!--New add for Marketing -->
 
     <string name="Opt_In_No_Thanks">No thanks</string>
@@ -170,4 +217,72 @@
     <string name="Opt_In_What_Are_You_Going_To_Get">What are you going to get?</string>
     <string name="Opt_In_Special_Offers">Special offers, promotions and first hand information about new product releases. Tailored for you!</string>
     <string name="Opt_In_Receive_Promotional">Receive promotional communications of Philips based on my preferences and online behavior\n%s</string>
+    <string name="Reg_Country">Country</string>
+    <string name="Reg_Search">Search..</string>
+
+    <string-array name="CountryCodes" >
+        <item>Australia, AU</item>
+        <item>Bulgaria, BG</item>
+        <item>Rwanda, RW</item>
+        <item>Czech Republic, CZ</item>
+        <item>Denmark, DK</item>
+        <item>Austria, AT</item>
+        <item>Switzerland, CH</item>
+        <item>Germany, DE</item>
+        <item>Greece, GR</item>
+        <item>Canada, CA</item>
+        <item>United Kingdom, GB</item>
+        <item>Hong Kong (China), HK</item>
+        <item>Indonesia, ID</item>
+        <item>Ireland, IE</item>
+        <item>India, IN</item>
+        <item>Malaysia, MY</item>
+        <item>New Zealand, NZ</item>
+        <item>Philippines, PH</item>
+        <item>Pakistan, PK</item>
+        <item>Saudi Arabia, SA</item>
+        <item>Singapore, SG</item>
+        <item>United States, US</item>
+        <item>South Africa, ZA</item>
+        <item>Argentina, AR</item>
+        <item>Chile, CL</item>
+        <item>Colombia, CO</item>
+        <item>Spain, ES</item>
+        <item>Mexico, MX</item>
+        <item>Peru, PE</item>
+        <item>Estonia, EE</item>
+        <item>Finland, FI</item>
+        <item>Belgium, BE</item>
+        <item>France, FR</item>
+        <item>Croatia, HR</item>
+        <item>Hungary, HU</item>
+        <item>Italy, IT</item>
+        <item>Japan, JP</item>
+        <item>South Korea, KR</item>
+        <item>Lithuania, LT</item>
+        <item>Latvia, LV</item>
+        <item>Netherlands, NL</item>
+        <item>Norway, NO</item>
+        <item>Poland, PL</item>
+        <item>Brazil, BR</item>
+        <item>Portugal, PT</item>
+        <item>Romania, RO</item>
+        <item>Russia, RU</item>
+        <item>Ukraine, UA</item>
+        <item>Slovenia, SI</item>
+        <item>Slovakia, SK</item>
+        <item>Sweden, SE</item>
+        <item>Thailand, TH</item>
+        <item>Turkey, TR</item>
+        <item>Vietnam, VN</item>
+        <item>China, CN</item>
+        <item>Taiwan, TW</item>
+
+
+
+
+
+    </string-array>
+
+
 </resources>

@@ -31,6 +31,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -55,6 +56,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     private XRegError mRegError;
 
     private ProgressDialog mProgressDialog;
+
+    private String mUserDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -174,14 +177,21 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
 
-        mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
-        String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
-        email = String.format(email, mUser.getEmail());
-        String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
+        mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
+ String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
-        mTvSignInEmail.setText(email);
+
+        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+            String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
+            email = String.format(email, mUser.getEmail());
+            mTvSignInEmail.setText(email);
+        }else {
+            mUserDetails = getString(R.string.InitialSignedIn_SigninMobileNumberText);
+            mUserDetails = String.format(mUserDetails, mUser.getMobile());
+            mTvSignInEmail.setText(mUserDetails);
+        }
     }
 
     @Override

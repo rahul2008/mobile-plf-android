@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.customviews;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -25,7 +26,11 @@ import android.widget.TextView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettings;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -43,22 +48,26 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     private RelativeLayout mRlEtEmail;
 
     private FrameLayout mFlInvalidFieldAlert;
-
     private String mSavedEmaillError;
-
+    private String  country;
     public XEmail(Context context) {
         super(context);
         this.mContext = context;
         initUi(R.layout.reg_email);
+
     }
 
     public XEmail(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
         initUi(R.layout.reg_email);
+        country = RegistrationHelper.getInstance().getCountryCode();
+        checkingEmailorMobile();
+
     }
 
     public final void initUi(int resourceId) {
+        RLog.d(RLog.SERVICE_DISCOVERY,"China Flow : "+ RegistrationHelper.getInstance().isChinaFlow());
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
         mRlEtEmail = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
@@ -68,7 +77,16 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mEtEmail.addTextChangedListener(this);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
         mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_email_field_err);
+    }
 
+    private void checkingEmailorMobile() {
+        //need to changed by service discover as 01 or 02
+        if (RegistrationHelper.getInstance().isChinaFlow()) {
+            mEtEmail.setHint(getResources().getString(R.string.CreateAccount_PhoneNumber));
+            mEtEmail.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }else {
+            mEtEmail.setHint(getResources().getString(R.string.reg_EmailAddPlaceHolder_txtField));
+        }
     }
 
     public String getEmailId() {
@@ -85,10 +103,31 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private boolean validateEmail() {
         if (mEtEmail != null) {
-            if (!FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
-                setValidEmail(false);
-                return false;
+            //need to change by service discover
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
+                if (isEmailandMobile()) return true;
+            } else {
+                if (isEmail()) return true;
             }
+            setValidEmail(false);
+            return false;
+        }
+        return false;
+    }
+
+    private boolean isEmail() {
+        if (FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
+            setValidEmail(true);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEmailandMobile() {
+        if (FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())){
+            setValidEmail(true);
+            return true;
+        }else if(FieldsValidator.isValidMobileNumber(mEtEmail.getText().toString().trim())){
             setValidEmail(true);
             return true;
         }
@@ -128,7 +167,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mTvErrDescriptionView.setVisibility(VISIBLE);
     }
 
-    private void showValidEmailAlert() {
+    public void showValidEmailAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
         mEtEmail.setTextColor(ContextCompat.getColor(mContext,R.color.reg_edt_text_feild_color));
         mFlInvalidFieldAlert.setVisibility(GONE);
@@ -191,7 +230,11 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             if (mEtEmail.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                if (RegistrationHelper.getInstance().isChinaFlow()) {
+                    setErrDescription(getResources().getString(R.string.Invalid_PhoneNumber_ErrorMsg));
+                }else {
+                    setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                }
             }
         }
     }
@@ -208,9 +251,18 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
                         AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
-                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                if (RegistrationHelper.getInstance().isChinaFlow()){
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_MOBILE);
+                    setErrDescription(getResources().getString(R.string.Invalid_PhoneNumber_ErrorMsg));
+                }else {
+
+                    AppTagging.trackAction(AppTagingConstants.SEND_DATA,
+                            AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
+                    setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+                }
+
+
             }
             showEmailIsInvalidAlert();
         }
@@ -234,7 +286,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         }
     }
 
-    public void setClicableTrue(boolean isClickable) {
+    public void setClickableTrue(boolean isClickable) {
         if (mEtEmail != null) {
             mEtEmail.setClickable(isClickable);
             mEtEmail.setEnabled(isClickable);

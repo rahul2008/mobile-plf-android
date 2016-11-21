@@ -15,6 +15,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,7 +55,27 @@ public class RegistrationConfiguration {
                         environment.getValue(), UR, configError);
         String registrationClient = null;
         if (obj != null) {
-            registrationClient = (String) obj;
+            if(obj instanceof String){
+                registrationClient = (String) obj;
+                if(isJSONValid(registrationClient)){
+                    try {
+                        JSONObject jsonObject = new JSONObject(registrationClient);
+                        System.out.println("jsonObject : "+jsonObject);
+                        if(!jsonObject.isNull(RegistrationHelper.getInstance().getCountryCode())){
+                            registrationClient =  (String) jsonObject.get(RegistrationHelper.
+                                    getInstance().getCountryCode());
+                            System.out.println("registrationClient : "+registrationClient);
+                            return registrationClient;
+                        }else if(!jsonObject.isNull(DEFAULT)){
+                            registrationClient = (String) jsonObject.get(DEFAULT);
+                            return registrationClient;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
         } else {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
@@ -63,6 +84,20 @@ public class RegistrationConfiguration {
         return registrationClient;
     }
 
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Get Microsite Id
@@ -74,8 +109,8 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String micrositeId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.PILCONFIGURATION_MICROSITE_ID,
-                        UR, configError);
+                getPropertyForKey("appidentity.micrositeId",
+                        "appinfra", configError);
         if (null == micrositeId) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
@@ -113,12 +148,16 @@ public class RegistrationConfiguration {
                 AppConfigurationInterface.AppConfigurationError();
         String registrationEnvironment = (String) RegistrationHelper.getInstance().getAppInfraInstance().
                 getConfigInterface().
-                getPropertyForKey(URConfigurationConstants.PILCONFIGURATION_REGISTRATION_ENVIRONMENT
-                        , UR, configError);
+                getPropertyForKey("appidentity.appState"
+                        , "appinfra", configError);
         if (null == registrationEnvironment) {
             RLog.e("RegistrationConfiguration", "Error Code : " + configError.getErrorCode() +
                     "Error Message : " + configError.toString());
         }
+        if (registrationEnvironment.equalsIgnoreCase("TEST"))
+            return Configuration.TESTING.getValue();
+        if (registrationEnvironment.equalsIgnoreCase("ACCEPTANCE"))
+            return Configuration.EVALUATION.getValue();
         return registrationEnvironment;
     }
 

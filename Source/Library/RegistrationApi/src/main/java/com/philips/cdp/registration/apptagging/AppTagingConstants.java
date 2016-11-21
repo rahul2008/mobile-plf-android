@@ -100,6 +100,8 @@ public class AppTagingConstants {
 
 	public static final String INVALID_EMAIL = "Invalid email address";
 
+	public static final String INVALID_MOBILE = "Invalid mobile number";
+
 	public static final String WRONG_PASSWORD = "The password does not follow the password guidelines below.";
 
 	public static final String SHOW_PASSWORD = "showPassword";

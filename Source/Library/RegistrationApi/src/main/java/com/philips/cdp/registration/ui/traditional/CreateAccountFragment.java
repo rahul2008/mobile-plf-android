@@ -12,7 +12,6 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,8 @@ import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
-import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -92,8 +92,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     private XPasswordHint mPasswordHintView;
 
     private TextView mTvEmailExist;
-
-
 
     private long mTrackCreateAccountTime;
 
@@ -294,20 +292,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 .findViewById(R.id.ll_reg_create_account_fields);
         mLlCreateAccountContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
-        TextView joinnow = (TextView) view.findViewById(R.id.tv_join_now);
-        final UIFlow abStrings=RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
+
+        if (RegUtility.isUiFirstFlow()){
             RLog.d(RLog.AB_TESTING,"UI Flow Type A");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
-            joinnow.setVisibility(View.GONE);
-        }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                mLlCreateAccountContainer.setVisibility(View.GONE);
-                joinnow.setVisibility(View.GONE);
-        }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
-            RLog.d(RLog.AB_TESTING,"UI Flow Type C");
-            mLlCreateAccountContainer.setVisibility(View.VISIBLE);
-            joinnow.setVisibility(View.VISIBLE);
+        }else {
+            RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+            mLlCreateAccountContainer.setVisibility(View.GONE);
         }
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
@@ -325,8 +316,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
 
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
-        joinnow.setText(Html.fromHtml(sourceString));
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mBtnCreateAccount.setOnClickListener(this);
         mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
@@ -357,7 +346,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         showSpinner();
         mEmail = mEtEmail.getEmailId();
         mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
-                .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
+                    .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
+
+
     }
 
     private String mEmail;
@@ -416,18 +407,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleUiAcceptTerms() {
-        final UIFlow abStrings=RegUtility.getUiFlow();
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-            if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
+            if (RegUtility.isUiFirstFlow()){
                 RLog.d(RLog.AB_TESTING,"UI Flow Type A");
                 mViewLine.setVisibility(View.VISIBLE);
-            }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
+            }else {
                 RLog.d(RLog.AB_TESTING,"UI Flow Type B");
                 mViewLine.setVisibility(View.GONE);
-            }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
-                RLog.d(RLog.AB_TESTING,"UI Flow Type C");
-                mViewLine.setVisibility(View.VISIBLE);
             }
         } else {
             mLlAcceptTermsContainer.setVisibility(View.GONE);
@@ -452,18 +439,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
         hideSpinner();
         trackCheckMarketing();
-        final UIFlow abStrings=RegUtility.getUiFlow();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)||
-                abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
-            RLog.d(RLog.AB_TESTING,"UI Flow Type A and C");
+        if (RegUtility.isUiFirstFlow()){
+            RLog.d(RLog.AB_TESTING,"UI Flow Type A");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                launchAccountActivateFragment();
+                if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())){
+                    launchAccountActivateFragment();
+                }else {
+                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                }
             } else {
                 launchWelcomeFragment();
             }
-
         }else {
             RLog.d(RLog.AB_TESTING,"UI Flow Type B");
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
@@ -502,7 +490,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+                mTvEmailExist.setText(mContext.getResources().getString(R.string.reg_EmailAlreadyUsedErrorMsg_LabelTxt));
+            } else {
+                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.CreateAccount_Using_Phone_Alreadytxt));
+                mTvEmailExist.setText(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Messagetxt));
+            }
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);

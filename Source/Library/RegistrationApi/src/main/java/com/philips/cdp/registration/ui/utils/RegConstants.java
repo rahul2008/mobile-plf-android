@@ -38,8 +38,6 @@ public class RegConstants {
 
     public static final String JANRAIN_INIT_FAILURE = "JANRAIN_FAILURE";
 
-    public static final String PARSING_COMPLETED = "PARSING_COMPLETED";
-
     public static final String REGISTER_GIVEN_NAME = "givenName";
 
     public static final String REGISTER_DISPLAY_NAME = "displayName";
@@ -150,9 +148,8 @@ public class RegConstants {
 
     public static final String COPPA_STATUS = "CoppaStatus";
 
+    public static final int VERIFY_CODE_ENTER = 7;
+
     public static final String IS_FROM_PARENTAL_CONSENT = "ParentalConsent";
-
-
-
 
 }

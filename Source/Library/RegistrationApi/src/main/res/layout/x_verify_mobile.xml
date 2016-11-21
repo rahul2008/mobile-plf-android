@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:reglib="http://reg.lib/schema"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+                xmlns:reglib="http://reg.lib/schema"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
     <RelativeLayout
@@ -25,21 +25,38 @@
         </FrameLayout>
 
         <com.philips.cdp.registration.ui.customviews.XEditText
-            android:id="@+id/et_reg_email"
+            android:id="@+id/et_reg_verify"
             style="@style/reg_style_tab_hint"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/fl_reg_invalid_alert"
             android:background="@android:color/transparent"
-            android:hint="@string/CreateAccount_Email_PhoneNumber"
+            android:hint="@string/Account_ActivationCode_EnterCode_placeholdertxt"
             android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:maxLength="@integer/reg_et_name_max_length"
+            android:inputType="text"
+            android:maxLength="@integer/reg_et_enter_code_max_length"
             reglib:fontAssetName="CentraleSans-Light.otf" />
+
+        <com.philips.cdp.registration.ui.customviews.XButton
+            android:id="@+id/btn_reg_resend"
+            style="@style/reg_mobile_verfiy_style_btn"
+            android:enabled="true"
+            android:text="@string/Account_ActivationCode_resendtxt"
+            reglib:fontAssetName="CentraleSans-Book.OTF"
+            android:layout_below="@+id/fl_reg_invalid_alert"
+            android:layout_alignParentEnd="true"/>
+        <ProgressBar
+            android:id="@+id/pb_reg_verify_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/reg_pb_padding"
+            android:visibility="gone" />
+
 
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/fl_reg_email_field_err"
+        android:id="@+id/fl_reg_verify_field_err"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_reg_parent_verified_field"
@@ -58,7 +75,7 @@
             android:textColor="@color/reg_error_box_color"/>
 
         <com.philips.cdp.registration.ui.customviews.XTextView
-            android:id="@+id/tv_reg_email_err"
+            android:id="@+id/tv_reg_verify_err"
             style="@style/reg_error_textStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

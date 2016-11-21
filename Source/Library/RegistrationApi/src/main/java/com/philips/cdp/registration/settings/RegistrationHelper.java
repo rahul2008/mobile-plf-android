@@ -38,6 +38,8 @@ public class RegistrationHelper {
 
     private static volatile RegistrationHelper mRegistrationHelper = null;
 
+    private  RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
+
     private Locale mLocale;
 
     public UappSettings getUrSettings() {
@@ -233,5 +235,8 @@ public class RegistrationHelper {
 
     public synchronized static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+    public boolean isChinaFlow(){
+        return registrationSettingsURL.isChinaFlow();
     }
 }

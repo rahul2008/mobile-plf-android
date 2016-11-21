@@ -147,5 +147,8 @@
     <dimen name="reg_close_icon_size">12sp</dimen>
     <dimen name="reg_close_icon_padding_top">2dip</dimen>
 
+    <integer name="reg_et_phone_number_max_length">10</integer>
 
+
+    <integer name="reg_et_enter_code_max_length">7</integer>
 </resources>

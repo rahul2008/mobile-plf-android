@@ -9,10 +9,16 @@
 
 package com.philips.cdp.registration.ui.utils;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FieldsValidator {
+
+    private static Phonenumber.PhoneNumber numberProto;
 
     public static boolean isValidName(String name) {
         if (name == null)
@@ -49,7 +55,6 @@ public class FieldsValidator {
         if (!isPasswordLengthMeets(password)) {
             return false;
         }
-
 
         int passwordValidatorCheckCount = 0;
 
@@ -140,6 +145,39 @@ public class FieldsValidator {
         Pattern pattern = Pattern.compile("[a-zA-Z]{2}[\\d]{12}");
         Matcher matcher = pattern.matcher(serialNo);
         return matcher.matches();
+    }
+
+    public static boolean isValidMobileNumber(String mobile) {
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        if (mobile.length() > 0) {
+            if (android.util.Patterns.PHONE.matcher(mobile).matches()) {
+
+                try {
+                    // You can find your country code here
+                    numberProto = phoneUtil.parse(mobile, "CN");
+                    RLog.d("MobileNumber", phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164));
+                } catch (NumberParseException e) {
+                    RLog.d("MobileNumber Exception", "NumberParseException : MobileNumber");
+                    return false;
+                }
+
+                return phoneUtil.isValidNumber(numberProto);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static String getVerifiedMobileNumber(String uuid, String sms){
+        String uuid_a = uuid.replaceAll("[0|i|o|l|1|-]","");
+        String resultStr = sms;
+        while (resultStr.length()<32){
+            resultStr += uuid_a;
+        }
+        resultStr = resultStr.substring(0, Math.min(resultStr.length(), 32));
+        return resultStr;
     }
 
 }

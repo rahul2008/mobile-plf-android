@@ -18,17 +18,17 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 
-public class XHavingProblems extends LinearLayout {
+public class XMobileHavingProblems extends LinearLayout {
 
     private Context mContext;
 
-    public XHavingProblems(Context context) {
+    public XMobileHavingProblems(Context context) {
         super(context);
         this.mContext = context;
         initUi();
     }
 
-    public XHavingProblems(Context context, AttributeSet attrs) {
+    public XMobileHavingProblems(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
         initUi();
@@ -36,7 +36,8 @@ public class XHavingProblems extends LinearLayout {
 
 
     private final void initUi() {
-        String baseString = mContext.getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt);
+
+        String baseString = mContext.getString(R.string.reg_Account_ActivationCode_Instruction_lbltxt);
         String[] splitString = baseString.split("\n");
 
         LayoutInflater li = LayoutInflater.from(mContext);

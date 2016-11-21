@@ -121,11 +121,14 @@ public class Jump {
         /*package*/ String captureForgotPasswordFormName;
         /*package*/ String captureResendEmailVerificationFormName;
         /*package*/ String userAgent;
+
         /*package*/ String accessToken;
         
         //Added
         String captureRedirectUri;
         String captureRecoverUri;
+
+        String flowCDN;
 
 
         // Transient state values:
@@ -210,6 +213,7 @@ public class Jump {
         state.captureTraditionalSignInFormName = jumpConfig.captureTraditionalSignInFormName;
         state.captureForgotPasswordFormName = jumpConfig.captureForgotPasswordFormName;
         state.captureResendEmailVerificationFormName = jumpConfig.captureResendEmailVerificationFormName;
+        state.flowCDN = jumpConfig.flowCDN;
         if(jumpConfig.captureRedirectUri == null){
             state.captureRedirectUri = "http://android.library";
         }else{
@@ -948,11 +952,24 @@ public class Jump {
     private static void downloadFlow() {
         String flowVersion = state.captureFlowVersion != null ? state.captureFlowVersion : "HEAD";
 
+    //After
+        if (state.flowCDN == null)
+        {
+            state.flowCDN = String.format("https://%s.cloudfront.net",state.flowUsesTestingCdn ? "dlzjvycct5xka" : "d1lqe9temigv1p");
+        }
         String flowUrlString =
+                String.format("%s/widget_data/flows/%s/%s/%s/%s.json",
+                        state.flowCDN,
+                        state.captureAppId, state.captureFlowName, flowVersion,
+                        state.captureLocale);
+        System.out.println("FLOW CD : "+flowUrlString);
+
+        //Before
+       /* String flowUrlString =
                 String.format("https://%s.cloudfront.net/widget_data/flows/%s/%s/%s/%s.json",
                         state.flowUsesTestingCdn ? "dlzjvycct5xka" : "d1lqe9temigv1p",
                         state.captureAppId, state.captureFlowName, flowVersion,
-                        state.captureLocale);
+                        state.captureLocale);*/
 
         ApiConnection c = new ApiConnection(flowUrlString);
         c.method = ApiConnection.Method.GET;

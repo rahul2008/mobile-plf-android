@@ -49,6 +49,7 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -83,6 +84,10 @@ public class User {
     private JSONArray mConsumerInterestArray;
 
     private String USER_EMAIL = "email";
+
+    private String USER_MOBILE = "mobileNumber";
+
+    private String USER_MOBILE_VERIFIED = "mobileNumberVerified";
 
     private String USER_GIVEN_NAME = "givenName";
 
@@ -346,6 +351,7 @@ public class User {
 
         try {
             diUserProfile.setEmail(captureRecord.getString(USER_EMAIL));
+            diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
             diUserProfile.setGivenName(captureRecord.getString(USER_GIVEN_NAME));
             diUserProfile.setDisplayName(captureRecord.getString(USER_DISPLAY_NAME));
             diUserProfile
@@ -379,23 +385,21 @@ public class User {
 
     // For checking email verification
     public boolean getEmailVerificationStatus() {
-        mEmailVerified = false;
         CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
 
         if (captured == null)
             return false;
         try {
             JSONObject mObject = new JSONObject(captured.toString());
-            if (mObject.isNull(USER_EMAIL_VERIFIED)) {
-                mEmailVerified = false;
-            } else {
-                mEmailVerified = true;
+            if (!mObject.isNull(USER_EMAIL_VERIFIED)){
+                return true;
+            } else if(!mObject.isNull(USER_MOBILE_VERIFIED)){
+                return true;
             }
-
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getEmailVerificationStatus,Caught JSON Exception");
         }
-        return mEmailVerified;
+        return false;
     }
 
     /**
@@ -414,7 +418,7 @@ public class User {
 
         boolean signedIn = true;
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
+            signedIn = signedIn &&  (!capturedRecord.isNull(USER_EMAIL_VERIFIED)||!capturedRecord.isNull(USER_MOBILE_VERIFIED));
         }
         if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
             if (!RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
@@ -429,12 +433,18 @@ public class User {
         }
 
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            boolean isTermAccepted;
+            if (FieldsValidator.isValidEmail(getEmail())){
+                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
+            }else {
+                isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getMobile());
+            }
             if (!isTermAccepted) {
                 signedIn = false;
                 clearData();
             }
         }
+
 
         return signedIn;
     }
@@ -639,6 +649,18 @@ public class User {
             return null;
         }
         return diUserProfile.getEmail();
+    }
+    /**
+     * {@code getMobile} method returns the Mobile Number of a logged in user.
+     *
+     * @return String
+     */
+    public String getMobile() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getMobile();
     }
 
 

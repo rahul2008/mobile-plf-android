@@ -375,10 +375,13 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginFailedWithError");
         hideMergeSpinner();
-        if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
+         if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
             mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
-        } else {
+        } else if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
+            mRegError.setError(mContext.getResources().getString(R.string.reg_merge_validate_password_mismatch_errortxt));
+        } else  {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+
         }
         trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         scrollViewAutomatically(mRegError, mSvRootLayout);

@@ -8,6 +8,8 @@ import android.util.Log;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPInfo;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -26,12 +28,9 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 public class RegistrationCoppaApplication extends Application {
 
 
-
     private static volatile RegistrationCoppaApplication mRegistrationHelper = null;
-    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
+
     private AppInfraInterface mAppInfraInterface;
-
-
 
     /**
      * @return instance of this class
@@ -51,131 +50,18 @@ public class RegistrationCoppaApplication extends Application {
         if (restoredText != null) {
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.STAGING);
+            initRegistration(Configuration.TESTING);
         }
     }
+
 
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_DEVELOPMENT
-                , UR,
-                "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_TESTING
-                , UR,
-                "g52bfma28yjbd24hyjcswudwedcmqy7c",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_EVALUATION
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_STAGING
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                JANRAIN_CONFIGURATION_REGISTRATION_CLIENT_ID_PRODUCTION
-                , UR,
-                "9z23k3q8bhqyfwx78aru6bz8zksga54u",
-                configError);
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
 
-      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
-        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
-        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
-
-*/
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                PILCONFIGURATION_MICROSITE_ID,
-                UR,
-                "77000",
-                configError);
-        mAppInfraInterface.getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                PILCONFIGURATION_REGISTRATION_ENVIRONMENT,
-                UR,
-                configuration.getValue(),
-                configError);
-       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-*/
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                FLOW_EMAIL_VERIFICATION_REQUIRED,
-                UR,
-                "" + true,
-                configError);
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED,
-                UR,
-                "" + true,
-                configError);
-
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                PIL_CONFIGURATION_CAMPAIGN_ID,
-                UR,
-                "CL20150501_PC_TB_COPPA",
-                configError);
-
-
-
-       /*
-         System.out.println("Terms : " + RegistrationConfiguration.getInstance().getCampaignId());
-       System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
-        System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
-*/
-        String minAge = "{ \"NL\":12 ,\"GB\":13,\"default\": 16}";
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.
-                FLOW_MINIMUM_AGE_LIMIT,
-                UR,
-                minAge,
-                configError);
-      /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
-        System.out.println("GB age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("GB"));
-        System.out.println("default age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("default"));
-        System.out.println("unknown age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("unknown"));
-*/
-        ArrayList<String> providers = new ArrayList<String>();
-        providers.add("facebook");
-        providers.add("googleplus");
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        "NL",
-                UR,
-                providers,
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        "US",
-                UR,
-                providers,
-                configError);
-
-        mAppInfraInterface.
-                getConfigInterface().setPropertyForKey(URConfigurationConstants.SIGNIN_PROVIDERS +
-                        URConfigurationConstants.DEFAULT,
-                UR,
-                providers,
-                configError);
-
-       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
-        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
-        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
-*/
-
-        //Store current environment
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
@@ -187,6 +73,7 @@ public class RegistrationCoppaApplication extends Application {
 
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
+        //   localeManager.setInputLocale("zh", "CN");
 
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
@@ -194,10 +81,21 @@ public class RegistrationCoppaApplication extends Application {
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
 
+
+        mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
+                "appinfra",
+                "77000",
+                configError);
+
     }
 
+
+    public static final String SERVICE_DISCOVERY_TAG = "ServiceDiscovery";
     final String AI = "appinfra";
     private void initAppIdentity(Configuration configuration) {
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
         AppIdentityInterface mAppIdentityInterface;
         mAppIdentityInterface = mAppInfraInterface.getAppIdentity();
         AppConfigurationInterface appConfigurationInterface = mAppInfraInterface.
@@ -207,12 +105,12 @@ public class RegistrationCoppaApplication extends Application {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        mAppInfraInterface.
+       /* mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.micrositeId",
                 AI,
                 "77000",
-                configError);
+                configError);*/
 
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
@@ -283,7 +181,6 @@ public class RegistrationCoppaApplication extends Application {
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
 
-
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppLocalizedNAme : " + appIdentityInfo.getAppLocalizedNAme());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity Sector : " + appIdentityInfo.getSector());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity MicrositeId : " + appIdentityInfo.getMicrositeId());
@@ -292,7 +189,4 @@ public class RegistrationCoppaApplication extends Application {
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
     }
-
-
 }
-

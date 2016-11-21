@@ -10,13 +10,33 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
+import java.util.HashMap;
 
 
 public class RegistrationSettingsURL extends RegistrationSettings {
+
+    public static final String DEV_CAPTURE_DOMAIN = "https://philips.dev.janraincapture.com";
+
+    public static final String TEST_CAPTURE_DOMAIN = "https://philips-test.dev.janraincapture.com";
+
+    public static final String EVAL_CAPTURE_DOMAIN = "https://philips.eval.janraincapture.com";
+
+    public static final String PROD_CAPTURE_DOMAIN = "https://philips.janraincapture.com";
+
+    public static final String DEV_CAPTURE_DOMAIN_CHINA_EU = "https://philips-china-eu.eu-dev.janraincapture.com";
+
+    public static final String DEV_CAPTURE_DOMAIN_CHINA = "https://philips-cn-dev.capture.cn.janrain.com";
+
+    public static final String TEST_CAPTURE_DOMAIN_CHINA= "https://philips-china-test.eu-dev.janraincapture.com";
+
+    public static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-cn-test.capture.cn.janrain.com";
+
+    public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
+
+    public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";
 
     private String LOG_TAG = "RegistrationAPI";
 
@@ -58,6 +78,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     private String countryCode;
 
+    private static boolean isChinaFlow;
+
     /**
      * {@code initialiseConfigParameters} method builds configuration for information in {@code EvalRegistrationSettings}
      *
@@ -82,7 +104,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
 
 
-        assignBasedonEnvironment(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
 
         String localeArr[] = locale.split("-");
@@ -95,7 +117,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             countryCode = "US";
         }
 
-        AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
+      /*  AppIdentityInterface appIdentity = RegistrationHelper.getInstance().getAppInfraInstance().getAppIdentity();
         RLog.d(RLog.SERVICE_DISCOVERY, "Environment : " + appIdentity.getAppState());
         RLog.d(RLog.SERVICE_DISCOVERY, "Locale : " + locale);
 
@@ -111,7 +133,11 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 break;
             case DEVELOPMENT:
                 jumpConfig.engageAppId = "bdbppnbjfcibijknnfkk";
-                jumpConfig.captureAppId = "eupac7ugz25x8dwahvrbpmndf8";
+                //china
+                jumpConfig.captureAppId = "euwkgsf83m56hqknjxgnranezh";
+
+                //non china
+                //jumpConfig.captureAppId = "eupac7ugz25x8dwahvrbpmndf8";
                 break;
             case TEST:
                 jumpConfig.engageAppId = "fhbmobeahciagddgfidm";
@@ -119,12 +145,48 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 break;
             default:
                 throw new RuntimeException("Invalid app state " + appIdentity.getAppState());
-        }
+        }*/
 
         initServiceDiscovery(locale);
+
+
+    }
+    private String getCaptureId(String domain){
+        HashMap<String,String>map =new HashMap<>() ;
+        map.put(DEV_CAPTURE_DOMAIN,"eupac7ugz25x8dwahvrbpmndf8");
+        map.put(TEST_CAPTURE_DOMAIN,"x7nftvwfz8e8vcutz49p8eknqp");
+        map.put(EVAL_CAPTURE_DOMAIN,"nt5dqhp6uck5mcu57snuy8uk6c");
+        map.put(PROD_CAPTURE_DOMAIN,"hffxcm638rna8wrxxggx2gykhc");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"euwkgsf83m56hqknjxgnranezh");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA,"7629q5uxm2jyrbk7ehuwryj7a4");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"vdgkb3z57jpv93mxub34x73mqu");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"hqmhwxu7jtdcye758vvxux4ryb");
+        map.put(EVAL_CAPTURE_DOMAIN_CHINA,"czwfzs7xh23ukmpf4fzhnksjmd");
+        map.put(PROD_CAPTURE_DOMAIN_CHINA,"59fceb32hvkycquwn7fvhs9b99");
+        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
+        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain Map : " + map.get(domain));
+        return map.get(domain);
     }
 
-    private void assignBasedonEnvironment(String registrationEnv) {
+    private String getEngageId(String  domain){
+        HashMap<String,String>map =new HashMap<>() ;
+        map.put(DEV_CAPTURE_DOMAIN,"bdbppnbjfcibijknnfkk");
+        map.put(TEST_CAPTURE_DOMAIN,"fhbmobeahciagddgfidm");
+        map.put(EVAL_CAPTURE_DOMAIN,"jgehpoggnhbagolnihge");
+        map.put(PROD_CAPTURE_DOMAIN,"ddjbpmgpeifijdlibdio");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"bdbppnbjfcibijknnfkk");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA,"ruaheighoryuoxxdwyfs");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"fhbmobeahciagddgfidm");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"jndphelwbhuevcmovqtn");
+        map.put(EVAL_CAPTURE_DOMAIN_CHINA,"uyfpympodtnesxejzuic");
+        map.put(PROD_CAPTURE_DOMAIN_CHINA,"ddjbpmgpeifijdlibdio");
+        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
+        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
+
+        return map.get(domain);
+    }
+
+    private void initializePRXLinks(String registrationEnv) {
         if (registrationEnv == null) {
             mProductRegisterUrl = EVAL_PRODUCT_REGISTER_URL;
             mProductRegisterListUrl = EVAL_PRODUCT_REGISTER_LIST_URL;
@@ -160,6 +222,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        serviceDiscoveryInterface.setHomeCountry(RegistrationHelper.getInstance().getCountryCode());
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -170,10 +234,26 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     }
 
                     @Override
-                    public void onSuccess(URL url) {
-                        String janrainURL = url.toString().substring(8);
-                        jumpConfig.captureDomain = janrainURL.toString();
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + url);
+                    public void onSuccess(URL url ) {
+                        String urlLocal = url.toString();
+                        if (urlLocal.equalsIgnoreCase("https://philips-china-staging.capture.cn.janrain.com")){
+                            urlLocal="https://philips-cn-staging.capture.cn.janrain.com";
+                        }
+
+                            String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
+                        jumpConfig.captureDomain = janrainURL;
+
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
+
+                        jumpConfig.engageAppId = getEngageId(urlLocal);
+                        jumpConfig.captureAppId = getCaptureId(urlLocal);
+
+
+                        if (jumpConfig.engageAppId== null || jumpConfig.captureAppId==null)
+                            throw new RuntimeException("Captureid or engageid is null" );
+
+                          RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + getEngageId(url.toString()));
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + getCaptureId(url.toString()));
 
                         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(
                                 "userreg.landing.emailverif",
@@ -208,40 +288,89 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + modifiedUrl);
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
 
-                                                        jumpConfig.captureLocale = locale;
-                                                        mPreferredCountryCode = countryCode;
-                                                        mPreferredLangCode = langCode;
+                                                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(
+                                                                "userreg.janrain.cdn", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-                                                        try {
-                                                            Jump.reinitialize(mContext, jumpConfig);
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                            if (e instanceof RuntimeException) {
-                                                                mContext.deleteFile("jr_capture_flow");
-                                                                Jump.reinitialize(mContext, jumpConfig);
-                                                            }
-                                                        }
+                                                                    @Override
+                                                                    public void onError(ERRORVALUES errorvalues, String error) {
+                                                                        RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.resetpass : " + error);
+                                                                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onSuccess(URL url) {
+                                                                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" + url.toString());
+                                                                        jumpConfig.flowCDN = url.toString();
+
+                                                                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                                                                            @Override
+                                                                            public void onError(ERRORVALUES errorvalues, String error) {
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +"Service Deiscover inis at non China local");
+                                                                                setChinaFlow(false);
+                                                                                jumpConfig.captureLocale = locale;
+                                                                                mPreferredCountryCode = countryCode;
+                                                                                mPreferredLangCode = langCode;
+
+                                                                                try {
+                                                                                    RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " +jumpConfig);
+                                                                                    Jump.reinitialize(mContext, jumpConfig);
+                                                                                } catch (Exception e) {
+                                                                                    e.printStackTrace();
+                                                                                    if (e instanceof RuntimeException) {
+                                                                                        mContext.deleteFile("jr_capture_flow");
+                                                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                                                    }
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onSuccess(URL url) {
+                                                                                String smsSupport=url.toString();
+                                                                                setChinaFlow(true);
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +smsSupport);
+                                                                                jumpConfig.captureLocale = locale;
+                                                                                jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
+                                                                                // If configuration is Staging pass this
+                                                                                if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(Configuration.STAGING.getValue())) {
+                                                                                    jumpConfig.flowCDN = "https://janrain-capture-static.cn.janrain.com";
+                                                                                }
+                                                                                 mPreferredCountryCode = countryCode;
+                                                                                mPreferredLangCode = langCode;
+
+                                                                                try {
+                                                                                    RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " +jumpConfig);
+                                                                                    Jump.reinitialize(mContext, jumpConfig);
+                                                                                } catch (Exception e) {
+                                                                                    e.printStackTrace();
+                                                                                    if (e instanceof RuntimeException) {
+                                                                                        mContext.deleteFile("jr_capture_flow");
+                                                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                                                    }
+                                                                                }
+                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " + isChinaFlow());
+                                                                            }
+                                                                        });
+
+                                                                    }
+                                                                });
+
                                                     }
                                                 });
+
                                     }
                                 });
                     }
                 });
 
-         /*tobe used in future
-          serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+    }
 
-                @Override
-                public void onError(ERRORVALUES errorvalues, String error) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
-                    //NOtify failed
-                }
+    public boolean isChinaFlow() {
+        return isChinaFlow;
+    }
 
-                @Override
-                public void onSuccess(URL url) {
-                    RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" + url.toString());
-                }
-            });*/
-
+    public void setChinaFlow(boolean chinaFlow) {
+        isChinaFlow = chinaFlow;
     }
 }

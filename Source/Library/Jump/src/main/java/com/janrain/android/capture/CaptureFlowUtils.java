@@ -33,8 +33,9 @@
 package com.janrain.android.capture;
 
 import android.util.Pair;
+
 import com.janrain.android.Jump;
-import com.janrain.android.utils.LogUtils;
+
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -111,7 +112,12 @@ public class CaptureFlowUtils {
         }
 
         final Map fields = (Map) captureFlow.get("fields");
-        final Map form = (Map) fields.get(formName);
+         Map form = (Map) fields.get(formName);
+        // Temp : Fix for since there no staging for china flow yet . hard coding user form name
+        if(form==null){
+              form = (Map) fields.get("userInformationForm");
+
+        }
         final List fieldNames = (List) form.get("fields");
 
         if (fieldNames.size() != 2) {

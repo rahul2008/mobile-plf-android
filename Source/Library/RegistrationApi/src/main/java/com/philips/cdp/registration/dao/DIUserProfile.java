@@ -14,9 +14,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DIUserProfile implements Serializable {
+    //Warning : Don't alter this file which cause the security migration issues
 
     /* Email */
     private String email;
+
+    /* Mobile */
+    private String mobile;
 
     /* Given name */
     private String givenName;
@@ -108,6 +112,24 @@ public class DIUserProfile implements Serializable {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+
+    /**
+     * get mobile
+     * @return mobile address
+     */
+    public String getMobile() {
+        return mobile;
+    }
+
+    /**
+     * set mobile
+     * @param mobile email address
+     */
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     /**
