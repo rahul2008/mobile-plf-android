@@ -25,7 +25,7 @@ public class WhiteBoxAPIActivity extends AppCompatActivity {
         setContentView(tvHmacResult);
     }
 
-    public static byte[] hexStringToByteArray(String s) {
+    private static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
