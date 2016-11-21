@@ -8,7 +8,6 @@ package com.philips.platform.appframework.flowmanager.base;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
@@ -18,6 +17,7 @@ import com.philips.platform.appframework.flowmanager.parser.AppFlowParser;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public abstract class BaseUiFlowManager {
 
@@ -33,8 +33,8 @@ public abstract class BaseUiFlowManager {
     public BaseUiFlowManager(final Context context, final String jsonPath) {
         this.context = context;
         mapAppFlowStates(jsonPath);
-        stateMap = new ArrayMap<>();
-        conditionMap = new ArrayMap<>();
+        stateMap = new TreeMap<>();
+        conditionMap = new TreeMap<>();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
     }

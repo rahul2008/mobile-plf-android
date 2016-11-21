@@ -54,8 +54,8 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         InputStream inputStream = getInputStream(resId);
-        File file = createFileFromInputStream(inputStream);
-        targetFlowManager = FlowManager.getInstance(getApplicationContext(), file.getPath());
+        final File file = createFileFromInputStream(inputStream);
+        targetFlowManager = new FlowManager(getApplicationContext(), file.getPath());
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
