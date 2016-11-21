@@ -8,7 +8,14 @@ package com.philips.platform.baseapp.screens.datasevices.database;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetail;
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
@@ -16,10 +23,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetail;
 
 import org.joda.time.DateTime;
 
@@ -90,5 +93,15 @@ public class Database implements BaseAppDataCreator {
         return creator.createSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
 
+    @NonNull
+    @Override
+    public Consent createConsent(@NonNull final String s) {
+        return null;
+    }
 
+    @NonNull
+    @Override
+    public ConsentDetail createConsentDetail(@NonNull final ConsentDetailType consentDetailType, @NonNull final String s, @NonNull final String s1, final String s2, final boolean b, @NonNull final Consent consent) {
+        return null;
+    }
 }

@@ -12,13 +12,13 @@ import android.util.Log;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.datasevices.listener.DBChangeListener;
 import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -171,5 +171,15 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface{
         Log.i("***SPO***","In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
+    }
+
+    @Override
+    public Map<Class, List<?>> putConsentForSync(final Map<Class, List<?>> map) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void fetchConsents() throws SQLException {
+
     }
 }

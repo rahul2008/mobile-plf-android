@@ -8,16 +8,6 @@ package com.philips.platform.baseapp.screens.datasevices.database;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
-import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
-import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetailType;
@@ -27,6 +17,19 @@ import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetailType;
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentType;
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailType;
+import com.philips.platform.core.datatypes.Measurement;
+import com.philips.platform.core.datatypes.MeasurementDetail;
+import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementType;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.MomentDetailType;
+import com.philips.platform.core.datatypes.MomentType;
+import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
 
@@ -93,6 +96,18 @@ public class OrmCreator implements BaseAppDataCreator {
     public OrmSynchronisationData createSynchronisationData(@NonNull final String guid, final boolean inactive,
                                                             @NonNull DateTime lastModifiedTime, final int version) {
         return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
+    }
+
+    @NonNull
+    @Override
+    public Consent createConsent(@NonNull final String s) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public ConsentDetail createConsentDetail(@NonNull final ConsentDetailType consentDetailType, @NonNull final String s, @NonNull final String s1, final String s2, final boolean b, @NonNull final Consent consent) {
+        return null;
     }
 
     @NonNull

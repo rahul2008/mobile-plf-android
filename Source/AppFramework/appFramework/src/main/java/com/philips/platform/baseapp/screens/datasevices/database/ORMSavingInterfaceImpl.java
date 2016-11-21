@@ -2,12 +2,13 @@ package com.philips.platform.baseapp.screens.datasevices.database;
 
 import android.util.Log;
 
-import com.philips.platform.baseapp.screens.datasevices.listener.DBChangeListener;
-import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
-import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.baseapp.screens.datasevices.database.table.BaseAppDateTime;
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.listener.DBChangeListener;
+import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,7 +52,16 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
             notifyAllFailure(e);
             return false;
         }
+    }
 
+    @Override
+    public boolean saveConsent(final Consent consent) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean saveBackEndConsent(final Consent consent) throws SQLException {
+        return false;
     }
 
     private void notifyAllSuccess(Object ormMoments) {
