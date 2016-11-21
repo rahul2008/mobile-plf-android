@@ -35,7 +35,7 @@ public class WhiteBoxAPIActivity extends AppCompatActivity {
         return data;
     }
 
-    public static String bytesToHex(byte[] input) {
+    private static String bytesToHex(byte[] input) {
         final StringBuilder builder = new StringBuilder();
         for(byte b : input) {
             builder.append(String.format("%02x", b));
