@@ -31,6 +31,12 @@
 -keep class com.squareup.okhttp.** { *; }
 -keep class okio.** { *; }
 
+#Gson
+-keep class sun.misc.Unsafe { *; }
+#Prx
+-keep class com.philips.cdp.prxclient.** {*;}
+-keep interface com.philips.cdp.prxclient.** { *; }
+
 #LocaleMatch
 -keep class com.philips.cdp.localematch.** {*;}
 -keep interface com.philips.cdp.localematch.** {*;}
@@ -50,7 +56,6 @@
 -keepclassmembers public class org.apache.http.** {*;}
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
--renamesourcefileattribute SourceFile
 
 #GMS (Registration)
 -keep  class com.google.android.gms.* { public *; }
@@ -111,8 +116,8 @@ public static <fields>;
 -dontwarn android.support.v8.**
 -dontwarn com.philips.cdp.registration.**
 -dontwarn org.apache.**
--dontwarn com.philips.cdp.digitalcare.**
--dontwarn com.philips.cdp.prxclient.**
+#-dontwarn com.philips.cdp.digitalcare.**
+#-dontwarn com.philips.cdp.prxclient.**
 
 
 -dontwarn android.webkit.WebView
@@ -144,10 +149,9 @@ public static <fields>;
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.** {*;}
-#-keep class com.google.gson.stream.** { *; }
-
-#-keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
-#-keep class com.google.gson.examples.android.model.** { *; }
+-keep class com.philips.cdp.prxclient.** {*;}
+-keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
+-keep class com.google.gson.examples.android.model.** { *; }
 
 #Product Registration library
 -keep class com.philips.cdp.prodreg.** {*;}
@@ -156,7 +160,7 @@ public static <fields>;
 
 ##--------------- ORMLite  ----------
 
- #Keep ORMLite specifics
+# Keep ORMLite specifics
 -keep class com.j256.**
 -keepclassmembers class com.j256.** { *; }
 -keep enum com.j256.**
@@ -167,7 +171,7 @@ public static <fields>;
 -keep @com.j256.ormlite.table.DatabaseTable class * { *; }
 
 
-###--------------- Eventbus  ----------
+##--------------- Eventbus  ----------
 
 -keepclassmembers class ** {
     !private void onEvent*(**);
@@ -194,15 +198,15 @@ public static <fields>;
 #    <init>(java.lang.Throwable);
 #}
 
-###--------------- Jodatime  ----------
+##--------------- Jodatime  ----------
 
 -dontwarn org.joda.convert.**
 -dontwarn org.joda.time.**
 -keep class org.joda.time.** { *; }
 -keep interface org.joda.time.** { *; }
 
-###-------------- Retrofit -------------
-#
+##-------------- Retrofit -------------
+
 -keep class com.squareup.** { *; }
 -keep interface com.squareup.** { *; }
 -keep class retrofit.** { *; }
@@ -212,15 +216,17 @@ public static <fields>;
     @retrofit.http.* <methods>;
 }
 
+-dontwarn com.squareup.okhttp.**
 -dontwarn retrofit.**
+-dontwarn okio.**
 -dontwarn rx.**
 -dontwarn android.app.Notification
 
-##Data-Services
-#-keep class com.philips.platform.core.** {*;}
-#-keep interface com.philips.platform.core.** {*;}
-#
-###----------------- DS -----------
+#Data-Services
+-keep class com.philips.platform.core.** {*;}
+-keep interface com.philips.platform.core.** {*;}
+
+##----------------- Gson -------------------
 -keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
 -keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMeasurement { *; }
@@ -273,6 +279,13 @@ public static <fields>;
         public static ** valueOf(java.lang.String);
     }
 
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
 }
@@ -324,7 +337,10 @@ public static <fields>;
 
 -dontwarn com.philips.cdp.digitalcare.**
 #-dontwarn com.philips.cdp.productselection.**
+-dontwarn android.support.**
 -dontwarn com.adobe.mobile.**
+-dontwarn org.apache.**
+
 
 -dontwarn com.shamanland.**
 -dontwarn uk.co.chrisjenx.**
@@ -345,21 +361,18 @@ public static <fields>;
 
 #Prx
 -keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *;}
--keep enum com.philips.cdp.prxclient.** {*;}
+-keep interface com.philips.cdp.prxclient.** { *; }
 
-#Product Registration library
--keep class com.philips.cdp.prodreg.** {*;}
--keep interface com.philips.cdp.prodreg.** {*;}
--keep enum com.philips.cdp.prodreg.** {*;}
 
 #--------------------------AppInfra starts here-----------
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
--keepattributes InnerClasses,Deprecated,EnclosingMethod,SourceFile,LineNumberTable,Exceptions
+-keepattributes InnerClasses,Exceptions
 -dontwarn com.philips.platform.appinfra.**
 
+-dontwarn org.apache.**
+-keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 
 
@@ -367,6 +380,9 @@ public static <fields>;
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
 -keep public class com.philips.platform.appinfra.tagging.** {*;}
+-keep class com.android.volley.** { *; }
+-keep interface com.android.volley.** { *; }
+-keep class org.apache.commons.logging.**
 
 
 -keep public class com.philips.platform.appinfra.AppInfra { *; }
