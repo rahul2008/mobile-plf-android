@@ -42,14 +42,14 @@ public abstract class BaseUiFlowManager {
     /**
      * This method will creates and return the object of BaseCondition depending upon Condition ID.
      *
-     * @param key Condition ID for which the BaseCondition type object need to be created.
+     * @param conditionId Condition ID for which the BaseCondition type object need to be created.
      * @return Object of BaseCondition type.
      */
     // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
     // put @nonNull for all public APIs and make sure it behaves properly when they send null values and app does not crash.
     @NonNull
-    public BaseCondition getCondition(String key) {
-        return conditionMap.get(key);
+    public BaseCondition getCondition(String conditionId) {
+        return conditionMap.get(conditionId);
     }
 
     public abstract void populateStateMap(final Map<String, BaseState> uiStateMap);
@@ -59,12 +59,13 @@ public abstract class BaseUiFlowManager {
     /**
      * Method to return the Object to BaseState based on AppFlowState ID.
      *
-     * @param key state ID.
+     * @param stateId state ID.
      * @return Object to BaseState if available or 'null'.
      */
     // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
-    public BaseState getState(String key) {
-        return stateMap.get(key);
+    @NonNull
+    public BaseState getState(String stateId) {
+        return stateMap.get(stateId);
     }
 
     @NonNull
