@@ -80,7 +80,7 @@
         <attr name="uitControlPrimaryBuffer" format="reference|color"/>
         <attr name="uitControlPrimaryTrackOffAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryBufferAlpha" format="reference|float"/>
-        <attr format="boolean" name="uidLinearProgressBar"/>
+        <attr name="uidLinearProgressBar" format="boolean"/>
         <attr name="circularProgressBarSize" format="enum">
             <enum name="small" value="0"/>
             <enum name="middle" value="1"/>

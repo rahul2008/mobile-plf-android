@@ -115,7 +115,7 @@ public class ProgressBar extends android.widget.ProgressBar {
             case BIG:
                 return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_big);
         }
-        return (LayerDrawable) getResources().getDrawable(R.drawable.uid_circular_progress_bar_small);
+        return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_small);
     }
 
     private int getCircularProgressBarSize(CircularProgressBarSize size) {
