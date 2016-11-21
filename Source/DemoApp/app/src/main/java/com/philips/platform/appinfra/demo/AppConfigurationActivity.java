@@ -22,7 +22,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
 
     AppConfigurationInterface mConfigInterface;
     private Spinner dataTypeSpinner;
-    final String[] dataType = {"String", "Integer","Map<String,String>","Map<String,Integer>"};
+    final String[] dataType = {"String", "Integer", "Map<String,String>", "Map<String,Integer>"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +71,11 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                     Object object = null;
                     try {
-                          object = mConfigInterface.getPropertyForKey(getKeyET.getText().toString(), getGroupKeyET.getText().toString(),  configError);
-                        if(object instanceof Map){
-                            int h=10;
+                        object = mConfigInterface.getPropertyForKey(getKeyET.getText().toString(), getGroupKeyET.getText().toString(), configError);
+                        if (object instanceof Map) {
+                            int h = 10;
                         }
-                    int y=10;
+                        int y = 10;
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
@@ -114,7 +114,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                     Object object = null;
                     try {
-                        object = mConfigInterface.getDefaultPropertyForKey(getKeyETDef.getText().toString(), getGroupKeyETDef.getText().toString(),  configError);
+                        object = mConfigInterface.getDefaultPropertyForKey(getKeyETDef.getText().toString(), getGroupKeyETDef.getText().toString(), configError);
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
@@ -132,7 +132,6 @@ public class AppConfigurationActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         final EditText setGroupKeyET = (EditText) findViewById(R.id.setGroupKeyID);
@@ -174,7 +173,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                             } else {
                                 value = enteredValue;
                             }
-                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Integer")){// if input data is Integer type
+                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Integer")) {// if input data is Integer type
 
 
                             if (enteredValue.contains(",")) {
@@ -194,17 +193,17 @@ public class AppConfigurationActivity extends AppCompatActivity {
                                 value = singleInteger;
                             }
 
-                    }else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,String>")) {// if input data is Map<String,String>
-                        Map hmS= new HashMap<String,String>();
-                        hmS.put("Key1","value1");
-                        hmS.put("Key2","value2");
-                        value = hmS;
-                    }else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,Integer>")) {// if input data is Map<String,Integer>
-                        Map hmI= new HashMap<String,String>();
-                        hmI.put("Key1",new Integer(4));
-                        hmI.put("Key2",new Integer(5));
-                        value = hmI;
-                    }
+                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,String>")) {// if input data is Map<String,String>
+                            Map hmS = new HashMap<String, String>();
+                            hmS.put("Key1", "value1");
+                            hmS.put("Key2", "value2");
+                            value = hmS;
+                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,Integer>")) {// if input data is Map<String,Integer>
+                            Map hmI = new HashMap<String, String>();
+                            hmI.put("Key1", new Integer(4));
+                            hmI.put("Key2", new Integer(5));
+                            value = hmI;
+                        }
                     } catch (Exception e) {
                         isInputDataValid = false; // if parsing String and Integer fails
                     }
@@ -212,7 +211,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                         boolean success = false;
                         try {
-                            success = mConfigInterface.setPropertyForKey(setKeyET.getText().toString(), setGroupKeyET.getText().toString(),  value, configError);
+                            success = mConfigInterface.setPropertyForKey(setKeyET.getText().toString(), setGroupKeyET.getText().toString(), value, configError);
                         } catch (IllegalArgumentException e) {
                             e.printStackTrace();
                         }

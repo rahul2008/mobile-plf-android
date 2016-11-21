@@ -32,13 +32,13 @@ import java.util.Set;
  */
 public class AppConfigurationManager implements AppConfigurationInterface {
 
-    AppInfra mAppInfra;
-    Context mContext;
-    JSONObject configJsonCache;
-    JSONObject staticconfigJsonCache;
+    private AppInfra mAppInfra;
+    private Context mContext;
+    private JSONObject configJsonCache;
+    private JSONObject staticconfigJsonCache;
     private static final String mAppConfig_SecureStoreKey = "ail.app_config";
 
-    SecureStorageInterface ssi;
+    private SecureStorageInterface ssi;
 
     public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
@@ -167,7 +167,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         //Set valueset = map.entrySet();
 
                         //Iterator valueItr = valueset.iterator();
-                        Object value= map.get(objectKey); // value for key:objectKey
+                        Object value = map.get(objectKey); // value for key:objectKey
                         if (null == value) {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         } else {
@@ -253,10 +253,10 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                                 list.add(jsonArray.opt(iCount));
                             }
                             object = list;
-                        }else if (cocoJSONobject.opt(key) instanceof JSONObject ){
+                        } else if (cocoJSONobject.opt(key) instanceof JSONObject) {
 
                             try {
-                                object=jsonToMap(cocoJSONobject.opt(key));
+                                object = jsonToMap(cocoJSONobject.opt(key));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -268,16 +268,15 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         return object;
     }
 
-    private  Map jsonToMap(Object JSON) throws JSONException {
+    private Map jsonToMap(Object JSON) throws JSONException {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        JSONObject jObject= new JSONObject(JSON.toString());
+        JSONObject jObject = new JSONObject(JSON.toString());
         Iterator<?> keys = jObject.keys();
 
-        while( keys.hasNext() ){
-            String key = (String)keys.next();
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
             Object value = jObject.get(key);
             map.put(key, value);
-
         }
         return map;
     }

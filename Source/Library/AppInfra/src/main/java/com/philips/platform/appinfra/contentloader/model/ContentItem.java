@@ -7,7 +7,6 @@ package com.philips.platform.appinfra.contentloader.model;
     //this is a generic class model for all find of content ie contentArticle etc
 public class ContentItem {
 
-
     String Id;
     String serviceId;
 

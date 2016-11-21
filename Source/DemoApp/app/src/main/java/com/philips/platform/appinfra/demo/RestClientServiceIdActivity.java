@@ -61,7 +61,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         mRestInterface = AppInfraApplication.gAppInfra.getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         serviceIDInput = (EditText) findViewById(R.id.editTextServiceID);
-        serviceIDInput.setText("userreg.janrain.api");
+     //   serviceIDInput.setText("userreg.janrain.api");
         pathComponentInput = (EditText) findViewById(R.id.editTextPathComponent);
         mResponse = (TextView) findViewById(R.id.textViewResponse);
         mImageView = (ImageView) findViewById(R.id.responseImageId);

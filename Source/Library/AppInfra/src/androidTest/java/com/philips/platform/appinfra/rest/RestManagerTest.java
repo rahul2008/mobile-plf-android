@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 import com.philips.platform.appinfra.rest.request.ImageRequest;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
@@ -159,15 +160,16 @@ public class RestManagerTest extends MockitoTestCase {
             Log.e("LOG REST SD", e.toString());
             e.printStackTrace();
         }
-        if (stringRequest.getCacheEntry() != null) {
-            String cachedResponse = new String(stringRequest.getCacheEntry().data);
-            Log.i("CACHED DATA: ", "" + cachedResponse);
-        }
+
         // mStringRequest.setShouldCache(false); // set false to disable cache
 
         if (null != stringRequest) {
             //  urlFired.setText(mStringRequest.getUrl());
             mRestInterface.getRequestQueue().add(stringRequest);
+        }
+        if (stringRequest.getCacheEntry() != null) {
+            String cachedResponse = new String(stringRequest.getCacheEntry().data);
+            Log.i("CACHED DATA: ", "" + cachedResponse);
         }
     }
 
@@ -254,11 +256,13 @@ public class RestManagerTest extends MockitoTestCase {
     }
 
     public void testAppInfraRequestWithServiceId() {
+        Map<String , String> header = new HashMap<>();
+        header.put("test","pwd");
         GsonCustomRequest request = null;
         try {
             request = new GsonCustomRequest(Request.Method.GET, serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE
                     , "",
-                    null, null, new Response.Listener() {
+                    null, header, new Response.Listener() {
                 @Override
                 public void onResponse(Object response) {
                     assertNotNull(response);
