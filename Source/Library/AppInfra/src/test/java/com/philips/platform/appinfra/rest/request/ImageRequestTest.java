@@ -92,7 +92,7 @@ public class ImageRequestTest {
         ImageRequest request = null;
         try {
             request = new ImageRequest("", null, maxWidth, maxHeight, scaleType,
-                    Config.RGB_565, null);
+                    Config.RGB_565, null,null,null);
         } catch (Exception e) {
             e.printStackTrace();
         }
