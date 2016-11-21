@@ -196,15 +196,15 @@ public class AddressController implements AbstractModel.DataLoadListener {
         return addressHashMap;
     }
 
-    public void setHybrisDelegate(HybrisDelegate delegate) {
-        mDelegate = delegate;
-    }
-
     HybrisDelegate getHybrisDelegate() {
         if (mDelegate == null) {
             mDelegate = HybrisDelegate.getInstance(mContext);
         }
         return mDelegate;
+    }
+
+    public void setHybrisDelegate(HybrisDelegate delegate) {
+        mDelegate = delegate;
     }
 
     public void setStore(StoreListener store) {

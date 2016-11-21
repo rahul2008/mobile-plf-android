@@ -20,7 +20,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 public class HybrisHandlerTest {
     @Mock
@@ -28,14 +30,12 @@ public class HybrisHandlerTest {
 
     @Mock
     Message mMessage;
-
     private HybrisHandler mHybrisHandler;
     private IAPListener mIAPListener;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-
         mHybrisHandler = new HybrisHandler(mContext);
         mIAPListener = new IAPListener() {
             @Override

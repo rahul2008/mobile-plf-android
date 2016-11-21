@@ -132,7 +132,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
     @Test
-    public void testDeleteCartSuccessResponse() throws
+    public void testDeleteProductSuccessResponse() throws
             JSONException, NoSuchFieldException, IllegalAccessException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -144,10 +144,14 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 
         ShoppingCartData data = new ShoppingCartData(entriesEntity, null);
         mShoppingCartPresenter.deleteProduct(data);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
     }
 
     @Test
-    public void testDeleteCartErrorResponse() throws
+    public void testDeleteProductErrorResponse() throws
             JSONException, NoSuchFieldException, IllegalAccessException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -176,8 +180,13 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         ShoppingCartData data = new ShoppingCartData(entriesEntity, null);
         Field ctn = data.getClass().getDeclaredField("mCtnNumber");
         ctn.setAccessible(true);
-        ctn.set(data, "HX9003/64");
-        mShoppingCartPresenter.updateProductQuantity(data, 4, getQuantityStatus(4, 1));
+        ctn.set(data, "HX8331/11");
+        mShoppingCartPresenter.updateProductQuantity(data, 5, getQuantityStatus(5, 1));
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "update_cart_response.txt"));
+        mNetworkController.sendSuccess(obj);
+
     }
 
     @Test
@@ -206,6 +215,28 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
             return 0;
         else
             return -1;
+    }
+
+    @Test
+    public void testGetCartCountWithTwoCartsSuccessResponse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+                assertEquals(5, count);
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.getProductCartCount(mContext, mProductCountListener);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "get_carts_response.txt"));
+        mNetworkController.sendSuccess(obj);
     }
 
     @Test
@@ -276,6 +307,67 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
     @Test
+    public void testAddToCartSuccessResponseWithIsBuyFalse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.addProductToCart(mContext, "Hx8331/11", mProductCountListener, false);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "add_product_to_cart_response.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testAddToCartSuccessResponseWithIsBuyTrue() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.addProductToCart(mContext, "Hx8331/11", mProductCountListener, true);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "add_product_to_cart_response.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testAddToCartErrorResponse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.addProductToCart(mContext, "Hx8331/11", mProductCountListener, false);
+
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
     public void testBuyProductWhenProductAlreadyInCart() throws JSONException {
         IAPCartListener mProductCountListener = new IAPCartListener() {
             @Override
@@ -289,9 +381,9 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 
         mShoppingCartPresenter = new ShoppingCartPresenter();
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
-        mShoppingCartPresenter.buyProduct(mContext, "HX9003/64", mProductCountListener);
+        mShoppingCartPresenter.buyProduct(mContext, "HX8331/11", mProductCountListener);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
-                .class, "get_cart_api_success_response.txt"));
+                .class, "get_carts_response.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
@@ -313,6 +405,44 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "get_cart_api_success_response.txt"));
         mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testBuyProductWhenEmptyResponse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.buyProduct(mContext, "HX9003/63", mProductCountListener);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testBuyProductErrorResponse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.buyProduct(mContext, "HX9003/63", mProductCountListener);
+        mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test
@@ -355,10 +485,65 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 
             }
         };
-
-        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
-                .class, "retailers.txt"));
         mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testGetUserResponseWithIAPNetworkError() {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        Message msg = new Message();
+        msg.obj = new IAPNetworkError(null, 1, null);
+        mShoppingCartPresenter.onGetUser(msg);
+    }
+
+    @Test
+    public void testGetUserResponseSuccess() throws Exception {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "GetUser.txt"));
+        Message msg = new Message();
+        msg.obj = obj;
+        mShoppingCartPresenter.onGetUser(msg);
+    }
+
+    @Test
+    public void testGetDeliveryModesResponseWithIAPNetworkError() {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        Message msg = new Message();
+        msg.obj = new IAPNetworkError(null, 1, null);
+        mShoppingCartPresenter.onGetDeliveryModes(msg);
+    }
+
+    @Test
+    public void testGetDeliveryModesResponse() throws Exception {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "DeliveryModes.txt"));
+        Message msg = new Message();
+        msg.obj = obj;
+        mShoppingCartPresenter.onGetDeliveryModes(msg);
+    }
+
+    @Test
+    public void testSetDeliveryModesResponseWithIAPNetworkError() {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        Message msg = new Message();
+        msg.obj = new IAPNetworkError(null, 1, null);
+        mShoppingCartPresenter.onSetDeliveryMode(msg);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testSetDeliveryAddressResponseWithIAPNetworkError() {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        Message msg = new Message();
+        msg.obj = new IAPNetworkError(null, 1, null);
+        mShoppingCartPresenter.onSetDeliveryAddress(msg);
     }
 
     @Test

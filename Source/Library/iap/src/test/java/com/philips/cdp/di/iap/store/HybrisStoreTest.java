@@ -32,13 +32,14 @@ public class HybrisStoreTest {
     @Mock
     AppInfra mAppInfra;
     private StoreListener mStore;
+    MockIAPSetting mockIAPSetting;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
-        MockIAPSetting mockIAPSetting = new MockIAPSetting(mContext);
+        mockIAPSetting = new MockIAPSetting(mContext);
         mockIAPSetting.setUseLocalData(false);
         mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);
         mStore.initStoreConfig("en", "US", null);
@@ -188,5 +189,10 @@ public class HybrisStoreTest {
     public void verifyLocale() {
         mStore.setLangAndCountry("en", "US");
         assertEquals("en_US", mStore.getLocale());
+    }
+
+    @Test
+    public void testCreateNewUser(){
+        mStore.createNewUser(mContext);
     }
 }

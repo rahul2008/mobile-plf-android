@@ -19,10 +19,7 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
-
-import java.util.UUID;
 
 public class WebBuyFromRetailers extends InAppBaseFragment {
     public static final String TAG = WebBuyFromRetailers.class.getName();
@@ -45,7 +42,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mWebView.loadUrl(getUrlWithUUID(mUrl));
+        mWebView.loadUrl(mUrl);
     }
 
     @Override
@@ -78,7 +75,6 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
-                IAPLog.d("Retailers URL :", url);
                 return true;
             }
 
@@ -115,18 +111,5 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             return true;
         }
         return false;
-    }
-
-    private String getUrlWithUUID(String url) {
-        StringBuilder urlWithUUID = new StringBuilder(url);
-        String uuid = UUID.randomUUID().toString();
-        if (url.contains("iceleads.com")) {
-            urlWithUUID.append("&CID=").append(uuid);
-        } else if (url.contains("itrack.where-to-buy.co")) {
-            urlWithUUID.append("&guid=").append(uuid);
-        } else if (url.contains("philips.channelsight.com")) {
-            urlWithUUID.append("&subTag=").append(uuid);
-        }
-        return urlWithUUID.toString();
     }
 }

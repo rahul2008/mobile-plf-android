@@ -1,19 +1,7 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without
-the written consent of the copyright holder.
-
-Project           : SaecoAvanti
-
-File Name         : EventHelper.java
-
-Description       : EventHelper
-Revision History: version 1:
-    Date: Jul 5, 2014
-    Original author: Maruti Kutre
-    Description: Initial version
-----------------------------------------------------------------------------*/
-
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.eventhelper;
 
 import com.philips.cdp.di.iap.utils.IAPLog;

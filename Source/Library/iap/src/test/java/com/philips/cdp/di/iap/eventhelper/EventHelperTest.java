@@ -1,8 +1,10 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.eventhelper;
 
 import com.philips.cdp.di.iap.utils.IAPConstant;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,13 +14,13 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 310164421 on 3/9/2016.
- */
+import static junit.framework.Assert.assertNotNull;
+
 @RunWith(RobolectricTestRunner.class)
-public class EventHelperTest extends TestCase {
-    EventHelper eventHelper = EventHelper.getInstance();
-    EventListener listener = Mockito.mock(EventListener.class);
+public class EventHelperTest {
+
+    private EventHelper eventHelper = EventHelper.getInstance();
+    private EventListener listener = Mockito.mock(EventListener.class);
 
     @Test
     public void testGetInstance() throws Exception {
@@ -37,8 +39,9 @@ public class EventHelperTest extends TestCase {
     }
 
     @Test
-    public void testRegisterEventNotification1() throws Exception {
+    public void testRegisterEventNotificationWithNotification() throws Exception {
         eventHelper.registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, listener);
+        eventHelper.notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);
         assertNotNull(listener);
     }
 
