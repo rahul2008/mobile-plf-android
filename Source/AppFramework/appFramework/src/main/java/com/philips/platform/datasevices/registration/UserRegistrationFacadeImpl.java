@@ -10,27 +10,23 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.core.datatypes.UserCredentials;
+import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasevices.database.DatabaseHelper;
-import com.philips.platform.datasevices.database.ORMSavingInterfaceImpl;
-import com.philips.platform.datasevices.database.ORMUpdatingInterfaceImpl;
 import com.philips.platform.datasevices.database.OrmDeleting;
 import com.philips.platform.datasevices.database.OrmDeletingInterfaceImpl;
-import com.philips.platform.datasevices.database.OrmFetchingInterfaceImpl;
 import com.philips.platform.datasevices.database.OrmSaving;
-import com.philips.platform.datasevices.database.OrmUpdating;
-import com.philips.platform.datasevices.database.table.BaseAppDateTime;
+import com.philips.platform.datasevices.database.table.OrmConsent;
+import com.philips.platform.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.datasevices.database.table.OrmConsentDetailType;
 import com.philips.platform.datasevices.database.table.OrmMeasurement;
 import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
 import com.philips.platform.datasevices.database.table.OrmMoment;
@@ -38,21 +34,18 @@ import com.philips.platform.datasevices.database.table.OrmMomentDetail;
 import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
 import com.philips.platform.datasevices.listener.EventHelper;
 import com.philips.platform.datasevices.listener.UserRegistrationFailureListener;
-import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCredentials;
-import com.philips.platform.core.datatypes.UserProfile;
-import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import retrofit.RetrofitError;
+
+import static com.philips.platform.appframework.AppFrameworkApplication.appInfra;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -88,7 +81,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int statusCode) {
                     if(context!=null)
-                    Toast.makeText(context,"refresh token failed and status code is = " + statusCode,Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,"refresh token failed and status code is = " + statusCode,Toast.LENGTH_LONG).show();
                     notifyLoginSessionResponse();
                 }
 
@@ -109,12 +102,15 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
             Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
             Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
 
+            Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
+            Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
+            Dao<OrmConsentDetailType, Integer> consentDetailTypeDao = databaseHelper.getConsentDetailsTypeDao();
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao);
+                    synchronisationDataDao,consentDao,consentDetailsDao,consentDetailTypeDao);
 
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao);
+                    measurementDetailDao, synchronisationDataDao,consentDao,consentDetailsDao,consentDetailTypeDao);
 
 
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
@@ -127,8 +123,8 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     }
 
     public void clearUserData() {
-       // DataServicesManager manager = DataServicesManager.getInstance();
-       // manager.deleteAll();
+        // DataServicesManager manager = DataServicesManager.getInstance();
+        // manager.deleteAll();
         getDeleting().deleteAllMoments();
         clearPreferences();
         email = null;
@@ -225,7 +221,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     private boolean isAccessTokenStillValid() {
         return accessToken!= null || !accessToken.isEmpty();
-      //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
+        //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
     }
 
 /*    public void clearUserData() {

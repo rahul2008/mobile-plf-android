@@ -19,7 +19,6 @@ import com.philips.platform.datasevices.database.table.OrmMoment;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -64,7 +63,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(TemperatureTimeLineFragmentcAdapter.this,mData,view, position);
+                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(TemperatureTimeLineFragmentcAdapter.this, mData, view, position);
                 }
             });
         }

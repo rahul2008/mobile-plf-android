@@ -1,23 +1,20 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package com.philips.platform.datasevices.database;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.platform.datasevices.listener.DBChangeListener;
-import com.philips.platform.datasevices.listener.EventHelper;
-import com.philips.platform.datasevices.listener.UserRegistrationFailureListener;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.datasevices.database.table.OrmConsent;
 import com.philips.platform.datasevices.database.table.OrmMoment;
 import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.datasevices.listener.DBChangeListener;
+import com.philips.platform.datasevices.listener.EventHelper;
+import com.philips.platform.datasevices.listener.UserRegistrationFailureListener;
 import com.philips.platform.datasevices.temperature.TemperatureMomentHelper;
 
 import java.io.File;
@@ -71,6 +68,32 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public void postRetrofitError(final Throwable error) {
         notifyAllFailure((Exception) error);
     }
+
+    @Override
+    public void updateConsent(Consent consent) {
+        try {
+            OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+            Log.d("Creator ID MODI",ormConsent.getCreatorId());
+
+            if (consentInDatabase != null) {
+
+                int id = consentInDatabase.getId();
+                deleting.deleteConsent(consentInDatabase);
+                ormConsent.setId(id);
+                saving.saveConsent(ormConsent);
+
+            }else{
+                saving.saveConsent(ormConsent);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     private boolean photoFileExistsForPhotoMoments(final Moment moment) {
         final Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
@@ -221,6 +244,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return momentInDatabase;
     }
 
+    //TODO: Spoorti - Already part of Temperature Helper
     private void notifyAllSuccess(Object ormMoments) {
         final Map<Integer, ArrayList<DBChangeListener>> eventMap =
                 EventHelper.getInstance().getEventMap();

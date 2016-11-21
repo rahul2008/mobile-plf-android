@@ -58,8 +58,7 @@ public class TemperatureMomentHelper {
     }
 
     public void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
-        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().
-                get(EventHelper.MOMENT);
+        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
         if (dbChangeListeners != null) {
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onSuccess(ormMoments);
@@ -68,8 +67,7 @@ public class TemperatureMomentHelper {
     }
 
     public void notifyAllSuccess(Object ormMoments) {
-        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().
-                getEventMap().get(EventHelper.MOMENT);
+        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
         if (dbChangeListeners != null) {
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onSuccess(ormMoments);
@@ -80,7 +78,7 @@ public class TemperatureMomentHelper {
     public void notifyAllFailure(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
+        if (integers.contains(EventHelper.MOMENT)) {
             ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onFailure(e);

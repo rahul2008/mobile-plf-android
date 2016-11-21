@@ -3,8 +3,6 @@ package com.philips.platform.datasevices.database;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.platform.datasevices.listener.DBChangeListener;
-import com.philips.platform.datasevices.listener.EventHelper;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.datasevices.database.table.OrmMoment;
@@ -19,6 +17,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
+
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -48,8 +48,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             ormDeleting.deleteAll();
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            if(e.getMessage()!=null){
-                Log.i("***SPO***","exception = " + e.getMessage());
+            if (e.getMessage() != null) {
+                Log.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -78,8 +78,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             //  notifyAllSuccess(moment);
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            if(e.getMessage()!=null){
-                Log.i("***SPO***","exception = " + e.getMessage());
+            if (e.getMessage() != null) {
+                Log.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -97,8 +97,8 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            if(e.getMessage()!=null){
-                Log.i("***SPO***","Exception = " + e.getMessage());
+            if (e.getMessage() != null) {
+                Log.i("***SPO***", "Exception = " + e.getMessage());
             }
         }
         return null;

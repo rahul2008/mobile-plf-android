@@ -9,6 +9,9 @@ package com.philips.platform.datasevices.database;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
@@ -16,12 +19,15 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.datasevices.database.table.OrmConsent;
 import com.philips.platform.datasevices.database.table.OrmMeasurement;
 import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
 import com.philips.platform.datasevices.database.table.OrmMoment;
 import com.philips.platform.datasevices.database.table.OrmMomentDetail;
 
 import org.joda.time.DateTime;
+
+/*import org.joda.time.DateTime;*/
 
 
 /**
@@ -92,6 +98,23 @@ public class Database implements BaseAppDataCreator {
     public SynchronisationData createSynchronisationData(String guid, boolean inactive,
                                                          DateTime lastModifiedTime, int version) {
         return creator.createSynchronisationData(guid, inactive, lastModifiedTime, version);
+    }
+
+    @NonNull
+    @Override
+    public Consent createConsent(@NonNull String creatorId) {
+        return creator.createConsent(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
+        try {
+            OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            return creator.createConsentDetail(type, status, version, deviceIdentificationNumber,isSynchronized, ormConsent);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            throw new IllegalArgumentException("Consent was not OrmConsent");
+        }
     }
 
 

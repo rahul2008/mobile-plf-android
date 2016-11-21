@@ -28,10 +28,6 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasevices.temperature.TemperatureMomentHelper;
-import com.philips.platform.datasevices.temperature.TemperatureTimeLineFragmentcAdapter;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIView;
 
 import org.joda.time.DateTime;
 
@@ -39,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TemperaturePresenter extends UIBasePresenter {
+public class TemperaturePresenter {
     private DataServicesManager mDataServices;
 
     private Moment mMoment;
@@ -55,70 +51,51 @@ public class TemperaturePresenter extends UIBasePresenter {
     EditText mPhase;
     Button mDialogButton;
 
-    TemperaturePresenter(UIView uiView, Context context, MomentType momentType) {
-        super(uiView);
+    TemperaturePresenter(Context context, MomentType momentType) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
     }
 
-    public void createMoment(String momemtDetail, String measurement, String measurementDetail){
-        mMoment= mDataServices.createMoment(mMomentType);
+    public void createMoment(String momemtDetail, String measurement, String measurementDetail) {
+        mMoment = mDataServices.createMoment(mMomentType);
         createMomentDetail(momemtDetail);
         createMeasurement(measurement);
         createMeasurementDetail(measurementDetail);
     }
 
-    public void updateMoment(String momemtDetail, String measurement, String measurementDetail){
-        mMoment= mDataServices.createMoment(mMomentType);
-        mMoment.setDateTime(DateTime.now());
-        createMomentDetail(momemtDetail);
-        createMeasurement(measurement);
-        createMeasurementDetail(measurementDetail);
-    }
 
-    public void createMeasurementDetail(String value){
-        MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION,mMeasurement);
+    public void createMeasurementDetail(String value) {
+        MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, mMeasurement);
         measurementDetail.setValue(value);
     }
 
-    public void createMeasurement(String value){
+    public void createMeasurement(String value) {
         mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, mMoment);
         mMeasurement.setValue(Double.valueOf(value));
         mMeasurement.setDateTime(DateTime.now());
     }
 
-    public void createMomentDetail(String value){
+    public void createMomentDetail(String value) {
         MomentDetail momentDetail = mDataServices.
                 createMomentDetail(MomentDetailType.PHASE, mMoment);
         momentDetail.setValue(value);
     }
 
-    public void fetchData(){
+    public void fetchData() {
         mDataServices.fetch(MomentType.TEMPERATURE);
     }
 
-    public Moment getMoment(){
+    public Moment getMoment() {
         return mMoment;
     }
 
-    public void saveRequest(){
-        if(mMoment.getCreatorId()==null || mMoment.getSubjectId()==null){
-            Toast.makeText(mContext,"Please Login again", Toast.LENGTH_SHORT).show();
-        }else {
+    public void saveRequest() {
+        if (mMoment.getCreatorId() == null || mMoment.getSubjectId() == null) {
+            Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
+        } else {
             mDataServices.save(mMoment);
         }
-    }
-
-
-    @Override
-    public void onClick(int componentID) {
-
-    }
-
-    @Override
-    public void onLoad() {
-
     }
 
     public void createAndSaveMoment() {
@@ -132,7 +109,7 @@ public class TemperaturePresenter extends UIBasePresenter {
                                         final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<>();
 
-        final String delete =mContext.getResources().getString(R.string.delete);
+        final String delete = mContext.getResources().getString(R.string.delete);
         final String update = mContext.getResources().getString(R.string.update);
         final String[] descriptions = new String[]{delete, update};
 
@@ -147,11 +124,11 @@ public class TemperaturePresenter extends UIBasePresenter {
                                     final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        removeMoment(adapter,data,selectedItem);
+                        removeMoment(adapter, data, selectedItem);
                         popupWindow.dismiss();
                         break;
                     case UPDATE:
-                        addOrUpdateMoment(UPDATE,data.get(selectedItem));
+                        addOrUpdateMoment(UPDATE, data.get(selectedItem));
                         popupWindow.dismiss();
                         break;
                     default:
@@ -169,8 +146,8 @@ public class TemperaturePresenter extends UIBasePresenter {
             adapter.notifyItemRemoved(adapterPosition);
             adapter.notifyDataSetChanged();
         } catch (ArrayIndexOutOfBoundsException e) {
-            if(e.getMessage()!=null){
-                Log.i("***SPO***","e = " + e.getMessage());
+            if (e.getMessage() != null) {
+                Log.i("***SPO***", "e = " + e.getMessage());
             }
         }
     }
@@ -182,8 +159,8 @@ public class TemperaturePresenter extends UIBasePresenter {
             mDataServices.update(new TemperatureMomentHelper().updateMoment(moment,
                     mPhase.getText().toString(), mTemperature.getText().toString(), mLocation.getText().toString()));
         } catch (Exception ArrayIndexOutOfBoundsException) {
-            if(ArrayIndexOutOfBoundsException.getMessage()!=null){
-                Log.i("***SPO***","e = " + ArrayIndexOutOfBoundsException.getMessage());
+            if (ArrayIndexOutOfBoundsException.getMessage() != null) {
+                Log.i("***SPO***", "e = " + ArrayIndexOutOfBoundsException.getMessage());
             }
         }
     }
@@ -199,7 +176,7 @@ public class TemperaturePresenter extends UIBasePresenter {
         mDialogButton = (Button) dialog.findViewById(R.id.save);
         mDialogButton.setEnabled(false);
 
-        if(addOrUpdate == UPDATE){
+        if (addOrUpdate == UPDATE) {
             final TemperatureMomentHelper helper = new TemperatureMomentHelper();
             mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mLocation.setText(helper.getNotes(moment));
@@ -218,7 +195,7 @@ public class TemperaturePresenter extends UIBasePresenter {
                     return;
                 }
 
-                switch (addOrUpdate){
+                switch (addOrUpdate) {
                     case ADD:
                         createAndSaveMoment();
                         break;
@@ -248,9 +225,9 @@ public class TemperaturePresenter extends UIBasePresenter {
             @Override
             public void onTextChanged(final CharSequence s,
                                       final int start, final int before, final int count) {
-                if(isDialogButtonEnabled()){
+                if (isDialogButtonEnabled()) {
                     mDialogButton.setEnabled(true);
-                }else{
+                } else {
                     mDialogButton.setEnabled(false);
                 }
             }
@@ -263,9 +240,9 @@ public class TemperaturePresenter extends UIBasePresenter {
     }
 
     private boolean isDialogButtonEnabled() {
-        return mPhase.getText().toString()!=null && !mPhase.getText().toString().isEmpty() &&
-                mTemperature.getText().toString()!=null && !mTemperature.getText().toString().isEmpty() &&
-                mLocation.getText().toString()!=null && !mLocation.getText().toString().isEmpty();
+        return mPhase.getText().toString() != null && !mPhase.getText().toString().isEmpty() &&
+                mTemperature.getText().toString() != null && !mTemperature.getText().toString().isEmpty() &&
+                mLocation.getText().toString() != null && !mLocation.getText().toString().isEmpty();
     }
 
     private boolean validateInputFields() {

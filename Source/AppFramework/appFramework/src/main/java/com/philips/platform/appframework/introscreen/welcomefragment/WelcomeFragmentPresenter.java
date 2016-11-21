@@ -1,11 +1,14 @@
 package com.philips.platform.appframework.introscreen.welcomefragment;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -98,7 +101,9 @@ public class WelcomeFragmentPresenter extends UIBasePresenter implements URState
 
     @Override
     public void onLogoutSuccess() {
-
+        final FragmentActivity fragmentActivity = welcomeFragmentView.getFragmentActivity();
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(fragmentActivity, new User(fragmentActivity));
+        userRegistrationFacade.clearUserData();
     }
 
     @Override

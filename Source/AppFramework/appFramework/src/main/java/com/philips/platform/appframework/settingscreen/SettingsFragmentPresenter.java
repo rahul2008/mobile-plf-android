@@ -7,10 +7,12 @@ package com.philips.platform.appframework.settingscreen;
 
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.modularui.statecontroller.BaseAppState;
 import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -125,6 +127,8 @@ public class SettingsFragmentPresenter extends UIBasePresenter implements URStat
             baseState.setPresenter(this);
             baseState.navigate(fragmentLauncher);
         }
+        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(fragmentActivity, new User(fragmentActivity));
+        userRegistrationFacade.clearUserData();
     }
 
     @Override
