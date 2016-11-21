@@ -10,55 +10,116 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginTop="12dp" />
-
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/uitApplicationBackground" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/progress_bar_seekbar_scale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/progress_bar_seekbar_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uit.view.widget.ProgressBar
+                    android:id="@+id/progress_bar_indeterminate_circular_small"
+                    style="@style/UIDProgressBarCircularIndeterminate"
+                    app:circularProgressBarSize="small" />
+
+                <com.philips.platform.uit.view.widget.ProgressBar
+                    android:id="@+id/progress_bar_indeterminate_circular_middle"
+                    style="@style/UIDProgressBarCircularIndeterminate"
+                    android:visibility="gone"
+                    app:circularProgressBarSize="middle" />
+
+                <com.philips.platform.uit.view.widget.ProgressBar
+                    android:id="@+id/progress_bar_indeterminate_circular_big"
+                    style="@style/UIDProgressBarCircularIndeterminate"
+                    android:visibility="gone"
+                    app:circularProgressBarSize="big" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uit.view.widget.ProgressBar
+                    android:id="@+id/progress_bar_determinate_circular_small"
+                    style="@style/UIDProgressBarCircularDeterminate"
+
+                    app:circularProgressBarSize="small" />
+
+                <com.philips.platform.uit.view.widget.ProgressBar
+                    android:id="@+id/progress_bar_determinate_circular_middle"
+                    style="@style/UIDProgressBarCircularDeterminate"
+                    android:visibility="gone"
+                    app:circularProgressBarSize="middle" />
+
+                <com.philips.platform.uit.view.widget.ProgressBar
+                    android:id="@+id/progress_bar_determinate_circular_big"
+                    style="@style/UIDProgressBarCircularDeterminate"
+                    android:visibility="gone"
+                    app:circularProgressBarSize="big" />
+            </LinearLayout>
+        </LinearLayout>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
-            style="@style/UIDProgressBarHorizontalIndeterminate"
-            android:indeterminate="true"
-            android:indeterminateBehavior="repeat" />
+            style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
+            app:uid_linear_progress_bar="true" />
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
-            style="@style/UIDProgressBarHorizontalDeterminateWithMargins" />
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
+            app:uid_linear_progress_bar="true" />
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
-            style="@style/UIDProgressBarHorizontalDeterminateWithMargins" />
+            style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
+            app:uid_linear_progress_bar="true" />
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
-            style="@style/UIDProgressBarHorizontalDeterminate" />
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <com.philips.platform.uit.view.widget.ProgressBar
-            android:id="@+id/progress_bar_determinate_circular_small"
-            style="@style/UIDProgressBarCircularDeterminate"
-            app:circularProgressBarSize="small" />
-
-        <com.philips.platform.uit.view.widget.ProgressBar
-            android:id="@+id/progress_bar_determinate_circular_middle"
-            style="@style/UIDProgressBarCircularDeterminate"
-            app:circularProgressBarSize="middle" />
-
-        <com.philips.platform.uit.view.widget.ProgressBar
-            android:id="@+id/progress_bar_determinate_circular_big"
-            style="@style/UIDProgressBarCircularDeterminate"
-            app:circularProgressBarSize="big" />
+            style="@style/UIDProgressBarHorizontalDeterminate"
+            app:uid_linear_progress_bar="true" />
     </LinearLayout>
-
-
 </ScrollView>
