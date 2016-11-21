@@ -72,11 +72,6 @@ public class RegConstantsTest extends InstrumentationTestCase {
     public void testJainainFailure() throws Exception {
         assertEquals("JANRAIN_FAILURE", mRegConstants.JANRAIN_INIT_FAILURE);
     }
-
-    public void testParsingCompleted() throws Exception {
-        assertEquals("PARSING_COMPLETED", mRegConstants.PARSING_COMPLETED);
-    }
-
     public void testGivenName() throws Exception {
         assertEquals("givenName", mRegConstants.REGISTER_GIVEN_NAME);
     }
