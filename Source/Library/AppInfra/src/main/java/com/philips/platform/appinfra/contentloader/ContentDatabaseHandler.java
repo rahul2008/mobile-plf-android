@@ -403,7 +403,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return values;
     }
 
-    void deleteAll(String serviceID){
+    void clearCacheForContentLoader(String serviceID){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from "+ CONTENT_LOADER_STATES +" WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\"");
         db.execSQL("delete from "+ CONTENT_TABLE +" WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\"");

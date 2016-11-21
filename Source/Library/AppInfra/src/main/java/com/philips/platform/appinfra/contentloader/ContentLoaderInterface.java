@@ -38,7 +38,7 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
     void refresh(OnRefreshListener refreshListener);
 
     /**
-     * Remove all cached content
+     * Remove all cached content of given content loader
      */
     void clearCache();
 
@@ -75,8 +75,5 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
      * Returns list of Content objects that have the at least one (OR) or all (AND) given tag IDs set
      */
     void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener);
-    /**
-     * delete all data from content table and content Loader state table
-     */
-    void deleteAllContents();
+
 }

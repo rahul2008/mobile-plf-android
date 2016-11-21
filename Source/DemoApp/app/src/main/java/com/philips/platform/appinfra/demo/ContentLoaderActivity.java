@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.ContentLoaderInterface;
+import com.philips.platform.appinfra.contentloader.model.ContentArticle;
+import com.philips.platform.appinfra.contentloader.model.Tag;
 
 import java.util.List;
 
@@ -109,7 +111,7 @@ public class ContentLoaderActivity  extends AppCompatActivity {
                         }
                         @Override
                         public void onSuccess(List contents) {
-                            textViewResponse.setText(contents.toString());
+                            textViewResponse.setText(showContents(contents));
                         }
                     });
                     break;
@@ -168,7 +170,7 @@ public class ContentLoaderActivity  extends AppCompatActivity {
                     break;
 
                 case "Delete All":
-                    mContentLoader.deleteAllContents();
+                    mContentLoader.clearCache();
                     break;
 
             }
@@ -178,4 +180,30 @@ public class ContentLoaderActivity  extends AppCompatActivity {
 
 
     }
+    private String showContents(List  contents){
+        String result="";
+       if(null!=contents &&contents.size()>0){
+
+               for(int contentCount=0;contentCount<contents.size() ;contentCount++){
+                   if(contents.get(contentCount) instanceof ContentArticle){
+                       ContentArticle ca =  ((ContentArticle) contents.get(contentCount));
+                       result+="\n\n[ID: "+ca.getId()+"] [Version: "+ca.getVersion()+"] [Tag(s): "+getTagsString(ca.getTags())+"]";
+                   }
+               }
+       }
+        return result;
+        }
+
+    private String getTagsString(List<Tag> tagList){
+        String tags="";
+        if (null != tagList && tagList.size() > 0) {
+            for (Tag tag : tagList) {
+                tags += tag.getId() + ",";
+            }
+            tags = tags.substring(0, tags.length() - 1);// remove last comma
+        }
+        return tags;
+    }
+
+
 }
