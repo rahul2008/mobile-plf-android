@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -114,6 +113,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvSetCosents.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(getActivity());
+        mTemperaturePresenter.fetchData();
         return view;
     }
 
@@ -129,6 +129,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
+
     }
 
     void injectDBInterfacesToCore() {
@@ -192,8 +193,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
         cancelPendingIntent();
         mDataServicesManager.stopCore();
-        dismissProgressDialog();
-
     }
 
     @Override
@@ -219,7 +218,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
-                dismissProgressDialog();
             }
         });
 
@@ -228,24 +226,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onSuccess(final Object data) {
         mTemperaturePresenter.fetchData();
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showProgressDialog();
-            }
-        });
     }
 
     @Override
     public void onFailure(final Exception exception) {
         onFailureRefresh(exception);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dismissProgressDialog();
-            }
-        });
-
     }
 
     private void onFailureRefresh(final Exception e) {
@@ -261,7 +246,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-                dismissProgressDialog();
             }
         });
     }
@@ -269,8 +253,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
-        mTemperaturePresenter.fetchData();
-        showProgressDialog();
     }
 
     private void showProgressDialog() {
