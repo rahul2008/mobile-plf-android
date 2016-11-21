@@ -83,18 +83,18 @@ public class CircularProgressIndicators {
     }
 
     //*********************************Theming TestScenarios**************************//
-
-    @Test
-    public void verifyProgressBarProgressColor() {
+//
+//    @Test
+//    public void verifyCircularProgressBarProgressColor() {
 //        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
-//        getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
-    }
-
-    @Test
-    public void verifyProgressBarBackgroundColor() {
+//        getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
+//    }
+//
+//    @Test
+//    public void verifyProgressBarBackgroundColor() {
 //        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
 //        getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, circularprogressBackgroundID(), true)));
-    }
+//    }
 
 
     private ViewInteraction getSmallCircularProgressBar() {
