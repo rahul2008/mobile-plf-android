@@ -164,9 +164,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         Set keyset = map.keySet();
                         Iterator keyItr = keyset.iterator();
                         Object objectKey = keyItr.next();
-                        //Set valueset = map.entrySet();
-
-                        //Iterator valueItr = valueset.iterator();
                         Object value = map.get(objectKey); // value for key:objectKey
                         if (null == value) {
                             throw new IllegalArgumentException("Invalid Argument Exception");
@@ -254,11 +251,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                             }
                             object = list;
                         } else if (cocoJSONobject.opt(key) instanceof JSONObject) {
-
                             try {
                                 object = jsonToMap(cocoJSONobject.opt(key));
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                                        Log.getStackTraceString(e));
                             }
                         }
                     }

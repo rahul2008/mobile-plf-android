@@ -22,8 +22,8 @@ public interface AppConfigurationInterface {
      * if value in number then 'Integer' Object is returned
      * if value is array of literal then 'array of String' Object is returned
      * if value is array of number then 'array of Integer' Object is returned
-     *  HashMap<String,String> is returned if value is so</>
-     *  HashMap<String,Integer> is returned if value is so</>
+     * if value is Map<String,String> then 'HashMap<String,String>' is returned
+     * if value is Map<String,Integer> then 'HashMap<String,Integer>' is returned
      */
     Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws
             IllegalArgumentException;
