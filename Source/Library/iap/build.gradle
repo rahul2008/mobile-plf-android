@@ -60,7 +60,9 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }  
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -95,9 +97,9 @@ artifactory {
             repoKey = 'libs-release-local'
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
-
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -116,11 +118,10 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
+
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
-    lintOptions {
-        abortOnError false
-    }
+
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 24
@@ -129,8 +130,8 @@ android {
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        generatedDensities = []
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -143,6 +144,7 @@ android {
         }
 
     }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -165,8 +167,8 @@ android {
         exclude 'lib/x86/libblasV8.so'
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
-
     }
+
     lintOptions {
         abortOnError false
     }
@@ -202,7 +204,6 @@ dependencies {
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
@@ -221,7 +222,6 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 }
 
 task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
     description 'Run pmd'
     group 'verification'
     ignoreFailures = true
@@ -234,10 +234,10 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     }
 
 }
+
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
-//    jvmArgs = ["-XX:-UseSplitVerifier"]
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
@@ -249,9 +249,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/view/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
+                       '**/integration/IAPInterface.class',
+                       '**/store/IAPUser.class',
                        '**/utils/*.class',
                        '**/activity/*.class',
-                       '**/screens/*.class']
+                       '**/screens/*.class',
+                       '**/Manifest*.*']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
