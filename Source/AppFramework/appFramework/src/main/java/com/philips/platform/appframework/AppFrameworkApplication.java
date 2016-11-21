@@ -6,52 +6,51 @@
 package com.philips.platform.appframework;
 
 import android.app.Application;
-import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasevices.database.DatabaseHelper;
-import com.philips.platform.modularui.statecontroller.UIFlowManager;
+import com.philips.platform.modularui.statecontroller.BaseUiFlowManager;
 import com.philips.platform.modularui.stateimpl.IAPState;
 import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+
 import java.util.Locale;
+
 /**
  * Application class is used for initialization
  */
 public class AppFrameworkApplication extends Application {
-    public UIFlowManager flowManager;
-    private Context context;
     public static AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
+    protected FlowManager targetFlowManager;
     UserRegistrationState userRegistrationState;
     IAPState iapState;
     ProductRegistrationState productRegistrationState;
-     /**
+
+    /**
      * @return instance of this class
      */
-
-
 
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
-        context = getApplicationContext();
-        flowManager = new UIFlowManager();
+        targetFlowManager = FlowManager.getInstance( getApplicationContext(), R.string.com_philips_app_fmwk_app_flow_url);
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        userRegistrationState= new UserRegistrationState();
+        userRegistrationState = new UserRegistrationState();
         userRegistrationState.init(this);
-        productRegistrationState= new ProductRegistrationState();
+        productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         iapState = new IAPState();
         iapState.init(this);
@@ -59,14 +58,13 @@ public class AppFrameworkApplication extends Application {
         databaseHelper.getWritableDatabase();
     }
 
-    public IAPState getIap(){
+    public IAPState getIap() {
         return iapState;
     }
-/**
- * Method for initializing IAP
- *
- */
 
+    /**
+     * Method for initializing IAP
+     */
 
     private void setLocale() {
         String languageCode = Locale.getDefault().getLanguage();
@@ -81,11 +79,7 @@ public class AppFrameworkApplication extends Application {
      * Initializing Product registration
      */
 
-    public UIFlowManager getFlowManager() {
-        return flowManager;
+    public BaseUiFlowManager getTargetFlowManager() {
+        return targetFlowManager;
     }
-
-       }
-
-
-
+}

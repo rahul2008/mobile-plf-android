@@ -171,17 +171,17 @@ public static <fields>;
 
 -keepclassmembers class ** {
     !private void onEvent*(**);
-     @org.greenrobot.eventbus.Subscribe <methods>;
-     public void onEvent(**);
-     public void onEventMainThread(**);
-     public void onEventBackgroundThread(**);
-     public void onEvent*(***);
-     void onEvent*(**);
-     void onEvent*(***);
+#     @org.greenrobot.eventbus.Subscribe <methods>;
+#     public void onEvent(**);
+#     public void onEventMainThread(**);
+#     public void onEventBackgroundThread(**);
+#     public void onEvent*(***);
+#     void onEvent*(**);
+#     void onEvent*(***);
 }
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keep class de.greenrobot.event.** { *; }
--keep class de.greenrobot.** {*;}
+#-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+#-keep class de.greenrobot.event.** { *; }
+#-keep class de.greenrobot.** {*;}
 
 #-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
 
@@ -190,9 +190,9 @@ public static <fields>;
 #}
 
 # Only required if you use AsyncExecutor
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(java.lang.Throwable);
-}
+#-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+#    <init>(java.lang.Throwable);
+#}
 
 ###--------------- Jodatime  ----------
 
