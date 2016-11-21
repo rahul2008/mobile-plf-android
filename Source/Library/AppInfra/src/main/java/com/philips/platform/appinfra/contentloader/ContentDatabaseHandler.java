@@ -389,6 +389,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             expiryTime=cursor.getLong(0);
         }
+         cursor.close();
         return expiryTime;
     }
 

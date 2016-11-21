@@ -81,8 +81,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         long currentTime = calendar.getTime().getTime();
         if (contentLoaderExpiryTime < currentTime)// if content loader is expired then refresh
         {
-            downloadedContents.clear();
             if (downloadInProgress.compareAndSet(false, true)) {
+                downloadedContents.clear();
                 downloadContent(refreshListener);
             } else {
                 Log.i("CL REFRSH ERR", "" + "download already in progress");
@@ -358,18 +358,18 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         return path;
     }
 
-    int getDownloadLimitFromConfig() {
+    private int getDownloadLimitFromConfig() {
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         Integer contentLoaderLimit = (Integer) mAppInfra.getConfigInterface().getPropertyForKey("contentLoader.limitSize", "appinfra", configError);
         return contentLoaderLimit;
     }
 
-    private void updateContentDatabase() {
-        if (null != downloadedContents && downloadedContents.size() > 0) {
-
-        }
-        downloadedContents.clear();
-    }
+//    private void updateContentDatabase() {
+//        if (null != downloadedContents && downloadedContents.size() > 0) {
+//
+//        }
+//        downloadedContents.clear();
+//    }
 
     private long expiryTimeforUserInputTime(int userInputExpiryTime) {
         long expiryTime = 0;
