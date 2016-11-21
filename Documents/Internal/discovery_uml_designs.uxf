@@ -4,34 +4,32 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>240</x>
-      <y>300</y>
+      <x>360</x>
+      <y>410</y>
       <w>360</w>
       <h>140</h>
     </coordinates>
-    <panel_attributes>NodeMerger
+    <panel_attributes>CombinedDiscoveryStrategy
 --
 List&lt;Nodes&gt; mergedNodes
+List&lt;DiscoveryStrategy&gt; strategies
 --
-notify app whenever discovered nodes change
-merge Nodes found by strategies
-start()
-stop()
-</panel_attributes>
+merge Nodes found by strategies</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>310</x>
-      <y>520</y>
-      <w>290</w>
+      <x>800</x>
+      <y>220</y>
+      <w>220</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
-DiscoveryStrategy(DiscoveryManager)
+DiscoveryStrategy()
 --
 filter out undesired appliances
+notify app whenever discovered nodes change
 start()
 stop()
 </panel_attributes>
@@ -40,8 +38,8 @@ stop()
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>760</y>
+      <x>440</x>
+      <y>780</y>
       <w>180</w>
       <h>50</h>
     </coordinates>
@@ -54,115 +52,79 @@ nodes it found
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
-      <y>760</y>
+      <x>440</x>
+      <y>690</y>
       <w>180</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>LanDiscoveryStrategy
-</panel_attributes>
+--
+nodes it found</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>110</x>
-      <y>760</y>
+      <x>440</x>
+      <y>600</y>
       <w>230</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>DeviceCloudDiscoveryStrategy
-</panel_attributes>
+--
+nodes it found</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
-      <y>660</y>
-      <w>190</w>
-      <h>120</h>
+      <x>610</x>
+      <y>360</y>
+      <w>320</w>
+      <h>470</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;100.0</additional_attributes>
+    <additional_attributes>300.0;10.0;300.0;450.0;10.0;450.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>660</y>
-      <w>30</w>
-      <h>120</h>
+      <x>610</x>
+      <y>360</y>
+      <w>320</w>
+      <h>370</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>300.0;10.0;300.0;350.0;10.0;350.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>660</y>
-      <w>160</w>
-      <h>120</h>
+      <x>660</x>
+      <y>360</y>
+      <w>270</w>
+      <h>280</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>140.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>250.0;10.0;250.0;260.0;10.0;260.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>430</y>
-      <w>30</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>590</x>
-      <y>430</y>
-      <w>170</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;150.0;90.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>590</x>
-      <y>600</y>
-      <w>90</w>
+      <x>750</x>
+      <y>310</y>
+      <w>70</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>660</x>
-      <y>300</y>
-      <w>180</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Interface&gt;&gt;
-DiscoveryDelegate
---
-nodeFound(Node)
-nodeLost(Node)
-nodeUpdated(Node)</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>340</x>
-      <y>130</y>
-      <w>220</w>
+      <x>360</x>
+      <y>60</y>
+      <w>660</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>Application</panel_attributes>
@@ -171,41 +133,19 @@ nodeUpdated(Node)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>550</x>
-      <y>160</y>
-      <w>210</w>
-      <h>160</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;190.0;140.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>590</x>
-      <y>350</y>
-      <w>90</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>440</x>
-      <y>210</y>
+      <x>530</x>
+      <y>140</y>
       <w>30</w>
-      <h>110</h>
+      <h>290</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>660</x>
-      <y>520</y>
+      <x>580</x>
+      <y>240</y>
       <w>180</w>
       <h>130</h>
     </coordinates>
@@ -216,5 +156,49 @@ nodeFound(Node)
 nodeLost(Node)
 nodeUpdated(Node)</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>360</y>
+      <w>220</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>200.0;10.0;200.0;140.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>360</y>
+      <w>150</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;130.0;90.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>360</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>140</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
 </diagram>
