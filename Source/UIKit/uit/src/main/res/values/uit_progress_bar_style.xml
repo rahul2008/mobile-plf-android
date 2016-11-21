@@ -32,5 +32,6 @@
 
     <style name="UIDProgressBarCircularIndeterminate" parent="UIDProgressBarCircularDeterminate">
         <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateBehavior">repeat</item>
     </style>
 </resources>

@@ -150,14 +150,14 @@
             android:id="@+id/progress_bar_indeterminate"
             style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
-            app:uid_linear_progress_bar="true"/>
+            app:uidLinearProgressBar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
-            app:uid_linear_progress_bar="true"/>
+            app:uidLinearProgressBar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
@@ -165,7 +165,7 @@
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             android:secondaryProgress="@integer/progress_bar_default_secondary_progress"
-            app:uid_linear_progress_bar="true"/>
+            app:uidLinearProgressBar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
@@ -173,6 +173,6 @@
             android:layout_marginTop="@dimen/progress_bar_margin_top"
             android:progress="@integer/progress_bar_default_progress"
             android:secondaryProgress="@integer/progress_bar_default_secondary_progress"
-            app:uid_linear_progress_bar="true"/>
+            app:uidLinearProgressBar="true"/>
     </LinearLayout>
 </ScrollView>
