@@ -1,5 +1,4 @@
 <resources>
-    <string name="af_app_name">AppFramework</string>
     <string name="app_home_title">Mobile App Home</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
@@ -55,7 +54,6 @@
         <item>Philips Shop</item>
         <item>Support</item>
         <item>About</item>
-        <item>Debug and Testing</item>
         <item>Data Sync</item>
     </string-array>
 

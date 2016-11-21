@@ -9,16 +9,15 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class SettingsFragmentState extends UIState {
-
-    private FragmentLauncher fragmentLauncher;
+public class SettingsFragmentState extends BaseState {
 
     public SettingsFragmentState() {
-        super(UIState.UI_SETTINGS_FRAGMENT_STATE);
+        super(BaseAppState.SETTINGS);
     }
 
     /**
@@ -27,7 +26,7 @@ public class SettingsFragmentState extends UIState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
                     handleFragmentBackStack(new SettingsFragment(), SettingsFragment.TAG,
                             getUiStateData().getFragmentLaunchState());
