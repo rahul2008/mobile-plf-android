@@ -7,12 +7,12 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
 ])
 
-def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
+def MailRecipient = 'benit.dhotekar@philips.com, DL_CDP2_Callisto@philips.com, abhishek.gadewar@philips.com, krishna.kumar.a@philips.com, ramesh.r.m@philips.com'
 
-node ('Ubuntu && 24.0.3') {
+node ('Ubuntu && 23.0.3') {
 	timestamps {
 		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/maf/app-framework_android.git']]])
+			checkout scm
 			step([$class: 'StashNotifier'])
 		}
 		try {
@@ -20,16 +20,37 @@ node ('Ubuntu && 24.0.3') {
                 sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug'
 			}
 			
+            sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
+
+            if(env.BRANCH_NAME == 'master') {
+                stage 'Release'
+                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            }
+
+            if(env.BRANCH_NAME == 'develop') {
+                stage 'Release'
+                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            }
+
+            if(env.BRANCH_NAME =~ /release\/.*/) {
+                stage 'Release'
+                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+            }
+
+
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
             if (env.triggerBy != "ppc") {
             	stage ('callIntegrationPipeline') {
-            		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
+            		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'rap'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
             	}            
             }
+
+            currentBuild.result = 'SUCCESS'
             
 		} //end try
 		
 		catch(err) {
+            currentBuild.result = 'FAILED'
             echo "Someone just broke the build"
         }
 
