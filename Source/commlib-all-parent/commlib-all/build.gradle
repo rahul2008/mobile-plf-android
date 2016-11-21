@@ -66,7 +66,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:23.1.0'
+    compile 'com.android.support:support-annotations:24.2.1'
 
     def blueLib = 'com.philips.cdp:shinelib:2.0.3'
     def commLib = 'com.philips.cdp:dicommClientLib:2.0.0'

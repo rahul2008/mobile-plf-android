@@ -13,7 +13,7 @@ buildscript {
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.0'
     }
 }
 
@@ -29,8 +29,8 @@ allprojects {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
     }
 
-    ext._compileSdkVersion = 23
-    ext._buildToolsVersion = '23.0.2'
+    ext._compileSdkVersion = 24
+    ext._buildToolsVersion = '24.0.3'
     ext._minSdkVersion = 19
     ext._targetSdkVersion = 23
     ext._versionCode = 1
