@@ -10,6 +10,7 @@ jacoco {
 def coverageSourceDirs = [
         '../iap/src/main/java'
 ]
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -39,7 +40,6 @@ import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-
 
 allprojects {
     repositories {
@@ -71,7 +71,6 @@ allprojects {
         }
     }
 }
-
 
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
@@ -118,7 +117,6 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
-
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
 
@@ -171,6 +169,10 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -244,16 +246,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             dir: '../iap/build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
+                       '**/activity/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
                        '**/integration/IAPInterface.class',
+                       '**/response/*/*.class',
+                       '**/screens/*.class',
                        '**/store/IAPUser.class',
                        '**/utils/*.class',
-                       '**/activity/*.class',
-                       '**/screens/*.class',
+                       '**/view/*.class',
+                       '**/BuildConfig.*',
                        '**/Manifest*.*']
     )
 
@@ -265,6 +267,15 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         xml.enabled = true
         html.enabled = true
     }
-
 }
+
+tasks.withType(Test) {
+    maxHeapSize = '4g'
+    scanForTestClasses = false
+    include "**/*Test.class"
+    test {
+        jvmArgs '-noverify'
+    }
+}
+
 
