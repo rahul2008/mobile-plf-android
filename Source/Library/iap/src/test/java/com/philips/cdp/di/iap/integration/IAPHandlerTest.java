@@ -4,14 +4,19 @@
  */
 package com.philips.cdp.di.iap.integration;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
+import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -26,7 +31,7 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class IAPHandlerTest {
@@ -34,16 +39,76 @@ public class IAPHandlerTest {
     AppInfra mAppInfra;
     @Mock
     Context mContext;
+    @Mock
+    ServiceDiscoveryInterface mServiceDiscoveryInterface;
 
-    private MockIAPSetting mIAPSetting;
+    private IAPSettings mIAPSettings;
+    private MockIAPDependencies mIAPDependencies;
     private MockIAPHandler mMockIAPHandler;
     private IAPListener mIapListener;
 
     @Before
     public void setUp() throws Exception {
-        MockIAPDependencies mIAPDependencies = new MockIAPDependencies(mAppInfra);
-        mIAPSetting = new MockIAPSetting(mContext);
-        mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSetting);
+        TestUtils.getStubbedHybrisDelegate();
+
+        mIAPDependencies = new MockIAPDependencies(mAppInfra);
+        mIAPSettings = new IAPSettings(mContext);
+        mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSettings);
+
+        //Service discovery
+        mServiceDiscoveryInterface = new ServiceDiscoveryInterface() {
+            @Override
+            public void getHomeCountry(OnGetHomeCountryListener onGetHomeCountryListener) {
+
+            }
+
+            @Override
+            public void setHomeCountry(String s) {
+
+            }
+
+            @Override
+            public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
+
+            }
+
+            @Override
+            public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+
+            }
+
+            @Override
+            public void getServiceUrlWithCountryPreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
+
+            }
+
+            @Override
+            public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+
+            }
+
+            @Override
+            public void getServiceLocaleWithLanguagePreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+
+            }
+
+            @Override
+            public void getServiceLocaleWithCountryPreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+
+            }
+
+            @Override
+            public void refresh(OnRefreshListener onRefreshListener) {
+
+            }
+
+            @Override
+            public void refresh(OnRefreshListener onRefreshListener, boolean b) {
+
+            }
+        };
+
+        //IAP Listener
         mIapListener = new IAPListener() {
             @Override
             public void onGetCartCount(int count) {
@@ -79,37 +144,81 @@ public class IAPHandlerTest {
     }
 
     @Test
-    public void useAppLocalHandlerNotNull() throws Exception {
-        mIAPSetting = new MockIAPSetting(mContext);
-        mIAPSetting.setUseLocalData(true);
-        assertNotNull(mMockIAPHandler.getExposedAPIImplementor());
-        assertEquals(true, mIAPSetting.isUseLocalData());
+    public void testIAPListener() throws Exception {
+        try {
+            IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+            iapLaunchInput.setIapListener(null);
+            iapLaunchInput.getIapListener();
+        } catch (RuntimeException exception) {
+            String message = "Set IAPListener in your vertical app ";
+            assertEquals(message, exception.getMessage());
+        }
     }
 
     @Test
-    public void useHybrisLocalHandlerNotNull() throws Exception {
-        mIAPSetting.setUseLocalData(false);
-        assertNotNull(mMockIAPHandler.getExposedAPIImplementor());
-        assertEquals(false, mIAPSetting.isUseLocalData());
+    public void testInitControllerFactory() throws Exception {
+        mMockIAPHandler.initControllerFactory();
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testSetLocale() throws Exception {
+        mMockIAPHandler.setLangAndCountry();
+    }
+
+    //Init IAP
+    @Test(expected = NullPointerException.class)
+    public void testInitIAPErrorResponse() throws Exception {
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPListener iapListener = iapLaunchInput.getIapListener();
+        mMockIAPHandler.initIAP(new ActivityLauncher
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+        iapListener.onFailure(IAPConstant.IAP_ERROR_UNKNOWN);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void onSuccessOfInitForActivityLauncher() throws Exception {
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        mMockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
+                iapLaunchInput, mIapListener);
+        mIapListener.onSuccess();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testOnSuccessOfInit() throws Exception {
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIapListener(mIapListener);
+        mMockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
+                iapLaunchInput, mIapListener);
+
+    }
+
+    @Test
+    public void testOnFailureOfInit() throws Exception {
+        mMockIAPHandler.onFailureOfInitialization(new Message(), mIapListener);
+    }
+
+    //Launch IAP
     @Test(expected = RuntimeException.class)
-    public void launchIAPAsActivityForBuyDirect() throws Exception {
+    public void testLaunchIAPSuccessResponse() throws Exception {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, null);
-        mMockIAPHandler.launchIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+        IAPListener iapListener = iapLaunchInput.getIapListener();
+        FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
+        mMockIAPHandler.launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
+            @Override
+            public void updateActionBar(int i, boolean b) {
+
+            }
+
+            @Override
+            public void updateActionBar(String s, boolean b) {
+
+            }
+        }), new IAPLaunchInput());
+        iapListener.onSuccess();
+
     }
 
-    @Test
-    public void launchIAPAsActivityForProductDetail() throws Exception {
-        IAPFlowInput input = new IAPFlowInput("HX9043/64");
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input);
-        mMockIAPHandler.launchIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
-    }
-
+    //Launch As Activity
     @Test
     public void launchIAPAsActivityForCategorized() throws Exception {
         ArrayList<String> ctns = new ArrayList<>();
@@ -117,7 +226,9 @@ public class IAPHandlerTest {
         IAPFlowInput input = new IAPFlowInput(ctns);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
-        mMockIAPHandler.launchIAP(new ActivityLauncher
+        IAPSettings iapSettings = new IAPSettings(new Application());
+        MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
+        mockIAPHandler.launchIAP(new ActivityLauncher
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
     }
 
@@ -140,7 +251,29 @@ public class IAPHandlerTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void launchIAPAsFragment() throws Exception {
+    public void launchIAPAsActivityForBuyDirect() throws Exception {
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, null);
+        IAPSettings iapSettings = new IAPSettings(new Application());
+        MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
+        mockIAPHandler.launchIAP(new ActivityLauncher
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+    }
+
+    @Test
+    public void launchIAPAsActivityForProductDetail() throws Exception {
+        IAPFlowInput input = new IAPFlowInput("HX9043/64");
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input);
+        IAPSettings iapSettings = new IAPSettings(new Application());
+        MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
+        mockIAPHandler.launchIAP(new ActivityLauncher
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
+    }
+
+    //Launch As Fragment
+    @Test(expected = RuntimeException.class)
+    public void testLaunchIAPAsFragmentWithNoInput() throws Exception {
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null);
@@ -159,116 +292,71 @@ public class IAPHandlerTest {
     }
 
     @Test
-    public void launchIAPAsFragmentWhenlaunchInputIsDifferentThenFlow() throws Exception {
+    public void testLaunchIAPAsFragment() throws Exception {
+        TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
         IAPFlowInput input = new IAPFlowInput("HX9043/64");
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(9, input);
-        mMockIAPHandler.launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
-            @Override
-            public void updateActionBar(int i, boolean b) {
+        mMockIAPHandler.
+                launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
+                    @Override
+                    public void updateActionBar(int i, boolean b) {
 
-            }
+                    }
 
-            @Override
-            public void updateActionBar(String s, boolean b) {
+                    @Override
+                    public void updateActionBar(String s, boolean b) {
 
-            }
-        }), iapLaunchInput);
+                    }
+                }), iapLaunchInput);
     }
 
     @Test
-    public void getFragmentFromScreenID() throws Exception {
-        mMockIAPHandler.getFragment(1, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragment(2, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragment(3, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragment(4, new IAPFlowInput("HX8331/11"));
+    public void testGetFragment() throws Exception {
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, new IAPFlowInput("HX8331/11"));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, new IAPFlowInput("HX8331/11"));
     }
 
-    @Test(expected = RuntimeException.class)
-    public void verifyOnSuccess() throws Exception {
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        IAPListener iapListener = iapLaunchInput.getIapListener();
-        FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
-        mMockIAPHandler.launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
-            @Override
-            public void updateActionBar(int i, boolean b) {
+    //add fragment test case
 
-            }
-
-            @Override
-            public void updateActionBar(String s, boolean b) {
-
-            }
-        }), new IAPLaunchInput());
-        iapListener.onSuccess();
-
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void verifyOnError() throws Exception {
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        IAPListener iapListener = iapLaunchInput.getIapListener();
-        mMockIAPHandler.initIAP(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
-        iapListener.onFailure(IAPConstant.IAP_ERROR_UNKNOWN);
-
+    @Test
+    public void testGetHybrisExposedAPIImplementor() {
+        mIAPSettings.setUseLocalData(false);
+        assertTrue(mMockIAPHandler.getExposedAPIImplementor() instanceof HybrisHandler);
+        assertEquals(false, mIAPSettings.isUseLocalData());
     }
 
     @Test
-    public void testWithNullIAPListener() throws Exception {
-        try {
-            IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-            iapLaunchInput.setIapListener(null);
-            iapLaunchInput.getIapListener();
-        } catch (RuntimeException exception) {
-            String message = "Set IAPListener in your vertical app ";
-            assertEquals(message, exception.getMessage());
-        }
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void onSuccessOfInitForActivityLauncher() throws Exception {
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        mMockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
-                iapLaunchInput, mIapListener);
-        mIapListener.onSuccess();
-
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void onSuccessOfInitForFragmentLauncher() throws Exception {
-        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIapListener(mIapListener);
-        mMockIAPHandler.onSuccessOfInitialization(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_BEHIND, 1),
-                iapLaunchInput, mIapListener);
-
+    public void testGetLocalExposedAPIImplementor() {
+        mIAPSettings.setUseLocalData(true);
+        assertTrue(mMockIAPHandler.getExposedAPIImplementor() instanceof LocalHandler);
+        assertEquals(true, mIAPSettings.isUseLocalData());
     }
 
     @Test
-    public void onFailureOfInitialization() throws Exception {
-        mMockIAPHandler.onFailureOfInitialization(new Message(), mIapListener);
+    public void testIsStoreInitialized() {
+        TestUtils.getStubbedHybrisDelegate();
+        mMockIAPHandler.isStoreInitialized(mContext);
     }
 
     @Test
-    public void initControllerFactory() throws Exception {
-        mMockIAPHandler.initControllerFactory();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void setLocale() throws Exception {
-        mMockIAPHandler.setLangAndCountry();
-    }
-
-    @Test
-    public void getIAPErrorCodeForUnknownError() throws Exception {
+    public void testGetIAPErrorCodeForUnknownError() throws Exception {
         mMockIAPHandler.getIAPErrorCode(new Message());
     }
 
     @Test
-    public void getIAPErrorCode() throws Exception {
+    public void testGetIAPErrorCodeForIAPNetworkError() throws Exception {
         Message msg = new Message();
         msg.obj = new IAPNetworkError(null, 0, null);
         mMockIAPHandler.getIAPErrorCode(msg);
+    }
+
+    @Test
+    public void testServiceDiscovery() {
+        mMockIAPHandler.fetchBaseUrl(mServiceDiscoveryInterface);
     }
 }

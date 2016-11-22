@@ -4,14 +4,10 @@
  */
 package com.philips.cdp.di.iap.integration;
 
-import android.app.Application;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
 import com.philips.cdp.di.iap.screens.InAppBaseFragment;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class MockIAPHandler extends IAPHandler {
 
@@ -23,17 +19,7 @@ public class MockIAPHandler extends IAPHandler {
     void initPreRequisite() {
     }
 
-    @Override
-    protected void setLangAndCountry() {
-        super.setLangAndCountry();
-    }
-
-    @Override
-    protected IAPExposedAPI getExposedAPIImplementor() {
-        return super.getExposedAPIImplementor();
-    }
-
-    @Override
+    /*@Override
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
         verifyInput(pLaunchInput.mLandingView, pLaunchInput.mIAPFlowInput);
 
@@ -42,7 +28,7 @@ public class MockIAPHandler extends IAPHandler {
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment(pLaunchInput, (FragmentLauncher) uiLauncher);
         }
-    }
+    }*/
 
     @Override
     protected void addFragment(InAppBaseFragment newFragment, FragmentLauncher fragmentLauncher, IAPListener iapListener) {

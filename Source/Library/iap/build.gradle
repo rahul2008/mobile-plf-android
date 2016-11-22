@@ -7,6 +7,10 @@ jacoco {
     toolVersion = "0.7.1.201405082137"
 }
 
+def coverageSourceDirs = [
+        '../iap/src/main/java'
+]
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -116,6 +120,10 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
 
+    lintOptions {
+        abortOnError false
+    }
+
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 24
@@ -124,6 +132,7 @@ android {
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        generatedDensities = []
     }
 
     buildTypes {
@@ -165,10 +174,6 @@ android {
 
     lintOptions {
         abortOnError false
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
     }
 }
 
@@ -233,32 +238,23 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 }
 
-def coverageSourceDirs = ['src/main/java']
-
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: 'build/intermediates/classes/debug',
-            excludes: ['**/R*.class',
+            dir: '../iap/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
                        '**/R$*.class',
-                       '**/*$ViewInjector*.*',
-                       '**/*$ViewBinder*.*',
                        '**/BuildConfig.*',
-                       '**/Manifest*.*',
-                       '**/*$InjectAdapter.*',
-                       '**/activity/*.class',
+                       '**/response/*/*.class',
+                       '**/view/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
-                       '**/response/*/*.class',
-                       '**/integration/IAPInterface.class',
-                       '**/screens/*.class',
-                       '**/store/IAPUser.class',
                        '**/utils/*.class',
-                       '**/view/*.class',
-                       '**/view/*.class']
+                       '**/activity/*.class',
+                       '**/screens/*.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
@@ -268,14 +264,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     reports {
         xml.enabled = true
         html.enabled = true
-    }
-
-    doFirst {
-        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
     }
 }
 

@@ -50,7 +50,6 @@ class IAPHandler {
     IAPHandler(IAPDependencies pIAPDependencies, IAPSettings pIapSettings) {
         mIAPDependencies = pIAPDependencies;
         mIAPSetting = pIapSettings;
-        initPreRequisite();
     }
 
     void initPreRequisite() {
@@ -70,7 +69,7 @@ class IAPHandler {
         fetchBaseUrl(serviceDiscoveryInterface);
     }
 
-    private void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    protected void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
