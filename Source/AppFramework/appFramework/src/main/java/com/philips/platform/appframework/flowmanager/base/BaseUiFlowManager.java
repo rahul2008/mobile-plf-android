@@ -109,7 +109,7 @@ public abstract class BaseUiFlowManager {
         return null;
     }
 
-    public List<AppFlowEvent> getAppFlowEvents(String currentState) {
+    private List<AppFlowEvent> getAppFlowEvents(String currentState) {
         return appFlowMap.get(currentState);
     }
 
