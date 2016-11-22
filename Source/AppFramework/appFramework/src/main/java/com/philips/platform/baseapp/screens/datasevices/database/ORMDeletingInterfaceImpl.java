@@ -2,17 +2,13 @@ package com.philips.platform.baseapp.screens.datasevices.database;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.datasevices.temperature.TemperatureMomentHelper;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
-
 import org.joda.time.DateTime;
-
 import java.sql.SQLException;
-
 import javax.inject.Inject;
 
 
