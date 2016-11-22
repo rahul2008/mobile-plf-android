@@ -34,7 +34,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     // Revert to Artifactory deps as soon as CON-17 is fixed
-    compile(name: 'appcompat-v7-24.2.0', ext: 'aar')
+    compile(name: 'appcompat-v7-24.2.1', ext: 'aar')
     compile(name: 'design-24.2.0', ext: 'aar')
     compile(name: 'recyclerview-v7-24.2.0', ext: 'aar')
     compile(name: 'support-annotations-24.2.0', ext: 'jar')
