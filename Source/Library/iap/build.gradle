@@ -3,10 +3,6 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
-
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -83,6 +79,7 @@ artifactory {
         defaults {
             publishIvy = false
             publishPom = true
+            publishBuildInfo = true
             publishArtifacts = true
         }
     }
@@ -233,7 +230,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 }
 
-def coverageSourceDirs = ['src/main/java']
+def coverageSourceDirs = ['../iap/src/main/java']
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
@@ -241,7 +238,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: 'build/intermediates/classes/debug',
+            dir: '../iap/build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
                        '**/*$ViewInjector*.*',
@@ -262,7 +259,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
+    executionData = files('../iap/build/jacoco/testDebugUnitTest.exec')
 
     doFirst {
         new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
