@@ -8,10 +8,17 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="?attr/actionBarStyle"
+        style="@style/UIDToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:theme="@style/UIDToolbar">
+
+        <!-- <TextView
+             android:id="@+id/toolbar_title"
+             style="@style/UIDToolbarTitleStyle"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:gravity="center"/>-->
     </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>

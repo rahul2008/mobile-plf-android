@@ -140,6 +140,9 @@ public class NavigationController {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
         ButterKnife.bind(this, mainActivity);
         mainActivity.setSupportActionBar(toolbar);
+        //To disable toolbar title and use custom title textview
+        // mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         final Resources resources = mainActivity.getResources();
         toolbar.setTitleMargin(resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginTop(), resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginBottom());
         actionBar = mainActivity.getSupportActionBar();
@@ -162,6 +165,7 @@ public class NavigationController {
 
     public void setTitleText(final int titleId) {
         toolbar.setTitle(titleId);
+        //((TextView)toolbar.findViewById(R.id.toolbar_title)).setText(titleId);
     }
 
     //Needed only untill we have hamburger

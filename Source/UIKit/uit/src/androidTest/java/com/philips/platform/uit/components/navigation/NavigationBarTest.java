@@ -109,9 +109,15 @@ public class NavigationBarTest {
     public void VerifyTitleMarginRight() throws Exception {
         int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_title_margin);
 
-        getTitleView().check(matches(ViewPropertiesMatchers.isSameRightMargin(80)));
+        getTitleView().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
     }
 
+    @Test
+    public void VerifyTitlePaddingStart() throws Exception {
+        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_title_margin);
+
+        getTitleView().check(matches(ViewPropertiesMatchers.isSameStartPadding(titleMargin)));
+    }
     @Test
     public void VerifyTitleTextColor() throws Exception {
         final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uit.test.R.color.White);
