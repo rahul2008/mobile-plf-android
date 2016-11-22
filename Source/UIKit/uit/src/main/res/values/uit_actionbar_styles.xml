@@ -13,8 +13,6 @@
         //TODO define below for DLS
         <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle
         </item>
-        <item name="displayOptions">showTitle</item>
-        <item name="divider">?attr/dividerVertical</item>
         <item name="actionButtonStyle">@style/UIDActionBarButtonStyle</item>
         <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton
         </item>
@@ -58,19 +56,15 @@
         </item>
     </style>
 
-    <style name="UIDActionBarTabText" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">?attr/uitNavigationTextColor</item>
-        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
-    </style>
-
     <style name="UIDActionBarOverflowButton" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
-        <item name="textAllCaps">false</item>
+        <item name="srcCompat">@drawable/uid_switch_thumb</item>
+        <!--
+                <item name="android:src">@drawable/uid_switch_thumb</item> &lt;!&ndash; This is for showing overflow icon with (three vertical dots) in action bar&ndash;&gt;
+        -->
+        <item name="android:background">?attr/actionBarItemBackground</item>
         <item name="android:minWidth">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:minHeight">@dimen/uid_navigation_bar_icon_size</item>
-        <item name="android:maxHeight">@dimen/uid_navigation_bar_icon_size</item>
-        <item name="android:maxWidth">@dimen/uid_navigation_bar_icon_size</item>
+        <item name="android:maxHeight">?attr/actionBarSize</item>
     </style>
 
     <style name="UIDActionBarButtonStyle" parent="@style/Widget.AppCompat.Light.ActionButton">
@@ -94,6 +88,8 @@
         </item>
         <item name="android:paddingEnd">@dimen/uid_navigation_bar_title_margin_left_right
         </item>
+        <item name="textAllCaps">false</item>
+
     </style>
     <!--//@style/Widget.AppCompat.Light.ActionBar-->
 
@@ -112,13 +108,18 @@
             @dimen/uid_navigation_bar_icon_maxsize
         </item>
         <item name="maxButtonHeight">@dimen/uid_navigation_bar_icon_maxsize</item>
-
-        <item name="toolbarNavigationButtonStyle">@style/UIDToolbarNavigationButton</item>
+        <item name="actionButtonStyle">@style/UIDToolbarNavigationButton</item>
+        <item name="android:actionButtonStyle">@style/UIDToolbarNavigationButton</item>
+        <!--
+           <item name="toolbarNavigationButtonStyle">@style/UIDToolbarNavigationButton</item>
+         -->
         <item name="background">?attr/uitActionBarBackground</item>
         <item name="android:background">?attr/uitActionBarBackground</item>
         <item name="textAllCaps">false</item>
         <item name="android:titleTextStyle">@style/UIDActionBarTitleText</item>
         <item name="titleTextStyle">@style/UIDActionBarTitleText</item>
+        <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle
+        </item>
         <item name="titleTextColor">?attr/uitNavigationTextColor</item>
 
     </style>
@@ -127,18 +128,23 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="collapseContentDescription">@dimen/uid_navigation_bar_title_margin_left_right
         </item>
-        <item name="contentInsetStart">@dimen/uid_navigation_bar_title_margin_left_right
-        </item>
-        <item name="contentInsetStartWithNavigation">
-            @dimen/uid_navigation_bar_title_margin_left_right
-        </item>
+        <item name="android:paddingStart">10dp</item>
         <item name="android:textColor">?attr/uitNavigationTextColor</item>
         <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
         <item name="android:textSize">@dimen/uid_navigation_bar_text_size</item>
         <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing</item>
         <item name="android:lineSpacingMultiplier">1</item>
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
+    </style>
 
+    <style name="UITToolbarMenuTextAppearance" parent="android:TextAppearance.Holo.Widget.ActionBar.Menu">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">?attr/uitNavigationTextColor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
 </resources>
