@@ -4,9 +4,7 @@
  */
 package com.philips.platform.uit.matcher;
 
-import android.graphics.Color;
 import android.view.View;
-import android.widget.TextView;
 
 import com.philips.platform.uit.utils.UITTestUtils;
 import com.philips.platform.uit.view.widget.ProgressBar;

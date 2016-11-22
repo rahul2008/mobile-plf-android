@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -127,6 +128,13 @@ public class UITTestUtils {
         return drawable;
     }
 
+    public static Drawable extractGradientFromRotateDrawable(Drawable drawable) {
+        if (drawable instanceof RotateDrawable) {
+                return ((RotateDrawable) drawable).getDrawable();
+        }
+        return drawable;
+    }
+
     //We need this for wrapperDrawables, specially for Lollipop
     public static Drawable getWrappedClipDrawableFromReflection(Drawable drawable) {
         if(!(DrawableCompat.unwrap(drawable) instanceof ClipDrawable))
@@ -142,8 +150,8 @@ public class UITTestUtils {
 
     public static int getIntegerFieldValueFromReflection(Object object, String field) {
         try {
-            return (int) FieldUtils.readDeclaredField(object, field, true);
-        } catch (IllegalAccessException e) {
+            return (int) FieldUtils.readField(object, field, true);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;

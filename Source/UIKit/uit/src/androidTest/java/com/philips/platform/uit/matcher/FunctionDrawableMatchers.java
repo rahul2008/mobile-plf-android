@@ -137,6 +137,7 @@ public class FunctionDrawableMatchers {
         }
         //Extract the wrapped gradient drawable
         drawable = UITTestUtils.handleClipDrawable(drawable);
+        drawable = UITTestUtils.extractGradientFromRotateDrawable(drawable);
         return drawable;
     }
 

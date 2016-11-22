@@ -3,17 +3,16 @@
  * All rights reserved.
  *
  */
-package com.philips.platform.uit.components.progressindicators;
+package com.philips.platform.uit.components.ProgressIndicators;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
-import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uit.matcher.ProgressBarMatcher;
 import com.philips.platform.uit.utils.TestConstants;
 
 import org.junit.Before;
@@ -24,8 +23,6 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uit.test.R.color.GroupBlue45;
-import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class CircularProgressIndicators {
 
@@ -82,6 +79,11 @@ public class CircularProgressIndicators {
         getLargeCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedWidth)));
     }
 
+    @Test
+    public void verifyDurationOfBigCircularProgressIndicator() {
+//        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_large_heightwidth);
+//        getLargeCircularProgressBar().check(matches(ProgressBarMatcher.isSameDuration(expectedWidth)));
+    }
     //*********************************Theming TestScenarios**************************//
 //
 //    @Test

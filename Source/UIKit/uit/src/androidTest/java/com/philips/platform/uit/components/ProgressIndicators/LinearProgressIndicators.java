@@ -1,9 +1,8 @@
-/*
+package com.philips.platform.uit.components.ProgressIndicators;/*
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  *
  */
-package com.philips.platform.uit.components.progressindicators;
 
 import android.content.Context;
 import android.content.res.Resources;
