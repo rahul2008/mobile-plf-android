@@ -7,6 +7,7 @@
         <item name="android:minWidth">@dimen/uid_progress_bar_min_width</item>
         <item name="android:indeterminate">false</item>
         <item name="uidLinearProgressBar">true</item>
+        <item name="android:progressDrawable">@drawable/uid_secondary_progress_bar</item>
     </style>
 
     <style name="UIDProgressBarHorizontalIndeterminate" parent="UIDProgressBarHorizontalDeterminate">
@@ -31,11 +32,15 @@
         <item name="android:indeterminate">false</item>
         <item name="circularProgressBarSize">small</item>
         <item name="uidLinearProgressBar">false</item>
+        <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_small</item>
     </style>
 
     <style name="UIDProgressBarCircularIndeterminateSmall" parent="UIDProgressBarCircularDeterminateSmall">
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateBehavior">repeat</item>
+        <item name="android:indeterminateDrawable">
+            @drawable/uid_circular_progress_bar_small_indeterminate
+        </item>
         <item name="android:indeterminateDuration">
             @integer/uid_progress_bar_circular_small_duration
         </item>
@@ -47,6 +52,7 @@
         <item name="android:indeterminate">false</item>
         <item name="circularProgressBarSize">middle</item>
         <item name="uidLinearProgressBar">false</item>
+        <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_middle</item>
     </style>
 
     <style name="UIDProgressBarCircularIndeterminateMiddle" parent="UIDProgressBarCircularDeterminateMiddle">
@@ -54,6 +60,9 @@
         <item name="android:indeterminateBehavior">repeat</item>
         <item name="android:indeterminateDuration">
             @integer/uid_progress_bar_circular_middle_duration
+        </item>
+        <item name="android:indeterminateDrawable">
+            @drawable/uid_circular_progress_bar_middle_indeterminate
         </item>
     </style>
 
@@ -63,12 +72,16 @@
         <item name="android:indeterminate">false</item>
         <item name="circularProgressBarSize">big</item>
         <item name="uidLinearProgressBar">false</item>
+        <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_big</item>
     </style>
 
     <style name="UIDProgressBarCircularIndeterminateBig" parent="UIDProgressBarCircularDeterminateBig">
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateBehavior">repeat</item>
         <item name="android:indeterminateDuration">@integer/uid_progress_bar_circular_big_duration
+        </item>
+        <item name="android:indeterminateDrawable">
+            @drawable/uid_circular_progress_bar_big_indeterminate
         </item>
     </style>
 </resources>
