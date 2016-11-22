@@ -62,8 +62,8 @@ public abstract class IAPState extends BaseState {
     private int getIAPFlowType(int iapFlowType){
         switch (iapFlowType){
             case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-           // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
-           // case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
+            // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
+            // case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
             default:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
         }
     }
@@ -110,7 +110,7 @@ public abstract class IAPState extends BaseState {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
-        iapSettings.setUseLocalData(true);
+        //iapSettings.setUseLocalData(true);
         iapInterface.init(iapDependencies, iapSettings);
     }
 }

@@ -1,9 +1,9 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+package com.philips.platform.baseapp.screens.settingscreen;/* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.screens.settingscreen;
+
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -24,11 +24,12 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.screens.datasevices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
-import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -246,6 +247,8 @@ public class SettingsAdapter extends BaseAdapter{
                                     @Override
                                     public void onLogoutSuccess() {
                                     //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, userRegistrationState.getUserObject(activityContext));
+                                        userRegistrationFacade.clearUserData();
                                         progressDialog.cancel();
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                                     }

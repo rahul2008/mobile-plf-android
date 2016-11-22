@@ -236,6 +236,11 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 super.onBackPressed();
             }
         } else {
+            if(philipsDrawerLayout.isDrawerOpen(navigationView))
+            {
+                philipsDrawerLayout.closeDrawer(navigationView);
+            }
+            else
             super.onBackPressed();
         }
     }

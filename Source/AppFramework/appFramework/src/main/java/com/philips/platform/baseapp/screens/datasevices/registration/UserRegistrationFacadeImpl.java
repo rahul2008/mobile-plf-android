@@ -14,26 +14,25 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.datasevices.database.DatabaseHelper;
+import com.philips.platform.baseapp.screens.datasevices.database.OrmDeleting;
+import com.philips.platform.baseapp.screens.datasevices.database.OrmDeletingInterfaceImpl;
+import com.philips.platform.baseapp.screens.datasevices.database.OrmSaving;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsentDetailType;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
+import com.philips.platform.baseapp.screens.datasevices.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.datatypes.UserCredentials;
 import com.philips.platform.core.datatypes.UserProfile;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasevices.database.DatabaseHelper;
-import com.philips.platform.datasevices.database.OrmDeleting;
-import com.philips.platform.datasevices.database.OrmDeletingInterfaceImpl;
-import com.philips.platform.datasevices.database.OrmSaving;
-import com.philips.platform.datasevices.database.table.OrmConsent;
-import com.philips.platform.datasevices.database.table.OrmConsentDetail;
-import com.philips.platform.datasevices.database.table.OrmConsentDetailType;
-import com.philips.platform.datasevices.database.table.OrmMeasurement;
-import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
-import com.philips.platform.datasevices.database.table.OrmMoment;
-import com.philips.platform.datasevices.database.table.OrmMomentDetail;
-import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
-import com.philips.platform.datasevices.listener.EventHelper;
-import com.philips.platform.datasevices.listener.UserRegistrationFailureListener;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 
 import java.sql.SQLException;
@@ -42,9 +41,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import retrofit.RetrofitError;
 
-import static com.philips.platform.appframework.AppFrameworkApplication.appInfra;
+import retrofit.RetrofitError;
 
 
 /**
@@ -272,7 +270,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     public String getHSDHsdpUrl(){
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        Object propertyForKey = AppFrameworkApplication.appInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
+        Object propertyForKey = ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
         return propertyForKey.toString();
     }
 

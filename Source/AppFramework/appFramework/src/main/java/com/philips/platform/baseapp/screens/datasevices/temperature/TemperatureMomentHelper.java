@@ -1,12 +1,12 @@
 package com.philips.platform.baseapp.screens.datasevices.temperature;
 
+import com.philips.platform.baseapp.screens.datasevices.listener.DBChangeListener;
+import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.datasevices.listener.DBChangeListener;
-import com.philips.platform.datasevices.listener.EventHelper;
 
 import java.util.ArrayList;
 import java.util.Map;

@@ -7,16 +7,16 @@ package com.philips.platform.baseapp.screens.datasevices.database;
 
 import android.util.Log;
 
+import com.philips.platform.baseapp.screens.datasevices.database.table.BaseAppDateTime;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.listener.DBChangeListener;
+import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
+import com.philips.platform.baseapp.screens.datasevices.temperature.TemperatureMomentHelper;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
-import com.philips.platform.datasevices.database.table.BaseAppDateTime;
-import com.philips.platform.datasevices.database.table.OrmConsent;
-import com.philips.platform.datasevices.database.table.OrmConsentDetail;
-import com.philips.platform.datasevices.database.table.OrmMoment;
-import com.philips.platform.datasevices.listener.DBChangeListener;
-import com.philips.platform.datasevices.listener.EventHelper;
-import com.philips.platform.datasevices.temperature.TemperatureMomentHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

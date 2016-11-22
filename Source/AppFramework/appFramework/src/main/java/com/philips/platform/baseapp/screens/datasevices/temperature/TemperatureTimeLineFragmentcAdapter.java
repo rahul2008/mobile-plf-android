@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasevices.database.table.OrmMoment;
 
 import java.util.ArrayList;
 import java.util.List;

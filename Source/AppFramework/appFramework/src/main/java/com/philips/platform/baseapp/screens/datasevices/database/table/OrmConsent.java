@@ -6,10 +6,10 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.philips.platform.baseapp.screens.datasevices.database.EmptyForeignCollection;
+import com.philips.platform.baseapp.screens.datasevices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.datasevices.database.EmptyForeignCollection;
-import com.philips.platform.datasevices.database.annotations.DatabaseConstructor;
 
 import org.joda.time.DateTime;
 

@@ -9,11 +9,11 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsent;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasevices.database.table.OrmConsent;
 
 import java.util.ArrayList;
 

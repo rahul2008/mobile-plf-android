@@ -8,8 +8,8 @@ package com.philips.platform.baseapp.screens.datasevices.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.philips.platform.baseapp.screens.datasevices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.datasevices.database.annotations.DatabaseConstructor;
 
 import org.joda.time.DateTime;
 

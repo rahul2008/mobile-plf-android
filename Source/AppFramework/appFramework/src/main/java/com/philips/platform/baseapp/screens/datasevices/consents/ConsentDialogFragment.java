@@ -14,11 +14,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.datasevices.listener.DBChangeListener;
+import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasevices.database.table.OrmConsent;
-import com.philips.platform.datasevices.listener.DBChangeListener;
-import com.philips.platform.datasevices.listener.EventHelper;
 
 import java.util.ArrayList;
 

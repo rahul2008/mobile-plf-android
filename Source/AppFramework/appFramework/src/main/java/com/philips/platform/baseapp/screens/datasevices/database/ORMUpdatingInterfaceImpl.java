@@ -2,6 +2,13 @@ package com.philips.platform.baseapp.screens.datasevices.database;
 
 import android.util.Log;
 
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.baseapp.screens.datasevices.listener.DBChangeListener;
+import com.philips.platform.baseapp.screens.datasevices.listener.EventHelper;
+import com.philips.platform.baseapp.screens.datasevices.listener.UserRegistrationFailureListener;
+import com.philips.platform.baseapp.screens.datasevices.temperature.TemperatureMomentHelper;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -9,13 +16,6 @@ import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.datasevices.database.table.OrmConsent;
-import com.philips.platform.datasevices.database.table.OrmMoment;
-import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
-import com.philips.platform.datasevices.listener.DBChangeListener;
-import com.philips.platform.datasevices.listener.EventHelper;
-import com.philips.platform.datasevices.listener.UserRegistrationFailureListener;
-import com.philips.platform.datasevices.temperature.TemperatureMomentHelper;
 
 import java.io.File;
 import java.net.HttpURLConnection;

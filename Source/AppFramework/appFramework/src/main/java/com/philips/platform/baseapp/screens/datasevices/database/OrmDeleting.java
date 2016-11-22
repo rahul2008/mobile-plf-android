@@ -11,15 +11,14 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.datasevices.database.table.OrmConsent;
-import com.philips.platform.datasevices.database.table.OrmConsentDetail;
-import com.philips.platform.datasevices.database.table.OrmConsentDetailType;
-import com.philips.platform.datasevices.database.table.OrmMeasurement;
-import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
-import com.philips.platform.datasevices.database.table.OrmMoment;
-import com.philips.platform.datasevices.database.table.OrmMomentDetail;
-import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsentDetailType;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
 
 import java.sql.SQLException;
 

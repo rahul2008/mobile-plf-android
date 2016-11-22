@@ -8,6 +8,11 @@ package com.philips.platform.baseapp.screens.datasevices.database;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetail;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -19,11 +24,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.datasevices.database.table.OrmConsent;
-import com.philips.platform.datasevices.database.table.OrmMeasurement;
-import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
-import com.philips.platform.datasevices.database.table.OrmMoment;
-import com.philips.platform.datasevices.database.table.OrmMomentDetail;
 
 import org.joda.time.DateTime;
 
