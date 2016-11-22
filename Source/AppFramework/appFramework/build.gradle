@@ -129,7 +129,7 @@ android {
         versionName "0.3.0"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 24
-	//	applicationId "net.gouline.jacoco"
+        // applicationId "net.gouline.jacoco"
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
@@ -146,7 +146,7 @@ android {
             applicationId = "com.philips.platform.tabbed"
             resValue "string", "af_app_name", "AF Tabbed"
         }
-    } 
+    }
 
     lintOptions {
         abortOnError false

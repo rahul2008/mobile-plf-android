@@ -54,8 +54,6 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState.init(this);
         iapState = new IAPState();
         iapState.init(this);
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
-        databaseHelper.getWritableDatabase();
     }
 
     public IAPState getIap() {
