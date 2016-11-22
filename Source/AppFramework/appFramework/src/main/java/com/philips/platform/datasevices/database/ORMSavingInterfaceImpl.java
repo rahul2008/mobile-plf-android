@@ -1,24 +1,30 @@
-package com.philips.platform.datasevices.database;
-
-import android.util.Log;
-
-import com.philips.platform.datasevices.listener.DBChangeListener;
-import com.philips.platform.datasevices.listener.EventHelper;
-import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.dbinterfaces.DBSavingInterface;
-import com.philips.platform.datasevices.database.table.BaseAppDateTime;
-import com.philips.platform.datasevices.database.table.OrmMoment;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ORMSavingInterfaceImpl implements DBSavingInterface{
+
+package com.philips.platform.datasevices.database;
+
+import android.util.Log;
+
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.datasevices.database.table.BaseAppDateTime;
+import com.philips.platform.datasevices.database.table.OrmConsent;
+import com.philips.platform.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.datasevices.database.table.OrmMoment;
+import com.philips.platform.datasevices.listener.DBChangeListener;
+import com.philips.platform.datasevices.listener.EventHelper;
+import com.philips.platform.datasevices.temperature.TemperatureMomentHelper;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     private static final String TAG = ORMSavingInterfaceImpl.class.getSimpleName();
     private final OrmSaving saving;
@@ -26,6 +32,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
     private OrmFetchingInterfaceImpl fetching;
     private OrmDeleting deleting;
     private BaseAppDateTime baseAppDateTime;
+    private TemperatureMomentHelper mTemperatureMomentHelper;
 
     public ORMSavingInterfaceImpl(OrmSaving saving, OrmUpdating updating, final OrmFetchingInterfaceImpl fetching, final OrmDeleting deleting, final BaseAppDateTime baseAppDateTime) {
         this.saving = saving;
@@ -33,6 +40,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
         this.fetching = fetching;
         this.deleting = deleting;
         this.baseAppDateTime = baseAppDateTime;
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -43,36 +51,126 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface{
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
 
-            notifyAllSuccess(ormMoment);
+            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
 
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
-            notifyAllFailure(e);
+            mTemperatureMomentHelper.notifyAllFailure(e);
             return false;
         }
 
     }
 
-    private void notifyAllSuccess(Object ormMoments) {
+    //TODO: Spoorti - For particularly consent, updating shoud be done instead of deleting and saving for avoiding duplication
+    @Override
+    public boolean saveConsent(Consent consent) throws SQLException {
+        OrmConsent ormConsent = null;
+        try {
+            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            updateConsentAndSetIdIfConsentExists(ormConsent);
+            notifyAllSuccess(ormConsent);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            notifyFailConsent(e);
+            return false;
+        }
+
+    }
+
+    //TODO: Spoorti - Not sure if this API can be clubed with the above
+    @Override
+    public boolean saveBackEndConsent(Consent consent) throws SQLException {
+
+        if(consent==null){
+            notifyFailConsent(new OrmTypeChecking.OrmTypeException("consent null"));;
+            return false;
+        }
+        OrmConsent ormConsent = null;
+        try {
+            ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            ormConsent=getModifiedConsent(ormConsent);
+            saving.saveConsent(ormConsent);
+            notifyAllSuccess(ormConsent);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            notifyFailConsent(e);
+            return false;
+        }
+
+    }
+
+    private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+        Log.d("Creator ID MODI",ormConsent.getCreatorId());
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
+                deleting.deleteConsent(ormConsentInDB);
+            }
+            ormConsent.setId(id);
+            saving.saveConsent(ormConsent);
+        }else{
+            saving.saveConsent(ormConsent);
+        }
+    }
+    private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
+        Log.d("Creator ID MODI",ormConsent.getCreatorId());
+        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+
+        if (consentInDatabase != null) {
+            int id = consentInDatabase.getId();
+            final List<OrmConsentDetail> ormNonSynConsentDetails = fetching.fetchNonSynchronizedConsentDetails();
+
+            for(OrmConsentDetail ormFromBackEndConsentDetail:ormConsent.getConsentDetails()){
+
+                for(OrmConsentDetail ormNonSynConsentDetail:ormNonSynConsentDetails){
+                    if(ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()){
+                        ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
+                        ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
+                    }
+                }
+            }
+            ormConsent.setId(id);
+            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
+                deleting.deleteConsent(ormConsentInDB);
+            }
+            deleting.deleteConsent(consentInDatabase);
+           // updating.updateConsent(consentInDatabase);
+
+        }else{
+            saving.saveConsent(ormConsent);
+        }
+        return ormConsent;
+    }
+
+    //TODO: Spoorti - Move it to ConsentHelper class to avoid code duplication
+    private void notifyAllSuccess(Consent ormConsent) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
             for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
+                listener.onSuccess(ormConsent);
             }
         }
     }
 
-    private void notifyAllFailure(Exception e) {
+
+
+    //TODO: Spoorti - Move it to ConsentHelper class
+    private void notifyFailConsent(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+        if (integers.contains(EventHelper.CONSENT)) {
+            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onFailure(e);
             }
         }
     }
+
+
 }

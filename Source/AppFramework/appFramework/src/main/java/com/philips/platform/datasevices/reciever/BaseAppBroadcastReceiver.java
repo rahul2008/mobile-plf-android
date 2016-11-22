@@ -12,7 +12,6 @@ import org.joda.time.DateTimeConstants;
 
 import javax.inject.Inject;
 
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
