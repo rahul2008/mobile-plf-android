@@ -349,18 +349,6 @@ public class UserTest extends InstrumentationTestCase {
 //                }
 //            };
 //            mUser.updateReceiveMarketingEmail(updateReceiveMarketingEmail,true);
-            LogoutHandler logoutHandle = new LogoutHandler() {
-                @Override
-                public void onLogoutSuccess() {
-
-                }
-
-                @Override
-                public void onLogoutFailure(int responseCode, String message) {
-
-                }
-            };
-            mUser.logout(logoutHandle);
         }
     }
 

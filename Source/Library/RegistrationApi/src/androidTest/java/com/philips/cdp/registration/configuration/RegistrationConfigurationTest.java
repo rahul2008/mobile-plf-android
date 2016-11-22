@@ -41,8 +41,6 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
 
         assertEquals(null, RegistrationConfiguration.getInstance().getCampaignId());
 
-        assertEquals(null, RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-
         RegistrationConfiguration.getInstance().isEmailVerificationRequired();
         assertTrue(true);
 
