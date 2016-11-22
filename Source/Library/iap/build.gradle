@@ -242,13 +242,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     classDirectories = fileTree(
             dir: '../iap/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
+            excludes: ['**/R*.class',
                        '**/R$*.class',
                        '**/BuildConfig.*',
                        '**/activity/*.class',
                        '**/adapters/*.class',
+                       '**/*$InjectAdapter.*',
+                       '**/*$ModuleAdapter.class',
+                       '**/*$ViewInjector*.class',
                        '**/analytics/*.class',
-                       '**/response/*/*.class',
+                       '**/response/**/*.class',
                        '**/screens/*.class',
                        '**/store/IAPUser.class',
                        '**/integration/IAPInterface.class',
@@ -263,6 +266,23 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     reports {
         xml.enabled = true
         html.enabled = true
+    }
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+}
+
+tasks.withType(Test) {
+    maxHeapSize = '4g'
+    scanForTestClasses = false
+    include "**/*Test.class"
+    test {
+        jvmArgs '-noverify'
     }
 }
 
