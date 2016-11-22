@@ -33,7 +33,7 @@ node ('Ubuntu') {
 		} //end try
 		
 		catch(err) {
-            echo "Someone just broke the build"
+            return -1
         }
 
 
