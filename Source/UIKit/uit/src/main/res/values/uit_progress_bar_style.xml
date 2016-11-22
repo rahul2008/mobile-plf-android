@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="UIDProgressBarHorizontalDeterminate" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -33,5 +32,6 @@
     <style name="UIDProgressBarCircularIndeterminate" parent="UIDProgressBarCircularDeterminate">
         <item name="android:indeterminate">true</item>
         <item name="android:indeterminateBehavior">repeat</item>
+        <item name="android:indeterminateDuration">1000</item>
     </style>
 </resources>

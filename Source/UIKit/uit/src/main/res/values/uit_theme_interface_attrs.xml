@@ -86,6 +86,7 @@
             <enum name="middle" value="1"/>
             <enum name="big" value="2"/>
         </attr>
+        <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDDialog">
