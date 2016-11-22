@@ -149,6 +149,9 @@ public class RestManager implements RestInterface {
                 return null;
            // Log.e("KAVYA URL", originalUrl.substring(23));
            // return originalUrl.substring(23);
+            if(resultURL.toString().contains("v1/")) {
+                return  resultURL.toString().replace("v1/","v1");
+            }
             return resultURL.toString();
         }
 

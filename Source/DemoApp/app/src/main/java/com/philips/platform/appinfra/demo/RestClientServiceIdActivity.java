@@ -37,7 +37,6 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     String[] requestDataOption = {"StringRequest", "jsonObjectRequest", "imageRequest"};
     // String url = "https://hashim.herokuapp.com/RCT/test.php?action=data&id=aa";
     //String baseURL= "https://www.oldchaphome.nl";
-    String serviceIdString;
 
     private Spinner requestTypeSpinner;
     private Spinner requestDataSpinner;
@@ -65,7 +64,6 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         pathComponentInput = (EditText) findViewById(R.id.editTextPathComponent);
         mResponse = (TextView) findViewById(R.id.textViewResponse);
         mImageView = (ImageView) findViewById(R.id.responseImageId);
-        serviceIdString = serviceIDInput.getText().toString();
 
 
         final Button setHeaders = (Button) findViewById(R.id.buttonSetHeadersSID);
@@ -117,7 +115,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                 if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[0])) { // string
                     try {
                         mStringRequest = new StringRequest(methodType,
-                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
+                                serviceIDInput.getText().toString(), ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
                                 getPathComponentString()
                                 , new Response.Listener<String>() {
                             @Override
@@ -160,7 +158,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                     JsonObjectRequest jsonRequest = null;
                     try {
                         jsonRequest = new JsonObjectRequest(methodType,
-                                serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
+                                serviceIDInput.getText().toString(), ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
                                 getPathComponentString(), null
                                 , new Response.Listener<JSONObject>() {
                             @Override
@@ -191,7 +189,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])) { //image
                     ImageRequest imageRequest = null;
                     try {
-                        imageRequest = new ImageRequest(serviceIdString, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
+                        imageRequest = new ImageRequest(serviceIDInput.getText().toString(), ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE,
                                 getPathComponentString(), new Response.Listener<Bitmap>() {
 
                             @Override

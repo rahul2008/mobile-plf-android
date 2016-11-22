@@ -33,7 +33,7 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
 
     public JsonObjectRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref, String urlExtension, JSONObject jsonRequest,
                              Response.Listener<JSONObject> listener, Response.ErrorListener errorListener)  {
-        super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), jsonRequest, listener, errorListener);
+        super(method, ServiceIDUrlFormatting.formatUrl(serviceID , pref, urlExtension), jsonRequest, listener, errorListener);
     }
 
 

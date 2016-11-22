@@ -40,7 +40,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_content_loader_create);
         ContentLoaderList= new ArrayList<ContentLoader>();
         EditTextServiceId = (EditText) findViewById(R.id.editTextServiceId);
-        EditTextServiceId.setText("https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1"); //test
+     //   EditTextServiceId.setText("https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1"); //test
         EditTextMaxHour = (EditText) findViewById(R.id.editTextMaxAgeInHours);
         EditTextContentClass = (EditText) findViewById(R.id.editTextContentClassType);
         EditTextContentType = (EditText) findViewById(R.id.editTextContentType);
