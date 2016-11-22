@@ -27,6 +27,7 @@ import org.joda.time.DateTime;
 import java.io.Serializable;
 import java.util.Collection;
 
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.

@@ -13,6 +13,7 @@ import com.philips.platform.datasevices.database.annotations.DatabaseConstructor
 
 import java.io.Serializable;
 
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -21,6 +22,7 @@ import java.io.Serializable;
 public class OrmMeasurementDetailType implements Serializable {
 
     final long serialVersionId = 11L;
+    static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private int id;

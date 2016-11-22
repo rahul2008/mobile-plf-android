@@ -14,6 +14,7 @@ import com.philips.platform.datasevices.database.annotations.DatabaseConstructor
 
 import java.io.Serializable;
 
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
