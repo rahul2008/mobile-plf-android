@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
@@ -64,6 +65,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private boolean loadingFlag = false;
     private Button registerButton;
     private FragmentActivity mActivity;
+    private TextView tickIcon;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -138,6 +140,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
+        tickIcon = (TextView) view.findViewById(R.id.tick_icon);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
@@ -179,8 +182,19 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         super.onActivityCreated(savedInstanceState);
         textWatcherCalled = false;
         Bundle bundle = getArguments();
-        prodRegRegistrationController.init(bundle);
-        prodRegRegistrationController.handleState();
+        if (savedInstanceState == null || !savedInstanceState.getBoolean(ProdRegConstants.PRODUCT_REGISTERED)) {
+            prodRegRegistrationController.init(bundle);
+            prodRegRegistrationController.handleState();
+        } else {
+            showSuccessLayout();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(ProdRegConstants.PROGRESS_STATE, prodRegRegistrationController.isApiCallingProgress());
+        outState.putBoolean(ProdRegConstants.PRODUCT_REGISTERED, prodRegRegistrationController.isProductRegistered());
+        super.onSaveInstanceState(outState);
     }
 
     @NonNull
@@ -238,27 +252,27 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                        int mYear;
-                        int mMonthInt;
-                        int mDay;
-                        if (!date_EditText.getText().toString().equalsIgnoreCase("")) {
-                            final String[] mEditDisplayDate = date_EditText.getText().toString().split("-");
-                            mYear = Integer.parseInt(mEditDisplayDate[0]);
-                            mMonthInt = Integer.parseInt(mEditDisplayDate[1]) - 1;
-                            mDay = Integer.parseInt(mEditDisplayDate[2]);
-                        } else {
-                            final Calendar mCalendar = Calendar.getInstance();
-                            mYear = mCalendar.get(Calendar.YEAR);
-                            mMonthInt = mCalendar.get(Calendar.MONTH);
-                            mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
-                        }
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity, myDateListener, mYear, mMonthInt, mDay);
-                        final ProdRegUtil prodRegUtil = new ProdRegUtil();
-                        datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
-                        datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
-                        datePickerDialog.show();
-                        return true;
+                    int mYear;
+                    int mMonthInt;
+                    int mDay;
+                    if (!date_EditText.getText().toString().equalsIgnoreCase("")) {
+                        final String[] mEditDisplayDate = date_EditText.getText().toString().split("-");
+                        mYear = Integer.parseInt(mEditDisplayDate[0]);
+                        mMonthInt = Integer.parseInt(mEditDisplayDate[1]) - 1;
+                        mDay = Integer.parseInt(mEditDisplayDate[2]);
+                    } else {
+                        final Calendar mCalendar = Calendar.getInstance();
+                        mYear = mCalendar.get(Calendar.YEAR);
+                        mMonthInt = mCalendar.get(Calendar.MONTH);
+                        mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
                     }
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity, myDateListener, mYear, mMonthInt, mDay);
+                    final ProdRegUtil prodRegUtil = new ProdRegUtil();
+                    datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
+                    datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
+                    datePickerDialog.show();
+                    return true;
+                }
                 return false;
             }
         };
@@ -388,7 +402,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         dateParentLayout.setVisibility(View.GONE);
         registerButton.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
-        TextView tickIcon = (TextView) mActivity.findViewById(R.id.tick_icon);
         tickIcon.setVisibility(View.VISIBLE);
         productCtnTextView.setText(getString(R.string.PPR_registered));
         final int baseColor = mActivity.getResources().getColor(R.color.uikit_philips_dark_blue);
@@ -440,7 +453,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void showLoadingDialog() {
-        if (!loadingFlag) {
+        if (!loadingFlag && mActivity != null && !mActivity.isFinishing()) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             Fragment prev = getFragmentManager().findFragmentByTag("dialog");
             if (prev != null) {

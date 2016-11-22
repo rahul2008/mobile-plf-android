@@ -27,26 +27,8 @@ import java.util.List;
 public class ProdRegRegistrationController {
 
     public static final String TAG = ProdRegRegistrationController.class.getSimpleName();
-
-    public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
-        void isValidDate(boolean validDate);
-
-        void isValidSerialNumber(boolean validSerialNumber);
-
-        void setSummaryView(Data summaryData);
-
-        void setProductView(RegisteredProduct registeredProduct);
-
-        void requireFields(boolean requireDate, boolean requireSerialNumber);
-
-        void logEvents(String tag, String data);
-
-        void tagEvents(String event, String key, String value);
-
-        void showSuccessLayout();
-
-        void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
-    }
+    private boolean isApiCallingProgress = false;
+    private boolean isProductRegistered = false;
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
@@ -55,11 +37,14 @@ public class ProdRegRegistrationController {
     private ArrayList<RegisteredProduct> registeredProducts;
     private ProdRegUtil prodRegUtil = new ProdRegUtil();
     private Bundle dependencyBundle;
-
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
         this.user = new User(fragmentActivity);
+    }
+
+    public boolean isApiCallingProgress() {
+        return isApiCallingProgress;
     }
 
     public void handleState() {
@@ -133,7 +118,7 @@ public class ProdRegRegistrationController {
     public void registerProduct(final String purchaseDate, final String serialNumber) {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = validateSerialNumber(serialNumber);
-        if (validDate && validSerialNumber) {
+        if (!isApiCallingProgress && validDate && validSerialNumber) {
             registerControllerCallBacks.tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
             registerControllerCallBacks.showLoadingDialog();
             registerControllerCallBacks.logEvents(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
@@ -180,7 +165,7 @@ public class ProdRegRegistrationController {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 registerControllerCallBacks.logEvents(TAG, "Product registered successfully");
-
+                isProductRegistered = true;
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
                     registerControllerCallBacks.dismissLoadingDialog();
@@ -239,5 +224,29 @@ public class ProdRegRegistrationController {
         final ProdRegFindSerialFragment prodRegFindSerialFragment = new ProdRegFindSerialFragment();
         prodRegFindSerialFragment.setArguments(dependencyBundle);
         return prodRegFindSerialFragment;
+    }
+
+    public boolean isProductRegistered() {
+        return isProductRegistered;
+    }
+
+    public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {
+        void isValidDate(boolean validDate);
+
+        void isValidSerialNumber(boolean validSerialNumber);
+
+        void setSummaryView(Data summaryData);
+
+        void setProductView(RegisteredProduct registeredProduct);
+
+        void requireFields(boolean requireDate, boolean requireSerialNumber);
+
+        void logEvents(String tag, String data);
+
+        void tagEvents(String event, String key, String value);
+
+        void showSuccessLayout();
+
+        void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
     }
 }
