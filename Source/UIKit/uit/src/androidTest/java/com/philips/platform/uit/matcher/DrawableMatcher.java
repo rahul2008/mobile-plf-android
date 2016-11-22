@@ -175,7 +175,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 int actual = stateColors.getColors()[index];
-                setValues(String.valueOf(actual), String.valueOf(expectedValue));
+                setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
                 return actual == expectedValue;
             }
         };

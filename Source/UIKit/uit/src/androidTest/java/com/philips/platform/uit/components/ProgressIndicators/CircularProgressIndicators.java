@@ -7,8 +7,10 @@ package com.philips.platform.uit.components.ProgressIndicators;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
@@ -23,6 +25,8 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.platform.uit.test.R.color.GroupBlue45;
+import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class CircularProgressIndicators {
 
@@ -81,22 +85,49 @@ public class CircularProgressIndicators {
 
     @Test
     public void verifyDurationOfBigCircularProgressIndicator() {
-//        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_large_heightwidth);
-//        getLargeCircularProgressBar().check(matches(ProgressBarMatcher.isSameDuration(expectedWidth)));
+//        getLargeCircularProgressBar().check(matches(ProgressBarMatcher.isSameDuration(1250)));
+    }
+
+    @Test
+    public void verifyIndeterminateSmallCircularPBThickness() {
+//        int thickness = 20;
+//        getSmallIndeterminateCircularProgressBar()
+//                .check(matches(FunctionDrawableMatchers.isSameRingThickness(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), thickness)));
+    }
+
+    @Test
+    public void verifyIndeterminateSmallCircularPBRadius() {
+//        int thickness = 25;
+//        getSmallIndeterminateCircularProgressBar()
+//                .check(matches(FunctionDrawableMatchers.isSameInnerRadius(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), thickness)));
+    }
+
+    @Test
+    public void verifyIndeterminateSmallCircularPBStartColor() {
+        int startColor = Color.TRANSPARENT;
+        getSmallIndeterminateCircularProgressBar()
+                .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), startColor, 0)));
+    }
+
+    @Test
+    public void verifyIndeterminateSmallCircularPBEndColor() {
+//        int startColor = Color.TRANSPARENT;
+//        getSmallIndeterminateCircularProgressBar()
+//                .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), startColor, 1)));
     }
     //*********************************Theming TestScenarios**************************//
 //
-//    @Test
-//    public void verifyCircularProgressBarProgressColor() {
-//        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
-//        getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
-//    }
-//
-//    @Test
-//    public void verifyProgressBarBackgroundColor() {
-//        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
-//        getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, circularprogressBackgroundID(), true)));
-//    }
+    @Test
+    public void verifyCircularProgressBarProgressColor() {
+        final int expectedProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
+    }
+
+    @Test
+    public void verifyProgressBarBackgroundColor() {
+        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
+        getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, circularprogressBackgroundID(), true)));
+    }
 
 
     private ViewInteraction getSmallCircularProgressBar() {
@@ -109,6 +140,10 @@ public class CircularProgressIndicators {
 
     private ViewInteraction getLargeCircularProgressBar() {
         return onView(withId(com.philips.platform.uit.test.R.id.progress_bar_determinate_circular_big));
+    }
+
+    private ViewInteraction getSmallIndeterminateCircularProgressBar() {
+        return onView(withId(com.philips.platform.uit.test.R.id.progress_bar_indeterminate_circular_small));
     }
 
     private int circularprogressID() {

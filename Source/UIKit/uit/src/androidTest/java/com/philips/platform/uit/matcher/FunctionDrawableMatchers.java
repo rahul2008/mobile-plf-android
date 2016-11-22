@@ -210,12 +210,12 @@ public class FunctionDrawableMatchers {
         };
     }
 
-    public static Matcher<View> isSameRingThickness(final String funcName, final int expectedValue) {
+    public static Matcher<View> isSameRingThickness(final String funcName, final int layerID, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
 
-                Drawable drawable = getDrawable(view, funcName, -1);
+                Drawable drawable = getDrawable(view, funcName, layerID);
                 BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameThickness(expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);
@@ -224,12 +224,12 @@ public class FunctionDrawableMatchers {
         };
     }
 
-    public static Matcher<View> isSameInnerRadius(final String funcName, final int expectedValue) {
+    public static Matcher<View> isSameInnerRadius(final String funcName, final int layerID, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
 
-                Drawable drawable = getDrawable(view, funcName, -1);
+                Drawable drawable = getDrawable(view, funcName, layerID);
                 BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameInnerRadius(expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);
@@ -238,12 +238,12 @@ public class FunctionDrawableMatchers {
         };
     }
 
-    public static Matcher<View> isSameColors(final String funcName, final int expectedValue, final int index) {
+    public static Matcher<View> isSameColors(final String funcName, final int layerID, final int expectedValue, final int index) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
 
-                Drawable drawable = getDrawable(view, funcName, -1);
+                Drawable drawable = getDrawable(view, funcName, layerID);
                 BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColors(index, expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);

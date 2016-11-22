@@ -42,18 +42,20 @@
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:id="@+id/progress_bar_indeterminate_circular_small"
-                    style="@style/UIDProgressBarCircularIndeterminate"
+                    style="@style/UIDProgressBarCircularIndeterminateSmall"
                     app:circularProgressBarSize="small" />
 
                 <com.philips.platform.uit.view.widget.ProgressBar
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_indeterminate_circular_middle"
-                    style="@style/UIDProgressBarCircularIndeterminate"
                     android:visibility="gone"
                     app:circularProgressBarSize="middle" />
 
                 <com.philips.platform.uit.view.widget.ProgressBar
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_indeterminate_circular_big"
-                    style="@style/UIDProgressBarCircularIndeterminate"
                     android:visibility="gone"
                     app:circularProgressBarSize="big" />
             </LinearLayout>
@@ -66,21 +68,22 @@
                 android:orientation="horizontal">
 
                 <com.philips.platform.uit.view.widget.ProgressBar
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_small"
-                    style="@style/UIDProgressBarCircularDeterminate"
-
                     app:circularProgressBarSize="small" />
 
                 <com.philips.platform.uit.view.widget.ProgressBar
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_middle"
-                    style="@style/UIDProgressBarCircularDeterminate"
 
                     app:circularProgressBarSize="middle" />
 
                 <com.philips.platform.uit.view.widget.ProgressBar
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_big"
-                    style="@style/UIDProgressBarCircularDeterminate"
-
                     app:circularProgressBarSize="big" />
             </LinearLayout>
         </LinearLayout>

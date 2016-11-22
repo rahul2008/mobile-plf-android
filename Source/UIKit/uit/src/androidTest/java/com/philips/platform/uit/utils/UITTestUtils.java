@@ -159,7 +159,7 @@ public class UITTestUtils {
 
     public static int[] getIntegerArrayFromReflection(Object object, String field) {
         try {
-            return (int[]) FieldUtils.readDeclaredField(object, field, true);
+            return (int[]) FieldUtils.readField(object, field, true);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
