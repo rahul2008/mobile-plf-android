@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
@@ -98,7 +99,11 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
             case MENU_OPTION_SHOP:
                 IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
                 iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
-                iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                try {
+                    iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                } catch (RuntimeException e) {
+                    Toast.makeText(getApplicationContext(), R.string.ctn_null, Toast.LENGTH_LONG).show();
+                }
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
