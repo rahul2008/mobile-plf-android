@@ -66,12 +66,5 @@ public class FlowManagerTest extends TestCase {
         assertEquals(flowManager.getCurrentState(),homeFragmentState);
     }
 
-    public void testGetState(){
-        final FileUtility fileUtility = mock(FileUtility.class);
-        final File file = mock(File.class);
-        when(fileUtility.createFileFromInputStream(R.string.com_philips_app_fmwk_app_flow_url)).thenReturn(file);
-        FlowManager flowManager = new FlowManager(appFrameworkApplication,fileUtility.createFileFromInputStream(R.string.com_philips_app_fmwk_app_flow_url).getPath());
-        assertTrue(flowManager.getState(AppStates.SPLASH) instanceof SplashState);
-    }
 }
 
