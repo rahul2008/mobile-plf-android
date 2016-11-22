@@ -8,8 +8,8 @@ package com.philips.platform.baseapp.screens.introscreen;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIStateData;
@@ -70,7 +70,7 @@ public class LaunchActivityPresenterTest extends TestCase {
 
         };
         when(hamburgerStateMock.getStateID()).thenReturn(AppStates.FIRST_STATE);
-        JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.FIRST_STATE, "onBackPressed")).thenReturn(hamburgerStateMock);
         launchActivityPresenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
@@ -111,7 +111,7 @@ public class LaunchActivityPresenterTest extends TestCase {
                 return uiStateData;
             }
         };
-        JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(splashStateMock.getStateID()).thenReturn("something");
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.FIRST_STATE, "onAppLaunch")).thenReturn(splashStateMock);

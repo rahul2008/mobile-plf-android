@@ -8,17 +8,15 @@ package com.philips.platform.appframework.homescreen;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.datasevices.temperature.DataSyncScreenState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
-import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import junit.framework.TestCase;
@@ -110,7 +108,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
             }
         };
 
-        JUnitFlowManager uiFlowManager = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManager = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
         when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
         hamburgerActivityPresenter.onEvent(0);
@@ -146,7 +144,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
             }
         };
 
-        JUnitFlowManager uiFlowManager = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManager = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
         when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "data_sync")).thenReturn(dataSyncStateMock);
         hamburgerActivityPresenter.onEvent(5);

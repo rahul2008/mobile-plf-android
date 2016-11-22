@@ -11,25 +11,16 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.appframework.JUnitFlowManager;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
-import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import junit.framework.TestCase;
 
-import java.io.File;
-import java.io.InputStream;
-
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,7 +31,6 @@ import static org.mockito.Mockito.when;
 
 public class FlowManagerTest extends TestCase {
 
-    private JUnitFlowManager uiFlowManager;
     private FragmentActivity fragmentActivityMock;
     private AppFrameworkApplication appFrameworkApplication;
     private FileUtility fileUtility;

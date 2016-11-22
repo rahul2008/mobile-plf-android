@@ -7,10 +7,10 @@ package com.philips.platform.baseapp.screens.settingscreen;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.base.UIStateData;
@@ -69,7 +69,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
             }
         };
 
-        JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"logout")).thenReturn(homeFragmentStateMock);
         settingsFragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
@@ -99,7 +99,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
             }
         };
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
-        JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         when(uiFlowManagerMock.getNextState(AppStates.SETTINGS,"login")).thenReturn(settingsURStateMock);
@@ -107,9 +107,4 @@ public class SettingsFragmentPresenterTest extends TestCase {
         verify(settingsURStateMock).navigate(fragmentLauncherMock);
     }
 
-    /*public void testGetUIState() {
-        assertTrue(settingsFragmentPresenter.setStateData(Constants.LOGOUT_BUTTON_CLICK_CONSTANT) instanceof HomeFragmentState);
-        assertTrue(settingsFragmentPresenter.setStateData(999) instanceof UserRegistrationState);
-        assertTrue(settingsFragmentPresenter.setStateData(998) instanceof HamburgerActivityState);
-    }*/
 }

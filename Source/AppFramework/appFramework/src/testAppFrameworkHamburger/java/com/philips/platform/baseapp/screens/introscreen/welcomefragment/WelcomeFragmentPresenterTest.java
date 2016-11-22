@@ -7,8 +7,9 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.appframework.JUnitFlowManager;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
@@ -61,7 +62,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
                 return appFrameworkApplicationMock;
             }
         };
-        JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_skip")).thenReturn(userRegStateMock);
         welcomeFragmentPresenter.onEvent(R.id.welcome_skip_button);
@@ -90,7 +91,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
                 return appFrameworkApplicationMock;
             }
         };
-        JUnitFlowManager uiFlowManagerMock = mock(JUnitFlowManager.class);
+        FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(uiFlowManagerMock.getNextState(AppStates.WELCOME,"welcome_home")).thenReturn(hamburgerActivityStateMock);
         welcomeFragmentPresenter.onEvent(0);
