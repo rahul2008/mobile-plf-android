@@ -5,6 +5,8 @@
 */
 package com.philips.platform.baseapp.screens.inapppurchase;
 
+import android.widget.Toast;
+
 import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
@@ -14,6 +16,10 @@ public class IAPRetailerFlowState extends IAPState {
     @Override
     public void updateDataModel() {
         setLaunchType(IAPState.IAP_CATALOG_VIEW);
-        setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
+        try {
+            setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
+        } catch (RuntimeException e) {
+            Toast.makeText(getApplicationContext(), R.string.ctn_null, Toast.LENGTH_LONG).show();
+        }
     }
 }

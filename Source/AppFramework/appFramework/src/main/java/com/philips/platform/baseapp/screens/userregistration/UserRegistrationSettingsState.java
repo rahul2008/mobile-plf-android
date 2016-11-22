@@ -36,6 +36,8 @@ public class UserRegistrationSettingsState extends UserRegistrationState impleme
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
             }
+            UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activity, getUserObject(activity));
+            userRegistrationFacade.clearUserData();
         }
     }
 

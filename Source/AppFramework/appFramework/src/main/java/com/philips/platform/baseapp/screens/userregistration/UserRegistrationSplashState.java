@@ -34,6 +34,8 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.welcome_frame_container, (ActionBarListener) getFragmentActivity()));
             }
+            UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activity, getUserObject(activity));
+            userRegistrationFacade.clearUserData();
         }
     }
 
