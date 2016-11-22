@@ -11,7 +11,7 @@
     <item
         android:id="@+id/set_theme_settings"
         android:title="@string/set_theme_settings"
-        android:visible="true"
+        android:visible="false"
         app:showAsAction="ifRoom"></item>
 
 </menu>
