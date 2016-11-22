@@ -233,7 +233,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 }
 
-def coverageSourceDirs = ['../iap/src/main/java']
+def coverageSourceDirs = ['src/main/java']
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
@@ -241,27 +241,29 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: 'build/intermediates/classes/debug',
             excludes: ['**/R*.class',
                        '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/*$ViewBinder*.*',
                        '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       '**/*$InjectAdapter.*',
                        '**/activity/*.class',
                        '**/adapters/*.class',
-                       '**/*$InjectAdapter.*',
-                       '**/*$ModuleAdapter.class',
-                       '**/*$ViewInjector*.class',
                        '**/analytics/*.class',
-                       '**/response/**/*.class',
+                       '**/response/*/*.class',
+                       '**/integration/IAPInterface.class',
                        '**/screens/*.class',
                        '**/store/IAPUser.class',
-                       '**/integration/IAPInterface.class',
                        '**/utils/*.class',
+                       '**/view/*.class',
                        '**/view/*.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../iap/build/jacoco/testDebugUnitTest.exec')
+    executionData = files('build/jacoco/testDebugUnitTest.exec')
 
     reports {
         xml.enabled = true
@@ -274,15 +276,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                 file.renameTo(file.path.replace('$$', '$'))
             }
         }
-    }
-}
-
-tasks.withType(Test) {
-    maxHeapSize = '4g'
-    scanForTestClasses = false
-    include "**/*Test.class"
-    test {
-        jvmArgs '-noverify'
     }
 }
 
