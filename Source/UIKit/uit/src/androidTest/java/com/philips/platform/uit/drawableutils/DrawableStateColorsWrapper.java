@@ -60,7 +60,12 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     private ColorStateList getColorStateList() {
         Drawable.ConstantState wrappedConstantState = constantState;
         if (Build.VERSION.SDK_INT >= 21) {
-            wrappedConstantState = UITTestUtils.getWrappedClipDrawableFromReflection(drawable).getConstantState();
+            wrappedConstantState = gradientConstantState;
+
+            Drawable gd = UITTestUtils.getWrappedClipDrawableFromReflection(drawable);
+            if (gd != drawable) {
+                wrappedConstantState = gd.getConstantState();
+            }
         }
         return (ColorStateList) GradientDrawableUtils.getField(wrappedConstantState, TINT_COLOR_FIELD);
     }
