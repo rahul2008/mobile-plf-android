@@ -49,15 +49,14 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_indeterminate_circular_middle"
-                    android:visibility="gone"
+                    style="@style/UIDProgressBarCircularIndeterminateMiddle"
                     />
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_indeterminate_circular_big"
-                    android:visibility="gone"
-                    />
+                    style="@style/UIDProgressBarCircularIndeterminateBig"/>
             </LinearLayout>
 
             <LinearLayout
@@ -71,17 +70,20 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_small"
+                    style="@style/UIDProgressBarCircularDeterminateSmall"
                      />
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:id="@+id/progress_bar_determinate_circular_middle"/>
+                    android:id="@+id/progress_bar_determinate_circular_middle"
+                    style="@style/UIDProgressBarCircularDeterminateMiddle"/>
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:id="@+id/progress_bar_determinate_circular_big"/>
+                    android:id="@+id/progress_bar_determinate_circular_big"
+                    style="@style/UIDProgressBarCircularDeterminateBig"/>
             </LinearLayout>
         </LinearLayout>
 
