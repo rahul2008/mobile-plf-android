@@ -40,7 +40,12 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         {
             try
             {
-                ProductScreen.WaitforProductScreen();
+                bool Screen_Loaded = ProductScreen.WaitforProductScreen(); ;
+                if (!Screen_Loaded)
+                {
+                    IapReport.Fail("Error: The Product List View is not loaded.");
+                }
+                
                 string title = ProductScreen.GetScreenTitle();
                 if (title.Equals("Products"))
                 {

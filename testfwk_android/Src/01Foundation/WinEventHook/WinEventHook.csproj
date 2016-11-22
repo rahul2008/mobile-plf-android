@@ -49,7 +49,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppHomeScreen.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MSAAHelper.cs" />
     <Compile Include="NativeWin32.cs" />

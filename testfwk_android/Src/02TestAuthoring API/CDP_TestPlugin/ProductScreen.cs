@@ -195,22 +195,19 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
         /// <returns>a boolean value</returns>
         public static bool WaitforProductScreen()
         {
-            int i; int retry;
-            for (retry = 0; retry < 3; retry++)
-            {
-                for (i = 0; i < 60; i++)
+            bool LoadProductScreen = false;
+
+                for (int i = 0; i < 60; i++)
                 {
                     if (GetScreenTitle().Equals("Products"))
                     {
-                        Logger.Info("Seeing: Products title:  try: " + retry);
+                        LoadProductScreen = true;
+                        Logger.Info("The Product List View Screen is loaded ");
                         break;
                     }
                     Thread.Sleep(500);
                 }
-
-            }
-            Logger.Info("ProductScreen retry: failed to load products after 3 tries");
-            return false;
+             return LoadProductScreen;
         }
 
         /*
