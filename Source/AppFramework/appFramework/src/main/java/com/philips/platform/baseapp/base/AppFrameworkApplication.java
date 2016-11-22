@@ -53,9 +53,8 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
-        InputStream inputStream = getInputStream(resId);
-        final File file = createFileFromInputStream(inputStream);
-        targetFlowManager = new FlowManager(getApplicationContext(), file.getPath());
+        FileUtility fileUtility = new FileUtility(this);
+        targetFlowManager = new FlowManager(getApplicationContext(), fileUtility.createFileFromInputStream(resId).getPath());
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
