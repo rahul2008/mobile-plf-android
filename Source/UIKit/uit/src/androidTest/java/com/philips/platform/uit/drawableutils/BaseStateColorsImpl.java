@@ -6,6 +6,8 @@ package com.philips.platform.uit.drawableutils;
 
 import android.graphics.drawable.Drawable;
 
+import com.philips.platform.uit.utils.UITTestUtils;
+
 public abstract class BaseStateColorsImpl implements GradientDrawableUtils.StateColors {
 
     protected Drawable drawable;
@@ -14,6 +16,10 @@ public abstract class BaseStateColorsImpl implements GradientDrawableUtils.State
     private static final String CORNER_RADIUS_ARRAY = "mRadiusArray";
     private static final String CORNER_RADIUS = "mRadius";
     private static final String STROKE_WIDTH = "mStrokeWidth";
+
+    private static final String RING_THICKNESS = "mThickness";
+    private static final String RING_INNER_RADIUS = "mInnerRadius";
+    private static final String STATE_COLORS = "mColors";
 
     public BaseStateColorsImpl(Drawable drawable) {
         this.drawable = drawable;
@@ -50,6 +56,21 @@ public abstract class BaseStateColorsImpl implements GradientDrawableUtils.State
 
     protected int getStrokeWidthFromConstantState(Drawable.ConstantState state) {
         return (int) GradientDrawableUtils.getField(state, STROKE_WIDTH);
+    }
+
+    @Override
+    public int getInnerRadius() {
+        return UITTestUtils.getIntegerFieldValueFromReflection(getConstantStateForRadius(), RING_THICKNESS);
+    }
+
+    @Override
+    public int getRingThickness() {
+        return UITTestUtils.getIntegerFieldValueFromReflection(getConstantStateForRadius(), RING_INNER_RADIUS);
+    }
+
+    @Override
+    public int[] getColors() {
+        return UITTestUtils.getIntegerArrayFromReflection(getConstantStateForRadius(), STATE_COLORS);
     }
 
     protected Drawable.ConstantState getConstantStateForRadius() {

@@ -139,4 +139,22 @@ public class UITTestUtils {
         }
         return drawable;
     }
+
+    public static int getIntegerFieldValueFromReflection(Object object, String field) {
+        try {
+            return (int) FieldUtils.readDeclaredField(object, field, true);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int[] getIntegerArrayFromReflection(Object object, String field) {
+        try {
+            return (int[]) FieldUtils.readDeclaredField(object, field, true);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return new int[]{0};
+    }
 }

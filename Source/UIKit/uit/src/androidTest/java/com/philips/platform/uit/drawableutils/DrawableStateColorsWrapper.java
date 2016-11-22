@@ -47,14 +47,6 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
         throw new RuntimeException("Not supported. We should never reach here");
     }
 
-    private ColorStateList getColorStateList() {
-        Drawable.ConstantState wrappedConstantState = constantState;
-        if (Build.VERSION.SDK_INT >= 21) {
-            wrappedConstantState = UITTestUtils.getWrappedClipDrawableFromReflection(drawable).getConstantState();
-        }
-        return (ColorStateList) GradientDrawableUtils.getField(wrappedConstantState, TINT_COLOR_FIELD);
-    }
-
     @Override
     protected Drawable.ConstantState getConstantStateForRadius() {
         return gradientConstantState;
@@ -63,5 +55,13 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     @Override
     protected Drawable.ConstantState getConstantStateForStrokeWidth() {
         return gradientConstantState;
+    }
+
+    private ColorStateList getColorStateList() {
+        Drawable.ConstantState wrappedConstantState = constantState;
+        if (Build.VERSION.SDK_INT >= 21) {
+            wrappedConstantState = UITTestUtils.getWrappedClipDrawableFromReflection(drawable).getConstantState();
+        }
+        return (ColorStateList) GradientDrawableUtils.getField(wrappedConstantState, TINT_COLOR_FIELD);
     }
 }
