@@ -13,14 +13,14 @@ import static com.philips.platform.appinfra.whiteboxapi.GenerateHmacLib.createHm
 public class WhiteBoxAPIActivity extends AppCompatActivity {
 
 
-    private static final byte[] k = hexStringToByteArray("d9efcaeb7077f16729c1568bde56eed25635030f688990d3fc9281cb809d4666db0057e8b902382f9de16fed325889a46e7c22e31a143ee60b33c1ac22bc8b28");
-    private static final byte[] d = {'P','O','S','T'};
+    private static final byte[] mKey = hexStringToByteArray("d9efcaeb7077f16729c1568bde56eed25635030f688990d3fc9281cb809d4666db0057e8b902382f9de16fed325889a46e7c22e31a143ee60b33c1ac22bc8b28");
+    private static final byte[] httpMethodType = {'P','O','S','T'};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TextView tvHmacResult = new TextView(this);
-        byte[] resultBytes = createHmac(k,d);
+        byte[] resultBytes = createHmac(mKey,httpMethodType);
         tvHmacResult.setText(bytesToHex(resultBytes));
         setContentView(tvHmacResult);
     }
