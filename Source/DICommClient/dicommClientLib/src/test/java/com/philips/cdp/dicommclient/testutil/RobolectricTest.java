@@ -10,12 +10,12 @@ import com.philips.cdp.dicommclient.BuildConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public abstract class RobolectricTest {
 
@@ -38,11 +38,4 @@ public abstract class RobolectricTest {
 
     }
 
-//    @Override
-//    protected void setUp() throws Exception {
-//         Necessary to get Mockito framework working
-//        System.setProperty("dexmaker.dexcache", RuntimeEnvironment.application.getCacheDir().getPath());
-//        MockitoAnnotations.initMocks(this);
-//        super.setUp();
-//    }
 }
