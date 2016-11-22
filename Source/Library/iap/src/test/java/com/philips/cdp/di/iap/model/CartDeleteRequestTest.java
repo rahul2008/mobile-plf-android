@@ -4,11 +4,10 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
-import com.philips.cdp.di.iap.store.StoreListener;
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,9 +16,6 @@ import org.mockito.Mock;
 
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by Apple on 08/08/16.
- */
 public class CartDeleteRequestTest {
     @Mock
     private StoreListener mStore;
