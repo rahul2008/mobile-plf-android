@@ -81,11 +81,6 @@
         <attr name="uitControlPrimaryTrackOffAlpha" format="reference|float"/>
         <attr name="uitControlPrimaryBufferAlpha" format="reference|float"/>
         <attr name="uidLinearProgressBar" format="boolean"/>
-        <attr name="circularProgressBarSize" format="enum">
-            <enum name="small" value="0"/>
-            <enum name="middle" value="1"/>
-            <enum name="big" value="2"/>
-        </attr>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
     </declare-styleable>
 

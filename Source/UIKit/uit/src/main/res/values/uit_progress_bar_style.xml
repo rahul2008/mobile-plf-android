@@ -30,7 +30,6 @@
         <item name="android:layout_width">@dimen/uid_progress_bar_circular_small</item>
         <item name="android:layout_height">@dimen/uid_progress_bar_circular_small</item>
         <item name="android:indeterminate">false</item>
-        <item name="circularProgressBarSize">small</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_small</item>
     </style>
@@ -50,7 +49,6 @@
         <item name="android:layout_width">@dimen/uid_progress_bar_circular_middle</item>
         <item name="android:layout_height">@dimen/uid_progress_bar_circular_middle</item>
         <item name="android:indeterminate">false</item>
-        <item name="circularProgressBarSize">middle</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_middle</item>
     </style>
@@ -70,7 +68,6 @@
         <item name="android:layout_width">@dimen/uid_progress_bar_circular_big</item>
         <item name="android:layout_height">@dimen/uid_progress_bar_circular_big</item>
         <item name="android:indeterminate">false</item>
-        <item name="circularProgressBarSize">big</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_big</item>
     </style>
