@@ -419,6 +419,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             @Override
             public void onClick(final View v) {
                 dialog.dismiss();
+                clearFragmentStack();
+                handleCallBack(true);
+                unRegisterProdRegListener();
             }
         });
     }
