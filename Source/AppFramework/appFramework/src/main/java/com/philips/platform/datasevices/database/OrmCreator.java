@@ -9,6 +9,9 @@ package com.philips.platform.datasevices.database;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -18,6 +21,9 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasevices.database.table.OrmConsent;
+import com.philips.platform.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.datasevices.database.table.OrmConsentDetailType;
 import com.philips.platform.datasevices.database.table.OrmMeasurement;
 import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
 import com.philips.platform.datasevices.database.table.OrmMeasurementDetailType;
@@ -32,11 +38,11 @@ import org.joda.time.DateTime;
 
 import javax.inject.Singleton;
 
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@Singleton
 public class OrmCreator implements BaseAppDataCreator {
 
     private final UuidGenerator uuidGenerator;
@@ -96,6 +102,20 @@ public class OrmCreator implements BaseAppDataCreator {
     }
 
     @NonNull
+    @Override
+    public Consent createConsent(@NonNull String creatorId) {
+        return new OrmConsent(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
+        OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
+
+        return new OrmConsentDetail(ormConsentDetailType, status, version, deviceIdentificationNumber, (OrmConsent) consent,isSynchronized);
+    }
+
+    @NonNull
     public OrmMomentDetail createMomentDetail(@NonNull final MomentDetailType type,
                                               @NonNull final OrmMoment moment) {
         OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(type);
@@ -115,8 +135,5 @@ public class OrmCreator implements BaseAppDataCreator {
         OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(type);
         return new OrmMeasurementDetail(ormMeasurementDetailType, measurement);
     }
-
-
-
 
 }

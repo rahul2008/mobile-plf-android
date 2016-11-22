@@ -20,8 +20,10 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
-import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -35,8 +37,9 @@ import static com.philips.platform.appframework.AppFrameworkApplication.appInfra
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public class UserRegistrationState extends UIState implements UserRegistrationListener, ActionBarListener, UserRegistrationUIEventListener {
+public class UserRegistrationState extends BaseState implements UserRegistrationListener, ActionBarListener, UserRegistrationUIEventListener {
 
+    final String AI = "appinfra";
     private Context activityContext;
     private User userObject;
     private URStateListener userRegistrationListener;
@@ -44,12 +47,11 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
     private Context applicationContext;
 
     public UserRegistrationState() {
-        super(UIState.UI_USER_REGISTRATION_STATE);
+        super(BaseAppState.REGISTRATION);
     }
 
     /**
-     * UIState overridden methods
-     *
+     * BaseState overridden methods
      * @param uiLauncher requires the UiLauncher object
      */
     @Override
@@ -73,7 +75,7 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 UR,
-                // "Datacore",
+               // "Datacore",
                 "uGrow",
                 configError);
 
@@ -102,7 +104,6 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     /**
      * ActionBarListener interface implementation methods
-     *
      * @param i
      * @param b
      */
@@ -118,13 +119,14 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     /**
      * UserRegistrationUIEventListener interface implementation methods
-     *
      * @param activity
      */
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
             userRegistrationListener.onStateComplete(this);
+            UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activity, getUserObject(activity));
+            userRegistrationFacade.clearUserData();
         }
     }
 
@@ -168,10 +170,9 @@ public class UserRegistrationState extends UIState implements UserRegistrationLi
 
     /**
      * Registering for UIStateListener callbacks
-     *
      * @param uiStateListener
      */
-    public void registerUIStateListener(URStateListener uiStateListener) {
+    public void registerUIStateListener(URStateListener uiStateListener){
         this.userRegistrationListener = (URStateListener) getPresenter();
     }
 

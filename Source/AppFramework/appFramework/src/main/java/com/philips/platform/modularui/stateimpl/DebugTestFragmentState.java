@@ -9,19 +9,18 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
  * This class if used for dynamic configuration of Environment of User registration
  */
-public class DebugTestFragmentState extends UIState {
-
-    private FragmentLauncher fragmentLauncher;
+public class DebugTestFragmentState extends BaseState {
 
     public DebugTestFragmentState() {
-        super(UIState.UI_DEBUG_FRAGMENT_STATE);
+        super(BaseAppState.DEBUG);
     }
 
     /**
@@ -30,7 +29,7 @@ public class DebugTestFragmentState extends UIState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
                 handleFragmentBackStack( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentLaunchState());
     }

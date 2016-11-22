@@ -6,13 +6,11 @@
 package com.philips.platform.appframework.splash;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.introscreen.WelcomeView;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIView;
-import com.philips.platform.modularui.stateimpl.HomeActivityState;
 import com.philips.platform.modularui.stateimpl.UserRegistrationState;
-import com.philips.platform.modularui.stateimpl.WelcomeState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -20,16 +18,13 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
 public class SplashPresenter extends UIBasePresenter {
-    private final UIView uiView;
-    private AppFrameworkApplication appFrameworkApplication;
-    private UIState uiState;
-    private UserRegistrationState userRegistrationState;
-    private FragmentLauncher fragmentLauncher;
+    private final WelcomeView uiView;
+    private String APP_START = "onAppStartEvent";
 
-    public SplashPresenter(final UIView uiView) {
+    public SplashPresenter(WelcomeView uiView) {
         super(uiView);
         this.uiView = uiView;
-        setState(UIState.UI_SPLASH_STATE);
+        setState(BaseAppState.SPLASH);
     }
 
     @Override
@@ -44,16 +39,16 @@ public class SplashPresenter extends UIBasePresenter {
      */
     @Override
     public void onLoad() {
-        appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
-        userRegistrationState = new UserRegistrationState();
-        if (userRegistrationState.getUserObject(uiView.getFragmentActivity()).isUserSignIn()) {
-            uiState = new HomeActivityState();
-        } else {
-            uiState = new WelcomeState();
+        final AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
+        final BaseState baseState = appFrameworkApplication.getTargetFlowManager().getNextState(BaseAppState.SPLASH, APP_START);
+        final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
+        if (null != baseState) {
+            if (baseState instanceof UserRegistrationState) {
+                uiView.showActionBar();
+            }
+            baseState.setPresenter(this);
+            baseState.navigate(fragmentLauncher);
         }
-        uiState.setPresenter(this);
-        fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), R.id.welcome_frame_container, null);
-        appFrameworkApplication.getFlowManager().navigateToState(uiState, fragmentLauncher);
     }
 
 }

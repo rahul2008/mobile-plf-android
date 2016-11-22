@@ -12,7 +12,5 @@ public interface WelcomeFragmentView extends FragmentView {
 
     void hideActionBar();
 
-    void loadWelcomeFragment();
-
     void finishActivityAffinity();
 }
