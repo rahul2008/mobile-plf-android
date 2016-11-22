@@ -444,7 +444,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         loadingFlag = false;
         final FragmentActivity activity = mActivity;
         if (activity != null && !activity.isFinishing()) {
-            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
             if (prev != null && prev instanceof DialogFragment) {
                 ((DialogFragment) prev).dismissAllowingStateLoss();
             }
@@ -461,9 +461,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 ft.commitAllowingStateLoss();
             }
             DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Registering_Products_Lbltxt));
-            newFragment.show(mActivity.getSupportFragmentManager(), "dialog");
-            loadingFlag = true;
-            mActivity.getSupportFragmentManager().executePendingTransactions();
+            try {
+                ft.add(newFragment, "dialog");
+                ft.commitAllowingStateLoss();
+                loadingFlag = true;
+                getFragmentManager().executePendingTransactions();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
