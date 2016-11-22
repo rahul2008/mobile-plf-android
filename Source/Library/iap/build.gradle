@@ -83,7 +83,6 @@ artifactory {
         defaults {
             publishIvy = false
             publishPom = true
-            publishBuildInfo = true
             publishArtifacts = true
         }
     }
@@ -245,13 +244,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             dir: '../iap/build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
+                       '**/BuildConfig.*',
                        '**/activity/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
                        '**/response/*/*.class',
-                       '**/integration/IAPInterface.class',
                        '**/screens/*.class',
                        '**/store/IAPUser.class',
+                       '**/integration/IAPInterface.class',
                        '**/utils/*.class',
                        '**/view/*.class']
     )
@@ -259,14 +259,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
     executionData = files('../iap/build/jacoco/testDebugUnitTest.exec')
-
-    doFirst {
-        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
-    }
 
     reports {
         xml.enabled = true
