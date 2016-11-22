@@ -252,8 +252,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         if (jumpConfig.engageAppId== null || jumpConfig.captureAppId==null)
                             throw new RuntimeException("Captureid or engageid is null" );
 
-                          RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + getEngageId(url.toString()));
-                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + getCaptureId(url.toString()));
+                          RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.engageid :" + getEngageId(urlLocal));
+                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.captureid :" + getCaptureId(urlLocal));
 
                         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(
                                 "userreg.landing.emailverif",

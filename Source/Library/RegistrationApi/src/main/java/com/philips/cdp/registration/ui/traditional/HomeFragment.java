@@ -40,6 +40,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
@@ -69,6 +70,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -81,6 +84,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private TextView mTvWelcome;
 
     private TextView mTvWelcomeDesc;
+
+    private TextView mTvRegSign;
 
     private TextView mTvTermsAndConditionDesc;
 
@@ -213,17 +218,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void handleSocialProviders(final String countryCode) {
         RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
         //TOdo
-        if (countryCode.equalsIgnoreCase("CN"))
-            return;
-        if (null != RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode)) {
+         if (null != RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode)) {
             mLlSocialProviderBtnContainer.post(new Runnable() {
 
                 @Override
                 public void run() {
                     mLlSocialProviderBtnContainer.removeAllViews();
                     ArrayList<String> providers = new ArrayList<String>();
-                    providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
-
+                    if (!countryCode.equalsIgnoreCase("CN"))
+                        providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
                     if (null != providers) {
                         for (int i = 0; i < providers.size(); i++) {
                             inflateEachProviderBtn(providers.get(i));
@@ -297,6 +300,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void initUI(View view) {
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
+        mTvWelcome.setText(getString(R.string.reg_Welcome_Welcome_lbltxt));
         mTvTermsAndConditionDesc = (TextView) view.findViewById(R.id.tv_reg_legal_notice);
         int minAgeLimit = RegistrationConfiguration.getInstance().
                 getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
@@ -314,15 +318,22 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
         mLlCreateBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
-        mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
+
         mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_create_account);
+        mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
+     //   mTvRegSign= (TextView) view.findViewById(R.id.tv_reg_or_sign_with);
+     //   mTvRegSign.setText(getString(R.string.reg_Create_With_lbltxt));
+       // mBtnCreateAccount.setText(getString(R.string.reg_Create_Account_CreateMyPhilips_btntxt));
         mBtnCreateAccount.setOnClickListener(this);
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
+    //    mBtnMyPhilips.setProviderName(R.string.reg_myphilips);
         mBtnMyPhilips.setOnClickListener(this);
         mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
         mCountryDisplayy.setOnClickListener(this);
+        mCountryDisplayy.setText(Locale.getDefault().getDisplayCountry()+","+Locale.getDefault().getCountry());
 
         TextView mTvContent = (TextView) view.findViewById(R.id.tv_reg_create_account);
+      //  mTvContent.setText(getString(R.string.Welcome_needAccountto_lbltxt));
         if (mTvContent.getText().toString().trim().length() > 0) {
             mTvContent.setVisibility(View.VISIBLE);
         } else {
@@ -382,7 +393,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             View dialog_view = inflater.inflate(R.layout.reg_country_list_alert_dialog, null);
 
             ListView cityListView = (ListView) dialog_view.findViewById(R.id.cityListView);
-            String[] recourseList=this.getResources().getStringArray(R.array.CountryCodes);
+            String[] recourseList=this.getResources().getStringArray(R.array.Country);
+            Arrays.sort(recourseList);
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, recourseList);
             cityListView.setAdapter(adapter);
             cityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -395,7 +407,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                     if (localeArr != null && localeArr.length > 1) {
                         RLog.d(RLog.SERVICE_DISCOVERY, " localeArr[1] :" + localeArr[1]);
-                       changeCountry(localeArr[1]);
+                       changeCountry(localeArr[1].trim());
                     }
                     dialogBuilder.dismiss();
 
@@ -429,28 +441,19 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
             final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
             serviceDiscoveryInterface.setHomeCountry(countryCode);
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode);
+            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
-            serviceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
+            serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
                 @Override
-                public void onSuccess() {
-                    System.out.println("errorvalues : ");
-                    serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                        @Override
-                        public void onSuccess(String s) {
-                            System.out.println("STRING S : "+s);
-                            Toast.makeText(mContext,"Country : "+s,Toast.LENGTH_LONG).show();
-                            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-
-                        }
-
-                        @Override
-                        public void onError(ERRORVALUES errorvalues, String s) {
-                            System.out.println("errorvalues : "+errorvalues);
-                        }
-                    });
+                public void onSuccess(String s) {
+                    System.out.println("STRING S : " + s);
+                    String localeArr[] = s.toString().split("_");
+                    PILLocaleManager localeManager = new PILLocaleManager(mContext);
+                    localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
+                    RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+                    handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+                  //  refreshContant();
                 }
-
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
                     System.out.println("errorvalues : "+errorvalues);
@@ -458,8 +461,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             });
 
 
+
         }
 
+    }
+
+    private void refreshContant() {
+        setCustomLocale();
+      //  onResume();
+       // initUI(getView());
     }
 
     private void launchSignInFragment() {
@@ -533,6 +543,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mTvWelcome, width);
+        applyParams(config, mTvWelcomeDesc, width);
         applyParams(config, mTvWelcomeDesc, width);
         applyParams(config, mLlCreateBtnContainer, width);
         applyParams(config, mLlLoginBtnContainer, width);

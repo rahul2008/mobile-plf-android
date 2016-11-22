@@ -121,8 +121,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:visibility="gone">
+                    android:layout_marginTop="@dimen/reg_header_margin_top"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom">
 
                     <com.philips.cdp.registration.ui.customviews.XTextView
                         android:id="@+id/tv_country"

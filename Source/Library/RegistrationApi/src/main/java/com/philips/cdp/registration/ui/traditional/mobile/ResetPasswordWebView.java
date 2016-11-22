@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 /**
  * Created by 310190722 on 6/21/2016.
@@ -22,6 +23,11 @@ public class ResetPasswordWebView extends Fragment {
 
     private WebView mWebView;
     private ProgressDialog mProgressDialog;
+
+    public static final String TEST_RESET_PASSWORD = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
+    public static final String STAGE_RESET_PASSWORD = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
+    public static final String PROD_RESET_PASSWORD = "https://www.philips.com.cn/c-w/user-registration/apps/login.html";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +57,8 @@ public class ResetPasswordWebView extends Fragment {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
-
-        mWebView.loadUrl("https://tst.philips.com.cn/c-w/user-registration/apps/login.html");
+        String url = initializeRestPasswordLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        mWebView.loadUrl(url);
         //mWebView.loadUrl("https://acc.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
         //mWebView.loadUrl("https://www.philips.co.in/myphilips/reset-password.html?cl=mob&loc=en_IN&code=q5sybj87nbsr4d");
         mWebView.clearView();
@@ -95,5 +101,18 @@ public class ResetPasswordWebView extends Fragment {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
+    }
+    private String initializeRestPasswordLinks(String registrationEnv) {
+
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
+            return PROD_RESET_PASSWORD;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
+            return STAGE_RESET_PASSWORD;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
+            return TEST_RESET_PASSWORD;
+        }
+        return null;
     }
 }

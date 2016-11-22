@@ -118,7 +118,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/reg_header_margin_top"
                     android:layout_marginBottom="@dimen/reg_margin_bottom">
 
                     <com.philips.cdp.registration.ui.customviews.XTextView
@@ -136,7 +136,6 @@
                         android:layout_toRightOf="@+id/tv_country"
                         android:gravity="center"
                         android:text="@string/Reg_Country"
-                        android:visibility="gone"
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
                 </RelativeLayout>
 

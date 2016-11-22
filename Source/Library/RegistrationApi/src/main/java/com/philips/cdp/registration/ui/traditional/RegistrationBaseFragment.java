@@ -74,14 +74,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
         mLeftRightMarginLand = (int) getResources().getDimension(R.dimen.reg_layout_margin_land);
     }
 
-    private void setCustomLocale() {
-        Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
-        Configuration config = new Configuration();
+    protected void setCustomLocale() {
+      /* Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
+        android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = RegistrationHelper.getInstance().getLocale(getContext());
         if(isAdded()) {
-            getActivity().getResources().updateConfiguration(config,
+            getContext().getResources().updateConfiguration(config,
                     getActivity().getResources().getDisplayMetrics());
-        }
+        }*/
     }
 
     @Override

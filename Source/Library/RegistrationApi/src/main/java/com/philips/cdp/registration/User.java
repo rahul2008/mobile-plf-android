@@ -351,7 +351,6 @@ public class User {
 
         try {
             diUserProfile.setEmail(captureRecord.getString(USER_EMAIL));
-            diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
             diUserProfile.setGivenName(captureRecord.getString(USER_GIVEN_NAME));
             diUserProfile.setDisplayName(captureRecord.getString(USER_DISPLAY_NAME));
             diUserProfile
@@ -360,6 +359,9 @@ public class User {
             JSONObject userAddress = new JSONObject(captureRecord.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(captureRecord.getString(CONSUMER_PREFERED_LANGUAGE));
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
+                diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
+            }
             String gender = captureRecord.getString(UpdateGender.USER_GENDER);
             if (null != gender) {
                 if (gender.equalsIgnoreCase(Gender.MALE.toString())) {
@@ -376,8 +378,9 @@ public class User {
                 diUserProfile.setDateOfBirth(date);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
+            Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception : " +e);
         } catch (ParseException e) {
+            Log.e(LOG_TAG, "ParseException :"+e);
             e.printStackTrace();
         }
         return diUserProfile;

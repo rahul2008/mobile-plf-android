@@ -220,7 +220,7 @@
     <string name="Reg_Country">Country</string>
     <string name="Reg_Search">Search..</string>
 
-    <string-array name="CountryCodes" >
+    <string-array name="Country" >
         <item>Australia, AU</item>
         <item>Bulgaria, BG</item>
         <item>Rwanda, RW</item>
@@ -277,11 +277,6 @@
         <item>Vietnam, VN</item>
         <item>China, CN</item>
         <item>Taiwan, TW</item>
-
-
-
-
-
     </string-array>
 
 

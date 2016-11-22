@@ -179,6 +179,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
 
         mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
+        RLog.d(RLog.ONCLICK, "WelcomeFragment : USER NAME " + mUser.getGivenName());
  String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);

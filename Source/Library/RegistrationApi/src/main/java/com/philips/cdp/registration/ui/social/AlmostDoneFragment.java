@@ -433,6 +433,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (!isForTermsAccepatance) {
             view.findViewById(R.id.ll_reg_periodic_offers_check).setVisibility(View.GONE);
             view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
+            view.findViewById(R.id.tv_join_now).setVisibility(View.GONE);
+
         }
     }
 

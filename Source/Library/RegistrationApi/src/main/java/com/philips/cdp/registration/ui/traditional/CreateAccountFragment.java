@@ -43,6 +43,8 @@ import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -459,7 +461,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
             RLog.d(RLog.AB_TESTING,"UI Flow Type A and C");
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                launchAccountActivateFragment();
+                if (FieldsValidator.isValidEmail(mUser.getEmail().toString())){
+                    launchAccountActivateFragment();
+                }else {
+                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                }
             } else {
                 launchWelcomeFragment();
             }
