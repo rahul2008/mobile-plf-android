@@ -7,10 +7,6 @@ jacoco {
     toolVersion = "0.7.1.201405082137"
 }
 
-def coverageSourceDirs = [
-        '../iap/src/main/java'
-]
-
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -237,15 +233,22 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 }
 
+def coverageSourceDirs = ['src/main/java']
+
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: 'build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/*$ViewBinder*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       '**/*$InjectAdapter.*',
                        '**/activity/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
@@ -254,13 +257,20 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/screens/*.class',
                        '**/store/IAPUser.class',
                        '**/utils/*.class',
-                       '**/view/*.class',
-                       '**/BuildConfig.*']
+                       '**/view/*.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../iap/build/jacoco/testDebugUnitTest.exec')
+    executionData = files('build/jacoco/testDebugUnitTest.exec')
+
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
 
     reports {
         xml.enabled = true
@@ -268,13 +278,5 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     }
 }
 
-tasks.withType(Test) {
-    maxHeapSize = '4g'
-    scanForTestClasses = false
-    include "**/*Test.class"
-    test {
-        jvmArgs '-noverify'
-    }
-}
 
 

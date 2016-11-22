@@ -503,7 +503,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "GetUser.txt"));
-        Message msg = new Message();
+        Message msg = Message.obtain();
         msg.obj = obj;
         mShoppingCartPresenter.onGetUser(msg);
     }
@@ -523,7 +523,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "DeliveryModes.txt"));
-        Message msg = new Message();
+        Message msg = Message.obtain();
         msg.obj = obj;
         mShoppingCartPresenter.onGetDeliveryModes(msg);
     }
