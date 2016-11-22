@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
@@ -24,11 +29,6 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSpl
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationWelcomeState;
 
 import java.util.Map;
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 
 public class FlowManager extends BaseUiFlowManager {
 
