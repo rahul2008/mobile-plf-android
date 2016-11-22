@@ -65,6 +65,12 @@
         <item name="uitDialogDimStrongColorAlpha">@dimen/uit_alpha_per_80</item>
 
         <item name="uidProgressBarCircularEndColor">?attr/uitControlPrimaryEnabledColor</item>
+        
+        <item name="uidTextPrimary">@color/uitColorWhite</item>
+        <item name="uidTextSecondary">?attr/uitColorLevel05</item>
+
+        <item name="uidLabelTextColor">?attr/uidTextSecondary</item>
+        <item name="uidLabelTextAlpha">@dimen/uit_alpha_per_60</item>
     </style>
 
     <style name="UltraLight">
@@ -103,6 +109,9 @@
         <!--<item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
         <item name="uitDialogBodyTextColor">@color/uit_gray_level_75</item>-->
 
+        <item name="uidTextPrimary">@color/uit_gray_level_75</item>
+        <item name="uidTextSecondary">@color/uit_gray_level_65</item>
+
     </style>
 
     <style name="VeryLight">
@@ -138,6 +147,8 @@
         <!-- <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
          <item name="uitDialogBodyTextColor">?attr/uitColorLevel75</item>-->
 
+        <item name="uidTextPrimary">?attr/uitColorLevel75</item>
+        <item name="uidTextSecondary">?attr/uitColorLevel65</item>
     </style>
 
     <style name="Light">

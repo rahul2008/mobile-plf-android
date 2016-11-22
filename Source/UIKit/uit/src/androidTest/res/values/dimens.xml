@@ -50,7 +50,6 @@
     <dimen name="circularprogressbar_middle_heightwidth">48dp</dimen>
     <dimen name="circularprogressbar_large_heightwidth">88dp</dimen>
 
-
     <!--Alert dimens-->
     <dimen name="alert_corner_radius">2dp</dimen>
     <dimen name="alert_font_size">16sp</dimen>
@@ -70,5 +69,6 @@
     <dimen name="alertcontenttext_linespacing">6dp</dimen>
     <dimen name="alerttitletext_linespacing">4dp</dimen>
 
-
+    <!--Label dimens -->
+    <dimen name="label_fontsize">16sp</dimen>
 </resources>

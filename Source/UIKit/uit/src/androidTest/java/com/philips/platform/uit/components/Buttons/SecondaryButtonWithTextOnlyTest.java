@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.platform.uit.components.Buttons;
+package com.philips.platform.uit.components.buttons;
 
 import android.content.Context;
 import android.graphics.Color;

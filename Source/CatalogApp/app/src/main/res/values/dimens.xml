@@ -29,4 +29,7 @@
     <integer name="progress_bar_default_progress">50</integer>
     <integer name="progress_bar_default_secondary_progress">60</integer>
     <integer name="progress_bar_scale_bar_max">2</integer>
+
+    <!--label test page-->
+    <dimen name="label_textbox_margin">16dp</dimen>
 </resources>
