@@ -44,8 +44,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DATA_SYNC = 5;
-    private final int MENU_OPTION_CONNECTIVITY=6;
-    private final int MENU_OPTION_PR = 7;
+    private final int MENU_OPTION_PR = 6;
 
     /* event to state map */
     final String HOME_SETTINGS = "settings";
@@ -120,12 +119,6 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
-            case MENU_OPTION_CONNECTIVITY:
-                uiState = new ConnectivityFragmentState();
-                UIStateData connectivityStateData = new UIStateData();
-                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                uiState.setUiStateData(connectivityStateData);
-                break;
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);

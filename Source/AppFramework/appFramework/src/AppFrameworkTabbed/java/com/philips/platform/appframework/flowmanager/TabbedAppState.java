@@ -38,6 +38,5 @@ public class TabbedAppState extends BaseAppState {
         uiStateMap.put(SUPPORT, new SupportFragmentState());
         uiStateMap.put(SPLASH, new SplashState());
         uiStateMap.put(DATA_SYNC, new DataSyncScreenState());
-        uiStateMap.put(CONNECTIVITY, new ConnectivityFragmentState());
     }
 }
