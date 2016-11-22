@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.cart.IAPCartListener;
@@ -19,6 +20,8 @@ import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -497,14 +500,14 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.onGetUser(msg);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testGetUserResponseSuccess() throws Exception {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "GetUser.txt"));
         Message msg = Message.obtain();
-        msg.obj = obj;
+        msg.obj = new Gson().fromJson(obj.toString(), GetUser.class);
         mShoppingCartPresenter.onGetUser(msg);
     }
 
@@ -517,14 +520,14 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.onGetDeliveryModes(msg);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testGetDeliveryModesResponse() throws Exception {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "DeliveryModes.txt"));
-        Message msg = Message.obtain();
-        msg.obj = obj;
+        Message msg = new Message();
+        msg.obj = new Gson().fromJson(obj.toString(), GetDeliveryModes.class);
         mShoppingCartPresenter.onGetDeliveryModes(msg);
     }
 
