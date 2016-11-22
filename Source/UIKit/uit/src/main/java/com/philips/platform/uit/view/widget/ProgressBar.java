@@ -8,8 +8,11 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RotateDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -23,8 +26,10 @@ public class ProgressBar extends android.widget.ProgressBar {
 
     public enum CircularProgressBarSize {SMALL, MIDDLE, BIG}
 
-    @NonNull private boolean isLinearProgressBarEnabled = false;
-    @Nullable private CircularProgressBarSize circularProgressBarSize;
+    @NonNull
+    private boolean isLinearProgressBarEnabled = false;
+    @Nullable
+    private CircularProgressBarSize circularProgressBarSize;
 
     public ProgressBar(final Context context) {
         this(context, null);
@@ -47,7 +52,7 @@ public class ProgressBar extends android.widget.ProgressBar {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.UIDProgressBarHorizontalDeterminate);
         isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressBar_uidLinearProgressBar, false);
 
-        if(!isLinearProgressBarEnabled) {
+        if (!isLinearProgressBarEnabled) {
             int sizeIndex = obtainStyledAttributes.getInt(R.styleable.UIDProgressBar_circularProgressBarSize, 0);
             circularProgressBarSize = CircularProgressBarSize.values()[sizeIndex];
         }
@@ -59,7 +64,11 @@ public class ProgressBar extends android.widget.ProgressBar {
         if (isLinearProgressBarEnabled) {
             initLinearProgressBar(theme);
         } else {
-            initCircularProgressBar(theme);
+            if (isIndeterminate()) {
+                initIndeterminateCircularProgressBar(theme);
+            } else {
+                initCircularProgressBar(theme);
+            }
         }
     }
 
@@ -95,15 +104,49 @@ public class ProgressBar extends android.widget.ProgressBar {
         final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uit_progress_bar_background_selector, theme);
         final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uit_progress_bar_progress_selector, theme);
 
-        final LayerDrawable layer = new LayerDrawable(new Drawable[]{backgroundDrawable, progressDrawable});
-        layer.setId(0, android.R.id.background);
-        layer.setId(1, android.R.id.progress);
+        final LayerDrawable layer = createCircularProgressBarLayerDrawable(progressDrawable, backgroundDrawable);
 
         setProgressDrawable(layer);
+    }
 
-        if (isIndeterminate()) {
-            setIndeterminateDrawable(layer);
-        }
+    private void initIndeterminateCircularProgressBar(final Theme theme) {
+        LayerDrawable progressBar = getIndeterminateCircularProgressDrawableFromSize();
+
+        final Drawable background = progressBar.findDrawableByLayerId(android.R.id.background);
+        final Drawable progress = progressBar.findDrawableByLayerId(android.R.id.progress);
+
+        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uit_progress_bar_background_selector, theme);
+        setGradientOnDrawable((RotateDrawable) progress, theme);
+
+        final LayerDrawable layer = createCircularProgressBarLayerDrawable(progress, backgroundDrawable);
+
+        setIndeterminateDrawable(layer);
+        setProgressDrawable(layer);
+    }
+
+    @NonNull
+    private LayerDrawable createCircularProgressBarLayerDrawable(final Drawable progress, final Drawable backgroundDrawable) {
+        final LayerDrawable layer = new LayerDrawable(new Drawable[]{backgroundDrawable, progress});
+        layer.setId(0, android.R.id.background);
+        layer.setId(1, android.R.id.progress);
+        return layer;
+    }
+
+    private void setGradientOnDrawable(final RotateDrawable progress, final Theme theme) {
+        GradientDrawable gradientDrawable = (GradientDrawable) progress.getDrawable();
+        gradientDrawable.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+
+        int startColor = ContextCompat.getColor(getContext(), android.R.color.transparent);
+        int endcolor = obtainEndColorFromStyle(theme);
+
+        gradientDrawable.setColors(new int[]{startColor, endcolor});
+    }
+
+    private int obtainEndColorFromStyle(final Theme theme) {
+        final TypedArray typedArray = theme.obtainStyledAttributes(R.styleable.UIDProgressBar);
+        int endcolor = typedArray.getColor(R.styleable.UIDProgressBar_uidProgressBarCircularEndColor, Color.BLUE);
+        typedArray.recycle();
+        return endcolor;
     }
 
     private LayerDrawable getCircularProgressDrawableFromSize() {
@@ -116,6 +159,18 @@ public class ProgressBar extends android.widget.ProgressBar {
                 return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_big);
         }
         return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_small);
+    }
+
+    private LayerDrawable getIndeterminateCircularProgressDrawableFromSize() {
+        switch (circularProgressBarSize) {
+            case SMALL:
+                return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_small_indeterminate);
+            case MIDDLE:
+                return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_middle_indeterminate);
+            case BIG:
+                return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_big_indeterminate);
+        }
+        return (LayerDrawable) ContextCompat.getDrawable(getContext(), R.drawable.uid_circular_progress_bar_small_indeterminate);
     }
 
     private int getCircularProgressBarSize(CircularProgressBarSize size) {

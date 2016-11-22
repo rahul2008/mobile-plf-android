@@ -7,6 +7,7 @@
             android:pivotY="50%"
             android:toDegrees="270">
             <shape
+                android:innerRadius="@dimen/uid_progress_bar_circular_big_inner_radius"
                 android:shape="ring"
                 android:thickness="@dimen/uid_progress_bar_circular_big_thickness"
                 android:useLevel="false"/>
@@ -19,6 +20,7 @@
             android:pivotY="50%"
             android:toDegrees="270">
             <shape
+                android:innerRadius="@dimen/uid_progress_bar_circular_big_inner_radius"
                 android:shape="ring"
                 android:thickness="@dimen/uid_progress_bar_circular_big_thickness"/>
         </rotate>

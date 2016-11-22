@@ -63,6 +63,8 @@
         <item name="uitDialogShadowAlpha">@dimen/uit_alpha_per_20</item>
         <item name="uitDialogDimSubtleLayerAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitDialogDimStrongColorAlpha">@dimen/uit_alpha_per_80</item>
+
+        <item name="uidProgressBarCircularEndColor">?attr/uitControlPrimaryEnabledColor</item>
     </style>
 
     <style name="UltraLight">
