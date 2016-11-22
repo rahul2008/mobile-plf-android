@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uit.matcher;
 
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,26 @@ public class ViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
                 return view.getPaddingLeft() == expectedValue;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameStartPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingRight()), String.valueOf(expectedValue));
+                return view.getPaddingStart() == expectedValue;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameEndPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
+                return view.getPaddingEnd() == expectedValue;
             }
         };
     }
@@ -140,6 +161,34 @@ public class ViewPropertiesMatchers {
             protected boolean matchesSafely(final View view) {
                 setValues(String.valueOf(view.getVisibility()), String.valueOf(gone));
                 return view.getVisibility() == gone;
+            }
+        };
+    }
+
+    public static Matcher<? super View> isSameTitleRightMargin(final int rightMargin) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof Toolbar) {
+                    Toolbar toolbar = (Toolbar) view;
+                    setValues(String.valueOf(toolbar.getTitleMarginEnd()), String.valueOf(rightMargin));
+                    return actual == expected;
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> isSameTittleLeftMargin(final int leftMargin) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof Toolbar) {
+                    Toolbar toolbar = (Toolbar) view;
+                    setValues(String.valueOf(toolbar.getTitleMarginStart()), String.valueOf(leftMargin));
+                    return actual == expected;
+                }
+                return false;
             }
         };
     }

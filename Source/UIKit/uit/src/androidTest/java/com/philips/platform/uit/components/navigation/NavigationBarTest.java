@@ -14,9 +14,9 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.activity.LandscapeModeActivity;
+import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uit.utils.UITTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -52,38 +52,46 @@ public class NavigationBarTest {
         landscapeModeActivity.switchFragment(new NavigationbarFragment());
 
         int toolbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_height_land);
-        getNavigationActionButton().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
+        getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
     @Test
     public void VerifyToolbarHeight() throws Exception {
-        UITTestUtils.waitFor(applicationContext.getResources(), 750);
-
         int toolbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_height);
 
-        getNavigationActionButton().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
+        getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
     @Test
-    public void VerifyToolbarLeftMargin() throws Exception {
-        int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_left_margin);
+    public void VerifyTitleLeftMargin() throws Exception {
+        int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_title_margin);
 
-        getNavigationActionButton().check(matches(ViewPropertiesMatchers.isSameLeftMargin(iconpadding)));
+        getTitleView().check(matches(ViewPropertiesMatchers.isSameTittleLeftMargin(iconpadding)));
     }
 
     @Test
-    public void VerifyToolbarRightMargin() throws Exception {
-        int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_right_margin);
+    public void VerifyTitleRightMargin() throws Exception {
 
-        getNavigationActionButton().check(matches(ViewPropertiesMatchers.isSameRightMargin(iconpadding)));
+        int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_title_margin);
+
+        getTitleView().check(matches(ViewPropertiesMatchers.isSameTitleRightMargin(iconpadding)));
     }
 
     @Test
     public void VerifyMenuIconSize() throws Exception {
         int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_icon_size);
 
-        getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(iconSize)));
-        getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(iconSize)));
+        getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameHeight("getDrawable", iconSize, com.philips.platform.uit.test.R.drawable.uid_switch_thumb)));
+        getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameWidth("getDrawable", iconSize, com.philips.platform.uit.test.R.drawable.uid_switch_thumb)));
+    }
+
+    @Ignore
+    @Test
+    public void VerifyMenuIconMargin() throws Exception {
+        int padding = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_icon_padding);
+
+        getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameLeftPadding(padding)));
+        getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameRightPadding(padding)));
     }
 
     //Android doesnt provide api to set margin left right
@@ -130,11 +138,11 @@ public class NavigationBarTest {
     public void VerifyNavigationBarIconSize() throws Exception {
         int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_icon_size);
 
-        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(iconSize)));
-        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(iconSize)));
+        getNavigationMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
+        getNavigationMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
     }
 
-    private ViewInteraction getNavigationActionButton() {
+    private ViewInteraction getNavigationBar() {
         return onView(withId(com.philips.platform.uit.test.R.id.uid_toolbar));
     }
 

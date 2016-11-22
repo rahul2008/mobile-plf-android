@@ -1,5 +1,6 @@
 package com.philips.platform.catalogapp;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -114,6 +115,8 @@ public class NavigationController {
         toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_menu, mainActivity.getTheme()));
         mainActivity.hamburgerIconVisible = true;
         toolbar.setTitle(R.string.catalog_app_name);
+        toolbar.setTitleMarginStart(mainActivity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
+        toolbar.setTitleMarginEnd(mainActivity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
         mainActivity.titleText = R.string.catalog_app_name;
     }
 
@@ -137,6 +140,8 @@ public class NavigationController {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
         ButterKnife.bind(this, mainActivity);
         mainActivity.setSupportActionBar(toolbar);
+        final Resources resources = mainActivity.getResources();
+        toolbar.setTitleMargin(resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginTop(), resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginBottom());
         actionBar = mainActivity.getSupportActionBar();
         if (savedInstanceState == null) {
             initDemoListFragment();

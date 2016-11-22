@@ -8,10 +8,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/UIDToolbar"
+        style="?attr/actionBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        popupTheme="@style/UIDToolbar"
         app:theme="@style/UIDToolbar">
     </android.support.v7.widget.Toolbar>
 

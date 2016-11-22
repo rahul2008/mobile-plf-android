@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
@@ -22,27 +21,17 @@ import com.philips.platform.uit.thememanager.UITHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.philips.platform.uit.test.R.dimen.navigation_left_margin;
+
 public class BaseTestActivity extends AppCompatActivity {
 
-    private MenuItem themeSetting;
     private Toolbar toolbar;
-
-    public MenuItem getSetTheme() {
-        return setTheme;
-    }
-
-    public MenuItem getThemeSetting() {
-        return themeSetting;
-    }
-
-    private MenuItem setTheme;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         UITHelper.injectCalligraphyFonts();
         UITHelper.init(getThemeConfig());
         super.onCreate(savedInstanceState);
-
     }
 
     private ThemeConfiguration getThemeConfig() {
@@ -60,6 +49,7 @@ public class BaseTestActivity extends AppCompatActivity {
                         toolbar.setNavigationContentDescription("navigationIcon");
                         toolbar.setNavigationIcon(com.philips.platform.uit.test.R.drawable.uid_switch_thumb);
                         toolbar.setTitle("Tittle");
+                        toolbar.setTitleMargin(getResources().getDimensionPixelOffset(navigation_left_margin), 0, getResources().getDimensionPixelOffset(navigation_left_margin), 0);
                     }
                 }
         );
@@ -90,8 +80,6 @@ public class BaseTestActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        themeSetting = menu.findItem(com.philips.platform.uit.test.R.id.theme_settings);
-        setTheme = menu.findItem(com.philips.platform.uit.test.R.id.set_theme_settings);
         return true;
     }
 

@@ -51,10 +51,11 @@
     <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
     <dimen name="alert_width">272dp</dimen>
 
-    <dimen name="navigation_icon_padding">16dp</dimen>
+    <!--<dimen name="navigation_icon_padding">16dp</dimen>-->
     <dimen name="navigation_height">56dp</dimen>
     <dimen name="navigation_left_margin">16dp</dimen>
     <dimen name="navigation_right_margin">16dp</dimen>
+    <dimen name="navigation_icon_padding">10dp</dimen>
     <dimen name="navigation_icon_size">24dp</dimen>
     <dimen name="navigation_title_margin">24dp</dimen>
     <dimen name="navigation_height_land">48dp</dimen>

@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.philips.platform.uit.utils.UIDUtils;
@@ -25,6 +26,23 @@ public class FunctionDrawableMatchers {
                 boolean matches = heightMatcher.matches(drawable);
                 setValues(heightMatcher.actual, heightMatcher.expected);
                 return matches;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameHeight(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof AppCompatTextView) {
+                    AppCompatTextView textView = (AppCompatTextView) view;
+                    Drawable drawable = getDrawable(textView);
+                    BaseTypeSafteyMatcher<Drawable> heightMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameHeight(expectedValue);
+                    boolean matches = heightMatcher.matches(drawable);
+                    setValues(heightMatcher.actual, heightMatcher.expected);
+                    return matches;
+                }
+                return false;
             }
         };
     }
@@ -55,6 +73,23 @@ public class FunctionDrawableMatchers {
                 boolean matches = widthMatcher.matches(drawable);
                 setValues(widthMatcher.actual, widthMatcher.expected);
                 return matches;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameWidth(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof AppCompatTextView) {
+                    AppCompatTextView textView = (AppCompatTextView) view;
+                    Drawable drawable = getDrawable(textView);
+                    BaseTypeSafteyMatcher<Drawable> widthMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameWidth(expectedValue);
+                    boolean matches = widthMatcher.matches(drawable);
+                    setValues(widthMatcher.actual, widthMatcher.expected);
+                    return matches;
+                }
+                return false;
             }
         };
     }
@@ -120,6 +155,10 @@ public class FunctionDrawableMatchers {
             drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
         }
         return drawable;
+    }
+
+    private static Drawable getDrawable(final AppCompatTextView view) {
+        return view.getCompoundDrawables()[0];
     }
 
     /**
