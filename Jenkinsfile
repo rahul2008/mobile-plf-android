@@ -15,7 +15,7 @@ node ('Ubuntu') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/ur/user_registration_android.git']]])
 			step([$class: 'StashNotifier'])
 		}
-		try {
+		// try {
 			stage ('build') {
                 echo "fetch git config"
                 echo "******"
@@ -30,11 +30,11 @@ node ('Ubuntu') {
             	}            
             }
             
-		} //end try
+		// } //end try
 		
-		catch(err) {
-            return -1
-        }
+		//catch(err) {
+        //    return -1
+        //}
 
 
         	step([$class: 'StashNotifier'])
