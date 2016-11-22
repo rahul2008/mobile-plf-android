@@ -3,6 +3,10 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -246,6 +250,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/BuildConfig.*',
                        '**/Manifest*.*',
                        '**/*$InjectAdapter.*',
+                       '**/*Activity*.*',
+                       '**/*Fragment*.*',
                        '**/activity/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
