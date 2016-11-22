@@ -3,7 +3,6 @@
  * All rights reserved. Reproduction in whole or in part is prohibited without
  * the written consent of the copyright holder.
  */
-
 package com.philips.platform.baseapp.screens.datasevices.database.annotations;
 
 import java.lang.annotation.Retention;

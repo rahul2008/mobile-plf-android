@@ -10,12 +10,16 @@ import android.support.annotation.NonNull;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetail;
+import com.philips.platform.datasevices.database.table.OrmConsent;
+import com.philips.platform.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.datasevices.database.table.OrmConsentDetailType;
+import com.philips.platform.datasevices.database.table.OrmMeasurement;
+import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
+import com.philips.platform.datasevices.database.table.OrmMoment;
+import com.philips.platform.datasevices.database.table.OrmMomentDetail;
 
 import java.sql.SQLException;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -28,15 +32,32 @@ public class OrmUpdating {
     private final Dao<OrmMeasurement, Integer> measurementDao;
     private final Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
 
+    @NonNull
+    private final Dao<OrmConsent, Integer> constentDao;
+
+    //TODO: Spoorti - Remove Unused
+    @NonNull
+    private final Dao<OrmConsentDetail, Integer> constentDetailsDao;
+
+    //TODO: Spoorti - Remove Unused
+    @NonNull
+    private final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao;
+
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
-                       @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao) {
+                       @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
+                       @NonNull final Dao<OrmConsent, Integer> constentDao,
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
+                       @NonNull final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
+        this.constentDao = constentDao;
+        this.constentDetailsDao = constentDetailsDao;
 
+        this.constentDetailTypeDao = constentDetailTypeDao;
     }
 
     public void updateMoment(OrmMoment moment) throws SQLException {
@@ -45,6 +66,10 @@ public class OrmUpdating {
 
     public void updateMeasurement(OrmMeasurement measurement) throws SQLException {
         measurementDao.refresh(measurement);
+    }
+
+    public void updateConsent(OrmConsent consent) throws SQLException{
+        constentDao.refresh(consent);
     }
 
     public void updateMeasurementDetail(OrmMeasurementDetail measurementDetail) throws SQLException {

@@ -9,9 +9,10 @@ package com.philips.platform.baseapp.screens.datasevices.database.table;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.MomentType;
-import com.philips.platform.baseapp.screens.datasevices.database.annotations.DatabaseConstructor;
+import com.philips.platform.datasevices.database.annotations.DatabaseConstructor;
 
 import java.io.Serializable;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -20,6 +21,7 @@ import java.io.Serializable;
 @DatabaseTable
 public class OrmMomentType implements Serializable {
     static final long serialVersionId = 11L;
+    static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private int id;

@@ -12,7 +12,6 @@ import org.joda.time.DateTimeConstants;
 
 import javax.inject.Inject;
 
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -37,7 +36,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
         if (action == null) {
             return;
         }
-        //TODO: review changing connection - (Rakesh - TO be done by Dataservices)
+        //TODO: review changing connection
         if (isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
             mDataServices.synchchronize();
         }

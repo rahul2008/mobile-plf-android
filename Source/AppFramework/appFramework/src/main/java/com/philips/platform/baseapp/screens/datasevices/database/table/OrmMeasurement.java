@@ -15,8 +15,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementType;
-import com.philips.platform.baseapp.screens.datasevices.database.EmptyForeignCollection;
-import com.philips.platform.baseapp.screens.datasevices.database.annotations.DatabaseConstructor;
+import com.philips.platform.datasevices.database.EmptyForeignCollection;
+import com.philips.platform.datasevices.database.annotations.DatabaseConstructor;
 
 import org.joda.time.DateTime;
 

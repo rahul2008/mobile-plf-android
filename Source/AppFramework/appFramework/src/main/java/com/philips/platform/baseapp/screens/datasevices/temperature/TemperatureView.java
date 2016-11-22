@@ -1,6 +1,6 @@
 package com.philips.platform.baseapp.screens.datasevices.temperature;
 
-import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.modularui.statecontroller.FragmentView;
 
 /**
  * Created by sangamesh on 24/10/16.

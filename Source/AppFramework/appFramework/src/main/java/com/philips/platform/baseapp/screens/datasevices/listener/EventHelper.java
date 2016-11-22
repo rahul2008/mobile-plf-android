@@ -24,6 +24,7 @@ public class EventHelper {
 
     private static EventHelper eventHelper;
     public static final int MOMENT = 1;
+    public static final int CONSENT = 2;
     public static final int UR = 1;
 
     private Map<Integer, ArrayList<DBChangeListener>> eventMap;
@@ -32,8 +33,8 @@ public class EventHelper {
     //Key is the unique tag for UI .
 
     private EventHelper() {
-        eventMap = new HashMap<Integer, ArrayList<DBChangeListener>>();
-        urMap = new HashMap<Integer, ArrayList<UserRegistrationFailureListener>>();
+        eventMap = new HashMap<>();
+        urMap = new HashMap<>();
     }
 
     public Map<Integer, ArrayList<DBChangeListener>> getEventMap() {

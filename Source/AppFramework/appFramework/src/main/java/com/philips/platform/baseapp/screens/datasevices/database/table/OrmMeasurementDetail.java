@@ -10,9 +10,10 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.baseapp.screens.datasevices.database.annotations.DatabaseConstructor;
+import com.philips.platform.datasevices.database.annotations.DatabaseConstructor;
 
 import java.io.Serializable;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

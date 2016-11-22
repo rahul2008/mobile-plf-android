@@ -11,13 +11,18 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurement;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMeasurementDetail;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMoment;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmMomentDetail;
-import com.philips.platform.baseapp.screens.datasevices.database.table.OrmSynchronisationData;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.datasevices.database.table.OrmConsent;
+import com.philips.platform.datasevices.database.table.OrmConsentDetail;
+import com.philips.platform.datasevices.database.table.OrmConsentDetailType;
+import com.philips.platform.datasevices.database.table.OrmMeasurement;
+import com.philips.platform.datasevices.database.table.OrmMeasurementDetail;
+import com.philips.platform.datasevices.database.table.OrmMoment;
+import com.philips.platform.datasevices.database.table.OrmMomentDetail;
+import com.philips.platform.datasevices.database.table.OrmSynchronisationData;
 
 import java.sql.SQLException;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -40,20 +45,35 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
 
+    @NonNull
+    private final Dao<OrmConsent, Integer> consentDao;
+
+    @NonNull
+    private final Dao<OrmConsentDetail, Integer> consentDetailDao;
+
+    //TODO: Spoorti - Looks like not used. Y?
+    @NonNull
+    private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
+
 
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao
-                     ) {
+                       @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
+                       @NonNull final Dao<OrmConsent, Integer> constentDao,
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
+                       @NonNull final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.synchronisationDataDao = synchronisationDataDao;
+        this.consentDao = constentDao;
 
+        this.consentDetailDao = constentDetailsDao;
+        this.consentDetailTypeDao = constentDetailTypeDao;
     }
 
     public void deleteAll() throws SQLException {
@@ -62,6 +82,8 @@ public class OrmDeleting {
         measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
+        consentDao.executeRawNoArgs("DELETE FROM `ormconsent`");
+        consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
     }
 
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
@@ -115,4 +137,16 @@ public class OrmDeleting {
 
         return updateBuilder.delete();
     }
+
+    public void deleteConsent(OrmConsent ormConsent) throws SQLException {
+        deleteConsentDetails(ormConsent);
+        consentDao.delete(ormConsent);
+    }
+
+    private void deleteConsentDetails(@NonNull final OrmConsent ormConsent) throws SQLException {
+        for (OrmConsentDetail consentDetail : ormConsent.getConsentDetails()) {
+            consentDetailDao.delete(consentDetail);
+        }
+    }
+
 }
