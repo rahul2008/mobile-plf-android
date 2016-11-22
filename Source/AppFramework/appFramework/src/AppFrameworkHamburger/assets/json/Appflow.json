@@ -1,6 +1,5 @@
 {
   "appflow": {
-    "firstState": "splash",
     "states": [
       {
         "state": "firstState",
