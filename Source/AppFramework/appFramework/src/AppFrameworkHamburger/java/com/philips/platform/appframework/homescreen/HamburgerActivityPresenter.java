@@ -14,8 +14,6 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
-import com.philips.platform.baseapp.base.UIStateListener;
-import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -36,6 +34,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
     final int MENU_OPTION_ABOUT = 4;
     final int MENU_OPTION_DATA_SYNC = 5;
     final int MENU_OPTION_PR = 6;
+
     /* event to state map */
     final String HOME_SETTINGS = "settings";
     final String HOME_IAP = "iap";
