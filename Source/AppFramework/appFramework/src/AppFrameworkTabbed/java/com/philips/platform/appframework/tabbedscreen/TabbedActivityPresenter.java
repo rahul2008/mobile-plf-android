@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.tabbedscreen;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
@@ -15,10 +16,6 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
-import com.philips.platform.baseapp.base.UIStateListener;
-import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
-import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -65,7 +62,7 @@ public class TabbedActivityPresenter extends UIBasePresenter{
      */
     @Override
     public void onEvent(int componentID) {
-        appFrameworkApplication = (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
+        appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.TAB_HOME, eventState);
         baseState.setStateListener(this);
@@ -127,6 +124,15 @@ public class TabbedActivityPresenter extends UIBasePresenter{
             //Logger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @NonNull
+    protected ArrayList<String> getCtnList() {
+        return new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist)));
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
     protected FragmentLauncher getFragmentLauncher() {
