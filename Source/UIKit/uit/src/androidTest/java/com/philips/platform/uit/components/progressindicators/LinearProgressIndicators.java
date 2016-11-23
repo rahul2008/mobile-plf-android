@@ -1,4 +1,5 @@
-package com.philips.platform.uit.components.progressindicators;/*
+package com.philips.platform.uit.components.progressindicators;
+/*
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  *
