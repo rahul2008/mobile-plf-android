@@ -51,7 +51,7 @@ node ('Ubuntu && 23.0.3') {
 		
 		catch(err) {
             currentBuild.result = 'FAILED'
-            echo "Someone just broke the build"
+            error ("Someone just broke the build")
         }
 
         stage('informing') {
