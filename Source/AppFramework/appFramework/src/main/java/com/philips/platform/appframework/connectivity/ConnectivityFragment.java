@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -32,10 +33,9 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.dicommsupport.DiCommChannel;
 import com.philips.pins.shinelib.dicommsupport.DiCommPort;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
-import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityFirmwareUpdateWrapper;
-import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 
 import java.lang.reflect.Field;
 import java.util.Map;

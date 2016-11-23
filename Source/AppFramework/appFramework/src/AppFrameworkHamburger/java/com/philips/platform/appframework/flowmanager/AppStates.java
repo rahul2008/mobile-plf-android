@@ -25,4 +25,5 @@ public class AppStates {
     public static final String SETTINGS = "settings";
     public static final String DATA_SYNC = "data_sync";
     public static final String HAMBURGER_HOME = "home";
+    public static final String CONNECTIVITY = "connectivity";
 }
