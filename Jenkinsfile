@@ -23,18 +23,21 @@ node ('Ubuntu && 23.0.3') {
             sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
 
             if(env.BRANCH_NAME == 'master') {
-                stage 'Release'
-                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                stage ('Release') {
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                }
             }
 
             if(env.BRANCH_NAME == 'develop') {
-                stage 'Release'
-                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                stage ('Release') {
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                }
             }
 
             if(env.BRANCH_NAME =~ /release\/.*/) {
-                stage 'Release'
-                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                stage ('Release') {
+                    sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                }
             }
 
 
