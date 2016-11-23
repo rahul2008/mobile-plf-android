@@ -146,6 +146,16 @@ android {
             applicationId = "com.philips.platform.tabbed"
             resValue "string", "af_app_name", "AF Tabbed"
         }
+
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                if (variant.productFlavors[0].name.equals("AppFrameworkHamburger")) {
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("-AppFrameworkHamburger", ""));
+                }
+            }
+        }
+
     }
 
     lintOptions {
