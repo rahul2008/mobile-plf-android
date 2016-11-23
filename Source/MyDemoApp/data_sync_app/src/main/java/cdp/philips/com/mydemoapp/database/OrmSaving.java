@@ -16,7 +16,6 @@ import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -50,8 +49,6 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
 
-    @NonNull
-    private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
 
 
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
@@ -60,8 +57,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                      @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                      @NonNull final Dao<OrmConsent, Integer> constentDao,
-                     @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                     @NonNull final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao) {
+                     @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -70,7 +66,6 @@ public class OrmSaving {
 
         this.consentDao = constentDao;
         this.consentDetailsDao = constentDetailsDao;
-        this.consentDetailTypeDao = constentDetailTypeDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {

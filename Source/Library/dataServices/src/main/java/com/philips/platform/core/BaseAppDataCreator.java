@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -51,6 +50,6 @@ public interface BaseAppDataCreator {
     Consent createConsent(@NonNull final String creatorId);
 
     @NonNull
-    ConsentDetail createConsentDetail(@NonNull final ConsentDetailType type, @NonNull final String status, @NonNull final String version, final String deviceIdentificationNumber,boolean isSynchronized,@NonNull final Consent consent);
+    ConsentDetail createConsentDetail(@NonNull final String type, @NonNull final String status, @NonNull final String version, final String deviceIdentificationNumber,boolean isSynchronized,@NonNull final Consent consent);
 
 }

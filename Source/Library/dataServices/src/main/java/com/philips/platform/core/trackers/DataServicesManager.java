@@ -19,7 +19,6 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -295,7 +294,7 @@ public class DataServicesManager {
         return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
     }
 
-    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
         if (consent == null) {
             consent = createConsent();
         }

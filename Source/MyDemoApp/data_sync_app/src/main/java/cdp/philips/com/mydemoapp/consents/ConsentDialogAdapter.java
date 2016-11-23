@@ -46,7 +46,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if (holder instanceof ConsentDetailViewHolder) {
             ConsentDetailViewHolder mConsentViewHolder = (ConsentDetailViewHolder) holder;
-            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType().getDescription());
+            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType());
 
             boolean isAccepted = consentDialogPresenter.getConsentDetailStatus(consentDetails.get(position));
             mConsentViewHolder.mConsentDetailSwitch.setChecked(isAccepted);

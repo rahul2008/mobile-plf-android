@@ -9,6 +9,8 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.ExceptionEvent;
@@ -22,6 +24,7 @@ import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,10 +104,16 @@ public class FetchingMonitor extends EventMonitor {
         Log.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
+            Consent consent = dbInterface.fetchConsent();
             Log.i("**SPO**","in Fetching Monitor before sending GetNonSynchronizedMomentsResponse");
-            eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList));
+            if(consent==null){
+                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
+            }else{
+                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, new ArrayList(consent.getConsentDetails())));
+            }
+
         } catch (SQLException e) {
-            eventing.post(new GetNonSynchronizedMomentsResponse(null));
+            eventing.post(new GetNonSynchronizedMomentsResponse(null,null));
         }
     }
 }

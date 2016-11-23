@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
@@ -109,7 +108,7 @@ public class Database implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
         try {
             OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             return creator.createConsentDetail(type, status, version, deviceIdentificationNumber,isSynchronized, ormConsent);

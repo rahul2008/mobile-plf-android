@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -116,7 +115,7 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,@NonNull boolean isSynchronized, @NonNull Consent consent) {
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,@NonNull boolean isSynchronized, @NonNull Consent consent) {
        return database.createConsentDetail(type, status, version, deviceIdentificationNumber,isSynchronized,consent);
     }
 

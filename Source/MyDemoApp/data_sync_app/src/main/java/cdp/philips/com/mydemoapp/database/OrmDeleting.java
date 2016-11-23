@@ -11,13 +11,11 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.philips.platform.core.datatypes.ConsentDetail;
 
 import java.sql.SQLException;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -51,9 +49,7 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmConsentDetail, Integer> consentDetailDao;
 
-    //TODO: Spoorti - Looks like not used. Y?
-    @NonNull
-    private final Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
+
 
 
 
@@ -63,8 +59,8 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                        @NonNull final Dao<OrmConsent, Integer> constentDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao) {
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao
+                       ) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -73,7 +69,6 @@ public class OrmDeleting {
         this.consentDao = constentDao;
 
         this.consentDetailDao = constentDetailsDao;
-        this.consentDetailTypeDao = constentDetailTypeDao;
     }
 
     public void deleteAll() throws SQLException {

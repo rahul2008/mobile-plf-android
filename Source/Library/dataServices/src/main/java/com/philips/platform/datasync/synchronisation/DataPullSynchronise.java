@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
@@ -18,12 +19,12 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -171,7 +172,7 @@ public class DataPullSynchronise {
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments) {
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments ,final List<? extends ConsentDetail> consentDetails) {
         Log.i("**SPO**","In Data Pull Synchronize fetchData");
         initFetch();
         for(DataFetcher fetcher:fetchers){
@@ -180,6 +181,9 @@ public class DataPullSynchronise {
                 continue;
             }*/
 
+            if(fetcher instanceof ConsentsDataFetcher){
+                ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
+            }
             //if(fetcher instanceof  MomentsDataFetcher) {
                 startFetching(lastSyncDateTime, referenceId, fetcher);
             //}
@@ -189,7 +193,7 @@ public class DataPullSynchronise {
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         Log.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
         final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments);
+        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments,response.getConsentDetails());
        // unRegisterEvent();
     }
 }

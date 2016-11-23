@@ -5,7 +5,6 @@ import android.content.Context;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 /**

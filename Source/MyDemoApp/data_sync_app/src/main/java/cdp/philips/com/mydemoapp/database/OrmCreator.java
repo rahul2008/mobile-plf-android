@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -28,7 +27,6 @@ import javax.inject.Singleton;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
@@ -109,10 +107,10 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
-        OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
+       // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
 
-        return new OrmConsentDetail(ormConsentDetailType, status, version, deviceIdentificationNumber, (OrmConsent) consent,isSynchronized);
+        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent,isSynchronized);
     }
 
     @NonNull
