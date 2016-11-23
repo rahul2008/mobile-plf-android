@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.whiteboxapi.APISigningManager;
+import com.philips.platform.appinfra.whiteboxapi.GenerateHmacLib;
 
-import static com.philips.platform.appinfra.whiteboxapi.GenerateHmacLib.createHmac;
 
 /**
  * Created by 310190722 on 11/18/2016.
@@ -23,8 +22,8 @@ public class WhiteBoxAPIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         TextView tvHmacResult = new TextView(this);
 
-        APISigningManager mAPISigningManager = new APISigningManager();
-        byte[] resultBytes = mAPISigningManager.createHmac(k, d);
+        GenerateHmacLib mGenerateHmacLib = new GenerateHmacLib();
+        byte[] resultBytes = mGenerateHmacLib.createHmac(k, d);
         tvHmacResult.setText(bytesToHex(resultBytes));
         setContentView(tvHmacResult);
     }
