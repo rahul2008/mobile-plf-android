@@ -2,10 +2,10 @@ package com.philips.platform.modularui.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.connectivity.ConnectivityFragment;
-import com.philips.platform.modularui.statecontroller.BaseAppState;
-import com.philips.platform.modularui.statecontroller.BaseState;
+import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -17,7 +17,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
     public class ConnectivityFragmentState extends BaseState {
 
         public ConnectivityFragmentState() {
-            super(BaseAppState.CONNECTIVITY);
+            super(AppStates.CONNECTIVITY);
         }
 
         /**
@@ -35,4 +35,9 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
         public void init(Context context) {
 
         }
+
+    @Override
+    public void updateDataModel() {
+
     }
+}
