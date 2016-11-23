@@ -78,6 +78,7 @@ public class NetworkControllerTest {
 
     @Test
     public void testAddToVolleyQueue() throws Exception {
+        new VolleyWrapper();
         mNetworkController.addToVolleyQueue(new IAPJsonRequest(1, null, null, null, null));
     }
 }
