@@ -28,7 +28,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInter
 import com.philips.platform.baseapp.screens.dataservices.database.ORMUpdatingInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmCreator;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmDeleting;
-import com.philips.platform.baseapp.screens.dataservices.database.OrmDeletingInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmFetchingInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmSaving;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmUpdating;
