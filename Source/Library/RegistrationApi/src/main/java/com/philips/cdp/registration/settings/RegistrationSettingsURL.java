@@ -70,7 +70,9 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     private String STAGE_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
 
-    private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
+    private String EVAL_CAPTURE_FLOW_CHINA_VERSION = "20161026213943596234";// "f4a28763-840b-4a13-822a-48b80063a7bf";
+
+    private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";
 
     private JumpConfig jumpConfig;
 
@@ -327,6 +329,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                             @Override
                                                                             public void onSuccess(URL url) {
                                                                                 String smsSupport=url.toString();
+                                                                                jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_CHINA_VERSION;
                                                                                 setChinaFlow(true);
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +smsSupport);
                                                                                 jumpConfig.captureLocale = locale;

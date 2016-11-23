@@ -165,6 +165,10 @@ public class RegistrationHelper {
         return countryCode;
     }
 
+    public synchronized void setCountryCode(String country) {
+        countryCode = country;
+    }
+
     /**
      * {@code registerUserRegistrationListener} method registers a listener in order to listen
      * the callbacks returned by User Registration component. It must be called by

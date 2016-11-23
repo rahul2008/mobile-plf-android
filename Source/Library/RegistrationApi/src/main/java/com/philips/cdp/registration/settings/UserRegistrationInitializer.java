@@ -30,6 +30,7 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Locale;
 
@@ -159,9 +160,35 @@ public class UserRegistrationInitializer {
     };
 
 
-    public void initializeConfiguredEnvironment(Context context, Configuration registrationType, String initLocale) {
+    public void initializeConfiguredEnvironment(final Context context, final Configuration registrationType, final String initLocale) {
+
         mRegistrationSettings = new RegistrationSettingsURL();
-        mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
+
+
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+
+        serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            @Override
+            public void onSuccess(String s) {
+                System.out.println("STRING S : " + s);
+                String localeArr[] = s.toString().split("_");
+                serviceDiscoveryInterface.setHomeCountry(localeArr[1].trim().toUpperCase());
+                RegistrationHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
+                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
+
+            }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                System.out.println("STRING S : " + s);
+                String localeArr[] = s.toString().split("_");
+                RegistrationHelper.getInstance().setCountryCode(localeArr[1]);
+                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
+            }
+        });
+
+
+
     }
 
 

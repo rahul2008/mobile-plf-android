@@ -294,19 +294,16 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         String termsAndCondition = getString(R.string.reg_AgeLimitText);
         termsAndCondition = String.format(termsAndCondition, minAgeLimit);
-
         mTvTermsAndConditionDesc.setText(termsAndCondition);
         if (minAgeLimit > 0) {
             mTvTermsAndConditionDesc.setVisibility(View.VISIBLE);
         } else {
             mTvTermsAndConditionDesc.setVisibility(View.GONE);
         }
-
         mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_terms_and_condition);
         mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
         mLlCreateBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
-
         mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_create_account);
         mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
      //   mTvRegSign= (TextView) view.findViewById(R.id.tv_reg_or_sign_with);
@@ -318,21 +315,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnMyPhilips.setOnClickListener(this);
         mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
         mCountryDisplayy.setOnClickListener(this);
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
-            }
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
-            }
-        });
-
         TextView mTvContent = (TextView) view.findViewById(R.id.tv_reg_create_account);
       //  mTvContent.setText(getString(R.string.Welcome_needAccountto_lbltxt));
         if (mTvContent.getText().toString().trim().length() > 0) {
@@ -341,21 +323,30 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mTvContent.setVisibility(View.GONE);
         }
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-
         mPbJanrainInit = (ProgressBar) view.findViewById(R.id.pb_reg_janrain_init);
         mPbJanrainInit.setClickable(false);
         mPbJanrainInit.setEnabled(false);
         mLlSocialProviderBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_social_provider_container);
-        handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-
-
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
-
-        // handleJanrainInitPb();
-        // enableControls(NetworkUtility.isNetworkAvailable(mContext));
         handleUiState();
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
+                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
+                handleSocialProviders(s.toUpperCase());
+
+            }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
+                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
+            }
+        });
     }
 
 //    private void handleJanrainInitPb() {
@@ -369,7 +360,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 //            mPbJanrainInit.setVisibility(View.GONE);
 //        }
 //    }
-
     @Override
     public void onClick(View v) {
         /**
@@ -418,6 +408,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     PILLocaleManager localeManager = new PILLocaleManager(mContext);
                     localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
                     RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+                    System.out.println("Change Country code :"+RegistrationHelper.getInstance().getCountryCode());
                     handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
                   //  refreshContant();
                 }
@@ -426,11 +417,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     System.out.println("errorvalues : "+errorvalues);
                 }
             });
-
-
-
         }
-
     }
 
     private void refreshContant() {
