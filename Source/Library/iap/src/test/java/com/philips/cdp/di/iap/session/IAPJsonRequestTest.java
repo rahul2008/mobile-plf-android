@@ -25,4 +25,5 @@ public class IAPJsonRequestTest {
         NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
         mIAIapJsonRequest.parseNetworkResponse(networkResponse);
     }
+
 }

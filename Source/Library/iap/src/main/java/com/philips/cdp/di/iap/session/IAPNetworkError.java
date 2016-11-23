@@ -103,7 +103,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
-            IAPLog.e(IAPNetworkError.class.getName(),e.getMessage());
+            IAPLog.e(IAPNetworkError.class.getName(), e.getMessage());
         }
     }
 
@@ -113,8 +113,6 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             return;
         }
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
-//            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-//                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.INSUFFICIENT_STOCK_ERROR);
             mIAPErrorCode = IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
     }
