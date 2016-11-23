@@ -12,7 +12,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.screens.datasevices.registration.UserRegistrationFacadeImpl;
+import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 

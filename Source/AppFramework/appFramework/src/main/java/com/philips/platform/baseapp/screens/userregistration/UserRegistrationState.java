@@ -5,7 +5,6 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
@@ -19,11 +18,9 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.screens.datasevices.registration.UserRegistrationFacadeImpl;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
