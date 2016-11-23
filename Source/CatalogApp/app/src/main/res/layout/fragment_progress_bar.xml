@@ -19,7 +19,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <com.philips.platform.uit.view.widget.Label
+                style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress_bar_scale"/>
@@ -45,7 +46,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <com.philips.platform.uit.view.widget.Label
+                style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress_bar_value"/>
