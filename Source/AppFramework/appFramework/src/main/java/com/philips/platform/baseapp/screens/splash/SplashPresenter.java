@@ -10,7 +10,6 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
-import com.philips.platform.baseapp.screens.userregistration.URStateListener;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -38,19 +37,17 @@ public class SplashPresenter extends UIBasePresenter{
     @Override
     public void onEvent(int componentID) {
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SPLASH, APP_START);
-        final FragmentLauncher fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), null);
         baseState.setStateListener(this);
         if (null != baseState) {
             if (baseState instanceof UserRegistrationState) {
                 uiView.showActionBar();
             }
-            baseState.navigate(fragmentLauncher);
+            baseState.navigate(getFragmentLauncher());
         }
     }
 
     protected FragmentLauncher getFragmentLauncher() {
-        fragmentLauncher = new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), uiView.getActionBarListener());
-        return fragmentLauncher;
+        return new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), uiView.getActionBarListener());
     }
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();

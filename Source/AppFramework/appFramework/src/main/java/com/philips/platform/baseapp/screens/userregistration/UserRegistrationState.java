@@ -6,7 +6,6 @@
 package com.philips.platform.baseapp.screens.userregistration;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -23,7 +22,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.Locale;
 
@@ -33,7 +31,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
  * This class contains all initialization & Launching details of UR
  * Setting configuration using App infra
  */
-public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, ActionBarListener,UserRegistrationUIEventListener{
+public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener,UserRegistrationUIEventListener{
 
     final String AI = "appinfra";
     private Context activityContext;
@@ -114,20 +112,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 configError);
     }
 
-    /**
-     * ActionBarListener interface implementation methods
-     * @param i
-     * @param b
-     */
-    @Override
-    public void updateActionBar(@StringRes int i, boolean b) {
-
-    }
-
-    @Override
-    public void updateActionBar(String s, boolean b) {
-
-    }
 
     public User getUserObject(Context context) {
         userObject = new User(context);

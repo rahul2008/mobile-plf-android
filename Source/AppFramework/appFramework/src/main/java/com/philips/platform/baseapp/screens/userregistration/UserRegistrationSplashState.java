@@ -64,4 +64,6 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
         UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
         userRegistrationFacade.clearUserData();
     }
+
+
 }
