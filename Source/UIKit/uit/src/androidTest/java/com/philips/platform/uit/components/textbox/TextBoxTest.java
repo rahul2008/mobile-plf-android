@@ -82,38 +82,38 @@ public class TextBoxTest {
 
     @Test
     public void verifyTextEditBoxStrokeBackgroundRadius() {
-        float expectedRadius = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
+        float expectedRadius = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_stroke_drawable)));
     }
 
     @Test
     public void verifyTextEditBoxFillBackgroundRadius() {
-        float expectedRadius = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
+        float expectedRadius = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_corner_radius));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uit_texteditbox_fill_drawable)));
     }
 
     @Test
     public void verifyTextEditBoxLeftPadding() {
-        int expectedLeftPadding = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_left_padding));
+        int expectedLeftPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_left_padding));
         getTextBox().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyTextEditBoxRightPadding() {
-        int expectedRightPadding = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_right_padding));
+        int expectedRightPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_right_padding));
         getTextBox().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyTextEditBoxHeight() {
         UITTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) Math.ceil(testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_height));
+        int expectedHeight = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_height));
         getTextBox().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uit_texteditbox_fill_drawable)));
     }
 
     @Test
     public void verifyTextEditBoxStrokeWidth() {
-        int expectedStrokeWidth = (int) testResources.getDimension(com.philips.platform.uit.test.R.dimen.texteditbox_stroke_height);
+        int expectedStrokeWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_stroke_height);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedStrokeWidth, R.id.uit_texteditbox_stroke_drawable)));
     }
 
