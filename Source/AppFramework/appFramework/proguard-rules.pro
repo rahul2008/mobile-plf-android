@@ -115,6 +115,7 @@ public static <fields>;
 -dontwarn android.support.**
 -dontwarn android.support.v8.**
 -dontwarn com.philips.cdp.registration.**
+-dontwarn com.philips.cdp.platform.**
 -dontwarn org.apache.**
 #-dontwarn com.philips.cdp.digitalcare.**
 #-dontwarn com.philips.cdp.prxclient.**
@@ -157,6 +158,10 @@ public static <fields>;
 -keep class com.philips.cdp.prodreg.** {*;}
 -keep interface com.philips.cdp.prodreg.** {*;}
 -keep enum com.philips.cdp.prodreg.** {*;}
+
+# App-framework
+ -keep class com.philips.platform.appframework.** {*;}
+
 
 ##--------------- ORMLite  ----------
 

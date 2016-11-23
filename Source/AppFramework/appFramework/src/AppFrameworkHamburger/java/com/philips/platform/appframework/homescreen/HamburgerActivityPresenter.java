@@ -6,21 +6,15 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.HamburgerAppState;
-import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.modularui.statecontroller.BaseAppState;
-import com.philips.platform.modularui.statecontroller.BaseState;
-import com.philips.platform.modularui.statecontroller.FragmentView;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIStateData;
-import com.philips.platform.modularui.statecontroller.UIStateListener;
-import com.philips.platform.modularui.stateimpl.IAPState;
-import com.philips.platform.modularui.stateimpl.ProductRegistrationState;
-import com.philips.platform.modularui.stateimpl.SupportFragmentState;
+import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.base.UIStateData;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
@@ -30,15 +24,10 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class HamburgerActivityPresenter extends UIBasePresenter implements UIStateListener {
-
-    public static final int MENU_OPTION_HOME = 0;
-    private FragmentView fragmentView;
-    private FragmentLauncher fragmentLauncher;
-    private BaseState baseState;
-
+public class HamburgerActivityPresenter extends UIBasePresenter {
 
     /*Event ID */
+    public static final int MENU_OPTION_HOME = 0;
     final int MENU_OPTION_SETTINGS = 1;
     final int MENU_OPTION_SHOP = 2;
     final int MENU_OPTION_SUPPORT = 3;
@@ -55,11 +44,14 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
     final String HOME_FRAGMENT = "home_fragment";
     final String HOME_DATA_SYNC = "data_sync";
     final String SUPPORT_PR = "pr";
+    private FragmentView fragmentView;
+    private FragmentLauncher fragmentLauncher;
+    private BaseState baseState;
 
     public HamburgerActivityPresenter(final FragmentView fragmentView) {
         super(fragmentView);
         this.fragmentView = fragmentView;
-        setState(HamburgerAppState.HAMBURGER_HOME);
+        setState(AppStates.HAMBURGER_HOME);
     }
 
     /**
@@ -67,25 +59,21 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
      * Any changes for hamburger menu options should be made here
      */
     @Override
-    public void onClick(int componentID) {
+    public void onEvent(int componentID) {
         AppFrameworkApplication appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(HamburgerAppState.HAMBURGER_HOME, eventState);
-        baseState.setPresenter(this);
-        baseState.setUiStateData(setStateData(componentID));
-        fragmentLauncher = getFragmentLauncher();
-        if (baseState instanceof SupportFragmentState) {
-            ((SupportFragmentState) baseState).registerUIStateListener(this);
+        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.HAMBURGER_HOME, eventState);
+        if(null != baseState) {
+            baseState.setUiStateData(setStateData(componentID));
+            fragmentLauncher = getFragmentLauncher();
+            baseState.navigate(fragmentLauncher);
         }
-        baseState.navigate(fragmentLauncher);
     }
 
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
-    // TODO: Deepthi, when we already know that we need to set certain data for each menu click and that too for which component, why do we ask flow manager to give only state?
-    // So here atleast i see launch type is already causing problems + data models was anyways a concern.
     protected UIStateData setStateData(final int componentID) {
         switch (componentID) {
             case MENU_OPTION_HOME:
@@ -97,18 +85,11 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return settingsStateData;
             case MENU_OPTION_SHOP:
-                IAPState.InAppStateData iapStateData = new IAPState().new InAppStateData();
-                iapStateData.setIapFlow(IAPState.IAP_CATALOG_VIEW);
-                try {
-                    iapStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
-                } catch (RuntimeException e) {
-                    Toast.makeText(getApplicationContext(), R.string.ctn_null, Toast.LENGTH_LONG).show();
-                }
+                UIStateData iapStateData = new UIStateData();
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
-                SupportFragmentState.ConsumerCareData supportStateData = new SupportFragmentState().new ConsumerCareData();
-                supportStateData.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData supportStateData = new UIStateData();
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return supportStateData;
             case MENU_OPTION_ABOUT:
@@ -122,8 +103,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
                 uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
             case MENU_OPTION_PR:
-                ProductRegistrationState.ProductRegistrationData prStateDataModel = new ProductRegistrationState().new ProductRegistrationData();
-                prStateDataModel.setCtnList(new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.productselection_ctnlist))));
+                UIStateData prStateDataModel = new UIStateData();
                 return prStateDataModel;
             case MENU_OPTION_DATA_SYNC:
                 UIStateData syncStateData = new UIStateData();
@@ -146,23 +126,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter implements UISta
         return fragmentLauncher;
     }
 
-    @Override
-    public void onLoad() {
-
-    }
-
-    // TODO: Deepthi, This seems to be hardcoded without even checking the uistate, we are taking decision here.
-    // cant we move this to json ?
-    @Override
-    public void onStateComplete(BaseState baseState) {
-        this.baseState = getApplicationContext().getTargetFlowManager().getNextState(BaseAppState.SUPPORT, SUPPORT_PR);
-        this.baseState.setUiStateData(setStateData(MENU_OPTION_PR));
-        this.baseState.setPresenter(this);
-        fragmentLauncher = getFragmentLauncher();
-        this.baseState.navigate(fragmentLauncher);
-    }
-
-    // TODO: Deepthi, is this expected? deviation from ios i think.
+    // TODO: Deepthi, is this expected? deviation from ios i think. - (Rakesh -As disscussed. Needed to convert int ID for views into Strings )
     public String getEventState(int componentID) {
 
         switch (componentID) {
