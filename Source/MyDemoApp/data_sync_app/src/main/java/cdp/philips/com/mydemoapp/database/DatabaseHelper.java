@@ -58,6 +58,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
     private Dao<OrmMeasurementDetailType, Integer> measurementDetailTypeDao;
     private Dao<OrmMeasurementGroupDetailType, Integer> measurementGroupDetailTypes;
+    private Dao<OrmMeasurementGroup, Integer> measurementGroup;
+    private Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     TemperatureMomentHelper mTemperatureMomentHelper;
 
@@ -215,6 +217,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             measurementGroupDetailTypes = getDao(OrmMeasurementGroupDetailType.class);
         }
         return measurementGroupDetailTypes;
+    }
+
+    public Dao<OrmMeasurementGroup, Integer> getMeasurementGroupDao() throws SQLException {
+        if (measurementGroup == null) {
+            measurementGroup = getDao(OrmMeasurementGroup.class);
+        }
+        return measurementGroup;
+    }
+
+    public Dao<OrmMeasurementGroupDetail, Integer> getMeasurementGroupDetailDao() throws SQLException {
+        if (measurementGroupDetails == null) {
+            measurementGroupDetails = getDao(OrmMeasurementGroupDetail.class);
+        }
+        return measurementGroupDetails;
     }
 
     public Dao<OrmMomentDetail, Integer> getMomentDetailDao() throws SQLException {

@@ -21,6 +21,9 @@ import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -35,11 +38,16 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 
+import static android.R.attr.value;
+import static android.R.attr.yearListItemTextAppearance;
+
 public class TemperaturePresenter {
    private DataServicesManager mDataServices;
 
     private Moment mMoment;
     private Measurement mMeasurement;
+    private MeasurementGroup mMeasurementGroup;
+    private MeasurementGroup mMeasurementGroupInside;
     private MomentType mMomentType;
     private Context mContext;
     private static final int DELETE = 0;
@@ -58,35 +66,62 @@ public class TemperaturePresenter {
     }
 
     public void createMoment(String momemtDetail, String measurement, String measurementDetail){
+        Log.i("***CREATE***","In Create Moment");
         mMoment= mDataServices.createMoment(mMomentType);
         createMomentDetail(momemtDetail);
-        createMeasurement(measurement);
+
+        createMeasurementGroup();
+        createMeasurementGroupDetail(measurementDetail);
+
+        createMeaurementGroupInsideMeasurementGroup(measurement,measurementDetail);
+        mMeasurementGroupInside.addMeasurement(mMeasurement);
+        mMeasurementGroup.addMeasurementGroup(mMeasurementGroupInside);
+        mMoment.addMeasurementGroup(mMeasurementGroup);
+    }
+
+    private void createMeaurementGroupInsideMeasurementGroup(String measurement, String measurementDetail) {
+        mMeasurementGroupInside = mDataServices.
+                createMeasurementGroup(mMeasurementGroup);
+        createMeasurement(mMeasurementGroupInside,measurement);
         createMeasurementDetail(measurementDetail);
     }
 
     public void updateMoment(String momemtDetail, String measurement, String measurementDetail){
-        mMoment= mDataServices.createMoment(mMomentType);
+        /*mMoment= mDataServices.createMoment(mMomentType);
         mMoment.setDateTime(DateTime.now());
         createMomentDetail(momemtDetail);
         createMeasurement(measurement);
-        createMeasurementDetail(measurementDetail);
+        createMeasurementDetail(measurementDetail);*/
     }
 
     public void createMeasurementDetail(String value){
         MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION,mMeasurement);
         measurementDetail.setValue(value);
+        mMeasurement.addMeasurementDetail(measurementDetail);
     }
 
-    public void createMeasurement(String value){
-    //    mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, mMoment);
-     //   mMeasurement.setValue(Double.valueOf(value));
-      //  mMeasurement.setDateTime(DateTime.now());
+    public void createMeasurement(MeasurementGroup group,String value){
+        mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, group);
+        mMeasurement.setValue(Double.valueOf(value));
+        mMeasurement.setDateTime(DateTime.now());
     }
 
     public void createMomentDetail(String value){
         MomentDetail momentDetail = mDataServices.
                 createMomentDetail(MomentDetailType.PHASE, mMoment);
         momentDetail.setValue(value);
+    }
+
+    public void createMeasurementGroupDetail(String value){
+        MeasurementGroupDetail measurementGroupDetail = mDataServices.
+                createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY, mMeasurementGroup);
+        measurementGroupDetail.setValue(value);
+        mMeasurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
+    }
+
+    public void createMeasurementGroup() {
+        mMeasurementGroup = mDataServices.
+                createMeasurementGroup(mMoment);
     }
 
     public void fetchData(){

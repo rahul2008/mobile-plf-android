@@ -20,6 +20,8 @@ import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
+import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -38,7 +40,6 @@ import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
-import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.EventMonitor;
@@ -60,7 +61,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import com.philips.platform.core.injection.DaggerAppComponent;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -287,5 +288,10 @@ public class DataServicesManager {
 
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;
+    }
+
+
+    public MeasurementGroupDetail createMeasurementGroupDetail(MeasurementGroupDetailType tempOfDay, MeasurementGroup mMeasurementGroup) {
+        return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 }

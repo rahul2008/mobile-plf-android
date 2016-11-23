@@ -27,11 +27,10 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     @ForeignCollectionField(eager = true)
     ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();
 
-
-    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = true)
     private OrmMoment ormMoment;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = true)
     private OrmMeasurementGroup ormMeasurementGroup;
 
     @ForeignCollectionField(eager = true)
@@ -44,13 +43,17 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
         this.ormMeasurementGroup = ormMeasurementGroup;
     }
 
+    public OrmMeasurementGroup(OrmMoment ormMoment) {
+        this.ormMoment = ormMoment;
+    }
+
     @Override
-    public Collection<? extends Measurement> getMeasurements() {
+    public Collection<? extends OrmMeasurement> getMeasurements() {
         return ormMeasurements;
     }
 
     @Override
-    public Collection<? extends MeasurementGroup> getMeasurementGroups() {
+    public Collection<? extends OrmMeasurementGroup> getMeasurementGroups() {
         return ormMeasurementGroups;
     }
 
@@ -81,10 +84,6 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
 
     @DatabaseConstructor
     public OrmMeasurementGroup() {
-    }
-
-    public OrmMeasurementGroup(OrmMoment ormMoment) {
-        this.ormMoment = ormMoment;
     }
 
 /*    @Override

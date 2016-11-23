@@ -39,6 +39,8 @@ import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.OrmDeletingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
@@ -75,7 +77,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-        setUpBackendSynchronizationLoop();
+       // setUpBackendSynchronizationLoop();
     }
 
     @Override
@@ -121,10 +123,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
             Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
             Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
-
+            Dao<OrmMeasurementGroup, Integer> measurementGroup = databaseHelper.getMeasurementGroupDao();
+            Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails = databaseHelper.getMeasurementGroupDetailDao();
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao);
+                    synchronisationDataDao,measurementGroup,measurementGroupDetails);
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao);
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,

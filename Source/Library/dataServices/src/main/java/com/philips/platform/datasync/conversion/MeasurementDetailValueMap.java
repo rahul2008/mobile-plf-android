@@ -59,7 +59,7 @@ public class MeasurementDetailValueMap {
         return name;
     }*/
 
-    /*@NonNull
+    @NonNull
     public String getString(@NonNull final MeasurementDetailType type, @NonNull final String key) {
         String uCoreString = UNKNOWN_UCORE_STRING;
 
@@ -75,5 +75,5 @@ public class MeasurementDetailValueMap {
             }
         }
         return uCoreString;
-    }*/
+    }
 }

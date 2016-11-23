@@ -147,6 +147,12 @@ public class MomentTypeMap {
     }
 
     @NonNull
+    public String getMeasurementGroupDetailTypeString(@NonNull final MeasurementGroupDetailType type) {
+        return getFromMap(fromMeasurementGroupDetailTypeMap, type);
+    }
+
+
+    @NonNull
     private <T> String getFromMap(@NonNull final Map<T, String> fromMap, @NonNull final T type) {
         String value = fromMap.get(type);
         return value == null ? UNKNOWN_TYPE : value;
