@@ -55,8 +55,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
-    private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, serialNumberParentLayout, successLayout;
-    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView;
+    private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, findSerialNumberLayout, serialNumberParentLayout, successLayout;
+    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView;
     private ImageView productImageView;
     private EditText serial_number_editText;
     private EditText date_EditText;
@@ -128,12 +128,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         productFriendlyNameTextView = (TextView) view.findViewById(R.id.friendly_name);
         dateParentLayout = (LinearLayout) view.findViewById(R.id.date_edit_text_layout);
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
-        dateErrorLayout = (LinearLayout) view.findViewById(R.id.date_error_layout);
         serialNumberErrorLayout = (LinearLayout) view.findViewById(R.id.serial_number_error_layout);
+        dateErrorLayout = (LinearLayout) view.findViewById(R.id.date_error_layout);
+        findSerialNumberLayout = (LinearLayout) view.findViewById(R.id.find_serial_number_layout);
         successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
         productTitleTextView = (TextView) view.findViewById(R.id.product_title);
         productCtnTextView = (TextView) view.findViewById(R.id.product_ctn);
         dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
+        serialNumberErrorTextView = (TextView) view.findViewById(R.id.serialNumberErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
@@ -146,7 +148,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         date_EditText.setOnTouchListener(onClickPurchaseDate());
         continueButton.setOnClickListener(onClickContinue());
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
-        serialNumberErrorLayout.setOnClickListener(onClickFindSerialNumber());
+        findSerialNumberLayout.setOnClickListener(onClickFindSerialNumber());
         return view;
     }
 
@@ -227,7 +229,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageSerialNumber() {
+        findSerialNumberLayout.setVisibility(View.VISIBLE);
         serialNumberErrorLayout.setVisibility(View.VISIBLE);
+        if (serial_number_editText.length() != 0)
+            serialNumberErrorTextView.setText(getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
+        else
+            serialNumberErrorTextView.setText(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
     }
 
     private void handleDateEditTextOnError() {
@@ -336,6 +343,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void isValidSerialNumber(boolean validSerialNumber) {
         if (validSerialNumber) {
+            findSerialNumberLayout.setVisibility(View.GONE);
             serialNumberErrorLayout.setVisibility(View.GONE);
         } else
             showErrorMessageSerialNumber();

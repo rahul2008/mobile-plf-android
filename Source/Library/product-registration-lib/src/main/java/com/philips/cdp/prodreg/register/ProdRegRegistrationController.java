@@ -90,6 +90,7 @@ public class ProdRegRegistrationController {
         if (productMetadataResponseData != null) {
             final boolean requiredSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
             final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), registeredProduct.getSerialNumber());
+            registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber);
             final boolean requireSerialNumber = requiredSerialNumber & !isValidSerialNumber;
             registerControllerCallBacks.requireFields(productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true"), requireSerialNumber);
         }
