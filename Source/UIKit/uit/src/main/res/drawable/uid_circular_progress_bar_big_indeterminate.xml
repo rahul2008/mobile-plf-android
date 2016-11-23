@@ -2,9 +2,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape
-            android:innerRadius="@dimen/uid_progress_bar_circular_big_inner_radius"
+            android:thicknessRatio="@dimen/uid_progress_bar_circular_big_thicknessRatio"
+            android:innerRadiusRatio="@dimen/uid_progress_bar_circular_big_innerRadiusRatio"
             android:shape="ring"
-            android:thickness="@dimen/uid_progress_bar_circular_big_thickness"
             android:useLevel="false">
         </shape>
     </item>
@@ -13,9 +13,9 @@
             android:fromDegrees="0"
             android:toDegrees="360">
             <shape
-                android:innerRadius="@dimen/uid_progress_bar_circular_big_inner_radius"
+                android:thicknessRatio="@dimen/uid_progress_bar_circular_big_thicknessRatio"
+                android:innerRadiusRatio="@dimen/uid_progress_bar_circular_big_innerRadiusRatio"
                 android:shape="ring"
-                android:thickness="@dimen/uid_progress_bar_circular_big_thickness"
                 android:useLevel="false">
             </shape>
         </rotate>

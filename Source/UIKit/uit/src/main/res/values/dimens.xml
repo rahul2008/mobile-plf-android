@@ -84,17 +84,17 @@
     <dimen name="uid_progress_bar_margin_left">22dp</dimen>
     <dimen name="uid_progress_bar_margin_right">22dp</dimen>
     <dimen name="uid_progress_bar_circular_small">24dp</dimen>
-    <dimen name="uid_progress_bar_circular_small_thickness">2dp</dimen>
-    <dimen name="uid_progress_bar_circular_small_inner_radius">10dp</dimen>
     <integer name="uid_progress_bar_circular_small_duration">1000</integer>
     <dimen name="uid_progress_bar_circular_middle">48dp</dimen>
-    <dimen name="uid_progress_bar_circular_middle_thickness">3dp</dimen>
-    <dimen name="uid_progress_bar_circular_middle_inner_radius">21dp</dimen>
     <integer name="uid_progress_bar_circular_middle_duration">1250</integer>
     <dimen name="uid_progress_bar_circular_big">88dp</dimen>
-    <dimen name="uid_progress_bar_circular_big_thickness">4dp</dimen>
-    <dimen name="uid_progress_bar_circular_big_inner_radius">40dp</dimen>
     <integer name="uid_progress_bar_circular_big_duration">1500</integer>
+    <item name="uid_progress_bar_circular_small_innerRadiusRatio" format="float" type="dimen">2.4</item>
+    <item name="uid_progress_bar_circular_small_thicknessRatio" format="float" type="dimen">12</item>
+    <item name="uid_progress_bar_circular_middle_innerRadiusRatio" format="float" type="dimen">2.28</item>
+    <item name="uid_progress_bar_circular_middle_thicknessRatio" format="float" type="dimen">16</item>
+    <item name="uid_progress_bar_circular_big_innerRadiusRatio" format="float" type="dimen">2.2</item>
+    <item name="uid_progress_bar_circular_big_thicknessRatio" format="float" type="dimen">22</item>
 
     <!--Labels-->
     <dimen name="uid_label_text_size">16sp</dimen>
