@@ -16,6 +16,10 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementDetailType;
@@ -29,6 +33,8 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -77,9 +83,11 @@ public class DataServicesManager {
 
     private BaseAppDataCreator mDataCreater;
 
+    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPullSynchronise mDataPullSynchronise;
 
+    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPushSynchronise mDataPushSynchronise;
 
@@ -95,16 +103,14 @@ public class DataServicesManager {
     @Inject
     Backend mBackend;
 
-    AppComponent mAppComponent;
-
     private BackendIdProvider mBackendIdProvider;
     private BaseAppCore mCore;
 
     private DBMonitors mDbMonitors;
     private List<EventMonitor> mMonitors = new ArrayList<>();
 
-    private static DataServicesManager mDataServicesManager;
-    private Context mContext;
+    private static DataServicesManager sDataServicesManager;
+
     private UserRegistrationFacade mUserRegistrationFacadeImpl;
 
     @Singleton
@@ -113,17 +119,17 @@ public class DataServicesManager {
     }
 
     public static DataServicesManager getInstance() {
-        if (mDataServicesManager == null) {
-            return mDataServicesManager = new DataServicesManager();
+        if (sDataServicesManager == null) {
+            return sDataServicesManager = new DataServicesManager();
         }
-        return mDataServicesManager;
+        return sDataServicesManager;
     }
 
-    public UCoreAccessProvider getUCoreAccessProvider(){
+    public UCoreAccessProvider getUCoreAccessProvider() {
         return (UCoreAccessProvider) mBackendIdProvider;
     }
 
-    public BaseAppDataCreator getDataCreater(){
+    public BaseAppDataCreator getDataCreater() {
         return mDataCreater;
     }
 
@@ -132,20 +138,21 @@ public class DataServicesManager {
         mEventing.post(new MomentSaveRequest(moment));
         return moment;
     }
+
     public Moment update(@NonNull final Moment moment) {
         mEventing.post(new MomentUpdateRequest(moment));
         return moment;
     }
 
-    public void fetch(final @NonNull MomentType... type){
+    public void fetch(final @NonNull MomentType... type) {
         mEventing.post(new LoadMomentsRequest(type[0]));
     }
 
-    public void fetchMomentById(final int momentID){
+    public void fetchMomentById(final int momentID) {
         mEventing.post(new LoadMomentsRequest(momentID));
     }
 
-    public void fetchAllData(){
+    public void fetchAllData() {
         mEventing.post(new LoadMomentsRequest());
     }
 
@@ -180,39 +187,28 @@ public class DataServicesManager {
         mEventing.post(new MomentDeleteRequest(moment));
     }
 
-    public void updateMoment(Moment moment){
+    public void updateMoment(Moment moment) {
         mEventing.post((new MomentUpdateRequest(moment)));
     }
 
-    public void synchchronize(){
+    public void synchchronize() {
         sendPullDataEvent();
     }
 
+    //TODO: In case fetchers and senders are passed as null, we can create pullsynchronize and pushsynchronise and start
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
+    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
-        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
+        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
         monitor.start(mEventing);
     }
 
- /*   private void sendPushEvent() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("***SPO***", "In DataServicesManager.sendPushEvent");
-                mEventing.post(new WriteDataToBackendRequest());
-            }
-        }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
-
-    }*/
-
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
-        if(mCore !=null) {
+        if (mCore != null) {
             mCore.start();
-        }
-        else{
-            mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        } else {
+            mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         }
         mEventing.post(new ReadDataFromBackendRequest(null));
     }
@@ -227,47 +223,87 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
-
-        mContext = context;
         this.mDataCreater = creator;
         this.mUserRegistrationFacadeImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
-        mAppComponent.injectApplication(this);
+
         mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
 
         mMonitors = new ArrayList<>();
         mMonitors.add(mLoggingMonitor);
         mMonitors.add(mExceptionMonitor);
 
-        mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         mCore.start();
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
-    public void deleteAll(){
+    public void deleteAll() {
         mEventing.post(new DataClearRequest());
     }
 
-    public void deleteAllMoment(){
+    public void deleteAllMoment() {
         mEventing.post(new DataClearRequest());
     }
 
 
-    protected void prepareInjectionsGraph(Context context) {
+    private void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(mEventing);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
-        mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        AppComponent appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        appComponent.injectApplication(this);
     }
 
     public void stopCore() {
         mCore.stop();
+        releaseInstances();
     }
+
+    private void releaseInstances() {
+        mUserRegistrationFacadeImpl = null;
+        mBackendIdProvider = null;
+        mBackend = null;
+        mDataCreater = null;
+        mDataPullSynchronise = null;
+        mDataPushSynchronise = null;
+        mDbMonitors = null;
+        mExceptionMonitor = null;
+        mLoggingMonitor = null;
+        mSharedPreferences = null;
+    }
+
 
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;
+    }
+
+    public void save(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent,false));
+    }
+
+    @NonNull
+    public void fetchConsent() {
+        mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public Consent createConsent() {
+        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
+    }
+
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
+        if (consent == null) {
+            consent = createConsent();
+        }
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
+        consent.addConsentDetails(consentDetail);
+    }
+
+    public void UpdateConsent(@NonNull final Consent consent) {
+
     }
 }

@@ -2,6 +2,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.MomentType;
 
 import java.sql.SQLException;
@@ -22,4 +23,6 @@ public interface DBFetchingInterface {
     List<?> fetchNonSynchronizedMoments() throws SQLException;
     Object fetchMomentById(final int id) throws SQLException;
     Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
+    Map<Class, List<?>> putConsentForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
+    void fetchConsents() throws SQLException;
 }

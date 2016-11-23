@@ -79,7 +79,7 @@ public class TemperatureMomentHelper {
     public void notifyAllFailure(Exception e) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();
-        if(integers.contains(EventHelper.MOMENT)){
+        if (integers.contains(EventHelper.MOMENT)) {
             ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
             for (DBChangeListener listener : dbChangeListeners) {
                 listener.onFailure(e);

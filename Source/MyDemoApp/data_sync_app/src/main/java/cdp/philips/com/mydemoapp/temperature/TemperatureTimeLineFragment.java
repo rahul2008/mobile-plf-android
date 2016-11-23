@@ -2,6 +2,8 @@ package cdp.philips.com.mydemoapp.temperature;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -27,16 +30,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.ORMUpdatingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmCreator;
 import cdp.philips.com.mydemoapp.database.OrmDeleting;
+import cdp.philips.com.mydemoapp.database.OrmDeletingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmSaving;
 import cdp.philips.com.mydemoapp.database.OrmUpdating;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
-import cdp.philips.com.mydemoapp.database.OrmDeletingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -54,22 +61,31 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
-    private TemperatureTimeLineFragmentcAdapter mAdapter ;
+    private TemperatureTimeLineFragmentcAdapter mAdapter;
     AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
+    private ProgressDialog mProgressDialog;
+    private TextView mTvSetCosents;
+    private Context mContext;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -81,20 +97,23 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
-        cancelPendingIntent();
-        mDataServicesManager.stopCore();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_data_sync_fragment, container, false);
-        mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(),mData, mTemperaturePresenter);
+        mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(), mData, mTemperaturePresenter);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
+        mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
+        mTvSetCosents.setOnClickListener(this);
+        mProgressDialog = new ProgressDialog(getActivity());
+        mTemperaturePresenter.fetchData();
         return view;
     }
 
@@ -104,17 +123,17 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
-        mDataServicesManager.initialize(getContext(), creator, new UserRegistrationFacadeImpl(getContext(), new User(getContext())));
-        mDataServicesManager.initializeSyncMonitors(null,null);
+        mDataServicesManager.initialize(mContext, creator, new UserRegistrationFacadeImpl(mContext, new User(mContext)));
+        mDataServicesManager.initializeSyncMonitors(null, null);
 
-        alarmManager = (AlarmManager) getContext().getApplicationContext().getSystemService(ALARM_SERVICE);
+        alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(getContext(), MomentType.TEMPERATURE);
-        mTemperaturePresenter.fetchData();
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
+
     }
 
     void injectDBInterfacesToCore() {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(getContext(), new UuidGenerator());
+        final DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
@@ -122,20 +141,24 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
             Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
 
+            Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
+            Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
+            Dao<OrmConsentDetailType, Integer> consentDetailTypeDao = databaseHelper.getConsentDetailsTypeDao();
+
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao);
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao);
+                    synchronisationDataDao, consentDao, consentDetailsDao, consentDetailTypeDao);
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao, consentDetailsDao, consentDetailTypeDao);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, consentDetailTypeDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao);
+                    measurementDetailDao, synchronisationDataDao, consentDao, consentDetailsDao, consentDetailTypeDao);
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
-            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving,updating,fetching,deleting,uGrowDateTime);
-            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting,saving);
-            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving,updating,fetching,deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao,synchronisationDataDao);
+            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
+            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
+            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, consentDetailTypeDao);
 
-            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl,dbInterfaceOrmFetchingInterface,ORMSavingInterfaceImpl,dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
             mTemperatureMomentHelper.notifyAllFailure(exception);
             throw new IllegalStateException("Can not instantiate database");
@@ -153,9 +176,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(getContext(), BaseAppBroadcastReceiver.class);
+        Intent intent = new Intent(mContext, BaseAppBroadcastReceiver.class);
         intent.setAction(BaseAppBroadcastReceiver.ACTION_USER_DATA_FETCH);
-        return PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        return PendingIntent.getBroadcast(mContext, 0, intent, 0);
     }
 
     public void cancelPendingIntent() {
@@ -167,14 +190,20 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT,this);
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+        cancelPendingIntent();
+        mDataServicesManager.stopCore();
     }
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.add:
-                mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD,null);
+                mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
+                break;
+            case R.id.tv_set_consents:
+                ConsentDialogFragment dFragment = new ConsentDialogFragment();
+                dFragment.show(getFragmentManager(), "Dialog");
                 break;
         }
     }
@@ -185,7 +214,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG,"http : UI updated");
+                Log.i(TAG, "http : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
@@ -210,14 +239,31 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             public void run() {
                 if (e != null && e.getMessage() != null) {
                     Log.i(TAG, "http : UI update Failed" + e.getMessage());
-                    if (getContext() != null)
-                        Toast.makeText(getContext(), "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (mContext != null)
+                        Toast.makeText(mContext, "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.i(TAG, "http : UI update Failed");
-                    if (getContext() != null)
-                        Toast.makeText(getContext(), "UI update Failed", Toast.LENGTH_SHORT).show();
+                    if (mContext != null)
+                        Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+            mProgressDialog.show();
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }
