@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Reporter" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="Reporter" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SystemConfiguration">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ProductModel" type="xs:string" minOccurs="0" />
+              <xs:element name="MainSystemType" type="xs:string" minOccurs="0" />
+              <xs:element name="SystemType" type="xs:string" minOccurs="0" />
+              <xs:element name="MagnetType" type="xs:string" minOccurs="0" />
+              <xs:element name="AcquisitionSystemType" type="xs:string" minOccurs="0" />
+              <xs:element name="Stream" type="xs:string" minOccurs="0" />
+              <xs:element name="Swid" type="xs:string" minOccurs="0" />
+              <xs:element name="Release" type="xs:string" minOccurs="0" />
+              <xs:element name="Version" type="xs:string" minOccurs="0" />
+              <xs:element name="Level" type="xs:string" minOccurs="0" />
+              <xs:element name="SystemName" type="xs:string" minOccurs="0" />
+              <xs:element name="IPAddress" type="xs:string" minOccurs="0" />
+              <xs:element name="PerformanceMonitoringFolder" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TestCase">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TestCaseType" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+              <xs:element name="ReqID" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              <xs:element name="TCID" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              <xs:element name="Status" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+              <xs:element name="Descriptions" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+              <xs:element name="FunctionalArea" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+              <xs:element name="Product" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+              <xs:element name="ProductVersion" type="xs:string" minOccurs="0" msdata:Ordinal="7" />
+              <xs:element name="VerificationType" type="xs:string" minOccurs="0" msdata:Ordinal="8" />
+              <xs:element name="TestCaseState" type="xs:string" minOccurs="0" msdata:Ordinal="9" />
+              <xs:element name="RunStatus" type="xs:string" minOccurs="0" msdata:Ordinal="10" />
+              <xs:element name="StackTrace" type="xs:string" minOccurs="0" msdata:Ordinal="11" />
+              <xs:element name="HasTimedOut" type="xs:string" minOccurs="0" msdata:Ordinal="13" />
+              <xs:element name="HasCrashed" type="xs:string" minOccurs="0" msdata:Ordinal="14" />
+              <xs:element name="StartTime" type="xs:string" minOccurs="0" msdata:Ordinal="15" />
+              <xs:element name="EndTime" type="xs:string" minOccurs="0" msdata:Ordinal="16" />
+              <xs:element name="Messages" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Message" type="xs:string" minOccurs="0" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="PerformanceOperations" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Operation" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="ID" type="xs:string" minOccurs="0" />
+                          <xs:element name="StartTime" type="xs:string" minOccurs="0" />
+                          <xs:element name="EndTime" type="xs:string" minOccurs="0" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Name" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

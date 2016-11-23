@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Sequence>
+    <Default>
+        <TestcaseSetup>Setup</TestcaseSetup>
+        <TestcaseExecute>ExecuteAction</TestcaseExecute>
+        <TestcaseVerify>VerifyAction</TestcaseVerify>
+        <TestcaseTeardown>Teardown</TestcaseTeardown>
+    </Default>
+</Sequence>

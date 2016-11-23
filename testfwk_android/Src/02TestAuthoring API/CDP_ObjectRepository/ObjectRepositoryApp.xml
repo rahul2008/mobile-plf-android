@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<GeneralConfiguration>
+  <AppiumConfiguration>
+    <AppiumServer>"http://127.0.0.1:4723/wd/hub"</AppiumServer>
+    <deviceName>S5</deviceName>
+    <platformName>Android</platformName>
+    <apppackage>com.philips.platform.appframework</apppackage>
+    <appactivity>com.philips.platform.appframework.splash.SplashActivity</appactivity>
+  </AppiumConfiguration>
+
+  <AppFramework>
+    <AppFrameworkHomeScreen>com.philips.platform.appframework:id/hamburger_title</AppFrameworkHomeScreen>
+    <HamburgerIcon>com.philips.cdp.di.iapdemo:id/hamburger_icon</HamburgerIcon>
+    <HamburgerInApp>//android.widget.TextView[@text='inApp Purchase']</HamburgerInApp>
+    <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
+    <Settings>com.philips.platform.appframework:id/hamburger_title</Settings>
+    <LoginSettings>com.philips.platform.appframework:id/ifo</LoginSettings>
+    <VerticalSettings>com.philips.platform.appframework:id/ifo</VerticalSettings>
+    <WelcomeScreen>com.philips.platform.appframework:id/decor_content_parent</WelcomeScreen>
+    <RightArrow>com.philips.platform.appframework:id/appframework_rightarrow</RightArrow>
+    <LeftArrow>com.philips.platform.appframework:id/appframework_leftarrow</LeftArrow>
+    <Skip>com.philips.platform.appframework:id/appframework_skip_button</Skip>
+    <Done>com.philips.platform.appframework:id/start_registration_button</Done>    
+  </AppFramework>
+
+  <Login>
+    <Username>com.philips.platform.appframework:id/et_reg_email</Username>
+    <PassWord>com.philips.platform.appframework:id/et_reg_password</PassWord>
+  </Login>
+
+</GeneralConfiguration>

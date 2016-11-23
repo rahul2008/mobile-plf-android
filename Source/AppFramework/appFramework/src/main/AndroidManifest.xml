@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.philips.platform.appframework">
+<manifest package="com.philips.platform.appframework"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
-        android:name="com.philips.platform.appframework.permission.MAPS_RECEIVE"
+        android:name="com.philips.platform.referenceapp.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <application
@@ -21,18 +21,22 @@
         tools:replace="android:theme,android:label">
 
         <activity
-            android:name=".splash.SplashActivity">
+            android:name=".introscreen.LaunchActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".introscreen.WelcomeActivity"
-            android:configChanges="orientation|screenSize"/>
-        <activity android:name=".homescreen.HomeActivity"
-            android:configChanges="orientation|screenSize"
-            />
+            </activity>
+        <activity
+            android:name=".tabbedscreen.TabbedActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
+            android:theme="@style/Theme.Philips.DarkBlue.Gradient.NoActionBar"/>
+        <activity
+            android:name=".homescreen.HamburgerActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
+            android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->
             <!--android:exported="false">-->

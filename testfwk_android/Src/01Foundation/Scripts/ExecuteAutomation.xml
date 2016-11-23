@@ -1,0 +1,87 @@
+<project name="eCP Functional Test" default="sendmail" basedir=".">
+	
+	<property file="AntTask.properties" />
+
+	<tstamp>
+		<format property="START_TIME" pattern="dd-MM-yyyy_HH-mm-ss"/>
+	</tstamp>
+	<property name="TestResult_Folder" value="${DailyTestReport}\${START_TIME}"/>
+
+	<!-- Need to copy APK from the build folder then run Device admin disable command
+		 Uninstall and install APK in the tablet. Enable Device Admin and then Login using adb shell commands
+	-->
+
+   <!-- delete previous run folders and files. Start clean execution -->
+   <target name="clean" >
+      <delete verbose="${full-compile}">
+         <fileset dir="${LogPath}" includes="**/*.log" />
+         <fileset dir="${RunPath}/" includes="**/*.trx" />  
+		 <fileset dir="${RunningBuild}/" includes="**/*.apk" />  
+         <!--<fileset dir="${testReport}/Screenshots/" includes="**/*.jpg" />  -->                
+      </delete>
+	  <mkdir dir="${TestResult_Folder}"/>
+	  <copy  file="${HomeLoc}\LatestAPK\ECPApp-release.apk" todir="${TestResult_Folder}"/>
+	  <copy  file="${HomeLoc}\LatestAPK\ECPApp-release.apk" todir="${RunningBuild}"/>
+   </target>
+   
+<!--Run/Execute test cases and keep the raw results in the reports folder -->   
+   <target name="test" depends="clean">
+   	<record name="${RunPath}\ecpautomationexecution.log" loglevel="verbose"/>
+    <exec executable="C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\mstest.exe" failonerror="false">
+           <arg value="/testcontainer:${HomeLoc}\eCPAppiumTest\eCPAppFeatureTest.dll" />
+           <arg value="/resultsfile:TestResult.trx" />
+      </exec>
+   </target>
+
+   <!--Generate specflow default html report from the raw results trx file  -->   
+   <target name="report" depends="test">
+		<exec executable="${HomeLoc}\LibraryPackages\SpecFlow.1.9.0\tools\SpecFlow.exe" failonerror="false">
+			<arg value="mstestexecutionreport" />
+		    <arg value="${HomeLoc}\eCPAppiumTest\eCPAppFeatureTest.csproj" />
+			<arg value="/testResult:TestResult.trx" />
+			<arg value="/out:TestResult.html" />
+		</exec>
+	</target>
+	
+	<target name="DailyFolder" depends="report">
+		<move file="${RunPath}/TestResult.html" tofile="${TestResult_Folder}/eCPTestResults.html"/>
+		<move file="${LogPath}/eCPTestLog.log" tofile="${TestResult_Folder}/eCPTestLog.log"/>
+		<!--<move file="${RunPath}\ecpautomationexecution.log" tofile="${TestResult_Folder}/ecpautomationsetup.log"/>-->
+		 <!--<move file="${RunPath}\ecpautomationsetup.log" tofile="${TestResult_Folder}/ecpautomationsetup.log"/>-->
+	</target>
+	
+    <!--Send test execution status as mail attachment  depends="report" -->      
+	<target	name="sendmail" depends="DailyFolder">	   		
+  		<!-- <setproxy proxyhost="161.85.16.16" proxyport="8080"/> -->
+  		<mail mailhost="161.85.26.5" mailport="25" subject="eCP Automation Test Results" tolist="dibyaranjan.kar@philips.com,vivek.chandrashekar@philips.com" messagemimetype="text/html">
+			<from address="ecpautomtiontest@blr.pin.philips.com" />
+			<replyto address="dibyaranjan.kar@philips.com" />
+ 			<message>eCP Automation test execution status : file:${TestResult_Folder} </message>
+			<attachments>
+				<fileset dir="${TestResult_Folder}/">
+					<include name="**/eCPTestResults.html" />
+				</fileset>
+			</attachments>
+		</mail>
+	</target>
+	
+	<!-- depends="sendmail" 
+	<target name="stopAppiumServer" depends="sendmail">
+	    <exec executable="taskkill" failonerror="true">
+           <arg value="/F" />
+           <arg value="/IM" />
+           <arg value="node.exe" />                      
+        </exec>
+        <exec executable="taskkill" failonerror="true">
+           <arg value="/F" />
+           <arg value="/IM" />
+           <arg value="adb.exe" />                      
+        </exec>
+        <exec executable="taskkill" failonerror="true">
+           <arg value="/F" />
+           <arg value="/IM" />
+           <arg value="cmd.exe" />                      
+        </exec>
+	</target>-->
+	
+</project>

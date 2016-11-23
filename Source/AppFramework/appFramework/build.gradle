@@ -1,13 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
 
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
+archivesBaseName = "referenceApp"
+apply plugin: 'jacoco-everywhere'
 
-def coverageSourceDirs = [
-        '../appFramework/src/main/java'
-]
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -21,6 +16,7 @@ buildscript {
     }
 
     dependencies {
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
@@ -54,6 +50,10 @@ allprojects {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
         }
         maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+        }
+
+        maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
         }
         maven {
@@ -63,9 +63,6 @@ allprojects {
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
-        flatDir {
-            dirs 'libs'
-        }
     }
 }
 
@@ -87,6 +84,11 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
             }
+        }
+        defaults {
+            publications ('apk')
+            publishPom = true
+            publishArtifacts = true
         }
     }
     resolve {
@@ -124,22 +126,76 @@ task tgzTask(type: Tar) {
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
 
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId project.archivesBaseName
+
+            artifact zipDoc
+
+            if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk")
+            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk")
+            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk")
+            } else {
+            }
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
+
+                    //If there are any exclusions in dependency
+                    if (it.excludeRules.size() > 0) {
+                        def exclusionsNode = dependencyNode.appendNode('exclusions')
+                        it.excludeRules.each { rule ->
+                            def exclusionNode = exclusionsNode.appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', rule.group)
+                            exclusionNode.appendNode('artifactId', rule.module)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
 
     defaultConfig {
-        applicationId "com.philips.platform.appframework"
+        applicationId "com.philips.platform.referenceapp"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
-        versionName "0.3.0"
+        versionName objcdp.getVersionWithHash()
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 23
+        renderscriptTargetApi 24
+        // applicationId "net.gouline.jacoco"
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
+    }
+
+    productFlavors {
+        AppFrameworkHamburger {
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
+
+        }
+        AppFrameworkTabbed {
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
+        }
     }
 
     lintOptions {
@@ -151,7 +207,9 @@ android {
     }
 
     dexOptions {
+        incremental = false;
         preDexLibraries = false
+        jumboMode = false
     }
     buildTypes {
         release {
@@ -165,8 +223,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
+            testCoverageEnabled = true
         }
     }
 
@@ -275,9 +332,9 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.2.2', ext: 'aar')
-
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.0', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.0.1-SNAPSHOT', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.4-SNAPSHOT', ext: 'aar')
+    compile project(':pluginreferenceboard')
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
@@ -321,35 +378,4 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         xml.enabled = true
         html.enabled = false
     }
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-//    jvmArgs = ["-XX:-UseSplitVerifier"]
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../appFramework/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
-                       '**/adapters/*.class',
-                       '**/analytics/*.class',
-                       '**/utils/*.class',
-                       '**/activity/*.class',
-                       '**/Fragments/*.class']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../appFramework/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
 }

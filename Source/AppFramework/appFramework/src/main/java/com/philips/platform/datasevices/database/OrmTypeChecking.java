@@ -13,6 +13,7 @@ package com.philips.platform.datasevices.database;
 public class OrmTypeChecking {
 
     public static class OrmTypeException extends Exception {
+        static final long serialVersionUID = 12L;
         public OrmTypeException(final String detailMessage) {
             super(detailMessage);
         }

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Data>
+  <TimeOut>200</TimeOut>
+  <AssemblyLocation>Philips.CDPAutomation.Tests.Reliability.dll</AssemblyLocation>
+  <CompletedCount></CompletedCount>
+  <TestList LoopCount="2">
+     <Tests>RWF01</Tests>
+  </TestList>
+  <!--
+   Action List:
+   restartApplication
+   restartWindows
+   stopExecution
+   -->
+  <OnCrash>restartApplication</OnCrash>
+  <!--
+   Action List:
+   restartApplication
+   restartWindows
+   stopExecution
+   -->
+  <OnTimeOut>restartApplication</OnTimeOut>
+  <Command></Command>
+  <TestCaseReportName></TestCaseReportName>
+  <WorkFlowReportName></WorkFlowReportName>
+</Data>

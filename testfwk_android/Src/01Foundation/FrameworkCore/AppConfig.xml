@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Data>
+  <AppCapturePath>Data\GoldenBitmaps\PackageIntegrator</AppCapturePath>
+  <DiffBitmapPath>Reports\ImageCompareResults</DiffBitmapPath>
+  <isBitmapCapture>False</isBitmapCapture>
+</Data>

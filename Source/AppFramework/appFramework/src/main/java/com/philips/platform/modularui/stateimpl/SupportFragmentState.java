@@ -18,7 +18,8 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.BaseAppState;
+import com.philips.platform.modularui.statecontroller.BaseState;
 import com.philips.platform.modularui.statecontroller.UIStateData;
 import com.philips.platform.modularui.statecontroller.UIStateListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 /**
  * This class contains all initialization & Launching details of Consumer Care
  */
-public class SupportFragmentState extends UIState implements CcListener {
+public class SupportFragmentState extends BaseState implements CcListener {
     private Context activityContext;
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
@@ -36,11 +37,11 @@ public class SupportFragmentState extends UIState implements CcListener {
     private UIStateListener supportListener;
 
     public SupportFragmentState() {
-        super(UIState.UI_SUPPORT_FRAGMENT_STATE);
+        super(BaseAppState.SUPPORT);
     }
 
     /**
-     * UIState overridden methods
+     * BaseState overridden methods
      * @param uiLauncher requires the UiLauncher object
      */
     @Override
@@ -57,7 +58,7 @@ public class SupportFragmentState extends UIState implements CcListener {
 
     }
 
-    void launchCC()
+    private void launchCC()
     {
         String[] ctnList = new String[((ConsumerCareData)getUiStateData()).getCtnList().size()];
         ctnList = ((ConsumerCareData)getUiStateData()).getCtnList().toArray(ctnList);

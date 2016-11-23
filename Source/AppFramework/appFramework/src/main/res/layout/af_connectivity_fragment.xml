@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="false">
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.philips.platform.appframework.homescreen.HomeActivity">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal" >
+
+            <TextView
+                fontPath="fonts/centralesansbold.ttf"
+                android:id="@+id/reference_device_id_label"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/homescreen_left_margin"
+                android:layout_marginTop="15dp"
+                android:text="Device ID"
+                android:textColor="@color/uikit_philips_blue"
+                android:textSize="18sp" />
+
+            <EditText
+                fontPath="fonts/centralesansbold.ttf"
+                android:id="@+id/reference_device_id_editbox"
+                android:layout_weight="1.09"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/homescreen_left_margin"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/uikit_philips_blue"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+        android:id="@+id/top_ui_elements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:weightSum="2"
+        android:orientation="horizontal"
+            android:layout_marginTop="80dp">
+
+        <TextView
+            android:id="@+id/measurement_value_label"
+            android:layout_weight="1"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/homescreen_left_margin"
+            android:layout_marginTop="15dp"
+            android:text="Measurement value"
+            android:textColor="@color/uikit_philips_blue"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/measurement_value_editbox"
+            android:layout_weight="1"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/homescreen_left_margin"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/uikit_philips_blue"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+        <LinearLayout
+        android:id="@+id/bottom_ui_elements"
+        android:layout_below="@+id/top_ui_elements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:weightSum="2"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/charge_value_label"
+            android:layout_weight="1"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/homescreen_left_margin"
+            android:layout_marginTop="15dp"
+            android:text="Moment value"
+            android:textColor="@color/uikit_philips_blue"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/moment_value_editbox"
+            android:layout_weight="1"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/homescreen_left_margin"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/uikit_philips_blue"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/start_connectivity_button"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bottom_ui_elements"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="@dimen/homescreen_left_margin"
+        android:layout_marginTop="20dp"
+        android:onClick=""
+        android:text="Get Measurement Value from device"
+        android:textColor="@color/uikit_philips_blue"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/get_momentumvalue_button"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/homescreen_left_margin"
+        android:text="Get moment value from datacore"
+        android:textColor="@color/uikit_philips_blue"
+        android:textSize="14sp"
+        android:layout_below="@+id/start_connectivity_button"
+        android:layout_toEndOf="@+id/datacre_error_text" />
+
+        <TextView
+            android:id="@+id/datacre_error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/get_momentumvalue_button"
+            android:layout_alignParentEnd="true"
+            android:text="Datacore is not reachable"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/connectionState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/get_momentumvalue_button"
+            android:layout_alignParentEnd="true"
+            android:text="Not Connected"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/reference_device_id_label2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Example: &quot;70:5A:0F:EC:CF:35&quot;"
+            android:visibility="visible"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignEnd="@+id/linearLayout"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+</ScrollView>
