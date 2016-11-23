@@ -31,6 +31,7 @@ node ('Ubuntu && 24.0.3') {
 		
 		catch(err) {
             echo "Someone just broke the build"
+            error ("Broken build")
         }
 
         stage('informing') {
