@@ -104,13 +104,12 @@ public class ProgressBar extends android.widget.ProgressBar {
         final Drawable background = progressBarDrawable.findDrawableByLayerId(android.R.id.background);
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
 
-        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uit_progress_bar_background_selector, theme);
+        final Drawable backgroundDrawable = DrawableCompat.wrap(background);
+        DrawableCompat.setTint(backgroundDrawable, Color.TRANSPARENT);
         setGradientOnProvidedDrawable((RotateDrawable) progress, theme);
 
         final LayerDrawable layer = createCircularProgressBarLayerDrawable(progress, backgroundDrawable);
-
         setIndeterminateDrawable(layer);
-        setProgressDrawable(layer);
     }
 
     @NonNull
