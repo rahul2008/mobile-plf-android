@@ -145,6 +145,13 @@ public class IAPHandlerTest {
 
     @Test
     public void testIAPListener() throws Exception {
+        IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        iapLaunchInput.setIapListener(mIapListener);
+        iapLaunchInput.getIapListener();
+    }
+
+    @Test
+    public void testIAPListenerWithNull() throws Exception {
         try {
             IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
             iapLaunchInput.setIapListener(null);

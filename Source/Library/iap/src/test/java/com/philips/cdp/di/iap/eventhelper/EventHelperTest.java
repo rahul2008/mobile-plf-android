@@ -54,11 +54,16 @@ public class EventHelperTest {
         list.add(IAPConstant.BILLING_ADDRESS_FIELDS);
         mEventHelper.registerEventNotification(list, null);
         mEventHelper.registerEventNotification(event, null);
+        mEventHelper.registerEventNotification(list, listener);
+        mEventHelper.registerEventNotification(event, listener);
     }
 
     @Test
     public void testUnRegisterEventNotificationWithNullLister() throws Exception {
         eventHelper.unregisterEventNotification(null, null);
+        EventHelper mEventHelper = EventHelper.getInstance();
+        mEventHelper.unregisterEventNotification(null, listener);
+        mEventHelper.unregisterEventNotification(null, null);
     }
 
     @Test
@@ -77,6 +82,8 @@ public class EventHelperTest {
     @Test
     public void testNotifyEventOccurred() throws Exception {
         eventHelper.notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);
+        EventHelper mEventHelper = EventHelper.getInstance();
+        mEventHelper.notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);
         assertNotNull(eventHelper);
     }
 }

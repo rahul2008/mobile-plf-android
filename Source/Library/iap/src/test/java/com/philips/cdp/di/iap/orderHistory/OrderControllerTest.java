@@ -234,6 +234,7 @@ public class OrderControllerTest {
 
     @Test
     public void testGetPhoneContactErrorResponse() {
+        new RequestCode();
         mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override
             public void onGetPhoneContact(Message msg) {

@@ -255,7 +255,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/utils/*.class',
                        '**/activity/*.class',
                        '**/screens/*.class',
-                       '**/store/IAPUser.class']
+                       '**/store/IAPUser.class',
+                       '**/integration/IAPInterface.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
