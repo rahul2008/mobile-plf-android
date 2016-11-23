@@ -56,10 +56,11 @@
         <attr name="uitInputTextHintTextSelector" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="UITActionBar">
+    <declare-styleable name="UITNavigationBar">
         <attr name="uitActionBarBackground" format="reference|color"/>
         <attr name="uitNavigationTextColor" format="reference|color"/>
     </declare-styleable>
+
     <declare-styleable name="UIDSwitch">
         <attr name="uidSwitchThumbColor" format="reference|color"/>
         <attr name="uidSwitchThumbColorList" format="reference|color"/>
