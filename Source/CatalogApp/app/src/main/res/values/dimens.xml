@@ -20,4 +20,7 @@
     <dimen name="button_first_last_element_gap">24dp</dimen>
     <dimen name="theme_settings_pagemargin">48dp</dimen>
     <dimen name="done_button_width">12dp</dimen>
+
+    <!--label test page-->
+    <dimen name="label_textbox_margin">16dp</dimen>
 </resources>
