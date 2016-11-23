@@ -19,7 +19,7 @@ import org.robolectric.RobolectricTestRunner;
 public class LocalStoreTest {
     @Mock
     Context mContext;
-    LocalStore mAppLocalStore;
+    private LocalStore mAppLocalStore;
 
     @Before
     public void setUp() throws Exception {
@@ -44,6 +44,19 @@ public class LocalStoreTest {
 
     @Test
     public void getLocale() {
+        mAppLocalStore.setLangAndCountry("en", "US");
+        mAppLocalStore.getLocale();
+    }
+
+    @Test
+    public void getLocaleWithNullParams() {
+        mAppLocalStore.setLangAndCountry(null, null);
+        mAppLocalStore.getLocale();
+    }
+
+    @Test
+    public void getLocaleWithLangNull() {
+        mAppLocalStore.setLangAndCountry(null, "US");
         mAppLocalStore.getLocale();
     }
 

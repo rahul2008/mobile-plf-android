@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.shoppingcart;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
+import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
 import junit.framework.TestCase;
 
@@ -143,30 +144,34 @@ public class ShoppingCartDataTest extends TestCase {
         assertTrue(isVatInclusive);
     }
 
-    /*@Test
-    public void testSetStockLevel() throws NoSuchFieldException, IllegalAccessException {
-        //mEntry.getProduct().getStock().getStockLevel();
-        EntriesEntity entriesEntityObject = new EntriesEntity();
-        ProductEntity product = new ProductEntity();
-        StockEntity stock = new StockEntity();
+    @Test
+    public void testVatActualValue() {
+        shoppingCartData.setVatActualValue("12");
+        assertEquals(shoppingCartData.getVatActualValue(), "12");
+    }
 
-        int stockLevel1 = stock.getStockLevel();
+    @Test
+    public void testDeliveryItemsQuantity(){
+        shoppingCartData.setDeliveryItemsQuantity(2);
+        assertEquals(shoppingCartData.getDeliveryItemsQuantity(), 2);
+    }
 
-        ShoppingCartData shoppingCartData = new ShoppingCartData(, null);
-        Field entriesEntity = shoppingCartData.getClass().getDeclaredField("mEntry");
+    @Test
+    public void testEntryNumber(){
+        ShoppingCartData mShoppingData = new ShoppingCartData(new EntriesEntity(), null);
+        mShoppingData.setEntryNumber(2);
+        mShoppingData.getEntryNumber();
+    }
 
+    @Test(expected = NullPointerException.class)
+    public void testSetStockLevel(){
+        ShoppingCartData mShoppingData = new ShoppingCartData(new EntriesEntity(), null);
+        mShoppingData.setStockLevel(2);
+        mShoppingData.getStockLevel();
+    }
 
-        shoppingCartData.setStockLevel(3);
-        int stockLevel = shoppingCartData.getStockLevel();
-        assertTrue(stockLevel == 3);
-        assertFalse(stockLevel == 2);
-    }*/
-
-    /*@Test
-    public void testSetEntryNumber() {
-        shoppingCartData.setEntryNumber(3);
-        int entryNumber = shoppingCartData.getStockLevel();
-        assertTrue(entryNumber == 3);
-        assertFalse(entryNumber == 2);
-    }*/
+    @Test
+    public void testToString(){
+        shoppingCartData.toString();
+    }
 }
