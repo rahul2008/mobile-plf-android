@@ -20,8 +20,6 @@ public interface DiscoveryStrategy {
 
     void removeNetworkNodeListener(NetworkNodeListener listener);
 
-    void notifyNetworkNodeListeners();
-
     void start();
 
     void stop();
