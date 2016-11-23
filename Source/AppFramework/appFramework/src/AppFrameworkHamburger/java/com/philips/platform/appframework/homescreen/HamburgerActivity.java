@@ -230,23 +230,25 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
-        boolean backState = false;
-        if(fragmentManager.getBackStackEntryCount() == 1){
-            finishAffinity();
-        } else if(currentFrag instanceof BackEventListener){
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
+        if(philipsDrawerLayout.isDrawerOpen(navigationView))
+        {
+            philipsDrawerLayout.closeDrawer(navigationView);
+        }
+        else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+            boolean backState = false;
+            if (fragmentManager.getBackStackEntryCount() == 1) {
+                finishAffinity();
+            } else if (currentFrag instanceof BackEventListener) {
+                backState = ((BackEventListener) currentFrag).handleBackEvent();
+                if (!backState) {
+                    super.onBackPressed();
+                }
+            } else {
+
                 super.onBackPressed();
             }
-        } else {
-            if(philipsDrawerLayout.isDrawerOpen(navigationView))
-            {
-                philipsDrawerLayout.closeDrawer(navigationView);
-            }
-            else
-            super.onBackPressed();
         }
     }
 
