@@ -9,6 +9,10 @@ public class MockIAPInterface extends IAPInterface {
 
     private MockIAPHandler mMockIAPHandler;
 
+    public MockIAPInterface() {
+
+    }
+
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
@@ -18,7 +22,7 @@ public class MockIAPInterface extends IAPInterface {
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        if (!mIAPSettings.isUseLocalData() && (!mIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
+        if (!mIAPSettings.isUseLocalData() && (!mMockIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
             mMockIAPHandler.initIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
         } else {
             mMockIAPHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
