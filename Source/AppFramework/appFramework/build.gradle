@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-archivesBaseName = "referenceApp"
+archivesBaseName = "referenceApp-AppFrameworkHamburger"
 apply plugin: 'jacoco-everywhere'
 
 buildscript {
