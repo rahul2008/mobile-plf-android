@@ -119,7 +119,6 @@ public class RestManager implements RestInterface {
                         @Override
                         public void onError(ERRORVALUES error, String message) {
                             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
-                           // resultURL.append(originalUrl.substring(23));
                         }
                     });
                 } else {
@@ -147,8 +146,6 @@ public class RestManager implements RestInterface {
             }
             if (resultURL.length() == 0)
                 return null;
-           // Log.e("KAVYA URL", originalUrl.substring(23));
-           // return originalUrl.substring(23);
             if(resultURL.toString().contains("v1/")) {
                 return  resultURL.toString().replace("v1/","v1");
             }
