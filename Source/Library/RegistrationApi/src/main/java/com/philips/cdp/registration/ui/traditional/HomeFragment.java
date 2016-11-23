@@ -13,13 +13,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
 
-import android.app.AlertDialog;
 import android.text.TextPaint;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
@@ -28,17 +25,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
@@ -55,6 +46,8 @@ import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.countrypicker.CountryPicker;
+import com.philips.cdp.registration.ui.customviews.countrypicker.CountryChangeListener;
 import com.philips.cdp.registration.ui.customviews.XProviderButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XTextView;
@@ -70,8 +63,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Locale;
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -113,10 +104,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private XTextView mCountryDisplayy;
 
-
-
-
-    @Override
+   @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreate");
         super.onCreate(savedInstanceState);
@@ -330,7 +318,20 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnMyPhilips.setOnClickListener(this);
         mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
         mCountryDisplayy.setOnClickListener(this);
-        mCountryDisplayy.setText(Locale.getDefault().getDisplayCountry()+","+Locale.getDefault().getCountry());
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
+                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
+            }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
+                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
+            }
+        });
 
         TextView mTvContent = (TextView) view.findViewById(R.id.tv_reg_create_account);
       //  mTvContent.setText(getString(R.string.Welcome_needAccountto_lbltxt));
@@ -385,55 +386,21 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
         } else if (v.getId() == R.id.tv_country_displat) {
-            final AlertDialog dialogBuilder = new AlertDialog.Builder(getActivity()).create();
-            dialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialogBuilder.setCancelable(true);
-
-            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View dialog_view = inflater.inflate(R.layout.reg_country_list_alert_dialog, null);
-
-            ListView cityListView = (ListView) dialog_view.findViewById(R.id.cityListView);
-            String[] recourseList=this.getResources().getStringArray(R.array.Country);
-            Arrays.sort(recourseList);
-            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, recourseList);
-            cityListView.setAdapter(adapter);
-            cityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    mCountryDisplayy.setText(parent.getAdapter().getItem(position).toString());
-                    RLog.i(RLog.ONCLICK, "HomeFragment : Country : " + parent.getAdapter().getItem(position).toString());
-                    String localeArr[] = parent.getAdapter().getItem(position).toString().split(",");
-
-                    if (localeArr != null && localeArr.length > 1) {
-                        RLog.d(RLog.SERVICE_DISCOVERY, " localeArr[1] :" + localeArr[1]);
-                       changeCountry(localeArr[1].trim());
-                    }
-                    dialogBuilder.dismiss();
-
-                }
-
-
-            });
-            EditText searchEditText = (EditText) dialog_view.findViewById(R.id.searchEditText);
-            searchEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    adapter.getFilter().filter(s);
-                }
+            final CountryPicker picker =new CountryPicker();
+            picker.setListener(new CountryChangeListener() {
 
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
+                public void onSelectCountry(String name, String code) {
+                      mCountryDisplayy.setText(name);
+                      RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
+                        changeCountry(code.trim().toUpperCase());
+                        picker.dismiss();
 
-                @Override
-                public void afterTextChanged(Editable s) {
                 }
             });
 
-            dialogBuilder.setView(dialog_view);
-            dialogBuilder.show();
-        }
+            picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+       }
     }
 
     private void changeCountry(String countryCode) {

@@ -223,7 +223,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-        serviceDiscoveryInterface.setHomeCountry(RegistrationHelper.getInstance().getCountryCode());
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
