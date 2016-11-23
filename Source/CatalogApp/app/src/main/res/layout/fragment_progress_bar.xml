@@ -89,21 +89,15 @@
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:id="@+id/progress_bar_indeterminate_circular_small"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="@style/UIDProgressBarCircularIndeterminateSmall"/>
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:id="@+id/progress_bar_indeterminate_circular_middle"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="@style/UIDProgressBarCircularIndeterminateMiddle"
                     android:visibility="gone"/>
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:id="@+id/progress_bar_indeterminate_circular_big"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="@style/UIDProgressBarCircularIndeterminateBig"
                     android:visibility="gone"/>
             </LinearLayout>
@@ -117,23 +111,17 @@
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:id="@+id/progress_bar_determinate_circular_small"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="@style/UIDProgressBarCircularDeterminateSmall"
                     android:progress="@integer/progress_bar_default_progress"/>
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:id="@+id/progress_bar_determinate_circular_middle"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="@style/UIDProgressBarCircularDeterminateMiddle"
                     android:progress="@integer/progress_bar_default_progress"
                     android:visibility="gone"/>
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:id="@+id/progress_bar_determinate_circular_big"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="@style/UIDProgressBarCircularDeterminateBig"
                     android:progress="@integer/progress_bar_default_progress"
                     android:visibility="gone"/>
