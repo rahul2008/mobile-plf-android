@@ -10,10 +10,12 @@
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
 
         <!-- Action bar and toolbar style-->
-        <item name="actionBarStyle">@style/UIDToolbar</item>
-        <item name="android:actionBarStyle">@style/UIDToolbar</item>
+        <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
+         <item name="android:actionBarStyle">@style/UIDToolbar</item>
+        -->
         <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/UIDToolbar</item>
         <item name="toolbarStyle">@style/UIDToolbar</item>
+
         <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton</item>
         <!-- Navigation color for lolipop-->
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
@@ -30,6 +32,9 @@
         <item name="android:actionMenuTextAppearance">@style/UITToolbarMenuTextAppearance</item>
         <item name="actionMenuTextAppearance">@style/UITToolbarMenuTextAppearance</item>
 
+        <!-- Below lines are to set the color for options menu items text color -->
+        <item name="actionMenuTextColor">?attr/uitNavigationTextColor</item>
+        <item name="android:actionMenuTextColor">?attr/uitNavigationTextColor</item>
     </style>
 
 </resources>

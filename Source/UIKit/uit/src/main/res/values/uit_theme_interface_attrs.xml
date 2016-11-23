@@ -56,7 +56,7 @@
         <attr name="uitInputTextHintTextSelector" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="UITNavigationBar">
+    <declare-styleable name="UIDNavigationBar">
         <attr name="uitActionBarBackground" format="reference|color"/>
         <attr name="uitNavigationTextColor" format="reference|color"/>
     </declare-styleable>
