@@ -39,6 +39,29 @@ public class EventHelperTest {
     }
 
     @Test
+    public void testRegisterEventNotificationWithNullListener() throws Exception {
+        List<String> list = null;
+        eventHelper.registerEventNotification(list, null);
+    }
+
+    @Test
+    public void testRegisterEventNotificationWithNullEventMap() throws Exception {
+        EventHelper mEventHelper = EventHelper.getInstance();
+        String event = null;
+        List<String> list = new ArrayList<>();
+        list.add(IAPConstant.DELIVER_TO_THIS_ADDRESS);
+        list.add(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+        list.add(IAPConstant.BILLING_ADDRESS_FIELDS);
+        mEventHelper.registerEventNotification(list, null);
+        mEventHelper.registerEventNotification(event, null);
+    }
+
+    @Test
+    public void testUnRegisterEventNotificationWithNullLister() throws Exception {
+        eventHelper.unregisterEventNotification(null, null);
+    }
+
+    @Test
     public void testRegisterEventNotificationWithNotification() throws Exception {
         eventHelper.registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, listener);
         eventHelper.notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);

@@ -4,8 +4,6 @@
  */
 package com.philips.cdp.di.iap.eventhelper;
 
-import com.philips.cdp.di.iap.utils.IAPLog;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,9 +12,10 @@ import java.util.Map;
 public class EventHelper {
 
     private static EventHelper eventHelper;
+    private Map<String, List<EventListener>> eventMap;
 
     private EventHelper() {
-        eventMap = new HashMap<String, List<EventListener>>();
+        eventMap = new HashMap<>();
     }
 
     public static EventHelper getInstance() {
@@ -28,53 +27,48 @@ public class EventHelper {
         return eventHelper;
     }
 
-    private Map<String, List<EventListener>> eventMap;
-
     public void registerEventNotification(List<String> list, EventListener observer) {
         if (eventMap != null && observer != null) {
             for (String event : list) {
                 registerEventNotification(event, observer);
             }
         }
-
     }
 
     public void registerEventNotification(String evenName, EventListener observer) {
         if (eventMap != null && observer != null) {
-            ArrayList<EventListener> listnerList = (ArrayList<EventListener>) eventMap
+            ArrayList<EventListener> listenerList = (ArrayList<EventListener>) eventMap
                     .get(evenName);
-            if (listnerList == null) {
-                listnerList = new ArrayList<EventListener>();
+            if (listenerList == null) {
+                listenerList = new ArrayList<>();
             }
             // Removing existing instance of same observer if exist
-            for (int i = 0; i < listnerList.size(); i++) {
-                EventListener tmp = listnerList.get(i);
+            for (int i = 0; i < listenerList.size(); i++) {
+                EventListener tmp = listenerList.get(i);
                 if (tmp.getClass() == observer.getClass()) {
-                    listnerList.remove(tmp);
+                    listenerList.remove(tmp);
                 }
             }
-            listnerList.add(observer);
-            eventMap.put(evenName, listnerList);
-            IAPLog.i(IAPLog.LOG, "Events = " + eventMap.toString());
+            listenerList.add(observer);
+            eventMap.put(evenName, listenerList);
         }
     }
 
     public void unregisterEventNotification(String pEventName, EventListener pObserver) {
         if (eventMap != null && pObserver != null) {
-            List<EventListener> listnerList = eventMap.get(pEventName);
-            if (listnerList != null) {
-                listnerList.remove(pObserver);
-                eventMap.put(pEventName, listnerList);
-                IAPLog.i(IAPLog.LOG, " unregister Events = " + eventMap.toString());
+            List<EventListener> listenerList = eventMap.get(pEventName);
+            if (listenerList != null) {
+                listenerList.remove(pObserver);
+                eventMap.put(pEventName, listenerList);
             }
         }
     }
 
     public void notifyEventOccurred(String pEventName) {
         if (eventMap != null) {
-            List<EventListener> listnerList = eventMap.get(pEventName);
-            if (listnerList != null) {
-                for (EventListener eventListener : listnerList) {
+            List<EventListener> listenerList = eventMap.get(pEventName);
+            if (listenerList != null) {
+                for (EventListener eventListener : listenerList) {
                     if (eventListener != null) {
                         eventListener.onEventReceived(pEventName);
                     }

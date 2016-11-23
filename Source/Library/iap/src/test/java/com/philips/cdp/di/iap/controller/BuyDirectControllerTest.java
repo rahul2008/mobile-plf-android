@@ -30,6 +30,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -88,6 +89,13 @@ public class BuyDirectControllerTest {
             @Override
             public void onCreateCart(Message msg) {
                 assertEquals(RequestCode.CREATE_CART, msg.what);
+                assertNotSame(RequestCode.GET_CART, msg.what);
+                assertNotSame(RequestCode.GET_ADDRESS, msg.what);
+                assertNotSame(RequestCode.CREATE_ADDRESS, msg.what);
+                assertNotSame(RequestCode.UPDATE_ADDRESS, msg.what);
+                assertNotSame(RequestCode.DELETE_ADDRESS, msg.what);
+                assertNotSame(RequestCode.DELETE_CART, msg.what);
+                assertNotSame(RequestCode.SEARCH_PRODUCT, msg.what);
             }
         });
 
