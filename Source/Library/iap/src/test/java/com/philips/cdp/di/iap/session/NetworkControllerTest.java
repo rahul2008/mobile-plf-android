@@ -18,6 +18,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static junit.framework.Assert.assertEquals;
+
 @RunWith(RobolectricTestRunner.class)
 public class NetworkControllerTest {
     @Mock
@@ -79,6 +81,8 @@ public class NetworkControllerTest {
     @Test
     public void testAddToVolleyQueue() throws Exception {
         new VolleyWrapper();
+        assertEquals(VolleyWrapper.DEFAULT_CACHE_DIR, "volley");
+        assertEquals(VolleyWrapper.DEFAULT_NETWORK_THREAD_POOL_SIZE, 4);
         mNetworkController.addToVolleyQueue(new IAPJsonRequest(1, null, null, null, null));
     }
 }

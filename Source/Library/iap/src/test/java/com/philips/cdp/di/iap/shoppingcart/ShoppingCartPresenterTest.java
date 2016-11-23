@@ -500,7 +500,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.onGetUser(msg);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetUserResponseSuccess() throws Exception {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -520,13 +520,13 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.onGetDeliveryModes(msg);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetDeliveryModesResponse() throws Exception {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "DeliveryModes.txt"));
-        Message msg = new Message();
+        Message msg = Message.obtain();
         msg.obj = new Gson().fromJson(obj.toString(), GetDeliveryModes.class);
         mShoppingCartPresenter.onGetDeliveryModes(msg);
     }

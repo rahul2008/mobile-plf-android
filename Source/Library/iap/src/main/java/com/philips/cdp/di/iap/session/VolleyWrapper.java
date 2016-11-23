@@ -22,9 +22,9 @@ public class VolleyWrapper {
     /**
      * Default on-disk cache directory.
      */
-    private static final String DEFAULT_CACHE_DIR = "volley";
+    protected static final String DEFAULT_CACHE_DIR = "volley";
 
-    private static final int DEFAULT_NETWORK_THREAD_POOL_SIZE = 4;
+    protected static final int DEFAULT_NETWORK_THREAD_POOL_SIZE = 4;
 
     /**
      * Creates a default instance of the worker pool and calls {@link RequestQueue#start()} on it.
