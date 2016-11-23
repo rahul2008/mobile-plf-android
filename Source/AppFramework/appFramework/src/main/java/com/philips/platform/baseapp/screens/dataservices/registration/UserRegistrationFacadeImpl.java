@@ -18,6 +18,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmDeleting;
+import com.philips.platform.baseapp.screens.dataservices.database.OrmDeletingInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmSaving;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
