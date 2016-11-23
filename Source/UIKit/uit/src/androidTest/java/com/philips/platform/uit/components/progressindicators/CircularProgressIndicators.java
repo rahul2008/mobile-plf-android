@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  */
-package com.philips.platform.uit.components.ProgressIndicators;
+package com.philips.platform.uit.components.progressindicators;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
-import com.philips.platform.uit.matcher.ProgressBarMatcher;
 import com.philips.platform.uit.utils.TestConstants;
 
 import org.junit.Before;
