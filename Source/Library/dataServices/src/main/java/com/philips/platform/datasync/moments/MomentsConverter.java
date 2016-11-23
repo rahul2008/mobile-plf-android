@@ -370,10 +370,27 @@ public class MomentsConverter {
      }*/
 
     List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList){
-        for(MeasurementGroup measurementGroup: measurementGroups){
+        ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
+        int size = measurementGroups.size();
+        for(int i=0,j=0;i<size;i++) {
             UCoreMeasurementGroups uCoreMeasurementGroup = new UCoreMeasurementGroups();
-            UCoreMeasurementGroups uCoreMeasurementGroups = convertMeasurementGroupToUCoreMeasurementGroup(measurementGroup, uCoreMeasurementGroup);
-            uCoreMeasurementGroupList.add(uCoreMeasurementGroups);
+            uCoreMeasurementGroup = convertMeasurementGroupToUCoreMeasurementGroup(measurementGroupsArray.get(i), uCoreMeasurementGroup);
+            uCoreMeasurementGroupList.add(uCoreMeasurementGroup);
+
+            ArrayList<MeasurementGroup> childGroupsArray = new ArrayList(measurementGroupsArray.get(i).getMeasurementGroups());
+            int size1 = childGroupsArray.size();
+            while(childGroupsArray!=null && size1>0){
+                for(int i1=0,j1=0;i1<size1;i++) {
+                    UCoreMeasurementGroups uCoreMeasurementGroup1 = new UCoreMeasurementGroups();
+                    uCoreMeasurementGroup1 = convertMeasurementGroupToUCoreMeasurementGroup(childGroupsArray.get(i1), uCoreMeasurementGroup1);
+                    List<UCoreMeasurementGroups> uCoreMeasurementGroupses = new ArrayList<>();
+                    uCoreMeasurementGroupses.add(uCoreMeasurementGroup1);
+                    uCoreMeasurementGroupList.get(i).setMeasurementGroups(uCoreMeasurementGroupses);
+
+                    childGroupsArray = new ArrayList(childGroupsArray.get(i).getMeasurementGroups());
+                    size1 = childGroupsArray.size();
+                }
+            }
         }
         return uCoreMeasurementGroupList;
     }
