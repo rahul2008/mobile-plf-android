@@ -13,8 +13,12 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -194,14 +198,19 @@ public class AppConfigurationActivity extends AppCompatActivity {
                             }
 
                         } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,String>")) {// if input data is Map<String,String>
-                            Map hmS = new HashMap<String, String>();
-                            hmS.put("Key1", "value1");
-                            hmS.put("Key2", "value2");
+                            JSONObject jObject  = new JSONObject(enteredValue); // json
+
+                            Map hmS = jsonToMap(jObject);
+                           // hmS.put("Key1", "value1");
+                           // hmS.put("Key2", "value2");
                             value = hmS;
                         } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,Integer>")) {// if input data is Map<String,Integer>
-                            Map hmI = new HashMap<String, String>();
-                            hmI.put("Key1", new Integer(4));
-                            hmI.put("Key2", new Integer(5));
+                            JSONObject jObject  = new JSONObject(enteredValue); // json
+                            Map hmI = jsonToMap(jObject);
+
+//                            Map hmI = new HashMap<String, String>();
+//                            hmI.put("Key1", new Integer(4));
+//                            hmI.put("Key2", new Integer(5));
                             value = hmI;
                         }
                     } catch (Exception e) {
@@ -232,4 +241,16 @@ public class AppConfigurationActivity extends AppCompatActivity {
         });
     }
 
+    private Map jsonToMap(Object JSON) throws JSONException {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        JSONObject jObject = new JSONObject(JSON.toString());
+        Iterator<?> keys = jObject.keys();
+
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            Object value = jObject.get(key);
+            map.put(key, value);
+        }
+        return map;
+    }
 }
