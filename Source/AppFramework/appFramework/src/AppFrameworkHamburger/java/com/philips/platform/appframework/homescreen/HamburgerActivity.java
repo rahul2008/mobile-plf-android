@@ -29,15 +29,15 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.appframework.utility.SharedPreferenceUtility;
-import com.philips.platform.modularui.statecontroller.FragmentView;
-import com.philips.platform.modularui.stateimpl.UserRegistrationState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
+import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
 import java.util.ArrayList;
 /**
  * This is the Main activity which host the main hamburger menu
@@ -120,7 +120,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
      */
     private void showNavigationDrawerItem(int position) {
         philipsDrawerLayout.closeDrawer(navigationView);
-        presenter.onClick(position);
+        presenter.onEvent(position);
     }
 
     public HamburgerAdapter getHamburgerAdapter()
@@ -159,9 +159,9 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
         cartIcon.setBackground(mCartIconDrawable);
         shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onEvent(View v) {
                 philipsDrawerLayout.closeDrawer(navigationView);
-                presenter.onClick(Constants.UI_SHOPPING_CART_BUTTON_CLICK);
+                presenter.onEvent(Constants.UI_SHOPPING_CART_BUTTON_CLICK);
             }
         });
         cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
@@ -225,23 +225,25 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
-        boolean backState = false;
-        if(fragmentManager.getBackStackEntryCount() == 1){
-            finishAffinity();
-        } else if(currentFrag instanceof BackEventListener){
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
+        if(philipsDrawerLayout.isDrawerOpen(navigationView))
+        {
+            philipsDrawerLayout.closeDrawer(navigationView);
+        }
+        else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+            boolean backState = false;
+            if (fragmentManager.getBackStackEntryCount() == 1) {
+                finishAffinity();
+            } else if (currentFrag instanceof BackEventListener) {
+                backState = ((BackEventListener) currentFrag).handleBackEvent();
+                if (!backState) {
+                    super.onBackPressed();
+                }
+            } else {
+
                 super.onBackPressed();
             }
-        } else {
-            if(philipsDrawerLayout.isDrawerOpen(navigationView))
-            {
-                philipsDrawerLayout.closeDrawer(navigationView);
-            }
-            else
-            super.onBackPressed();
         }
     }
 
@@ -263,7 +265,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     @Override
     protected void onResume() {
         super.onResume();
-        userRegistrationState = new UserRegistrationState();
+        userRegistrationState = new UserRegistrationSettingsState();
         if(userRegistrationState.getUserObject(this).isUserSignIn()){
            // addIapCartCount();
         }
