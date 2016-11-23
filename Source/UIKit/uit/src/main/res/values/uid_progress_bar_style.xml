@@ -27,8 +27,8 @@
     </style>
 
     <style name="UIDProgressBarCircularDeterminateSmall" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_width">@dimen/uid_progress_bar_circular_small</item>
-        <item name="android:layout_height">@dimen/uid_progress_bar_circular_small</item>
+        <item name="android:minWidth">@dimen/uid_progress_bar_circular_small</item>
+        <item name="android:minHeight">@dimen/uid_progress_bar_circular_small</item>
         <item name="android:indeterminate">false</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_small</item>
@@ -46,8 +46,8 @@
     </style>
 
     <style name="UIDProgressBarCircularDeterminateMiddle" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_width">@dimen/uid_progress_bar_circular_middle</item>
-        <item name="android:layout_height">@dimen/uid_progress_bar_circular_middle</item>
+        <item name="android:minWidth">@dimen/uid_progress_bar_circular_middle</item>
+        <item name="android:minHeight">@dimen/uid_progress_bar_circular_middle</item>
         <item name="android:indeterminate">false</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_middle</item>
@@ -65,8 +65,8 @@
     </style>
 
     <style name="UIDProgressBarCircularDeterminateBig" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_width">@dimen/uid_progress_bar_circular_big</item>
-        <item name="android:layout_height">@dimen/uid_progress_bar_circular_big</item>
+        <item name="android:minWidth">@dimen/uid_progress_bar_circular_big</item>
+        <item name="android:minHeight">@dimen/uid_progress_bar_circular_big</item>
         <item name="android:indeterminate">false</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_big</item>
