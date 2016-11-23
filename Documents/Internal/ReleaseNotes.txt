@@ -1,5 +1,13 @@
 	Product Registration for Android Release Notes
 ===============================================
+	Version - 2.0.2	                   		   Date: 17-11-2016
+----------------------------------------------------------------
+	Following issues are Fixed 
+
+1.	DE13692 - We don't see configurable image background, while looking the product summary from PRX server
+2.	US12562 - New date picker as per the new design-Android
+
+
 
 	Version - 2.0.1	                   		   Date: 08-11-2016
 ----------------------------------------------------------------
