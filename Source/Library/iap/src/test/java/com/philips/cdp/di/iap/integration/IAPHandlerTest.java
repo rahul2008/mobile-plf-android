@@ -340,6 +340,10 @@ public class IAPHandlerTest {
     @Test
     public void testGetLocalExposedAPIImplementor() {
         mIAPSettings.setUseLocalData(true);
+        mIAPSettings.setHostPort("acc.occ.philips.com");
+        assertEquals(mIAPSettings.getHostPort(), "acc.occ.philips.com");
+        mIAPSettings.setProposition("Tuscany2016");
+        assertEquals(mIAPSettings.getProposition(), "Tuscany2016");
         assertTrue(mMockIAPHandler.getExposedAPIImplementor() instanceof LocalHandler);
         assertEquals(true, mIAPSettings.isUseLocalData());
     }
