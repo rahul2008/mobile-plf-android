@@ -12,8 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
 public class IAPJsonRequestTest {
-
-    IAPJsonRequest mIAIapJsonRequest;
+    private IAPJsonRequest mIAIapJsonRequest;
 
     @Before
     public void setUp() throws Exception {

@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.controller;
 import android.content.Context;
 import android.os.Message;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -21,6 +22,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.session.OAuthControllerTest;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -38,6 +40,7 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -407,7 +410,9 @@ public class AddressControllerTest {
 
         setStoreAndDelegate();
         mAddressController.getDeliveryModes();
-        mNetworkController.sendFailure(new VolleyError());
+        JSONObject obj = new JSONObject(TestUtils.readFile(OAuthControllerTest.class, "server_error.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
+        mNetworkController.sendFailure(new VolleyError(networkResponse));
     }
 
     public AddressFields formAddressBodyParams(AddressFields address) {
@@ -454,14 +459,23 @@ public class AddressControllerTest {
         AddressController addressController = new AddressController(mContext, null);
         addressController.setDefaultAddress(mAddresses);
     }
+
     public void testErrorResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);
         assertTrue(msg.obj instanceof IAPNetworkError);
     }
 
     public void testEmptyResponse(Message msg, int requestCode) {
+        new NetworkConstants();
         assertEquals(requestCode, msg.what);
         assertEquals(NetworkConstants.EMPTY_RESPONSE, msg.obj);
+        assertNotSame(NetworkConstants.PRX_SECTOR_CODE, msg.obj);
+        assertNotSame(NetworkConstants.IAP_ASSET_URL, msg.obj);
+        assertNotSame(NetworkConstants.PRX_CATALOG_CODE, msg.obj);
+        assertNotSame(NetworkConstants.EXTRA_ANIMATIONTYPE, msg.obj);
+        assertNotSame(NetworkConstants.IS_ONLINE, msg.obj);
+        assertNotSame(NetworkConstants.PRX_SECTOR_CODE, msg.obj);
+        assertEquals(NetworkConstants.DEFAULT_TIMEOUT_MS, 30000);
     }
 
     public void testSuccessResponse(Message msg, int requestCode) {

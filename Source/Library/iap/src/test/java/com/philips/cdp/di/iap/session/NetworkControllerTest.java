@@ -36,18 +36,23 @@ public class NetworkControllerTest {
         mNetworkController = new NetworkController(mContext, mNetworkEssentials, mockIAPSetting);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testNetworkControllerWithContext() {
+        new NetworkController(mContext);
+    }
+
     @Test
-    public void initHurlStackNotNull() throws Exception {
+    public void testInitHurlStack() throws Exception {
         mNetworkController.initHurlStack(mContext);
     }
 
     @Test
-    public void hybrisVolleyCreateConnectionNotNull() throws Exception {
+    public void testVolleyCreateConnection() throws Exception {
         mNetworkController.hybrisVolleyCreateConnection(mContext);
     }
 
     @Test
-    public void refreshOAuthTokenNotNull() throws Exception {
+    public void testRefreshOAuthToken() throws Exception {
         mNetworkController.refreshOAuthToken(new RequestListener() {
             @Override
             public void onSuccess(Message msg) {
@@ -61,12 +66,18 @@ public class NetworkControllerTest {
         });
     }
 
+    @Test
+    public void testRefreshOAuthTokenWithNullListener() {
+        mNetworkController.refreshOAuthToken(null);
+    }
+
     @Test(expected = NullPointerException.class)
-    public void sendHybrisRequest() throws Exception {
+    public void testSendHybrisRequest() throws Exception {
         mNetworkController.sendHybrisRequest(1, null, null);
     }
+
     @Test
-    public void addToVolleyQueue() throws Exception {
-        mNetworkController.addToVolleyQueue(new IAPJsonRequest(1,null,null,null,null));
+    public void testAddToVolleyQueue() throws Exception {
+        mNetworkController.addToVolleyQueue(new IAPJsonRequest(1, null, null, null, null));
     }
 }
