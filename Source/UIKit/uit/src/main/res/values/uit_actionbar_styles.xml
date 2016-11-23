@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="UITNavigationBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="height">@dimen/uid_navigation_bar_height</item>
-        <item name="actionBarSize">@dimen/uid_navigation_bar_height</item>
-        <item name="android:actionBarSize">@dimen/uid_navigation_bar_height</item>
-        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
-        <item name="android:titleTextStyle">@style/UIDActionBarTitleText</item>
-        <item name="titleTextStyle">@style/UIDActionBarTitleText</item>
-        <item name="background">?attr/uitActionBarBackground</item>
-        <item name="android:background">?attr/uitActionBarBackground</item>
-        //TODO define below for DLS
-        <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle
-        </item>
-        <item name="actionButtonStyle">@style/UIDActionBarButtonStyle</item>
-        <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton
-        </item>
-        <item name="textAllCaps">false</item>
+    <!-- <style name="UITNavigationBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+         <item name="height">@dimen/uid_navigation_bar_height</item>
+         <item name="actionBarSize">@dimen/uid_navigation_bar_height</item>
+         <item name="android:actionBarSize">@dimen/uid_navigation_bar_height</item>
+         <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
+         <item name="android:titleTextStyle">@style/UIDActionBarTitleText</item>
+         <item name="titleTextStyle">@style/UIDActionBarTitleText</item>
+         <item name="background">?attr/uitActionBarBackground</item>
+         <item name="android:background">?attr/uitActionBarBackground</item>
+         //TODO define below for DLS
+         <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle
+         </item>
+         <item name="actionButtonStyle">@style/UIDActionBarButtonStyle</item>
+         <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton
+         </item>
+         <item name="textAllCaps">false</item>
 
-    </style>
+     </style>-->
 
     <style name="UITNavigationbarUltraLight">
         <item name="uitActionBarBackground">@color/uitColorWhite</item>

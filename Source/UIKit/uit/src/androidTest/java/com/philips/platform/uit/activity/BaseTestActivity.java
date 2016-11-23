@@ -48,7 +48,7 @@ public class BaseTestActivity extends AppCompatActivity {
                         setSupportActionBar(toolbar);
                         toolbar.setNavigationContentDescription("navigationIcon");
                         toolbar.setNavigationIcon(com.philips.platform.uit.test.R.drawable.uid_switch_thumb);
-                        toolbar.setTitle("Tittle");
+                        toolbar.setTitle(com.philips.platform.uit.test.R.string.catalog_app_name);
                         toolbar.setTitleMargin(getResources().getDimensionPixelOffset(navigation_left_margin), 0, getResources().getDimensionPixelOffset(navigation_left_margin), 0);
                     }
                 }

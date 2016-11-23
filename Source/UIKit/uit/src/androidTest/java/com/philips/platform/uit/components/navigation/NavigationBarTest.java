@@ -112,12 +112,14 @@ public class NavigationBarTest {
         getTitleView().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
     }
 
+    @Ignore
     @Test
     public void VerifyTitlePaddingStart() throws Exception {
         int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_title_margin);
 
         getTitleView().check(matches(ViewPropertiesMatchers.isSameStartPadding(titleMargin)));
     }
+
     @Test
     public void VerifyTitleTextColor() throws Exception {
         final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uit.test.R.color.White);
@@ -148,6 +150,13 @@ public class NavigationBarTest {
         getNavigationMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
     }
 
+    @Test
+    public void VerifyNavigationBarIconTouchableArea() throws Exception {
+        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_height);
+
+        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
+    }
+
     private ViewInteraction getNavigationBar() {
         return onView(withId(com.philips.platform.uit.test.R.id.uid_toolbar));
     }
@@ -157,7 +166,7 @@ public class NavigationBarTest {
     }
 
     private ViewInteraction getTitleView() {
-        return onView(withText("Tittle"));
+        return onView(withText(com.philips.platform.uit.test.R.string.catalog_app_name));
     }
 
     private ViewInteraction getNavigationMenuIcon() {
