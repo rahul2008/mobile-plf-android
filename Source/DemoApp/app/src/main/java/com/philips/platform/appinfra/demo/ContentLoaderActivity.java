@@ -95,6 +95,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                         break;
                     case "Get Content by ID":
                         textViewResponse.setText(null);
+                        listView.setAdapter(null);
                         String[] ids = new String[1];
                         ids[0] = input.getText().toString().trim();
                         mContentLoader.getContentById(ids, new ContentLoaderInterface.OnResultListener() {
@@ -106,14 +107,13 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(List contents) {
                                 List<ContentInterface> contentArticle = contents;
-                                textViewResponse.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
                                 ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
                             }
                         });
                         break;
                     case "Get Content by IDs":
+                        listView.setAdapter(null);
                         textViewResponse.setText(null);
                         String IDsString = input.getText().toString().trim();
                         String[] iDs = IDsString.split(",");
@@ -131,14 +131,13 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             public void onSuccess(List contents) {
 
                                 List<ContentInterface> contentArticle = contents;
-                                textViewResponse.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
                                 ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
                             }
                         });
                         break;
                     case "Get Content by TAG":
+                        listView.setAdapter(null);
                         textViewResponse.setText(null);
                         String tagString = input.getText().toString().trim();
                         mContentLoader.getContentByTag(tagString, new ContentLoaderInterface.OnResultListener() {
@@ -150,8 +149,6 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(List contents) {
                                 final List<ContentInterface> contentArticle = contents;
-                                textViewResponse.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
                                 ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
 
@@ -165,7 +162,6 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                         for (Tag t : tag) {
 
                                             showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
-
                                         }
 
                                     }
@@ -174,6 +170,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                         });
                         break;
                     case "Get Content by TAGs - OR":
+                        listView.setAdapter(null);
                         textViewResponse.setText(null);
                         String tagsStringOr = input.getText().toString().trim();
                         String[] TagsOr = tagsStringOr.split(",");
@@ -202,14 +199,11 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
                                         ContentInterface details = contentArticle.get(position);
                                         List<Tag> tag = details.getTags();
                                         for (Tag t : tag) {
                                             showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
-
                                         }
-
                                     }
                                 });
                             }
@@ -217,6 +211,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                         break;
                     case "Get Content by TAGs - AND":
                         textViewResponse.setText(null);
+                        listView.setAdapter(null);
                         String tagStringAnd = input.getText().toString().trim();
                         String[] TagsAnd = tagStringAnd.split(",");
                         String[] TagsAndTrimmed = new String[TagsAnd.length];
@@ -232,8 +227,6 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(List contents) {
                                 final List<ContentInterface> contentArticle = contents;
-                                textViewResponse.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
                                 //for(ContentArticle content : contentArticle) {
                                 ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
 //                                    ArrayAdapter<ContentArticle> itemsAdapter =
