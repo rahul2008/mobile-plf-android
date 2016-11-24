@@ -25,20 +25,22 @@ import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class LocalNetworkEssentialsTest {
-    LocalNetworkEssentials mLocalNetworkEssentials;
     @Mock
     Context mContext;
     @Mock
     AppInfra mAppInfra;
-    MockIAPSetting mockIAPSetting;
     @Mock
     OAuthListener oAuthHandler;
+
+    private MockIAPSetting mockIAPSetting;
+    private LocalNetworkEssentials mLocalNetworkEssentials;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
         mockIAPSetting = new MockIAPSetting(mock(Context.class));
         mLocalNetworkEssentials = new LocalNetworkEssentials();
+
         oAuthHandler = new OAuthListener() {
             @Override
             public String getAccessToken() {
@@ -58,17 +60,17 @@ public class LocalNetworkEssentialsTest {
     }
 
     @Test
-    public void getStoreNotNull() throws Exception {
+    public void testGetStore() throws Exception {
         assertNotNull(mLocalNetworkEssentials.getStore(mContext, mockIAPSetting));
     }
 
     @Test
-    public void hurlStackNotNull() throws Exception {
+    public void testHurlStack() throws Exception {
         assertNotNull(mLocalNetworkEssentials.getHurlStack(mContext, oAuthHandler));
     }
 
     @Test
-    public void getOAuthHandlerNull() throws Exception {
+    public void testGetOAuthHandler() throws Exception {
         assertNull(mLocalNetworkEssentials.getOAuthHandler());
     }
 }

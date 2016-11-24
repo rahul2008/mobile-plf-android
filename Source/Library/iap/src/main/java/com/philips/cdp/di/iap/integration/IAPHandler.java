@@ -112,7 +112,7 @@ class IAPHandler {
         ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());
     }
 
-    private void initHybrisDelegate() {
+    protected void initHybrisDelegate() {
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
         HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
     }

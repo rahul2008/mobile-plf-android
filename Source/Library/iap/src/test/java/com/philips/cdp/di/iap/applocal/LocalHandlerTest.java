@@ -20,9 +20,10 @@ import java.util.ArrayList;
 
 @RunWith(RobolectricTestRunner.class)
 public class LocalHandlerTest {
-    LocalHandler mAppLocalHandler;
     @Mock
     Context mContext;
+    LocalHandler mAppLocalHandler;
+
     IAPListener mIapListener = new IAPListener() {
         @Override
         public void onGetCartCount(int count) {

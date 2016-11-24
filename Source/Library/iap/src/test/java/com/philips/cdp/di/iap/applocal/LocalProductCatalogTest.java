@@ -30,7 +30,6 @@ import static junit.framework.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
 public class LocalProductCatalogTest {
-
     @Mock
     private Context mContext;
 
@@ -40,16 +39,16 @@ public class LocalProductCatalogTest {
 
     ProductCatalogPresenter.ProductCatalogListener listener =
             new ProductCatalogPresenter.ProductCatalogListener() {
-        @Override
-        public void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
+                @Override
+                public void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
 
-        }
+                }
 
-        @Override
-        public void onLoadError(IAPNetworkError error) {
+                @Override
+                public void onLoadError(IAPNetworkError error) {
 
-        }
-    };
+                }
+            };
 
     @Before
     public void setUp() {
@@ -60,12 +59,12 @@ public class LocalProductCatalogTest {
     }
 
     @Test
-    public void testgetCompleteProductList() throws Exception {
+    public void testGetCompleteProductList() throws Exception {
         mLocalProductCatalog.getCompleteProductList(null);
     }
 
     @Test
-    public void getCatalogCount() throws Exception {
+    public void testGetCatalogCount() throws Exception {
         mLocalProductCatalog.getCatalogCount(null);
     }
 

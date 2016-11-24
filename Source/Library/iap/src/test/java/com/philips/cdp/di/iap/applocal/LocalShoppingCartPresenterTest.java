@@ -21,32 +21,32 @@ public class LocalShoppingCartPresenterTest {
     }
 
     @Test
-    public void getCurrentCartDetails() throws Exception {
+    public void testGetCurrentCartDetails() throws Exception {
         mLocalShoppingCartPresenter.getCurrentCartDetails();
     }
 
     @Test
-    public void deleteProduct() throws Exception {
+    public void testDeleteProduct() throws Exception {
         mLocalShoppingCartPresenter.deleteProduct(null);
     }
 
     @Test
-    public void updateProductQuantity() throws Exception {
+    public void testUpdateProductQuantity() throws Exception {
         mLocalShoppingCartPresenter.updateProductQuantity(null, 0, 20);
     }
 
     @Test
-    public void addProductToCart() throws Exception {
+    public void testAddProductToCart() throws Exception {
         mLocalShoppingCartPresenter.addProductToCart(null, null, null, false);
     }
 
     @Test
-    public void getProductCartCount() throws Exception {
+    public void testGetProductCartCount() throws Exception {
         mLocalShoppingCartPresenter.getProductCartCount(null, null);
     }
 
     @Test
-    public void buyProduct() throws Exception {
+    public void testBuyProduct() throws Exception {
         mLocalShoppingCartPresenter.buyProduct(null, null, null);
     }
 

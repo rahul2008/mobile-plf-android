@@ -29,19 +29,19 @@ public class CartModelContainerTest extends TestCase {
     }
 
     @Test
-    public void testOrderNumber(){
+    public void testOrderNumber() {
         CartModelContainer.getInstance().setOrderNumber("12345");
         assertEquals("12345", CartModelContainer.getInstance().getOrderNumber());
     }
 
     @Test
-    public void testLanguage(){
+    public void testLanguage() {
         CartModelContainer.getInstance().setLanguage("en");
         assertEquals("en", CartModelContainer.getInstance().getLanguage());
     }
 
     @Test
-    public void testShippingAddressFields(){
+    public void testShippingAddressFields() {
         AddressFields addressFields = new AddressFields();
         addressFields.setTitleCode("Mr");
         addressFields.setFirstName("Happy");
@@ -58,23 +58,28 @@ public class CartModelContainerTest extends TestCase {
     }
 
     @Test
-    public void testRegionList(){
+    public void testRegionList() {
         RegionsList regionsList = new RegionsList();
         CartModelContainer.getInstance().setRegionList(regionsList);
         assertNotNull(CartModelContainer.getInstance().getRegionList());
     }
 
     @Test
-    public void testProductAsset(){
+    public void testProductAsset() {
         CartModelContainer.getInstance().addProductAsset("HX8071/10", new ArrayList<String>());
         assertTrue(CartModelContainer.getInstance().isPRXAssetPresent("HX8071/10"));
         assertNotNull(CartModelContainer.getInstance().getPRXAssetList());
     }
 
     @Test
-    public void testProductList(){
+    public void testProductList() {
         CartModelContainer.getInstance().addProduct("HX8331/12", new ProductCatalogData());
         assertNotNull(CartModelContainer.getInstance().getProduct("HX8331/12"));
         assertNull(CartModelContainer.getInstance().getProduct("HX9042/64"));
+    }
+
+    @Test
+    public void testResetFields(){
+        CartModelContainer.getInstance().resetApplicationFields();
     }
 }

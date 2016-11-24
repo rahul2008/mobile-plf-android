@@ -37,8 +37,9 @@ public class HybrisHandlerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        TestUtils.getStubbedHybrisDelegate();
+
         mHybrisHandler = new HybrisHandler(mContext);
+
         mIAPListener = new IAPListener() {
             @Override
             public void onGetCartCount(int count) {
@@ -72,14 +73,15 @@ public class HybrisHandlerTest {
         };
     }
 
-
     @Test
     public void testGetCompleteProductList() throws Exception {
+        TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getCompleteProductList(mIAPListener);
     }
 
     @Test
     public void testGetProductCount() throws Exception {
+        TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getProductCartCount(mIAPListener);
     }
 
@@ -97,6 +99,7 @@ public class HybrisHandlerTest {
 
     @Test
     public void testStoreInitializationWithHybrisInitialization(){
+        TestUtils.getStubbedHybrisDelegate();
         assertTrue(HybrisDelegate.getInstance().getStore().isStoreInitialized());
     }
 }

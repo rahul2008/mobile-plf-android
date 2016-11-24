@@ -28,55 +28,55 @@ public class LocalStoreTest {
     }
 
     @Test
-    public void setNewUser() {
+    public void testSetNewUser() {
         mAppLocalStore.createNewUser(mContext);
     }
 
     @Test
-    public void initStoreConfig() {
+    public void testInitStoreConfig() {
         mAppLocalStore.initStoreConfig("en", "US", null);
     }
 
     @Test
-    public void getCountry() {
+    public void testGetCountry() {
         mAppLocalStore.getCountry();
     }
 
     @Test
-    public void getLocale() {
+    public void testGetLocale() {
         mAppLocalStore.setLangAndCountry("en", "US");
         mAppLocalStore.getLocale();
     }
 
     @Test
-    public void getLocaleWithNullParams() {
+    public void testGetLocaleWithNullParams() {
         mAppLocalStore.setLangAndCountry(null, null);
         mAppLocalStore.getLocale();
     }
 
     @Test
-    public void getLocaleWithLangNull() {
+    public void testGetLocaleWithLangNull() {
         mAppLocalStore.setLangAndCountry(null, "US");
         mAppLocalStore.getLocale();
     }
 
     @Test
-    public void getOauthUrl() {
+    public void testGetOauthUrl() {
         mAppLocalStore.getOauthUrl();
     }
 
     @Test
-    public void getOauthRefreshUrl() {
+    public void testGetOauthRefreshUrl() {
         mAppLocalStore.getOauthRefreshUrl();
     }
 
     @Test
-    public void getJanRainEmail() {
+    public void testGetJanRainEmail() {
         mAppLocalStore.getJanRainEmail();
     }
 
     @Test
-    public void getUser() {
+    public void testGetUser() {
         mAppLocalStore.getUser();
     }
 
