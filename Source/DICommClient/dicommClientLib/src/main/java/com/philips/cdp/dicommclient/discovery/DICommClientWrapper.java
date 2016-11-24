@@ -27,11 +27,10 @@ public final class DICommClientWrapper {
         // Utility class
     }
 
-    public static synchronized <U extends DICommAppliance> void initializeDICommLibrary(@NonNull Context context, @NonNull DICommApplianceFactory<U> applianceFactory, @Nullable DICommApplianceDatabase<U> applianceDatabase, @NonNull CloudController cloudController) {
+    public static synchronized <U extends DICommAppliance> void initializeDICommLibrary(@NonNull Context context, @NonNull DICommApplianceFactory<U> applianceFactory, @Nullable DICommApplianceDatabase<U> applianceDatabase, @Nullable CloudController cloudController) {
         if (context == null) throw new IllegalArgumentException("Context is null");
         if (applianceFactory == null)
             throw new IllegalArgumentException("ApplicanceFactory is null");
-        if (cloudController == null) throw new IllegalArgumentException("CloudController is null.");
 
         sContext = context;
         sTemporaryAppId = generateTemporaryAppId();
@@ -64,6 +63,7 @@ public final class DICommClientWrapper {
         return getCloudController() != null && getCloudController().getAppCppId() != null;
     }
 
+    @Nullable
     public static CloudController getCloudController() {
         return sCloudControllerInstance;
     }

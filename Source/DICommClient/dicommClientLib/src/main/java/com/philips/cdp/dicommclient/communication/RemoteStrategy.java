@@ -8,6 +8,7 @@ package com.philips.cdp.dicommclient.communication;
 import java.util.Map;
 
 import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
@@ -30,8 +31,10 @@ public class RemoteStrategy extends CommunicationStrategy {
 
     public RemoteStrategy(final NetworkNode networkNode, final CloudController cloudController) {
         mNetworkNode = networkNode;
+        if (cloudController == null) {
+            throw new IllegalArgumentException("CloudController is null.");
+        }
         this.cloudController = cloudController;
-
         mRequestQueue = createRequestQueue();
         mRemoteSubscriptionHandler = createRemoteSubscriptionHandler(cloudController);
     }

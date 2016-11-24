@@ -26,7 +26,7 @@ public class CurrentApplianceManager implements Observer {
     private final List<DICommApplianceListener> mApplianceListenersList;
     private final List<CurrentApplianceChangedListener> mCurrentApplianceChangedListenerList;
 
-    private DICommPortListener mDICommAppliancePortListener = new DICommPortListener() {
+    private DICommPortListener mDICommAppliancePortListener = new DICommPortListener<DICommPort<?>>() {
 
         @Override
         public void onPortUpdate(DICommPort<?> port) {
