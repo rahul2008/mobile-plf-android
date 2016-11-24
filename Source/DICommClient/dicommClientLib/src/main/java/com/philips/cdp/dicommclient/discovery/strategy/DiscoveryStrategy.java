@@ -4,23 +4,25 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public interface DiscoveryStrategy {
 
-    interface NetworkNodeListener {
+    interface DiscoveryListener {
+        void onDiscoveryStarted();
+
         void onNetworkNodeDiscovered(NetworkNode networkNode);
 
         void onNetworkNodeLost(NetworkNode networkNode);
 
         void onNetworkNodeUpdated(NetworkNode networkNode);
+
+        void onDiscoveryFinished();
     }
 
-    void addNetworkNodeListener(NetworkNodeListener listener);
-
-    void removeNetworkNodeListener(NetworkNodeListener listener);
-
-    void start();
+    void start(@NonNull DiscoveryListener discoveryListener);
 
     void stop();
 

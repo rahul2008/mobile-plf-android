@@ -37,6 +37,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
 
     private DICommApplianceDatabase<T> applianceDatabase;
     private DICommApplianceFactory<T> applianceFactory;
+    private DiscoveryListener discoveryListener;
     private final Set<DiscoveryEventListener> discoveryEventListeners = new CopyOnWriteArraySet<>();
     private LinkedHashMap<String, T> allAppliancesMap;
     private List<NetworkNode> addedAppliances;
@@ -64,28 +65,24 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
     }
 
     @Override
-    public void start() {
+    public void start(@NonNull DiscoveryListener discoveryListener) {
+        this.discoveryListener = discoveryListener;
+
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
             ssdpServiceHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
         }
         networkMonitor.startNetworkChangedReceiver();
+
+        discoveryListener.onDiscoveryStarted();
     }
 
     @Override
     public void stop() {
-        // TODO
+        ssdpServiceHelper.stopDiscoveryImmediate();
         networkMonitor.stopNetworkChangedReceiver();
-    }
 
-    @Override
-    public void addNetworkNodeListener(NetworkNodeListener listener) {
-        // TODO
-    }
-
-    @Override
-    public void removeNetworkNodeListener(NetworkNodeListener listener) {
-        // TODO
+        discoveryListener.onDiscoveryFinished();
     }
 
     private void onApplianceDiscovered(@NonNull DeviceModel deviceModel) {
@@ -98,8 +95,10 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
 
         if (allAppliancesMap.containsKey(networkNode.getCppId())) {
             updateExistingAppliance(networkNode);
+            discoveryListener.onNetworkNodeUpdated(networkNode);
         } else {
             addNewAppliance(networkNode);
+            discoveryListener.onNetworkNodeDiscovered(networkNode);
         }
     }
 
@@ -118,6 +117,11 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
                 appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
                 notifyDiscoveryListenersListChanged();
             }
+        }
+
+        final NetworkNode networkNode = createNetworkNode(deviceModel);
+        if (networkNode != null) {
+            discoveryListener.onNetworkNodeLost(networkNode);
         }
     }
 

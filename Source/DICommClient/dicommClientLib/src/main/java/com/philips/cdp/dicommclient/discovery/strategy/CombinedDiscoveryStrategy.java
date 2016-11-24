@@ -12,33 +12,10 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class CombinedDiscoveryStrategy implements DiscoveryStrategy {
+public class CombinedDiscoveryStrategy implements DiscoveryStrategy, DiscoveryStrategy.DiscoveryListener {
 
     private final Set<DiscoveryStrategy> strategies = new CopyOnWriteArraySet<>();
-    private final Set<NetworkNodeListener> networkNodeListeners = new CopyOnWriteArraySet<>();
-
-    private final NetworkNodeListener networkNodeListener = new NetworkNodeListener() {
-        @Override
-        public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            // TODO define combined logic here
-
-            notifyNetworkNodeDiscovered(networkNode);
-        }
-
-        @Override
-        public void onNetworkNodeLost(NetworkNode networkNode) {
-            // TODO define combined logic here
-
-            notifyNetworkNodeLost(networkNode);
-        }
-
-        @Override
-        public void onNetworkNodeUpdated(NetworkNode networkNode) {
-            // TODO define combined logic here
-
-            notifyNetworkNodeUpdated(networkNode);
-        }
-    };
+    private final Set<DiscoveryListener> discoveryListeners = new CopyOnWriteArraySet<>();
 
     public CombinedDiscoveryStrategy(Set<DiscoveryStrategy> strategies) {
         final int minimumRequiredNumberOfStrategies = 2;
@@ -53,19 +30,9 @@ public class CombinedDiscoveryStrategy implements DiscoveryStrategy {
     }
 
     @Override
-    public void addNetworkNodeListener(@NonNull NetworkNodeListener listener) {
-        networkNodeListeners.add(listener);
-    }
-
-    @Override
-    public void removeNetworkNodeListener(@NonNull NetworkNodeListener listener) {
-        networkNodeListeners.remove(listener);
-    }
-
-    @Override
-    public void start() {
+    public void start(DiscoveryListener listener) {
         for (DiscoveryStrategy strategy : strategies) {
-            strategy.start();
+            strategy.start(this);
         }
     }
 
@@ -76,30 +43,55 @@ public class CombinedDiscoveryStrategy implements DiscoveryStrategy {
         }
     }
 
-    public void addDiscoveryStrategy(@NonNull DiscoveryStrategy strategy) {
-        strategy.addNetworkNodeListener(networkNodeListener);
+    @Override
+    public void onDiscoveryStarted() {
+        // TODO
+    }
+
+    @Override
+    public void onNetworkNodeDiscovered(NetworkNode networkNode) {
+        // TODO define combined logic here
+
+        notifyNetworkNodeDiscovered(networkNode);
+    }
+
+    @Override
+    public void onNetworkNodeLost(NetworkNode networkNode) {
+        // TODO define combined logic here
+
+        notifyNetworkNodeLost(networkNode);
+    }
+
+    @Override
+    public void onNetworkNodeUpdated(NetworkNode networkNode) {
+        // TODO define combined logic here
+
+        notifyNetworkNodeUpdated(networkNode);
+    }
+
+    @Override
+    public void onDiscoveryFinished() {
+        // TODO
+    }
+
+    private void addDiscoveryStrategy(@NonNull DiscoveryStrategy strategy) {
         strategies.add(strategy);
     }
 
-    public void removeDiscoveryStrategy(@NonNull DiscoveryStrategy strategy) {
-        strategy.removeNetworkNodeListener(networkNodeListener);
-        strategies.remove(strategy);
-    }
-
     private void notifyNetworkNodeDiscovered(@NonNull NetworkNode networkNode) {
-        for (NetworkNodeListener listener : networkNodeListeners) {
+        for (DiscoveryListener listener : discoveryListeners) {
             listener.onNetworkNodeDiscovered(networkNode);
         }
     }
 
     private void notifyNetworkNodeLost(@NonNull NetworkNode networkNode) {
-        for (NetworkNodeListener listener : networkNodeListeners) {
+        for (DiscoveryListener listener : discoveryListeners) {
             listener.onNetworkNodeLost(networkNode);
         }
     }
 
     private void notifyNetworkNodeUpdated(@NonNull NetworkNode networkNode) {
-        for (NetworkNodeListener listener : networkNodeListeners) {
+        for (DiscoveryListener listener : discoveryListeners) {
             listener.onNetworkNodeUpdated(networkNode);
         }
     }
