@@ -298,6 +298,7 @@ public class AddressControllerTest {
 
     @Test
     public void testUpdateAddressErrorResponse() throws Exception {
+        new ModelConstants();
         mAddressController = new AddressController(mContext, new MockAddressListener() {
             @Override
             public void onGetAddress(final Message msg) {
