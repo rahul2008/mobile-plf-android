@@ -13,6 +13,8 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
+import com.philips.cdp2.commlib.discovery.BleDiscoveryStrategy;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
@@ -62,7 +64,10 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
 
         DiscoveryManager<A> discoveryManager = createCommLib(applianceFactory);
 
-        return new CommLibContext<A>(discoveryManager, shnCentral, deviceCache);
+        // TODO Use defaults?
+        DiscoveryStrategy discoveryStrategy = new BleDiscoveryStrategy(deviceCache, shnCentral.getShnDeviceScanner(), 10000L);
+
+        return new CommLibContext<A>(discoveryStrategy, discoveryManager, shnCentral, deviceCache);
     }
 
     /**

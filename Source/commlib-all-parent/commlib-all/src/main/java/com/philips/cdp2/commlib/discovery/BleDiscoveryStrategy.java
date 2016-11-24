@@ -5,56 +5,93 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
+import com.philips.pins.shinelib.SHNResult;
 
-public class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceScanner.SHNDeviceScannerListener {
+public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceScanner.SHNDeviceScannerListener {
 
-    private final SHNDeviceScanner deviceScanner;
-    private final long timeoutMillis;
     private DiscoveryListener discoveryListener;
+    private final BleDeviceCache bleDeviceCache;
+    private final long timeoutMillis;
+    private final SHNDeviceScanner deviceScanner;
 
-    public BleDiscoveryStrategy(SHNDeviceScanner deviceScanner, @NonNull long timeoutMillis) {
+    private SHNDevice.SHNDeviceListener deviceListener = new SHNDevice.SHNDeviceListener() {
+        @Override
+        public void onStateUpdated(SHNDevice shnDevice) {
+            if (SHNDevice.State.Connected.equals(shnDevice.getState())) {
+                if (discoveryListener != null) {
+                    final NetworkNode networkNode = createNetworkNode(shnDevice);
+
+                    if (networkNode != null) {
+                        bleDeviceCache.getDeviceMap().put(networkNode.getCppId(), shnDevice);
+                        discoveryListener.onNetworkNodeDiscovered(networkNode);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onFailedToConnect(SHNDevice shnDevice, SHNResult shnResult) {
+            // NOOP
+        }
+
+        @Override
+        public void onReadRSSI(int i) {
+            // NOOP
+        }
+    };
+
+    public BleDiscoveryStrategy(@NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, long timeoutMillis) {
+        this.bleDeviceCache = bleDeviceCache;
         this.timeoutMillis = timeoutMillis;
         this.deviceScanner = deviceScanner;
     }
 
     @Override
-    public void start(@NonNull DiscoveryListener discoveryListener) {
-        // TODO check BLE permissions, notify
+    public void start(DiscoveryListener discoveryListener) {
+        // TODO check required BLE permissions, notify app if needed
 
         this.discoveryListener = discoveryListener;
         this.discoveryListener.onDiscoveryStarted();
 
-        this.deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis);
+        deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis);
     }
 
     @Override
     public void stop() {
-        this.deviceScanner.stopScanning();
-        this.discoveryListener.onDiscoveryFinished();
+        deviceScanner.stopScanning();
+
+        if (discoveryListener != null) {
+            discoveryListener.onDiscoveryFinished();
+        }
     }
 
     @Override
     public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-        final NetworkNode networkNode = createNetworkNode(shnDeviceFoundInfo.getShnDevice());
-        this.discoveryListener.onNetworkNodeDiscovered(networkNode);
+        final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
+
+        device.registerSHNDeviceListener(deviceListener);
+        device.connect();
     }
 
     @Override
     public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-        this.discoveryListener.onDiscoveryFinished();
+        if (discoveryListener != null) {
+            discoveryListener.onDiscoveryFinished();
+        }
     }
 
     private NetworkNode createNetworkNode(final SHNDevice shnDevice) {
         NetworkNode networkNode = new NetworkNode();
 
         networkNode.setBootId(-1L);
-        networkNode.setCppId(shnDevice.getAddress()); // TODO cloud identifier; hijacked address for now
-        networkNode.setName(shnDevice.getName()); // TODO Friendly name
-        networkNode.setModelName(shnDevice.getDeviceTypeName()); // TODO model name, e.g. Polaris
-        networkNode.setModelType(null); // TODO model type, e.g. FC8932
+        networkNode.setCppId(shnDevice.getAddress()); // TODO cloud identifier; hijacked MAC address for now
+        networkNode.setName(shnDevice.getName()); // TODO Friendly name, e.g. 'Vacuum cleaner'
+        networkNode.setModelName(shnDevice.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
+        networkNode.setModelType(null); // TODO model type, e.g. 'FC8932'
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
         return networkNode;
