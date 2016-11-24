@@ -26,7 +26,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
 
     AppConfigurationInterface mConfigInterface;
     private Spinner dataTypeSpinner;
-    final String[] dataType = {"String", "Integer", "Map<String,String>", "Map<String,Integer>"};
+    final String[] dataType = {"String", "Integer", "Map of <String,String>/<String,Integer>"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,21 +197,13 @@ public class AppConfigurationActivity extends AppCompatActivity {
                                 value = singleInteger;
                             }
 
-                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,String>")) {// if input data is Map<String,String>
-                            JSONObject jObject  = new JSONObject(enteredValue); // json
+                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map of <String,String>/<String,Integer>")) {// if input data is Map<String,String>
+                            JSONObject jObject = new JSONObject(enteredValue); // json
 
                             Map hmS = jsonToMap(jObject);
-                           // hmS.put("Key1", "value1");
-                           // hmS.put("Key2", "value2");
+                            // hmS.put("Key1", "value1");
+                            // hmS.put("Key2", "value2");
                             value = hmS;
-                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map<String,Integer>")) {// if input data is Map<String,Integer>
-                            JSONObject jObject  = new JSONObject(enteredValue); // json
-                            Map hmI = jsonToMap(jObject);
-
-//                            Map hmI = new HashMap<String, String>();
-//                            hmI.put("Key1", new Integer(4));
-//                            hmI.put("Key2", new Integer(5));
-                            value = hmI;
                         }
                     } catch (Exception e) {
                         isInputDataValid = false; // if parsing String and Integer fails
