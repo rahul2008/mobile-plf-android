@@ -119,7 +119,7 @@ public class UITTestUtils {
         }
     }
 
-    public static Drawable handleClipDrawable(Drawable drawable) {
+    public static Drawable extractClipDrawable(Drawable drawable) {
         if (drawable instanceof ClipDrawable) {
             if (Build.VERSION.SDK_INT >= 23) {
                 return ((ClipDrawable) drawable).getDrawable();
