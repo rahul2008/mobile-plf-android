@@ -117,13 +117,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-        android:name=".ContentLoaderActivity"
+        android:name=".ContentLoaderCreateActivity"
         android:label="ContentLoader"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".WhiteBoxAPIActivity"/>
+        <activity
+            android:name=".ContentLoaderList"
+            android:label="ContentLoader"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".ContentLoaderActivity"
+            android:label="ContentLoader"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

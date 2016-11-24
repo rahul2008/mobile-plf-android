@@ -8,7 +8,9 @@ import com.philips.platform.appinfra.MockitoTestCase;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 310238114 on 8/2/2016.
@@ -57,6 +59,7 @@ public class AppConfigurationTest extends MockitoTestCase {
                             "    \"RegistrationEnvironment\": \"Staging\",\n" +
                             "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
                             "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
+                            "    \"Map\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
                             "    \"EE\": [123,234 ]\n" +
                             "  }, \n" +
                             " \"appinfra\": { \n" +
@@ -132,6 +135,23 @@ public class AppConfigurationTest extends MockitoTestCase {
             // make sure AI and MicrositeID exist in configuration file else this test case will fail
             assertEquals(null, configError.getErrorCode()); // success
 
+            // fetch map
+            configError.setErrorCode(null);// reset error code to null
+            assertNotNull(mConfigInterface.getPropertyForKey("Map", "AI", configError));//  Existing Group and  Existing key
+            Map<String, String> hmS = new HashMap<>();
+            hmS.put("one", "123");
+            hmS.put("two", "123.45");
+            Object val = hmS;
+
+            Object obj = mConfigInterface.getPropertyForKey("MAP", "AI", configError);
+            if (obj instanceof Map) {
+                Map<String, String> newMap = (Map<String, String>) obj;
+                for (Map.Entry<String, String> entry : newMap.entrySet()) {
+                    String key = entry.getKey();
+                    assertTrue(entry.getValue().equals(hmS.get(key)));
+                }
+            }
+            assertEquals(null, configError.getErrorCode()); // success
         } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
         }
@@ -186,11 +206,9 @@ public class AppConfigurationTest extends MockitoTestCase {
             assertTrue(mConfigInterface.setPropertyForKey("EE", "AI", integerArray, configError));//  Existing Group  and Existing key
             assertEquals(null, configError.getErrorCode());
 
-
         } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
         }
-
     }
 
     public void testSetAndGetKey() throws IllegalArgumentException {
@@ -238,7 +256,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
         assertEquals(integer, mConfigInterface.getPropertyForKey(newlyAddedKey2, existingGroup, configError));//  Existing Group and  Existing key
-     //   assertEquals(integer, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey2, existingGroup, configError));//  Existing Group and  Existing key
+        //   assertEquals(integer, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey2, existingGroup, configError));//  Existing Group and  Existing key
 
         assertEquals(null, configError.getErrorCode()); // success
 
@@ -252,7 +270,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
         assertEquals(stringArrayList, mConfigInterface.getPropertyForKey(newlyAddedKey3, existingGroup, configError));//  Existing Group and  Existing key
-       // assertEquals(stringArrayList, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey3, existingGroup, configError));//  Existing Group and  Existing key
+        // assertEquals(stringArrayList, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey3, existingGroup, configError));//  Existing Group and  Existing key
         assertEquals(null, configError.getErrorCode()); // success
 
 
@@ -267,7 +285,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
         assertEquals(integerArrayList, mConfigInterface.getPropertyForKey(newlyAddedKey4, existingGroup, configError));//  Existing Group and  Existing key
-       // assertEquals(integerArrayList, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey4, existingGroup, configError));//  Existing Group and  Existing key
+        // assertEquals(integerArrayList, mConfigInterface.getDefaultPropertyForKey(newlyAddedKey4, existingGroup, configError));//  Existing Group and  Existing key
         assertEquals(null, configError.getErrorCode()); // success
 
         // Add a new null value
@@ -276,9 +294,47 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
         assertEquals(null, mConfigInterface.getPropertyForKey("NewKeyAdded5", existingGroup, configError));//  Existing Group and  Existing key
-       // assertEquals(null, mConfigInterface.getDefaultPropertyForKey("NewKeyAdded5", existingGroup, configError));//  Existing Group and  Existing key
+        // assertEquals(null, mConfigInterface.getDefaultPropertyForKey("NewKeyAdded5", existingGroup, configError));//  Existing Group and  Existing key
 
         assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.KeyNotExists, configError.getErrorCode()); // success
+
+        // Add a hashmap
+        configError.setErrorCode(null);
+        Map<String, String> hmS = new HashMap<>();
+        hmS.put("Key1", "value1");
+        hmS.put("Key2", "value2");
+        Object val = hmS;
+        assertTrue(mConfigInterface.setPropertyForKey("NewKeyHashMap", existingGroup, val, configError));//  Existing Group  and Non Existing key
+        assertEquals(null, configError.getErrorCode());
+        configError.setErrorCode(null);// reset error code to null
+
+        Object obj = mConfigInterface.getPropertyForKey("NewKeyHashMap", existingGroup, configError);
+        if (obj instanceof Map) {
+            Map<String, String> newMap = (Map<String, String>) obj;
+            for (Map.Entry<String, String> entry : newMap.entrySet()) {
+                String key = entry.getKey();
+                assertTrue(entry.getValue().equals(hmS.get(key)));
+            }
+        }
+
+//        // Add a hashmap
+        configError.setErrorCode(null);
+        Map<String, Integer> newhmS = new HashMap<>();
+        newhmS.put("Key1", 2);
+        newhmS.put("Key2", 1);
+        Object newval = newhmS;
+        assertTrue(mConfigInterface.setPropertyForKey("IntHashMap", existingGroup, newval, configError));//  Existing Group  and Non Existing key
+        assertEquals(null, configError.getErrorCode());
+        configError.setErrorCode(null);// reset error code to null
+
+        Object newobj = mConfigInterface.getPropertyForKey("NewKeyHashMap", existingGroup, configError);
+        if (newobj instanceof Map) {
+            Map<String, String> newMap = (Map<String, String>) newobj;
+            for (Map.Entry<String, String> entry : newMap.entrySet()) {
+                String key = entry.getKey();
+                assertTrue(entry.getValue().equals(hmS.get(key)));
+            }
+        }
     }
 
 

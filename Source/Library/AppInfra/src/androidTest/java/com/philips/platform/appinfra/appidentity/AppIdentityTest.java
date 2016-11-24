@@ -65,6 +65,7 @@ public class AppIdentityTest extends MockitoTestCase {
                             "    \"RegistrationEnvironment\": \"Staging\",\n" +
                             "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
                             "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
+                            "    \"Map\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
                             "    \"EE\": [123,234 ]\n" +
                             "  }, \n" +
                             " \"appinfra\": { \n" +

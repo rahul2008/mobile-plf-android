@@ -10,6 +10,10 @@ public class Tag {
 
     public String key;
 
+    public String getId() {
+        return id;
+    }
+
     public String id;
 
 }
