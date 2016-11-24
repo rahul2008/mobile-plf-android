@@ -64,6 +64,7 @@
     </Content>
     <Content Include="Repository_ProductRegistration.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Repository_UserReg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

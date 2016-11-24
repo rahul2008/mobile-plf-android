@@ -2151,6 +2151,14 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
                 }
 
+                public static string PhilipShop
+                {
+                    get
+                    {
+                        return GetData("PhilipShop");
+                    }
+                }
+
                 public static string VerticalSettings
                 {
                     get

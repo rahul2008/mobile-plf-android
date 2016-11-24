@@ -18,11 +18,11 @@ Scenario: Verify that user can purchase a product from retailer using "Buy Now"
 	Then I click on Hamburger Menu Icon
 	Then I launch Philips Shop from hamburger menu
 	Then I verify that the product list view is displayed 
-	Then I select "HX9042/64" from the product list view
-	Then I verify that user is navigated to the detail view of product "HX9042/64"
+	Then I select "HX6064/33" from the product list view
+	Then I verify that user is navigated to the detail view of product "HX6064/33"
 	Then I click on Buy Now and verify that user is navigated to list of retailer list view 
-	Then I select "Amazon.com" from the retailer list view
-	Then I verify that "Amazon.com" webview is launched 
+	Then I select "Philips Online Shop - GB" from the retailer list view
+	Then I verify that "Philips Online Shop - GB" webview is launched 
 	Then I verify that user can navigate back from webview to retailer list view 
 	Then I verify that user can navigate back to product detail view from retailer list view 
 

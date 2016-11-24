@@ -91,6 +91,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyPhilips.feature</DependentUpon>
     </Compile>
+    <Compile Include="PhilipsShop.cs" />
     <Compile Include="PRBinding.cs" />
     <Compile Include="ProductRegistration.feature.cs">
       <AutoGen>True</AutoGen>
