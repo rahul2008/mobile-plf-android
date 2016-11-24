@@ -20,7 +20,7 @@
             android:orientation="horizontal">
 
             <com.philips.platform.uit.view.widget.Label
-                style="@style/UIDLabel"
+                style="@style/UIDLabel.MarginEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress_bar_scale"/>
@@ -29,7 +29,6 @@
                 android:id="@+id/progress_bar_seekbar_scale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/progress_bar_margin_left_right"
                 android:max="@integer/progress_bar_scale_bar_max"/>
         </LinearLayout>
 
@@ -47,7 +46,7 @@
             android:orientation="horizontal">
 
             <com.philips.platform.uit.view.widget.Label
-                style="@style/UIDLabel"
+                style="@style/UIDLabel.MarginEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress_bar_value"/>
@@ -56,7 +55,6 @@
                 android:id="@+id/progress_bar_seekbar_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/progress_bar_margin_left_right"
                 android:progress="@integer/progress_bar_default_progress"/>
         </LinearLayout>
 
