@@ -51,7 +51,6 @@ public class IAPJsonRequestTest {
 
     private byte[] fileToByteArray(String path) {
         File file = new File(path);
-        System.out.println("Current abs dir: " + file.getAbsolutePath());
         byte[] byteArray = null;
         try {
             InputStream inputStream = new FileInputStream(file);
