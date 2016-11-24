@@ -127,7 +127,7 @@ public class TextViewPropertiesMatchers {
                 if (view instanceof TextView) {
                     Drawable[] drawables = ((TextView) view).getCompoundDrawables();
                     if (drawables != null && drawables[index] != null) {
-                        final BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue);
+                        final BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue, false);
                         boolean result = colorMatcher.matches(drawables[index]);
 
                         setValues(colorMatcher.actual, colorMatcher.expected);

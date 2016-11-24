@@ -4,7 +4,6 @@
     <dimen name="edge_left_spacing">10dp</dimen>
     <dimen name="component_bottom_spacing">10dp</dimen>
     <dimen name="category_divider_width">40dp</dimen>
-
     <dimen name="button_height">40dp</dimen>
     <dimen name="button_left_padding">24dp</dimen>
     <dimen name="button_right_padding">24dp</dimen>
@@ -20,7 +19,6 @@
     <dimen name="iconbutton_cornerradius">2dp</dimen>
 
     <dimen name="iconandtextbutton_compoundpadding">8dp</dimen>
-
 
     <dimen name="quietbutton_left_padding">12dp</dimen>
     <dimen name="quietbutton_right_padding">12dp</dimen>
@@ -42,6 +40,25 @@
     <dimen name="toggleswitch_corner_radius">8dp</dimen>
     <dimen name="toggleswitch_ripple_radius">20dp</dimen>
 
+    <!--LinearProgressBar dimens-->
+    <dimen name="linearprogressbar_height">4dp</dimen>
+    <dimen name="linearprogressbar_minwidth">96dp</dimen>
+    <dimen name="linearprogressbar_leftmargin">22dp</dimen>
+
+    <!--CircularProgressBar dimens-->
+    <dimen name="circularprogressbar_small_heightwidth">24dp</dimen>
+    <dimen name="circularprogressbar_middle_heightwidth">48dp</dimen>
+    <dimen name="circularprogressbar_large_heightwidth">88dp</dimen>
+    <integer name="circularprogressbar_small_duration">1000</integer>
+    <integer name="circularprogressbar_medium_duration">1250</integer>
+    <integer name="circularprogressbar_large_duration">1500</integer>
+    <dimen name="circularprogressbar_small_thickness">2dp</dimen>
+    <dimen name="circularprogressbar_medium_thickness">3dp</dimen>
+    <dimen name="circularprogressbar_large_thickness">4dp</dimen>
+    <dimen name="circularprogressbar_small_radius">10dp</dimen>
+    <dimen name="circularprogressbar_medium_radius">21dp</dimen>
+    <dimen name="circularprogressbar_large_radius">40dp</dimen>
+
     <!--Alert dimens-->
     <dimen name="alert_corner_radius">2dp</dimen>
     <dimen name="alert_font_size">16sp</dimen>
@@ -50,8 +67,6 @@
     <dimen name="alerttitle_icon_leftrighttop_margin">27dp</dimen>
     <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
     <dimen name="alert_width">272dp</dimen>
-
-
     <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
     <dimen name="alertcontent_top_padding">20dp</dimen>
     <dimen name="alertcontent_leftrightbottom_margin">24dp</dimen>
@@ -63,10 +78,6 @@
     <dimen name="alertcontenttext_linespacing">6dp</dimen>
     <dimen name="alerttitletext_linespacing">4dp</dimen>
 
-
     <!--Label dimens -->
     <dimen name="label_fontsize">16sp</dimen>
-
-
-
 </resources>

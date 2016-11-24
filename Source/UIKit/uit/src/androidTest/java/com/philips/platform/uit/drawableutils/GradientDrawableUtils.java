@@ -18,6 +18,7 @@ import java.util.List;
 public class GradientDrawableUtils {
 
     public interface StateColors {
+        int getDefaultColor();
         int getStateColor(int attr);
         float[] getCornerRadius();
         int getStrokeWidth();
@@ -26,6 +27,9 @@ public class GradientDrawableUtils {
         int getStrokeSolidStateColor(int attr);
         int getRippleRadius();
         int getRippleColor(int attr);
+        float getInnerRadiusRatio();
+        float getRingThicknessRatio();
+        int[] getColors();
     }
 
     public static StateColors getStateColors(Drawable d) {

@@ -20,6 +20,12 @@ public class LollipopStateColors extends KitKatStateColors {
     }
 
     @Override
+    public int getDefaultColor() {
+        ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getSolidColorStateListFiledName());
+        return solidColors.getDefaultColor();
+    }
+
+    @Override
     public int getGradientSolidColor() {
         ColorStateList solidColors = (ColorStateList) GradientDrawableUtils.getField(constantState, getSolidColorStateListFiledName());
         return getColorBasedOnAttribute(solidColors, android.R.attr.state_enabled);

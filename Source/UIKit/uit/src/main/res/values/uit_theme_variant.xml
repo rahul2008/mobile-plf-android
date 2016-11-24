@@ -12,11 +12,15 @@
         <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel85</item>
         <item name="uitControlPrimaryAltDisabledAlpha">@dimen/uit_alpha_per_35</item>
 
+        <item name="uitControlPrimaryTrackOff">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitControlPrimaryTrackOffAlpha">@dimen/uit_alpha_per_15</item>
+        <item name="uitControlPrimaryBuffer">?attr/uitControlPrimaryEnabledColor</item>
+        <item name="uitControlPrimaryBufferAlpha">@dimen/uit_alpha_per_50</item>
+
         <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
         <item name="uitQuietButtonDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitNavigationTextColor">@color/uitColorWhite</item>
-
 
         <item name="uitButtonNormalColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uitButtonPressedColor">?attr/uitControlPrimaryPressedColor</item>
@@ -41,13 +45,10 @@
         <item name="uitInputTextHintTextDisabledColor">?attr/uitInputTextTextDisabledColor</item>
         <item name="uitInputTextHintTextDisabledAlpha">?attr/uitInputTextTextDisabledAlpha</item>
 
-
         <item name="uidSwitchTrackOnColor">?attr/uitColorLevel45</item>
-
         <item name="uidSwitchThumbColor">@android:color/white</item>
         <item name="uidSwitchTrackOffColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uidSwitchTrackOffAlpha">@dimen/uit_alpha_per_30</item>
-
         <item name="uidSwitchTrackDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uidSwitchBorderColor">?attr/uitControlPrimaryEnabledColor</item>
@@ -62,7 +63,7 @@
         <item name="uitDialogShadowAlpha">@dimen/uit_alpha_per_20</item>
         <item name="uitDialogDimSubtleLayerAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitDialogDimStrongColorAlpha">@dimen/uit_alpha_per_80</item>
-        
+
         <item name="uidTextPrimary">@color/uitColorWhite</item>
         <item name="uidTextSecondary">?attr/uitColorLevel05</item>
 

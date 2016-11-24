@@ -59,6 +59,7 @@
     <declare-styleable name="UITActionBar">
         <attr name="uitActionBarBackground" format="reference|color"/>
     </declare-styleable>
+
     <declare-styleable name="UIDSwitch">
         <attr name="uidSwitchThumbColor" format="reference|color"/>
         <attr name="uidSwitchThumbColorList" format="reference|color"/>
@@ -72,6 +73,15 @@
         <attr name="uidSwitchBorderColor" format="reference|color"/>
         <attr name="uidSwitchBorderColorAlpha" format="reference|color"/>
         <attr name="uidSwitchBorderColorList" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDProgressBar">
+        <attr name="uitControlPrimaryTrackOff" format="reference|color"/>
+        <attr name="uitControlPrimaryBuffer" format="reference|color"/>
+        <attr name="uitControlPrimaryTrackOffAlpha" format="reference|float"/>
+        <attr name="uitControlPrimaryBufferAlpha" format="reference|float"/>
+        <attr name="uidLinearProgressBar" format="boolean"/>
+        <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDDialog">
