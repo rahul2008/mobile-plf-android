@@ -252,6 +252,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/view/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
+                       '**/utils/*.class',
                        '**/activity/*.class',
                        '**/screens/*.class',
                        '**/store/IAPUser.class',
