@@ -1,5 +1,4 @@
 <resources>
-    <string name="af_app_name">ReferenceApp</string>
     <string name="app_home_title">Mobile App Home</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
@@ -46,6 +45,7 @@
     <string name="settings_progress_title">Please Wait!!</string>
     <string name="settings_progress_message">Wait!!</string>
     <string name="logout_failed">Logout failed. Please try again</string>
+    <string name="ctn_null">CTN is null. Please pass CTN</string>
 
     <!--Settings Screen ends-->
 
@@ -55,7 +55,6 @@
         <item>Philips Shop</item>
         <item>Support</item>
         <item>About</item>
-        <item>Debug and Testing</item>
         <item>Data Sync</item>
         <item>Connectivity</item>
     </string-array>
@@ -125,6 +124,5 @@
     <string name="ds_screen_title">Data Services</string>
     <string name="create_moment">Create moment</string>
     <string name="invalid_temperature">Invalid temperature entry</string>
-
 
 </resources>

@@ -1,16 +1,8 @@
 apply plugin: 'com.android.application'
 
 archivesBaseName = "referenceApp"
+apply plugin: 'jacoco-everywhere'
 
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
-
-def coverageSourceDirs = [
-        '../appFramework/src/main/java'
-]
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -24,6 +16,7 @@ buildscript {
     }
 
     dependencies {
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
@@ -185,11 +178,34 @@ android {
         versionCode 1
         versionName objcdp.getVersionWithHash()
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 23
+        renderscriptTargetApi 24
+        // applicationId "net.gouline.jacoco"
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
+    }
+
+    productFlavors {
+        AppFrameworkHamburger {
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
+
+        }
+        AppFrameworkTabbed {
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                if (variant.productFlavors[0].name.equals("AppFrameworkHamburger")) {
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("-AppFrameworkHamburger", ""));
+                }
+            }
+        }
+
     }
 
     lintOptions {
@@ -201,7 +217,9 @@ android {
     }
 
     dexOptions {
+        incremental = false;
         preDexLibraries = false
+        jumboMode = false
     }
     buildTypes {
         release {
@@ -215,8 +233,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled true
-            proguardFile 'proguard-rules.pro'
+            testCoverageEnabled = true
         }
     }
 
@@ -371,35 +388,4 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         xml.enabled = true
         html.enabled = false
     }
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-//    jvmArgs = ["-XX:-UseSplitVerifier"]
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../appFramework/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/response/*/*.class',
-                       '**/view/*.class',
-                       '**/adapters/*.class',
-                       '**/analytics/*.class',
-                       '**/utils/*.class',
-                       '**/activity/*.class',
-                       '**/Fragments/*.class']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../appFramework/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
 }

@@ -115,6 +115,7 @@ public static <fields>;
 -dontwarn android.support.**
 -dontwarn android.support.v8.**
 -dontwarn com.philips.cdp.registration.**
+-dontwarn com.philips.cdp.platform.**
 -dontwarn org.apache.**
 #-dontwarn com.philips.cdp.digitalcare.**
 #-dontwarn com.philips.cdp.prxclient.**
@@ -158,6 +159,10 @@ public static <fields>;
 -keep interface com.philips.cdp.prodreg.** {*;}
 -keep enum com.philips.cdp.prodreg.** {*;}
 
+# App-framework
+ -keep class com.philips.platform.appframework.** {*;}
+
+
 ##--------------- ORMLite  ----------
 
 # Keep ORMLite specifics
@@ -175,28 +180,28 @@ public static <fields>;
 
 -keepclassmembers class ** {
     !private void onEvent*(**);
-     @org.greenrobot.eventbus.Subscribe <methods>;
-     public void onEvent(**);
-     public void onEventMainThread(**);
-     public void onEventBackgroundThread(**);
-     public void onEvent*(***);
-     void onEvent*(**);
-     void onEvent*(***);
+#     @org.greenrobot.eventbus.Subscribe <methods>;
+#     public void onEvent(**);
+#     public void onEventMainThread(**);
+#     public void onEventBackgroundThread(**);
+#     public void onEvent*(***);
+#     void onEvent*(**);
+#     void onEvent*(***);
 }
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keep class de.greenrobot.event.** { *; }
--keep class de.greenrobot.** {*;}
+#-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+#-keep class de.greenrobot.event.** { *; }
+#-keep class de.greenrobot.** {*;}
 
--keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
+#-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
 
--keep class * {
-    @de.greenrobot.event.* <methods>;
-}
+#-keep class * {
+#    @de.greenrobot.event.* <methods>;
+#}
 
 # Only required if you use AsyncExecutor
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(java.lang.Throwable);
-}
+#-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+#    <init>(java.lang.Throwable);
+#}
 
 ##--------------- Jodatime  ----------
 
