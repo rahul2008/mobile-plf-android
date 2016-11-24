@@ -2,11 +2,13 @@ package cdp.philips.com.mydemoapp.temperature;
 
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.MomentDetailType;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,14 +23,19 @@ public class TemperatureMomentHelper {
 
     double getTemperature(Moment moment){
         try {
-          //  ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
-         //   return measurements.get(0).getValue();
+
+            ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
+            ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
+            ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
+
+            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+            return measurements.get(0).getValue();
         } catch (ArrayIndexOutOfBoundsException e) {
             return 0.0;
         } catch (IndexOutOfBoundsException e) {
             return 0.0;
         }
-        return -1;
+        //return -1;
     }
 
     String getTime(Moment moment){
@@ -48,16 +55,24 @@ public class TemperatureMomentHelper {
 
     String getNotes(Moment moment){
         try {
-         //   ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
-           // Measurement measurement = measurements.get(0);
-            //ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
-            //return measurementDetails.get(0).getValue();
+
+            ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
+            ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
+            ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
+
+            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+            //return measurements.get(0).getValue();
+
+            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+            Measurement measurement = measurements.get(0);
+            ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
+            return measurementDetails.get(0).getValue();
         }catch (ArrayIndexOutOfBoundsException e){
             return "default";
         }catch (IndexOutOfBoundsException e){
             return "default";
         }
-        return null;
+        //return null;
     }
 
     public void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
@@ -95,12 +110,12 @@ public class TemperatureMomentHelper {
         MomentDetail momentDetail = momentDetails.get(momentDetailsSize-1);
         momentDetail.setValue(phase);
 
-      //  ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
-       // Measurement measurement = measurements.get(0);
-       // measurement.setValue(Double.parseDouble(temperature));
+        //  ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+        // Measurement measurement = measurements.get(0);
+        // measurement.setValue(Double.parseDouble(temperature));
 
-      //  ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
-       // MeasurementDetail measurementDetail = measurementDetails.get(0);
+        //  ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
+        // MeasurementDetail measurementDetail = measurementDetails.get(0);
         //measurementDetail.setValue(notes);
 
         return moment;
