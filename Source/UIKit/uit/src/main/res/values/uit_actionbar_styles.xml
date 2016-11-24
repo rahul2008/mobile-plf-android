@@ -2,33 +2,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="UITNavigationbarUltraLight">
-        <item name="uitActionBarBackground">@color/uitColorWhite</item>
-        <item name="uitNavigationTextColor">@color/uit_gray_level_75</item>
+        <item name="uidActionBarBackground">@color/uitColorWhite</item>
+        <item name="uidNavigationTextColor">@color/uit_gray_level_75</item>
     </style>
 
     <style name="UITNavigationbarVeryLight">
-        <item name="uitActionBarBackground">?attr/uitColorLevel10</item>
-        <item name="uitNavigationTextColor">?attr/uitColorLevel75</item>
+        <item name="uidActionBarBackground">?attr/uitColorLevel10</item>
+        <item name="uidNavigationTextColor">?attr/uitColorLevel75</item>
     </style>
 
     <style name="UITNavigationbarLight">
-        <item name="uitActionBarBackground">?attr/uitColorLevel25</item>
-        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
+        <item name="uidActionBarBackground">?attr/uitColorLevel25</item>
+        <item name="uidNavigationTextColor">@color/uitColorWhite</item>
     </style>
 
     <style name="UITNavigationbarBright">
-        <item name="uitActionBarBackground">?attr/uitColorLevel40</item>
-        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
+        <item name="uidActionBarBackground">?attr/uitColorLevel40</item>
+        <item name="uidNavigationTextColor">@color/uitColorWhite</item>
     </style>
 
     <style name="UITNavigationbarVeryDark">
-        <item name="uitActionBarBackground">?attr/uitColorLevel70</item>
-        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
+        <item name="uidActionBarBackground">?attr/uitColorLevel70</item>
+        <item name="uidNavigationTextColor">@color/uitColorWhite</item>
     </style>
 
     <style name="UIDToolbarBarTitleText" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">?attr/uitNavigationTextColor</item>
-        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
+        <item name="android:textColor">?attr/uidNavigationTextColor</item>
+        <item name="android:textColorPrimary">?attr/uidNavigationTextColor</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -50,7 +50,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:scaleType">center</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textColor">?attr/uitNavigationTextColor</item>
+        <item name="android:textColor">?attr/uidNavigationTextColor</item>
 
     </style>
 
@@ -71,13 +71,13 @@
         <item name="maxButtonHeight">@dimen/uid_navigation_bar_icon_maxsize</item>
         <item name="toolbarNavigationButtonStyle">@style/UIDToolbarNavigationButton</item>
 
-        <item name="background">?attr/uitActionBarBackground</item>
-        <item name="android:background">?attr/uitActionBarBackground</item>
+        <item name="background">?attr/uidActionBarBackground</item>
+        <item name="android:background">?attr/uidActionBarBackground</item>
         <item name="android:titleTextStyle">@style/UIDToolbarBarTitleText</item>
         <item name="titleTextStyle">@style/UIDToolbarBarTitleText</item>
         <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle
         </item>
-        <item name="titleTextColor">?attr/uitNavigationTextColor</item>
+        <item name="titleTextColor">?attr/uidNavigationTextColor</item>
 
     </style>
 
@@ -86,8 +86,8 @@
         <item name="collapseContentDescription">@dimen/uid_navigation_bar_title_margin_left_right
         </item>
         <item name="android:paddingStart">10dp</item>
-        <item name="android:textColor">?attr/uitNavigationTextColor</item>
-        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
+        <item name="android:textColor">?attr/uidNavigationTextColor</item>
+        <item name="android:textColorPrimary">?attr/uidNavigationTextColor</item>
         <item name="android:textSize">@dimen/uid_navigation_bar_text_size</item>
         <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing</item>
         <item name="android:lineSpacingMultiplier">1</item>
@@ -97,8 +97,8 @@
     <style name="UITToolbarMenuTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textColor">?attr/uitNavigationTextColor</item>
-        <item name="android:textColorPrimary">?attr/uitNavigationTextColor</item>
+        <item name="android:textColor">?attr/uidNavigationTextColor</item>
+        <item name="android:textColorPrimary">?attr/uidNavigationTextColor</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>

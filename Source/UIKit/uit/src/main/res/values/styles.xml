@@ -2,13 +2,14 @@
 
     <!-- Base application theme. -->
     <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/UITDefaultButton</item>
         <item name="imageButtonStyle">@style/UITImageButton</item>
         <item name="editTextStyle">@style/UITTextEditBox</item>
         <item name="android:windowBackground">?attr/uitContentPrimary</item>
         <item name="switchStyle">@style/UIDSwitchStyle</item>
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
-
         <!-- Action bar and toolbar style-->
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
          <item name="android:actionBarStyle">@style/UIDToolbar</item>
@@ -22,19 +23,19 @@
         <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/uitContentPrimary
         </item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">
-            ?attr/uitActionBarBackground
+            ?attr/uidActionBarBackground
         </item>
-        <item name="android:colorPrimary" tools:targetApi="lollipop">?attr/uitActionBarBackground
+        <item name="android:colorPrimary" tools:targetApi="lollipop">?attr/uidActionBarBackground
         </item>
         <item name="android:colorPrimaryDark" tools:targetApi="lollipop">
-            ?attr/uitActionBarBackground
+            ?attr/uidActionBarBackground
         </item>
         <item name="android:actionMenuTextAppearance">@style/UITToolbarMenuTextAppearance</item>
         <item name="actionMenuTextAppearance">@style/UITToolbarMenuTextAppearance</item>
 
         <!-- Below lines are to set the color for options menu items text color -->
-        <item name="actionMenuTextColor">?attr/uitNavigationTextColor</item>
-        <item name="android:actionMenuTextColor">?attr/uitNavigationTextColor</item>
+        <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
+        <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
     </style>
 
 </resources>
