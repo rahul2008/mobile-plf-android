@@ -230,11 +230,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageSerialNumber() {
         findSerialNumberLayout.setVisibility(View.VISIBLE);
-        serialNumberErrorLayout.setVisibility(View.VISIBLE);
-        if (serial_number_editText.length() != 0)
+        if (serial_number_editText.length() != 0) {
+            serialNumberErrorLayout.setVisibility(View.VISIBLE);
             serialNumberErrorTextView.setText(getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
-        else
-            serialNumberErrorTextView.setText(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
+        } else {
+            serialNumberErrorLayout.setVisibility(View.GONE);
+        }
     }
 
     private void handleDateEditTextOnError() {

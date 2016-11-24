@@ -115,7 +115,8 @@
                 android:id="@+id/serial_number_error_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <com.shamanland.fonticon.FontIconTextView
                     fontPath="fonts/puicon.ttf"
