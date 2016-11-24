@@ -171,64 +171,69 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     String buildUrl() {
-        final AppIdentityInterface identityManager = mAppInfra.getAppIdentity(); // TODO RayKlo don't recreate existing instances
-        final InternationalizationInterface localManager = mAppInfra.getInternationalization();
-        Locale localeForURL = localManager.getUILocale();
-        final AppIdentityInterface.AppState state = identityManager.getAppState();
-        String service_environment = identityManager.getServiceDiscoveryEnvironment();
-        String tags = null;
-        String environment = null;
-        if (state != null && service_environment != null) {
-            switch (state) {
-                case DEVELOPMENT:
-                    tags = "apps%2b%2benv%2bdev";
-                    break;
-                case STAGING:
-                    tags = "apps%2b%2benv%2bstage";
-                    break;
-                case ACCEPTANCE:
-                    tags = "apps%2b%2benv%2bacc";
-                    break;
-                case TEST:
-                    tags = "apps%2b%2benv%2btest";
-                    break;
-                case PRODUCTION:
-                    tags = "apps%2b%2benv%2bprod";
-                    break;
-                default:
-                    tags = "apps%2b%2benv%2btest";
-            }
+        try {
+            final AppIdentityInterface identityManager = mAppInfra.getAppIdentity(); // TODO RayKlo don't recreate existing instances
+            final InternationalizationInterface localManager = mAppInfra.getInternationalization();
+            Locale localeForURL = localManager.getUILocale();
+            final AppIdentityInterface.AppState state = identityManager.getAppState();
+            String service_environment = identityManager.getServiceDiscoveryEnvironment();
+            String tags = null;
+            String environment = null;
+            if (state != null && service_environment != null) {
+                switch (state) {
+                    case DEVELOPMENT:
+                        tags = "apps%2b%2benv%2bdev";
+                        break;
+                    case STAGING:
+                        tags = "apps%2b%2benv%2bstage";
+                        break;
+                    case ACCEPTANCE:
+                        tags = "apps%2b%2benv%2bacc";
+                        break;
+                    case TEST:
+                        tags = "apps%2b%2benv%2btest";
+                        break;
+                    case PRODUCTION:
+                        tags = "apps%2b%2benv%2bprod";
+                        break;
+                    default:
+                        tags = "apps%2b%2benv%2btest";
+                }
 
-            if (service_environment.equalsIgnoreCase("PRODUCTION")) {
-                environment = "www.philips.com";
-            } else if (service_environment.equalsIgnoreCase("TEST")) {
-                environment = "tst.philips.com";
-            } else if (service_environment.equalsIgnoreCase("STAGING")) {
-                environment = "dev.philips.com";
-            } else if (service_environment.equalsIgnoreCase("ACCEPTANCE")) {
-                environment = "acc.philips.com";
+                if (service_environment.equalsIgnoreCase("PRODUCTION")) {
+                    environment = "www.philips.com";
+                } else if (service_environment.equalsIgnoreCase("TEST")) {
+                    environment = "tst.philips.com";
+                } else if (service_environment.equalsIgnoreCase("STAGING")) {
+                    environment = "dev.philips.com";
+                } else if (service_environment.equalsIgnoreCase("ACCEPTANCE")) {
+                    environment = "acc.philips.com";
+                } else {
+                    environment = "tst.philips.com";
+                }
             } else {
-                environment = "tst.philips.com";
+                // TODO RayKlo ??
             }
-        } else {
-            // TODO RayKlo ??
-        }
 
-        String url = null;
+            String url = null;
 
-        if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
-                localManager.getUILocale() != null && tags != null && environment != null) {
-            url = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localeForURL.getLanguage() + "_" + localeForURL.getCountry() + "&tags=" + tags;
+            if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
+                    localManager.getUILocale() != null && tags != null && environment != null) {
+                url = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector() + "/" + identityManager.getMicrositeId() + "?locale=" + localeForURL.getLanguage() + "_" + localeForURL.getCountry() + "&tags=" + tags;
 
-            String countryHome = getCountry(serviceDiscovery);
-            if (countryHome != null) {
-                url += "&country=" + countryHome;
+                String countryHome = getCountry(serviceDiscovery);
+                if (countryHome != null) {
+                    url += "&country=" + countryHome;
+                }
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
+            } else {
+                // TODO RayKlo ??
             }
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
-        } else {
-            // TODO RayKlo ??
+            return url;
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery", e.toString());
         }
-        return url;
+        return null;
     }
 
     /**
@@ -338,8 +343,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 filterDataForUrlbyLang(result, serviceId, listener);
                             }
                         } else {
-                            ServiceDiscovery.Error err = result.getError();
-                            listener.onError(err.getErrorvalue(), err.getMessage());
+                            if(listener != null && result.getError() != null) {
+                                ServiceDiscovery.Error err = result.getError();
+                                listener.onError(err.getErrorvalue(), err.getMessage());
+                            }
                         }
                     }
                 });

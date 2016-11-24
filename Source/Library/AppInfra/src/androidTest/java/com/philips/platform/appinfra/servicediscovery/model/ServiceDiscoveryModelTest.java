@@ -9,7 +9,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * Created by 310238655 on 8/11/2016.

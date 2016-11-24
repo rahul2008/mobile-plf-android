@@ -29,10 +29,10 @@ public interface InternationalizationInterface {
     public Locale getUILocale();
 
     /**
-     * Gets LocaleList .
+     * Gets String locale value .
      *
-     * @return the LocaleList
+     * @return the String with Concatenated format
      */
-//    public LocaleList getLocaleList();
+    public String getUILocaleString();
 
 }

@@ -6,64 +6,51 @@
 package com.philips.platform.appinfra.rest;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.widget.ImageView;
+import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Network;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.rest.request.HttpForbiddenException;
-import com.philips.platform.appinfra.rest.request.ImageRequest;
-import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
-import com.philips.platform.appinfra.rest.request.StringRequest;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class RestManager implements RestInterface {
     private RequestQueue mRequestQueue;
     private AppInfra mAppInfra;
 
-    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    private ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
-    public final static String LANGUAGE = "language";
-    public final static String COUNTRY = "country";
-
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
     }
 
-
     @Override
     public RequestQueue getRequestQueue() {
+        Integer cacheSizeinKB = null;
+
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone ,passes one in.
             // Instantiate the cache
-            AppConfigurationInterface mAppConfigurationInterface;
-            mAppConfigurationInterface = mAppInfra.getConfigInterface();
+            ;
+            AppConfigurationInterface mAppConfigurationInterface = mAppInfra.getConfigInterface();
             AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-            Integer cacheSizeinKB = null;
-            try {
-                cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
-            } catch (IllegalArgumentException i) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "CONFIG ERROR", i.toString());
+            if (mAppInfra.getConfigInterface() != null) {
+                try {
+                    cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
+                } catch (IllegalArgumentException i) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "CONFIG ERROR", i.toString());
+                }
             }
             if (cacheSizeinKB == null) {
                 cacheSizeinKB = 1024; // default fall back
@@ -80,11 +67,16 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        return new BasicNetwork(new HurlStack());
+        HttpStack stack = null;
+        try {
+            stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return new BasicNetwork(stack);
     }
 
-    @Override
-    public HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
+    public static HashMap<String, String> setTokenProvider(TokenProviderInterface provider) {
         HashMap<String, String> header = new HashMap<String, String>();
         TokenProviderInterface.Token token = provider.getToken();
         String scheme = "";
@@ -98,318 +90,67 @@ public class RestManager implements RestInterface {
         return header;
     }
 
-    @Override
-    public void stringRequestWithServiceID(final int requestType, String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, final Map<String, String> headers, final Map<String, String> params) throws HttpForbiddenException {
-        mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-        if (serviceDiscoveryPreference.equalsIgnoreCase(LANGUAGE)) {
-            mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    String urlString = url.toString();
-                    if (null != pathComponent) {
-                        urlString += pathComponent;
-                    }
-                    try {
-                        stringRequestWithURL(requestType, urlString, listener, headers, params);
-                    } catch (HttpForbiddenException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-                        listener.onErrorResponse(e.toString());
-                    }
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
-                    listener.onErrorResponse(error.toString() + " " + message);
-                }
-            });
-        } else if (serviceDiscoveryPreference.equalsIgnoreCase(COUNTRY)) {
-            mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    String urlString = url.toString();
-                    if (null != pathComponent) {
-                        urlString += pathComponent;
-                    }
-                    try {
-                        stringRequestWithURL(requestType, urlString, listener, headers, params);
-                    } catch (HttpForbiddenException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-                        listener.onErrorResponse(e.toString());
-                    }
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
-                    listener.onErrorResponse(error.toString() + " " + message);
-                }
-            });
-        }
-
-    }
-
-    @Override
-    public void jsonObjectRequestWithServiceID(final int requestType, String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, final Map<String, String> headers, final Map<String, String> params) throws HttpForbiddenException {
-        final String urlTemp= serviceID;
-        mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-        if (serviceDiscoveryPreference.equalsIgnoreCase(LANGUAGE)) {
-            mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    String urlString = url.toString();
-                    if (null != pathComponent) {
-                        urlString += pathComponent;
-                    }
-                    try {
-                        jsonObjectRequestWithURL(requestType, urlString, listener, headers, params);
-                    } catch (HttpForbiddenException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-                        listener.onErrorResponse(e.toString());
-                    }
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                   /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
-                    listener.onErrorResponse(error.toString() + " " + message);
-                    //commenting till service id for Content Loader is ready
-                    */
-                    String finalurl = urlTemp+ pathComponent;
-                    try {
-                        jsonObjectRequestWithURL(requestType, finalurl, listener, headers, params);
-                    } catch (HttpForbiddenException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-                        listener.onErrorResponse(e.toString());
-                    }
-                }
-            });
-        } else if (serviceDiscoveryPreference.equalsIgnoreCase(COUNTRY)) {
-            mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    String urlString = url.toString();
-                    if (null != pathComponent) {
-                        urlString += pathComponent;
-                    }
-                    try {
-                        jsonObjectRequestWithURL(requestType, urlString, listener, headers, params);
-                    } catch (HttpForbiddenException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-                        listener.onErrorResponse(e.toString());
-                    }
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
-                    listener.onErrorResponse(error.toString() + " " + message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void imageRequestWithServiceID(String serviceID, String serviceDiscoveryPreference, final String pathComponent, final ServiceIDCallback listener, final Map<String, String> headers, final ImageView.ScaleType scaleType, final Bitmap.Config decodeConfig, final int maxWidth, final int maxHeight) throws HttpForbiddenException {
-        mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-        if (serviceDiscoveryPreference.equalsIgnoreCase(LANGUAGE)) {
-            mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    String urlString = url.toString();
-                    if (null != pathComponent) {
-                        urlString += pathComponent;
-                    }
-                    try {
-                        imageRequestWithURL(urlString, listener, headers, scaleType, decodeConfig, maxWidth, maxHeight);
-                    } catch (HttpForbiddenException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-                        listener.onErrorResponse(e.toString());
-                    }
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
-                    listener.onErrorResponse(error.toString() + " " + message);
-                }
-            });
-        } else if (serviceDiscoveryPreference.equalsIgnoreCase(COUNTRY)) {
-            mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                    String urlString = url.toString();
-                    if (null != pathComponent) {
-                        urlString += pathComponent;
-                    }
-                    try {
-                        imageRequestWithURL(urlString, listener, headers, scaleType, decodeConfig, maxWidth, maxHeight);
-                    } catch (HttpForbiddenException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-                        listener.onErrorResponse(e.toString());
-                    }
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD ERROR", error.toString() + " " + message);
-                    listener.onErrorResponse(error.toString() + " " + message);
-                }
-            });
-        }
-    }
-
-
-    // calls the actual stringRequest and send back response to caller
-    private void stringRequestWithURL(final int requestType, String urlString, final ServiceIDCallback listener, final Map<String, String> headers, final Map<String, String> params) throws HttpForbiddenException {
-        StringRequest request = null;
-        try {
-            request= new StringRequest(requestType, urlString, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    listener.onSuccess(response); // pass back response to caller method
-                }
-            },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", error.toString());
-                            listener.onErrorResponse(error.toString());
-                        }
-                    }
-            ) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> paramList = new HashMap<String, String>();
-                    if (paramList.size() > 0) {
-                        for (String key : params.keySet()) {
-                            paramList.put(key, params.get(key));
-                        }
-                    }
-                    return paramList;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headerList = new HashMap<String, String>();
-                    if (null != headers && headers.size() > 0) {
-                        for (String key : headers.keySet()) {
-                            headerList.put(key, headers.get(key));
-                        }
-                    }
-                    return headerList;
-                }
-            };
-            ;
-        } catch (HttpForbiddenException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-        }
-        if (null != request) {
-            getRequestQueue().add(request);
-        } else {
-            listener.onErrorResponse("stringRequest is null");
-        }
-    }
-
-    // calls the actual jsonObjectRequest and send back response to caller
-    private void jsonObjectRequestWithURL(int requestType, String urlString, final ServiceIDCallback listener, final Map<String, String> headers, final Map<String, String> params) throws HttpForbiddenException {
-        JSONObject jsonObjectParams = null;
-        if (null != params && params.size() > 0) {
-            jsonObjectParams = new JSONObject(params);
-        }
-       // urlString = "https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(1).json";
-        JsonObjectRequest jsObjRequest = null;
-        try {
-            jsObjRequest = new JsonObjectRequest
-                    (requestType, urlString, jsonObjectParams, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            listener.onSuccess(response);// pass back response to caller method
-                        }
-                    }, new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            listener.onErrorResponse(error.toString());
-                        }
-                    }) {
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headerList = new HashMap<String, String>();
-                    if (null != headers && headers.size() > 0) {
-                        for (String key : headers.keySet()) {
-                            headerList.put(key, headers.get(key));
-                        }
-                    }
-                    return headerList;
-                }
-            };
-            jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    10000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        } catch (HttpForbiddenException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-        }
-
-        if (null != jsObjRequest) {
-            getRequestQueue().add(jsObjRequest);
-        } else {
-            listener.onErrorResponse("jsObjRequest is null");
-        }
-
-    }
-
-
-    // calls the actual imageRequest and send back response to caller
-    private void imageRequestWithURL(String urlString, final ServiceIDCallback listener, Map<String, String> headers, ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, int maxWidth, int maxHeight) throws HttpForbiddenException {
-        urlString = "http://i.imgur.com/7spzG.png";
-        ImageRequest imageRequest = null;
-        try {
-            imageRequest = new ImageRequest(urlString,
-                    new Response.Listener<Bitmap>() {
-                        @Override
-                        public void onResponse(Bitmap bitmap) {
-                            listener.onSuccess(bitmap);// pass back response to caller method
-                            //mImageView.setImageBitmap(bitmap);
-                        }
-                    }, maxWidth, maxHeight, scaleType, decodeConfig,
-                    new Response.ErrorListener() {
-                        public void onErrorResponse(VolleyError error) {
-                            listener.onErrorResponse(error.toString());
-                            //mImageView.setImageResource(R.drawable.image_load_error);
-                        }
-                    });
-        } catch (HttpForbiddenException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "VOLLEY ERROR", e.toString());
-        }
-
-        if (null != imageRequest) {
-            getRequestQueue().add(imageRequest);
-        } else {
-            listener.onErrorResponse("imageRequest is null");
-        }
-
-
-    }
 
     private File getCacheDir() {
         return mAppInfra.getAppInfraContext().getDir("CacheDir", Context.MODE_PRIVATE);
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
-        getRequestQueue().add(req);
-    }
+    private class ServiceIDResolver implements HurlStack.UrlRewriter {
 
-    @Override
-    public boolean isValidURL(String url) {
-        boolean isValidurl = false;
-        String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-        if (null != url && url.matches(regex)) {
-            isValidurl = true;
+        @Override
+        public String rewriteUrl(final String originalUrl) {
+            if (!ServiceIDUrlFormatting.isServiceIDUrl(originalUrl))
+                return originalUrl;
+
+            // final Lock lock = new ReentrantLock();
+            //final Condition waitResult = lock.newCondition();
+            final StringBuilder resultURL = new StringBuilder();
+            //lock.lock();
+
+            String sid = ServiceIDUrlFormatting.getServiceID(originalUrl);
+            try {
+                if (ServiceIDUrlFormatting.getPreference(originalUrl) == ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE) {
+                    mAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference(sid, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                        @Override
+                        public void onSuccess(URL url) {
+                            resultURL.append(url);
+                        }
+
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
+                        }
+                    });
+                } else {
+                    mAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(sid, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                        @Override
+                        public void onSuccess(URL url) {
+                            resultURL.append(url);
+                        }
+
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
+                        }
+                    });
+                }
+                //  waitResult.await();
+            } catch (Exception e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "RESTERROR",
+                        e.toString());
+            } finally {
+                //waitResult.signalAll();
+                //lock.unlock();
+                if (resultURL.length() > 0)
+                    resultURL.append(ServiceIDUrlFormatting.getUrlExtension(originalUrl));
+            }
+            if (resultURL.length() == 0)
+                return null;
+            if(resultURL.toString().contains("v1/")) {
+                return  resultURL.toString().replace("v1/","v1");
+            }
+            return resultURL.toString();
         }
-        return isValidurl;
-    }
 
+    }
 }
