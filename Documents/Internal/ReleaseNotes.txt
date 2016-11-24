@@ -1,5 +1,17 @@
 	Product Registration for Android Release Notes
 ===============================================
+
+	Version - 2.0.3	                   		   Date: 17-11-2016
+----------------------------------------------------------------
+	Following issues are Fixed 
+
+1.	DE13680 - We don't see any error message if user entered invalid serial number
+2.	DE13946 - Date field hint text is not as per the design
+3.  DE13702 - Already registered pop-up text alignment should as per the new design
+4.  DE13944 - Page navigation is not proper, when user tap on continue button in already product registered screen, page is landing on same page(Semi-automatic page itself).
+5.  DE13945 - While registering the product application get crash, when rotate device from right to left or vice/versa
+
+
 	Version - 2.0.2	                   		   Date: 17-11-2016
 ----------------------------------------------------------------
 	Following issues are Fixed 
