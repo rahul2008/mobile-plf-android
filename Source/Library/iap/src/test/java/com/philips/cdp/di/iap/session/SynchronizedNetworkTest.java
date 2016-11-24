@@ -13,9 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-/**
- * Created by indrajitkumar on 27/09/16.
- */
 @RunWith(RobolectricTestRunner.class)
 public class SynchronizedNetworkTest {
     SynchronizedNetwork mSynchronizedNetwork;
@@ -40,7 +37,7 @@ public class SynchronizedNetworkTest {
     }
 
     @Test
-    public void successResponse() throws Exception {
+    public void testSuccessResponse() throws Exception {
         mSynchronizedNetwork.successResponse(mIAIapJsonRequest, mSynchronizedNetworkCallBack, null);
         Response<JSONObject> response = mIAIapJsonRequest.parseNetworkResponse(null);
         Mockito.verify(mSynchronizedNetworkCallBack, Mockito.atLeast(1)).onSyncRequestSuccess(response);

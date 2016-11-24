@@ -7,35 +7,37 @@ package com.philips.cdp.di.iap.hybris;
 import android.content.Context;
 import android.os.Message;
 
+import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+@RunWith(RobolectricTestRunner.class)
 public class HybrisHandlerTest {
     @Mock
     Context mContext;
-
-    @Mock
-    Message mMessage;
     private HybrisHandler mHybrisHandler;
     private IAPListener mIAPListener;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler = new HybrisHandler(mContext);
         mIAPListener = new IAPListener() {
             @Override
@@ -71,12 +73,12 @@ public class HybrisHandlerTest {
     }
 
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetCompleteProductList() throws Exception {
         mHybrisHandler.getCompleteProductList(mIAPListener);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetProductCount() throws Exception {
         mHybrisHandler.getProductCartCount(mIAPListener);
     }
@@ -86,14 +88,15 @@ public class HybrisHandlerTest {
         assertEquals(IAPConstant.IAP_ERROR_UNKNOWN, mHybrisHandler.getIAPErrorCode(new Message()));
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testStoreInitialization(){
-        assertFalse(HybrisDelegate.getInstance().getStore().isStoreInitialized());
+    @Test
+    public void testIAPErrorCodeForIAPNetworkError() throws Exception {
+        Message msg = new Message();
+        msg.obj = new IAPNetworkError(new TimeoutError(), 0, null);
+        assertEquals(IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT, mHybrisHandler.getIAPErrorCode(msg));
     }
 
     @Test
     public void testStoreInitializationWithHybrisInitialization(){
-        TestUtils.getStubbedHybrisDelegate();
         assertTrue(HybrisDelegate.getInstance().getStore().isStoreInitialized());
     }
 }
