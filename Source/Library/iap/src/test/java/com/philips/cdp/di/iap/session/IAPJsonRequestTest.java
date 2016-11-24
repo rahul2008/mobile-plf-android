@@ -8,39 +8,35 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.philips.cdp.di.iap.TestUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static junit.framework.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 public class IAPJsonRequestTest {
     private IAPJsonRequest mIAIapJsonRequest;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
         mIAIapJsonRequest = new IAPJsonRequest(1,null,null,null,null);
     }
 
-    @Test
-    public void testParseNetworkResponse(){
-        NetworkResponse networkResponse = new NetworkResponse(fileToByteArray("C:\\Users\\310228564\\InAppGit\\Source\\Library\\iap\\src\\test\\java\\com\\philips\\cdp\\di\\iap\\session\\server_error.txt"));
-        assertNotNull(mIAIapJsonRequest.parseNetworkResponse(networkResponse));
+    @Test(expected = JSONException.class)
+    public void testParseNetworkResponse() throws Exception{
+        JSONObject obj = new JSONObject(TestUtils.readFile(IAPJsonRequestTest.class, "json_exception.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
+        mIAIapJsonRequest.parseNetworkResponse(networkResponse);
+
     }
 
-    @Test
+    /*@Test
     public void testParseNetworkResponseWithException(){
         NetworkResponse networkResponse = new NetworkResponse(fileToByteArray("C:\\Users\\310228564\\InAppGit\\Source\\Library\\iap\\src\\test\\java\\com\\philips\\cdp\\di\\iap\\session\\wrong_json.txt"));
         assertNotNull(mIAIapJsonRequest.parseNetworkResponse(networkResponse));
-    }
+    }*/
 
     @Test(expected = NullPointerException.class)
     public void testHandleMiscErrorWithAuthFailure(){
@@ -48,7 +44,7 @@ public class IAPJsonRequestTest {
         mIAIapJsonRequest.handleMiscErrors(new AuthFailureError());
     }
 
-    private byte[] fileToByteArray(String path) {
+    /*private byte[] fileToByteArray(String path) {
         File file = new File(path);
         byte[] byteArray = null;
         try {
@@ -64,5 +60,5 @@ public class IAPJsonRequestTest {
             e.printStackTrace();
         }
         return byteArray;
-    }
+    }*/
 }
