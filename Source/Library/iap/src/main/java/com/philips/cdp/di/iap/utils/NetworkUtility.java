@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.utils;
 
 import android.app.Activity;
@@ -36,7 +40,6 @@ public class NetworkUtility {
             mModalAlertDemoFragment = null;
         }
     }
-
 
     public void showErrorDialog(Context context, FragmentManager pFragmentManager,
                                 String pButtonText, String pErrorString, String pErrorDescription) {

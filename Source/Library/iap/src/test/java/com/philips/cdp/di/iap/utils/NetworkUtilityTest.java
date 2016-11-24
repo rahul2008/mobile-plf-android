@@ -12,6 +12,7 @@ public class NetworkUtilityTest extends TestCase {
 
     @Test
     public void testShowNetworkError() {
+        new NetworkUtility();
         String alertTitle = "Network Error";
         String alertBody = "No network available. Please check your network settings and try again.";
         assertEquals(alertTitle, "Network Error");

@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.session;
 
 import android.os.Handler;
@@ -74,7 +78,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
         handleMiscErrors(error);
     }
 
-    private void handleMiscErrors(final VolleyError error) {
+    protected void handleMiscErrors(final VolleyError error) {
         if (error instanceof AuthFailureError) {
             HybrisDelegate.getNetworkController().refreshOAuthToken(new RequestListener() {
                 @Override

@@ -12,6 +12,7 @@ public class IAPConstantTest extends TestCase {
 
     @Test
     public void testConstant() {
+        new IAPConstant();
         assertEquals("Value is Same", "EMPTY_CART_FRAGMENT_REPLACED", IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
         assertFalse(IAPConstant.BUTTON_STATE_CHANGED);
         assertEquals("Value is Same", 0, IAPConstant.IAP_SUCCESS);
