@@ -5,6 +5,8 @@
 */
 package com.philips.platform.modularui.statecontroller;
 
+import com.philips.platform.baseapp.base.UIStateData;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;
