@@ -148,7 +148,16 @@ public class UITTestUtils {
         return drawable;
     }
 
-    public static int getIntegerFieldValueFromReflection(Object object, String field) {
+    public static float getFloatFieldValueFromReflection(Object object, String field) {
+        try {
+            return (float) FieldUtils.readField(object, field, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getIntFieldValueFromReflection(Object object, String field) {
         try {
             return (int) FieldUtils.readField(object, field, true);
         } catch (Exception e) {

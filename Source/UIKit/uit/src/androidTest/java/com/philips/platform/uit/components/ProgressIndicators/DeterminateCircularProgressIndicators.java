@@ -7,14 +7,12 @@ package com.philips.platform.uit.components.progressindicators;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
-import com.philips.platform.uit.matcher.ProgressBarMatcher;
 import com.philips.platform.uit.utils.TestConstants;
 
 import org.junit.Before;
@@ -29,7 +27,6 @@ import static com.philips.platform.uit.test.R.color.GroupBlue45;
 import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
 
 public class DeterminateCircularProgressIndicators {
-
     private Context activityContext;
     private Context instrumentationContext;
 
@@ -84,45 +81,39 @@ public class DeterminateCircularProgressIndicators {
     }
 
     @Test
-    public void verifyDeterminateSmallCircularPBThickness() {
-        int expectedThickness = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_small_thickness);
+    public void verifyDeterminateSmallCircularPBThicknessRatio() {
         getSmallCircularProgressBar()
-                .check(matches(FunctionDrawableMatchers.isSameRingThickness(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), expectedThickness)));
+                .check(matches(FunctionDrawableMatchers.isSameRingThicknessRatio(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), TestConstants.CIRCULAR_SMALL_THICKNESS_RATIO)));
     }
 
     @Test
-    public void verifyDeterminateMediumCircularPBThickness() {
-        int expectedThickness = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_medium_thickness);
+    public void verifyDeterminateMediumCircularPBThicknessRatio() {
         getMiddleCircularProgressBar()
-                .check(matches(FunctionDrawableMatchers.isSameRingThickness(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), expectedThickness)));
+                .check(matches(FunctionDrawableMatchers.isSameRingThicknessRatio(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), TestConstants.CIRCULAR_MID_THICKNESS_RATIO)));
     }
 
     @Test
-    public void verifyDeterminateLargeCircularPBThickness() {
-        int expectedThickness = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_large_thickness);
+    public void verifyDeterminateLargeCircularPBThicknessRatio() {
         getLargeCircularProgressBar()
-                .check(matches(FunctionDrawableMatchers.isSameRingThickness(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), expectedThickness)));
+                .check(matches(FunctionDrawableMatchers.isSameRingThicknessRatio(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), TestConstants.CIRCULAR_LARGE_THICKNESS_RATIO)));
     }
 
     @Test
-    public void verifyDeterminateSmallCircularPBRadius() {
-        int expectedRadius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_small_radius);
+    public void verifyDeterminateSmallCircularPBRadiusRatio() {
         getSmallCircularProgressBar()
-                .check(matches(FunctionDrawableMatchers.isSameInnerRadius(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), expectedRadius)));
+                .check(matches(FunctionDrawableMatchers.isSameInnerRadiusRatio(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), TestConstants.CIRCULAR_SMALL_INNER_RADIUS_RATIO)));
     }
 
     @Test
-    public void verifyDeterminateMediumCircularPBRadius() {
-        int expectedRadius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_medium_radius);
+    public void verifyDeterminateMediumCircularPBRadiusRatio() {
         getMiddleCircularProgressBar()
-                .check(matches(FunctionDrawableMatchers.isSameInnerRadius(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), expectedRadius)));
+                .check(matches(FunctionDrawableMatchers.isSameInnerRadiusRatio(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), TestConstants.CIRCULAR_MID_INNER_RADIUS_RATIO)));
     }
 
     @Test
-    public void verifyDeterminateLargeCircularPBRadius() {
-        int expectedRadius = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.circularprogressbar_large_radius);
+    public void verifyDeterminateLargeCircularPBRadiusRatio() {
         getLargeCircularProgressBar()
-                .check(matches(FunctionDrawableMatchers.isSameInnerRadius(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), expectedRadius)));
+                .check(matches(FunctionDrawableMatchers.isSameInnerRadiusRatio(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, circularprogressID(), TestConstants.CIRCULAR_LARGE_INNER_RADIUS_RATIO)));
     }
 
     //*********************************Theming TestScenarios**************************//

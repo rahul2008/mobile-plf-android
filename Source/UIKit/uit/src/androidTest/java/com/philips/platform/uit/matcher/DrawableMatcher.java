@@ -144,27 +144,29 @@ public class DrawableMatcher {
         };
     }
 
-    public static Matcher<Drawable> isSameThickness(final int expectedValue) {
+    public static Matcher<Drawable> isSameThicknessRatio(final float expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                int actual = stateColors.getRingThickness();
+                int actual = (int) (stateColors.getRingThicknessRatio() * 100);
+                int expected = (int) (expectedValue *100);
                 setValues(String.valueOf(actual), String.valueOf(expectedValue));
-                return actual == expectedValue;
+                return actual == expected;
             }
         };
     }
 
-    public static Matcher<Drawable> isSameInnerRadius(final int expectedValue) {
+    public static Matcher<Drawable> isSameInnerRadiusRatio(final float expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                int actual = stateColors.getInnerRadius();
+                int actual = (int) (stateColors.getInnerRadiusRatio() * 100);
+                int expected = (int) (expectedValue *100);
                 setValues(String.valueOf(actual), String.valueOf(expectedValue));
-                return actual == expectedValue;
+                return actual == expected;
             }
         };
     }

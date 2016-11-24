@@ -18,8 +18,8 @@ public abstract class BaseStateColorsImpl implements GradientDrawableUtils.State
     private static final String CORNER_RADIUS = "mRadius";
     private static final String STROKE_WIDTH = "mStrokeWidth";
 
-    private static final String RING_THICKNESS = "mThickness";
-    private static final String RING_INNER_RADIUS = "mInnerRadius";
+    private static final String RING_THICKNESS_RATIO = "mThicknessRatio";
+    private static final String RING_INNER_RADIUS_RATIO = "mInnerRadiusRatio";
     private static final String STATE_COLORS = "mColors";
     private static final String STATE_COLORS_MARSHMALLOW_ABOVE = "mGradientColors";
 
@@ -61,13 +61,13 @@ public abstract class BaseStateColorsImpl implements GradientDrawableUtils.State
     }
 
     @Override
-    public int getInnerRadius() {
-        return UITTestUtils.getIntegerFieldValueFromReflection(getConstantStateForRadius(), RING_INNER_RADIUS);
+    public float getInnerRadiusRatio() {
+        return UITTestUtils.getFloatFieldValueFromReflection(getConstantStateForRadius(), RING_INNER_RADIUS_RATIO);
     }
 
     @Override
-    public int getRingThickness() {
-        return UITTestUtils.getIntegerFieldValueFromReflection(getConstantStateForRadius(), RING_THICKNESS);
+    public float getRingThicknessRatio() {
+        return UITTestUtils.getFloatFieldValueFromReflection(getConstantStateForRadius(), RING_THICKNESS_RATIO);
     }
 
     @Override
