@@ -69,7 +69,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    void addContents(List<ContentItem> serverContentItems, String serviceID, long expiryDate) {
+    protected void addContents(List<ContentItem> serverContentItems, String serviceID, long expiryDate) {
 
         List<ContentItem> databaseContents = getContentItems(serviceID);
         if (null != databaseContents && databaseContents.size() > 0) {
@@ -271,7 +271,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return ContentItemList;
     }
 
-    List<String> getAllContentIds(String serviceID) {
+    protected List<String> getAllContentIds(String serviceID) {
         ArrayList<String> Ids = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
         String getAllIDQuery = null;
@@ -292,7 +292,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return Ids;
     }
 
-    List<ContentItem> getContentById(String serviceID, String[] contentIDs) {
+    protected List<ContentItem> getContentById(String serviceID, String[] contentIDs) {
         List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
         SQLiteDatabase db = this.getWritableDatabase();
         String getContentByIdQuery = null;
@@ -330,7 +330,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    List<ContentItem> getContentByTagId(String serviceID, String[] tagIDs, String logicalGate) {
+    protected List<ContentItem> getContentByTagId(String serviceID, String[] tagIDs, String logicalGate) {
         List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
         SQLiteDatabase db = this.getWritableDatabase();
         String getContentByIdQuery = null;
@@ -381,15 +381,15 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-     long getContentLoaderServiceStateExpiry(String serviceID) {
+    protected long getContentLoaderServiceStateExpiry(String serviceID) {
         long expiryTime = 0l;
         SQLiteDatabase db = this.getWritableDatabase();
-        String getContentLoaderServiceStateExpiryQuery = "SELECT "+KEY_EXPIRE_TIMESTAMP+" FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID  + " = \"" + serviceID + "\"";
+        String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\"";
         Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, null);
         if (cursor.moveToFirst()) {
-            expiryTime=cursor.getLong(0);
+            expiryTime = cursor.getLong(0);
         }
-         cursor.close();
+        cursor.close();
         return expiryTime;
     }
 
@@ -403,10 +403,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return values;
     }
 
-    void clearCacheForContentLoader(String serviceID){
+    protected void clearCacheForContentLoader(String serviceID) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ CONTENT_LOADER_STATES +" WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\"");
-        db.execSQL("delete from "+ CONTENT_TABLE +" WHERE "+KEY_SERVICE_ID+" = \""+serviceID+"\"");
+        db.execSQL("delete from " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\"");
+        db.execSQL("delete from " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\"");
         db.close();
         Log.d("DEL SUC", "" + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
 

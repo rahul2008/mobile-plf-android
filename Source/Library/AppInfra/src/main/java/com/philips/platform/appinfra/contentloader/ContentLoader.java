@@ -113,7 +113,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     JSONObject serviceResponseJSON = (JSONObject) response; // cast object to org.json.JSONObject
                     JsonElement serviceResponseJson = gson.fromJson(serviceResponseJSON.toString(), JsonElement.class); // cast org.json.JSONObject to gson.JsonElement
                     Log.i("CL REFRSH RESP", "" + serviceResponseJson);
-                    if (mClassType.equals(ContentArticle.class)) { // if conent is ContentArticle
+                    if (mClassType.equals(ContentArticle.class)) { // if content is ContentArticle
                         if (serviceResponseJson.isJsonObject()) {
                             jsonObjectTree = serviceResponseJson.getAsJsonObject();
                             jsonObjectTree = jsonObjectTree.getAsJsonObject("result");
@@ -351,7 +351,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mParams.clear();
     }
 
-    String getOffsetPath(int offset) {
+   private String getOffsetPath(int offset) {
         //https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1
         //https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(100).json
         String path = ".offset.(" + offset + ").limit.(" + downloadLimit + ").json";
@@ -360,8 +360,18 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     private int getDownloadLimitFromConfig() {
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-        Integer contentLoaderLimit = (Integer) mAppInfra.getConfigInterface().getPropertyForKey("contentLoader.limitSize", "appinfra", configError);
-        return contentLoaderLimit;
+        if (mAppInfra.getConfigInterface() != null) {
+            try {
+                Object contentLoaderLimit = mAppInfra.getConfigInterface().getPropertyForKey("contentLoader.limitSize",
+                        "appinfra", configError);
+                if (contentLoaderLimit != null && contentLoaderLimit instanceof Integer)
+                        return (Integer) contentLoaderLimit;
+
+            } catch (IllegalArgumentException exception) {
+                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "ContentLoader", exception.toString());
+            }
+        }
+        return 0;
     }
 
 //    private void updateContentDatabase() {
