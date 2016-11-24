@@ -85,7 +85,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
         discoveryListener.onDiscoveryFinished();
     }
 
-    private void onApplianceDiscovered(@NonNull DeviceModel deviceModel) {
+    private void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
         final NetworkNode networkNode = createNetworkNode(deviceModel);
 
         if (networkNode == null) {
@@ -102,7 +102,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
         }
     }
 
-    private void onApplianceLost(@NonNull DeviceModel deviceModel) {
+    private void onDeviceLost(@NonNull DeviceModel deviceModel) {
         if (deviceModel.getSsdpDevice() == null) {
             return;
         }
@@ -317,10 +317,10 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
             LOCK.lock();
             switch (DiscoveryMessageID.getID(msg.what)) {
                 case DEVICE_DISCOVERED:
-                    onApplianceDiscovered(device);
+                    onDeviceDiscovered(device);
                     result = true;
                 case DEVICE_LOST:
-                    onApplianceLost(device);
+                    onDeviceLost(device);
                     result = true;
                 default:
                     break;
