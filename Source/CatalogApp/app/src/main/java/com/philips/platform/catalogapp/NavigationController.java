@@ -1,6 +1,8 @@
 package com.philips.platform.catalogapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,9 +42,11 @@ public class NavigationController {
     TextView title;
 
     private MainActivity mainActivity;
+    SharedPreferences fragmentPreference;
 
     public NavigationController(final MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+        fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
     }
 
     protected void processBackButton() {
@@ -52,6 +57,7 @@ public class NavigationController {
                 toggleHamburgerIcon();
             } else {
                 showHamburgerIcon();
+                storeFragmentInPreference(null);
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
@@ -128,8 +134,14 @@ public class NavigationController {
                 }
             }
         }
+
+        String tag = fragment.getClass().getName();
+        if (!(fragment instanceof ThemeSettingsFragment)) {
+            storeFragmentInPreference(tag);
+        }
+
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
-        transaction.replace(R.id.mainContainer, fragment, fragment.getClass().getName());
+        transaction.replace(R.id.mainContainer, fragment, tag);
         transaction.addToBackStack(null);
         transaction.commit();
         toggle(themeSettingsIcon, setThemeTextView);
@@ -191,6 +203,8 @@ public class NavigationController {
 
             initDemoListFragment();
             mainActivity.setTitle(R.string.catalog_app_name);
+
+            restoreLastActiveFragment();
         } else {
             showUiFromPreviousState(savedInstanceState);
         }
@@ -217,5 +231,29 @@ public class NavigationController {
 
     public void showThemeSettings() {
         toggle(themeSettingsIcon, setThemeTextView);
+    }
+
+    private void storeFragmentInPreference(String fragmentTag) {
+        fragmentPreference.edit().putString("activeFragment", fragmentTag).commit();
+    }
+
+    private String getLastActiveFragmentName() {
+        return fragmentPreference.getString("activeFragment", null);
+    }
+
+    private void restoreLastActiveFragment() {
+        if (getLastActiveFragmentName() != null) {
+            String fragmentName = getLastActiveFragmentName();
+            try {
+                Class<BaseFragment> fragmentClass = (Class<BaseFragment>) Class.forName(fragmentName);
+                switchFragment(fragmentClass.newInstance());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
