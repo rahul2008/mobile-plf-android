@@ -70,7 +70,7 @@ public class MomentsDataFetcher extends DataFetcher {
                 UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
                         accessProvider.getUserId(), momentsLastSyncUrl);
 
-               // accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
+                accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
                 List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
                 if (uCoreMoments != null && uCoreMoments.size() <= 0) {

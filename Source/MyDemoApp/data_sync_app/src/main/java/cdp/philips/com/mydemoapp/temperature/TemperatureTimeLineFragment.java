@@ -77,7 +77,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-       // setUpBackendSynchronizationLoop();
+        setUpBackendSynchronizationLoop();
     }
 
     @Override
