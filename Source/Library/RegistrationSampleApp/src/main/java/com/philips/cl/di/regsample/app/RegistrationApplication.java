@@ -54,7 +54,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.TESTING);
+            initRegistration(Configuration.DEVELOPMENT);
         }
     }
 
@@ -65,22 +65,6 @@ public class RegistrationApplication extends Application {
         if(mAppInfraInterface == null){
             mAppInfraInterface = new AppInfra.Builder().build(this);
         }
-        //Need to work
-    /*    AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-
-            }
-        });
-*/
-
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();

@@ -219,10 +219,9 @@ public class CaptureJsonUtils {
             throw new InvalidApidChangeException("Can't add new keys to JSONObjects. New keys: " +
                     newKeys.toString());
         }
-
         if (goneKeys.size() > 0) {
-            throw new InvalidApidChangeException("Cannot delete keys from JSONObjects. Removed " +
-                    "keys: " + goneKeys.toString());
+            //throw new InvalidApidChangeException("Cannot delete keys from JSONObjects. Removed " +
+                //    "keys: " + goneKeys.toString());
         }
 
         SortedSet<String> intersectionKeys = new TreeSet<String>(originalKeys);
