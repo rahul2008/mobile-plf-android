@@ -13,14 +13,20 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class AppConfigurationActivity extends AppCompatActivity {
 
     AppConfigurationInterface mConfigInterface;
     private Spinner dataTypeSpinner;
-    final String[] dataType = {"String", "Integer"};
+    final String[] dataType = {"String", "Integer", "Map of <String,String>/<String,Integer>"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,11 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                     Object object = null;
                     try {
-                        object = mConfigInterface.getPropertyForKey(getKeyET.getText().toString(), getGroupKeyET.getText().toString(),  configError);
+                        object = mConfigInterface.getPropertyForKey(getKeyET.getText().toString(), getGroupKeyET.getText().toString(), configError);
+                        if (object instanceof Map) {
+                            int h = 10;
+                        }
+                        int y = 10;
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
@@ -108,7 +118,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                     Object object = null;
                     try {
-                        object = mConfigInterface.getDefaultPropertyForKey(getKeyETDef.getText().toString(), getGroupKeyETDef.getText().toString(),  configError);
+                        object = mConfigInterface.getDefaultPropertyForKey(getKeyETDef.getText().toString(), getGroupKeyETDef.getText().toString(), configError);
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
@@ -126,7 +136,6 @@ public class AppConfigurationActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         final EditText setGroupKeyET = (EditText) findViewById(R.id.setGroupKeyID);
@@ -168,7 +177,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                             } else {
                                 value = enteredValue;
                             }
-                        } else {// if input data is Integer type
+                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Integer")) {// if input data is Integer type
 
 
                             if (enteredValue.contains(",")) {
@@ -188,7 +197,13 @@ public class AppConfigurationActivity extends AppCompatActivity {
                                 value = singleInteger;
                             }
 
+                        } else if (dataTypeSpinner.getSelectedItem().toString().equalsIgnoreCase("Map of <String,String>/<String,Integer>")) {// if input data is Map<String,String>
+                            JSONObject jObject = new JSONObject(enteredValue); // json
 
+                            Map hmS = jsonToMap(jObject);
+                            // hmS.put("Key1", "value1");
+                            // hmS.put("Key2", "value2");
+                            value = hmS;
                         }
                     } catch (Exception e) {
                         isInputDataValid = false; // if parsing String and Integer fails
@@ -197,7 +212,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                         boolean success = false;
                         try {
-                            success = mConfigInterface.setPropertyForKey(setKeyET.getText().toString(), setGroupKeyET.getText().toString(),  value, configError);
+                            success = mConfigInterface.setPropertyForKey(setKeyET.getText().toString(), setGroupKeyET.getText().toString(), value, configError);
                         } catch (IllegalArgumentException e) {
                             e.printStackTrace();
                         }
@@ -218,4 +233,16 @@ public class AppConfigurationActivity extends AppCompatActivity {
         });
     }
 
+    private Map jsonToMap(Object JSON) throws JSONException {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        JSONObject jObject = new JSONObject(JSON.toString());
+        Iterator<?> keys = jObject.keys();
+
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            Object value = jObject.get(key);
+            map.put(key, value);
+        }
+        return map;
+    }
 }

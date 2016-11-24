@@ -209,7 +209,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
             case 11:
                 Intent contentLoaderActivity = new Intent(AppInfraMainActivity.this,
-                        ContentLoaderActivity.class);
+                        ContentLoaderCreateActivity.class);
                 startActivity(contentLoaderActivity);
                 break;
         }

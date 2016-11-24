@@ -1,66 +1,44 @@
-/* Copyright (c) Koninklijke Philips N.V. 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
 package com.philips.platform.appinfra.rest.request;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
-import com.android.volley.toolbox.HttpHeaderParser;
+import com.philips.platform.appinfra.rest.RestManager;
+import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
+import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
+/**
+ * Created by 310243577 on 11/3/2016.
+ */
 
-public class StringRequest extends Request<String> {
-    private final Response.Listener<String> mListener;
+public class StringRequest extends com.android.volley.toolbox.StringRequest {
+    private Map<String, String> mHeader;
+    private TokenProviderInterface mProvider;
 
-    /**
-     * Creates a new request with the given method.
-     *
-     * @param method        the request {@link com.android.volley.Request.Method} to use
-     * @param url           URL to fetch the string at
-     * @param listener      Listener to receive the String response
-     * @param errorListener Error listener, or null to ignore errors
-     */
     public StringRequest(int method, String url, Response.Listener<String> listener,
-                         Response.ErrorListener errorListener) throws HttpForbiddenException {
-        super(method, url, errorListener);
-        if(!url.contains("https")){
-            throw new HttpForbiddenException();
-        }
-
-        mListener = listener;
+                         Response.ErrorListener errorListener, Map<String, String> header,
+                         TokenProviderInterface tokenProviderInterface) {
+        super(method, url, listener, errorListener);
+        this.mProvider = tokenProviderInterface;
+        this.mHeader = header;
     }
 
-    /**
-     * Creates a new GET request.
-     *
-     * @param url           URL to fetch the string at
-     * @param listener      Listener to receive the String response
-     * @param errorListener Error listener, or null to ignore errors
-     */
-    public StringRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) throws HttpForbiddenException{
-        this(Method.GET, url, listener, errorListener) ;
-        if(!url.contains("https")){
-            throw new HttpForbiddenException();
-        }
+
+    public StringRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
+                         String urlExtension, Response.Listener<String> listener,
+                         Response.ErrorListener errorListener) {
+        super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), listener,
+                errorListener);
     }
 
     @Override
-    protected void deliverResponse(String response) {
-        mListener.onResponse(response);
-    }
-
-    @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        String parsed;
-        try {
-            parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-        } catch (UnsupportedEncodingException e) {
-            parsed = new String(response.data);
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        if (mProvider != null) {
+            Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+            mHeader.putAll(tokenHeader);
+            return mHeader;
         }
-        return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+        return super.getHeaders();
     }
 }
