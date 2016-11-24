@@ -419,23 +419,32 @@ public class User {
             return false;
         }
 
+
+        boolean isEmailVerificationRequired  = RegistrationConfiguration.getInstance().
+                isEmailVerificationRequired();
+        boolean isHsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
+        boolean isAcceptTerms = RegistrationConfiguration.getInstance().
+                isTermsAndConditionsAcceptanceRequired();
+
         boolean signedIn = true;
-        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            signedIn = signedIn &&  (!capturedRecord.isNull(USER_EMAIL_VERIFIED)||!capturedRecord.isNull(USER_MOBILE_VERIFIED));
+        if (isEmailVerificationRequired) {
+            signedIn = !capturedRecord.isNull(USER_EMAIL_VERIFIED) ||
+                    !capturedRecord.isNull(USER_MOBILE_VERIFIED);
         }
-        if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
-            if (!RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+        if (isHsdpFlow) {
+            if (!isEmailVerificationRequired) {
                 throw new RuntimeException("Please set emailVerificationRequired field as true");
             }
             HsdpUser hsdpUser = new HsdpUser(mContext);
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
         }
-        if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.getConfiguration(
+        if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.
+                getConfiguration(
                 RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
         }
 
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+        if (isAcceptTerms) {
             boolean isTermAccepted;
             if (FieldsValidator.isValidEmail(getEmail())){
                 isTermAccepted = RegPreferenceUtility.getStoredState(mContext, getEmail());
@@ -447,8 +456,6 @@ public class User {
                 clearData();
             }
         }
-
-
         return signedIn;
     }
 

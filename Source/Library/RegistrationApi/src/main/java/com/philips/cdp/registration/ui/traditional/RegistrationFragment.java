@@ -38,7 +38,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -247,17 +246,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
+        boolean isUserSignIn = mUser.isUserSignIn();
+        boolean isEmailVerified = mUser.getEmailVerificationStatus();
+        boolean isEmailVerificationRequired  =RegistrationConfiguration.
+                getInstance().isEmailVerificationRequired();
+
         if (isAccountSettings) {
-            if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
-                        getAppInfraInstance().getTagging();
+            if ( isUserSignIn&& isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
             }
 
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().
-                    isEmailVerificationRequired()) {
+            if (isUserSignIn && !isEmailVerificationRequired) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -265,16 +266,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         } else {
-            if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
-                        getAppInfraInstance().getTagging();
+            if (isUserSignIn && isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                // replaceWithLogoutFragment();
-                //replace with welcome
                 replaceWithWelcomeFragment();
                 return;
             }
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+            if (isUserSignIn && !isEmailVerificationRequired) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;
@@ -282,7 +279,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         }
-
     }
 
     private void trackPage(String currPage) {

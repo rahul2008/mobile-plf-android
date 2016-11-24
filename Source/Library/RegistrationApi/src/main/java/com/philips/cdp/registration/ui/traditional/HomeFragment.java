@@ -76,8 +76,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private TextView mTvWelcomeDesc;
 
-    private TextView mTvRegSign;
-
     private TextView mTvTermsAndConditionDesc;
 
     private TextView mTvWelcomeNeedAccount;
@@ -301,26 +299,21 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mTvTermsAndConditionDesc.setVisibility(View.GONE);
         }
         mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_terms_and_condition);
-        mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
         mLlCreateBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
         mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_create_account);
         mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
-     //   mTvRegSign= (TextView) view.findViewById(R.id.tv_reg_or_sign_with);
-     //   mTvRegSign.setText(getString(R.string.reg_Create_With_lbltxt));
-       // mBtnCreateAccount.setText(getString(R.string.reg_Create_Account_CreateMyPhilips_btntxt));
         mBtnCreateAccount.setOnClickListener(this);
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
-    //    mBtnMyPhilips.setProviderName(R.string.reg_myphilips);
         mBtnMyPhilips.setOnClickListener(this);
         mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
         mCountryDisplayy.setOnClickListener(this);
-        TextView mTvContent = (TextView) view.findViewById(R.id.tv_reg_create_account);
-      //  mTvContent.setText(getString(R.string.Welcome_needAccountto_lbltxt));
-        if (mTvContent.getText().toString().trim().length() > 0) {
-            mTvContent.setVisibility(View.VISIBLE);
+
+        mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
+        if (mTvWelcomeNeedAccount.getText().toString().trim().length() > 0) {
+            mTvWelcomeNeedAccount.setVisibility(View.VISIBLE);
         } else {
-            mTvContent.setVisibility(View.GONE);
+            mTvWelcomeNeedAccount.setVisibility(View.GONE);
         }
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbJanrainInit = (ProgressBar) view.findViewById(R.id.pb_reg_janrain_init);
@@ -349,17 +342,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         });
     }
 
-//    private void handleJanrainInitPb() {
-//        if (NetworkUtility.isNetworkAvailable(mContext)
-//                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-//            mPbJanrainInit.setVisibility(View.GONE);
-//        } else if (NetworkUtility.isNetworkAvailable(mContext)
-//                && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-//            mPbJanrainInit.setVisibility(View.VISIBLE);
-//        } else {
-//            mPbJanrainInit.setVisibility(View.GONE);
-//        }
-//    }
     @Override
     public void onClick(View v) {
         /**
@@ -388,7 +370,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                 }
             });
-
             picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
        }
     }
@@ -400,7 +381,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
-            serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            serviceDiscoveryInterface.getServiceLocaleWithCountryPreference(
+                    "userreg.janrain.api", new ServiceDiscoveryInterface.
+                            OnGetServiceLocaleListener() {
                 @Override
                 public void onSuccess(String s) {
                     System.out.println("STRING S : " + s);
@@ -410,7 +393,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     RegistrationHelper.getInstance().initializeUserRegistration(mContext);
                     System.out.println("Change Country code :"+RegistrationHelper.getInstance().getCountryCode());
                     handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-                  //  refreshContant();
                 }
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
@@ -419,22 +401,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             });
         }
     }
-
-    private void refreshContant() {
-        setCustomLocale();
-      //  onResume();
-       // initUI(getView());
-    }
+    int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
 
     private void launchSignInFragment() {
         trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
-//        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
-//            getRegistrationFragment().addFragment(new MobileSignInAccountFragment());
-//        }else {
-        // getRegistrationFragment().addFragment(new SignInAccountFragment());
-//        }
-
-
         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             getRegistrationFragment().addFragment(new SignInAccountFragment());
             return;
@@ -445,8 +415,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
-
-    int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
 
     private void launchCreateAccountFragment() {
         trackPage(AppTaggingPages.CREATE_ACCOUNT);
@@ -488,7 +456,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
                 return;
             }
-          //  showProgressDialog();
             mFlowId = 3;
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
@@ -517,38 +484,30 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived isHomeFragment :onEventReceived is : " + event);
+        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived" +
+                " isHomeFragment :onEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            //Navigate to next action
             hideProgressDialog();
             if (mFlowId == 1) {
                 getRegistrationFragment().addFragment(new CreateAccountFragment());
+                mFlowId = 0;
+                return;
             }
-
             if (mFlowId == 2) {
                 getRegistrationFragment().addFragment(new SignInAccountFragment());
+                mFlowId = 0;
+                return;
             }
-
             if (mFlowId == 3) {
                 mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
+                mFlowId = 0;
             }
-
-            mFlowId = 0;
-
-            // handleJanrainInitPb();
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
             makeProgressInvisible();
             hideProgressDialog();
             mFlowId = 0;
-            //dismiss dialog
-            // enableControls(false);
-            // handleJanrainInitPb();
         }
     }
-
-//    private void handleSocialProvider() {
-//        handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-//    }
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -610,7 +569,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 privacy.toLowerCase());
 
 
-        spanableString.setSpan(privacyClickListener, privacyStartIndex, privacyStartIndex + privacy.length(),
+        spanableString.setSpan(privacyClickListener, privacyStartIndex, privacyStartIndex +
+                privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
@@ -628,7 +588,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
         pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
                 R.color.reg_hyperlink_highlight_color));
-        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(),
+                android.R.color.transparent));
     }
 
     private ClickableSpan privacyClickListener = new ClickableSpan() {
@@ -651,7 +612,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linifyPrivercyPolicyOnly(TextView pTvPrivacyPolicy) {
         String privacyPolicyText = getString(R.string.LegalNoticeForPrivacy);
-        privacyPolicyText = String.format(privacyPolicyText, getString(R.string.reg_PrivacyNoticeText));
+        privacyPolicyText = String.format(privacyPolicyText,
+                getString(R.string.reg_PrivacyNoticeText));
         mTvWelcomeDesc.setText(privacyPolicyText);
 
         String privacy = mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
@@ -660,7 +622,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
                 privacy.toLowerCase());
 
-        spanableString.setSpan(privacyClickListener, privacyStartIndex, privacyStartIndex + privacy.length(),
+        spanableString.setSpan(privacyClickListener, privacyStartIndex,
+                privacyStartIndex + privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         removeUnderlineFromLink(spanableString);
@@ -669,7 +632,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
         pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
                 R.color.reg_hyperlink_highlight_color));
-        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(),
+                android.R.color.transparent));
     }
 
     private void removeUnderlineFromLink(SpannableString spanableString) {
@@ -692,13 +656,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             }, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
         }
     }
-
-//    private void setAlphaForView(View view, float alpha) {
-//        AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
-//        animation.setDuration(0);
-//        animation.setFillAfter(true);
-//        view.startAnimation(animation);
-//    }
 
     private void handlePrivacyPolicy() {
         getRegistrationFragment().getUserRegistrationUIEventListener().
@@ -723,8 +680,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
-
-        //trackSocialProviderPage();
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
         hideProviderProgress();
         enableControls(true);
@@ -737,7 +692,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             } else {
                 getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
             }
-
         }
     }
 
@@ -752,7 +706,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         } else {
             emailorMobile = mUser.getMobile();
         }
-        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailorMobile)) {
+        if (emailorMobile != null && RegistrationConfiguration.getInstance().
+                isTermsAndConditionsAcceptanceRequired() &&
+                !RegPreferenceUtility.getStoredState(mContext, emailorMobile)) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
@@ -781,13 +737,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             providerButton.hideProgressBar();
         }
     }
-//
-//    private void showProviderProgress() {
-//        if (null != getView().findViewWithTag(mProvider)) {
-//            XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
-//            providerButton.showProgressBar();
-//        }
-//    }
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -799,8 +748,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         });
     }
 
-    private void handleLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" + userRegistrationFailureInfo.getErrorCode());
+    private void handleLoginFailedWithError(UserRegistrationFailureInfo
+                                                    userRegistrationFailureInfo) {
+        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" +
+                userRegistrationFailureInfo.getErrorCode());
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
@@ -812,14 +763,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
                                               final String socialRegistrationToken) {
-
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
                 RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
                 hideProviderProgress();
                 enableControls(true);
-                RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :" + prefilledRecord);
+                RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
+                        + prefilledRecord);
                 launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
             }
         });
