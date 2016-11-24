@@ -77,7 +77,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
- testRunner.Then("I log in with the email \"datacore@mailinator.com\" and password \"Philips@123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I log in with the email \'datacore@mailinator.com\' and password \'Philips@123\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
  testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
