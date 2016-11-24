@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.philips.platform.uit.DialogTestFragment;
 import com.philips.platform.uit.activity.BaseTestActivity;
+import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
@@ -31,6 +32,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.Gray65;
 import static com.philips.platform.uit.test.R.color.Gray75;
+import static com.philips.platform.uit.test.R.color.White;
 import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
 
 public class AlertTest {
@@ -57,12 +59,6 @@ public class AlertTest {
     public void verifyAlertWidth() {
         int expectedWidth = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_width));
         getAlert().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
-    }
-
-    // TODO: 11/9/2016 Not implemented
-    @Test
-    public void verifyAlertCornerRadius() {
-
     }
 
     /******************************
@@ -218,24 +214,6 @@ public class AlertTest {
     /*******************************************************
      * Theming Scenarios for Alert
      ******************************************************/
-
-    // TODO: 11/9/2016
-    @Test
-    public void verifyFillColorofAlert() {
-//        final int expectedFillColor = ContextCompat.getColor(instrumentationContext, White);
-//        getAlert().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, -android.R.attr.enabled, expectedFillColor)));
-    }
-
-    private String alertFunction() {
-        return TestConstants.FUNCTION_GET_UID_ALERT;
-    }
-
-    // TODO: 11/9/2016 Not implemented
-    @Test
-    public void verifyShadowColorofAlert() {
-        final int shadowColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#000000"), 0.20f);
-    }
-
     @Test
     public void verifyTextColorofAlertTitle() {
         final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray75);
@@ -246,12 +224,6 @@ public class AlertTest {
     public void verifyTextColorofAlertContent() {
         final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray65);
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
-    }
-
-    // TODO: 11/9/2016 Not implemented
-    @Test
-    public void verifyColorofDimLayer() {
-        final int expecteddimLayerColor = UITTestUtils.modulateColorAlpha(Color.parseColor("#0A0C1E"), 0.80f);
     }
 
     private ViewInteraction getAlert() {
@@ -285,5 +257,7 @@ public class AlertTest {
     private ViewInteraction getAlertConfirmativeButton() {
         return onView(withId(com.philips.platform.uit.test.R.id.uid_alert_positive_button));
     }
+
+
 }
 
