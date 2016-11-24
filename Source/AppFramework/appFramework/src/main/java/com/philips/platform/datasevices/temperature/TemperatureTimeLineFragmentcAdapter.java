@@ -26,18 +26,16 @@ import java.util.List;
 
 public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<? extends Moment> mData;
-    Context mContext;
+    private Context mContext;
     private Drawable mOptionsDrawable;
 
 
-    DataServicesManager mDataServices;
-    private final TemperaturePresenter mTemperaturePresenter;
+    private TemperaturePresenter mTemperaturePresenter;
 
 
     public TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data, TemperaturePresenter mTemperaturePresenter) {
 
         this.mTemperaturePresenter = mTemperaturePresenter;
-        mDataServices = DataServicesManager.getInstance();
         mData = data;
         mContext = context;
         initDrawables();
@@ -56,7 +54,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
             TemperatureMomentHelper helper = new TemperatureMomentHelper();
-            Moment moment = (OrmMoment) mData.get(position);
+            Moment moment = mData.get(position);
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
@@ -81,8 +79,8 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
     public class DataSyncViewHolder extends RecyclerView.ViewHolder {
         public TextView mTemperature;
-        public  TextView mPhase;
-        public  TextView mLocation;
+        public TextView mPhase;
+        public TextView mLocation;
         public ImageView mOptions;
         public FrameLayout mDotsLayout;
         public TextView mIsSynced;
@@ -92,7 +90,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mTemperature = (TextView) itemView.findViewById(R.id.time_line_data);
             mPhase = (TextView) itemView.findViewById(R.id.phasedata);
             mLocation = (TextView) itemView.findViewById(R.id.location_detail);
-            mOptions = (ImageView)itemView.findViewById(R.id.dots);
+            mOptions = (ImageView) itemView.findViewById(R.id.dots);
             mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             mIsSynced = (TextView) itemView.findViewById(R.id.is_synced);
         }

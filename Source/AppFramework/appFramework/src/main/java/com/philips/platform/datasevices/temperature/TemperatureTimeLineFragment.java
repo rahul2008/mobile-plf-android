@@ -52,6 +52,7 @@ import com.philips.platform.datasevices.registration.UserRegistrationFacadeImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import static android.content.Context.ALARM_SERVICE;
 
 /**
@@ -77,7 +78,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+
     }
 
     @Override
@@ -87,16 +88,25 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
+        init();
         setUpBackendSynchronizationLoop();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+        cancelPendingIntent();
+        mDataServicesManager.stopCore();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,7 +121,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvSetCosents.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(getActivity());
-        mTemperaturePresenter.fetchData();
         return view;
     }
 
@@ -127,6 +136,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
+        mTemperaturePresenter.fetchData();
 
     }
 
@@ -188,9 +198,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        cancelPendingIntent();
-        mDataServicesManager.stopCore();
     }
 
     @Override
@@ -246,11 +253,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 }
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private void showProgressDialog() {
