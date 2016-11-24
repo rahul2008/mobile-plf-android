@@ -69,7 +69,7 @@ public class NavigationController {
         final ThemeSettingsFragment themeSettingsFragment = new ThemeSettingsFragment();
         final boolean switchedFragment = switchFragment(themeSettingsFragment);
         if (switchedFragment) {
-            mainActivity.setTitle(R.string.page_tittle_theme_settings);
+            mainActivity.setTitle(R.string.page_title_theme_settings);
 
             themeSettingsIconVisible(false);
         }
@@ -140,8 +140,6 @@ public class NavigationController {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
         ButterKnife.bind(this, mainActivity);
         mainActivity.setSupportActionBar(toolbar);
-        //To disable toolbar title and use custom title textview
-        // mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         final Resources resources = mainActivity.getResources();
         toolbar.setTitleMargin(resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginTop(), resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginBottom());
@@ -159,13 +157,12 @@ public class NavigationController {
     }
 
     public void onPrepareOptionsMenu(final Menu menu, final MainActivity mainActivity) {
-        themeSetting = menu.findItem(R.id.theme_settings);
-        setTheme = menu.findItem(R.id.set_theme_settings);
+        themeSetting = menu.findItem(R.id.menu_theme_settings);
+        setTheme = menu.findItem(R.id.menu_set_theme_settings);
     }
 
     public void setTitleText(final int titleId) {
         toolbar.setTitle(titleId);
-        //((TextView)toolbar.findViewById(R.id.toolbar_title)).setText(titleId);
     }
 
     //Needed only untill we have hamburger

@@ -26,12 +26,12 @@
     <string name="buttons_text_secondary">Secondary button</string>
     <string name="set_theme_settings">Set</string>
 
-    <string name="page_tittle_theme_settings">Theme Setting</string>
-    <string name="page_tittle_preview">Preview</string>
-    <string name="page_tittle_buttons">Buttons</string>
-    <string name="page_tittle_textbox">TextBox</string>
-    <string name="page_tittle_settings">Settings</string>
-    <string name="page_tittle_alertDialog">Alert</string>
+    <string name="page_title_theme_settings">Theme Setting</string>
+    <string name="page_title_preview">Preview</string>
+    <string name="page_title_buttons">Buttons</string>
+    <string name="page_title_textbox">TextBox</string>
+    <string name="page_title_settings">Settings</string>
+    <string name="page_title_alertDialog">Alert</string>
 
     <string name="hint_text">Hint text</string>
     <string name="hamburger_menu">Hamburger</string>

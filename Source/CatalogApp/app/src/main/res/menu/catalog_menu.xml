@@ -4,12 +4,12 @@
       xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/theme_settings"
+        android:id="@+id/menu_theme_settings"
         android:icon="@drawable/ic_theme_setting_entrance_icon"
-        android:title="@string/page_tittle_theme_settings"
+        android:title="@string/page_title_theme_settings"
         app:showAsAction="ifRoom"></item>
     <item
-        android:id="@+id/set_theme_settings"
+        android:id="@+id/menu_set_theme_settings"
         android:title="@string/set_theme_settings"
         android:visible="false"
         app:showAsAction="ifRoom"></item>

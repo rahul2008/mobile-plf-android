@@ -51,7 +51,7 @@ public class PreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        setTitle(R.string.page_tittle_preview);
+        setTitle(R.string.page_title_preview);
 
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_back_icon, getTheme()));
 

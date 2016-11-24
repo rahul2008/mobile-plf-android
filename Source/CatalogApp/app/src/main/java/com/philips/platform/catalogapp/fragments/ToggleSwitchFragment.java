@@ -22,6 +22,6 @@ public class ToggleSwitchFragment extends BaseFragment {
 
     @Override
     public int getPageTitle() {
-        return R.string.page_tittle_settings;
+        return R.string.page_title_settings;
     }
 }

@@ -147,8 +147,8 @@ public class ThemeSettingsFragment extends BaseFragment {
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.set_theme_settings).setVisible(true);
-        menu.findItem(R.id.theme_settings).setVisible(false);
+        menu.findItem(R.id.menu_set_theme_settings).setVisible(true);
+        menu.findItem(R.id.menu_theme_settings).setVisible(false);
     }
 
     @NonNull
@@ -257,7 +257,7 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @Override
     public int getPageTitle() {
-        return R.string.page_tittle_theme_settings;
+        return R.string.page_title_theme_settings;
     }
 }
 

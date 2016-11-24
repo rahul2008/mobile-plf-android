@@ -48,10 +48,10 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
 
     private Map<Integer, String> getDemoItems() {
         itemsMap = new LinkedHashMap<Integer, String>();
-        itemsMap.put(0, getString(R.string.page_tittle_buttons));
-        itemsMap.put(1, getString(R.string.page_tittle_textbox));
-        itemsMap.put(2, getString(R.string.page_tittle_settings));
-        itemsMap.put(3, getString(R.string.page_tittle_alertDialog));
+        itemsMap.put(0, getString(R.string.page_title_buttons));
+        itemsMap.put(1, getString(R.string.page_title_textbox));
+        itemsMap.put(2, getString(R.string.page_title_settings));
+        itemsMap.put(3, getString(R.string.page_title_alertDialog));
         itemsMap.put(4, getString(R.string.label_title_text));
         return sortMap(itemsMap);
     }

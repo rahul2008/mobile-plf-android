@@ -124,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.theme_settings:
+            case R.id.menu_theme_settings:
                 navigationController.loadThemeSettingsPage();
                 break;
-            case R.id.set_theme_settings:
+            case R.id.menu_set_theme_settings:
                 saveThemeSettings();
                 restartActivity();
                 break;
