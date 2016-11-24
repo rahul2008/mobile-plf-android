@@ -12,7 +12,6 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +19,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -98,15 +103,32 @@ public class OAuthControllerTest {
         assertTrue(mOAuthController.isInvalidGrantError(new VolleyError(networkResponse)));
     }
 
-    @Test(expected = JSONException.class)
+    @Test
     public void isInvalidGrantErrorExceptionResponse() throws Exception {
-        JSONObject obj = new JSONObject(TestUtils.readFile(OAuthControllerTest.class, "json_exception.txt"));
-        NetworkResponse networkResponse = new NetworkResponse(obj.toString().getBytes("utf-8"));
-        assertTrue(mOAuthController.isInvalidGrantError(new VolleyError(networkResponse)));
+        NetworkResponse networkResponse = new NetworkResponse(fileToByteArray("C:\\Users\\310228564\\InAppGit\\Source\\Library\\iap\\src\\test\\java\\com\\philips\\cdp\\di\\iap\\session\\json_syntax_exception.txt"));
+        mOAuthController.isInvalidGrantError(new VolleyError(networkResponse));
     }
 
     @Test
     public void isInvalidGrantErrorNotSuccessResponse() throws Exception {
         assertFalse(mOAuthController.isInvalidGrantError(new VolleyError()));
+    }
+
+    private byte[] fileToByteArray(String path) {
+        File file = new File(path);
+        byte[] byteArray = null;
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024 * 8];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(b)) != -1) {
+                bos.write(b, 0, bytesRead);
+            }
+            byteArray = bos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return byteArray;
     }
 }

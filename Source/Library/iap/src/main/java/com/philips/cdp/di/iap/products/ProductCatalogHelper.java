@@ -134,7 +134,7 @@ public class ProductCatalogHelper {
         storeData(data);
     }
 
-    private ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
+    protected ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
         ArrayList<String> productCodes = new ArrayList<>();
         for (ProductCatalogData entry : data) {
             productCodes.add(entry.getCtnNumber());
