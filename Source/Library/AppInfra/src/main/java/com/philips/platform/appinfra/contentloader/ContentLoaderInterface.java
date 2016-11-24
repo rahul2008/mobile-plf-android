@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ContentLoaderInterface<Content extends ContentInterface> {
     enum STATE {NOT_INITIALIZED, INITIALIZING, CACHED_DATA_AVAILABLE, CACHED_DATA_OUTDATED, REFRESHING, CONFIGURATION_ERROR};
-    enum ERROR {CONFIGURATION_ERROR, SERVER_UNAVAILABLE, SERVER_ERROR, DOWNLOAD_IN_PROGRESS};
+    enum ERROR {CONFIGURATION_ERROR, SERVER_UNAVAILABLE, SERVER_ERROR, DOWNLOAD_IN_PROGRESS,DATABASE_ERROR,NO_DATA_FOUND_IN_DB};
     enum OPERATOR {AND, OR};
 
     interface OnResultListener<Result> {
@@ -38,7 +38,7 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
     void refresh(OnRefreshListener refreshListener);
 
     /**
-     * Remove all cached content
+     * Remove all cached content of given content loader
      */
     void clearCache();
 
@@ -75,4 +75,5 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
      * Returns list of Content objects that have the at least one (OR) or all (AND) given tag IDs set
      */
     void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener);
+
 }

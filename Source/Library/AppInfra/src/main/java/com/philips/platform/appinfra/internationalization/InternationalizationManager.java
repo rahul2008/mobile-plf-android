@@ -14,12 +14,8 @@ import java.util.Locale;
 
 public class InternationalizationManager implements InternationalizationInterface {
 
-    AppInfra mAppInfra;
-    Context context;
-
     public InternationalizationManager(AppInfra aAppInfra) {
-        mAppInfra = aAppInfra;
-        context = mAppInfra.getAppInfraContext();
+        Context context = aAppInfra.getAppInfraContext();
 //        monCountryResponse = this;
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
@@ -29,6 +25,12 @@ public class InternationalizationManager implements InternationalizationInterfac
     @Override
     public Locale getUILocale() {
         return Locale.getDefault();
+    }
+
+    @Override
+    public String getUILocaleString() {
+        Locale mLocale = Locale.getDefault();
+        return mLocale.getLanguage() + "_" + mLocale.getCountry();
     }
 
 //    @Override
