@@ -64,8 +64,6 @@
         <item name="uitDialogDimSubtleLayerAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitDialogDimStrongColorAlpha">@dimen/uit_alpha_per_80</item>
 
-        <item name="uidProgressBarCircularEndColor">?attr/uitControlPrimaryEnabledColor</item>
-        
         <item name="uidTextPrimary">@color/uitColorWhite</item>
         <item name="uidTextSecondary">?attr/uitColorLevel05</item>
 

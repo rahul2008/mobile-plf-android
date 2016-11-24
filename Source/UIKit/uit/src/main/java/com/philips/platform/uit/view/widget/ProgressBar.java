@@ -14,7 +14,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 
@@ -25,8 +24,8 @@ public class ProgressBar extends android.widget.ProgressBar {
 
     public enum CircularProgressBarSize {SMALL, MIDDLE, BIG}
 
-    @NonNull
     private boolean isLinearProgressBarEnabled = false;
+    private int indeterminateCircularEndColor = Color.BLACK;
 
     public ProgressBar(final Context context) {
         this(context, null);
@@ -48,6 +47,7 @@ public class ProgressBar extends android.widget.ProgressBar {
     private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.UIDProgressBarHorizontalDeterminate);
         isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressBar_uidLinearProgressBar, false);
+        indeterminateCircularEndColor = obtainStyledAttributes.getColor(R.styleable.UIDProgressBar_uidProgressBarCircularEndColor, indeterminateCircularEndColor);
         obtainStyledAttributes.recycle();
     }
 
@@ -124,17 +124,7 @@ public class ProgressBar extends android.widget.ProgressBar {
         GradientDrawable gradientDrawable = (GradientDrawable) progress.getDrawable();
         gradientDrawable.setGradientType(GradientDrawable.SWEEP_GRADIENT);
 
-        int startColor = ContextCompat.getColor(getContext(), android.R.color.transparent);
-        int endcolor = obtainCircularEndColorFromStyle(theme);
-
-        gradientDrawable.setColors(new int[]{startColor, endcolor});
-    }
-
-    private int obtainCircularEndColorFromStyle(final Theme theme) {
-        final TypedArray typedArray = theme.obtainStyledAttributes(R.styleable.UIDProgressBar);
-        int endcolor = typedArray.getColor(R.styleable.UIDProgressBar_uidProgressBarCircularEndColor, Color.BLUE);
-        typedArray.recycle();
-        return endcolor;
+        gradientDrawable.setColors(new int[]{Color.TRANSPARENT, indeterminateCircularEndColor});
     }
 
     private Drawable setTintOnDrawable(Drawable drawable, int tintId, Theme theme) {
