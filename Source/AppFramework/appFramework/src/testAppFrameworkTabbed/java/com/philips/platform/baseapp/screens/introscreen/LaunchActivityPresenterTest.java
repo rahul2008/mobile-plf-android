@@ -48,6 +48,7 @@ public class LaunchActivityPresenterTest extends TestCase {
 
     public void testOnClick() throws Exception {
         final HomeTabbedActivityState homeTabbedActivityStateMock = mock(HomeTabbedActivityState.class);
+        final LaunchActivityState launchActivityState = mock(LaunchActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
@@ -71,7 +72,8 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(homeTabbedActivityStateMock.getStateID()).thenReturn(AppStates.FIRST_STATE);
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(AppStates.FIRST_STATE, "onBackPressed")).thenReturn(homeTabbedActivityStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.FIRST_STATE)).thenReturn(launchActivityState);
+        when(uiFlowManagerMock.getNextState(launchActivityState, "onBackPressed")).thenReturn(homeTabbedActivityStateMock);
         launchActivityPresenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
         verify(homeTabbedActivityStateMock, atLeastOnce()).setStateListener(launchActivityPresenter);
         verify(homeTabbedActivityStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
@@ -84,6 +86,7 @@ public class LaunchActivityPresenterTest extends TestCase {
     public void testOnLoad() {
         final UIStateData uiStateData = mock(UIStateData.class);
         final SplashState splashStateMock = mock(SplashState.class);
+        final LaunchActivityState launchActivityState = mock(LaunchActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
@@ -113,7 +116,8 @@ public class LaunchActivityPresenterTest extends TestCase {
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(splashStateMock.getStateID()).thenReturn("something");
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(AppStates.FIRST_STATE, "onAppLaunch")).thenReturn(splashStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.FIRST_STATE)).thenReturn(launchActivityState);
+        when(uiFlowManagerMock.getNextState(launchActivityState, "onAppLaunch")).thenReturn(splashStateMock);
         launchActivityPresenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
         verify(splashStateMock).setStateListener(launchActivityPresenter);
         verify(splashStateMock, atLeastOnce()).setUiStateData(uiStateData);
