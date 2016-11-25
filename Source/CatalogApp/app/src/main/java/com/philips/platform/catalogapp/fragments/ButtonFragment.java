@@ -134,6 +134,6 @@ public class ButtonFragment extends BaseFragment {
 
     @Override
     public int getPageTitle() {
-        return R.string.page_tittle_buttons;
+        return R.string.page_title_buttons;
     }
 }

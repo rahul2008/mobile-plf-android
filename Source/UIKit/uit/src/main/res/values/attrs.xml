@@ -8,7 +8,6 @@
 
         <attr name="uitNavigationPrimaryColor" format="reference|color"/>
         <attr name="uitNavigationSecondaryColor" format="reference|color"/>
-        <attr name="uitNavigationTextColor" format="reference|color"/>
 
         <attr name="uitControlSecondaryColor" format="reference|color"/>
         <attr name="uitControlSecondaryTextColor" format="reference|color"/>

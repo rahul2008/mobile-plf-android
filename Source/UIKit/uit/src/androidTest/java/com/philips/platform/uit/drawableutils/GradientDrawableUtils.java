@@ -27,8 +27,11 @@ public class GradientDrawableUtils {
         int getStrokeSolidStateColor(int attr);
         int getRippleRadius();
         int getRippleColor(int attr);
+
         float getInnerRadiusRatio();
+
         float getRingThicknessRatio();
+
         int[] getColors();
     }
 

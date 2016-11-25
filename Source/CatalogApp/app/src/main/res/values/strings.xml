@@ -25,10 +25,14 @@
     <string name="buttons_text_primary">Primary button</string>
     <string name="buttons_text_secondary">Secondary button</string>
     <string name="set_theme_settings">Set</string>
-    <string name="page_tittle_theme_settings">Theme Setting</string>
-    <string name="page_tittle_preview">Preview</string>
-    <string name="page_tittle_buttons">Buttons</string>
-    <string name="page_tittle_textbox">TextBox</string>
+
+    <string name="page_title_theme_settings">Theme Setting</string>
+    <string name="page_title_preview">Preview</string>
+    <string name="page_title_buttons">Buttons</string>
+    <string name="page_title_textbox">TextBox</string>
+    <string name="page_title_settings">Settings</string>
+    <string name="page_title_alertDialog">Alert</string>
+
     <string name="hint_text">Hint text</string>
     <string name="hamburger_menu">Hamburger</string>
     <string name="hint_text_multi_lines">Hint text multi lines</string>
@@ -39,16 +43,14 @@
     <string name="content_desc_close">close</string>
     <string name="preview">Preview</string>
     <string name="buttons_text_quiet">Quiet Button</string>
-    <string name="page_tittle_settings">Settings</string>
 
     <!--Settings page for ToggleSwitch-->
     <string name="switch_text">Switch</string>
     <string name="switch_disabled_on">Disabled Switch(On)</string>
     <string name="switch_disabled_off">Disabled Switch(Off)</string>
-    <string name="page_tittle_alertDialog">Alert</string>
     <string name="dialog_screen_text_short_content">Short contents</string>
     <string name="dialog_screen_text_long_content">Long contents</string>
-    <string name="dialog_screen_text_with_title">With tittle</string>
+    <string name="dialog_screen_text_with_title">With title</string>
     <string name="dialog_screen_text_title_with_icon">Title with icon</string>
     <string name="dialog_screen_text_dialogs">Dialogs</string>
     <string name="dialog_screen_button_text_dialog_with_text">Dialog with text</string>

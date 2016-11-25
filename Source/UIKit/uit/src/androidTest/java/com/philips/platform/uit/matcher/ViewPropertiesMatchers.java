@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uit.matcher;
 
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,7 +16,27 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
-                return view.getPaddingLeft() == expectedValue;
+                return actual == expected;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameStartPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingStart()), String.valueOf(expectedValue));
+                return actual == expected;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameEndPadding(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(String.valueOf(view.getPaddingEnd()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -25,7 +46,7 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 setValues(String.valueOf(view.getPaddingRight()), String.valueOf(expectedValue));
-                return view.getPaddingRight() == expectedValue;
+                return actual == expected;
             }
         };
     }
@@ -35,7 +56,7 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 setValues(String.valueOf(view.getPaddingTop()), String.valueOf(expectedValue));
-                return view.getPaddingTop() == expectedValue;
+                return actual == expected;
             }
         };
     }
@@ -45,7 +66,7 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 setValues(String.valueOf(view.getPaddingBottom()), String.valueOf(expectedValue));
-                return view.getPaddingBottom() == expectedValue;
+                return actual == expected;
             }
         };
     }
@@ -54,7 +75,6 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(String.valueOf(view.getWidth()), String.valueOf(expectedValue));
                 return view.getWidth() == expectedValue;
             }
         };
@@ -74,9 +94,9 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                return lp.getMarginStart() == expectedValue;
+                setValues(String.valueOf(lp.leftMargin), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -85,9 +105,9 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                return lp.getMarginEnd() == expectedValue;
+                setValues(String.valueOf(lp.getMarginEnd()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -96,9 +116,9 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                return lp.bottomMargin == expectedValue;
+                setValues(String.valueOf(lp.bottomMargin), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -107,9 +127,9 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                return lp.topMargin == expectedValue;
+                setValues(String.valueOf(lp.topMargin), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -118,8 +138,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedIconHeight));
-                return view.getMinimumHeight() == expectedIconHeight;
+                setValues(String.valueOf(view.getMinimumHeight()), String.valueOf(expectedIconHeight));
+                return actual == expected;
             }
         };
     }
@@ -128,8 +148,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedIconWidth));
-                return view.getMinimumWidth() == expectedIconWidth;
+                setValues(String.valueOf(view.getMinimumWidth()), String.valueOf(expectedIconWidth));
+                return actual == expected;
             }
         };
     }
@@ -139,7 +159,35 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(final View view) {
                 setValues(String.valueOf(view.getVisibility()), String.valueOf(gone));
-                return view.getVisibility() == gone;
+                return actual == expected;
+            }
+        };
+    }
+
+    public static Matcher<? super View> isSameTitleRightMargin(final int rightMargin) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof Toolbar) {
+                    Toolbar toolbar = (Toolbar) view;
+                    setValues(String.valueOf(toolbar.getTitleMarginEnd()), String.valueOf(rightMargin));
+                    return actual == expected;
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> isSameTittleLeftMargin(final int leftMargin) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof Toolbar) {
+                    Toolbar toolbar = (Toolbar) view;
+                    setValues(String.valueOf(toolbar.getTitleMarginStart()), String.valueOf(leftMargin));
+                    return actual == expected;
+                }
+                return false;
             }
         };
     }

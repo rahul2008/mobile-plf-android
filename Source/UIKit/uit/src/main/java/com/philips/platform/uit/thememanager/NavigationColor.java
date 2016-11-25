@@ -8,31 +8,31 @@ public enum NavigationColor {
     ULTRA_LIGHT {
         @Override
         public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UITNavigationbarUltraLight);
+            injectColor(theme, R.style.UIDNavigationbarUltraLight);
         }
     },
     VERY_LIGHT {
         @Override
         public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UITNavigationbarVeryLight);
+            injectColor(theme, R.style.UIDNavigationbarVeryLight);
         }
     },
     LIGHT {
         @Override
         public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UITNavigationbarLight);
+            injectColor(theme, R.style.UIDNavigationbarLight);
         }
     },
     BRIGHT {
         @Override
         public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UITNavigationbarBright);
+            injectColor(theme, R.style.UIDNavigationbarBright);
         }
     },
     VERY_DARK {
         @Override
         public void injectNavigationColor(final Resources.Theme theme) {
-            injectColor(theme, R.style.UITNavigationbarVeryDark);
+            injectColor(theme, R.style.UIDNavigationbarVeryDark);
         }
     };
 

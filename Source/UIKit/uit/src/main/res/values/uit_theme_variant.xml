@@ -20,7 +20,11 @@
         <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
         <item name="uitQuietButtonDisabledAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
+        <item name="uidNavigationTextColor">@color/uitColorWhite</item>
+        <item name="uidNavigationShadowLevelOne">@color/uitColorBlack</item>
+        <item name="uidNavigationShadowLevelTwo">@color/uitColorBlack</item>
+        <item name="uidNavigationShadowLevelOneAlpha">@dimen/uit_alpha_per_20</item>
+        <item name="uidNavigationShadowLevelTwoAlpha">@dimen/uit_alpha_per_20</item>
 
         <item name="uitButtonNormalColor">?attr/uitControlPrimaryEnabledColor</item>
         <item name="uitButtonPressedColor">?attr/uitControlPrimaryPressedColor</item>
@@ -76,7 +80,7 @@
         <item name="uitContentSecondary">?attr/uitColorLevel05</item>
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
-        <item name="uitNavigationTextColor">@color/uit_gray_level_75</item>
+        <item name="uidNavigationTextColor">@color/uit_gray_level_75</item>
         <item name="uitTextPrimaryColor">@color/uit_gray_level_75</item>
 
         <item name="uitApplicationBackground">?attr/uitColorLevel05</item>
@@ -117,7 +121,7 @@
         <item name="uitContentSecondary">?attr/uitColorLevel15</item>
         <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
-        <item name="uitNavigationTextColor">?attr/uitColorLevel75</item>
+        <item name="uidNavigationTextColor">?attr/uitColorLevel75</item>
         <item name="uitTextPrimaryColor">?attr/uitColorLevel75</item>
 
         <item name="uitApplicationBackground">?attr/uitColorLevel25</item>
@@ -220,7 +224,8 @@
         <item name="uitContentSecondary">?attr/uitColorLevel75</item>
         <item name="uitNavigationPrimaryColor">?attr/uitColorLevel70</item>
         <item name="uitNavigationSecondaryColor">?attr/uitColorLevel75</item>
-
+        <item name="uidNavigationShadowLevelOneAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidNavigationShadowLevelTwoAlpha">@dimen/uit_alpha_per_35</item>
         <item name="uitApplicationBackground">?attr/uitColorLevel85</item>
 
         <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>

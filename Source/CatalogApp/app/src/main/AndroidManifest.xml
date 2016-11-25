@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".themesettings.PreviewActivity"
-            android:theme="@style/Theme.Philips"/>
+            android:theme="@style/Theme.Philips"
+            android:parentActivityName="com.philips.platform.catalogapp.MainActivity"/>
     </application>
 </manifest>

@@ -2,14 +2,42 @@
 
     <!-- Base application theme. -->
     <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/UITDefaultButton</item>
         <item name="imageButtonStyle">@style/UITImageButton</item>
         <item name="editTextStyle">@style/UITTextEditBox</item>
-        <item name="actionBarStyle">@style/UITNavigationBar</item>
         <item name="android:windowBackground">?attr/uitContentPrimary</item>
         <item name="switchStyle">@style/UIDSwitchStyle</item>
+        <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
+
+        <!-- Action bar and toolbar style-->
+        <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
+         <item name="android:actionBarStyle">@style/UIDToolbar</item>
+        -->
+        <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/UIDToolbar</item>
+        <item name="toolbarStyle">@style/UIDToolbar</item>
+
+        <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton</item>
+        <!-- Navigation color for lolipop-->
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/uitContentPrimary
+        </item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">
+            ?attr/uidActionBarBackground
+        </item>
+        <item name="android:colorPrimary" tools:targetApi="lollipop">?attr/uidActionBarBackground
+        </item>
+        <item name="android:colorPrimaryDark" tools:targetApi="lollipop">
+            ?attr/uidActionBarBackground
+        </item>
+        <item name="android:actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
+        <item name="actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
+
+        <!-- Below lines are to set the color for options menu items text color -->
+        <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
+        <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
-        <item name="android:alertDialogStyle">@style/UIDAlertDialogStyle</item>
     </style>
 
 </resources>

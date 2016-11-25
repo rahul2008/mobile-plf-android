@@ -161,5 +161,6 @@
     <color name="uit_gray_level_05">#F5F5F5</color>
 
     <color name="uitColorWhite">#FFFFFF</color>
+    <color name="uitColorBlack">#000000</color>
 
 </resources>
