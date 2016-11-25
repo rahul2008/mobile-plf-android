@@ -34,7 +34,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBarListener, LaunchView {
+public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchView {
     private TextView textView;
 
     @Override
@@ -105,11 +105,13 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements ActionBa
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
         textView.setText(i);
+        setTitle(getResources().getString(i));
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
         textView.setText(s);
+        setTitle(s);
     }
 
     @Override

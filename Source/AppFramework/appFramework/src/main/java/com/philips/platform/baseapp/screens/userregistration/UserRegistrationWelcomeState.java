@@ -64,4 +64,5 @@ public class UserRegistrationWelcomeState extends UserRegistrationState implemen
         UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
         userRegistrationFacade.clearUserData();
     }
+
 }
