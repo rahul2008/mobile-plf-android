@@ -23,6 +23,10 @@ node ('android_pipeline') {
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
             if (env.triggerBy != "ppc") {
             	stage ('callIntegrationPipeline') {
+                    if (branchType =~ "/") {
+                        branchType = branchType.replaceAll('/','%2F')
+                        echo "branchType changed to ${branchType}"
+                    }
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
             	}            
             }
