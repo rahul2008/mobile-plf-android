@@ -48,10 +48,6 @@ allprojects {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
         }
         maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
-        }
-
-        maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
         }
         maven {
@@ -61,6 +57,9 @@ allprojects {
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 
@@ -83,11 +82,11 @@ artifactory {
                 publishArtifacts = true
             }
         }
-        defaults {
-            publications ('apk')
-            publishPom = true
-            publishArtifacts = true
-        }
+		/*	defaults {
+				publications ('apk')
+				publishPom = true
+				publishArtifacts = true
+			} */
     }
     resolve {
         repository {
@@ -123,7 +122,6 @@ task tgzTask(type: Tar) {
     compression = Compression.GZIP
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
-
 publishing {
     publications {
         apk(MavenPublication) {
@@ -164,7 +162,6 @@ publishing {
         }
     }
 }
-
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
