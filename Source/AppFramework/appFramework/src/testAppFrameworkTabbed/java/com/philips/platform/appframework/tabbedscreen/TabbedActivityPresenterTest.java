@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIStateData;
@@ -86,6 +87,7 @@ public class TabbedActivityPresenterTest extends TestCase {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
+        final HomeTabbedActivityState homeTabbedActivityState = mock(HomeTabbedActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         tabbedActivityPresenter = new TabbedActivityPresenter(fragmentViewMock) {
@@ -113,7 +115,8 @@ public class TabbedActivityPresenterTest extends TestCase {
 
         FlowManager uiFlowManager = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
-        when(uiFlowManager.getNextState(AppStates.TAB_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.TAB_HOME)).thenReturn(homeTabbedActivityState);
+        when(uiFlowManager.getNextState(homeTabbedActivityState, "home_fragment")).thenReturn(homeFragmentStateMock);
         tabbedActivityPresenter.onEvent(0);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
@@ -122,6 +125,7 @@ public class TabbedActivityPresenterTest extends TestCase {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final DataSyncScreenState dataSyncStateMock = mock(DataSyncScreenState.class);
+        final HomeTabbedActivityState homeTabbedActivityState = mock(HomeTabbedActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         tabbedActivityPresenter = new TabbedActivityPresenter(fragmentViewMock) {
@@ -149,7 +153,8 @@ public class TabbedActivityPresenterTest extends TestCase {
 
         FlowManager uiFlowManager = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
-        when(uiFlowManager.getNextState(AppStates.TAB_HOME, "data_sync")).thenReturn(dataSyncStateMock);
+        when(uiFlowManager.getState(AppStates.TAB_HOME)).thenReturn(homeTabbedActivityState);
+        when(uiFlowManager.getNextState(homeTabbedActivityState, "data_sync")).thenReturn(dataSyncStateMock);
         tabbedActivityPresenter.onEvent(5);
         verify(dataSyncStateMock, times(1)).navigate(fragmentLauncherMock);
     }

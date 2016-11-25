@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -41,7 +42,8 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
+        BaseUiFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.WELCOME), eventState);
         if(baseState!=null) {
             baseState.navigate(getFragmentLauncher());
         }

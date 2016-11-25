@@ -11,6 +11,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -29,7 +30,8 @@ public class UserRegistrationWelcomeState extends UserRegistrationState implemen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SPLASH, "splash_home");
+            BaseUiFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SPLASH), "splash_home");
             if (null != baseState) {
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.welcome_frame_container, (ActionBarListener) getFragmentActivity()));

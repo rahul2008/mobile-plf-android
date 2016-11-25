@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -64,7 +65,8 @@ public class TabbedActivityPresenter extends UIBasePresenter{
     public void onEvent(int componentID) {
         appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.TAB_HOME, eventState);
+        BaseUiFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TAB_HOME), eventState);
         baseState.setStateListener(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();

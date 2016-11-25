@@ -20,6 +20,7 @@ import com.philips.platform.baseapp.screens.dataservices.DataSyncScreenState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivityState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
@@ -37,6 +38,7 @@ public class FlowManager extends BaseUiFlowManager {
     }
 
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
+        uiStateMap.put(AppStates.FIRST_STATE,new LaunchActivityState());
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
         uiStateMap.put(AppStates.SPLASH_REGISTRATION, new UserRegistrationSplashState());
         uiStateMap.put(AppStates.WELCOME_REGISTRATION, new UserRegistrationWelcomeState());

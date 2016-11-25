@@ -82,10 +82,10 @@ public abstract class BaseUiFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public BaseState getNextState(String currentState, String eventId) {
+    public BaseState getNextState(BaseState currentState, String eventId) {
         String string;
         if (null != currentState && null != eventId) {
-            appFlowEvents = getAppFlowEvents(currentState);
+            appFlowEvents = getAppFlowEvents(currentState.getStateID());
             if (appFlowEvents != null) {
                 for (final AppFlowEvent appFlowEvent : appFlowEvents) {
                     string = appFlowEvent.getEventId();

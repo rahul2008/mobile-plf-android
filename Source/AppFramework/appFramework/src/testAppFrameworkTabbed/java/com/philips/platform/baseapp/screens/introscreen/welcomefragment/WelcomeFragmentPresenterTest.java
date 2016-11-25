@@ -45,6 +45,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
 
     public void testOnClick() throws Exception {
         final UserRegistrationState userRegStateMock = mock(UserRegistrationState.class);
+        final WelcomeState welcomeState = mock(WelcomeState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -66,7 +67,8 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         };
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(AppStates.WELCOME, "welcome_skip")).thenReturn(userRegStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.WELCOME)).thenReturn(welcomeState);
+        when(uiFlowManagerMock.getNextState(welcomeState, "welcome_skip")).thenReturn(userRegStateMock);
         welcomeFragmentPresenter.onEvent(R.id.welcome_skip_button);
         verify(welcomeFragmentViewMock).showActionBar();
         verify(userRegStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
@@ -74,6 +76,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
 
     public void testOnBackPress() throws Exception {
         final HomeTabbedActivityState homeTabbedActivityStateMock = mock(HomeTabbedActivityState.class);
+        final WelcomeState welcomeState = mock(WelcomeState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -96,7 +99,8 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         };
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(AppStates.WELCOME, "welcome_home")).thenReturn(homeTabbedActivityStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.WELCOME)).thenReturn(welcomeState);
+        when(uiFlowManagerMock.getNextState(welcomeState, "welcome_home")).thenReturn(homeTabbedActivityStateMock);
         welcomeFragmentPresenter.onEvent(0);
         verify(homeTabbedActivityStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
