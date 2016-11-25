@@ -227,7 +227,7 @@ public class SettingsAdapter extends BaseAdapter{
     }
 
     private void logoutAlert() {
-        new AlertDialog.Builder(activityContext)
+        new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
                 .setTitle(getString(R.string.settings_list_item_log_out))
                 .setMessage(activityContext.getResources().getString(R.string.settings_logout_alert))
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
