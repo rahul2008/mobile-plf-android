@@ -19,8 +19,8 @@ node ('android_pipeline') {
 			stage ('build') {
                 echo "fetch git config"
                 echo "******"
-                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew :coppa:clean'
-                // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug cC assembleRelease zipDocuments artifactoryPublish'
+               // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew :coppa:clean'
+                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug cC assembleRelease zipDocuments artifactoryPublish'
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
