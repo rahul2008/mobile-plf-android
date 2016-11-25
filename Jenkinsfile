@@ -17,7 +17,7 @@ node ('android_pipeline') {
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDocuments artifactoryPublish'
+                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDocuments tgzTask artifactoryPublish'
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
