@@ -21,8 +21,6 @@ import com.philips.platform.uit.thememanager.UITHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.philips.platform.uit.test.R.dimen.navigation_left_margin;
-
 public class BaseTestActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -48,8 +46,9 @@ public class BaseTestActivity extends AppCompatActivity {
                         setSupportActionBar(toolbar);
                         toolbar.setNavigationContentDescription("navigationIcon");
                         toolbar.setNavigationIcon(com.philips.platform.uit.test.R.drawable.uid_switch_thumb);
+                        toolbar.setTitleMarginStart(getResources().getDimensionPixelOffset(com.philips.platform.uit.test.R.dimen.uid_navigation_bar_title_margin_left_right));
+                        toolbar.setTitleMarginEnd(getResources().getDimensionPixelOffset(com.philips.platform.uit.test.R.dimen.uid_navigation_bar_title_margin_left_right));
                         toolbar.setTitle(com.philips.platform.uit.test.R.string.catalog_app_name);
-                        toolbar.setTitleMargin(getResources().getDimensionPixelOffset(navigation_left_margin), 0, getResources().getDimensionPixelOffset(navigation_left_margin), 0);
                     }
                 }
         );

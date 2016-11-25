@@ -30,8 +30,8 @@
         <item name="android:colorPrimaryDark" tools:targetApi="lollipop">
             ?attr/uidActionBarBackground
         </item>
-        <item name="android:actionMenuTextAppearance">@style/UITToolbarMenuTextAppearance</item>
-        <item name="actionMenuTextAppearance">@style/UITToolbarMenuTextAppearance</item>
+        <item name="android:actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
+        <item name="actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
 
         <!-- Below lines are to set the color for options menu items text color -->
         <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
