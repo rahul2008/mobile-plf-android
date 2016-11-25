@@ -51,6 +51,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
     public void onEvent(int componentID) {
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
+        if(settingsView!=null)
         baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
         if (baseState != null) {
             baseState.setUiStateData(uiStateData);
