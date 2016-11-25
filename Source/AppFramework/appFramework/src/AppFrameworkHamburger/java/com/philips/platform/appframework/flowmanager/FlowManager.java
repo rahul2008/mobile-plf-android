@@ -8,8 +8,8 @@ package com.philips.platform.appframework.flowmanager;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
@@ -31,7 +31,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationWel
 
 import java.util.Map;
 
-public class FlowManager extends BaseUiFlowManager {
+public class FlowManager extends BaseFlowManager {
 
     public FlowManager(Context context, String jsonPath) {
         super(context, jsonPath);

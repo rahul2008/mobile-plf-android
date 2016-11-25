@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -62,7 +62,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
     @Override
     public void onEvent(int componentID) {
         String eventState = getEventState(componentID);
-        BaseUiFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
         if(null != baseState) {
             baseState.setUiStateData(setStateData(componentID));
