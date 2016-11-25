@@ -137,7 +137,7 @@ public class FunctionDrawableMatchers {
     }
 
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
-        return isSameColor(funcName, state, expectedValue,drawableID, false);
+        return isSameColor(funcName, state, expectedValue, drawableID, false);
     }
 
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID, final boolean isDefaultColor) {

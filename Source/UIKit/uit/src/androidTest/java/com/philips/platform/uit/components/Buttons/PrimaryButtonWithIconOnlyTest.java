@@ -49,7 +49,7 @@ public class PrimaryButtonWithIconOnlyTest {
     @Test
     public void verifyIconOnlyButtonHeight() {
         waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_height);
+        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_height);
         getIconOnlyButton()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
@@ -57,7 +57,7 @@ public class PrimaryButtonWithIconOnlyTest {
     @Test
     public void verifyIconOnlyButtonWidth() {
         waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_width);
+        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_width);
         getIconOnlyButton()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
     }
@@ -65,26 +65,26 @@ public class PrimaryButtonWithIconOnlyTest {
     @Test
     public void verifyIconHeight() {
         waitFor(testResources, 750);
-        int expectedIconHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_height);
+        int expectedIconHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_height);
         getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
     public void verifyIconWidth() {
         waitFor(testResources, 750);
-        int expectedIconWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_width);
+        int expectedIconWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_width);
         getIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
 
     @Test
     public void verifyButtonWithIconLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
         getIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyButtonWithIconRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_right_padding);
         getIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 

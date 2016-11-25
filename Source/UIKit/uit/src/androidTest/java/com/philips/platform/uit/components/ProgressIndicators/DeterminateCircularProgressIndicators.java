@@ -154,7 +154,6 @@ public class DeterminateCircularProgressIndicators {
         getLargeCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, circularprogressBackgroundID(), true)));
     }
 
-
     private ViewInteraction getSmallCircularProgressBar() {
         return onView(withId(com.philips.platform.uit.test.R.id.progress_bar_determinate_circular_small));
     }
@@ -175,6 +174,4 @@ public class DeterminateCircularProgressIndicators {
 
         return android.R.id.progress;
     }
-
-
 }

@@ -24,7 +24,6 @@ import org.junit.Test;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.GroupBlue45;
 
 public class IndeterminateCircularProgressIndicators {
@@ -180,7 +179,6 @@ public class IndeterminateCircularProgressIndicators {
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));
     }
 
-
     private ViewInteraction getSmallIndeterminateCircularProgressBar() {
         return onView(withId(com.philips.platform.uit.test.R.id.progress_bar_indeterminate_circular_small));
     }
@@ -196,6 +194,4 @@ public class IndeterminateCircularProgressIndicators {
     private int circularprogressID() {
         return android.R.id.progress;
     }
-
-
 }

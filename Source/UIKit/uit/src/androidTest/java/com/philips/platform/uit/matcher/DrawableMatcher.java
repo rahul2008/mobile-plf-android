@@ -150,7 +150,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 int actual = (int) (stateColors.getRingThicknessRatio() * 100);
-                int expected = (int) (expectedValue *100);
+                int expected = (int) (expectedValue * 100);
                 setValues(String.valueOf(actual), String.valueOf(expectedValue));
                 return actual == expected;
             }
@@ -163,7 +163,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 int actual = (int) (stateColors.getInnerRadiusRatio() * 100);
-                int expected = (int) (expectedValue *100);
+                int expected = (int) (expectedValue * 100);
                 setValues(String.valueOf(actual), String.valueOf(expectedValue));
                 return actual == expected;
             }
