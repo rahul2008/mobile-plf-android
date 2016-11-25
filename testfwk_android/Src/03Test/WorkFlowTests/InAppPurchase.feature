@@ -5,7 +5,7 @@
 	3.  In App purchase (InApp) -
     3a) The system shall provide the ability to buy one time physical goods
 
-@E2ETesting
+@IAP
 Scenario: Verify that user can purchase a product from retailer using "Buy Now"   
 	Given that the application is in logout state 
 	Then I click on Skip

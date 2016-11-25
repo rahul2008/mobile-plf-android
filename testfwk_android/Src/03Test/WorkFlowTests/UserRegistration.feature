@@ -18,7 +18,7 @@ Scenario: Verify Create Philip Account
 	Then I click on Account Settings from Hamburger Menu
 	Then I verify that the My Account has Logout button
 
-@URtag
+@UR
 Scenario: Login using My Philips Account
     Given that the application is in logout state 
 	Then I click on Skip
@@ -32,7 +32,7 @@ Scenario: Login using My Philips Account
 	Then I click on Account Settings from Hamburger Menu
 	Then I click on Logout in Account Setting Screen
 
-@URtag
+@UR
 Scenario: Login using Gmail Account
     Given that the application is in logout state 
 	Then I click on Skip
@@ -55,7 +55,7 @@ Scenario: Login using Gmail and verify traditional merge
 	Then I click on Account Settings from Hamburger Menu
 	Then I click on Logout in Account Setting Screen
 
-@URtag
+@UR
 Scenario: Login using Facebook Account
     Given that the application is in logout state 
 	Then I click on Skip
