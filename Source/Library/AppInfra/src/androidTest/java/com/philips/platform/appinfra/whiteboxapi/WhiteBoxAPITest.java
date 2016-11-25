@@ -16,11 +16,11 @@ public class WhiteBoxAPITest extends MockitoTestCase{
     }
 
     public void testWhiteBoxAPI(){
-         byte[] key = hexStringToByteArray("d9efcaeb7077f16729c1568bde56eed25635030f688990d3fc9281cb809d4666db0057e8b902382f9de16fed325889a46e7c22e31a143ee60b33c1ac22bc8b28");
+         byte[] key = hexStringToByteArray("e124794bab4949cd4affc267d446ddd95c938a7428d75d7901992e0cb4bc320cd94c28dae1e56d83eaf19010ccc8574d6d83fb687cf5d12ff2afddbaf73801b5");
          byte[] httpMethodType = {'P','O','S','T'};
 
         byte[] resultBytes = createHmac(key,httpMethodType);
-        assertEquals("e4dfa5e056c7df4e9e13d2efc9b3c792b0bd3bfc4e501eb27990281de3e6f5ea",bytesToHex(resultBytes));
+        assertEquals("aefb42a311b78e4514ea4dc59120211bf421edc4978426309ab11b2e205a329b",bytesToHex(resultBytes));
     }
 
 

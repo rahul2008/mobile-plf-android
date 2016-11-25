@@ -13,7 +13,7 @@ import com.philips.platform.appinfra.whiteboxapi.GenerateHmacLib;
 
 public class WhiteBoxAPIActivity extends AppCompatActivity {
 
-    private static final byte[] mKey = hexStringToByteArray("d9efcaeb7077f16729c1568bde56eed25635030f688990d3fc9281cb809d4666db0057e8b902382f9de16fed325889a46e7c22e31a143ee60b33c1ac22bc8b28");
+    private static final byte[] mKey = hexStringToByteArray("e124794bab4949cd4affc267d446ddd95c938a7428d75d7901992e0cb4bc320cd94c28dae1e56d83eaf19010ccc8574d6d83fb687cf5d12ff2afddbaf73801b5");
     private static final byte[] httpMethodType = {'P', 'O', 'S', 'T'};
 
     @Override
@@ -25,6 +25,7 @@ public class WhiteBoxAPIActivity extends AppCompatActivity {
         GenerateHmacLib mGenerateHmacLib = new GenerateHmacLib();
         byte[] resultBytes = mGenerateHmacLib.createHmac(mKey, httpMethodType);
         tvHmacResult.setText(bytesToHex(resultBytes));
+        System.out.println("Result : "+bytesToHex(resultBytes));
         setContentView(tvHmacResult);
     }
 
