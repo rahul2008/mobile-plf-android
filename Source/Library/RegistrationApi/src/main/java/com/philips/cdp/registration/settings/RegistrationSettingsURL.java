@@ -28,13 +28,15 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     public static final String DEV_CAPTURE_DOMAIN_CHINA_EU = "https://philips-china-eu.eu-dev.janraincapture.com";
 
-    public static final String DEV_CAPTURE_DOMAIN_CHINA = "https://philips-cn-dev.capture.cn.janrain.com";
+    public static final String DEV_CAPTURE_DOMAIN_CHINA = "https://philips-cn-dev.capture.cn.janrain.com";// Removed from Doc
 
     public static final String TEST_CAPTURE_DOMAIN_CHINA= "https://philips-china-test.eu-dev.janraincapture.com";
 
-    public static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-cn-test.capture.cn.janrain.com";
+    public static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-cn-test.capture.cn.janrain.com";// Removed from Doc
 
-    public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
+    public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-china-staging.capture.cn.janrain.com";
+
+    public static final String STAG_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";// New added
 
     public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";
 

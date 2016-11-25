@@ -277,6 +277,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         if (isAccountActivate) {
             handleActivate(response);
         } else {
+            mEtCodeNUmber.setEnabled(false);
             handleResendSMSRespone(response);
         }
         isAccountActivate = false;
@@ -286,6 +287,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         try {
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("errorCode").toString().equals("0")) {
+                mEtCodeNUmber.setEnabled(true);
                 trackMultipleActionsOnMobileSuccess();
                 mEtCodeNUmber.hideResendSpinner();
                 handleResendVerificationEmailSuccess();

@@ -372,11 +372,11 @@ public class User {
             }
 
             String dob = captureRecord.getString(UpdateDateOfBirth.USER_DATE_OF_BIRTH);
-            if(null!= dob){
+            if(null!= dob && !dob.equalsIgnoreCase("null")){
                 DateFormat formatter = new SimpleDateFormat(UpdateDateOfBirth.DATE_FORMAT_FOR_DOB, Locale.ROOT);
                 Date date = formatter.parse(dob);
                 diUserProfile.setDateOfBirth(date);
-            }
+              }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception : " +e);
         } catch (ParseException e) {

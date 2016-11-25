@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -363,11 +364,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                 @Override
                 public void onSelectCountry(String name, String code) {
-                    ((RegistrationFragment) getParentFragment()).hideKeyBoard();
+
                     mCountryDisplayy.setText(name);
+                    ((RegistrationFragment) getParentFragment()).hideKeyBoard();
                       RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                         changeCountry(code.trim().toUpperCase());
-                        picker.dismiss();
+                       picker.dismiss();
 
                 }
             });

@@ -56,8 +56,9 @@ import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.squareup.okhttp.RequestBody;
-
 import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -116,6 +117,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private boolean isSavedVerifyEmail;
 
     private RegistrationSettingsURL registrationSettingsURL;
+
+    public static final String DEV_VERFICATION_CODE = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode";
+    public static final String EVAL_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
+    public static final String PROD_VERFICATION_CODE = "https://www.philips.com.cn/api/v1/user/requestVerificationSmsCode";
+    public static final String STAGE_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
+    public static final String TEST_VERFICATION_CODE = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -365,7 +373,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mPbSignInSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_sign_in_spinner);
         mPbForgotPasswdSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_forgot_spinner);
         mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_resend_spinner);
-        registrationSettingsURL=new RegistrationSettingsURL();
+        registrationSettingsURL = new RegistrationSettingsURL();
     }
 
     @Override
@@ -761,8 +769,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(false);
         mBtnSignInAccount.setEnabled(false);
         mBtnForgot.setEnabled(false);
-        registrationSettingsURL.isChinaFlow();
-        if (RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US")) {
+        if (registrationSettingsURL.isChinaFlow()) {
             getActivity().startService(createResendSMSIntent());
         } else {
             mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
@@ -788,8 +795,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
      */
 
     private Intent createResendSMSIntent() {
-        String url = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mEtEmail.getEmailId();
+        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
+        String eMobileNumber;
+        System.out.println("Configration : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        if (!mUser.getMobile().contains("86")) {
+            eMobileNumber = "86" + mUser.getMobile();
+        } else {
+            eMobileNumber = mUser.getMobile();
+        }
+        String url = initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment()) + "?provider=" +
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + eMobileNumber;
+
+        System.out.println("RESEND URL : " + url);
+
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
@@ -805,16 +823,45 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         try {
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("errorCode").toString().equals("0")) {
+                trackMultipleActionsOnMobileSuccess();
                 getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
             } else {
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 updateResendUIState();
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
                 RLog.i("SignInAccountFragment ", "SMS Resend failure Val = " + response);
                 mRegError.setError(errorMsg);
+                mBtnSignInAccount.setEnabled(false);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String initializePRXLinks(String registrationEnv) {
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
+            return DEV_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
+            return PROD_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
+            return STAGE_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
+            return TEST_VERFICATION_CODE;
+        }
+        if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
+            return EVAL_VERFICATION_CODE;
+        }
+        return null;
+    }
+
+    private void trackMultipleActionsOnMobileSuccess() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);
+        map.put(AppTagingConstants.MOBILE_INAPPNATIFICATION, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION);
+        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 }

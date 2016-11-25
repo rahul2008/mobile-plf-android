@@ -95,7 +95,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private TextView mTvEmailExist;
 
-
+    private TextView mJoinnow;
 
     private long mTrackCreateAccountTime;
 
@@ -260,6 +260,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mLlCreateAccountContainer, width);
         applyParams(config, mRlCreateActtBtnContainer, width);
         applyParams(config, mRegError, width);
+        applyParams(config, mJoinnow, width);
         applyParams(config, mRegAccptTermsError, width);
         applyParams(config, mLlAcceptTermsContainer, width);
         applyParams(config, mPasswordHintView, width);
@@ -296,20 +297,20 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 .findViewById(R.id.ll_reg_create_account_fields);
         mLlCreateAccountContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
-        TextView joinnow = (TextView) view.findViewById(R.id.tv_join_now);
+        mJoinnow = (TextView) view.findViewById(R.id.tv_join_now);
         final UIFlow abStrings=RegUtility.getUiFlow();
         if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
             RLog.d(RLog.AB_TESTING,"UI Flow Type A");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
-            joinnow.setVisibility(View.GONE);
+            mJoinnow.setVisibility(View.GONE);
         }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                mLlCreateAccountContainer.setVisibility(View.GONE);
-                joinnow.setVisibility(View.GONE);
+            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+            mLlCreateAccountContainer.setVisibility(View.GONE);
+            mJoinnow.setVisibility(View.GONE);
         }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
             RLog.d(RLog.AB_TESTING,"UI Flow Type C");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
-            joinnow.setVisibility(View.VISIBLE);
+            mJoinnow.setVisibility(View.VISIBLE);
         }
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
@@ -328,7 +329,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
 
         String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
-        joinnow.setText(Html.fromHtml(sourceString));
+        mJoinnow.setText(Html.fromHtml(sourceString));
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mBtnCreateAccount.setOnClickListener(this);
         mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
@@ -414,6 +415,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
+
+
         }
     }
 

@@ -1,20 +1,25 @@
 package com.philips.cdp.registration.ui.customviews.countrypicker;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FontLoader;
 
 import java.util.ArrayList;
@@ -109,12 +114,11 @@ public class CountryPicker extends DialogFragment implements
                              Bundle savedInstanceState) {
         // Inflate view
         View view = inflater.inflate(R.layout.reg_country_picker, null);
-
         // Get countries from the json
         getAllCountries();
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         // Get view components
         searchEditText = (EditText) view
                 .findViewById(R.id.reg_country_picker_search);
@@ -122,7 +126,6 @@ public class CountryPicker extends DialogFragment implements
         FontLoader.getInstance().setTypeface(searchEditText,"CentraleSans-Book.OTF");
         countryListView = (ListView) view
                 .findViewById(R.id.reg_country_picker_listview);
-
         // Set adapter
         adapter = new CountryAdapter(getActivity(), selectedCountriesList);
         countryListView.setAdapter(adapter);
@@ -134,6 +137,8 @@ public class CountryPicker extends DialogFragment implements
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 if (listener != null) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     Country country = selectedCountriesList.get(position);
                     listener.onSelectCountry(country.getName(),
                             country.getCode());
@@ -159,7 +164,6 @@ public class CountryPicker extends DialogFragment implements
                 search(s.toString());
             }
         });
-
         return view;
     }
 
