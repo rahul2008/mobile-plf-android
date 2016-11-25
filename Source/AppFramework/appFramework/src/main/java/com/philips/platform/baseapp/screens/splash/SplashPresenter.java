@@ -6,8 +6,8 @@
 package com.philips.platform.baseapp.screens.splash;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
@@ -37,7 +37,7 @@ public class SplashPresenter extends UIBasePresenter{
      */
     @Override
     public void onEvent(int componentID) {
-        BaseUiFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SPLASH), APP_START);
         baseState.setStateListener(this);
         if (null != baseState) {

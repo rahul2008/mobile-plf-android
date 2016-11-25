@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public abstract class BaseUiFlowManager {
+public abstract class BaseFlowManager {
 
     protected Map<String, BaseState> stateMap;
     protected Map<String, BaseCondition> conditionMap;
@@ -30,7 +30,7 @@ public abstract class BaseUiFlowManager {
     private List<AppFlowEvent> appFlowEvents;
 
     // TODO: Deepthi we need to change to string
-    public BaseUiFlowManager(final Context context, final String jsonPath) {
+    public BaseFlowManager(final Context context, final String jsonPath) {
         this.context = context;
         mapAppFlowStates(jsonPath);
         stateMap = new TreeMap<>();
