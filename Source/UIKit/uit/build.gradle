@@ -32,6 +32,13 @@ android {
             testCoverageEnabled true
         }
     }
+
+    signingConfigs {
+        debug {
+            storeFile project.rootProject.file('../CatalogApp/extra/signing/debug.keystore')
+        }
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
