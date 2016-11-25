@@ -62,6 +62,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                 switch (APIspinner.getSelectedItem().toString().trim()) {
                     case "Refresh":
                         textViewResponse.setText(null);
+                        listView.setAdapter(null);
                         mContentLoader.refresh(new ContentLoaderInterface.OnRefreshListener() {
                             @Override
                             public void onError(ContentLoaderInterface.ERROR error, String message) {
@@ -78,6 +79,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                         break;
                     case "Get All Content":
                         textViewResponse.setText(null);
+                        listView.setAdapter(null);
                         mContentLoader.getAllContent(new ContentLoaderInterface.OnResultListener<String>() {
                             @Override
                             public void onError(ContentLoaderInterface.ERROR error, String message) {
@@ -89,6 +91,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(ContentLoaderActivity.this,
                                         android.R.layout.simple_list_item_1, contents);
                                 listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                                listView.setOnItemClickListener(null);
                                 // textViewResponse.setText(contents.toString());
                             }
                         });
@@ -109,6 +113,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                 List<ContentInterface> contentArticle = contents;
                                 ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                                listView.setOnItemClickListener(null);
                             }
                         });
                         break;
@@ -133,6 +139,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                 List<ContentInterface> contentArticle = contents;
                                 ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                                listView.setOnItemClickListener(null);
                             }
                         });
                         break;
@@ -151,6 +159,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                 final List<ContentInterface> contentArticle = contents;
                                 ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
 
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
@@ -196,6 +205,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
 //                                            new ArrayAdapter<ContentArticle>(this, android.R.layout.simple_list_item_1, content);
                                 //  }
                                 listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -233,6 +244,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
 //                                            new ArrayAdapter<ContentArticle>(this, android.R.layout.simple_list_item_1, content);
                                 //  }
                                 listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -242,7 +255,6 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                         for (Tag t : tag) {
                                             showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
                                         }
-
                                     }
                                 });
                             }
@@ -250,7 +262,10 @@ public class ContentLoaderActivity extends AppCompatActivity {
                         break;
 
                     case "Delete All":
+                        textViewResponse.setText(null);
+                        listView.setAdapter(null);
                         mContentLoader.clearCache();
+                        textViewResponse.setText("Deleted Successfully");
                         break;
 
                 }

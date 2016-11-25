@@ -28,6 +28,7 @@ import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
 import org.json.JSONObject;
 
+import java.net.IDN;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -204,8 +205,11 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     public void getAllContent(OnResultListener<String> listener) {
         // It was concluded to fetch only content ids and not complete content
         List<String> IDs = mContentDatabaseHandler.getAllContentIds(mServiceId);
-        listener.onError(ERROR.DATABASE_ERROR, "could not fetch from DB");
-        listener.onSuccess(IDs);
+        if(IDs != null && IDs.size() > 0) {
+            listener.onSuccess(IDs);
+        } else {
+            listener.onError(ERROR.DATABASE_ERROR, "could not fetch from DB");
+        }
     }
 
     @Override
