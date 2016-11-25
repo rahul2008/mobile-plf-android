@@ -21,7 +21,7 @@ public class DrawableMatcher {
                 Rect bounds = drawable.getBounds();
                 int actualHeight = bounds.bottom - bounds.top;
                 setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
-                return expectedValue == actualHeight;
+                return actualHeight == expectedValue;
             }
         };
     }
@@ -47,7 +47,7 @@ public class DrawableMatcher {
                 Rect bounds = drawable.getBounds();
                 int actualWidth = bounds.right - bounds.left;
                 setValues(String.valueOf(actualWidth), String.valueOf(expectedValue));
-                return expectedValue == actualWidth;
+                return actual == expected;
             }
         };
     }
@@ -111,7 +111,6 @@ public class DrawableMatcher {
             }
         };
     }
-
 
     public static Matcher<Drawable> isSameRippleColor(final int attr, final int expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {

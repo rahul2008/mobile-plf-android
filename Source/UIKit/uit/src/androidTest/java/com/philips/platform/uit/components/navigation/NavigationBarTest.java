@@ -62,6 +62,7 @@ public class NavigationBarTest {
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
+    @Ignore
     @Test
     public void VerifyTitleLeftMargin() throws Exception {
         int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_title_margin);
@@ -69,9 +70,9 @@ public class NavigationBarTest {
         getTitleView().check(matches(ViewPropertiesMatchers.isSameTittleLeftMargin(iconpadding)));
     }
 
+    @Ignore
     @Test
     public void VerifyTitleRightMargin() throws Exception {
-
         int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_title_margin);
 
         getTitleView().check(matches(ViewPropertiesMatchers.isSameTitleRightMargin(iconpadding)));
@@ -152,7 +153,7 @@ public class NavigationBarTest {
 
     @Test
     public void VerifyNavigationBarIconTouchableArea() throws Exception {
-        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_height);
+        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uit.test.R.dimen.navigation_button_touchable_area);
 
         getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
     }

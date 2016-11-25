@@ -59,6 +59,7 @@
     <dimen name="navigation_icon_size">24dp</dimen>
     <dimen name="navigation_title_margin">24dp</dimen>
     <dimen name="navigation_height_land">48dp</dimen>
+    <dimen name="navigation_button_touchable_area">48dp</dimen>
     <dimen name="navigation_title_text_size">20sp</dimen>
     <dimen name="navigation_title_text_spacing">24dp</dimen>
 

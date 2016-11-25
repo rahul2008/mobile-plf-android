@@ -42,13 +42,15 @@ public class BaseTestActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         setContentView(layout);
-                        toolbar = (Toolbar) findViewById(com.philips.platform.uit.test.R.id.uid_toolbar);
-                        setSupportActionBar(toolbar);
-                        toolbar.setNavigationContentDescription("navigationIcon");
-                        toolbar.setNavigationIcon(com.philips.platform.uit.test.R.drawable.uid_switch_thumb);
-                        toolbar.setTitleMarginStart(getResources().getDimensionPixelOffset(com.philips.platform.uit.test.R.dimen.uid_navigation_bar_title_margin_left_right));
-                        toolbar.setTitleMarginEnd(getResources().getDimensionPixelOffset(com.philips.platform.uit.test.R.dimen.uid_navigation_bar_title_margin_left_right));
-                        toolbar.setTitle(com.philips.platform.uit.test.R.string.catalog_app_name);
+                        if (layout == com.philips.platform.uit.test.R.layout.main_layout) {
+                            toolbar = (Toolbar) findViewById(com.philips.platform.uit.test.R.id.uid_toolbar);
+                            setSupportActionBar(toolbar);
+                            toolbar.setNavigationContentDescription("navigationIcon");
+                            toolbar.setNavigationIcon(com.philips.platform.uit.test.R.drawable.uid_switch_thumb);
+                            toolbar.setTitleMarginStart(getResources().getDimensionPixelOffset(com.philips.platform.uit.test.R.dimen.uid_navigation_bar_title_margin_left_right));
+                            toolbar.setTitleMarginEnd(getResources().getDimensionPixelOffset(com.philips.platform.uit.test.R.dimen.uid_navigation_bar_title_margin_left_right));
+                            toolbar.setTitle(com.philips.platform.uit.test.R.string.catalog_app_name);
+                        }
                     }
                 }
         );
