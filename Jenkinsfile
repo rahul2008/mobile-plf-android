@@ -18,7 +18,7 @@ node ('android_pipeline') {
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+                sh 'cd ./Source/Library && ./gradlew clean assembleDebug lint test jacocoTestReport assembleRelease zipDocuments'
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
