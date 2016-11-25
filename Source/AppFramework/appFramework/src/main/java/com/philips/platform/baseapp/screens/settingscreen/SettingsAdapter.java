@@ -52,8 +52,8 @@ public class SettingsAdapter extends BaseAdapter{
     private SettingListItemType type;
     private View vi;
     private ProgressDialog progress,progressDialog;
-    private int loginView = 0;
-    private int verticalSettingView = 1;
+    private int LOGIN_VIEW = 0;
+    private int VERTICAL_SETTING_VIEW = 1;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            UIBasePresenter fragmentPresenter) {
@@ -90,9 +90,9 @@ public class SettingsAdapter extends BaseAdapter{
     public int getItemViewType(int position) {
         if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
                 || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
-            return loginView;
+            return LOGIN_VIEW;
         }
-        return verticalSettingView;
+        return VERTICAL_SETTING_VIEW;
     }
 
     @NonNull
@@ -101,14 +101,14 @@ public class SettingsAdapter extends BaseAdapter{
         vi = convertView;
         int type = getItemViewType(position);
         if (vi == null) {
-            if (type == loginView) {
+            if (type == LOGIN_VIEW) {
                 vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, parent, false);
             }
             else {
                 vi = inflater.inflate(R.layout.uikit_listview_without_icons, parent, false);
             }
         }
-        if(type == loginView){
+        if (type == LOGIN_VIEW) {
             loginButtonView();
         } else {
             verticalAppView(position);
