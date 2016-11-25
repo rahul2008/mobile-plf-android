@@ -82,11 +82,11 @@ artifactory {
                 publishArtifacts = true
             }
         }
-			defaults {
+		/*	defaults {
 				publications ('apk')
 				publishPom = true
 				publishArtifacts = true
-			}
+			} */
     }
     resolve {
         repository {
