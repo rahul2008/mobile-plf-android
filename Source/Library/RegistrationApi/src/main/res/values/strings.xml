@@ -218,7 +218,7 @@
     <string name="Opt_In_Special_Offers">Special offers, promotions and first hand information about new product releases. Tailored for you!</string>
     <string name="Opt_In_Receive_Promotional">Receive promotional communications of Philips based on my preferences and online behavior\n%s</string>
     <string name="Reg_Country">Country</string>
-    <string name="search">Search…</string>
+    <string name="Country_Search_Text">Search…</string>
 
 
     <string-array name="country_code" >

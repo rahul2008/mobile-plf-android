@@ -112,4 +112,25 @@ public class AppTagingConstants {
 
 	public static final String FIELD_CANNOT_EMPTY_PASSWORD = "password : Field cannot be empty";
 
+    public static final String REGISTRATION_SPLIT_SIGN_UP = "registration1:Splitsign-up";
+
+    public static final String REGISTRATION_CONTROL = "registration1:control";
+
+    public static final String REGISTRATION_SOCIAL_PROOF = "registration1:Socialproof";
+
+    public static final String REGISTRATION_ACTIVATION_SMS = "registration:accountactivationbysms";
+
+    public static final String ACTIVATION_NOT_VERIFIEF = "sms is not verified";
+
+    public static final String MOBILE_RESEND_EMAIL_VERFICATION = "successResendEmailVerification";
+
+    public static final String MOBILE_INAPPNATIFICATION = "inAppNotification ";
+
+    public static final String MOBILE_RESEND_SMS_VERFICATION = "successResendSMSVerification";
+
+    public static final String MOBILE_RESEND_SMS_VERFICATION_FAILURE = "failureResendSMSVerification";
+
+    public static final String AB_TEST = "abtest";
+
+
 }

@@ -363,7 +363,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                 @Override
                 public void onSelectCountry(String name, String code) {
-                      mCountryDisplayy.setText(name);
+                    ((RegistrationFragment) getParentFragment()).hideKeyBoard();
+                    mCountryDisplayy.setText(name);
                       RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                         changeCountry(code.trim().toUpperCase());
                         picker.dismiss();

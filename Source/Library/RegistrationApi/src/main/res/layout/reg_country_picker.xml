@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="@string/search"
+        android:hint="@string/Country_Search_Text"
         style="@style/reg_style_tab_hint"
         android:drawableLeft="@drawable/search_icon"
         reglib:fontAssetName="CentraleSans-Light.otf" />

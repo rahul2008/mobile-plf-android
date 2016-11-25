@@ -178,15 +178,19 @@ public class UserRegistrationInitializer {
                 mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
 
             }
+
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 System.out.println("STRING S : " + s);
-                String localeArr[] = s.toString().split("_");
-                RegistrationHelper.getInstance().setCountryCode(localeArr[1]);
-                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
+                try {
+                    String localeArr[] = s.toString().split("_");
+                    RegistrationHelper.getInstance().setCountryCode(localeArr[1]);
+                    mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
 
 
     }

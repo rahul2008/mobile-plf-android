@@ -457,22 +457,37 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         final UIFlow abStrings=RegUtility.getUiFlow();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)||
-                abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
-            RLog.d(RLog.AB_TESTING,"UI Flow Type A and C");
+        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_CONTROL);
             if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                if (FieldsValidator.isValidEmail(mUser.getEmail().toString())){
+                if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
                     launchAccountActivateFragment();
-                }else {
+                } else {
                     getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
                 }
             } else {
                 launchWelcomeFragment();
             }
-
-        }else {
-            RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+        } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
+        } else {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
+            if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+                if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
+                    launchAccountActivateFragment();
+                } else {
+                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                }
+            } else {
+                launchWelcomeFragment();
+            }
         }
         if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
             mTrackCreateAccountTime =  (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000;

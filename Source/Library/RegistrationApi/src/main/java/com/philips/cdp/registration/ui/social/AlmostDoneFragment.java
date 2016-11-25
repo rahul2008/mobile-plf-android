@@ -663,17 +663,29 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         trackMultipleActions();
         User user = new User(mContext);
         final UIFlow abStrings=RegUtility.getUiFlow();
-        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A) ||
-                abStrings.equals(UIFlow.STRING_EXPERIENCE_C)) {
-            RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
+        if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_CONTROL);
             if (user.getEmailVerificationStatus()) {
                 launchWelcomeFragment();
             } else {
                 launchAccountActivateFragment();
             }
-        } else {
+        } else if(abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
+        }else {
+            RLog.d(RLog.AB_TESTING, "UI Flow Type C");
+            trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
+                    AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
+            if (user.getEmailVerificationStatus()) {
+                launchWelcomeFragment();
+            } else {
+                launchAccountActivateFragment();
+            }
         }
         hideSpinner();
     }
