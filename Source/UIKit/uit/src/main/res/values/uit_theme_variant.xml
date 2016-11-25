@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Base">
         <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
         <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel55</item>
@@ -8,7 +7,6 @@
         <item name="uidTextPrimaryColor">@color/uidColorWhite</item>
         <item name="uidControlPrimaryAlternateTextColor">?attr/uidColorLevel75</item>
         <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
-        <!--todo white+10? -->
         <item name="uidControlPrimaryAlternatePressedColor">?attr/uidColorLevel85</item>
         <item name="uidControlPrimaryAltDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
@@ -104,12 +102,8 @@
 
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel10</item>
 
-        <!--<item name="uidDialogTitleTextColor">@color/uid_gray_level_85</item>
-        <item name="uidDialogBodyTextColor">@color/uid_gray_level_75</item>-->
-
         <item name="uidTextPrimary">@color/uid_gray_level_75</item>
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
-
     </style>
 
     <style name="VeryLight">
@@ -141,9 +135,6 @@
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel25</item>
-
-        <!-- <item name="uidDialogTitleTextColor">@color/uid_gray_level_85</item>
-         <item name="uidDialogBodyTextColor">?attr/uidColorLevel75</item>-->
 
         <item name="uidTextPrimary">?attr/uidColorLevel75</item>
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
@@ -179,11 +170,7 @@
 
         <item name="uidSwitchTrackOnColor">?attr/uidColorLevel75</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel40</item>
-
-        <!--<item name="uidDialogBodyTextColor">@color/uidColorWhite</item>-->
-
     </style>
-
 
     <style name="Bright">
         <item name="uidContentPrimary">?attr/uidColorLevel50</item>
@@ -246,5 +233,4 @@
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_35</item>
     </style>
-
 </resources>

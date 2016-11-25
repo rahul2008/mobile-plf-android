@@ -12,13 +12,13 @@ public enum PrimaryControlType {
     ALTERNATE_PRIMARY {
         @Override
         void injectPrimaryControlColors(Resources.Theme theme) {
-            theme.applyStyle(R.style.UITPrimaryControl_AlternatePrimary, true);
+            theme.applyStyle(R.style.UIDPrimaryControl_AlternatePrimary, true);
         }
     },
     SECONDARY {
         @Override
         void injectPrimaryControlColors(final Resources.Theme theme) {
-            theme.applyStyle(R.style.UITPrimaryControl_Secondary, true);
+            theme.applyStyle(R.style.UIDPrimaryControl_Secondary, true);
         }
     };
 

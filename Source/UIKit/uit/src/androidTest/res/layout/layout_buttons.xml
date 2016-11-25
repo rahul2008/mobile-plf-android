@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
-                style="@style/UITDefaultButton.UITImageTextButton"
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:drawablePadding="@dimen/uid_imagebutton_padding"
                 android:text="@string/buttons_with_icons"
                 android:layout_marginTop="@dimen/component_bottom_spacing"/>
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
-                style="@style/UITDefaultButton.UITImageTextButton"
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:drawablePadding="@dimen/uid_imagebutton_padding"
                 android:text="@string/buttons_with_icons"
                 android:layout_marginTop="@dimen/component_bottom_spacing"/>

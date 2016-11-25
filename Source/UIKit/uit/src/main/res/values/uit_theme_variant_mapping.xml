@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="UITPrimaryControl">
+    <style name="UIDPrimaryControl">
         <item name="uidButtonNormalColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidButtonPressedColor">?attr/uidControlPrimaryPressedColor</item>
         <item name="uidButtonDisabledColor">?attr/uidControlPrimaryEnabledColor</item>
@@ -10,17 +9,16 @@
         <item name="uidButtonTextDisabledAlpha">@dimen/uid_button_disabled_alpha</item>
     </style>
 
-    <style name="UITPrimaryControl.AlternatePrimary">
+    <style name="UIDPrimaryControl.AlternatePrimary">
         <item name="uidButtonNormalColor">?attr/uidControlPrimaryAlternateEnabledColor</item>
         <item name="uidButtonPressedColor">?attr/uidControlPrimaryAlternatePressedColor</item>
         <item name="uidButtonDisabledColor">?attr/uidControlPrimaryAlternateEnabledColor</item>
     </style>
 
-    <style name="UITPrimaryControl.Secondary">
+    <style name="UIDPrimaryControl.Secondary">
         <item name="uidButtonNormalColor">?attr/uidControlSecondaryEnabledColor</item>
         <item name="uidButtonPressedColor">?attr/uidControlSecondaryPressedColor</item>
         <item name="uidButtonDisabledColor">?attr/uidControlSecondaryEnabledColor</item>
         <item name="uidButtonTextColor">?attr/uidControlSecondaryTextColor</item>
     </style>
-
 </resources>

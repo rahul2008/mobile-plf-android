@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Buttons -->
     <declare-styleable name="UIDButton">
         <attr name="uidButtonNormalColor" format="reference|color"/>
         <attr name="uidButtonPressedColor" format="reference|color"/>
@@ -18,10 +17,9 @@
         <attr name="uidButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
         <attr name="uidQuietButtonDisabledAlpha" format="reference|float"/>
-
     </declare-styleable>
 
-    <declare-styleable name="UITImageButton">
+    <declare-styleable name="UIDImageButton">
         <attr name="uidImageButtonDrawableHeight" format="dimension"/>
         <attr name="uidImageButtonDrawableWidth" format="dimension"/>
         <attr name="uidImageButtonDrawableSrc" format="reference"/>
@@ -29,7 +27,7 @@
         <attr name="uidImageButtonColorList" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="UITTextEditBox">
+    <declare-styleable name="UIDTextEditBox">
         <attr name="uidInputTextFillColor" format="reference|color"/>
         <attr name="uidInputTextFillPressedColor" format="reference|color"/>
         <attr name="uidInputTextFillDisabledColor" format="reference|color"/>
@@ -56,7 +54,7 @@
         <attr name="uidInputTextHintTextSelector" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="UITActionBar">
+    <declare-styleable name="UIDActionBar">
         <attr name="uidActionBarBackground" format="reference|color"/>
     </declare-styleable>
 
@@ -96,7 +94,6 @@
         <attr name="uidDialogDimStrongColorAlpha" format="reference|float"/>
     </declare-styleable>
 
-    <!--Label-->
     <declare-styleable name="UIDLabel">
         <attr name="uidLabelTextColor" format="reference|color"/>
         <attr name="uidLabelTextAlpha" format="float"/>

@@ -44,7 +44,7 @@ public class Button extends AppCompatButton {
     }
 
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDButton, defStyleAttr, R.style.UITDefaultButton);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDButton, defStyleAttr, R.style.UIDDefaultButton);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         assignDrawableProperties(typedArray, theme, attrs);

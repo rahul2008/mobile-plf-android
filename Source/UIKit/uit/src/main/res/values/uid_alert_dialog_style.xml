@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <style name="UIDAlertDialogStyle" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:textColorPrimary">?attr/uidDialogTitleTextColor</item>
         <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
@@ -72,5 +71,4 @@
         <item name="android:windowEnterAnimation">@anim/uid_alert_dialog_fade_in</item>
         <item name="android:windowExitAnimation">@anim/uid_alert_dialog_fade_out</item>
     </style>
-
 </resources>

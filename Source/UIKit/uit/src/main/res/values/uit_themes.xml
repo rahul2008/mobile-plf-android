@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="GroupBlue">
         <item name="uidColorLevel90">@color/uid_group_blue_level_90</item>
         <item name="uidColorLevel85">@color/uid_group_blue_level_85</item>

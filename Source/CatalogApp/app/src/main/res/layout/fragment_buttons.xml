@@ -92,7 +92,7 @@
             android:orientation="vertical">
 
             <com.philips.platform.uit.view.widget.Button
-                style="@style/UITImageTextButton.Center"
+                style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
@@ -101,7 +101,7 @@
                 android:text="@string/buttons_text_primary"/>
 
             <com.philips.platform.uit.view.widget.Button
-                style="@style/UITImageTextButton.Center"
+                style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
@@ -138,7 +138,7 @@
                 android:text="@string/buttons_text_left_aligned_category"/>
 
             <com.philips.platform.uit.view.widget.Button
-                style="@style/UITDefaultButton.UITImageTextButton"
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/button_first_last_element_gap"
@@ -160,7 +160,7 @@
             android:visibility="gone">
 
             <com.philips.platform.uit.view.widget.Button
-                style="@style/UITDefaultButton.UITImageTextButton"
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
@@ -168,7 +168,7 @@
                 android:text="@string/buttons_text_primary"/>
 
             <com.philips.platform.uit.view.widget.Button
-                style="@style/UITDefaultButton.UITImageTextButton"
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/button_gap"
@@ -206,7 +206,7 @@
 
             <com.philips.platform.uit.view.widget.ImageButton
                 android:id="@+id/imageShare"
-                style="@style/UITImageButton"
+                style="@style/UIDImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
