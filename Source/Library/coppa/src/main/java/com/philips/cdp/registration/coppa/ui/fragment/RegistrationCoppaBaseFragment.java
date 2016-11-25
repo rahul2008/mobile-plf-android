@@ -78,11 +78,11 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
     private void setCustomLocale() {
-        Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
+     /*   Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
         final Configuration configuration = new Configuration();
         configuration.locale = RegistrationHelper.getInstance().getLocale(getContext());
         getActivity().getResources().updateConfiguration(configuration, getActivity().
-                getResources().getDisplayMetrics());
+                getResources().getDisplayMetrics());*/
     }
 
 
