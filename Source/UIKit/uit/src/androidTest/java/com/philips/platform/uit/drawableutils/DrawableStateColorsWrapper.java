@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
+import com.philips.platform.uit.utils.UITTestUtils;
+
 public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
 
     private static final String TINT_COLOR_FIELD = "mTint";
@@ -18,6 +20,11 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     public DrawableStateColorsWrapper(Drawable drawable) {
         super(drawable);
         gradientConstantState = (Drawable.ConstantState) GradientDrawableUtils.getField(constantState, "mDrawableState");
+    }
+
+    @Override
+    public int getDefaultColor() {
+        return getColorStateList().getDefaultColor();
     }
 
     @Override
@@ -40,14 +47,6 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
         throw new RuntimeException("Not supported. We should never reach here");
     }
 
-    private ColorStateList getColorStateList() {
-        Drawable.ConstantState wrappedConstantState = constantState;
-        if (Build.VERSION.SDK_INT >= 21) {
-            wrappedConstantState = gradientConstantState;
-        }
-        return (ColorStateList) GradientDrawableUtils.getField(wrappedConstantState, TINT_COLOR_FIELD);
-    }
-
     @Override
     protected Drawable.ConstantState getConstantStateForRadius() {
         return gradientConstantState;
@@ -56,5 +55,18 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
     @Override
     protected Drawable.ConstantState getConstantStateForStrokeWidth() {
         return gradientConstantState;
+    }
+
+    private ColorStateList getColorStateList() {
+        Drawable.ConstantState wrappedConstantState = constantState;
+        if (Build.VERSION.SDK_INT >= 21) {
+            wrappedConstantState = gradientConstantState;
+
+            Drawable gd = UITTestUtils.getWrappedClipDrawableFromReflection(drawable);
+            if (gd != drawable) {
+                wrappedConstantState = gd.getConstantState();
+            }
+        }
+        return (ColorStateList) GradientDrawableUtils.getField(wrappedConstantState, TINT_COLOR_FIELD);
     }
 }

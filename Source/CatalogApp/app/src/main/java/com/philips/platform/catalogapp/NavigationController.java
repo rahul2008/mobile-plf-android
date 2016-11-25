@@ -1,7 +1,9 @@
 package com.philips.platform.catalogapp;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
@@ -30,9 +32,11 @@ public class NavigationController {
     private MainActivity mainActivity;
     private MenuItem themeSetting;
     private MenuItem setTheme;
+    SharedPreferences fragmentPreference;
 
     public NavigationController(final MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+        fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
     }
 
     protected void processBackButton() {
@@ -42,6 +46,7 @@ public class NavigationController {
                 toggleHamburgerIcon();
             } else {
                 showHamburgerIcon();
+                storeFragmentInPreference(null);
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
@@ -102,8 +107,14 @@ public class NavigationController {
                 }
             }
         }
+
+        String tag = fragment.getClass().getName();
+        if (!(fragment instanceof ThemeSettingsFragment)) {
+            storeFragmentInPreference(tag);
+        }
+
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
-        transaction.replace(R.id.mainContainer, fragment, fragment.getClass().getName());
+        transaction.replace(R.id.mainContainer, fragment, tag);
         transaction.addToBackStack(null);
         transaction.commit();
         toggleHamburgerIcon();
@@ -147,6 +158,8 @@ public class NavigationController {
         if (savedInstanceState == null) {
             initDemoListFragment();
             showHamburgerIcon();
+
+            restoreLastActiveFragment();
         } else {
             showUiFromPreviousState(savedInstanceState);
         }
@@ -168,5 +181,29 @@ public class NavigationController {
     //Needed only untill we have hamburger
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    private void storeFragmentInPreference(String fragmentTag) {
+        fragmentPreference.edit().putString("activeFragment", fragmentTag).commit();
+    }
+
+    private String getLastActiveFragmentName() {
+        return fragmentPreference.getString("activeFragment", null);
+    }
+
+    private void restoreLastActiveFragment() {
+        if (getLastActiveFragmentName() != null) {
+            String fragmentName = getLastActiveFragmentName();
+            try {
+                Class<BaseFragment> fragmentClass = (Class<BaseFragment>) Class.forName(fragmentName);
+                switchFragment(fragmentClass.newInstance());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

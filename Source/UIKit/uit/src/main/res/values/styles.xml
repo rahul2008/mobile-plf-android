@@ -10,6 +10,7 @@
         <item name="android:windowBackground">?attr/uitContentPrimary</item>
         <item name="switchStyle">@style/UIDSwitchStyle</item>
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
+
         <!-- Action bar and toolbar style-->
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
          <item name="android:actionBarStyle">@style/UIDToolbar</item>
@@ -36,6 +37,7 @@
         <!-- Below lines are to set the color for options menu items text color -->
         <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
+        <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
     </style>
 
 </resources>

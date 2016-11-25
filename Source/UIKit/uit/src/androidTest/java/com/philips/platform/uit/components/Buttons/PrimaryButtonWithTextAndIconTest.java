@@ -42,7 +42,7 @@ public class PrimaryButtonWithTextAndIconTest {
     @Test
     public void verifyTextandIconButtonCompoundPadding() {
         waitFor(testResources, 750);
-        int expectedCompoundPadding = (int) (testResources.getDimension(com.philips.platform.uit.test.R.dimen.iconandtextbutton_compoundpadding));
+        int expectedCompoundPadding = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconandtextbutton_compoundpadding));
         getIconandTextButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
 

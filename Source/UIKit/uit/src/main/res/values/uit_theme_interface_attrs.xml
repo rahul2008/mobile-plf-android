@@ -80,6 +80,15 @@
         <attr name="uidSwitchBorderColorList" format="reference|color"/>
     </declare-styleable>
 
+    <declare-styleable name="UIDProgressBar">
+        <attr name="uitControlPrimaryTrackOff" format="reference|color"/>
+        <attr name="uitControlPrimaryBuffer" format="reference|color"/>
+        <attr name="uitControlPrimaryTrackOffAlpha" format="reference|float"/>
+        <attr name="uitControlPrimaryBufferAlpha" format="reference|float"/>
+        <attr name="uidLinearProgressBar" format="boolean"/>
+        <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
+    </declare-styleable>
+
     <declare-styleable name="UIDDialog">
         <attr name="uitDialogTitleTextColor" format="reference|color"/>
         <attr name="uitDialogBodyTextColor" format="reference|color"/>

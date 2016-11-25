@@ -39,6 +39,19 @@ public class DrawableMatcher {
         };
     }
 
+    public static Matcher<Drawable> isMinWidth(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                Rect bounds = drawable.getBounds();
+                int actualHeight = bounds.right - bounds.left;
+                setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
+                return actualHeight >= expectedValue;
+            }
+        };
+    }
+
     public static Matcher<Drawable> isSameWidth(final int expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
@@ -64,14 +77,20 @@ public class DrawableMatcher {
         };
     }
 
-    public static Matcher<Drawable> isSameColor(final int state, final int expectedValue) {
+    public static Matcher<Drawable> isSameColor(final int state, final int expectedValue, final boolean defaultColor) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(Integer.toHexString(stateColors.getStateColor(state))), Integer.toHexString(expectedValue));
-                return stateColors.getStateColor(state) == expectedValue;
+                int color;
+                if (defaultColor) {
+                    color = stateColors.getDefaultColor();
+                } else {
+                    color = stateColors.getStateColor(state);
+                }
+                setValues(String.valueOf(Integer.toHexString(color)), Integer.toHexString(expectedValue));
+                return color == expectedValue;
             }
         };
     }
@@ -120,6 +139,45 @@ public class DrawableMatcher {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 setValues(String.valueOf(stateColors.getRippleColor(attr)), String.valueOf(expectedValue));
                 return stateColors.getRippleColor(attr) == expectedValue;
+            }
+        };
+    }
+
+    public static Matcher<Drawable> isSameThicknessRatio(final float expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                int actual = (int) (stateColors.getRingThicknessRatio() * 100);
+                int expected = (int) (expectedValue *100);
+                setValues(String.valueOf(actual), String.valueOf(expectedValue));
+                return actual == expected;
+            }
+        };
+    }
+
+    public static Matcher<Drawable> isSameInnerRadiusRatio(final float expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                int actual = (int) (stateColors.getInnerRadiusRatio() * 100);
+                int expected = (int) (expectedValue *100);
+                setValues(String.valueOf(actual), String.valueOf(expectedValue));
+                return actual == expected;
+            }
+        };
+    }
+
+    public static Matcher<Drawable> isSameColors(final int index, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<Drawable>() {
+            @Override
+            protected boolean matchesSafely(Drawable drawable) {
+                GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
+                int actual = stateColors.getColors()[index];
+                setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
+                return actual == expectedValue;
             }
         };
     }
