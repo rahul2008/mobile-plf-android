@@ -188,8 +188,8 @@ public class AlertDialogFragment extends DialogFragment {
 
     private void setDimColors() {
         TypedArray array = getActivity().obtainStyledAttributes(R.styleable.UIDDialog);
-        int bgColor = array.getColor(R.styleable.UIDDialog_uitDialogDimStrongColor, dimColor);
-        float bgColorAlpha = array.getFloat(R.styleable.UIDDialog_uitDialogDimStrongColorAlpha, dimColorAlpha);
+        int bgColor = array.getColor(R.styleable.UIDDialog_uidDialogDimStrongColor, dimColor);
+        float bgColorAlpha = array.getFloat(R.styleable.UIDDialog_uidDialogDimStrongColorAlpha, dimColorAlpha);
         setDimColor(bgColor, bgColorAlpha);
         array.recycle();
     }

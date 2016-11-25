@@ -108,7 +108,7 @@
                 android:layout_marginRight="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/button_gap"
                 android:text="@string/buttons_text_secondary"
-                app:uitComponentType="Secondary"/>
+                app:uidComponentType="Secondary"/>
 
             <com.philips.platform.uit.view.widget.Button
                 style="@style/UIDExtraWideIconQuietButton.Center"
@@ -146,7 +146,7 @@
                 android:layout_marginRight="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
                 android:text="@string/buttons_text_left_aligned"
-                app:uitComponentType="Secondary"/>
+                app:uidComponentType="Secondary"/>
         </LinearLayout>
         <!--Left aligned extra wide buttons[end]-->
 
@@ -174,7 +174,7 @@
                 android:layout_marginTop="@dimen/button_gap"
                 android:gravity="center"
                 android:text="@string/buttons_text_secondary"
-                app:uitComponentType="Secondary"/>
+                app:uidComponentType="Secondary"/>
 
             <com.philips.platform.uit.view.widget.Button
                 style="@style/UIDQuietButton"
@@ -211,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
 
             <com.philips.platform.uit.view.widget.ImageButton
                 android:id="@+id/quiet_icon_only"
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

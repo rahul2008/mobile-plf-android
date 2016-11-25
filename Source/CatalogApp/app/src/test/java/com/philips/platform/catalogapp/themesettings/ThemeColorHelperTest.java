@@ -29,14 +29,14 @@ public class ThemeColorHelperTest {
         final int[] colorRangeArray = themeColorHelper.getColorRangeArray();
 
         assertEquals(8, colorRangeArray.length);
-        assertEquals(colorRangeArray[0], R.color.uitColorWhite);
-        assertEquals(colorRangeArray[1], R.color.uitColorWhite);
-        assertEquals(colorRangeArray[2], R.color.uitColorWhite);
-        assertEquals(colorRangeArray[3], R.color.uitColorWhite);
-        assertEquals(colorRangeArray[4], R.color.uitColorWhite);
-        assertEquals(colorRangeArray[5], R.color.uitColorWhite);
-        assertEquals(colorRangeArray[6], R.color.uitColorWhite);
-        assertEquals(colorRangeArray[7], R.color.uitColorWhite);
+        assertEquals(colorRangeArray[0], R.color.uidColorWhite);
+        assertEquals(colorRangeArray[1], R.color.uidColorWhite);
+        assertEquals(colorRangeArray[2], R.color.uidColorWhite);
+        assertEquals(colorRangeArray[3], R.color.uidColorWhite);
+        assertEquals(colorRangeArray[4], R.color.uidColorWhite);
+        assertEquals(colorRangeArray[5], R.color.uidColorWhite);
+        assertEquals(colorRangeArray[6], R.color.uidColorWhite);
+        assertEquals(colorRangeArray[7], R.color.uidColorWhite);
     }
 
     @Test
@@ -45,10 +45,10 @@ public class ThemeColorHelperTest {
         final int[] colorsArray = themeColorHelper.getContentColorsArray(application.getResources(), "group_blue", application.getPackageName());
 
         assertEquals(5, colorsArray.length);
-        assertEquals(colorsArray[0], R.color.uit_group_blue_level_75);
-        assertEquals(colorsArray[1], R.color.uit_group_blue_level_50);
-        assertEquals(colorsArray[2], R.color.uit_group_blue_level_35);
-        assertEquals(colorsArray[3], R.color.uit_group_blue_level_20);
-        assertEquals(colorsArray[4], R.color.uitColorWhite);
+        assertEquals(colorsArray[0], R.color.uid_group_blue_level_75);
+        assertEquals(colorsArray[1], R.color.uid_group_blue_level_50);
+        assertEquals(colorsArray[2], R.color.uid_group_blue_level_35);
+        assertEquals(colorsArray[3], R.color.uid_group_blue_level_20);
+        assertEquals(colorsArray[4], R.color.uidColorWhite);
     }
 }

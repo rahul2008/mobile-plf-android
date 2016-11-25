@@ -48,25 +48,25 @@ public class ImageButton extends AppCompatButton {
     }
 
     private void assignDrawableProperties(@NonNull TypedArray typedArray) {
-        drawableWidth = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageButtonDrawableWidth, 0.0f);
-        drawableHeight = (int) typedArray.getDimension(R.styleable.UITImageButton_uitImageButtonDrawableHeight, 0.0f);
+        drawableWidth = (int) typedArray.getDimension(R.styleable.UITImageButton_uidImageButtonDrawableWidth, 0.0f);
+        drawableHeight = (int) typedArray.getDimension(R.styleable.UITImageButton_uidImageButtonDrawableHeight, 0.0f);
 
         //Store the color state list
-        int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableColorList, -1);
+        int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uidImageButtonDrawableColorList, -1);
         if (resourceId != -1) {
             drawableColorlist = ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), resourceId);
         }
     }
 
     private void applyBackgroundTinting(@NonNull TypedArray typedArray) {
-        int backGroundListID = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonColorList, -1);
+        int backGroundListID = typedArray.getResourceId(R.styleable.UITImageButton_uidImageButtonColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
             ViewCompat.setBackgroundTintList(this, ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backGroundListID));
         }
     }
 
     private void applyDrawable(@NonNull TypedArray typedArray) {
-        int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uitImageButtonDrawableSrc, -1);
+        int resourceId = typedArray.getResourceId(R.styleable.UITImageButton_uidImageButtonDrawableSrc, -1);
         //We allow setting drawable programmatically too, which can be case for vectors.
         if (resourceId != -1) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();

@@ -56,7 +56,7 @@ public class TextEditBox extends EditText {
     }
 
     private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
-        int textSelectorID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextTextSelector, -1);
+        int textSelectorID = typedArray.getResourceId(R.styleable.UITTextEditBox_uidInputTextTextSelector, -1);
         if (textSelectorID != -1) {
             ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, textSelectorID);
             setTextColor(selector);
@@ -64,7 +64,7 @@ public class TextEditBox extends EditText {
     }
 
     private void setHintTextColors(final TypedArray typedArray, final Resources.Theme theme) {
-        int hintSelectorID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextHintTextSelector, -1);
+        int hintSelectorID = typedArray.getResourceId(R.styleable.UITTextEditBox_uidInputTextHintTextSelector, -1);
         if (hintSelectorID != -1) {
             ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, hintSelectorID);
             setHintTextColor(selector);
@@ -81,19 +81,19 @@ public class TextEditBox extends EditText {
         Drawable backgroundDrawable = fillDrawable;
         if (fillDrawable != null && borderDrawable != null) {
             backgroundDrawable = new LayerDrawable(new Drawable[]{fillDrawable, borderDrawable});
-            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_FILL_INDEX, R.id.uit_texteditbox_fill_drawable);
-            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_STROKE_INDEX, R.id.uit_texteditbox_stroke_drawable);
+            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_FILL_INDEX, R.id.uid_texteditbox_fill_drawable);
+            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_STROKE_INDEX, R.id.uid_texteditbox_stroke_drawable);
         }
         return backgroundDrawable;
     }
 
     private Drawable getBorderBackground(final @NonNull TypedArray typedArray, final Resources.Theme theme) {
-        int borderDrawableID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextBorderBackground, -1);
+        int borderDrawableID = typedArray.getResourceId(R.styleable.UITTextEditBox_uidInputTextBorderBackground, -1);
         Drawable strokeDrawable = null;
         if (borderDrawableID != -1) {
             strokeDrawable = AppCompatResources.getDrawable(getContext(), borderDrawableID);
-            int borderColorStateListID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextBorderBackgroundColorList, -1);
-            int borderWidth = (int) typedArray.getDimension(R.styleable.UITTextEditBox_uitInputTextBorderWidth, 0f);
+            int borderColorStateListID = typedArray.getResourceId(R.styleable.UITTextEditBox_uidInputTextBorderBackgroundColorList, -1);
+            int borderWidth = (int) typedArray.getDimension(R.styleable.UITTextEditBox_uidInputTextBorderWidth, 0f);
             if (borderColorStateListID != -1) {
                 strokeColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, borderColorStateListID);
                 strokeDrawable = StrokeCompat.setStroke(strokeDrawable, borderWidth, strokeColorStateList);
@@ -103,11 +103,11 @@ public class TextEditBox extends EditText {
     }
 
     private Drawable getFillBackgroundDrawable(final @NonNull TypedArray typedArray, final Resources.Theme theme) {
-        int fillDrawableID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextFillBackground, -1);
+        int fillDrawableID = typedArray.getResourceId(R.styleable.UITTextEditBox_uidInputTextFillBackground, -1);
         Drawable fillDrawable = null;
         if (fillDrawableID != -1) {
             fillDrawable = DrawableCompat.wrap(AppCompatResources.getDrawable(getContext(), fillDrawableID));
-            int fillColorStateListID = typedArray.getResourceId(R.styleable.UITTextEditBox_uitInputTextFillBackgroundColorList, -1);
+            int fillColorStateListID = typedArray.getResourceId(R.styleable.UITTextEditBox_uidInputTextFillBackgroundColorList, -1);
             if (fillColorStateListID != -1) {
                 fillColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, fillColorStateListID);
                 DrawableCompat.setTintList(fillDrawable, fillColorStateList);

@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Buttons -->
-    <declare-styleable name="UITButton">
-        <attr name="uitButtonNormalColor" format="reference|color"/>
-        <attr name="uitButtonPressedColor" format="reference|color"/>
-        <attr name="uitButtonDisabledColor" format="reference|color"/>
-        <attr name="uitButtonDisabledAlpha" format="reference|float|dimension"/>
-        <attr name="uitButtonTextColor" format="reference|color"/>
-        <attr name="uitButtonTextPressedColor" format="reference|color"/>
-        <attr name="uitButtonTextDisabledAlpha" format="reference|float|dimension"/>
-        <attr name="uitButtonBackgroundColorList" format="reference"/>
-        <attr name="uitButtonTextColorList" format="reference"/>
-        <attr name="uitButtonDrawableColorList" format="reference"/>
-        <attr name="uitButtonImageColorList" format="reference"/>
-        <attr name="uitButtonImageDrawableHeight" format="dimension"/>
-        <attr name="uitButtonImageDrawableWidth" format="dimension"/>
-        <attr name="uitButtonImageDrawableSrc" format="reference"/>
+    <declare-styleable name="UIDButton">
+        <attr name="uidButtonNormalColor" format="reference|color"/>
+        <attr name="uidButtonPressedColor" format="reference|color"/>
+        <attr name="uidButtonDisabledColor" format="reference|color"/>
+        <attr name="uidButtonDisabledAlpha" format="reference|float|dimension"/>
+        <attr name="uidButtonTextColor" format="reference|color"/>
+        <attr name="uidButtonTextPressedColor" format="reference|color"/>
+        <attr name="uidButtonTextDisabledAlpha" format="reference|float|dimension"/>
+        <attr name="uidButtonBackgroundColorList" format="reference"/>
+        <attr name="uidButtonTextColorList" format="reference"/>
+        <attr name="uidButtonDrawableColorList" format="reference"/>
+        <attr name="uidButtonImageColorList" format="reference"/>
+        <attr name="uidButtonImageDrawableHeight" format="dimension"/>
+        <attr name="uidButtonImageDrawableWidth" format="dimension"/>
+        <attr name="uidButtonImageDrawableSrc" format="reference"/>
         <attr name="uidButtonCenter" format="boolean"/>
-        <attr name="uitQuietButtonDisabledAlpha" format="reference|float"/>
+        <attr name="uidQuietButtonDisabledAlpha" format="reference|float"/>
 
     </declare-styleable>
 
     <declare-styleable name="UITImageButton">
-        <attr name="uitImageButtonDrawableHeight" format="dimension"/>
-        <attr name="uitImageButtonDrawableWidth" format="dimension"/>
-        <attr name="uitImageButtonDrawableSrc" format="reference"/>
-        <attr name="uitImageButtonDrawableColorList" format="reference"/>
-        <attr name="uitImageButtonColorList" format="reference"/>
+        <attr name="uidImageButtonDrawableHeight" format="dimension"/>
+        <attr name="uidImageButtonDrawableWidth" format="dimension"/>
+        <attr name="uidImageButtonDrawableSrc" format="reference"/>
+        <attr name="uidImageButtonDrawableColorList" format="reference"/>
+        <attr name="uidImageButtonColorList" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="UITTextEditBox">
-        <attr name="uitInputTextFillColor" format="reference|color"/>
-        <attr name="uitInputTextFillPressedColor" format="reference|color"/>
-        <attr name="uitInputTextFillDisabledColor" format="reference|color"/>
-        <attr name="uitInputTextFillDisabledAlpha" format="reference|float|dimension"/>
-        <attr name="uitInputTextFillColorList" format="reference"/>
-        <attr name="uitInputTextHint" format="reference|color"/>
-        <attr name="uitInputText" format="reference|color"/>
-        <attr name="uitInputTextFillBackground" format="reference"/>
-        <attr name="uitInputTextFillBackgroundColorList" format="reference"/>
-        <attr name="uitInputTextBorderBackground" format="reference"/>
-        <attr name="uitInputTextBorderWidth" format="reference|dimension"/>
-        <attr name="uitInputTextBorderColor" format="reference|color"/>
-        <attr name="uitInputTextBorderPressedColor" format="reference|color"/>
-        <attr name="uitInputTextBorderPressedColorAlpha" format="reference|float"/>
-        <attr name="uitInputTextBorderDisabledColor" format="reference|color"/>
-        <attr name="uitInputTextBorderBackgroundColorList" format="reference"/>
-        <attr name="uitInputTextTextColor" format="reference|color"/>
-        <attr name="uitInputTextTextDisabledColor" format="reference|color"/>
-        <attr name="uitInputTextTextDisabledAlpha" format="reference|float"/>
-        <attr name="uitInputTextHintTextColor" format="reference|color"/>
-        <attr name="uitInputTextHintTextDisabledColor" format="reference|color"/>
-        <attr name="uitInputTextHintTextDisabledAlpha" format="reference|float"/>
-        <attr name="uitInputTextTextSelector" format="reference"/>
-        <attr name="uitInputTextHintTextSelector" format="reference"/>
+        <attr name="uidInputTextFillColor" format="reference|color"/>
+        <attr name="uidInputTextFillPressedColor" format="reference|color"/>
+        <attr name="uidInputTextFillDisabledColor" format="reference|color"/>
+        <attr name="uidInputTextFillDisabledAlpha" format="reference|float|dimension"/>
+        <attr name="uidInputTextFillColorList" format="reference"/>
+        <attr name="uidInputTextHint" format="reference|color"/>
+        <attr name="uidInputText" format="reference|color"/>
+        <attr name="uidInputTextFillBackground" format="reference"/>
+        <attr name="uidInputTextFillBackgroundColorList" format="reference"/>
+        <attr name="uidInputTextBorderBackground" format="reference"/>
+        <attr name="uidInputTextBorderWidth" format="reference|dimension"/>
+        <attr name="uidInputTextBorderColor" format="reference|color"/>
+        <attr name="uidInputTextBorderPressedColor" format="reference|color"/>
+        <attr name="uidInputTextBorderPressedColorAlpha" format="reference|float"/>
+        <attr name="uidInputTextBorderDisabledColor" format="reference|color"/>
+        <attr name="uidInputTextBorderBackgroundColorList" format="reference"/>
+        <attr name="uidInputTextTextColor" format="reference|color"/>
+        <attr name="uidInputTextTextDisabledColor" format="reference|color"/>
+        <attr name="uidInputTextTextDisabledAlpha" format="reference|float"/>
+        <attr name="uidInputTextHintTextColor" format="reference|color"/>
+        <attr name="uidInputTextHintTextDisabledColor" format="reference|color"/>
+        <attr name="uidInputTextHintTextDisabledAlpha" format="reference|float"/>
+        <attr name="uidInputTextTextSelector" format="reference"/>
+        <attr name="uidInputTextHintTextSelector" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="UITActionBar">
-        <attr name="uitActionBarBackground" format="reference|color"/>
+        <attr name="uidActionBarBackground" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDSwitch">
@@ -76,24 +76,24 @@
     </declare-styleable>
 
     <declare-styleable name="UIDProgressBar">
-        <attr name="uitControlPrimaryTrackOff" format="reference|color"/>
-        <attr name="uitControlPrimaryBuffer" format="reference|color"/>
-        <attr name="uitControlPrimaryTrackOffAlpha" format="reference|float"/>
-        <attr name="uitControlPrimaryBufferAlpha" format="reference|float"/>
+        <attr name="uidControlPrimaryTrackOff" format="reference|color"/>
+        <attr name="uidControlPrimaryBuffer" format="reference|color"/>
+        <attr name="uidControlPrimaryTrackOffAlpha" format="reference|float"/>
+        <attr name="uidControlPrimaryBufferAlpha" format="reference|float"/>
         <attr name="uidLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDDialog">
-        <attr name="uitDialogTitleTextColor" format="reference|color"/>
-        <attr name="uitDialogBodyTextColor" format="reference|color"/>
-        <attr name="uitDialogBackgroundColor" format="reference|color"/>
-        <attr name="uitDialogShadowColor" format="reference|color"/>
-        <attr name="uitDialogShadowAlpha" format="reference|float"/>
-        <attr name="uitDialogDimSubtleLayerColor" format="reference|color"/>
-        <attr name="uitDialogDimSubtleLayerAlpha" format="reference|float"/>
-        <attr name="uitDialogDimStrongColor" format="reference|color"/>
-        <attr name="uitDialogDimStrongColorAlpha" format="reference|float"/>
+        <attr name="uidDialogTitleTextColor" format="reference|color"/>
+        <attr name="uidDialogBodyTextColor" format="reference|color"/>
+        <attr name="uidDialogBackgroundColor" format="reference|color"/>
+        <attr name="uidDialogShadowColor" format="reference|color"/>
+        <attr name="uidDialogShadowAlpha" format="reference|float"/>
+        <attr name="uidDialogDimSubtleLayerColor" format="reference|color"/>
+        <attr name="uidDialogDimSubtleLayerAlpha" format="reference|float"/>
+        <attr name="uidDialogDimStrongColor" format="reference|color"/>
+        <attr name="uidDialogDimStrongColorAlpha" format="reference|float"/>
     </declare-styleable>
 
     <!--Label-->

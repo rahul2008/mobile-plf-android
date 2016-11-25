@@ -2,249 +2,249 @@
 <resources>
 
     <style name="Base">
-        <item name="uitControlPrimaryTextColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryTextPressedColor">?attr/uitColorLevel55</item>
-        <item name="uitControlPrimaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uitTextPrimaryColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryAlternateTextColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
+        <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel55</item>
+        <item name="uidControlPrimaryDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidTextPrimaryColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryAlternateTextColor">?attr/uidColorLevel75</item>
+        <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
         <!--todo white+10? -->
-        <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel85</item>
-        <item name="uitControlPrimaryAltDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidControlPrimaryAlternatePressedColor">?attr/uidColorLevel85</item>
+        <item name="uidControlPrimaryAltDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uitControlPrimaryTrackOff">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uitControlPrimaryTrackOffAlpha">@dimen/uit_alpha_per_15</item>
-        <item name="uitControlPrimaryBuffer">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uitControlPrimaryBufferAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uidControlPrimaryTrackOff">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_15</item>
+        <item name="uidControlPrimaryBuffer">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlPrimaryBufferAlpha">@dimen/uid_alpha_per_50</item>
 
-        <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uitQuietButtonDisabledAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uitNavigationTextColor">@color/uitColorWhite</item>
+        <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidQuietButtonDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidNavigationTextColor">@color/uidColorWhite</item>
 
-        <item name="uitButtonNormalColor">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uitButtonPressedColor">?attr/uitControlPrimaryPressedColor</item>
-        <item name="uitButtonDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uitButtonDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
-        <item name="uitButtonTextColor">?attr/uitControlPrimaryTextColor</item>
-        <item name="uitButtonTextDisabledAlpha">@dimen/uit_button_disabled_alpha</item>
+        <item name="uidButtonNormalColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidButtonPressedColor">?attr/uidControlPrimaryPressedColor</item>
+        <item name="uidButtonDisabledColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidButtonDisabledAlpha">@dimen/uid_button_disabled_alpha</item>
+        <item name="uidButtonTextColor">?attr/uidControlPrimaryTextColor</item>
+        <item name="uidButtonTextDisabledAlpha">@dimen/uid_button_disabled_alpha</item>
 
-        <item name="uitInputTextFillColor">?attr/uitColorLevel05</item>
-        <item name="uitInputTextFillPressedColor">@color/uitColorWhite</item>
-        <item name="uitInputTextFillDisabledColor">?attr/uitInputTextFillColor</item>
-        <item name="uitInputTextFillDisabledAlpha">@dimen/uit_texteditbox_fill_disabled_alpha</item>
-        <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width</item>
-        <item name="uitInputTextBorderColor">@android:color/transparent</item>
-        <item name="uitInputTextBorderDisabledColor">@android:color/transparent</item>
-        <item name="uitInputTextBorderPressedColor">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_alpha_per_100</item>
-        <item name="uitInputTextTextColor">@color/uit_gray_level_75</item>
-        <item name="uitInputTextTextDisabledColor">?attr/uitInputTextTextColor</item>
-        <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uitInputTextHintTextColor">@color/uit_gray_level_35</item>
-        <item name="uitInputTextHintTextDisabledColor">?attr/uitInputTextTextDisabledColor</item>
-        <item name="uitInputTextHintTextDisabledAlpha">?attr/uitInputTextTextDisabledAlpha</item>
+        <item name="uidInputTextFillColor">?attr/uidColorLevel05</item>
+        <item name="uidInputTextFillPressedColor">@color/uidColorWhite</item>
+        <item name="uidInputTextFillDisabledColor">?attr/uidInputTextFillColor</item>
+        <item name="uidInputTextFillDisabledAlpha">@dimen/uid_texteditbox_fill_disabled_alpha</item>
+        <item name="uidInputTextBorderWidth">@dimen/uid_texteditbox_stroke_width</item>
+        <item name="uidInputTextBorderColor">@android:color/transparent</item>
+        <item name="uidInputTextBorderDisabledColor">@android:color/transparent</item>
+        <item name="uidInputTextBorderPressedColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_alpha_per_100</item>
+        <item name="uidInputTextTextColor">@color/uid_gray_level_75</item>
+        <item name="uidInputTextTextDisabledColor">?attr/uidInputTextTextColor</item>
+        <item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidInputTextHintTextColor">@color/uid_gray_level_35</item>
+        <item name="uidInputTextHintTextDisabledColor">?attr/uidInputTextTextDisabledColor</item>
+        <item name="uidInputTextHintTextDisabledAlpha">?attr/uidInputTextTextDisabledAlpha</item>
 
-        <item name="uidSwitchTrackOnColor">?attr/uitColorLevel45</item>
+        <item name="uidSwitchTrackOnColor">?attr/uidColorLevel45</item>
         <item name="uidSwitchThumbColor">@android:color/white</item>
-        <item name="uidSwitchTrackOffColor">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uidSwitchTrackOffAlpha">@dimen/uit_alpha_per_30</item>
-        <item name="uidSwitchTrackDisabledColor">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uidSwitchTrackDisabledAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uidSwitchBorderColor">?attr/uitControlPrimaryEnabledColor</item>
-        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_20</item>
+        <item name="uidSwitchTrackOffColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidSwitchTrackDisabledColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidSwitchBorderColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_20</item>
 
-        <item name="uitDialogTitleTextColor">@color/uit_gray_level_75</item>
-        <item name="uitDialogBodyTextColor">@color/uit_gray_level_65</item>
-        <item name="uitDialogBackgroundColor">@color/uitColorWhite</item>
-        <item name="uitDialogShadowColor">@android:color/black</item>
-        <item name="uitDialogDimSubtleLayerColor">?attr/uitColorLevel90</item>
-        <item name="uitDialogDimStrongColor">?attr/uitColorLevel90</item>
-        <item name="uitDialogShadowAlpha">@dimen/uit_alpha_per_20</item>
-        <item name="uitDialogDimSubtleLayerAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uitDialogDimStrongColorAlpha">@dimen/uit_alpha_per_80</item>
+        <item name="uidDialogTitleTextColor">@color/uid_gray_level_75</item>
+        <item name="uidDialogBodyTextColor">@color/uid_gray_level_65</item>
+        <item name="uidDialogBackgroundColor">@color/uidColorWhite</item>
+        <item name="uidDialogShadowColor">@android:color/black</item>
+        <item name="uidDialogDimSubtleLayerColor">?attr/uidColorLevel90</item>
+        <item name="uidDialogDimStrongColor">?attr/uidColorLevel90</item>
+        <item name="uidDialogShadowAlpha">@dimen/uid_alpha_per_20</item>
+        <item name="uidDialogDimSubtleLayerAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidDialogDimStrongColorAlpha">@dimen/uid_alpha_per_80</item>
 
-        <item name="uidTextPrimary">@color/uitColorWhite</item>
-        <item name="uidTextSecondary">?attr/uitColorLevel05</item>
+        <item name="uidTextPrimary">@color/uidColorWhite</item>
+        <item name="uidTextSecondary">?attr/uidColorLevel05</item>
 
         <item name="uidLabelTextColor">?attr/uidTextSecondary</item>
-        <item name="uidLabelTextAlpha">@dimen/uit_alpha_per_60</item>
+        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_60</item>
     </style>
 
     <style name="UltraLight">
-        <item name="uitContentPrimary">@color/uitColorWhite</item>
-        <item name="uitContentSecondary">?attr/uitColorLevel05</item>
-        <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
-        <item name="uitNavigationTextColor">@color/uit_gray_level_75</item>
-        <item name="uitTextPrimaryColor">@color/uit_gray_level_75</item>
+        <item name="uidContentPrimary">@color/uidColorWhite</item>
+        <item name="uidContentSecondary">?attr/uidColorLevel05</item>
+        <item name="uidNavigationPrimaryColor">@color/uidColorWhite</item>
+        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
+        <item name="uidNavigationTextColor">@color/uid_gray_level_75</item>
+        <item name="uidTextPrimaryColor">@color/uid_gray_level_75</item>
 
-        <item name="uitApplicationBackground">?attr/uitColorLevel05</item>
+        <item name="uidApplicationBackground">?attr/uidColorLevel05</item>
 
-        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
-        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
-        <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_100</item>
+        <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel45</item>
+        <item name="uidControlPrimaryPressedColor">?attr/uidColorLevel55</item>
+        <item name="uidControlPrimaryTextDisabledAlpha">@dimen/uid_alpha_per_100</item>
 
-        <item name="uitControlPrimaryAlternateTextColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryAlternateEnabledColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryAlternatePressedColor">?attr/uitColorLevel85</item>
-        <item name="uitControlPrimaryAltTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uidControlPrimaryAlternateTextColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryAlternateEnabledColor">?attr/uidColorLevel75</item>
+        <item name="uidControlPrimaryAlternatePressedColor">?attr/uidColorLevel85</item>
+        <item name="uidControlPrimaryAltTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
-        <item name="uitControlSecondaryColor">?attr/uitColorLevel15</item>
-        <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel25</item>
-        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel15</item>
-        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel75</item>
-        <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uidControlSecondaryColor">?attr/uidColorLevel15</item>
+        <item name="uidControlSecondaryPressedColor">?attr/uidColorLevel25</item>
+        <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel15</item>
+        <item name="uidControlSecondaryTextColor">?attr/uidColorLevel75</item>
+        <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
-        <item name="uitInputTextFillColor">@color/uitColorWhite</item>
-        <item name="uitInputTextBorderColor">@color/uit_gray_level_20</item>
-        <item name="uitInputTextBorderDisabledColor">@color/uit_gray_level_10</item>
-        <item name="uitInputTextBorderWidth">@dimen/uit_texteditbox_stroke_width_ultralight</item>
+        <item name="uidInputTextFillColor">@color/uidColorWhite</item>
+        <item name="uidInputTextBorderColor">@color/uid_gray_level_20</item>
+        <item name="uidInputTextBorderDisabledColor">@color/uid_gray_level_10</item>
+        <item name="uidInputTextBorderWidth">@dimen/uid_texteditbox_stroke_width_ultralight</item>
 
-        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel10</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel10</item>
 
-        <!--<item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
-        <item name="uitDialogBodyTextColor">@color/uit_gray_level_75</item>-->
+        <!--<item name="uidDialogTitleTextColor">@color/uid_gray_level_85</item>
+        <item name="uidDialogBodyTextColor">@color/uid_gray_level_75</item>-->
 
-        <item name="uidTextPrimary">@color/uit_gray_level_75</item>
-        <item name="uidTextSecondary">@color/uit_gray_level_65</item>
+        <item name="uidTextPrimary">@color/uid_gray_level_75</item>
+        <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
     </style>
 
     <style name="VeryLight">
-        <item name="uitContentPrimary">?attr/uitColorLevel20</item>
-        <item name="uitContentSecondary">?attr/uitColorLevel15</item>
-        <item name="uitNavigationPrimaryColor">@color/uitColorWhite</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel05</item>
-        <item name="uitNavigationTextColor">?attr/uitColorLevel75</item>
-        <item name="uitTextPrimaryColor">?attr/uitColorLevel75</item>
+        <item name="uidContentPrimary">?attr/uidColorLevel20</item>
+        <item name="uidContentSecondary">?attr/uidColorLevel15</item>
+        <item name="uidNavigationPrimaryColor">@color/uidColorWhite</item>
+        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
+        <item name="uidNavigationTextColor">?attr/uidColorLevel75</item>
+        <item name="uidTextPrimaryColor">?attr/uidColorLevel75</item>
 
-        <item name="uitApplicationBackground">?attr/uitColorLevel25</item>
+        <item name="uidApplicationBackground">?attr/uidColorLevel25</item>
 
-        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
-        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
-        <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_70</item>
+        <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel45</item>
+        <item name="uidControlPrimaryPressedColor">?attr/uidColorLevel55</item>
+        <item name="uidControlPrimaryTextDisabledAlpha">@dimen/uid_alpha_per_70</item>
 
-        <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryAltTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryAltTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
-        <item name="uitControlSecondaryColor">?attr/uitColorLevel75</item>
-        <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel85</item>
-        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel75</item>
-        <item name="uitControlSecondaryTextColor">@color/uitColorWhite</item>
-        <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_70</item>
+        <item name="uidControlSecondaryColor">?attr/uidColorLevel75</item>
+        <item name="uidControlSecondaryPressedColor">?attr/uidColorLevel85</item>
+        <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel75</item>
+        <item name="uidControlSecondaryTextColor">@color/uidColorWhite</item>
+        <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_70</item>
 
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
+        <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_texteditbox_border_20_alpha
         </item>
-        <item name="uitInputTextTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
-        <item name="uitInputTextHintTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel25</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel25</item>
 
-        <!-- <item name="uitDialogTitleTextColor">@color/uit_gray_level_85</item>
-         <item name="uitDialogBodyTextColor">?attr/uitColorLevel75</item>-->
+        <!-- <item name="uidDialogTitleTextColor">@color/uid_gray_level_85</item>
+         <item name="uidDialogBodyTextColor">?attr/uidColorLevel75</item>-->
 
-        <item name="uidTextPrimary">?attr/uitColorLevel75</item>
-        <item name="uidTextSecondary">?attr/uitColorLevel65</item>
+        <item name="uidTextPrimary">?attr/uidColorLevel75</item>
+        <item name="uidTextSecondary">?attr/uidColorLevel65</item>
     </style>
 
     <style name="Light">
-        <item name="uitContentPrimary">?attr/uitColorLevel35</item>
-        <item name="uitContentSecondary">?attr/uitColorLevel30</item>
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel25</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel30</item>
+        <item name="uidContentPrimary">?attr/uidColorLevel35</item>
+        <item name="uidContentSecondary">?attr/uidColorLevel30</item>
+        <item name="uidNavigationPrimaryColor">?attr/uidColorLevel25</item>
+        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel30</item>
 
-        <item name="uitApplicationBackground">?attr/uitColorLevel40</item>
+        <item name="uidApplicationBackground">?attr/uidColorLevel40</item>
 
-        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel85</item>
-        <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_70</item>
-        <item name="uitControlPrimaryTextPressedColor">?attr/uitColorLevel85</item>
+        <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel75</item>
+        <item name="uidControlPrimaryPressedColor">?attr/uidColorLevel85</item>
+        <item name="uidControlPrimaryTextDisabledAlpha">@dimen/uid_alpha_per_70</item>
+        <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel85</item>
 
-        <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryAlternateTextColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryAltTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryAlternateTextColor">?attr/uidColorLevel75</item>
+        <item name="uidControlPrimaryAltTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uitControlSecondaryColor">?attr/uitColorLevel45</item>
-        <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel55</item>
-        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel45</item>
-        <item name="uitControlSecondaryTextColor">@color/uitColorWhite</item>
-        <item name="uitControlSecondaryDisabledAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uitInputTextTextDisabledColor">@color/uitColorWhite</item>
-        <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_20_alpha
+        <item name="uidControlSecondaryColor">?attr/uidColorLevel45</item>
+        <item name="uidControlSecondaryPressedColor">?attr/uidColorLevel55</item>
+        <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel45</item>
+        <item name="uidControlSecondaryTextColor">@color/uidColorWhite</item>
+        <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
+        <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
+        <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_texteditbox_border_20_alpha
         </item>
 
-        <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
-        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel40</item>
+        <item name="uidSwitchTrackOnColor">?attr/uidColorLevel75</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel40</item>
 
-        <!--<item name="uitDialogBodyTextColor">@color/uitColorWhite</item>-->
+        <!--<item name="uidDialogBodyTextColor">@color/uidColorWhite</item>-->
 
     </style>
 
 
     <style name="Bright">
-        <item name="uitContentPrimary">?attr/uitColorLevel50</item>
-        <item name="uitContentSecondary">?attr/uitColorLevel45</item>
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel40</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel45</item>
-        <item name="uitApplicationBackground">?attr/uitColorLevel55</item>
+        <item name="uidContentPrimary">?attr/uidColorLevel50</item>
+        <item name="uidContentSecondary">?attr/uidColorLevel45</item>
+        <item name="uidNavigationPrimaryColor">?attr/uidColorLevel40</item>
+        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel45</item>
+        <item name="uidApplicationBackground">?attr/uidColorLevel55</item>
 
-        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel85</item>
-        <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uitControlPrimaryTextPressedColor">?attr/uitColorLevel85</item>
+        <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel75</item>
+        <item name="uidControlPrimaryPressedColor">?attr/uidColorLevel85</item>
+        <item name="uidControlPrimaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel85</item>
 
-        <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryAlternateTextColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryAltTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryAlternateTextColor">?attr/uidColorLevel75</item>
+        <item name="uidControlPrimaryAltTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uitControlSecondaryColor">?attr/uitColorLevel15</item>
-        <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel25</item>
-        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel15</item>
-        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel75</item>
-        <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uitInputTextTextDisabledColor">@color/uitColorWhite</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_25_alpha</item>
-        <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
+        <item name="uidControlSecondaryColor">?attr/uidColorLevel15</item>
+        <item name="uidControlSecondaryPressedColor">?attr/uidColorLevel25</item>
+        <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel15</item>
+        <item name="uidControlSecondaryTextColor">?attr/uidColorLevel75</item>
+        <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
+        <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_texteditbox_border_25_alpha</item>
+        <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
 
-        <item name="uidSwitchTrackOnColor">?attr/uitColorLevel75</item>
-        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel65</item>
-        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_25</item>
+        <item name="uidSwitchTrackOnColor">?attr/uidColorLevel75</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel65</item>
+        <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_25</item>
     </style>
 
     <style name="VeryDark">
-        <item name="uitContentPrimary">?attr/uitColorLevel80</item>
-        <item name="uitContentSecondary">?attr/uitColorLevel75</item>
-        <item name="uitNavigationPrimaryColor">?attr/uitColorLevel70</item>
-        <item name="uitNavigationSecondaryColor">?attr/uitColorLevel75</item>
+        <item name="uidContentPrimary">?attr/uidColorLevel80</item>
+        <item name="uidContentSecondary">?attr/uidColorLevel75</item>
+        <item name="uidNavigationPrimaryColor">?attr/uidColorLevel70</item>
+        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel75</item>
 
-        <item name="uitApplicationBackground">?attr/uitColorLevel85</item>
+        <item name="uidApplicationBackground">?attr/uidColorLevel85</item>
 
-        <item name="uitControlPrimaryEnabledColor">?attr/uitColorLevel45</item>
-        <item name="uitControlPrimaryPressedColor">?attr/uitColorLevel55</item>
-        <item name="uitControlPrimaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel45</item>
+        <item name="uidControlPrimaryPressedColor">?attr/uidColorLevel55</item>
+        <item name="uidControlPrimaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
-        <item name="uitControlPrimaryAlternateEnabledColor">@color/uitColorWhite</item>
-        <item name="uitControlPrimaryAlternateTextColor">?attr/uitColorLevel75</item>
-        <item name="uitControlPrimaryAltTextDisabledAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryAlternateTextColor">?attr/uidColorLevel75</item>
+        <item name="uidControlPrimaryAltTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uitControlSecondaryColor">?attr/uitColorLevel15</item>
-        <item name="uitControlSecondaryPressedColor">?attr/uitColorLevel25</item>
-        <item name="uitControlSecondaryEnabledColor">?attr/uitColorLevel15</item>
-        <item name="uitControlSecondaryTextColor">?attr/uitColorLevel75</item>
-        <item name="uitControlSecondaryTextDisabledAlpha">@dimen/uit_alpha_per_50</item>
+        <item name="uidControlSecondaryColor">?attr/uidColorLevel15</item>
+        <item name="uidControlSecondaryPressedColor">?attr/uidColorLevel25</item>
+        <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel15</item>
+        <item name="uidControlSecondaryTextColor">?attr/uidColorLevel75</item>
+        <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
-        <item name="uitInputTextTextDisabledColor">@color/uitColorWhite</item>
-        <item name="uitInputTextFillColor">?attr/uitColorLevel10</item>
-        <item name="uitInputTextBorderPressedColorAlpha">@dimen/uit_texteditbox_border_35_alpha</item>
-        <item name="uitInputTextHintTextDisabledColor">@color/uitColorWhite</item>
+        <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
+        <item name="uidInputTextFillColor">?attr/uidColorLevel10</item>
+        <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_texteditbox_border_35_alpha</item>
+        <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
 
-        <item name="uidSwitchThumbDisabledColor">?attr/uitColorLevel55</item>
-        <item name="uidSwitchTrackOffAlpha">@dimen/uit_alpha_per_50</item>
-        <item name="uidSwitchBorderColorAlpha">@dimen/uit_alpha_per_35</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel55</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_35</item>
     </style>
 
 </resources>

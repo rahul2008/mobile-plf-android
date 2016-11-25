@@ -28,7 +28,7 @@ import java.lang.reflect.Array;
 public class ThemeUtils {
 
     public static Resources.Theme getTheme(@NonNull final Context context, @NonNull final AttributeSet attributeSet) {
-        TypedArray typedArray = context.obtainStyledAttributes(attributeSet, new int[]{R.attr.uitComponentType});
+        TypedArray typedArray = context.obtainStyledAttributes(attributeSet, new int[]{R.attr.uidComponentType});
 
         int resourceId = getResourceIdBasedComponentType(typedArray);
         typedArray.recycle();

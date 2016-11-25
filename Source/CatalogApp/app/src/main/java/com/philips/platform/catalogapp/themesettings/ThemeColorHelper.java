@@ -19,14 +19,14 @@ import java.util.Locale;
 public class ThemeColorHelper {
     public int[] getColorRangeArray() {
         return new int[]{
-                R.color.uitColorWhite,
-                R.color.uitColorWhite,
-                R.color.uitColorWhite,
-                R.color.uitColorWhite,
-                R.color.uitColorWhite,
-                R.color.uitColorWhite,
-                R.color.uitColorWhite,
-                R.color.uitColorWhite};
+                R.color.uidColorWhite,
+                R.color.uidColorWhite,
+                R.color.uidColorWhite,
+                R.color.uidColorWhite,
+                R.color.uidColorWhite,
+                R.color.uidColorWhite,
+                R.color.uidColorWhite,
+                R.color.uidColorWhite};
     }
 
     public int[] getContentColorsArray(final Resources resources, final String colorRangeResourceName, final String packageName) {
@@ -35,7 +35,7 @@ public class ThemeColorHelper {
                 getColorResourceId(resources, colorRangeResourceName, "50", packageName),
                 getColorResourceId(resources, colorRangeResourceName, "35", packageName),
                 getColorResourceId(resources, colorRangeResourceName, "20", packageName),
-                R.color.uitColorWhite
+                R.color.uidColorWhite
         };
     }
 
@@ -47,9 +47,9 @@ public class ThemeColorHelper {
         final List<ColorModel> tonalRangelist = new ArrayList<>();
         final String color = colorRange.name().toLowerCase();
         final int colorResourceId75 = getColorResourceId(context.getResources(), color, "75", context.getPackageName());
-        tonalRangelist.add(new ColorModel("VD", color, R.color.uitColorWhite, 75, 70));
-        tonalRangelist.add(new ColorModel("B", color, R.color.uitColorWhite, 45, 40));
-        tonalRangelist.add(new ColorModel("L", color, R.color.uitColorWhite, 30, 25));
+        tonalRangelist.add(new ColorModel("VD", color, R.color.uidColorWhite, 75, 70));
+        tonalRangelist.add(new ColorModel("B", color, R.color.uidColorWhite, 45, 40));
+        tonalRangelist.add(new ColorModel("L", color, R.color.uidColorWhite, 30, 25));
         tonalRangelist.add(new ColorModel("VL", color, colorResourceId75, 15, 10));
         tonalRangelist.add(new ColorModel("UL", color, colorResourceId75, 05, 0));
         return tonalRangelist;
@@ -77,9 +77,9 @@ public class ThemeColorHelper {
         final int colorResourceId75 = getColorResourceId(context.getResources(), color, "75", context.getPackageName());
 
         final int[] navigationColors = getNavigationColorsArray(color, context.getPackageName(), context.getResources());
-        navigationColorModelList.add(new ColorModel("VD", color, navigationColors[0], R.color.uitColorWhite));
-        navigationColorModelList.add(new ColorModel("B", color, navigationColors[1], R.color.uitColorWhite));
-        navigationColorModelList.add(new ColorModel("L", color, navigationColors[2], R.color.uitColorWhite));
+        navigationColorModelList.add(new ColorModel("VD", color, navigationColors[0], R.color.uidColorWhite));
+        navigationColorModelList.add(new ColorModel("B", color, navigationColors[1], R.color.uidColorWhite));
+        navigationColorModelList.add(new ColorModel("L", color, navigationColors[2], R.color.uidColorWhite));
         navigationColorModelList.add(new ColorModel("VL", color, navigationColors[3], colorResourceId75));
         navigationColorModelList.add(new ColorModel("UL", color, navigationColors[4], colorResourceId75));
         return navigationColorModelList;
@@ -91,7 +91,7 @@ public class ThemeColorHelper {
                 getColorResourceId(resources, colorResourcePlaceHolder, "40", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "20", packageName),
                 getColorResourceId(resources, colorResourcePlaceHolder, "05", packageName),
-                R.color.uitColorWhite
+                R.color.uidColorWhite
         };
     }
 
@@ -103,27 +103,27 @@ public class ThemeColorHelper {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
         int[] colorsArray = getAccentColorRangeArray();
         final String colorName = colorRange.name().toLowerCase();
-        colorRangeModelsList.add(new ColorModel("GB", colorName, colorsArray[0], R.color.uitColorWhite));
-        colorRangeModelsList.add(new ColorModel("Bl", colorName, colorsArray[1], R.color.uitColorWhite));
-        colorRangeModelsList.add(new ColorModel("Aq", colorName, colorsArray[2], R.color.uitColorWhite));
-        colorRangeModelsList.add(new ColorModel("Gr", colorName, colorsArray[3], R.color.uitColorWhite));
-        colorRangeModelsList.add(new ColorModel("Or", colorName, colorsArray[4], R.color.uitColorWhite));
-        colorRangeModelsList.add(new ColorModel("Pi", colorName, colorsArray[5], R.color.uitColorWhite));
-        colorRangeModelsList.add(new ColorModel("Pu", colorName, colorsArray[6], R.color.uitColorWhite));
-        colorRangeModelsList.add(new ColorModel("Gr", colorName, colorsArray[7], R.color.uitColorWhite));
+        colorRangeModelsList.add(new ColorModel("GB", colorName, colorsArray[0], R.color.uidColorWhite));
+        colorRangeModelsList.add(new ColorModel("Bl", colorName, colorsArray[1], R.color.uidColorWhite));
+        colorRangeModelsList.add(new ColorModel("Aq", colorName, colorsArray[2], R.color.uidColorWhite));
+        colorRangeModelsList.add(new ColorModel("Gr", colorName, colorsArray[3], R.color.uidColorWhite));
+        colorRangeModelsList.add(new ColorModel("Or", colorName, colorsArray[4], R.color.uidColorWhite));
+        colorRangeModelsList.add(new ColorModel("Pi", colorName, colorsArray[5], R.color.uidColorWhite));
+        colorRangeModelsList.add(new ColorModel("Pu", colorName, colorsArray[6], R.color.uidColorWhite));
+        colorRangeModelsList.add(new ColorModel("Gr", colorName, colorsArray[7], R.color.uidColorWhite));
 
         return colorRangeModelsList;
     }
 
     private int[] getAccentColorRangeArray() {
-        return new int[]{R.color.uit_group_blue_level_45,
-                R.color.uit_blue_level_45,
-                R.color.uit_aqua_level_45,
-                R.color.uit_green_level_45,
-                R.color.uit_orange_level_45,
-                R.color.uit_pink_level_45,
-                R.color.uit_purple_level_45,
-                R.color.uit_gray_level_45};
+        return new int[]{R.color.uid_group_blue_level_45,
+                R.color.uid_blue_level_45,
+                R.color.uid_aqua_level_45,
+                R.color.uid_green_level_45,
+                R.color.uid_orange_level_45,
+                R.color.uid_pink_level_45,
+                R.color.uid_purple_level_45,
+                R.color.uid_gray_level_45};
     }
 }
 

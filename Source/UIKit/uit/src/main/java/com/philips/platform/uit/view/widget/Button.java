@@ -44,7 +44,7 @@ public class Button extends AppCompatButton {
     }
 
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UITButton, defStyleAttr, R.style.UITDefaultButton);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDButton, defStyleAttr, R.style.UITDefaultButton);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         assignDrawableProperties(typedArray, theme, attrs);
@@ -56,14 +56,14 @@ public class Button extends AppCompatButton {
     }
 
     private void applyTextColorTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-        int textColorStateID = typedArray.getResourceId(R.styleable.UITButton_uitButtonTextColorList, -1);
+        int textColorStateID = typedArray.getResourceId(R.styleable.UIDButton_uidButtonTextColorList, -1);
         if (textColorStateID != -1) {
             setTextColor(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
         }
     }
 
     private void applyBackgroundTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-        int backGroundListID = typedArray.getResourceId(R.styleable.UITButton_uitButtonBackgroundColorList, -1);
+        int backGroundListID = typedArray.getResourceId(R.styleable.UIDButton_uidButtonBackgroundColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
             setSupportBackgroundTintList(ThemeUtils.buildColorStateList(getResources(), theme, backGroundListID));
         }
@@ -120,7 +120,7 @@ public class Button extends AppCompatButton {
     }
 
     private void applyDrawable(@NonNull TypedArray typedArray) {
-        int resourceId = typedArray.getResourceId(R.styleable.UITButton_uitButtonImageDrawableSrc, -1);
+        int resourceId = typedArray.getResourceId(R.styleable.UIDButton_uidButtonImageDrawableSrc, -1);
         // We allow setting drawable programmatically too, which can be case for vectors.
         if (resourceId != -1) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), resourceId).mutate();
@@ -135,10 +135,10 @@ public class Button extends AppCompatButton {
     }
 
     private void assignDrawableProperties(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme, @NonNull final AttributeSet attr) {
-        drawableWidth = (int) typedArray.getDimension(R.styleable.UITButton_uitButtonImageDrawableWidth, 24.0f);
-        drawableHeight = (int) typedArray.getDimension(R.styleable.UITButton_uitButtonImageDrawableHeight, 24.0f);
+        drawableWidth = (int) typedArray.getDimension(R.styleable.UIDButton_uidButtonImageDrawableWidth, 24.0f);
+        drawableHeight = (int) typedArray.getDimension(R.styleable.UIDButton_uidButtonImageDrawableHeight, 24.0f);
         //Store the color state list
-        int resourceId = typedArray.getResourceId(R.styleable.UITButton_uitButtonDrawableColorList, -1);
+        int resourceId = typedArray.getResourceId(R.styleable.UIDButton_uidButtonDrawableColorList, -1);
         if (resourceId != -1) {
             drawableColorlist = ThemeUtils.buildColorStateList(getResources(), theme, resourceId);
         }
@@ -146,7 +146,7 @@ public class Button extends AppCompatButton {
 
     //We need to set gravity to left and center vertical so that we can translate the canvas later and get proper values.
     private void setCenterLayoutFlag(@NonNull TypedArray typedArray) {
-        isCenterLayoutRequested = typedArray.getBoolean(R.styleable.UITButton_uidButtonCenter, false);
+        isCenterLayoutRequested = typedArray.getBoolean(R.styleable.UIDButton_uidButtonCenter, false);
         if (isCenterLayoutRequested) {
             setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         }

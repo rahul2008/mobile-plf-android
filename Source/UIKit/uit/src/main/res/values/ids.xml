@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="uit_texteditbox_stroke_drawable" type="id"/>
-    <item name="uit_texteditbox_fill_drawable" type="id"/>
+    <item name="uid_texteditbox_stroke_drawable" type="id"/>
+    <item name="uid_texteditbox_fill_drawable" type="id"/>
     <item name="uid_id_switch_track" type="id"/>
     <item name="uid_id_progressbar_drawable" type="id"/>
     <item name="uid_alert_positive_button" type="id"/>

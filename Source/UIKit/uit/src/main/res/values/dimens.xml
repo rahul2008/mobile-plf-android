@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="uid_page_marging_left_right">24dp</dimen>
 
-    <dimen name="uit_page_marging_left_right">24dp</dimen>
     <!--Percentage for opacity-->
-    <item name="uit_alpha_per_100" format="float" type="dimen">1</item>
-    <item name="uit_alpha_per_15" format="float" type="dimen">0.15</item>
-    <item name="uit_alpha_per_20" format="float" type="dimen">0.20</item>
-    <item name="uit_alpha_per_25" format="float" type="dimen">0.25</item>
-    <item name="uit_alpha_per_30" format="float" type="dimen">0.30</item>
-    <item name="uit_alpha_per_35" format="float" type="dimen">0.35</item>
-    <item name="uit_alpha_per_50" format="float" type="dimen">0.50</item>
-    <item name="uit_alpha_per_60" format="float" type="dimen">0.60</item>
-    <item name="uit_alpha_per_70" format="float" type="dimen">0.70</item>
-    <item name="uit_alpha_per_80" format="float" type="dimen">0.80</item>
+    <item name="uid_alpha_per_100" format="float" type="dimen">1</item>
+    <item name="uid_alpha_per_15" format="float" type="dimen">0.15</item>
+    <item name="uid_alpha_per_20" format="float" type="dimen">0.20</item>
+    <item name="uid_alpha_per_25" format="float" type="dimen">0.25</item>
+    <item name="uid_alpha_per_30" format="float" type="dimen">0.30</item>
+    <item name="uid_alpha_per_35" format="float" type="dimen">0.35</item>
+    <item name="uid_alpha_per_50" format="float" type="dimen">0.50</item>
+    <item name="uid_alpha_per_60" format="float" type="dimen">0.60</item>
+    <item name="uid_alpha_per_70" format="float" type="dimen">0.70</item>
+    <item name="uid_alpha_per_80" format="float" type="dimen">0.80</item>
 
     <!--Switch dimensions-->
     <dimen name="uid_switch_thumb_radius">24dp</dimen>
@@ -23,36 +23,41 @@
     <dimen name="uid_switch_track_inset">4dp</dimen>
 
     <!--Text only button-->
-    <dimen name="uit_button_min_height">40dp</dimen>
-    <dimen name="uit_button_min_width">48dp</dimen> <!-- 24 + 24 dp -->
-    <dimen name="uit_button_padding_left_right">24dp</dimen>
-    <dimen name="uit_button_corner_radius">2dp</dimen>
-    <dimen name="uit_button_text_size">16sp</dimen>
-    <item name="uit_button_disabled_alpha" format="float" type="dimen">0.25</item>
+    <dimen name="uid_button_min_height">40dp</dimen>
+    <dimen name="uid_button_min_width">48dp</dimen> <!-- 24 + 24 dp -->
+    <dimen name="uid_button_padding_left_right">24dp</dimen>
+    <dimen name="uid_button_corner_radius">2dp</dimen>
+    <dimen name="uid_button_text_size">16sp</dimen>
+    <item name="uid_button_disabled_alpha" format="float" type="dimen">0.25</item>
 
     <!-- Quiet button-->
-    <dimen name="uit_quiet_button_padding_left_right">12dp</dimen>
-    <dimen name="uit_quiet_button_min_size">24dp</dimen>
-    <dimen name="uit_quiet_button_max_width">40dp</dimen>
-    <dimen name="uit_quiet_icon_only_padding_left_right">8dp</dimen>
+    <dimen name="uid_quiet_button_padding_left_right">12dp</dimen>
+    <dimen name="uid_quiet_button_min_size">24dp</dimen>
+    <dimen name="uid_quiet_button_max_width">40dp</dimen>
+    <dimen name="uid_quiet_icon_only_padding_left_right">8dp</dimen>
 
     <!--ImageButton-->
-    <dimen name="uit_imagebutton_size">40dp</dimen>
-    <dimen name="uit_imagebutton_image_size">24dp</dimen>
-    <dimen name="uit_imagebutton_padding">8dp</dimen>
-    <dimen name="uit_image_text_button_padding_left">32dp</dimen>
+    <dimen name="uid_imagebutton_size">40dp</dimen>
+    <dimen name="uid_imagebutton_image_size">24dp</dimen>
+    <dimen name="uid_imagebutton_padding">8dp</dimen>
+    <dimen name="uid_image_text_button_padding_left">32dp</dimen>
 
     <!--TextBox-->
-    <dimen name="uit_texteditbox_corner_radius">2dp</dimen>
-    <dimen name="uit_texteditbox_fill_corner_radius">4dp</dimen>
-    <dimen name="uit_texteditbox_height">40dp</dimen>
-    <dimen name="uit_texteditbox_stroke_width">4dp</dimen>
-    <dimen name="uit_texteditbox_text_padding">12dp</dimen>
-    <dimen name="uit_texteditbox_min_width">24dp</dimen>
-    <dimen name="uit_texteditbox_text_size">16sp</dimen>
-    <dimen name="uit_texteditbox_stroke_width_ultralight">1dp</dimen>
-    <dimen name="uit_texteditbox_line_spacing">26dp</dimen>
-    <dimen name="uit_texteditbox_vertical_padding">12dp</dimen>
+    <dimen name="uid_texteditbox_corner_radius">2dp</dimen>
+    <dimen name="uid_texteditbox_fill_corner_radius">4dp</dimen>
+    <dimen name="uid_texteditbox_height">40dp</dimen>
+    <dimen name="uid_texteditbox_stroke_width">4dp</dimen>
+    <dimen name="uid_texteditbox_text_padding">12dp</dimen>
+    <dimen name="uid_texteditbox_min_width">24dp</dimen>
+    <dimen name="uid_texteditbox_text_size">16sp</dimen>
+    <dimen name="uid_texteditbox_stroke_width_ultralight">1dp</dimen>
+    <dimen name="uid_texteditbox_line_spacing">26dp</dimen>
+    <dimen name="uid_texteditbox_vertical_padding">12dp</dimen>
+    <item name="uid_texteditbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
+    <item name="uid_texteditbox_border_20_alpha" format="float" type="dimen">0.20</item>
+    <item name="uid_texteditbox_border_25_alpha" format="float" type="dimen">0.25</item>
+    <item name="uid_texteditbox_border_35_alpha" format="float" type="dimen">0.35</item>
+    <integer name="uid_texteditbox_font_spacing_multiplier">0</integer>
 
     <!-- alert dialog -->
     <dimen name="uid_alert_dialog_control_area_height">64dp</dimen>
@@ -71,14 +76,9 @@
     <dimen name="uid_alert_dialog_width">272dp</dimen>
     <integer name="uid_alert_dialog_title_max_lines">2</integer>
     <integer name="uid_alert_dialog_anim_duration">300</integer>
-
-    <integer name="uit_texteditbox_font_spacing_multiplier">0</integer>
     <integer name="uid_alert_dialog_scrollbar_fade_duration">10000</integer>
-    <item name="uit_texteditbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
-    <item name="uit_texteditbox_border_20_alpha" format="float" type="dimen">0.20</item>
-    <item name="uit_texteditbox_border_25_alpha" format="float" type="dimen">0.25</item>
-    <item name="uit_texteditbox_border_35_alpha" format="float" type="dimen">0.35</item>
 
+    <!-- ProgressBar -->
     <dimen name="uid_progress_bar_min_width">96dp</dimen>
     <dimen name="uid_progress_bar_height">4dp</dimen>
     <dimen name="uid_progress_bar_margin_left">22dp</dimen>

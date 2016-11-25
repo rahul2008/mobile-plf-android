@@ -35,7 +35,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uitApplicationBackground"/>
+            android:background="?attr/uidApplicationBackground"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uitApplicationBackground"/>
+            android:background="?attr/uidApplicationBackground"/>
 
         <TextView
             style="@style/ButtonsCategoryStyle"
@@ -70,7 +70,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uitApplicationBackground"/>
+            android:background="?attr/uidApplicationBackground"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,7 +129,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uitApplicationBackground"/>
+            android:background="?attr/uidApplicationBackground"/>
 
         <TextView
             style="@style/ButtonsCategoryStyle"
@@ -138,7 +138,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_layout_divider"
-            android:background="?attr/uitApplicationBackground"/>
+            android:background="?attr/uidApplicationBackground"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"

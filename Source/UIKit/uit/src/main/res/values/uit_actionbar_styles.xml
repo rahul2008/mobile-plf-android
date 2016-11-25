@@ -2,29 +2,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="UITNavigationBar" parent="Theme.AppCompat.Light.NoActionBar" tools:ignore="NewApi">
-        <item name="android:background">?attr/uitActionBarBackground</item>
-        <item name="background">?attr/uitActionBarBackground</item>
-        <item name="android:textColorPrimary">?attr/uitControlPrimaryTextColor</item>
+        <item name="android:background">?attr/uidActionBarBackground</item>
+        <item name="background">?attr/uidActionBarBackground</item>
+        <item name="android:textColorPrimary">?attr/uidControlPrimaryTextColor</item>
 
     </style>
 
     <style name="UITNavigationbarUltraLight">
-        <item name="uitActionBarBackground">@color/uitColorWhite</item>
+        <item name="uidActionBarBackground">@color/uidColorWhite</item>
     </style>
 
     <style name="UITNavigationbarVeryLight">
-        <item name="uitActionBarBackground">?attr/uitColorLevel10</item>
+        <item name="uidActionBarBackground">?attr/uidColorLevel10</item>
     </style>
 
     <style name="UITNavigationbarLight">
-        <item name="uitActionBarBackground">?attr/uitColorLevel25</item>
+        <item name="uidActionBarBackground">?attr/uidColorLevel25</item>
     </style>
 
     <style name="UITNavigationbarBright">
-        <item name="uitActionBarBackground">?attr/uitColorLevel40</item>
+        <item name="uidActionBarBackground">?attr/uidColorLevel40</item>
     </style>
 
     <style name="UITNavigationbarVeryDark">
-        <item name="uitActionBarBackground">?attr/uitColorLevel70</item>
+        <item name="uidActionBarBackground">?attr/uidColorLevel70</item>
     </style>
 </resources>

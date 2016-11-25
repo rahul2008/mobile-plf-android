@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/component_bottom_spacing"
                 android:text="@string/alternate_primary_label"
-                app:uitComponentType="AltPrimary"/>
+                app:uidComponentType="AltPrimary"/>
 
             <com.philips.platform.uit.view.widget.Button
                 android:id="@+id/seconday_button"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/component_bottom_spacing"
                 android:text="@string/secondary_button_label"
-                app:uitComponentType="Secondary"/>
+                app:uidComponentType="Secondary"/>
 
             <com.philips.platform.uit.view.widget.TextEditBox
                 android:layout_width="@dimen/texteditbox_width"

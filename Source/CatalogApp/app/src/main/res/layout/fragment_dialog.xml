@@ -4,12 +4,12 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/uitApplicationBackground">
+            android:background="?attr/uidApplicationBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/uitContentPrimary"
+        android:background="?attr/uidContentPrimary"
         android:orientation="vertical">
 
         <LinearLayout
@@ -31,13 +31,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:textColor="?attr/uitTextPrimaryColor"
+                    android:textColor="?attr/uidTextPrimaryColor"
                     android:text="@string/dialog_screen_text_short_content"/>
 
                 <RadioButton
                     android:id="@+id/long_content"
                     style="@style/TestButtonTexts"
-                    android:textColor="?attr/uitTextPrimaryColor"
+                    android:textColor="?attr/uidTextPrimaryColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_screen_text_long_content"/>
@@ -46,7 +46,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uitApplicationBackground"/>
+                android:background="?attr/uidApplicationBackground"/>
 
             <com.philips.platform.uit.view.widget.Switch
                 android:id="@+id/toggle_switch_with_title"
@@ -58,7 +58,7 @@
                 android:layout_marginTop="12dp"
                 android:checked="true"
                 android:text="@string/dialog_screen_text_with_title"
-                android:textColor="?attr/uitTextPrimaryColor"
+                android:textColor="?attr/uidTextPrimaryColor"
                 android:textSize="@dimen/button_toggle_text_size"/>
 
             <CheckBox
@@ -70,23 +70,23 @@
                 android:background="@android:color/transparent"
                 android:checked="true"
                 android:text="@string/dialog_screen_text_title_with_icon"
-                android:textColor="?attr/uitTextPrimaryColor"/>
+                android:textColor="?attr/uidTextPrimaryColor"/>
         </LinearLayout>
 
         <TextView
             style="@style/ButtonsCategoryStyle"
             android:layout_height="32dp"
             android:layout_marginTop="12dp"
-            android:background="?attr/uitApplicationBackground"
+            android:background="?attr/uidApplicationBackground"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
             android:text="@string/dialog_screen_text_dialogs"
-            android:textColor="?attr/uitTextPrimaryColor"/>
+            android:textColor="?attr/uidTextPrimaryColor"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uitContentPrimary"
+            android:background="?attr/uidContentPrimary"
             android:orientation="vertical">
 
             <com.philips.platform.uit.view.widget.Button
