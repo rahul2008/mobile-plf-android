@@ -56,10 +56,10 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     public OrmMoment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull MomentType type) {
         final OrmMoment ormMoment = createMomentWithoutUUID(creatorId, subjectId, type);
-        final OrmMomentDetail ormMomentDetail = createMomentDetail(MomentDetailType.TAGGING_ID, ormMoment);
+     //   final OrmMomentDetail ormMomentDetail = createMomentDetail(MomentDetailType.TAGGING_ID, ormMoment);
 
-        ormMomentDetail.setValue(uuidGenerator.generateRandomUUID());
-        ormMoment.addMomentDetail(ormMomentDetail);
+    //    ormMomentDetail.setValue(uuidGenerator.generateRandomUUID());
+    //    ormMoment.addMomentDetail(ormMomentDetail);
 
         return ormMoment;
     }

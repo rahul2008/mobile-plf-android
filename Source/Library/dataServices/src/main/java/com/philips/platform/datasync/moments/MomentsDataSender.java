@@ -185,6 +185,8 @@ public class MomentsDataSender implements DataSender<Moment> {
                     moment.getSynchronisationData().setVersion(Integer.parseInt(eTag.getValue()));
                 }
                 postOk(Collections.singletonList(moment));
+            }else if(isConflict(response)){
+
             }
             return false;
         } catch (RetrofitError error) {
@@ -215,6 +217,10 @@ public class MomentsDataSender implements DataSender<Moment> {
     private boolean isResponseSuccess(final Response response) {
         return response != null && (response.getStatus() == HttpURLConnection.HTTP_OK || response.getStatus() == HttpURLConnection.HTTP_CREATED
                 || response.getStatus() == HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    private boolean isConflict(final Response response){
+        return response!=null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
     }
 
     private boolean isConflict(final RetrofitError retrofitError) {
