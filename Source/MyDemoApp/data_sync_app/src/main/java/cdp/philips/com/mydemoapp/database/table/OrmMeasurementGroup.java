@@ -79,7 +79,7 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
 
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 
     @DatabaseConstructor

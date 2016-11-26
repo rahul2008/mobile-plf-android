@@ -11,11 +11,17 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.Where;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
@@ -39,7 +45,13 @@ public class OrmDeleting {
     private final Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
 
     @NonNull
+    private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao;
+
+    @NonNull
     private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
+
+    @NonNull
+    private final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao;
 
 
 
@@ -47,14 +59,17 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao
+                       @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
+                       @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
+                       @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao
                      ) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.synchronisationDataDao = synchronisationDataDao;
-
+        this.measurementGroupDetailDao = measurementGroupDetailDao;
+        this.measurementGroupsDao = measurementGroupsDao;
     }
 
     public void deleteAll() throws SQLException {
@@ -73,11 +88,33 @@ public class OrmDeleting {
     }
 
     private void deleteMeasurementGroups(OrmMoment moment) throws SQLException {
-        deleteMeasurements(moment);
+        ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(moment.getMeasurementGroups());
+        for(OrmMeasurementGroup ormMeasurementGroup : measurementGroups) {
+            deleteMeasurementGroupDetails(ormMeasurementGroup.getId());
+            deleteMeasurements(ormMeasurementGroup);
+            deleteGroupsInside(ormMeasurementGroup.getMeasurementGroups());
+            deleteMeasurementGroupByMeasurementGroup(ormMeasurementGroup.getId());
+        }
+        deleteMeasurementGroupByMoment(moment.getId());
     }
 
-    public void deleteMomentAndMeasurementDetails(@NonNull final OrmMoment ormMoment) throws SQLException {
-        deleteMeasurements(ormMoment);
+    private void deleteGroupsInside(Collection<? extends OrmMeasurementGroup> measurementGroups) throws SQLException {
+        for(OrmMeasurementGroup group : measurementGroups) {
+            deleteMeasurementGroupDetails(group.getId());
+            deleteMeasurements(group);
+            deleteMeasurementGroupByMeasurementGroup(group.getId());
+        }
+    }
+
+    /*private void deleteMeasurementGroupDetails(OrmMeasurementGroup measurementGroup) throws SQLException {
+        ArrayList<OrmMeasurementGroupDetail> ormMeasurementGroupDetails = new ArrayList<>(measurementGroup);
+        for(OrmMeasurementGroupDetail detail: ormMeasurementGroupDetails){
+            deleteMeasurementGroupDetails(detail.getId());
+        }
+    }*/
+
+    public void deleteMomentAndMeasurementGroupDetails(@NonNull final OrmMoment ormMoment) throws SQLException {
+        deleteMeasurementGroups(ormMoment);
         deleteMomentDetails(ormMoment);
     }
 
@@ -87,11 +124,39 @@ public class OrmDeleting {
         }
     }
 
-    private void deleteMeasurements(@NonNull final OrmMoment moment) throws SQLException {
-       // for (OrmMeasurement measurement : moment.getMeasurements()) {
-         //   deleteMeasurementDetails(measurement.getId());
-        //}
-        //deleteMeasurements(moment.getId());
+    private void deleteMeasurements(@NonNull final OrmMeasurementGroup measurementGroup) throws SQLException {
+        for (OrmMeasurement measurement : measurementGroup.getMeasurements()) {
+            deleteMeasurementDetails(measurement.getId());
+        }
+        deleteMeasurements(measurementGroup.getId());
+    }
+
+    private void deleteMeasurementGroup(@NonNull final OrmMeasurementGroup measurementGroup) throws SQLException {
+        for (OrmMeasurementGroupDetail measurementGroupDetail : measurementGroup.getMeasurementGroupDetails()) {
+            deleteMeasurementGroupDetails(measurementGroupDetail.getId());
+        }
+        deleteMeasurementGroupByMeasurementGroup(measurementGroup.getId());
+    }
+
+    private int deleteMeasurementGroupByMeasurementGroup(int id) throws SQLException {
+        DeleteBuilder<OrmMeasurementGroup, Integer> updateBuilder = measurementGroupsDao.deleteBuilder();
+        updateBuilder.where().eq("ormMeasurementGroup_id", id);
+
+        return updateBuilder.delete();
+    }
+
+    private int deleteMeasurementGroupByMoment(int id) throws SQLException {
+        DeleteBuilder<OrmMeasurementGroup, Integer> updateBuilder = measurementGroupsDao.deleteBuilder();
+        updateBuilder.where().eq("ormMoment_id", id);
+
+        return updateBuilder.delete();
+    }
+
+    private int deleteMeasurementGroupDetails(int id) throws SQLException {
+        DeleteBuilder<OrmMeasurementGroupDetail, Integer> updateBuilder = measurementGroupDetailDao.deleteBuilder();
+        updateBuilder.where().eq("ormMeasurementGroup_id", id);
+
+        return updateBuilder.delete();
     }
 
     private void deleteMomentDetails(@NonNull final OrmMoment moment) throws SQLException {
@@ -109,7 +174,7 @@ public class OrmDeleting {
 
     public int deleteMeasurements(final int id) throws SQLException {
         DeleteBuilder<OrmMeasurement, Integer> updateBuilder = measurementDao.deleteBuilder();
-        updateBuilder.where().eq("ormMoment_id", id);
+        updateBuilder.where().eq("ormMeasurementGroup_id", id);
 
         return updateBuilder.delete();
     }

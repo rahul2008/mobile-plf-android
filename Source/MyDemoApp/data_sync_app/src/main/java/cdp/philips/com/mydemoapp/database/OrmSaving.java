@@ -23,6 +23,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -78,27 +79,6 @@ public class OrmSaving {
 
     public void saveMoment(OrmMoment moment) throws SQLException {
         assureSynchronisationDataIsSaved(moment.getSynchronisationData());
-/*        DataServicesManager manager = DataServicesManager.getInstance();
-        BaseAppDataCreator dataCreater = manager.getDataCreater();
-
-        MeasurementGroup group = dataCreater.createMeasurementGroup(moment);
-
-        MeasurementGroupDetail detail = dataCreater.createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY,group);
-        detail.setValue("SPOORTI");
-        group.addMeasurementGroupDetail(detail);
-
-        MeasurementGroup inside = dataCreater.createMeasurementGroup(group);
-
-        Measurement measurement = dataCreater.createMeasurement(MeasurementType.TEMPERATURE, inside);
-
-        MeasurementDetail measurementDetail = dataCreater.createMeasurementDetail(MeasurementDetailType.LOCATION, measurement);
-        measurementDetail.setValue("Dink Chak");
-
-        measurement.addMeasurementDetail(measurementDetail);
-        inside.addMeasurement(measurement);
-
-        group.addMeasurementGroup(inside);
-        moment.addMeasurementGroup(group);*/
         momentDao.createOrUpdate(moment);
         assureMomentDetailsAreSaved(moment.getMomentDetails());
         assureMeasurementGroupsAreSaved(moment);
@@ -131,7 +111,8 @@ public class OrmSaving {
         }
     }
 
-    private void saveMeasurementGroupDetail(OrmMeasurementGroupDetail measurementGroupDetail) throws SQLException {
+    private void
+    saveMeasurementGroupDetail(OrmMeasurementGroupDetail measurementGroupDetail) throws SQLException {
         measurementGroupDetailsDao.createOrUpdate(measurementGroupDetail);
     }
 
@@ -160,7 +141,7 @@ public class OrmSaving {
     }
 
     private void assureMeasurementGroupsInsideAreSaved(OrmMeasurementGroup measurementGroup) throws SQLException {
-        Collection<? extends OrmMeasurementGroup> measurementGroups = measurementGroup.getMeasurementGroups();
+        ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
         for(OrmMeasurementGroup group : measurementGroups) {
             saveMeasurementGroupWithinGroup(group);
         }
