@@ -41,7 +41,7 @@ public class LabelFragment extends BaseFragment {
 
     @Override
     public int getPageTitle() {
-        return R.string.label_title_text;
+        return R.string.page_title_label;
     }
 
     public void setProgress(int progress) {
