@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
@@ -44,14 +45,18 @@ public class FlowManagerTest extends TestCase {
     public void testGetNextState() {
         final SplashState splashState = mock(SplashState.class);
         final FlowManager flowManager = mock(FlowManager.class);
-        when(flowManager.getNextState(AppStates.FIRST_STATE, "onAppLaunch")).thenReturn(splashState);
+        final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
+        when(flowManager.getState(AppStates.FIRST_STATE)).thenReturn(settingsFragmentState);
+        when(flowManager.getNextState(settingsFragmentState, "onAppLaunch")).thenReturn(splashState);
         assertTrue(splashState instanceof SplashState);
     }
 
     public void testCurrentState() {
         final HomeFragmentState homeFragmentState = mock(HomeFragmentState.class);
+        final HomeTabbedActivityState homeTabbedActivityState = mock(HomeTabbedActivityState.class);
         final FlowManager flowManager = mock(FlowManager.class);
-        when(flowManager.getNextState(AppStates.TAB_HOME, "home_fragment")).thenReturn(homeFragmentState);
+        when(flowManager.getState(AppStates.TAB_HOME)).thenReturn(homeTabbedActivityState);
+        when(flowManager.getNextState(homeTabbedActivityState, "home_fragment")).thenReturn(homeFragmentState);
         when(flowManager.getCurrentState()).thenReturn(homeFragmentState);
         assertEquals(flowManager.getCurrentState(), homeFragmentState);
     }

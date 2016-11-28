@@ -30,6 +30,7 @@ public class SplashFragment extends Fragment implements LaunchView {
     private final int APP_START = 1;
     UIBasePresenter presenter;
     private boolean isVisible = false;
+	private boolean isMultiwindowEnabled = false;
 
     @Nullable
     @Override
@@ -58,13 +59,20 @@ public class SplashFragment extends Fragment implements LaunchView {
     public void onResume() {
         super.onResume();
         isVisible = true;
-        startTimer();
+		if(!isMultiwindowEnabled)
+           startTimer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        isVisible = false;
+        //isVisible = false;
+    }
+	
+	@Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        isMultiwindowEnabled = true;
     }
 
     private void startTimer() {
@@ -86,6 +94,13 @@ public class SplashFragment extends Fragment implements LaunchView {
             }
         }, SPLASH_TIME_OUT);
     }
+	
+	@Override
+    public void onStop() {
+        super.onStop();
+        isVisible = false;
+    }
+
 
     @Override
     public void showActionBar() {

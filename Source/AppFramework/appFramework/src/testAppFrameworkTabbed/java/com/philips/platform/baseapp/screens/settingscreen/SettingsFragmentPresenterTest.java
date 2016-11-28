@@ -48,6 +48,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
     public void testLogOut() throws Exception {
         HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
+        final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
         final UIStateData uiStateMock = mock(UIStateData.class);
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -74,13 +75,15 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(AppStates.SETTINGS, "logout")).thenReturn(homeFragmentStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.SETTINGS)).thenReturn(settingsFragmentState);
+        when(uiFlowManagerMock.getNextState(settingsFragmentState, "logout")).thenReturn(homeFragmentStateMock);
         settingsFragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
     public void testLogIn() throws Exception {
         final UserRegistrationSettingsState settingsURStateMock = mock(UserRegistrationSettingsState.class);
+        final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
         final UIStateData uiStateMock = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
@@ -103,9 +106,10 @@ public class SettingsFragmentPresenterTest extends TestCase {
         };
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
-        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        when(uiFlowManagerMock.getNextState(AppStates.SETTINGS, "login")).thenReturn(settingsURStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.SETTINGS)).thenReturn(settingsFragmentState);
+        when(uiFlowManagerMock.getNextState(settingsFragmentState, "login")).thenReturn(settingsURStateMock);
         settingsFragmentPresenter.onEvent(1000004);
         verify(settingsURStateMock).navigate(fragmentLauncherMock);
     }

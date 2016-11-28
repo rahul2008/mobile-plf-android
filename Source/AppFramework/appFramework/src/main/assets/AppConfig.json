@@ -9,7 +9,6 @@
     "PILConfiguration.RegistrationEnvironment": "STAGING",
     "Flow.EmailVerificationRequired" : "true",
     "Flow.TermsAndConditionsAcceptanceRequired" : "true",
-    "Flow.MinimumAgeLimit" :  "{ \"NL\":12 ,\"GB\":0,\"default\": 16}",
     "SigninProviders.default": ["facebook","googleplus"],
     "SigninProviders.NL": ["facebook","googleplus"]
   },
