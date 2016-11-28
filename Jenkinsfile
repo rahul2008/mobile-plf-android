@@ -24,6 +24,10 @@ node ('android_pipeline') {
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
             if (env.triggerBy != "ppc") {
             	stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'prg'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
             	}            
             }
@@ -31,7 +35,6 @@ node ('android_pipeline') {
 		} //end try
 		
 		catch(err) {
-            echo "Someone just broke the build"
             error ("Someone just broke the build")
         }
 
