@@ -13,7 +13,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uit.view.widget.ProgressBar;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

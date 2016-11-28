@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.philips.platform.uit.view.widget.Switch
+        <com.philips.platform.uid.view.widget.Switch
             android:id="@+id/toggle_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

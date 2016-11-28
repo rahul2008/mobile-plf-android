@@ -23,11 +23,11 @@ import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
-import com.philips.platform.uit.thememanager.ColorRange;
-import com.philips.platform.uit.thememanager.ContentColor;
-import com.philips.platform.uit.thememanager.NavigationColor;
-import com.philips.platform.uit.thememanager.ThemeConfiguration;
-import com.philips.platform.uit.thememanager.UIDHelper;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

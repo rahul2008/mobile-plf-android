@@ -6,7 +6,7 @@
 
 package uit;
 
-import com.philips.platform.uit.thememanager.UIDHelper;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

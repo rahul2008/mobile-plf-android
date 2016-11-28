@@ -23,7 +23,7 @@
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/page_title_label"/>
 
-            <com.philips.platform.uit.view.widget.Label
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:checked="true"/>
 
-                <com.philips.platform.uit.view.widget.Label
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabelDescription.MarginStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:layout_marginLeft="@dimen/layout_margin_left_right"
                     android:checked="true"/>
 
-                <com.philips.platform.uit.view.widget.Label
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabelDescription.MarginStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             </LinearLayout>
 
             <!--Label text top [START]-->
-            <com.philips.platform.uit.view.widget.Label
+            <com.philips.platform.uid.view.widget.Label
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/label_text"/>
 
-            <com.philips.platform.uit.view.widget.TextEditBox
+            <com.philips.platform.uid.view.widget.TextEditBox
                 android:id="@+id/tb1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,13 +87,13 @@
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right">
 
-                <com.philips.platform.uit.view.widget.Label
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel.MarginEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_text"/>
 
-                <com.philips.platform.uit.view.widget.TextEditBox
+                <com.philips.platform.uid.view.widget.TextEditBox
                     android:id="@+id/tb2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:orientation="horizontal">
 
-                <com.philips.platform.uit.view.widget.Label
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel.SliderMarginBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                     android:gravity="center_vertical|start"
                     android:text="@string/label_label_left"/>
 
-                <com.philips.platform.uit.view.widget.Label
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel.SliderMarginBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -180,13 +180,13 @@
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:orientation="horizontal">
 
-                <com.philips.platform.uit.view.widget.Label
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_description"/>
 
-                <com.philips.platform.uit.view.widget.Label
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabelDescription.SliderMarginBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

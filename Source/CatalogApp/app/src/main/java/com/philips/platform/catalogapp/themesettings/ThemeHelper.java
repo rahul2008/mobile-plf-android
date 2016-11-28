@@ -7,10 +7,10 @@ package com.philips.platform.catalogapp.themesettings;
 
 import android.content.SharedPreferences;
 
-import com.philips.platform.uit.thememanager.ColorRange;
-import com.philips.platform.uit.thememanager.ContentColor;
-import com.philips.platform.uit.thememanager.NavigationColor;
-import com.philips.platform.uit.thememanager.UIDHelper;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 public class ThemeHelper {
     final SharedPreferences sharedPreferences;

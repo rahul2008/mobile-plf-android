@@ -37,7 +37,7 @@
         </LinearLayout>
 
 
-        <com.philips.platform.uit.utils.MaxHeightScrollView
+        <com.philips.platform.uid.utils.MaxHeightScrollView
             android:id="@id/uid_alert_message_scroll_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 style="@style/UIDAlertDialogMessageTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-        </com.philips.platform.uit.utils.MaxHeightScrollView>
+        </com.philips.platform.uid.utils.MaxHeightScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -58,13 +58,13 @@
         android:layout_height="@dimen/uid_alert_dialog_control_area_height"
         android:layout_marginBottom="0dp">
 
-        <com.philips.platform.uit.view.widget.Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_alert_negative_button"
             style="@style/UIDQuietButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <com.philips.platform.uit.view.widget.Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@id/uid_alert_positive_button"
             style="@style/UIDDefaultButton"
             android:layout_width="wrap_content"

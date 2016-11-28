@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uit.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ColorRange;
 
 import java.util.ArrayList;
 import java.util.List;

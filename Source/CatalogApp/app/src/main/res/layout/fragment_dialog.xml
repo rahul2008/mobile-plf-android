@@ -48,7 +48,7 @@
                 android:layout_height="@dimen/button_layout_divider"
                 android:background="?attr/uidApplicationBackground"/>
 
-            <com.philips.platform.uit.view.widget.Switch
+            <com.philips.platform.uid.view.widget.Switch
                 android:id="@+id/toggle_switch_with_title"
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="match_parent"
@@ -89,7 +89,7 @@
             android:background="?attr/uidContentPrimary"
             android:orientation="vertical">
 
-            <com.philips.platform.uit.view.widget.Button
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/dialog_with_text"
                 style="@style/UIDExtraWideButton"
                 android:layout_width="match_parent"

@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uit.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -4,12 +4,12 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.philips.platform.uit.view.widget.Label
+    <com.philips.platform.uid.view.widget.Label
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="First name*"/>
 
-    <com.philips.platform.uit.view.widget.TextEditBox
+    <com.philips.platform.uid.view.widget.TextEditBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -40,13 +40,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.philips.platform.uit.view.widget.Label
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Calories"/>
 
-        <com.philips.platform.uit.view.widget.Label
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/label_numeric"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

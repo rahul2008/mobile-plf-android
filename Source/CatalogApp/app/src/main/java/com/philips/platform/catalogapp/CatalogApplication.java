@@ -7,7 +7,7 @@ package com.philips.platform.catalogapp;
 
 import android.app.Application;
 
-import com.philips.platform.uit.thememanager.UIDHelper;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 public class CatalogApplication extends Application {
     @Override

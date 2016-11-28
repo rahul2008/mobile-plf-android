@@ -40,19 +40,19 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.philips.platform.uit.view.widget.ProgressBar
+                <com.philips.platform.uid.view.widget.ProgressBar
                     android:id="@+id/progress_bar_indeterminate_circular_small"
                     style="@style/UIDProgressBarCircularIndeterminateSmall"
                     />
 
-                <com.philips.platform.uit.view.widget.ProgressBar
+                <com.philips.platform.uid.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_indeterminate_circular_middle"
                     style="@style/UIDProgressBarCircularIndeterminateMiddle"
                     />
 
-                <com.philips.platform.uit.view.widget.ProgressBar
+                <com.philips.platform.uid.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_indeterminate_circular_big"
@@ -66,20 +66,20 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.philips.platform.uit.view.widget.ProgressBar
+                <com.philips.platform.uid.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_small"
                     style="@style/UIDProgressBarCircularDeterminateSmall"
                     />
 
-                <com.philips.platform.uit.view.widget.ProgressBar
+                <com.philips.platform.uid.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_middle"
                     style="@style/UIDProgressBarCircularDeterminateMiddle"/>
 
-                <com.philips.platform.uit.view.widget.ProgressBar
+                <com.philips.platform.uid.view.widget.ProgressBar
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_big"
@@ -87,25 +87,25 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.philips.platform.uit.view.widget.ProgressBar
+        <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar_indeterminate"
             style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
 
             app:uidLinearProgressBar="true"/>
 
-        <com.philips.platform.uit.view.widget.ProgressBar
+        <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
 
             app:uidLinearProgressBar="true"/>
 
-        <com.philips.platform.uit.view.widget.ProgressBar
+        <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
 
             app:uidLinearProgressBar="true"/>
 
-        <com.philips.platform.uit.view.widget.ProgressBar
+        <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
             style="@style/UIDProgressBarHorizontalDeterminate"
             app:uidLinearProgressBar="true"/>
