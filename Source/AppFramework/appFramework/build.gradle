@@ -83,7 +83,7 @@ artifactory {
             }
         }
 			defaults {
-				publications ('apk')
+				//publications ('apk')
 				publishPom = true
 				publishArtifacts = true
 			}
