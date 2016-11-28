@@ -41,6 +41,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.philips.cdp:cloudcontroller:4.0.0'
     localDevelopmentCompile project(path: ':commlib-all', configuration: 'localDevelopment')
+    debugCompile project(path: ':commlib-all', configuration: 'debug')
+    releaseCompile project(path: ':commlib-all', configuration: 'release')
 
     testCompile 'junit:junit:4.12'
 }
