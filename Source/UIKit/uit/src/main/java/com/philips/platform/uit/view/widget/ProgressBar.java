@@ -70,9 +70,9 @@ public class ProgressBar extends android.widget.ProgressBar {
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
         final Drawable secondaryProgress = progressBarDrawable.findDrawableByLayerId(android.R.id.secondaryProgress);
 
-        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uit_progress_bar_background_selector, theme);
-        final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uit_progress_bar_progress_selector, theme);
-        final Drawable secondaryProgressDrawable = setTintOnDrawable(secondaryProgress, R.color.uit_progress_bar_secondary_progress_selector, theme);
+        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme);
+        final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uid_progress_bar_progress_selector, theme);
+        final Drawable secondaryProgressDrawable = setTintOnDrawable(secondaryProgress, R.color.uid_progress_bar_secondary_progress_selector, theme);
 
         final LayerDrawable layer = new LayerDrawable(new Drawable[]{backgroundDrawable, secondaryProgressDrawable, progressDrawable});
         layer.setId(0, android.R.id.background);
@@ -91,8 +91,8 @@ public class ProgressBar extends android.widget.ProgressBar {
         final Drawable background = progressBarDrawable.findDrawableByLayerId(android.R.id.background);
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
 
-        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uit_progress_bar_background_selector, theme);
-        final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uit_progress_bar_progress_selector, theme);
+        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme);
+        final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uid_progress_bar_progress_selector, theme);
 
         final LayerDrawable layer = createCircularProgressBarLayerDrawable(progressDrawable, backgroundDrawable);
 

@@ -11,17 +11,17 @@
         <item name="android:minWidth">@dimen/uid_button_min_width</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/uid_button_text_size</item>
-        <item name="android:background">@drawable/uit_default_button_background</item>
-        <item name="uidButtonBackgroundColorList">@color/uit_default_button_background_selector
+        <item name="android:background">@drawable/uid_default_button_background</item>
+        <item name="uidButtonBackgroundColorList">@color/uid_default_button_background_selector
         </item>
-        <item name="uidButtonTextColorList">@color/uit_default_button_text_selector</item>
+        <item name="uidButtonTextColorList">@color/uid_default_button_text_selector</item>
         <item name="android:paddingLeft">@dimen/uid_button_padding_left_right</item>
         <item name="android:paddingRight">@dimen/uid_button_padding_left_right</item>
         <item name="android:textAppearance">@style/UIDDefaultButtonTextAppearance</item>
         <item name="uidButtonImageDrawableWidth">@dimen/uid_imagebutton_image_size</item>
         <item name="uidButtonImageDrawableHeight">@dimen/uid_imagebutton_image_size</item>
         <item name="android:drawablePadding">@dimen/uid_imagebutton_padding</item>
-        <item name="uidButtonDrawableColorList">@color/uit_default_button_text_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_default_button_text_selector</item>
     </style>
 
     <style name="UIDDefaultButton.UIDImageTextButton">
@@ -30,15 +30,15 @@
     </style>
 
     <style name="UIDImageButton" parent="Widget.AppCompat.ImageButton">
-        <item name="android:background">@drawable/uit_default_button_background</item>
+        <item name="android:background">@drawable/uid_default_button_background</item>
         <item name="android:minWidth">@dimen/uid_imagebutton_size</item>
         <item name="android:minHeight">@dimen/uid_imagebutton_size</item>
         <item name="android:paddingRight">@dimen/uid_imagebutton_padding</item>
         <item name="android:paddingLeft">@dimen/uid_imagebutton_padding</item>
         <item name="uidImageButtonDrawableWidth">@dimen/uid_imagebutton_image_size</item>
         <item name="uidImageButtonDrawableHeight">@dimen/uid_imagebutton_image_size</item>
-        <item name="uidImageButtonDrawableColorList">@color/uit_default_button_text_selector</item>
-        <item name="uidImageButtonColorList">@color/uit_default_button_background_selector</item>
+        <item name="uidImageButtonDrawableColorList">@color/uid_default_button_text_selector</item>
+        <item name="uidImageButtonColorList">@color/uid_default_button_background_selector</item>
     </style>
 
     <style name="UIDExtraWideButton" parent="UIDDefaultButton">
@@ -59,10 +59,10 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:paddingLeft">@dimen/uid_quiet_button_padding_left_right</item>
         <item name="android:paddingRight">@dimen/uid_quiet_button_padding_left_right</item>
-        <item name="uidButtonTextColorList">@color/uit_quiet_button_text_selector</item>
-        <item name="uidButtonDrawableColorList">@color/uit_quiet_button_text_selector</item>
-        <item name="uidImageButtonDrawableColorList">@color/uit_quiet_button_text_selector</item>
-        <item name="uidImageButtonColorList">@color/uit_quiet_button_text_selector</item>
+        <item name="uidButtonTextColorList">@color/uid_quiet_button_text_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_quiet_button_text_selector</item>
+        <item name="uidImageButtonDrawableColorList">@color/uid_quiet_button_text_selector</item>
+        <item name="uidImageButtonColorList">@color/uid_quiet_button_text_selector</item>
     </style>
 
     <style name="UIDQuietIconButton" parent="UIDImageButton">
@@ -70,8 +70,8 @@
         <item name="android:paddingLeft">@dimen/uid_quiet_icon_only_padding_left_right</item>
         <item name="android:paddingRight">@dimen/uid_quiet_icon_only_padding_left_right</item>
         <item name="android:maxWidth">@dimen/uid_quiet_button_max_width</item>
-        <item name="uidImageButtonColorList">@color/uit_quiet_button_icon_selector</item>
-        <item name="uidImageButtonDrawableColorList">@color/uit_quiet_button_icon_selector</item>
+        <item name="uidImageButtonColorList">@color/uid_quiet_button_icon_selector</item>
+        <item name="uidImageButtonDrawableColorList">@color/uid_quiet_button_icon_selector</item>
     </style>
 
     <style name="UIDExtraWideQuietButton" parent="UIDQuietButton">
