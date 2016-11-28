@@ -6,7 +6,6 @@ package com.philips.platform.uit.components.alert;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -15,11 +14,9 @@ import android.view.View;
 
 import com.philips.platform.uit.DialogTestFragment;
 import com.philips.platform.uit.activity.BaseTestActivity;
-import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,8 +29,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.Gray65;
 import static com.philips.platform.uit.test.R.color.Gray75;
-import static com.philips.platform.uit.test.R.color.White;
-import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
+import static com.philips.platform.uit.utils.UIDTestUtils.waitFor;
 
 public class AlertTest {
 
@@ -140,7 +136,7 @@ public class AlertTest {
 
     @Test
     public void verifyAlertContentLeftMargin() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedLeftMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
         getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
@@ -193,7 +189,7 @@ public class AlertTest {
 
     @Test
     public void verifyActionAreaHeight() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedActionareaHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertactionarea_height);
         getAlertActionArea()
                 .check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedActionareaHeight)));

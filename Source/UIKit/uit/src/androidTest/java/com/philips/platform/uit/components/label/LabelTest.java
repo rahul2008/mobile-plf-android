@@ -22,7 +22,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.Gray75;
-import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
+import static com.philips.platform.uit.utils.UIDTestUtils.modulateColorAlpha;
 
 public class LabelTest {
 

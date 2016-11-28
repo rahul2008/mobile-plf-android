@@ -27,7 +27,7 @@ import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
-import com.philips.platform.uit.thememanager.UITHelper;
+import com.philips.platform.uit.thememanager.UIDHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -84,9 +84,9 @@ public class ThemeSettingsFragment extends BaseFragment {
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
 
         if (savedInstanceState != null) {
-            colorRangeSelectedPosition = savedInstanceState.getInt(UITHelper.COLOR_RANGE, getColorRangeAdapter().getSelectedPosition());
-            contentSelectedPosition = savedInstanceState.getInt(UITHelper.CONTENT_TONAL_RANGE, getTonalRangeAdapter(colorRange).getSelectedPosition());
-            navigationSelectedPosition = savedInstanceState.getInt(UITHelper.NAVIGATION_RANGE, getNavigationListAdapter(colorRange).getSelectedPosition());
+            colorRangeSelectedPosition = savedInstanceState.getInt(UIDHelper.COLOR_RANGE, getColorRangeAdapter().getSelectedPosition());
+            contentSelectedPosition = savedInstanceState.getInt(UIDHelper.CONTENT_TONAL_RANGE, getTonalRangeAdapter(colorRange).getSelectedPosition());
+            navigationSelectedPosition = savedInstanceState.getInt(UIDHelper.NAVIGATION_RANGE, getNavigationListAdapter(colorRange).getSelectedPosition());
             colorRange = ColorRange.values()[colorRangeSelectedPosition];
             EventBus.getDefault().post(new ColorRangeChangedEvent(contentColor.name().toString(), colorRange));
 
@@ -123,9 +123,9 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
-        outState.putInt(UITHelper.COLOR_RANGE, colorRange.ordinal());
-        outState.putInt(UITHelper.CONTENT_TONAL_RANGE, getSelectedContentTonalRangePosition());
-        outState.putInt(UITHelper.NAVIGATION_RANGE, getSelectedNavigationPosition());
+        outState.putInt(UIDHelper.COLOR_RANGE, colorRange.ordinal());
+        outState.putInt(UIDHelper.CONTENT_TONAL_RANGE, getSelectedContentTonalRangePosition());
+        outState.putInt(UIDHelper.NAVIGATION_RANGE, getSelectedNavigationPosition());
         super.onSaveInstanceState(outState);
     }
 

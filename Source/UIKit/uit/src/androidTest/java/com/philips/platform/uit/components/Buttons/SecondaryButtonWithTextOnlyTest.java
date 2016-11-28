@@ -15,7 +15,7 @@ import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -30,7 +30,7 @@ import static com.philips.platform.uit.test.R.color.GroupBlue15;
 import static com.philips.platform.uit.test.R.color.GroupBlue35;
 import static com.philips.platform.uit.test.R.color.GroupBlue45;
 import static com.philips.platform.uit.test.R.color.GroupBlue75;
-import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
+import static com.philips.platform.uit.utils.UIDTestUtils.modulateColorAlpha;
 
 public class SecondaryButtonWithTextOnlyTest {
 
@@ -89,7 +89,7 @@ public class SecondaryButtonWithTextOnlyTest {
     public void verifySecTextOnlyDisabledButtonFontColor() {
         disableAllViews();
         final int expectedFontColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue75);
-        final int disabledTextColor = UITTestUtils.modulateColorAlpha(expectedFontColor, 0.25f);
+        final int disabledTextColor = UIDTestUtils.modulateColorAlpha(expectedFontColor, 0.25f);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
     }
 

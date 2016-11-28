@@ -17,7 +17,7 @@ import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -30,7 +30,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.GroupBlue35;
 import static com.philips.platform.uit.test.R.color.GroupBlue45;
-import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
+import static com.philips.platform.uit.utils.UIDTestUtils.modulateColorAlpha;
 
 public class PrimaryButtonWithTextOnlyTest {
 
@@ -53,7 +53,7 @@ public class PrimaryButtonWithTextOnlyTest {
 
     @Test
     public void verifyButtonHeight() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_height);
         getPrimaryButton()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
@@ -125,7 +125,7 @@ public class PrimaryButtonWithTextOnlyTest {
     @Test
     public void verifyPrimaryTextOnlyDisabledButtonFontColor() {
         disableAllViews();
-        final int disabledTextColor = UITTestUtils.modulateColorAlpha(Color.WHITE, 0.25f);
+        final int disabledTextColor = UIDTestUtils.modulateColorAlpha(Color.WHITE, 0.25f);
         getPrimaryButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
     }
 

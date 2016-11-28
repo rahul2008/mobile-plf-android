@@ -7,7 +7,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 
 import com.philips.platform.uit.utils.UIDUtils;
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 import org.hamcrest.Matcher;
 
@@ -131,13 +131,13 @@ public class FunctionDrawableMatchers {
     }
 
     private static Drawable getDrawable(final View view, final String funcName, final int drawableID) {
-        Drawable drawable = UITTestUtils.getDrawableWithReflection(view, funcName);
+        Drawable drawable = UIDTestUtils.getDrawableWithReflection(view, funcName);
         if (drawable instanceof LayerDrawable && drawableID != -1) {
             drawable = ((LayerDrawable) drawable).findDrawableByLayerId(drawableID);
         }
         //Extract the wrapped gradient drawable
-        drawable = UITTestUtils.extractClipDrawable(drawable);
-        drawable = UITTestUtils.extractGradientFromRotateDrawable(drawable);
+        drawable = UIDTestUtils.extractClipDrawable(drawable);
+        drawable = UIDTestUtils.extractGradientFromRotateDrawable(drawable);
         return drawable;
     }
 
@@ -153,7 +153,7 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                ColorStateList colorStateList = UITTestUtils.getColorStateListWithReflection(view, funcName);
+                ColorStateList colorStateList = UIDTestUtils.getColorStateListWithReflection(view, funcName);
                 return colorStateList.getColorForState(new int[]{state}, Color.MAGENTA) == expectedValue;
             }
         };

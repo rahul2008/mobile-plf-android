@@ -25,7 +25,7 @@ import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 import com.philips.platform.uit.view.widget.TextEditBox;
 
 import org.junit.Before;
@@ -108,7 +108,7 @@ public class TextBoxTest {
 
     @Test
     public void verifyTextEditBoxHeight() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_height));
         getTextBox().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uid_texteditbox_fill_drawable)));
     }
@@ -123,57 +123,57 @@ public class TextBoxTest {
 
     @Test
     public void verifyNormalTextBoxFillColor() {
-        final int expectedColor = UITTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextFillColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextFillColor);
         getTextBox().check(matches(FunctionDrawableMatchers
                 .isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor, R.id.uid_texteditbox_fill_drawable)));
     }
 
     @Test
     public void verifyNormalTextBoxBorderColor() {
-        int expectedColor = UITTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextBorderColor);
+        int expectedColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextBorderColor);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor, R.id.uid_texteditbox_stroke_drawable)));
     }
 
     @Test
     public void verifyNormalTextBoxTextColor() {
-        int expectedTextColor = UITTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextTextColor);
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextTextColor);
         getTextBox().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedTextColor)));
     }
 
     @Test
     public void verifyNormalTextBoxHintTextColor() {
-        int expectedHintTextColor = UITTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextHintTextColor);
+        int expectedHintTextColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextHintTextColor);
         getTextBox().check(matches(TextViewPropertiesMatchers.isSameHintTextColor(android.R.attr.state_enabled, expectedHintTextColor)));
     }
 
     @Test
     public void verifyFocusedTextBoxFillColor() {
-        int expectedFillColor = UITTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextFillPressedColor);
+        int expectedFillColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextFillPressedColor);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedFillColor, R.id.uid_texteditbox_fill_drawable)));
     }
 
     @Test
     public void verifyFocusedTextBoxBorderColor() {
-        int expectedBorderColor = UITTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextBorderColor);
+        int expectedBorderColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextBorderColor);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedBorderColor, R.id.uid_texteditbox_stroke_drawable)));
     }
 
     @Test
     public void verifyDisabledTextBoxFillColor() {
-        int expectedFillColor = UITTestUtils.getColorWithAlphaFromAttrs(activityContext,
+        int expectedFillColor = UIDTestUtils.getColorWithAlphaFromAttrs(activityContext,
                 R.attr.uidInputTextFillDisabledColor, R.attr.uidInputTextFillDisabledAlpha);
         getDisabledFilledTextBox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, -android.R.attr.state_enabled, expectedFillColor, R.id.uid_texteditbox_fill_drawable)));
     }
 
     @Test
     public void verifyDisabledTextBoxBorderColor() {
-        int expectedBorderColor = UITTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextBorderDisabledColor);
+        int expectedBorderColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextBorderDisabledColor);
         getDisabledFilledTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeColor(TestConstants.FUNCTION_GET_BACKGROUND, -android.R.attr.state_enabled, expectedBorderColor, R.id.uid_texteditbox_stroke_drawable)));
     }
 
     @Test
     public void verifyDisabledTextBoxTextColor() {
-        int expectedColor = UITTestUtils.getColorWithAlphaFromAttrs(activityContext,
+        int expectedColor = UIDTestUtils.getColorWithAlphaFromAttrs(activityContext,
                 R.attr.uidInputTextTextDisabledColor, R.attr.uidInputTextTextDisabledAlpha);
         getDisabledFilledTextBox().check(
                 matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
@@ -181,7 +181,7 @@ public class TextBoxTest {
 
     @Test
     public void verifyDisabledTextBoxHintTextColor() {
-        int expectedColor = UITTestUtils.getColorWithAlphaFromAttrs(activityContext,
+        int expectedColor = UIDTestUtils.getColorWithAlphaFromAttrs(activityContext,
                 R.attr.uidInputTextHintTextDisabledColor, R.attr.uidInputTextHintTextDisabledAlpha);
         getDisabledHintTextBox().check(
                 matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));

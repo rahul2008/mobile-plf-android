@@ -7,12 +7,12 @@ package com.philips.platform.catalogapp;
 
 import android.app.Application;
 
-import com.philips.platform.uit.thememanager.UITHelper;
+import com.philips.platform.uit.thememanager.UIDHelper;
 
 public class CatalogApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        UITHelper.injectCalligraphyFonts();
+        UIDHelper.injectCalligraphyFonts();
     }
 }

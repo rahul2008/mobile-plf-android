@@ -9,7 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
 
@@ -62,7 +62,7 @@ public class DrawableStateColorsWrapper extends BaseStateColorsImpl {
         if (Build.VERSION.SDK_INT >= 21) {
             wrappedConstantState = gradientConstantState;
 
-            Drawable gd = UITTestUtils.getWrappedClipDrawableFromReflection(drawable);
+            Drawable gd = UIDTestUtils.getWrappedClipDrawableFromReflection(drawable);
             if (gd != drawable) {
                 wrappedConstantState = gd.getConstantState();
             }

@@ -15,7 +15,7 @@ import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -28,7 +28,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.GroupBlue45;
 import static com.philips.platform.uit.test.R.color.GroupBlue55;
-import static com.philips.platform.uit.utils.UITTestUtils.waitFor;
+import static com.philips.platform.uit.utils.UIDTestUtils.waitFor;
 
 public class QuietButtonTest {
 
@@ -51,7 +51,7 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietButtonHeight() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_height);
         getQuietButton()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
@@ -138,7 +138,7 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextOnlyDisabledButtonFontColor() {
-        final int disabledTextColor = UITTestUtils.modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
+        final int disabledTextColor = UIDTestUtils.modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, disabledTextColor)));
     }
 

@@ -24,7 +24,7 @@ import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
-import com.philips.platform.uit.thememanager.UITHelper;
+import com.philips.platform.uit.thememanager.UIDHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
 
-        UITHelper.init(getThemeConfig());
+        UIDHelper.init(getThemeConfig());
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -150,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveThemeSettings() {
-        saveThemeValues(UITHelper.COLOR_RANGE, colorRange.name());
-        saveThemeValues(UITHelper.NAVIGATION_RANGE, navigationColor.name());
-        saveThemeValues(UITHelper.CONTENT_TONAL_RANGE, contentColor.name());
+        saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
+        saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
+        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
     }
 
     public void showFragment(final BaseFragment fragment) {

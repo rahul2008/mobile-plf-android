@@ -15,7 +15,7 @@ import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
-import com.philips.platform.uit.thememanager.UITHelper;
+import com.philips.platform.uit.thememanager.UIDHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -23,8 +23,8 @@ public class BaseTestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        UITHelper.injectCalligraphyFonts();
-        UITHelper.init(getThemeConfig());
+        UIDHelper.injectCalligraphyFonts();
+        UIDHelper.init(getThemeConfig());
         super.onCreate(savedInstanceState);
     }
 

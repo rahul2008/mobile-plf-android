@@ -6,7 +6,7 @@ package com.philips.platform.uit.matcher;
 
 import android.view.View;
 
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 import com.philips.platform.uit.view.widget.ProgressBar;
 
 import org.hamcrest.Matcher;
@@ -19,7 +19,7 @@ public class ProgressBarMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof ProgressBar) {
-                    int actual = UITTestUtils.getIntFieldValueFromReflection(view, INDETERMINATE_DURATION);
+                    int actual = UIDTestUtils.getIntFieldValueFromReflection(view, INDETERMINATE_DURATION);
                     setValues(String.valueOf(actual), String.valueOf(expectedValue));
                     return actual == expectedValue;
                 }

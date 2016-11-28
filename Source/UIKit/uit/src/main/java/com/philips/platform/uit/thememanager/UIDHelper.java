@@ -11,7 +11,7 @@ import com.philips.platform.uit.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-public class UITHelper {
+public class UIDHelper {
 
     public static final String CONTENT_TONAL_RANGE = "CONTENT_TONAL_RANGE";
     public static final String COLOR_RANGE = "COLOR_RANGE";

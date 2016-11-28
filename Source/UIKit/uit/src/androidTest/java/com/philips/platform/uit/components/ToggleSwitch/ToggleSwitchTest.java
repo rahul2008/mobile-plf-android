@@ -18,7 +18,7 @@ import com.philips.platform.uit.activity.BaseTestActivity;
 import com.philips.platform.uit.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uit.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uit.utils.TestConstants;
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,7 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uit.test.R.color.GroupBlue10;
 import static com.philips.platform.uit.test.R.color.GroupBlue45;
-import static com.philips.platform.uit.utils.UITTestUtils.modulateColorAlpha;
+import static com.philips.platform.uit.utils.UIDTestUtils.modulateColorAlpha;
 
 public class ToggleSwitchTest {
 
@@ -56,35 +56,35 @@ public class ToggleSwitchTest {
     //*********************************Toggle Switch Layout TestScenarios**************************//
     @Test
     public void verifyToggleSwitchWidth() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_width);
         getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
     public void verifyToggleSwitchHeight() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
     }
 
     @Test
     public void verifyToggleSwitchTrackWidth() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_width);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameWidth(trackFunction(), expectedWidth, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchTrackHeight() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_track_height);
         getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameHeight(trackFunction(), expectedHeight, trackID())));
     }
 
     @Test
     public void verifyToggleSwitchThumbHeight() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedHeight)));
@@ -92,7 +92,7 @@ public class ToggleSwitchTest {
 
     @Test
     public void verifyToggleSwitchThumbWidth() {
-        UITTestUtils.waitFor(testResources, 750);
+        UIDTestUtils.waitFor(testResources, 750);
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.toggleswitch_thumb_height);
         getToggleSwitch()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedWidth)));

@@ -6,7 +6,7 @@
 
 package uit;
 
-import com.philips.platform.uit.thememanager.UITHelper;
+import com.philips.platform.uit.thememanager.UIDHelper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +20,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
-@PrepareForTest(UITHelper.class)
-public class UITHelperTest {
+@PrepareForTest(UIDHelper.class)
+public class UIDHelperTest {
     @Test
     public void ShouldInitColligraphyWhenRequested() throws Exception {
         PowerMockito.mockStatic(CalligraphyConfig.class);
 
-        UITHelper.injectCalligraphyFonts();
+        UIDHelper.injectCalligraphyFonts();
 
         PowerMockito.verifyStatic();
         CalligraphyConfig.initDefault(Mockito.any(CalligraphyConfig.class));

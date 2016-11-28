@@ -21,7 +21,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Field;
 
-public class UITTestUtils {
+public class UIDTestUtils {
     public static int getAttributeColor(Context context, int attribute) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});
         int color = Color.MAGENTA;

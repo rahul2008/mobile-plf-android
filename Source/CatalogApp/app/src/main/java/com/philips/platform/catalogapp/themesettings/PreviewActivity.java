@@ -23,7 +23,7 @@ import com.philips.platform.uit.thememanager.ColorRange;
 import com.philips.platform.uit.thememanager.ContentColor;
 import com.philips.platform.uit.thememanager.NavigationColor;
 import com.philips.platform.uit.thememanager.ThemeConfiguration;
-import com.philips.platform.uit.thememanager.UITHelper;
+import com.philips.platform.uit.thememanager.UIDHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,7 +45,7 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this));
 
-        UITHelper.init(getThemeConfig());
+        UIDHelper.init(getThemeConfig());
 
         if (BuildConfig.DEBUG) {
             Log.d(PreviewActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",

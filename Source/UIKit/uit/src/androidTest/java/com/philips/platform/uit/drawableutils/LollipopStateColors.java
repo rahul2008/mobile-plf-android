@@ -9,7 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 
-import com.philips.platform.uit.utils.UITTestUtils;
+import com.philips.platform.uit.utils.UIDTestUtils;
 
 public class LollipopStateColors extends KitKatStateColors {
     private static final String COLOR_STATE_LIST = "mColorStateList";
@@ -45,12 +45,12 @@ public class LollipopStateColors extends KitKatStateColors {
 
     @Override
     public int getRippleRadius() {
-        return UITTestUtils.getMaxRippleRadius((RippleDrawable) drawable);
+        return UIDTestUtils.getMaxRippleRadius((RippleDrawable) drawable);
     }
 
     @Override
     public int getRippleColor(final int attr) {
-        return getColorBasedOnAttribute(UITTestUtils.getRippleColor(constantState), attr);
+        return getColorBasedOnAttribute(UIDTestUtils.getRippleColor(constantState), attr);
     }
 
     protected String getSolidColorStateListFiledName() {
