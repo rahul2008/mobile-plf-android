@@ -23,6 +23,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
+import com.philips.cdp.digitalcare.R;
+
 
 @SuppressLint("NewApi")
 public class NetworkAlertView {
@@ -42,7 +44,7 @@ public class NetworkAlertView {
 
         if (mAlertDialog == null) {
 
-            mAlertDialog = new AlertDialog.Builder(activity)
+            mAlertDialog = new AlertDialog.Builder(activity, R.style.alertDialogStyle)
                     .setTitle(title)
                     .setMessage(message)
                     .setPositiveButton(android.R.string.yes,
