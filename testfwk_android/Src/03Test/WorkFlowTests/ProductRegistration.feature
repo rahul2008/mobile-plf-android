@@ -8,7 +8,7 @@
 	1b) The system shall provide the ability for a user to logout (Current E2E test case needs update to include log-out from the reference app)
 	2a) The system shall provide the ability to register a product (create a separate feature file for the same)
 
-@DailyTest
+@E2ETesting
 Scenario: Register a product
     Given that the application is in logout state
 	Then I click on Skip

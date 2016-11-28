@@ -7,13 +7,13 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.flowmanager.TabbedAppState;
+import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.tabbedscreen.TabDependencies;
 import com.philips.platform.appframework.tabbedscreen.TabInterface;
 import com.philips.platform.appframework.tabbedscreen.TabLaunchInput;
 import com.philips.platform.appframework.tabbedscreen.TabSettings;
-import com.philips.platform.modularui.statecontroller.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -25,7 +25,7 @@ public class HomeTabbedActivityState extends BaseState {
      * constructor
      */
     public HomeTabbedActivityState() {
-        super(TabbedAppState.TAB_HOME);
+        super(AppStates.TAB_HOME);
     }
 
     /**
@@ -44,8 +44,13 @@ public class HomeTabbedActivityState extends BaseState {
 
     }
 
+    @Override
+    public void updateDataModel() {
+
+    }
+
     private void launchTabScreen() {
-        TabDependencies tabDependencies = new TabDependencies(AppFrameworkApplication.appInfra);
+        TabDependencies tabDependencies = new TabDependencies(((AppFrameworkApplication)fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra());
         TabSettings tabSettings = new TabSettings(fragmentLauncher.getFragmentActivity());
         TabLaunchInput tabLaunchInput = new TabLaunchInput();
 

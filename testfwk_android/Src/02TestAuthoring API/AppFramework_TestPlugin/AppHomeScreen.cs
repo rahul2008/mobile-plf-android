@@ -45,7 +45,8 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             MeasurementValueFromReferenceDevice,
             MomentValueFromDatacore,
             Terms,
-            Support
+            Support,
+            PhilipShop
 
         }
 
@@ -75,6 +76,8 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                 _instance.ClickById(AppFrameWork.Android.HomeScreen.Terms);
             if (btn == Button.Support)
                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.Support).Click();
+             if (btn == Button.PhilipShop)
+                 _instance.GetElementByXpath(AppFrameWork.Android.HomeScreen.PhilipShop).Click();
         }
 
         public enum EditText

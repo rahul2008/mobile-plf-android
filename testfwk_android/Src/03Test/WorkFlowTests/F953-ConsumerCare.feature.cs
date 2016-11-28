@@ -73,11 +73,11 @@ Requirement:
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("01 Viewing Product Information", new string[] {
-                "DailyTest"}, SourceLine=8)]
+                "CC"}, SourceLine=8)]
         public virtual void _01ViewingProductInformation()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01 Viewing Product Information", new string[] {
-                        "DailyTest"});
+                        "CC"});
 #line 9
 this.ScenarioSetup(scenarioInfo);
 #line 11
@@ -101,11 +101,11 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("02 Verify Live Chat and Email option", new string[] {
-                "DailyTest"}, SourceLine=19)]
+                "CC"}, SourceLine=19)]
         public virtual void _02VerifyLiveChatAndEmailOption()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02 Verify Live Chat and Email option", new string[] {
-                        "DailyTest"});
+                        "CC"});
 #line 20
 this.ScenarioSetup(scenarioInfo);
 #line 22
@@ -127,11 +127,11 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("03 Verify Find Philips near you feature", new string[] {
-                "DailyTest"}, SourceLine=30)]
+                "CC"}, SourceLine=30)]
         public virtual void _03VerifyFindPhilipsNearYouFeature()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03 Verify Find Philips near you feature", new string[] {
-                        "DailyTest"});
+                        "CC"});
 #line 31
 this.ScenarioSetup(scenarioInfo);
 #line 33
@@ -149,11 +149,11 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("04 Verify Facebook and Twitter feature", new string[] {
-                "DailyTest"}, SourceLine=39)]
+                "CC"}, SourceLine=39)]
         public virtual void _04VerifyFacebookAndTwitterFeature()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("04 Verify Facebook and Twitter feature", new string[] {
-                        "DailyTest"});
+                        "CC"});
 #line 40
 this.ScenarioSetup(scenarioInfo);
 #line 41
@@ -173,11 +173,11 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("05 Verify Read FAQs", new string[] {
-                "DailyTest"}, SourceLine=48)]
+                "CC"}, SourceLine=48)]
         public virtual void _05VerifyReadFAQs()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("05 Verify Read FAQs", new string[] {
-                        "DailyTest"});
+                        "CC"});
 #line 49
 this.ScenarioSetup(scenarioInfo);
 #line 50
@@ -197,11 +197,11 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("06 Verify Tell us What you think", new string[] {
-                "DailyTest"}, SourceLine=57)]
+                "CC"}, SourceLine=57)]
         public virtual void _06VerifyTellUsWhatYouThink()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("06 Verify Tell us What you think", new string[] {
-                        "DailyTest"});
+                        "CC"});
 #line 58
 this.ScenarioSetup(scenarioInfo);
 #line 59

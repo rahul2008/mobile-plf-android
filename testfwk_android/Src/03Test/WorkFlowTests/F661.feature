@@ -6,7 +6,7 @@ Scenario: US9960 platform end to end smoke test
  	Given I am on the AppFramework Screen
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen 
-	Then I log in with the email 'datacore@mailinator.com' and password 'Philips@123'
+	Then I log in with the email "datacore@mailinator.com" and password "Philips@123"
 	Then I click on Hamburger Menu Icon
 	Then I am on end to end smoke test screen
 	Then I enter ID of Reference Device as '70:5A:0F:EC:CF:35'

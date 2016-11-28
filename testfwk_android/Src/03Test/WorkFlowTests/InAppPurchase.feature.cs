@@ -71,11 +71,11 @@ US12315 Requirement:
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("Verify that user can purchase a product from retailer using \"Buy Now\"", new string[] {
-                "E2ETesting"}, SourceLine=8)]
+                "IAP"}, SourceLine=8)]
         public virtual void VerifyThatUserCanPurchaseAProductFromRetailerUsingBuyNow()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that user can purchase a product from retailer using \"Buy Now\"", new string[] {
-                        "E2ETesting"});
+                        "IAP"});
 #line 9
 this.ScenarioSetup(scenarioInfo);
 #line 10
@@ -101,16 +101,16 @@ this.ScenarioSetup(scenarioInfo);
 #line 20
  testRunner.Then("I verify that the product list view is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 21
- testRunner.Then("I select \"HX9042/64\" from the product list view", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I select \"HX6064/33\" from the product list view", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 22
- testRunner.Then("I verify that user is navigated to the detail view of product \"HX9042/64\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I verify that user is navigated to the detail view of product \"HX6064/33\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 23
  testRunner.Then("I click on Buy Now and verify that user is navigated to list of retailer list vie" +
                     "w", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 24
- testRunner.Then("I select \"Amazon.com\" from the retailer list view", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I select \"Philips Online Shop - GB\" from the retailer list view", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 25
- testRunner.Then("I verify that \"Amazon.com\" webview is launched", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I verify that \"Philips Online Shop - GB\" webview is launched", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 26
  testRunner.Then("I verify that user can navigate back from webview to retailer list view", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 27

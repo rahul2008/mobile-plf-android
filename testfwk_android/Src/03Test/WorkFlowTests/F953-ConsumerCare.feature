@@ -5,7 +5,7 @@ Requirement:
 4a) The system shall provide the ability for a user to get online product specific support (Scenario: 01 - 05)
 4b) The system shall provide the ability for a user to give feedback about the product (Scenario: 06)
 
-@DailyTest
+@CC
 Scenario: 01 Viewing Product Information
 
 	Given I am on the AppFramework Screen
@@ -16,7 +16,7 @@ Scenario: 01 Viewing Product Information
 	Then verify selected product "Sonicare DiamondClean Standard sonic toothbrush heads" detail in view product information with CTN "HX6064/33" 
 	Then verify product information (on Philips.com) button
 
-@DailyTest
+@CC
 Scenario: 02 Verify Live Chat and Email option
 	
 	Given the user is on Mobile App Home page
@@ -27,7 +27,7 @@ Scenario: 02 Verify Live Chat and Email option
 	Then verify live chat option
 	Then verify send email option
 
-@DailyTest
+@CC
 Scenario: 03 Verify Find Philips near you feature
 
 	Given the user is on Mobile App Home page
@@ -36,7 +36,7 @@ Scenario: 03 Verify Find Philips near you feature
 	Then select "Find Philips near you" from support screen
 	Then verify find philips near you option
 
-@DailyTest
+@CC
 Scenario: 04 Verify Facebook and Twitter feature
 	Given the user is on Mobile App Home page
 	Then I click on Hamburger Menu Icon
@@ -45,7 +45,7 @@ Scenario: 04 Verify Facebook and Twitter feature
 	Then verify on Twitter option
 	Then verify on facebook option
 
-@DailyTest	
+@CC	
 Scenario: 05 Verify Read FAQs
 	Given the user is on Mobile App Home page
 	Then I click on Hamburger Menu Icon
@@ -54,7 +54,7 @@ Scenario: 05 Verify Read FAQs
 	Then verify each FAQ is clickable and readable
 	Then come back to support screen
 
-@DailyTest
+@CC
 Scenario: 06 Verify Tell us What you think
 	Given the user is on Mobile App Home page
 	Then I click on Hamburger Menu Icon
