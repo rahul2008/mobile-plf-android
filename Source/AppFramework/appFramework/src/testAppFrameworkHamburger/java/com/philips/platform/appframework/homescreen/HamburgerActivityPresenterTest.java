@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIStateData;
@@ -86,6 +87,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
+        final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
@@ -113,7 +115,8 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
         FlowManager uiFlowManager = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
-        when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "home_fragment")).thenReturn(homeFragmentStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.HAMBURGER_HOME)).thenReturn(hamburgerActivityState);
+        when(uiFlowManager.getNextState(hamburgerActivityState, "home_fragment")).thenReturn(homeFragmentStateMock);
         hamburgerActivityPresenter.onEvent(0);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
@@ -122,6 +125,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final DataSyncScreenState dataSyncStateMock = mock(DataSyncScreenState.class);
+        final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
@@ -149,7 +153,8 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
         FlowManager uiFlowManager = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
-        when(uiFlowManager.getNextState(AppStates.HAMBURGER_HOME, "data_sync")).thenReturn(dataSyncStateMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.HAMBURGER_HOME)).thenReturn(hamburgerActivityState);
+        when(uiFlowManager.getNextState(hamburgerActivityState, "data_sync")).thenReturn(dataSyncStateMock);
         hamburgerActivityPresenter.onEvent(5);
         verify(dataSyncStateMock, times(1)).navigate(fragmentLauncherMock);
     }

@@ -8,8 +8,8 @@ package com.philips.platform.appframework.flowmanager;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.base.BaseUiFlowManager;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
@@ -23,6 +23,7 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivityState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSplashState;
@@ -30,7 +31,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationWel
 
 import java.util.Map;
 
-public class FlowManager extends BaseUiFlowManager {
+public class FlowManager extends BaseFlowManager {
 
     public FlowManager(Context context, String jsonPath) {
         super(context, jsonPath);
@@ -38,6 +39,7 @@ public class FlowManager extends BaseUiFlowManager {
 
     @Override
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
+        uiStateMap.put(AppStates.FIRST_STATE,new LaunchActivityState());
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
         uiStateMap.put(AppStates.SPLASH_REGISTRATION, new UserRegistrationSplashState());
         uiStateMap.put(AppStates.WELCOME_REGISTRATION, new UserRegistrationWelcomeState());
