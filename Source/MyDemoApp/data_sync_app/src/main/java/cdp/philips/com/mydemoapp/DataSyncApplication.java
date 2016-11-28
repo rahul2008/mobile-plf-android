@@ -15,6 +15,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -38,7 +39,7 @@ public class DataSyncApplication extends Application {
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
         //Stetho.initializeWithDefaults(this);
-
+        LeakCanary.install(this);
         initializeUserRegistrationLibrary(Configuration.STAGING);
     }
 
