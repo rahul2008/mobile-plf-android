@@ -342,7 +342,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.0.1-rc.+', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.1.1-rc.+', ext: 'aar')
     compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.4-rc.+', ext: 'aar')
     compile project(':pluginreferenceboard')
 
