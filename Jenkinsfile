@@ -7,48 +7,34 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
 ])
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com'
+def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node_ext = "build_t"
-if (env.triggerBy == "ppc") {
-  node_ext = "build_p"
-}
-
-node ('androidppc &&' + node_ext) {
+node ('MACC07NP12YG1HY-BLR') {
 	timestamps {
 		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@bitbucket.atlas.philips.com:7999/maf/app-framework_android.git']]])
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@atlas.natlab.research.philips.com:7999/maf/app-framework_android.git']]])
 			step([$class: 'StashNotifier'])
 		}
-
 		try {
 			stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh "appFramework" && ./gradlew cC assembleRelease zipDoc tgzTask appFramework:aP '
-				currentBuild.result = 'SUCCESS'												
+                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDocuments tgzTask zipDoc artifactoryPublish'
 			}
-        }
-
-        catch(err) {
-            currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
-        }   
-        
-        try {			
-            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
+			
+            /* next if-then + stage is mandatory for the platform CI pipeline integration */
+            if (env.triggerBy != "ppc") {
             	stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
                         echo "BranchName changed to ${BranchName}"
                     }
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'afw'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
-                    currentBuild.result = 'SUCCESS'
             	}            
             }
             
 		} //end try
 		
 		catch(err) {
-            currentBuild.result = 'UNSTABLE'
+            error ("Someone just broke the build")
         }
 
         stage('informing') {
