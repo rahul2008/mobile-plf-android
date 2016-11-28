@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-everywhere'
 
+archivesBaseName = "appFramework"
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -83,7 +85,7 @@ artifactory {
             }
         }
 			defaults {
-				//publications ('apk')
+				publications ('apk')
 				publishPom = true
 				publishArtifacts = true
 			}
