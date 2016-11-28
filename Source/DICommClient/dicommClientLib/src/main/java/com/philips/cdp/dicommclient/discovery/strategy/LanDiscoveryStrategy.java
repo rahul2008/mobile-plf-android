@@ -65,7 +65,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
     }
 
     @Override
-    public void start(@NonNull DiscoveryListener discoveryListener) {
+    public void start(DiscoveryListener discoveryListener) {
         this.discoveryListener = discoveryListener;
 
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
@@ -74,7 +74,9 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
         }
         networkMonitor.startNetworkChangedReceiver();
 
-        discoveryListener.onDiscoveryStarted();
+        if (discoveryListener != null) {
+            discoveryListener.onDiscoveryStarted();
+        }
     }
 
     @Override
@@ -82,7 +84,9 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
         ssdpServiceHelper.stopDiscoveryImmediate();
         networkMonitor.stopNetworkChangedReceiver();
 
-        discoveryListener.onDiscoveryFinished();
+        if (discoveryListener != null) {
+            discoveryListener.onDiscoveryFinished();
+        }
     }
 
     private void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
@@ -95,10 +99,16 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
 
         if (allAppliancesMap.containsKey(networkNode.getCppId())) {
             updateExistingAppliance(networkNode);
-            discoveryListener.onNetworkNodeUpdated(networkNode);
+
+            if (discoveryListener != null) {
+                discoveryListener.onNetworkNodeUpdated(networkNode);
+            }
         } else {
             addNewAppliance(networkNode);
-            discoveryListener.onNetworkNodeDiscovered(networkNode);
+
+            if (discoveryListener != null) {
+                discoveryListener.onNetworkNodeDiscovered(networkNode);
+            }
         }
     }
 
@@ -119,9 +129,11 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
             }
         }
 
-        final NetworkNode networkNode = createNetworkNode(deviceModel);
-        if (networkNode != null) {
-            discoveryListener.onNetworkNodeLost(networkNode);
+        if (discoveryListener != null) {
+            final NetworkNode networkNode = createNetworkNode(deviceModel);
+            if (networkNode != null) {
+                discoveryListener.onNetworkNodeLost(networkNode);
+            }
         }
     }
 

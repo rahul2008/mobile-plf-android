@@ -4,8 +4,6 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
-import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public interface DiscoveryStrategy {
@@ -22,7 +20,7 @@ public interface DiscoveryStrategy {
         void onDiscoveryFinished();
     }
 
-    void start(@NonNull DiscoveryListener discoveryListener);
+    void start(DiscoveryListener discoveryListener);
 
     void stop();
 
