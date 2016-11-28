@@ -52,26 +52,27 @@ public class QuietButtonTest {
     @Test
     public void verifyQuietButtonHeight() {
         UIDTestUtils.waitFor(testResources, 750);
-        int expectedHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_height);
+        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_height);
+
         getQuietButton()
                 .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
 
     @Test
     public void verifyQuietButtonLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.quietbutton_left_padding);
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.quietbutton_left_padding);
         getQuietButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyQuietButtonRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.quietbutton_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.quietbutton_right_padding);
         getQuietButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyQuietButtonFontSize() {
-        int expectedFontSize = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_font_size));
+        int expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.button_font_size);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
@@ -81,7 +82,7 @@ public class QuietButtonTest {
     @Test
     public void verifyQuietIconOnlyButtonWidth() {
         waitFor(testResources, 750);
-        int expectedWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_width);
+        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_width);
         getQuietIconOnlyButton()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
     }
@@ -89,33 +90,33 @@ public class QuietButtonTest {
     @Test
     public void verifyQuietButtonIconHeight() {
         waitFor(testResources, 750);
-        int expectedIconHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_height);
+        int expectedIconHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_height);
         getQuietIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
     public void verifyQuietButtonIconWidth() {
         waitFor(testResources, 750);
-        int expectedIconWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_width);
+        int expectedIconWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.icon_width);
         getQuietIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
 
     @Test
     public void verifyQuietButtonWithIconLeftPadding() {
-        int expectedLeftPadding = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_left_padding);
         getQuietIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyQuietButtonWithIconRightPadding() {
-        int expectedRightPadding = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconbutton_right_padding);
         getQuietIconOnlyButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyQuietTextandIconButtonCompoundPadding() {
         waitFor(testResources, 750);
-        int expectedCompoundPadding = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconandtextbutton_compoundpadding));
+        int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.iconandtextbutton_compoundpadding);
         getQuietIconandTextButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
 

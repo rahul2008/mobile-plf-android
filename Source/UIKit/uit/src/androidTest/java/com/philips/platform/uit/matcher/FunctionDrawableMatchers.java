@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.philips.platform.uit.utils.UIDUtils;
@@ -25,6 +26,23 @@ public class FunctionDrawableMatchers {
                 boolean matches = heightMatcher.matches(drawable);
                 setValues(heightMatcher.actual, heightMatcher.expected);
                 return matches;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameHeight(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof AppCompatTextView) {
+                    AppCompatTextView textView = (AppCompatTextView) view;
+                    Drawable drawable = getDrawable(textView);
+                    BaseTypeSafteyMatcher<Drawable> heightMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameHeight(expectedValue);
+                    boolean matches = heightMatcher.matches(drawable);
+                    setValues(heightMatcher.actual, heightMatcher.expected);
+                    return matches;
+                }
+                return false;
             }
         };
     }
@@ -72,6 +90,23 @@ public class FunctionDrawableMatchers {
         };
     }
 
+    public static Matcher<View> isSameWidth(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof AppCompatTextView) {
+                    AppCompatTextView textView = (AppCompatTextView) view;
+                    Drawable drawable = getDrawable(textView);
+                    BaseTypeSafteyMatcher<Drawable> widthMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameWidth(expectedValue);
+                    boolean matches = widthMatcher.matches(drawable);
+                    setValues(widthMatcher.actual, widthMatcher.expected);
+                    return matches;
+                }
+                return false;
+            }
+        };
+    }
+
     public static Matcher<View> isSameRadius(final String funcName, final int index, final float expectedValue) {
         return isSameRadius(funcName, index, expectedValue, -1);
     }
@@ -88,6 +123,7 @@ public class FunctionDrawableMatchers {
             }
         };
     }
+
     /**
      * Must be operated on drawables. If the target is ColorStateList, use another function instead.
      *
@@ -101,7 +137,7 @@ public class FunctionDrawableMatchers {
     }
 
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID) {
-        return isSameColor(funcName, state, expectedValue,drawableID, false);
+        return isSameColor(funcName, state, expectedValue, drawableID, false);
     }
 
     public static Matcher<View> isSameColor(final String funcName, final int state, final int expectedValue, final int drawableID, final boolean isDefaultColor) {
@@ -139,6 +175,10 @@ public class FunctionDrawableMatchers {
         drawable = UIDTestUtils.extractClipDrawable(drawable);
         drawable = UIDTestUtils.extractGradientFromRotateDrawable(drawable);
         return drawable;
+    }
+
+    private static Drawable getDrawable(final AppCompatTextView view) {
+        return view.getCompoundDrawables()[0];
     }
 
     /**
@@ -180,7 +220,7 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                if(!UIDUtils.isMinLollipop()) {
+                if (!UIDUtils.isMinLollipop()) {
                     return true; //RippleDrawable not supported before 5.0
                 }
 
@@ -197,7 +237,7 @@ public class FunctionDrawableMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                if(!UIDUtils.isMinLollipop()) {
+                if (!UIDUtils.isMinLollipop()) {
                     return true; //RippleDrawable not supported before 5.0
                 }
 

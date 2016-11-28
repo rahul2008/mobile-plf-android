@@ -5,16 +5,18 @@
  */
 package com.philips.platform.catalogapp.fragments;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-
-import com.philips.platform.catalogapp.MainActivity;
 
 public abstract class BaseFragment extends Fragment {
 
     public abstract int getPageTitle();
 
-    public boolean showThemeSettingsIcon() {
-        return true;
+    @Override
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -22,8 +24,5 @@ public abstract class BaseFragment extends Fragment {
         super.onResume();
 
         (getActivity()).setTitle(getPageTitle());
-        if (showThemeSettingsIcon()) {
-            ((MainActivity) getActivity()).showThemeSettingsIcon();
-        }
     }
 }

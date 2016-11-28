@@ -6,7 +6,6 @@
 package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.philips.platform.catalogapp.BuildConfig;
 import com.philips.platform.catalogapp.R;
@@ -38,9 +36,6 @@ public class PreviewActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.back_button)
-    ImageView backButton;
-
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(this));
@@ -56,17 +51,16 @@ public class PreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        setTitle(R.string.page_title_preview);
 
-        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_back_icon, getTheme()));
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 finish();
             }
         });
-    }
-
-    private Drawable getIcon() {
-        return VectorDrawableCompat.create(getResources(), R.drawable.ic_theme_setting_entrance_icon, getTheme());
     }
 
     @Override

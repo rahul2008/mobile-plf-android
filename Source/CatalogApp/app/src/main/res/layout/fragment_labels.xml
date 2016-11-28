@@ -21,7 +21,7 @@
 
             <TextView
                 style="@style/ButtonsCategoryStyle"
-                android:text="@string/label_title_text"/>
+                android:text="@string/page_title_label"/>
 
             <com.philips.platform.uit.view.widget.Label
                 style="@style/UIDLabel.MarginTop"

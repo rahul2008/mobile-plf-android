@@ -19,6 +19,10 @@
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidQuietButtonDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidNavigationTextColor">@color/uidColorWhite</item>
+        <item name="uidNavigationShadowLevelOne">@color/uidColorBlack</item>
+        <item name="uidNavigationShadowLevelTwo">@color/uidColorBlack</item>
+        <item name="uidNavigationShadowLevelOneAlpha">@dimen/uid_alpha_per_20</item>
+        <item name="uidNavigationShadowLevelTwoAlpha">@dimen/uid_alpha_per_20</item>
 
         <item name="uidButtonNormalColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidButtonPressedColor">?attr/uidControlPrimaryPressedColor</item>
@@ -207,7 +211,8 @@
         <item name="uidContentSecondary">?attr/uidColorLevel75</item>
         <item name="uidNavigationPrimaryColor">?attr/uidColorLevel70</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel75</item>
-
+        <item name="uidNavigationShadowLevelOneAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidNavigationShadowLevelTwoAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidApplicationBackground">?attr/uidColorLevel85</item>
 
         <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel45</item>

@@ -130,14 +130,14 @@ public class UIDTestUtils {
 
     public static Drawable extractGradientFromRotateDrawable(Drawable drawable) {
         if (drawable instanceof RotateDrawable) {
-                return ((RotateDrawable) drawable).getDrawable();
+            return ((RotateDrawable) drawable).getDrawable();
         }
         return drawable;
     }
 
     //We need this for wrapperDrawables, specially for Lollipop
     public static Drawable getWrappedClipDrawableFromReflection(Drawable drawable) {
-        if(!(DrawableCompat.unwrap(drawable) instanceof ClipDrawable))
+        if (!(DrawableCompat.unwrap(drawable) instanceof ClipDrawable))
             return drawable;
         try {
             Drawable.ConstantState constantState = DrawableCompat.unwrap(drawable).getConstantState();

@@ -180,7 +180,6 @@ public class IndeterminateCircularProgressIndicators {
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));
     }
 
-
     private ViewInteraction getSmallIndeterminateCircularProgressBar() {
         return onView(withId(com.philips.platform.uit.test.R.id.progress_bar_indeterminate_circular_small));
     }
@@ -196,6 +195,4 @@ public class IndeterminateCircularProgressIndicators {
     private int circularprogressID() {
         return android.R.id.progress;
     }
-
-
 }

@@ -1,47 +1,37 @@
 package com.philips.platform.catalogapp;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NavigationController {
 
-    private FragmentManager supportFragmentManager;
-
-    @Bind(R.id.hamburger)
-    ImageView hamburgerIcon;
-
-    @Bind(R.id.theme_settings)
-    ImageView themeSettingsIcon;
-
-    @Bind(R.id.set_theme_settings)
-    TextView setThemeTextView;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
-    TextView title;
-
+    private FragmentManager supportFragmentManager;
+    private ActionBar actionBar;
     private MainActivity mainActivity;
+    private MenuItem themeSetting;
+    private MenuItem setTheme;
     SharedPreferences fragmentPreference;
 
     public NavigationController(final MainActivity mainActivity) {
@@ -53,7 +43,6 @@ public class NavigationController {
         if (hasBackStack()) {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
             if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
-                toggle(themeSettingsIcon, setThemeTextView);
                 toggleHamburgerIcon();
             } else {
                 showHamburgerIcon();
@@ -65,7 +54,7 @@ public class NavigationController {
     }
 
     private void toggleHamburgerIcon() {
-        hamburgerIcon.setImageResource(R.drawable.ic_back_icon);
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_back_icon, mainActivity.getTheme()));
         mainActivity.hamburgerIconVisible = false;
     }
 
@@ -73,7 +62,7 @@ public class NavigationController {
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.add(R.id.mainContainer, new ComponentListFragment());
         transaction.commit();
-        toggle(themeSettingsIcon, setThemeTextView);
+
         themeSettingsIconVisible(true);
     }
 
@@ -81,23 +70,12 @@ public class NavigationController {
         mainActivity.themeSettingsIconVisible = visible;
     }
 
-    protected void initSetThemeSettings(final Toolbar toolbar) {
-        setThemeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                mainActivity.saveThemeSettings();
-
-                mainActivity.restartActivity();
-            }
-        });
-    }
-
-    private void loadThemeSettingsPage() {
+    public void loadThemeSettingsPage() {
         final ThemeSettingsFragment themeSettingsFragment = new ThemeSettingsFragment();
         final boolean switchedFragment = switchFragment(themeSettingsFragment);
         if (switchedFragment) {
-            mainActivity.setTitle(R.string.page_tittle_theme_settings);
-            toggle(setThemeTextView, themeSettingsIcon);
+            mainActivity.setTitle(R.string.page_title_theme_settings);
+
             themeSettingsIconVisible(false);
         }
     }
@@ -109,11 +87,6 @@ public class NavigationController {
             showHamburgerIcon();
         }
 
-        if (mainActivity.themeSettingsIconVisible) {
-            toggle(themeSettingsIcon, setThemeTextView);
-        } else {
-            toggle(setThemeTextView, themeSettingsIcon);
-        }
         final int titleResourceId = savedInstanceState.getInt(MainActivity.TITLE_TEXT, -1);
         initTitle(titleResourceId);
     }
@@ -144,18 +117,18 @@ public class NavigationController {
         transaction.replace(R.id.mainContainer, fragment, tag);
         transaction.addToBackStack(null);
         transaction.commit();
-        toggle(themeSettingsIcon, setThemeTextView);
         toggleHamburgerIcon();
-        mainActivity.setTitle(fragment.getPageTitle());
+        toolbar.setTitle(fragment.getPageTitle());
         return true;
     }
 
     private void showHamburgerIcon() {
-        hamburgerIcon.setImageResource(R.drawable.ic_hamburger_menu);
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_menu, mainActivity.getTheme()));
         mainActivity.hamburgerIconVisible = true;
-        title.setText(R.string.catalog_app_name);
+        toolbar.setTitle(R.string.catalog_app_name);
+        toolbar.setTitleMarginStart(mainActivity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
+        toolbar.setTitleMarginEnd(mainActivity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
         mainActivity.titleText = R.string.catalog_app_name;
-        toggle(themeSettingsIcon, setThemeTextView);
     }
 
     protected boolean hasBackStack() {
@@ -174,63 +147,40 @@ public class NavigationController {
         return supportFragmentManager.findFragmentByTag(name);
     }
 
-    protected void toggle(final View visibleView, final View goneView) {
-        if (visibleView != null) {
-            visibleView.setVisibility(View.VISIBLE);
-        }
-        if (goneView != null) {
-            goneView.setVisibility(View.GONE);
-        }
-    }
-
-    protected void initThemeSettingsIcon(final Toolbar toolbar) {
-        themeSettingsIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                loadThemeSettingsPage();
-            }
-        });
-    }
-
     public void init(final Bundle savedInstanceState) {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
         ButterKnife.bind(this, mainActivity);
-        initSetThemeSettings(toolbar);
+        mainActivity.setSupportActionBar(toolbar);
 
-        initThemeSettingsIcon(toolbar);
+        final Resources resources = mainActivity.getResources();
+        toolbar.setTitleMargin(resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginTop(), resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginBottom());
+        actionBar = mainActivity.getSupportActionBar();
         if (savedInstanceState == null) {
-            mainActivity.setSupportActionBar(toolbar);
-
             initDemoListFragment();
-            mainActivity.setTitle(R.string.catalog_app_name);
+            showHamburgerIcon();
 
             restoreLastActiveFragment();
         } else {
             showUiFromPreviousState(savedInstanceState);
         }
-        initBackButton();
     }
 
-    private void initBackButton() {
-        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (hasBackStack()) {
-                    mainActivity.onBackPressed();
-                    processBackButton();
-                } else {
-                    Snackbar.make(view, "Hamburger is not ready yet", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        });
+    public void onCreateOptionsMenu(final Menu menu, final MainActivity mainActivity) {
+        mainActivity.getMenuInflater().inflate(R.menu.catalog_menu, menu);
+    }
+
+    public void onPrepareOptionsMenu(final Menu menu, final MainActivity mainActivity) {
+        themeSetting = menu.findItem(R.id.menu_theme_settings);
+        setTheme = menu.findItem(R.id.menu_set_theme_settings);
     }
 
     public void setTitleText(final int titleId) {
-        title.setText(titleId);
+        toolbar.setTitle(titleId);
     }
 
-    public void showThemeSettings() {
-        toggle(themeSettingsIcon, setThemeTextView);
+    //Needed only untill we have hamburger
+    public Toolbar getToolbar() {
+        return toolbar;
     }
 
     private void storeFragmentInPreference(String fragmentTag) {

@@ -23,6 +23,6 @@ public class TextEditBoxFragment extends BaseFragment {
 
     @Override
     public int getPageTitle() {
-        return R.string.page_tittle_textbox;
+        return R.string.page_title_textbox;
     }
 }

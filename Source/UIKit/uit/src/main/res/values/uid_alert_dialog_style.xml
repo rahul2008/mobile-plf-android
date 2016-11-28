@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="UIDAlertDialogStyle" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+    <style name="UIDAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:textColorPrimary">?attr/uidDialogTitleTextColor</item>
         <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
         <item name="android:windowMinWidthMajor">0%</item>

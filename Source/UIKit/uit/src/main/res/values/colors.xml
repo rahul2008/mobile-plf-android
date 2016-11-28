@@ -161,4 +161,5 @@
     <color name="uid_gray_level_05">#F5F5F5</color>
 
     <color name="uidColorWhite">#FFFFFF</color>
+    <color name="uidColorBlack">#000000</color>
 </resources>

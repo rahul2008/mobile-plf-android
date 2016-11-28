@@ -4,6 +4,7 @@
     <dimen name="edge_left_spacing">10dp</dimen>
     <dimen name="component_bottom_spacing">10dp</dimen>
     <dimen name="category_divider_width">40dp</dimen>
+
     <dimen name="button_height">40dp</dimen>
     <dimen name="button_left_padding">24dp</dimen>
     <dimen name="button_right_padding">24dp</dimen>
@@ -19,6 +20,7 @@
     <dimen name="iconbutton_cornerradius">2dp</dimen>
 
     <dimen name="iconandtextbutton_compoundpadding">8dp</dimen>
+
 
     <dimen name="quietbutton_left_padding">12dp</dimen>
     <dimen name="quietbutton_right_padding">12dp</dimen>
@@ -67,6 +69,19 @@
     <dimen name="alerttitle_icon_leftrighttop_margin">27dp</dimen>
     <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
     <dimen name="alert_width">272dp</dimen>
+
+    <!--<dimen name="navigation_icon_padding">16dp</dimen>-->
+    <dimen name="navigation_height">56dp</dimen>
+    <dimen name="navigation_left_margin">16dp</dimen>
+    <dimen name="navigation_right_margin">16dp</dimen>
+    <dimen name="navigation_icon_padding">10dp</dimen>
+    <dimen name="navigation_icon_size">24dp</dimen>
+    <dimen name="navigation_title_margin">24dp</dimen>
+    <dimen name="navigation_height_land">48dp</dimen>
+    <dimen name="navigation_button_touchable_area">48dp</dimen>
+    <dimen name="navigation_title_text_size">20sp</dimen>
+    <dimen name="navigation_title_text_spacing">24dp</dimen>
+
     <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
     <dimen name="alertcontent_top_padding">20dp</dimen>
     <dimen name="alertcontent_leftrightbottom_margin">24dp</dimen>

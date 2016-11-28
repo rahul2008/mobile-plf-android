@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             <SeekBar
                 android:id="@+id/progress_bar_seekbar_value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
 
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:id="@+id/progress_bar_determinate_circular_small"
                     style="@style/UIDProgressBarCircularDeterminateSmall"
-                     />
+                    />
 
                 <com.philips.platform.uit.view.widget.ProgressBar
                     android:layout_height="wrap_content"
@@ -91,23 +91,23 @@
             android:id="@+id/progress_bar_indeterminate"
             style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
 
-            app:uidLinearProgressBar="true" />
+            app:uidLinearProgressBar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
 
-            app:uidLinearProgressBar="true" />
+            app:uidLinearProgressBar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_secondary"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
 
-            app:uidLinearProgressBar="true" />
+            app:uidLinearProgressBar="true"/>
 
         <com.philips.platform.uit.view.widget.ProgressBar
             android:id="@+id/progress_bar_wide"
             style="@style/UIDProgressBarHorizontalDeterminate"
-            app:uidLinearProgressBar="true" />
+            app:uidLinearProgressBar="true"/>
     </LinearLayout>
 </ScrollView>

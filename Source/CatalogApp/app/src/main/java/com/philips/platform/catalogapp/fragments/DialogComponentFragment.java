@@ -78,7 +78,7 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
 
     @Override
     public int getPageTitle() {
-        return R.string.page_tittle_alertDialog;
+        return R.string.page_title_alertDialog;
     }
 
     public boolean isWithTitle() {

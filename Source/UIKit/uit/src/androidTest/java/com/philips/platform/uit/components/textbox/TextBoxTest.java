@@ -86,7 +86,7 @@ public class TextBoxTest {
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uid_texteditbox_stroke_drawable)));
     }
 
-//    This has to be fixed as part of text box border
+    //    This has to be fixed as part of text box border
     @Ignore
     @Test
     public void verifyTextEditBoxFillBackgroundRadius() {
@@ -115,7 +115,7 @@ public class TextBoxTest {
 
     @Test
     public void verifyTextEditBoxStrokeWidth() {
-        int expectedStrokeWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_stroke_height);
+        int expectedStrokeWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.texteditbox_stroke_height);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedStrokeWidth, R.id.uid_texteditbox_stroke_drawable)));
     }
 

@@ -21,7 +21,7 @@ public class DrawableMatcher {
                 Rect bounds = drawable.getBounds();
                 int actualHeight = bounds.bottom - bounds.top;
                 setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
-                return expectedValue == actualHeight;
+                return actualHeight == expectedValue;
             }
         };
     }
@@ -60,7 +60,7 @@ public class DrawableMatcher {
                 Rect bounds = drawable.getBounds();
                 int actualWidth = bounds.right - bounds.left;
                 setValues(String.valueOf(actualWidth), String.valueOf(expectedValue));
-                return expectedValue == actualWidth;
+                return actual == expected;
             }
         };
     }
@@ -131,7 +131,6 @@ public class DrawableMatcher {
         };
     }
 
-
     public static Matcher<Drawable> isSameRippleColor(final int attr, final int expectedValue) {
         return new BaseTypeSafteyMatcher<Drawable>() {
 
@@ -151,7 +150,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 int actual = (int) (stateColors.getRingThicknessRatio() * 100);
-                int expected = (int) (expectedValue *100);
+                int expected = (int) (expectedValue * 100);
                 setValues(String.valueOf(actual), String.valueOf(expectedValue));
                 return actual == expected;
             }
@@ -164,7 +163,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 int actual = (int) (stateColors.getInnerRadiusRatio() * 100);
-                int expected = (int) (expectedValue *100);
+                int expected = (int) (expectedValue * 100);
                 setValues(String.valueOf(actual), String.valueOf(expectedValue));
                 return actual == expected;
             }

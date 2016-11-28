@@ -116,7 +116,7 @@ public class AlertDialogFragment extends DialogFragment {
     private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int themee) {
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment();
         alertDialogFragment.setDialogParams(dialogParams);
-        alertDialogFragment.setStyle(themee, R.style.UIDAlertDialogStyle);
+        alertDialogFragment.setStyle(themee, R.style.UIDAlertDialog);
         return alertDialogFragment;
     }
 
@@ -268,7 +268,7 @@ public class AlertDialogFragment extends DialogFragment {
         final int theme;
 
         public Builder(final Context context) {
-            this(context, R.style.UIDAlertDialogStyle);
+            this(context, R.style.UIDAlertDialog);
         }
 
         public Builder(@NonNull Context context, @StyleRes int themeResId) {

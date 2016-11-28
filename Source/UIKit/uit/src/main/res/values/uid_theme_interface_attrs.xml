@@ -54,8 +54,13 @@
         <attr name="uidInputTextHintTextSelector" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDActionBar">
+    <declare-styleable name="UIDNavigationBar">
         <attr name="uidActionBarBackground" format="reference|color"/>
+        <attr name="uidNavigationTextColor" format="reference|color"/>
+        <attr name="uidNavigationShadowLevelOne" format="reference|color"/>
+        <attr name="uidNavigationShadowLevelOneAlpha" format="reference|float"/>
+        <attr name="uidNavigationShadowLevelTwo" format="reference|color"/>
+        <attr name="uidNavigationShadowLevelTwoAlpha" format="reference|float"/>
     </declare-styleable>
 
     <declare-styleable name="UIDSwitch">

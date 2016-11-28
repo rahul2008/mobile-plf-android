@@ -53,7 +53,7 @@ public class AlertTest {
      *********************************************/
     @Test
     public void verifyAlertWidth() {
-        int expectedWidth = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_width));
+        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_width);
         getAlert().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
@@ -63,46 +63,46 @@ public class AlertTest {
 
     @Test
     public void verifyAlertTitleFontSize() {
-        int expectedFontSize = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_title_font_size));
+        int expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_title_font_size);
         getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
     @Test
     public void verifyAlertTitleIconHeight() {
         waitFor(testResources, 750);
-        int expectedIconHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
+        int expectedIconHeight = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
         getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedIconHeight)));
     }
 
     @Test
     public void verifyAlertTitleIconWidth() {
         waitFor(testResources, 750);
-        int expectedIconWidth = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
+        int expectedIconWidth = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_iconsize);
         getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewMinWidth(expectedIconWidth)));
     }
 
     @Test
     public void verifyAlertTitleIconRightPadding() {
         waitFor(testResources, 750);
-        int expectedRightPadding = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_icon_rightpadding));
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_icon_rightpadding);
         getAlertTitleIcon().check(matches((ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding))));
     }
 
     @Test
     public void verifyAlertHeaderTopMargin() {
-        int expectedTopMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_icon_leftrighttop_margin);
+        int expectedTopMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_icon_leftrighttop_margin);
         getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
     @Test
     public void verifyAlertHeaderRightMargin() {
-        int expectedRightMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
+        int expectedRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
         getAlertHeader().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
     @Test
     public void verifyAlertHeaderLeftMargin() {
-        int expectedLeftMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
+        int expectedLeftMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitle_leftrighttop_margin);
         getAlertHeader().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
 
@@ -112,25 +112,25 @@ public class AlertTest {
 
     @Test
     public void verifyAlertContentFontSize() {
-        int expectedFontSize = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_font_size));
+        int expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_font_size);
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
     @Test
     public void verifyAlertContentTextLeading() {
-        int expectedTextLeading = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontenttext_linespacing));
+        int expectedTextLeading = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontenttext_linespacing);
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(expectedTextLeading)));
     }
 
     @Test
     public void verifyAlertTitleTextLeading() {
-        int expectedTextLeading = (int) (testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitletext_linespacing));
+        int expectedTextLeading = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alerttitletext_linespacing);
         getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(expectedTextLeading)));
     }
 
     @Test
     public void verifyAlertContentTopMargin() {
-        int expectedTopMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontent_top_padding);
+        int expectedTopMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontent_top_padding);
         getAlertHeader().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedTopMargin)));
     }
 
@@ -143,13 +143,13 @@ public class AlertTest {
 
     @Test
     public void verifyAlertContentRightMargin() {
-        int expectedRightMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        int expectedRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
         getAlertContent().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
     }
 
     @Test
     public void verifyAlertContentBottomMargin() {
-        int expectedBottomMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
+        int expectedBottomMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertcontent_leftrightbottom_margin);
         getAlertActionArea().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedBottomMargin)));
     }
 
@@ -167,7 +167,7 @@ public class AlertTest {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
 
-        int expectedTopMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_content_top_margin_when_no_title);
+        int expectedTopMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alert_content_top_margin_when_no_title);
         getAlertContainer().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
@@ -177,13 +177,13 @@ public class AlertTest {
 
     @Test
     public void verifyPaddingBetweenActionButtons() {
-        int expectedButtonsMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertaction_buttons_padding);
+        int expectedButtonsMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertaction_buttons_padding);
         getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedButtonsMargin)));
     }
 
     @Test
     public void verifyRightPaddingOfActionButtonView() {
-        int expectedButtonRightMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertaction_button_rightpadding);
+        int expectedButtonRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uit.test.R.dimen.alertaction_button_rightpadding);
         getAlertConfirmativeButton().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedButtonRightMargin)));
     }
 

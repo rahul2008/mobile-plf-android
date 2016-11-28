@@ -65,7 +65,6 @@ public class LabelTest {
         getNumericLabel().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedTextColor)));
     }
 
-
     private ViewInteraction getTextLabel() {
         return onView(withId(com.philips.platform.uit.test.R.id.label_text));
     }
@@ -73,5 +72,4 @@ public class LabelTest {
     private ViewInteraction getNumericLabel() {
         return onView(withId(com.philips.platform.uit.test.R.id.label_numeric));
     }
-
 }
