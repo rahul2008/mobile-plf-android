@@ -351,6 +351,24 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                 return GetData("RetailerProductName");
             }
         }
+
+        static string _RetailerProduct_Back = null;
+        public static string RetailerProduct_Back
+        {
+            get
+            {
+                return GetData("RetailerProduct_Back");
+            }
+        }
+
+        static string _Retailer_Back = null;
+        public static string Retailer_Back
+        {
+            get
+            {
+                return GetData("Retailer_Back");
+            }
+        }
         static string _RetailerList = null;
         public static string RetailerList
         {
@@ -2074,6 +2092,29 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
 
                 }
+
+                public static string Login
+                {
+                    get
+                    {
+                        return GetData("LoginSettings");
+                    }
+                }
+                public static string Logout
+                {
+                    get
+                    {
+                        return GetData("LogoutSettings");
+                    }
+                }
+                public static string LogoutDialog
+                {
+                    get
+                    {
+                        return GetData("LogoutDialog");
+                    }
+                }
+
                 public static string HamburgerIcon
                 {
                     get
@@ -2107,6 +2148,14 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     get
                     {
                         return GetData("LoginSettings");
+                    }
+                }
+
+                public static string PhilipShop
+                {
+                    get
+                    {
+                        return GetData("PhilipShop");
                     }
                 }
 
@@ -3553,6 +3602,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
 
                 }
 
+
                 public static string PRRegister
                 {
                     get
@@ -3594,6 +3644,14 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("LogoutName");
                     }
 
+                }
+
+                public static string Loggedin_Continue
+                {
+                    get
+                    {
+                        return GetData("LoogedIn_Continue");
+                    }
                 }
                 public static string PhilipsAccountName
                 {
@@ -3943,13 +4001,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("LogOut");
                     }
                 }
-                public static string Loggedin_Continue
-                {
-                    get
-                    {
-                        return GetData("LoogedIn_Continue");
-                    }
-                }
+               
                 static string title = null;
                 public static string Login_Header
                 {

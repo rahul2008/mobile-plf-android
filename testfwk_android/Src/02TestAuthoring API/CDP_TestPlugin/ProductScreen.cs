@@ -195,50 +195,19 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
         /// <returns>a boolean value</returns>
         public static bool WaitforProductScreen()
         {
-            int i; int retry;
-            for (retry = 0; retry < 3; retry++)
-            {
-                for (i = 0; i < 60; i++)
+            bool LoadProductScreen = false;
+
+                for (int i = 0; i < 60; i++)
                 {
                     if (GetScreenTitle().Equals("Products"))
                     {
-                        Logger.Info("Seeing: Products title:  try: " + retry);
+                        LoadProductScreen = true;
+                        Logger.Info("The Product List View Screen is loaded ");
                         break;
                     }
                     Thread.Sleep(500);
                 }
-                if (i == 60)
-                    Logger.Info("Product screen title is not shown:  try: " + retry);
-                for (; i < 60; i++)
-                {
-                    if (_instance.GetElementNoWait(null, SearchBy.Id, ObjectRepository.ProductDetailsArrow) != null)
-                    {
-                        int count = _getProductListed().Count;
-                        if (count == 3)
-                        {
-                            Logger.Info("Products are loaded: count:" + count + " try: " + retry);
-                            return true;
-                        }
-                        else
-                            Logger.Info("Products are loaded: count mismatch:" + count + " try: " + retry);
-                    }
-                }
-                Logger.Info("Product items are not loaded:  try: " + retry);
-                Click(Button.productScreen_BackButton);
-                String title = GetScreenTitle();
-                switch (title)
-                {
-                    case "E-Commerce Demo App":
-                        HomeScreen.Click(HomeScreen.Button.Shop_Now);
-                        break;
-                    default:
-                        Logger.Info("ProductScreen retry: this is not implemented: " + title);
-                        break;
-                }
-
-            }
-            Logger.Info("ProductScreen retry: failed to load products after 3 tries");
-            return false;
+             return LoadProductScreen;
         }
 
         /*

@@ -4,6 +4,7 @@ if (!env.CHANGE_ID) {
     /* Only keep the 5 most recent builds. */
     properties([[$class: 'BuildDiscarderProperty',
                     strategy: [$class: 'LogRotator', numToKeepStr: '5']],
+                    pipelineTriggers([cron('H/30 * * * *')]),
                     ])
     if (env.BRANCH_NAME =~ /release\/.*/ || env.BRANCH_NAME == 'master') {
         properties([pipelineTriggers(),])

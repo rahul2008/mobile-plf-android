@@ -38,7 +38,7 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
 
             request.Method = Method.ToString();
             request.ContentLength = 0;
-            //request.Accept = ContentType;
+            request.Accept="text/json";
             request.ContentType = ContentType;
             string uuid = ConfigurationManager.AppSettings["UserUUID"];
             //request.UseDefaultCredentials = true;

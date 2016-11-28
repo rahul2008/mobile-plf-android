@@ -53,6 +53,7 @@
     <Compile Include="AppHomeScreen.cs" />
     <Compile Include="HamburgerMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="WelcomeScreen.cs" />
   </ItemGroup>
   <ItemGroup>

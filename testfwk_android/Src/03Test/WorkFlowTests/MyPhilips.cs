@@ -41,6 +41,11 @@ namespace Philips.SIG.Automation.Android.CDPP.Tests.Workflows
         public void ThenVerifyThatTheUserIsInUserRegistrationScreen()
         {
             bool isPresent = WelcomeScreen.CheckUserRegistration();
+            if (!isPresent)
+            {
+                Logger.Fail("The User is not in login screen");
+            }
+           
         }
 
         [Then(@"I click on ""(.*)"" from the Hamburger Menu List")]
@@ -63,12 +68,11 @@ namespace Philips.SIG.Automation.Android.CDPP.Tests.Workflows
         }
 
 
-        [Then(@"I log in with the email 'datacore@mailinator.com' and password 'Philips@123'")]
-        public void ThenIRegisterUsingMyPhilipsAccount()
+        [Then(@"I log in with the email ""(.*)"" and password ""(.*)""")]
+        public void ThenILogInWithTheEmailAndPassword(string p0, string p1)
         {
-            //LoginScreen.LoginUser("inapptest@mailinator.com", "Philips@123");
             Log_In.Click();
-            Log_In.SignIn("datacore@mailinator.com", "Philips@123");
+            Log_In.SignIn(p0, p1);
         }
 
 

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Philips.SIG.Automation.Android.CDP.IAPTestPlugin;
 using System.Net;
 using System.Net.Security;
+using System.IO;
+using RestSharp;
 
 namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
 {
@@ -19,6 +21,7 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
         static string endPoint = null;
         static string parameters = null;
         static string response = null;
+        static string response_login = null;
         static string storeName = null;
         static string environmentUsed = ConfigurationManager.AppSettings["envForRESTCalls"];
         static string baseURL = null;
@@ -571,5 +574,72 @@ namespace Philips.SIG.Automation.Android.CDP.IAPTestPlugin
             ProductPRX root = JsonConvert.DeserializeObject<ProductPRX>(response);
             return root;
         }
+
+        /// <summary>
+        /// This method calls the traditional login API via janrain.
+        /// </summary>
+        /// <param name="username">username represents the logged in user.</param>
+        /// <param name="password">password used by the logged in user.</param>
+        /// <returns>It returns the login response from traditional login</returns>
+        public static Login Login(string uname, string password)
+        {
+            string contentType = "application/x-www-form-urlencoded";
+            string encoded = "client_id=f2stykcygm7enbwfw2u9fbg6h6syb8yd&locale=en-US&response_type=token&redirect_uri=http%3A%2F%2Fignore.nl&traditionalSignIn_emailAddress=" + Uri.EscapeDataString(uname) + "&traditionalSignIn_password=" + Uri.EscapeDataString(password) + "&form=userInformationForm&flow=standard&flow_version=HEAD";
+            endPoint = "https://philips.eval.janraincapture.com/oauth/auth_native_traditional";
+            RestClientExtended restObj = new RestClientExtended(endPoint, HttpVerb.POST, contentType, encoded);
+            response_login = restObj.MakeRequest("");
+            Login root = JsonConvert.DeserializeObject<Login>(response_login);
+            System.Diagnostics.Debug.WriteLine(root.capture_user.email);
+            System.Diagnostics.Debug.WriteLine(root.capture_user.uuid);
+            System.Diagnostics.Debug.WriteLine(root.access_token);
+            return root;
+        }
+
+        /// <summary>
+        /// This method calls the GetRegisteredProducts API to fetch all the registered products which were registered by logged in user.
+        /// </summary>
+        /// <param name="accesstoken">accesstoken represents the logged in user.</param>
+        /// <param name="uuid">uuid represents the unique id for the logged in user.</param>
+        /// <returns>It returns a list of registered products as an object of RegisteredProductsList class.</returns>
+        public static RegisteredProductsList GetRegisteredProducts(string accessToken, string uuid)
+        {
+            var client = new RestClient("https://acc.philips.co.uk/prx/registration.registeredProducts");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("x-accesstoken", accessToken);
+            IRestResponse response = client.Execute(request);
+            RegisteredProductsList root = JsonConvert.DeserializeObject<RegisteredProductsList>(response.Content);
+            return root;
+        }
+
+        /// <summary>
+        /// This method calls the Delete product API to delete rgistered products for logged in user.
+        /// </summary>
+        /// <param name="accesstoken">accesstoken represents the logged in user.</param>
+        /// <param name="uuid">uuid represents the unique id for the logged in user.</param>
+        /// <returns>It returns succcess for the response then the product would be deleted if not error would be displayed by janrain .</returns>
+        public static bool DeleteProduct(string accessToken, string uuid)
+        {
+            var client = new RestClient("https://acc.philips.co.uk/prx/registration/"+uuid);
+            var request = new RestRequest(Method.DELETE);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("x-accesstoken", accessToken);
+            request.AddHeader("content-type", "application/x-www-form-urlencoded");
+            request.AddParameter("application/x-www-form-urlencoded", "=", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            DeleteRegistrationResult root = new DeleteRegistrationResult();
+            root.success = false;
+            if (response.Content.Contains("ERROR") || response.Content.ToLower().Contains("bad request"))
+            {
+                return false;
+            }
+            else
+            {
+                root = JsonConvert.DeserializeObject<DeleteRegistrationResult>(response.Content);
+            }
+            return root.success;
+      
+        }
+
     }
 }

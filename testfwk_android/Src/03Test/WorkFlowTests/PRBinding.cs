@@ -15,6 +15,7 @@ using System.IO;
 using Philips.CDP.Automation.IAP.Tests.Workflows;
 using Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin;
 using ProdReg.Android.TestPlugin;
+using Philips.SIG.Automation.Android.CDP.IAPTestPlugin;
 
 namespace Philips.CDP.Automation.IAP.Tests.Workflows
 {
@@ -58,6 +59,13 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 
         }
 
+        [Then(@"I select the present date as Date of Purchase")]
+        public void ThenISelectThePresentDateAsDateOfPurchase()
+        {
+            PRSuccess.Click(PRSuccess.Button.PROK);
+        }
+
+
         [Then(@"I verify that the user is able to see  successfull product message")]
         public void ThenIVerifyThatTheUserIsAbleToSeeSuccessfullProductMessage()
         {
@@ -97,7 +105,26 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             if (Text != "All the products that are currently connected to this app have been registered successfully!")
             {
                 IapReport.Fail("The user is not in Support Screen ");
+            }
+        }
 
+        [Then (@"I verify if the user has already registered the product using email as ""(.*)"" and password as ""(.*)"",If Yes then Deregister the product")]
+        public void AndIVerifyUserhasalreadyregisteredproduct(string appEmailID,string appPassword)
+        {
+            Login loginToken = RestApiInvoker.Login(appEmailID, appPassword);
+            RegisteredProductsList rpl = RestApiInvoker.GetRegisteredProducts(loginToken.access_token, loginToken.capture_user.uuid);
+            string puuid = "";
+            foreach (RegisteredProduct rp in rpl.results)
+            {
+            Thread.Sleep(2000);
+             Logger.Info("ctn: " + rp.productModelNumber + "\n puuid: " + rp.uuid);
+                if (rp.productModelNumber.Equals(CTN.CTN_Number))
+                {
+                    puuid = rp.uuid;
+                    bool res = RestApiInvoker.DeleteProduct(loginToken.access_token, puuid);
+                    if (res) Logger.Info("Deleted the registered product: " + puuid);
+                    else Logger.Info("Could not de-register the product: " + puuid);
+                }
             }
 
         }
