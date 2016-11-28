@@ -13,7 +13,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
-group = 'com.philips.cdp2'
+group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
