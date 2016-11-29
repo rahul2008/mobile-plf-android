@@ -17,7 +17,7 @@ node ('androidppc') {
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDoc tgzTaskappFramework:aP'
+                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDoc tgzTask appFramework:aP'
 																
 			}
 			
