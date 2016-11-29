@@ -9,7 +9,7 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node ('Ubuntu && 24.0.3') {
+node ('android_pipeline') {
 	timestamps {
 		stage ('Checkout') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/mu/mobileuitoolkit-android.git']]])
