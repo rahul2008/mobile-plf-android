@@ -1,4 +1,4 @@
-package com.example.a310238655.securedb.SQLCipherORMLitePOC;
+package com.philips.platform.securedblibrary;
 
 /**
  * Created by 310238655 on 11/8/2016.

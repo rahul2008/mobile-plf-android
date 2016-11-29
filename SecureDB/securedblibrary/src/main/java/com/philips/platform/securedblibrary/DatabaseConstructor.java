@@ -1,4 +1,4 @@
-package com.example.a310238655.securedb.SQLCipherORMLitePOC;
+package com.philips.platform.securedblibrary;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

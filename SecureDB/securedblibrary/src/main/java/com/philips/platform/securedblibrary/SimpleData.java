@@ -1,4 +1,4 @@
-package com.example.a310238655.securedb.SQLCipherORMLitePOC;
+package com.philips.platform.securedblibrary;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

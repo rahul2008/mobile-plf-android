@@ -1,10 +1,8 @@
-package com.example.a310238655.securedb.SQLCipherORMLitePOC;
+package com.philips.platform.securedblibrary;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-//import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.j256.ormlite.support.ConnectionSource;
 
@@ -12,6 +10,8 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Created by 310238655 on 11/10/2016.
