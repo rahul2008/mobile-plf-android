@@ -137,8 +137,7 @@ public class CountryPicker extends DialogFragment implements
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 if (listener != null) {
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
                     Country country = selectedCountriesList.get(position);
                     listener.onSelectCountry(country.getName(),
                             country.getCode());
