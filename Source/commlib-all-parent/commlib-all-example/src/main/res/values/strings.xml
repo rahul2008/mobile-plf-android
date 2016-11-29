@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">Commlib BLE Example</string>
-    <string name="notApplicable">N/A</string>
+    <string name="lblNotApplicable">N/A</string>
     <string name="lblScanningForDevice">Scanning for suitable device…</string>
-    <string name="lblRegisteringDeviceDefinition">Registering device definition…</string>
     <string name="lblHookingUpStrategy">Hooking up strategy…</string>
     <string name="lblConnectingToDevice">Connecting to device…</string>
     <string name="lblPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
-    <string name="lblDone">Job\'s done!</string>
-    <string name="lblGetPropsSuccess">GetProps success: (%1$s)</string>
-    <string name="lblGetPropsFailed">GetProps failed: (%1$s)</string>
+    <string name="lblDone">Done.</string>
+    <string name="lblGetPropsSuccess">GetProps success: \'%1$s\'</string>
+    <string name="lblGetPropsFailed">GetProps failed: \'%1$s\'</string>
+    <string name="lblStartDiscovery">Start discovery</string>
+    <string name="lblDiscoveryFailed">Dicovery failed.</string>
+    <string name="lblReady">Ready.</string>
 </resources>

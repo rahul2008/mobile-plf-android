@@ -7,8 +7,6 @@ package com.philips.cdp2.commlib;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.SHNDeviceFoundInfo;
-import com.philips.pins.shinelib.SHNDeviceScanner;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,7 +19,7 @@ import java.util.Map;
  * that were scanned (or associated) earlier available for CommLib without having an active
  * connection to them.
  */
-public class BleDeviceCache implements SHNDeviceScanner.SHNDeviceScannerListener {
+public class BleDeviceCache {
     private final Map<String, SHNDevice> deviceMap = new HashMap<>();
 
     /**
@@ -30,7 +28,7 @@ public class BleDeviceCache implements SHNDeviceScanner.SHNDeviceScannerListener
      * @param device the device
      * @return the unique device identifier
      */
-    static String getUniqueDeviceIdentifier(SHNDevice device) {
+    private static final String getUniqueDeviceIdentifier(SHNDevice device) {
         return device.getAddress();
     }
 
@@ -44,17 +42,19 @@ public class BleDeviceCache implements SHNDeviceScanner.SHNDeviceScannerListener
         return Collections.unmodifiableMap(deviceMap);
     }
 
-    @Override
-    public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
-        final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
-        deviceMap.put(getUniqueDeviceIdentifier(device), device);
+    /**
+     * Add device.
+     *
+     * @param device the device
+     * @return true, if the device didn't exist in the cache yet and was therefore added
+     */
+    public boolean addDevice(@NonNull SHNDevice device) {
+        return deviceMap.put(getUniqueDeviceIdentifier(device), device) == null;
     }
 
-    @Override
-    public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-        //don't care
-    }
-
+    /**
+     * Clear.
+     */
     public void clear() {
         deviceMap.clear();
     }

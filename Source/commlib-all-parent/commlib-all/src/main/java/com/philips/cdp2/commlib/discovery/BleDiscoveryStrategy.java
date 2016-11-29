@@ -1,7 +1,12 @@
 package com.philips.cdp2.commlib.discovery;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
+import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -22,11 +27,12 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
             if (SHNDevice.State.Connected.equals(shnDevice.getState())) {
+                bleDeviceCache.addDevice(shnDevice);
+
                 if (discoveryListener != null) {
                     final NetworkNode networkNode = createNetworkNode(shnDevice);
 
                     if (networkNode != null) {
-                        bleDeviceCache.getDeviceMap().put(networkNode.getCppId(), shnDevice);
                         discoveryListener.onNetworkNodeDiscovered(networkNode);
                     }
                 }
@@ -51,9 +57,10 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
     }
 
     @Override
-    public void start(DiscoveryListener discoveryListener) {
-        // TODO check required BLE permissions, notify app if needed
-
+    public void start(Context context, DiscoveryListener discoveryListener) throws MissingPermissionException {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            throw new MissingPermissionException("Discovery over BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
         this.discoveryListener = discoveryListener;
         this.discoveryListener.onDiscoveryStarted();
 
