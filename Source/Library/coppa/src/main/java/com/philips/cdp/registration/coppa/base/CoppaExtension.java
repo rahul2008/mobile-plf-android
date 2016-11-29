@@ -51,6 +51,7 @@ public class CoppaExtension {
     }
 
     private CoppaStatus getCoppaStatusForConsent(com.philips.cdp.registration.coppa.base.Consent consent) {
+        System.out.print("$$$$$$$$$$$$$$$  getCoppaStatusForConsent Called ");
         if (consent == null) {
             return null;
         }
@@ -66,6 +67,7 @@ public class CoppaExtension {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationNotGiven;
                     }
                 } else if (consent.getGiven() != null && (hoursSinceLastConsent() >= 24L) && consent.getConfirmationGiven() == null) {
+                    System.out.print("$$$$$$$$$$$$$$$  > 24 Called ");
                     RLog.d("Consent", "Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = CoppaStatus.kDICOPPAConfirmationPending;
                     if (!consent.getLocale().equals("en_US")) {
@@ -73,6 +75,7 @@ public class CoppaExtension {
                     }
                     RLog.d("Consent", "Consent coppaconfirmationPending");
                 }else{
+                    System.out.print("$$$$$$$$$$$$$$$  else 24 Called ");
                     coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
                     if (!consent.getLocale().equals("en_US")) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
@@ -84,6 +87,7 @@ public class CoppaExtension {
         } else {
             coppaStatus = CoppaStatus.kDICOPPAConsentPending;
         }
+        System.out.print("$$$$$$$$$$$$$$$  coppaStatus : "+coppaStatus);
         return coppaStatus;
     }
 
