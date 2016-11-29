@@ -36,6 +36,6 @@ if (env.triggerBy != "ppc" && (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =
     def project = "BlueLib"
     def project_tla = "bll"
     stage('Trigger Integration Pipeline') {
-        build job: "Platform-Infrastructure/ppc/ppc_${platform}/${env.BRANCH_NAME}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
+        build job: "Platform-Infrastructure/ppc/ppc_${platform}/${env.BRANCH_NAME}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
     }
 }
