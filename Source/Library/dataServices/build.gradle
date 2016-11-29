@@ -202,6 +202,11 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'javax.inject:javax.inject:1'
     testApt "com.google.dagger:dagger-compiler:2.0.2"
+
+    // Tests
+   // testCompile project(':dataServices')
+    testDebugCompile "org.mockito:mockito-all:1.10.17"
+    testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 }
 
 /*task findbugs(type: FindBugs, dependsOn: assembleDebug) {
