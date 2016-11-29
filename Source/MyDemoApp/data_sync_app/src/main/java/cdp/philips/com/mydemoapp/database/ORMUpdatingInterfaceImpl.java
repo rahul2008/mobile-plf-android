@@ -6,6 +6,7 @@
 package cdp.philips.com.mydemoapp.database;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
@@ -75,6 +77,18 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return updatedCount;
     }
 
+    @Override
+    public void processCreatedMoment(List<? extends Moment> moments) {
+        for (final Moment moment : moments) {
+            if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {
+                final OrmMoment ormMoment = getOrmMoment(moment);
+                ormMoment.setSynced(true);
+                updateOrSaveMomentInDatabase(ormMoment);
+            }
+        }
+        notifyAllSuccess(moments);
+    }
+
     public Moment createMoment(Moment old) {
         DataServicesManager manager = DataServicesManager.getInstance();
         Moment newMoment= manager.createMoment(MomentType.TEMPERATURE);
@@ -98,6 +112,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             MeasurementGroup measurementGroup = manager.
                     createMeasurementGroup(newMoment);
 
+            //null coming here
             ArrayList<? extends MeasurementGroupDetail> measurementGroupDetails = new ArrayList<>(oldMeasurementGroup.getMeasurementGroupDetails());
             for(MeasurementGroupDetail detail : measurementGroupDetails) {
                 MeasurementGroupDetail measurementGroupDetail = manager.
@@ -164,8 +179,13 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public int processMoment(int count, final Moment moment) {
         try {
             final OrmMoment momentInDatabase = getOrmMomentFromDatabase(moment);
+           // updating.updateMoment(momentInDatabase);
             if (hasDifferentMomentVersion(moment, momentInDatabase)) {
                 final OrmMoment ormMoment = getOrmMoment(moment);
+                /*if(isSyncedMomentUpdatedBeforeSync(momentInDatabase)){
+                    momentInDatabase.getSynchronisationData().setVersion(moment.getSynchronisationData().getVersion());
+                    momentInDatabase.getSynchronisationData().setGuid(moment.getSynchronisationData().getGuid());
+                }*/
                 if (!isActive(ormMoment.getSynchronisationData())) {
                     deleteMomentInDatabaseIfExists(momentInDatabase);
                 } else if (isNeverSyncedMomentDeletedLocallyDuringSync(momentInDatabase)) {
@@ -177,7 +197,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                     if (!isMomentModifiedLocallyDuringSync(momentInDatabase, ormMoment)) {
                         ormMoment.setSynced(true);
                     }
-
                     //This is required for deleting duplicate
                     // measurements, measurementDetails and momentDetails
                     deleteAndSaveMoment(momentInDatabase, ormMoment);
@@ -206,10 +225,13 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     private void deleteAndSaveMoment(final OrmMoment momentInDatabase,
                                      final OrmMoment ormMoment) throws SQLException {
-        OrmMoment moment = (OrmMoment) createMoment(ormMoment);
-        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase);
+        if (momentInDatabase != null) {
+            ormMoment.setId(momentInDatabase.getId());
+        }
+     //   OrmMoment moment = (OrmMoment) createMoment(ormMoment);
+        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment);
       //  OrmMoment moment = (OrmMoment) createMoment(ormMoment);
-        updateOrSaveMomentInDatabase(moment);
+        updateOrSaveMomentInDatabase(ormMoment);
     }
 
     private boolean isNeverSyncedMomentDeletedLocallyDuringSync(final OrmMoment momentInDatabase) {
@@ -223,6 +245,28 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
+    private boolean isSyncedMomentUpdatedBeforeSync(final OrmMoment momentInDatabase) {
+        if (momentInDatabase != null) {
+            final OrmSynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
+            if (synchronisationData != null && !momentInDatabase.isSynced()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isNeverSynced(final OrmMoment momentInDatabase) {
+        if (momentInDatabase != null) {
+           /*// final OrmSynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
+            if (synchronisationData != null) {
+                return synchronisationData.getGuid().
+                        equals(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
+            }*/
+            return momentInDatabase.isSynced();
+        }
+        return false;
+    }
+
     private boolean isUpdatedMomentNotSynced(final OrmMoment momentInDatabase) {
         if (momentInDatabase != null) {
             return momentInDatabase.isSynced();
@@ -230,10 +274,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
-    private void deleteMeasurementAndMomentDetailsAndSetId(final OrmMoment momentInDatabase) throws SQLException {
+    private void deleteMeasurementAndMomentDetailsAndSetId(final OrmMoment momentInDatabase,OrmMoment ormMoment) throws SQLException {
         if (momentInDatabase != null) {
             //Check Y this was commented, is it that while creating its been assigned ?
-          //  ormMoment.setId(momentInDatabase.getId());
             deleting.deleteMomentAndMeasurementGroupDetails(momentInDatabase);
         }
     }

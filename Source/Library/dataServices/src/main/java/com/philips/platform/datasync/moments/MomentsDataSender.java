@@ -17,6 +17,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
+import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -162,7 +163,7 @@ public class MomentsDataSender implements DataSender<Moment> {
                     momentsConverter.convertToUCoreMoment(moment));
             if (response != null) {
                 addSynchronizationData(moment, response);
-                postOk(Collections.singletonList(moment));
+                postCreatedOk(Collections.singletonList(moment));
             }
         } catch (RetrofitError error) {
             eventing.post(new BackendResponse(1, error));
@@ -184,7 +185,7 @@ public class MomentsDataSender implements DataSender<Moment> {
                 if(!TextUtils.isEmpty(eTag.getValue())) {
                     moment.getSynchronisationData().setVersion(Integer.parseInt(eTag.getValue()));
                 }
-                postOk(Collections.singletonList(moment));
+                postUpdatedOk(Collections.singletonList(moment));
             }else if(isConflict(response)){
 
             }
@@ -244,8 +245,12 @@ public class MomentsDataSender implements DataSender<Moment> {
         moment.setSynchronisationData(synchronisationData);
     }
 
-    private void postOk(final List<Moment> momentList) {
-        eventing.post(new BackendMomentListSaveRequest(momentList));
+    private void postCreatedOk(final List<Moment> momentList) {
+        eventing.post(new MomentDataSenderCreatedRequest(momentList));
+    }
+
+    private void postUpdatedOk(final List<Moment> momentList) {
+        eventing.post(new MomentDataSenderCreatedRequest(momentList));
     }
 
     private void postDeletedOk(final Moment moment) {

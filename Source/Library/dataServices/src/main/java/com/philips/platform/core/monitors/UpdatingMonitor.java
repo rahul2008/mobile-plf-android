@@ -11,7 +11,8 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.MomentChangeEvent;
+import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
+import com.philips.platform.core.events.MomentDataSenderUpdatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
@@ -92,5 +93,14 @@ public class UpdatingMonitor extends EventMonitor{
             }
         }*/
         //eventing.post(new ListSaveResponse(requestId, savedAllMoments));
+    }
+
+    public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
+        List<? extends Moment> moments = momentSaveRequest.getList();
+        if (moments == null || moments.isEmpty()) {
+            return;
+        }
+
+        dbUpdatingInterface.processCreatedMoment(moments);
     }
 }

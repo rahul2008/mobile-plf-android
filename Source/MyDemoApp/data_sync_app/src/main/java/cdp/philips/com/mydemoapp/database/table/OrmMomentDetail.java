@@ -22,9 +22,9 @@ import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 @DatabaseTable
 public class OrmMomentDetail implements MomentDetail, Serializable {
 
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)

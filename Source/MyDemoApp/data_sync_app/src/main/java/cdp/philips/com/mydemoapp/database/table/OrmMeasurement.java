@@ -30,9 +30,9 @@ import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
  */
 @DatabaseTable
 public class OrmMeasurement implements Measurement, Serializable {
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
@@ -65,6 +65,7 @@ public class OrmMeasurement implements Measurement, Serializable {
     public OrmMeasurement(final OrmMeasurementType type, final OrmMeasurementGroup ormMeasurementGroup) {
         this.type = type;
         this.ormMeasurementGroup = ormMeasurementGroup;
+        this.id = -1;
     }
 
     @Override

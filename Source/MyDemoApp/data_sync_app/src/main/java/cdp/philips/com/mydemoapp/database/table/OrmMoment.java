@@ -36,7 +36,7 @@ import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 @DatabaseTable
 public class OrmMoment implements Moment, Serializable {
 
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
     public static final String NO_ID = "No ID";
 
     @DatabaseField(generatedId = true)
@@ -77,6 +77,7 @@ public class OrmMoment implements Moment, Serializable {
         this.creatorId = creatorId;
         this.subjectId = subjectId;
         this.type = type;
+        this.id = -1;
     }
 
     @Override

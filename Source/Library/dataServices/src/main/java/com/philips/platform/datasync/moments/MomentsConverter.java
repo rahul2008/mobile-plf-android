@@ -64,6 +64,7 @@ public class MomentsConverter {
 
     @NonNull
     public List<Moment> convert(@NonNull final List<UCoreMoment> uCoreMoments) {
+
         List<Moment> momentList = new ArrayList<>();
         for (UCoreMoment uCoreMoment : uCoreMoments) {
             Moment moment = createMoment(uCoreMoment);
@@ -95,8 +96,9 @@ public class MomentsConverter {
 
     @NonNull
     private Moment createMoment(@NonNull final UCoreMoment uCoreMoment) {
-        Moment moment = baseAppDataCreater.createMomentWithoutUUID(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
+        Moment moment = baseAppDataCreater.createMoment(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
                 momentTypeMap.getMomentType(uCoreMoment.getType()));
+
         moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
 
         addSynchronisationData(moment, uCoreMoment);

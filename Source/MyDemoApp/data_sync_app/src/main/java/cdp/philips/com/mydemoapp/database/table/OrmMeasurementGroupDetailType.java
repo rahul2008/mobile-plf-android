@@ -13,8 +13,7 @@ import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
  */
 
 public class OrmMeasurementGroupDetailType implements Serializable{
-    final long serialVersionId = 11L;
-    static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private int id;

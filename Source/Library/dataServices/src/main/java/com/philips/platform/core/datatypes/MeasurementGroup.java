@@ -19,4 +19,5 @@ public interface MeasurementGroup {
     public void addMeasurementGroupDetail(final MeasurementGroupDetail measurementGroupDetail);
 
     int getId();
+    void setId(int id);
 }

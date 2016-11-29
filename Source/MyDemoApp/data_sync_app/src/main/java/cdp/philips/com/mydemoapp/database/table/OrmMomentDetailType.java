@@ -20,7 +20,7 @@ import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
  */
 @DatabaseTable
 public class OrmMomentDetailType implements Serializable {
-    static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private int id;
