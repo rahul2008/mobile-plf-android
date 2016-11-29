@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.example.a310238655.securedb;
+package com.philips.platform.database;
 
 import android.app.Application;
 
