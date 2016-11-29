@@ -17,7 +17,8 @@ node ('androidppc') {
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDoc appFramework:aP'
+                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDoc tgzTaskappFramework:aP'
+																
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
