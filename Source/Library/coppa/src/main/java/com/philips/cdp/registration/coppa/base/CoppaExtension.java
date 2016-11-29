@@ -15,6 +15,14 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.ntputils.ServerTime;
+import com.philips.ntputils.constants.ServerTimeConstants;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class CoppaExtension {
 
@@ -57,13 +65,18 @@ public class CoppaExtension {
                     } else {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationNotGiven;
                     }
-                } else if (consent.getGiven() != null && consent.getConfirmationGiven() == null) {
+                } else if (consent.getGiven() != null && (hoursSinceLastConsent() >= 24L) && consent.getConfirmationGiven() == null) {
                     RLog.d("Consent", "Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = CoppaStatus.kDICOPPAConfirmationPending;
                     if (!consent.getLocale().equals("en_US")) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     }
                     RLog.d("Consent", "Consent coppaconfirmationPending");
+                }else{
+                    coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
+                    if (!consent.getLocale().equals("en_US")) {
+                        coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
+                    }
                 }
             } else {
                 coppaStatus = CoppaStatus.kDICOPPAConsentNotGiven;
@@ -72,6 +85,31 @@ public class CoppaExtension {
             coppaStatus = CoppaStatus.kDICOPPAConsentPending;
         }
         return coppaStatus;
+    }
+
+    private long hoursSinceLastConsent() {
+
+        Date date;
+        SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA,
+                Locale.ROOT);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long diff = 0;
+        try {
+            date = format.parse(getConsent().getStoredAt());
+            long millisecondsatConsentGiven = date.getTime();
+
+            final String timeNow = ServerTime.getCurrentUTCTimeWithFormat(
+                    ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+            format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP, Locale.ROOT);
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            date = format.parse(timeNow);
+            long timeinMillisecondsNow = date.getTime();
+            diff = timeinMillisecondsNow - millisecondsatConsentGiven;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return diff / 3600000;
     }
 
     /**
