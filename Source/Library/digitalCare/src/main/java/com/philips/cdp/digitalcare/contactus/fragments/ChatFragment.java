@@ -158,7 +158,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mChatNowParentPort.setVisibility(View.VISIBLE);
             mChatNowParentLand.setVisibility(View.GONE);
-            mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
+            //mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
 
             if (isTablet()) {
                 mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_tablet_port);
@@ -170,7 +170,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
             mChatNowParentPort.setVisibility(View.GONE);
-            mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right_land), 0);
+            //mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right_land), 0);
 //            mChatScrollView.postDelayed(new Runnable() {
 //                @Override
 //                public void run() {
