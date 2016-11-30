@@ -51,7 +51,7 @@ public class CoppaExtension {
     }
 
     private CoppaStatus getCoppaStatusForConsent(com.philips.cdp.registration.coppa.base.Consent consent) {
-        System.out.print("$$$$$$$$$$$$$$$  getCoppaStatusForConsent Called ");
+        System.out.print("###### New changes getCoppaStatusForConsent Called  ");
         if (consent == null) {
             return null;
         }
@@ -85,7 +85,7 @@ public class CoppaExtension {
                 coppaStatus = CoppaStatus.kDICOPPAConsentNotGiven;
             }
         } else {
-            coppaStatus = CoppaStatus.kDICOPPAConsentPending;
+            coppaStatus = CoppaStatus.kDICOPPAConsentNotGiven;
         }
         System.out.print("$$$$$$$$$$$$$$$  coppaStatus : "+coppaStatus);
         return coppaStatus;
