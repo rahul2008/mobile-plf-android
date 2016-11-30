@@ -23,8 +23,6 @@ import java.util.Locale;
 
 public class RegistrationHelper {
 
-    private Context mContext;
-
     private boolean isJsonRead;
 
     private String countryCode;
@@ -65,7 +63,7 @@ public class RegistrationHelper {
             throw new RuntimeException("Please set the locale in LocaleMatch");
         }
 
-        mContext = context.getApplicationContext();
+        context.getApplicationContext();
         countryCode = mLocale.getCountry();
 
         if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
@@ -73,20 +71,20 @@ public class RegistrationHelper {
         }
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-        generateKeyAndMigrateData();
+        generateKeyAndMigrateData(context);
 
         final Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
                 if (!isJsonRead) {
-                    isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
+                    isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(context, RegConstants.CONFIGURATION_JSON_PATH);
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
                 }
 
-                if (NetworkUtility.isNetworkAvailable(mContext)) {
-                    refreshNTPOffset();
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, mLocale);
+                if (NetworkUtility.isNetworkAvailable(context)) {
+                    refreshNTPOffset(context);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener() != null) {
                         UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
@@ -106,14 +104,14 @@ public class RegistrationHelper {
     }
 
 
-    private void generateKeyAndMigrateData() {
-        SecureStorage.init(mContext);
+    private void generateKeyAndMigrateData(Context context) {
+        SecureStorage.init(context);
         SecureStorage.generateSecretKey();
-        new DataMigration(mContext).checkFileEncryptionStatus();
+        new DataMigration(context).checkFileEncryptionStatus();
     }
 
-    private void refreshNTPOffset() {
-        ServerTime.init(mContext);
+    private void refreshNTPOffset(Context context) {
+        ServerTime.init(context);
         ServerTime.getInstance().refreshOffset();
     }
 
@@ -155,7 +153,7 @@ public class RegistrationHelper {
             return mLocale;
         }
 
-        String locale = (new PILLocaleManager(mContext)).getInputLocale();
+        String locale = (new PILLocaleManager(context)).getInputLocale();
         RLog.i("Locale", "Locale from LOcale match" + locale);
 
         if (locale == null) {

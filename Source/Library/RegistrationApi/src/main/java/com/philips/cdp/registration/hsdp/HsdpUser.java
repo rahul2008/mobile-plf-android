@@ -35,7 +35,7 @@ public class HsdpUser {
 
     private Context mContext;
 
-    private static HsdpUserRecord mHsdpUserRecord;
+    private  HsdpUserRecord mHsdpUserRecord;
 
     private final String SUCCESS_CODE = "200";
 
@@ -120,7 +120,7 @@ public class HsdpUser {
                         mHsdpUserRecord = getHsdpUserRecord();
                     }
                     final DhpAuthenticationResponse dhpAuthenticationResponse;
-                    if(mHsdpUserRecord.getAccessCredential().getRefreshToken()==null && mHsdpUserRecord!=null ){
+                    if(mHsdpUserRecord!=null && mHsdpUserRecord.getAccessCredential().getRefreshToken()==null  ){
                         dhpAuthenticationResponse = authenticationManagementClient.refreshSecret(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getAccessToken(),mHsdpUserRecord.getRefreshSecret());
                     }else{
                         dhpAuthenticationResponse = authenticationManagementClient.refresh(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getRefreshToken());
@@ -220,6 +220,7 @@ public class HsdpUser {
            byte[] decrtext = SecureStorage.decrypt(enctText);
            mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(new String(decrtext));
         } catch (Exception e) {
+            RLog.d("HSDP file operation",e.getMessage());
         }
         return mHsdpUserRecord;
     }

@@ -856,7 +856,10 @@ public class Jump {
             throwDebugException(new RuntimeException(e));
         } catch (ClassNotFoundException e) {
             throwDebugException(new RuntimeException(e));
-        } finally {
+        }catch (Exception e){
+            throwDebugException(new RuntimeException(e));
+        }
+        finally {
             try {
                 if (fis != null) fis.close();
             } catch (IOException ignore) {
