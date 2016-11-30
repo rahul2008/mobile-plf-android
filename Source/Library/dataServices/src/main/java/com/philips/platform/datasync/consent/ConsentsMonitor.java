@@ -32,8 +32,7 @@ import retrofit.converter.GsonConverter;
  * All rights reserved.
  */
 public class ConsentsMonitor extends EventMonitor {
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+
 
     @NonNull
     private final UCoreAdapter uCoreAdapter;
@@ -44,15 +43,11 @@ public class ConsentsMonitor extends EventMonitor {
     @NonNull
     private final ConsentsConverter consentsConverter;
 
-    DataServicesManager mDataServicesManager;
 
     @Inject
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final ConsentsConverter consentsConverter,
                            @NonNull final GsonConverter gsonConverter) {
-
-        mDataServicesManager=DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();;
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
@@ -87,6 +82,8 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
+        UCoreAccessProvider accessProvider = DataServicesManager.getInstance().getUCoreAccessProvider();
+
         Log.i("***SPO***","Get Consent called before ConsentsClient");
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, accessProvider.getAccessToken(), gsonConverter);
         Log.i("***SPO***","Get Consent called After ConsentsClient");
@@ -120,6 +117,7 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
+        UCoreAccessProvider accessProvider = DataServicesManager.getInstance().getUCoreAccessProvider();
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, accessProvider.getAccessToken(), gsonConverter);
 
         Consent consent = event.getConsent();
@@ -158,6 +156,7 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     public boolean isUserInvalid() {
+        UCoreAccessProvider accessProvider = DataServicesManager.getInstance().getUCoreAccessProvider();
         final String accessToken = accessProvider.getAccessToken();
         return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
     }

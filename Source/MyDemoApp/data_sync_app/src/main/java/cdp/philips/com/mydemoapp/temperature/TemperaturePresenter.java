@@ -84,6 +84,7 @@ public class TemperaturePresenter {
 
     public void fetchData() {
         mDataServices.fetch(MomentType.TEMPERATURE);
+        DataServicesManager.getInstance();
     }
 
     public Moment getMoment() {
