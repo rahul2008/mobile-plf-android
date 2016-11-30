@@ -184,7 +184,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
             }
         }
         Log.i("***SPO***", "In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
-        mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) ormMoments);
+        mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) activeOrmMoments);
     }
 
     @Override
