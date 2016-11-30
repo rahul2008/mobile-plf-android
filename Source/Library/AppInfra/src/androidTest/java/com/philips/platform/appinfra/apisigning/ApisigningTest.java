@@ -1,25 +1,23 @@
-package com.philips.platform.appinfra.whiteboxapi;
+package com.philips.platform.appinfra.apisigning;
 
 import com.philips.platform.appinfra.MockitoTestCase;
 
-import static com.philips.platform.appinfra.whiteboxapi.GenerateHmacLib.createHmac;
-
 /**
- * Created by 310190722 on 11/21/2016.
+ * Created by 310190722 on 11/25/2016.
  */
 
-public class WhiteBoxAPITest extends MockitoTestCase{
+public class ApisigningTest extends MockitoTestCase {
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
-    public void testWhiteBoxAPI(){
-         byte[] key = hexStringToByteArray("e124794bab4949cd4affc267d446ddd95c938a7428d75d7901992e0cb4bc320cd94c28dae1e56d83eaf19010ccc8574d6d83fb687cf5d12ff2afddbaf73801b5");
-         byte[] httpMethodType = {'P','O','S','T'};
+    public void testApisigning(){
+        byte[] key = hexStringToByteArray("e124794bab4949cd4affc267d446ddd95c938a7428d75d7901992e0cb4bc320cd94c28dae1e56d83eaf19010ccc8574d6d83fb687cf5d12ff2afddbaf73801b5");
+        byte[] httpMethodType = {'P','O','S','T'};
 
-        byte[] resultBytes = createHmac(key,httpMethodType);
+        byte[] resultBytes = PshmacLib.createHmac(key,httpMethodType);
         assertEquals("aefb42a311b78e4514ea4dc59120211bf421edc4978426309ab11b2e205a329b",bytesToHex(resultBytes));
     }
 
@@ -41,4 +39,5 @@ public class WhiteBoxAPITest extends MockitoTestCase{
         }
         return builder.toString();
     }
+
 }

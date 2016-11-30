@@ -1,4 +1,4 @@
-package com.philips.platform.appinfra.whiteboxapi;
+package com.philips.platform.appinfra.apisigning;
 
 /**
  * Created by 310238655 on 11/23/2016.
@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.whiteboxapi;
  * (JNIEnv *env, jclass thisClass, jbyteArray keyJNI, jbyteArray messageJNI)
  */
 
-public class GenerateHmacLib {
+public class PshmacLib{
 
     static {
         System.loadLibrary("pshmac");

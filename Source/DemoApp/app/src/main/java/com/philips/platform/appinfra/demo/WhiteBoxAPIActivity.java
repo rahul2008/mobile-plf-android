@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.whiteboxapi.GenerateHmacLib;
-
+import com.philips.platform.appinfra.apisigning.PshmacLib;
 
 /**
  * Created by 310190722 on 11/18/2016.
@@ -22,7 +21,7 @@ public class WhiteBoxAPIActivity extends AppCompatActivity {
         TextView tvHmacResult = new TextView(this);
 
 
-        GenerateHmacLib mGenerateHmacLib = new GenerateHmacLib();
+        PshmacLib mGenerateHmacLib = new PshmacLib();
         byte[] resultBytes = mGenerateHmacLib.createHmac(mKey, httpMethodType);
         tvHmacResult.setText(bytesToHex(resultBytes));
         System.out.println("Result : "+bytesToHex(resultBytes));
