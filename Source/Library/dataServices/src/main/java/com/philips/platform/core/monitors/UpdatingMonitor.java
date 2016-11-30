@@ -49,7 +49,7 @@ public class UpdatingMonitor extends EventMonitor{
         if (ormMoment == null) {
             return;
         }
-            dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
+          //  dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
             dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
        //     eventing.post(new MomentChangeEvent(requestId, moment));
     }

@@ -77,6 +77,7 @@ public class UCoreAccessProvider implements BackendIdProvider {
             int indexOf = lastSyncUrl.indexOf('=');
             lastSyncUrl = lastSyncUrl.substring(indexOf + 1);
             SharedPreferences.Editor editor = edit.putString(key, lastSyncUrl);
+            editor = edit.putBoolean("isSynced", true);
             editor.commit();
         }
     }

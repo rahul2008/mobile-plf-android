@@ -2,7 +2,10 @@ package cdp.philips.com.mydemoapp.temperature;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -14,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -66,11 +70,22 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
+    SharedPreferences mSharedPreferences;
+    ProgressDialog mProgressBar;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
+        mProgressBar = new ProgressDialog(getContext());
+        mProgressBar.setCancelable(false);
+        if(!mSharedPreferences.getBoolean("isSynced",false)){
+            if(!mProgressBar.isShowing()){
+                mProgressBar.setMessage("Loading Please wait!!!");
+                mProgressBar.show();
+            }
+        }
         init();
     }
 
@@ -192,6 +207,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
+
+                if(mSharedPreferences.getBoolean("isSynced",false)){
+                    if(mProgressBar.isShowing()){
+                        mProgressBar.dismiss();
+                    }
+                }
             }
         });
 

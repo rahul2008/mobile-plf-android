@@ -178,20 +178,24 @@ public class MomentsDataSender implements DataSender<Moment> {
                     momentsConverter.convertToUCoreMoment(moment));
             List<Header> responseHeaders = response.getHeaders();
 
-
-            Header eTag=responseHeaders.get(eTagIndex);
             if (isResponseSuccess(response)) {
+                Header eTag=responseHeaders.get(eTagIndex);
                 //int currentVersion = moment.getSynchronisationData().getVersion();
                 if(!TextUtils.isEmpty(eTag.getValue())) {
                     moment.getSynchronisationData().setVersion(Integer.parseInt(eTag.getValue()));
                 }
                 postUpdatedOk(Collections.singletonList(moment));
             }else if(isConflict(response)){
-
+                //dont do anything
             }
             return false;
         } catch (RetrofitError error) {
-            eventing.post(new BackendResponse(1, error));
+            if(error!=null && error.getResponse().getStatus()== HttpURLConnection.HTTP_CONFLICT){
+                Log.i("***SPO***","Exception - 409");
+                //dont do anything
+            }else {
+                eventing.post(new BackendResponse(1, error));
+            }
 
             return isConflict(error);
         }
@@ -221,7 +225,9 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean isConflict(final Response response){
-        return response!=null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
+        boolean isconflict = response!=null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
+        Log.i("***SPO***","isConflict = " + isconflict);
+        return isconflict;
     }
 
     private boolean isConflict(final RetrofitError retrofitError) {
