@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public interface MomentDetail extends BaseAppData, Serializable {
 
-    com.philips.platform.core.datatypes.MomentDetailType getType();
+    String getType();
 
     String getValue();
 

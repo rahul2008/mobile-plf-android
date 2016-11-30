@@ -4,7 +4,7 @@
 // * the written consent of the copyright holder.
 // */
 //
-//package com.philips.platform.datasync.conversion;
+//package cdp.philips.com.mydemoapp.conversion;
 //
 //import android.support.annotation.NonNull;
 //

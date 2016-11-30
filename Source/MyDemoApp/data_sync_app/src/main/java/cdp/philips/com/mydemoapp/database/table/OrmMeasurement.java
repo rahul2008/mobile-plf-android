@@ -14,7 +14,6 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementType;
 
 import org.joda.time.DateTime;
 
@@ -23,6 +22,7 @@ import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -65,7 +65,7 @@ public class OrmMeasurement implements Measurement, Serializable {
     }
 
     @Override
-    public MeasurementType getType() {
+    public String getType() {
         return type.getType();
     }
 

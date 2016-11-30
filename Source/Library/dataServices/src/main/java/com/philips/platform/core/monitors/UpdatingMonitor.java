@@ -4,16 +4,13 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.ConsentDetailsUpdateRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentUpdateRequest;
@@ -21,14 +18,13 @@ import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class UpdatingMonitor extends EventMonitor{
+public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBUpdatingInterface dbUpdatingInterface;
 
@@ -39,7 +35,7 @@ public class UpdatingMonitor extends EventMonitor{
     DBFetchingInterface dbFetchingInterface;
 
 
-    public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface){
+    public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
@@ -53,9 +49,9 @@ public class UpdatingMonitor extends EventMonitor{
         if (ormMoment == null) {
             return;
         }
-            dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
-            dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
-            eventing.post(new MomentChangeEvent(requestId, moment));
+        dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
+        dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
+        eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
 
@@ -74,12 +70,12 @@ public class UpdatingMonitor extends EventMonitor{
     }
 
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
-        Log.i("**SPO**","In Updating Monitor ReadDataFromBackendResponse");
+        Log.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
-            Log.i("**SPO**","In Updating Monitor before calling fetchMoments");
-            dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
+            Log.i("**SPO**", "In Updating Monitor before calling fetchMoments");
+            dbFetchingInterface.fetchMoments();
         } catch (SQLException e) {
-            Log.i("**SPO**","In Updating Monitor report exception");
+            Log.i("**SPO**", "In Updating Monitor report exception");
             dbUpdatingInterface.updateFailed(e);
             e.printStackTrace();
         }
@@ -94,7 +90,7 @@ public class UpdatingMonitor extends EventMonitor{
         //int requestId = momentSaveRequest.getEventId();
 
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
-       // boolean savedAllMoments = updatedCount == moments.size();
+        // boolean savedAllMoments = updatedCount == moments.size();
         /*if(savedAllMoments) {
             try {
                 dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);

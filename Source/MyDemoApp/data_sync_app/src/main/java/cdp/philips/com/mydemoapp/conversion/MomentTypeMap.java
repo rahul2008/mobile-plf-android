@@ -4,7 +4,7 @@
 // * the written consent of the copyright holder.
 // */
 //
-//package com.philips.platform.datasync.conversion;
+//package cdp.philips.com.mydemoapp.conversion;
 //
 //import android.support.annotation.NonNull;
 //
@@ -13,6 +13,11 @@
 //import java.util.TreeMap;
 //
 //import javax.inject.Inject;
+//
+//import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+//import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+//import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+//import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 //
 ///**
 // * (C) Koninklijke Philips N.V., 2015.
@@ -60,7 +65,6 @@
 //        toMeasurementTypeMap.put("RelativeHumidity", MeasurementType.RELATIVE_HUMIDITY);
 //        toMeasurementTypeMap.put("Length", MeasurementType.LENGTH);
 //        fromMeasurementTypeMap = createInvertedMap(toMeasurementTypeMap);
-//
 //
 //
 //        toMomentDetailTypeMap.put("Note", MomentDetailType.NOTE);
@@ -118,7 +122,6 @@
 //    public String getMeasurementTypeString(@NonNull final MeasurementType type) {
 //        return getFromMap(fromMeasurementTypeMap, type);
 //    }
-//
 //
 //
 //    @NonNull

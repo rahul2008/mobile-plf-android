@@ -20,12 +20,8 @@ import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTime;
@@ -34,13 +30,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 
 public class TemperaturePresenter {
     private DataServicesManager mDataServices;
 
     private Moment mMoment;
     private Measurement mMeasurement;
-    private MomentType mMomentType;
+    private String mMomentType;
     private Context mContext;
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
@@ -51,7 +51,7 @@ public class TemperaturePresenter {
     EditText mPhase;
     Button mDialogButton;
 
-    TemperaturePresenter(Context context, MomentType momentType) {
+    TemperaturePresenter(Context context, String momentType) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
@@ -83,7 +83,7 @@ public class TemperaturePresenter {
     }
 
     public void fetchData() {
-        mDataServices.fetch(MomentType.TEMPERATURE);
+        mDataServices.fetch(MomentType.getIDFromDescription(MomentType.TEMPERATURE));
     }
 
     public Moment getMoment() {

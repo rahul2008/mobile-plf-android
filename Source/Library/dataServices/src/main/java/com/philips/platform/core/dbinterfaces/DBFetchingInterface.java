@@ -3,8 +3,6 @@ package com.philips.platform.core.dbinterfaces;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.MomentType;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,14 +15,24 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 public interface DBFetchingInterface {
     void fetchMoments() throws SQLException;
-    void fetchMoments(final @NonNull MomentType type) throws SQLException;
-    void fetchMoments(final @NonNull MomentType... types) throws SQLException;
-    void fetchLastMoment(final MomentType type) throws SQLException;
+
+    void fetchMoments(final @NonNull String type) throws SQLException;
+
+    void fetchMoments(final @NonNull Object... types) throws SQLException;
+
+    void fetchLastMoment(final String type) throws SQLException;
+
     Object fetchMomentByGuid(@NonNull final String guid) throws SQLException;
+
     List<?> fetchNonSynchronizedMoments() throws SQLException;
+
     Object fetchMomentById(final int id) throws SQLException;
+
     Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
+
     Map<Class, List<?>> putConsentForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
+
     void fetchConsents() throws SQLException;
+
     Consent fetchConsent() throws SQLException;
 }

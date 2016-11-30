@@ -12,11 +12,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
 import org.joda.time.DateTime;
@@ -45,20 +41,20 @@ public class Database implements BaseAppDataCreator {
     @NonNull
     @Override
     public OrmMoment createMoment(final String creatorId,
-                                  final String subjectId, MomentType type) {
+                                  final String subjectId, String type) {
         return creator.createMoment(creatorId, subjectId, type);
     }
 
     @NonNull
     @Override
     public Moment createMomentWithoutUUID(final String creatorId,
-                                          final String subjectId, final MomentType type) {
-        return creator.createMomentWithoutUUID(creatorId ,subjectId, type);
+                                          final String subjectId, final String type) {
+        return creator.createMomentWithoutUUID(creatorId, subjectId, type);
     }
 
     @NonNull
     @Override
-    public OrmMomentDetail createMomentDetail(final MomentDetailType type,
+    public OrmMomentDetail createMomentDetail(final String type,
                                               final Moment moment) {
         try {
             OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
@@ -70,7 +66,7 @@ public class Database implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public OrmMeasurement createMeasurement(final MeasurementType type,
+    public OrmMeasurement createMeasurement(final String type,
                                             final Moment moment) {
         try {
             final OrmMoment ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
@@ -82,7 +78,7 @@ public class Database implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public OrmMeasurementDetail createMeasurementDetail(final MeasurementDetailType type,
+    public OrmMeasurementDetail createMeasurementDetail(final String type,
                                                         final Measurement measurement) {
         try {
             final OrmMeasurement ormMeasurement =
@@ -108,10 +104,10 @@ public class Database implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
         try {
             OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            return creator.createConsentDetail(type, status, version, deviceIdentificationNumber,isSynchronized, ormConsent);
+            return creator.createConsentDetail(type, status, version, deviceIdentificationNumber, isSynchronized, ormConsent);
         } catch (OrmTypeChecking.OrmTypeException e) {
             throw new IllegalArgumentException("Consent was not OrmConsent");
         }

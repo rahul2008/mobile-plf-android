@@ -5,8 +5,6 @@ import android.util.Log;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 
@@ -19,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
@@ -51,7 +51,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public int processMomentsReceivedFromBackend(final List<? extends Moment> moments) {
         int updatedCount = 0;
         for (final Moment moment : moments) {
-            if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {
+            if (!moment.getType().equalsIgnoreCase(MomentType.PHOTO) || photoFileExistsForPhotoMoments(moment)) {
                 updatedCount = processMoment(updatedCount, moment);
             }
         }
@@ -74,7 +74,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-            Log.d("Creator ID MODI",ormConsent.getCreatorId());
+            Log.d("Creator ID MODI", ormConsent.getCreatorId());
 
             if (consentInDatabase != null) {
 
@@ -83,7 +83,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 ormConsent.setId(id);
                 saving.saveConsent(ormConsent);
 
-            }else{
+            } else {
                 saving.saveConsent(ormConsent);
             }
         } catch (SQLException e) {
@@ -101,7 +101,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             return false;
         }
         for (final MomentDetail momentDetail : momentDetails) {
-            if (momentDetail.getType() == MomentDetailType.PHOTO) {
+            if (momentDetail.getType().equalsIgnoreCase(MomentDetailType.PHOTO)) {
                 final File file = new File(momentDetail.getValue());
                 if (file.exists()) {
                     return true;

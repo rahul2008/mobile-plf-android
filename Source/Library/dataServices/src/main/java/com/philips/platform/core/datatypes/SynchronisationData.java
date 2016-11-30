@@ -18,11 +18,11 @@ public interface SynchronisationData {
 
     boolean isInactive();
 
+    void setInactive(boolean inActive);
+
     DateTime getLastModified();
 
     int getVersion();
 
     void setVersion(int version);
-
-    void setInactive(boolean inActive);
 }

@@ -21,12 +21,8 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -143,8 +139,8 @@ public class DataServicesManager {
         return moment;
     }
 
-    public void fetch(final @NonNull MomentType... type) {
-        mEventing.post(new LoadMomentsRequest(type[0]));
+    public void fetch(final @NonNull Integer... type) {
+        mEventing.post(new LoadMomentsRequest(type));
     }
 
     public void fetchMomentById(final int momentID) {
@@ -156,26 +152,26 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public Moment createMoment(@NonNull final MomentType type) {
+    public Moment createMoment(@NonNull final String type) {
         return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type);
     }
 
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final MomentDetailType type, @NonNull final Moment moment) {
+    public MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment) {
         MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
         return momentDetail;
     }
 
     @NonNull
-    public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment) {
+    public Measurement createMeasurement(@NonNull final String type, @NonNull final Moment moment) {
         Measurement measurement = mDataCreater.createMeasurement(type, moment);
         moment.addMeasurement(measurement);
         return measurement;
     }
 
     @NonNull
-    public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      @NonNull final Measurement measurement) {
         MeasurementDetail measurementDetail = mDataCreater.createMeasurementDetail(type, measurement);
         measurement.addMeasurementDetail(measurementDetail);
@@ -281,7 +277,7 @@ public class DataServicesManager {
     }
 
     public void save(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent,false));
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
     }
 
     @NonNull
@@ -294,11 +290,11 @@ public class DataServicesManager {
         return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
     }
 
-    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber, final boolean isSynchronized) {
         if (consent == null) {
             consent = createConsent();
         }
-        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, isSynchronized, consent);
         consent.addConsentDetails(consentDetail);
     }
 

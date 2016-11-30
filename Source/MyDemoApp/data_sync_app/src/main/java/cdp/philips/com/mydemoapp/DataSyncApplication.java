@@ -3,6 +3,7 @@ package cdp.philips.com.mydemoapp;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -38,7 +39,7 @@ public class DataSyncApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-        //Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
         LeakCanary.install(this);
         initializeUserRegistrationLibrary(Configuration.STAGING);
     }

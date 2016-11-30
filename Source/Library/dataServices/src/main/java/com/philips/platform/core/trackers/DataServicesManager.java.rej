@@ -1,0 +1,28 @@
+diff a/Source/Library/dataServices/src/main/java/com/philips/platform/core/trackers/DataServicesManager.java b/Source/Library/dataServices/src/main/java/com/philips/platform/core/trackers/DataServicesManager.java	(rejected hunks)
+@@ -22,12 +22,8 @@ import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+ import com.philips.platform.core.datatypes.ConsentDetailType;
+ import com.philips.platform.core.datatypes.Measurement;
+ import com.philips.platform.core.datatypes.MeasurementDetail;
+-import com.philips.platform.core.datatypes.MeasurementDetailType;
+-import com.philips.platform.core.datatypes.MeasurementType;
+ import com.philips.platform.core.datatypes.Moment;
+ import com.philips.platform.core.datatypes.MomentDetail;
+-import com.philips.platform.core.datatypes.MomentDetailType;
+-import com.philips.platform.core.datatypes.MomentType;
+ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+@@ -295,11 +291,11 @@ public class DataServicesManager {
+         return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
+     }
+ 
+-    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
++    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber, final boolean isSynchronized) {
+         if (consent == null) {
+             consent = createConsent();
+         }
+-        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
++        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, isSynchronized, consent);
+         consent.addConsentDetails(consentDetail);
+     }
+ 

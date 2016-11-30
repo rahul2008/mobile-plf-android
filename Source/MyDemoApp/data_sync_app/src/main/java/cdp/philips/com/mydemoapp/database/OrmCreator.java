@@ -13,18 +13,18 @@ import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
 
 import javax.inject.Singleton;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -52,7 +52,7 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @Override
     @NonNull
-    public OrmMoment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull MomentType type) {
+    public OrmMoment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull String type) {
         final OrmMoment ormMoment = createMomentWithoutUUID(creatorId, subjectId, type);
         final OrmMomentDetail ormMomentDetail = createMomentDetail(MomentDetailType.TAGGING_ID, ormMoment);
 
@@ -65,29 +65,29 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public OrmMoment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId,
-                                             @NonNull final MomentType type) {
-        final OrmMomentType ormMomentType = new OrmMomentType(type);
+                                             @NonNull final String type) {
+        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
 
         return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
     @Override
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final MomentDetailType type,
+    public MomentDetail createMomentDetail(@NonNull final String type,
                                            @NonNull final Moment moment) {
         return createMomentDetail(type, (OrmMoment) moment);
     }
 
     @Override
     @NonNull
-    public Measurement createMeasurement(@NonNull final MeasurementType type,
+    public Measurement createMeasurement(@NonNull final String type,
                                          @NonNull final Moment moment) {
         return createMeasurement(type, (OrmMoment) moment);
     }
 
     @Override
     @NonNull
-    public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      @NonNull final Measurement measurement) {
         return createMeasurementDetail(type, (OrmMeasurement) measurement);
     }
@@ -107,30 +107,32 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
-       // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
+        // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
 
-        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent,isSynchronized);
+        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
     }
 
     @NonNull
-    public OrmMomentDetail createMomentDetail(@NonNull final MomentDetailType type,
+    public OrmMomentDetail createMomentDetail(@NonNull final String type,
                                               @NonNull final OrmMoment moment) {
-        OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(type);
+        OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
         return new OrmMomentDetail(ormMomentDetailType, moment);
     }
 
     @NonNull
-    public OrmMeasurement createMeasurement(@NonNull final MeasurementType type,
+    public OrmMeasurement createMeasurement(@NonNull final String type,
                                             @NonNull final OrmMoment moment) {
-        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(type);
+        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
+                type,
+                MeasurementType.getUnitFromDescription(type));
         return new OrmMeasurement(ormMeasurementType, moment);
     }
 
     @NonNull
-    public OrmMeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public OrmMeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                         @NonNull final OrmMeasurement measurement) {
-        OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(type);
+        OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
         return new OrmMeasurementDetail(ormMeasurementDetailType, measurement);
     }
 

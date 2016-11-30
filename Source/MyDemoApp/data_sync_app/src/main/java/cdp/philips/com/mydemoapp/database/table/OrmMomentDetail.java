@@ -9,7 +9,6 @@ package cdp.philips.com.mydemoapp.database.table;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
 
 import java.io.Serializable;
 
@@ -51,7 +50,7 @@ public class OrmMomentDetail implements MomentDetail, Serializable {
     }
 
     @Override
-    public MomentDetailType getType() {
+    public String getType() {
         return type.getType();
     }
 

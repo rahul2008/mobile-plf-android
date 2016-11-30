@@ -4,12 +4,12 @@ import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 
@@ -19,7 +19,7 @@ import cdp.philips.com.mydemoapp.listener.EventHelper;
  */
 public class TemperatureMomentHelper {
 
-    double getTemperature(Moment moment){
+    double getTemperature(Moment moment) {
         try {
             ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
             return measurements.get(0).getValue();
@@ -30,30 +30,30 @@ public class TemperatureMomentHelper {
         }
     }
 
-    String getTime(Moment moment){
+    String getTime(Moment moment) {
         try {
             ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
-            for(MomentDetail detail : momentDetails){
-                if(detail.getType() == MomentDetailType.PHASE)
+            for (MomentDetail detail : momentDetails) {
+                if (detail.getType().equalsIgnoreCase(MomentDetailType.PHASE))
                     return detail.getValue();
             }
             return "default";
-        }catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             return "default";
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             return "default";
         }
     }
 
-    String getNotes(Moment moment){
+    String getNotes(Moment moment) {
         try {
             ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
             Measurement measurement = measurements.get(0);
             ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
             return measurementDetails.get(0).getValue();
-        }catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             return "default";
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             return "default";
         }
     }
@@ -87,10 +87,10 @@ public class TemperatureMomentHelper {
         }
     }
 
-    Moment updateMoment(Moment moment,String phase, String temperature, String notes){
+    Moment updateMoment(Moment moment, String phase, String temperature, String notes) {
         ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
-        int momentDetailsSize=momentDetails.size();
-        MomentDetail momentDetail = momentDetails.get(momentDetailsSize-1);
+        int momentDetailsSize = momentDetails.size();
+        MomentDetail momentDetail = momentDetails.get(momentDetailsSize - 1);
         momentDetail.setValue(phase);
 
         ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());

@@ -14,7 +14,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 
 import java.sql.SQLException;
@@ -80,9 +79,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public Consent fetchConsent() throws SQLException {
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) consentDao.query(queryBuilder.prepare());
-        if(ormConsents!=null && !ormConsents.isEmpty()){
-            return ormConsents.get(ormConsents.size()-1);
-        }else{
+        if (ormConsents != null && !ormConsents.isEmpty()) {
+            return ormConsents.get(ormConsents.size() - 1);
+        } else {
             return null;
         }
     }
@@ -103,20 +102,21 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchMoments(@NonNull final MomentType type) throws SQLException {
+    public void fetchMoments(@NonNull final String type) throws SQLException {
         Log.i("***SPO***", "In fetchMoments - OrmFetchingInterfaceImpl");
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.orderBy("dateTime", true);
-        getActiveMoments(momentDao.queryForEq("type_id", type.getId()));
+        getActiveMoments(momentDao.queryForEq("type_id", type));
     }
 
     @Override
-    public void fetchMoments(@NonNull final MomentType... types) throws SQLException {
+    public void fetchMoments(@NonNull final Object... types) throws SQLException {
         List<OrmMoment> ormMoments = new ArrayList<OrmMoment>();
         List<Integer> ids = new ArrayList<>(types.length);
         final int i = 0;
-        for (MomentType momentType : types) {
-            ids.add(momentType.getId());
+        for (Object momentType : types) {
+            if (momentType instanceof Integer)
+                ids.add((Integer) momentType);
         }
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.where().in("type_id", ids);
@@ -125,10 +125,10 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchLastMoment(final MomentType type) throws SQLException {
+    public void fetchLastMoment(final String type) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
         Where<OrmMoment, Integer> where = builder.where();
-        where.eq("type_id", type.getId());
+        where.eq("type_id", type);
         builder.setWhere(where);
         builder.orderBy("dateTime", false);
 
@@ -234,10 +234,10 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     public OrmConsent fetchConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         consentQueryBuilder.where().eq("creatorId", creatorId);
-        if(consentQueryBuilder.query().isEmpty()){
+        if (consentQueryBuilder.query().isEmpty()) {
             return null;
         }
-        return consentQueryBuilder.query().get(consentQueryBuilder.query().size()-1); //equivalent to query for last
+        return consentQueryBuilder.query().get(consentQueryBuilder.query().size() - 1); //equivalent to query for last
     }
 
     public List<OrmConsent> fetchAllConsent() throws SQLException {

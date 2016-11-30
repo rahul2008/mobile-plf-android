@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 
@@ -40,6 +39,7 @@ import cdp.philips.com.mydemoapp.database.OrmDeletingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmSaving;
 import cdp.philips.com.mydemoapp.database.OrmUpdating;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;

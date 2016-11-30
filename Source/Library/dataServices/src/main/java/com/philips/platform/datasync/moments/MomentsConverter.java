@@ -11,15 +11,10 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.conversion.MeasurementDetailValueMap;
-import com.philips.platform.datasync.conversion.MomentTypeMap;
 
 import org.joda.time.DateTime;
 
@@ -38,18 +33,10 @@ import javax.inject.Inject;
 public class MomentsConverter {
 
     @NonNull
-    private MomentTypeMap momentTypeMap;
-
-    private MeasurementDetailValueMap measurementDetailValueMap;
-
-    @NonNull
     private BaseAppDataCreator baseAppDataCreater;
 
     @Inject
-    public MomentsConverter(@NonNull final MomentTypeMap momentTypeMap,
-                            @NonNull final MeasurementDetailValueMap measurementDetailValueMap) {
-        this.momentTypeMap = momentTypeMap;
-        this.measurementDetailValueMap = measurementDetailValueMap;
+    public MomentsConverter() {
         DataServicesManager manager = DataServicesManager.getInstance();
         this.baseAppDataCreater = manager.getDataCreater();
     }
@@ -67,7 +54,7 @@ public class MomentsConverter {
     @NonNull
     private Moment createMoment(@NonNull final com.philips.platform.datasync.moments.UCoreMoment uCoreMoment) {
         Moment moment = baseAppDataCreater.createMomentWithoutUUID(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
-                momentTypeMap.getMomentType(uCoreMoment.getType()));
+                uCoreMoment.getType());
         moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
 
         addSynchronisationData(moment, uCoreMoment);
@@ -92,44 +79,44 @@ public class MomentsConverter {
 
     private void addToUCoreMomentDetails(@NonNull final Moment moment, @NonNull final List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList) {
         for (com.philips.platform.datasync.moments.UCoreDetail uCoreDetail : uCoreDetailList) {
-            MomentDetailType type = momentTypeMap.getMomentDetailType(uCoreDetail.getType());
-            if (!MomentDetailType.UNKNOWN.equals(type)) {
-                MomentDetail momentDetail = baseAppDataCreater.createMomentDetail(type, moment);
-                momentDetail.setValue(uCoreDetail.getValue());
-                moment.addMomentDetail(momentDetail);
-            }
+            // MomentDetailType type = momentTypeMap.getMomentDetailType(uCoreDetail.getType());
+            // if (!MomentDetailType.UNKNOWN.equals(type)) {
+            MomentDetail momentDetail = baseAppDataCreater.createMomentDetail(uCoreDetail.getType(), moment);
+            momentDetail.setValue(uCoreDetail.getValue());
+            moment.addMomentDetail(momentDetail);
+            //  }
         }
     }
 
     private void addMeasurements(@NonNull final Moment moment, @NonNull final List<com.philips.platform.datasync.moments.UCoreMeasurement> uCoreMeasurementList) {
         for (com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement : uCoreMeasurementList) {
-            MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getType());
-            if (!MeasurementType.UNKNOWN.equals(type)) {
-                Measurement measurement = baseAppDataCreater.createMeasurement(type, moment);
-                measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
-                measurement.setValue(uCoreMeasurement.getValue());
+//            MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getType());
+//            if (!MeasurementType.UNKNOWN.equals(type)) {
+            Measurement measurement = baseAppDataCreater.createMeasurement(uCoreMeasurement.getType(), moment);
+            measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
+            measurement.setValue(uCoreMeasurement.getValue());
 
-                List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList = uCoreMeasurement.getDetails();
-                if (uCoreDetailList != null) {
-                    addMeasurementDetails(measurement, uCoreDetailList);
-                }
-
-                moment.addMeasurement(measurement);
+            List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList = uCoreMeasurement.getDetails();
+            if (uCoreDetailList != null) {
+                addMeasurementDetails(measurement, uCoreDetailList);
             }
+
+            moment.addMeasurement(measurement);
+            // }
         }
     }
 
     private void addMeasurementDetails(@NonNull final Measurement measurement, @NonNull final List<com.philips.platform.datasync.moments.UCoreDetail> uCoreDetailList) {
         for (com.philips.platform.datasync.moments.UCoreDetail uCoreDetail : uCoreDetailList) {
-            MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
-            if (!MeasurementDetailType.UNKNOWN.equals(type)) {
-                final MeasurementDetail measurementDetail = baseAppDataCreater.createMeasurementDetail(type, measurement);
-                String value = uCoreDetail.getValue();
-                if (!value.equals(MeasurementDetailValueMap.UNKNOWN_NAME)) {
-                    measurementDetail.setValue(value);
-                    measurement.addMeasurementDetail(measurementDetail);
-                }
-            }
+//            MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
+//            if (!MeasurementDetailType.UNKNOWN.equals(type)) {
+            final MeasurementDetail measurementDetail = baseAppDataCreater.createMeasurementDetail(uCoreDetail.getType(), measurement);
+            String value = uCoreDetail.getValue();
+            //  if (!value.equals(MeasurementDetailValueMap.UNKNOWN_NAME)) {
+            measurementDetail.setValue(value);
+            measurement.addMeasurementDetail(measurementDetail);
+            //  }
+            //  }
         }
     }
 
@@ -138,8 +125,8 @@ public class MomentsConverter {
         com.philips.platform.datasync.moments.UCoreMoment uCoreMoment = new com.philips.platform.datasync.moments.UCoreMoment();
 
         uCoreMoment.setTimestamp(moment.getDateTime().toString());
-        String momentTypeString = momentTypeMap.getMomentTypeString(moment.getType());
-        uCoreMoment.setType(momentTypeString);
+        //String momentTypeString = momentTypeMap.getMomentTypeString(moment.getType());
+        uCoreMoment.setType(moment.getType());
 
         List<com.philips.platform.datasync.moments.UCoreMeasurement> uCoreMeasurementList = new ArrayList<>();
         List<com.philips.platform.datasync.moments.UCoreDetail> uCoreMomentList = new ArrayList<>();
@@ -164,7 +151,7 @@ public class MomentsConverter {
 
         for (MomentDetail momentDetail : momentDetails) {
             com.philips.platform.datasync.moments.UCoreDetail detail = new com.philips.platform.datasync.moments.UCoreDetail();
-            detail.setType(momentTypeMap.getMomentDetailTypeString(momentDetail.getType()));
+            detail.setType("PHASE");
             detail.setValue(momentDetail.getValue());
 
             momentDetailList.add(detail);
@@ -175,7 +162,7 @@ public class MomentsConverter {
         for (Measurement measurement : measurements) {
             com.philips.platform.datasync.moments.UCoreMeasurement uCoreMeasurement = new com.philips.platform.datasync.moments.UCoreMeasurement();
             uCoreMeasurement.setTimestamp(measurement.getDateTime().toString());
-            uCoreMeasurement.setType(momentTypeMap.getMeasurementTypeString(measurement.getType()));
+            uCoreMeasurement.setType(measurement.getType());
             uCoreMeasurement.setValue(measurement.getValue());
 
             addToUCoreMeasurementDetails(measurement.getMeasurementDetails(), uCoreMeasurement);
@@ -188,9 +175,9 @@ public class MomentsConverter {
 
         for (MeasurementDetail measurementDetail : measurementDetails) {
             com.philips.platform.datasync.moments.UCoreDetail uCoreDetail = new com.philips.platform.datasync.moments.UCoreDetail();
-            uCoreDetail.setType(momentTypeMap.getMeasurementDetailTypeString(measurementDetail.getType()));
+            uCoreDetail.setType(measurementDetail.getType());
 
-           // uCoreDetail.setValue(measurementDetailValueMap.getString(measurementDetail.getType(), measurementDetail.getValue()));
+            // uCoreDetail.setValue(measurementDetailValueMap.getString(measurementDetail.getType(), measurementDetail.getValue()));
             uCoreDetail.setValue(measurementDetail.getValue());
 
             uCoreDetailList.add(uCoreDetail);
