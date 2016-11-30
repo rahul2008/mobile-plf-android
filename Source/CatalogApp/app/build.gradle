@@ -80,7 +80,7 @@ dependencies {
         exclude module: "com.android.support"
     }
     compile "com.jakewharton:butterknife:${butterKnifeVer}"
-    compile project(':uit')
+    compile project(':uid')
     compile "com.android.support:appcompat-v7:${supportLibraryVer}"
     compile "com.android.support:support-v4:${supportLibraryVer}"
     compile "com.android.support:design:${supportLibraryVer}"

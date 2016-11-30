@@ -6,7 +6,7 @@
     </style>
 
     <style name="BaseLayoutMargins">
-        <item name="android:background">?attr/uitContentPrimary</item>
+        <item name="android:background">?attr/uidContentPrimary</item>
     </style>
 
     <style name="BaseLayoutMargins.Dimens">
@@ -17,7 +17,7 @@
 
     <style name="TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/uitTextPrimaryColor</item>
+        <item name="android:textColor">?attr/uidTextPrimaryColor</item>
         <item name="android:textSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/layout_margin_left_right</item>
@@ -29,7 +29,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:textSize">@dimen/button_category_text_size</item>
-        <item name="android:background">?attr/uitApplicationBackground</item>
+        <item name="android:background">?attr/uidApplicationBackground</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:paddingLeft">@dimen/layout_margin_left_right</item>
@@ -47,7 +47,7 @@
     </style>
 
     <style name="ThemeSettingsLabelText">
-        <item name="android:textColor">?attr/uitContentPrimary</item>
+        <item name="android:textColor">?attr/uidContentPrimary</item>
         <item name="android:textSize">10sp</item>
         <item name="android:paddingStart">4dp</item>
         <item name="android:paddingTop">4dp</item>

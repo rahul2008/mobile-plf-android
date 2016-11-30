@@ -1,4 +1,4 @@
 include ':app'
 
-include ':uit'
-project(':uit').projectDir = new File('../UIKit/uit')
+include ':uid'
+project(':uid').projectDir = new File('../UIKit/uid')

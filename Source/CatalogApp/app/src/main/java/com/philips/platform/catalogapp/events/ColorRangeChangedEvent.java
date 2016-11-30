@@ -1,6 +1,6 @@
 package com.philips.platform.catalogapp.events;
 
-import com.philips.platform.uit.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ColorRange;
 
 public class ColorRangeChangedEvent extends MessageEvent {
     private ColorRange colorRange;

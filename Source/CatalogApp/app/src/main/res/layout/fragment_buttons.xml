@@ -21,7 +21,7 @@
                 android:gravity="center_vertical|start"
                 android:text="@string/with_icon"/>
 
-            <com.philips.platform.uit.view.widget.Switch
+            <com.philips.platform.uid.view.widget.Switch
                 android:id="@+id/toggleicon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 android:gravity="center_vertical|start"
                 android:text="@string/extra_wide"/>
 
-            <com.philips.platform.uit.view.widget.Switch
+            <com.philips.platform.uid.view.widget.Switch
                 android:id="@+id/toggleextraWide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                 android:gravity="center_vertical|start"
                 android:text="@string/disabled"/>
 
-            <com.philips.platform.uit.view.widget.Switch
+            <com.philips.platform.uid.view.widget.Switch
                 android:id="@+id/toggleDisable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,8 +91,8 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.philips.platform.uit.view.widget.Button
-                style="@style/UITImageTextButton.Center"
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
@@ -100,17 +100,17 @@
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
                 android:text="@string/buttons_text_primary"/>
 
-            <com.philips.platform.uit.view.widget.Button
-                style="@style/UITImageTextButton.Center"
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/button_gap"
                 android:text="@string/buttons_text_secondary"
-                app:uitComponentType="Secondary"/>
+                app:uidComponentType="Secondary"/>
 
-            <com.philips.platform.uit.view.widget.Button
+            <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDExtraWideIconQuietButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,8 +137,8 @@
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_text_left_aligned_category"/>
 
-            <com.philips.platform.uit.view.widget.Button
-                style="@style/UITDefaultButton.UITImageTextButton"
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/button_first_last_element_gap"
@@ -146,7 +146,7 @@
                 android:layout_marginRight="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
                 android:text="@string/buttons_text_left_aligned"
-                app:uitComponentType="Secondary"/>
+                app:uidComponentType="Secondary"/>
         </LinearLayout>
         <!--Left aligned extra wide buttons[end]-->
 
@@ -159,24 +159,24 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <com.philips.platform.uit.view.widget.Button
-                style="@style/UITDefaultButton.UITImageTextButton"
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
                 android:gravity="center"
                 android:text="@string/buttons_text_primary"/>
 
-            <com.philips.platform.uit.view.widget.Button
-                style="@style/UITDefaultButton.UITImageTextButton"
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDDefaultButton.UIDImageTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/button_gap"
                 android:gravity="center"
                 android:text="@string/buttons_text_secondary"
-                app:uitComponentType="Secondary"/>
+                app:uidComponentType="Secondary"/>
 
-            <com.philips.platform.uit.view.widget.Button
+            <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDQuietButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -204,23 +204,23 @@
             android:paddingBottom="12dp"
             android:paddingTop="12dp">
 
-            <com.philips.platform.uit.view.widget.ImageButton
+            <com.philips.platform.uid.view.widget.ImageButton
                 android:id="@+id/imageShare"
-                style="@style/UITImageButton"
+                style="@style/UIDImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
 
-            <com.philips.platform.uit.view.widget.ImageButton
+            <com.philips.platform.uid.view.widget.ImageButton
                 android:id="@+id/quiet_icon_only"
                 style="@style/UIDQuietIconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                app:uitImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

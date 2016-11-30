@@ -97,7 +97,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     }
 
     private void setPickerTextColor(final @NonNull ViewHolder holder, final ColorModel colorModel, final Context context) {
-        if (colorModel.getContentColor() == R.color.uitColorWhite) {
+        if (colorModel.getContentColor() == R.color.uidColorWhite) {
             holder.colorRangeTittleLabel.setTextColor(Color.WHITE);
         } else {
             final int colorResourceId75 = getColorResourceId75(colorModel, context);
@@ -113,7 +113,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         if (adapterPosition == selectedPosition) {
             final Drawable mutate = drawableCompat.mutate();
             final Drawable wrap = DrawableCompat.wrap(mutate);
-            if (colorModel.getContentColor() == R.color.uitColorWhite) {
+            if (colorModel.getContentColor() == R.color.uidColorWhite) {
                 DrawableCompat.setTint(wrap, Color.WHITE);
             } else {
                 final int colorResourceId75 = getColorResourceId75(colorModel, context);
@@ -135,7 +135,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
             int endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getEndColor()), context.getPackageName());
             if (colorModel.getEndColor() == 0) {
                 startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), "05", context.getPackageName());
-                endColors = R.color.uitColorWhite;
+                endColors = R.color.uidColorWhite;
             }
             holder.itemView.setBackground(getItemviewBackground(getCompatColor(context, startColors), getCompatColor(context, endColors)));
         } else {

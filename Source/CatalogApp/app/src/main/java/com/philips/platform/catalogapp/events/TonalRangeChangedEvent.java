@@ -1,6 +1,6 @@
 package com.philips.platform.catalogapp.events;
 
-import com.philips.platform.uit.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.ContentColor;
 
 public class TonalRangeChangedEvent extends MessageEvent {
     ContentColor contentColor;

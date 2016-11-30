@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uit.view.widget.Button;
-import com.philips.platform.uit.view.widget.ImageButton;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.ImageButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

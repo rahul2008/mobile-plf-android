@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Philipsuid">
+        <attr name="uidContentPrimary" format="reference|color"/>
+        <attr name="uidContentSecondary" format="reference|color"/>
+        <attr name="uidContentTextColor" format="reference|color"/>
+        <attr name="uidTextPrimaryColor" format="reference|color"/>
+
+        <attr name="uidNavigationPrimaryColor" format="reference|color"/>
+        <attr name="uidNavigationSecondaryColor" format="reference|color"/>
+
+        <attr name="uidControlSecondaryColor" format="reference|color"/>
+        <attr name="uidControlSecondaryTextColor" format="reference|color"/>
+        <attr name="uidControlSecondaryEnabledColor" format="reference|color"/>
+        <attr name="uidControlSecondaryPressedColor" format="reference|color"/>
+        <attr name="uidControlSecondaryDisabledAlpha" format="reference|float"/>
+        <attr name="uidControlSecondaryTextDisabledAlpha" format="reference|float"/>
+
+        <attr name="uidControlPrimaryEnabledColor" format="reference|color"/>
+        <attr name="uidControlPrimaryPressedColor" format="reference|color"/>
+        <attr name="uidControlPrimaryTextColor" format="reference|color"/>
+
+        <attr name="uidControlPrimaryTextPressedColor" format="reference|color"/>
+        <attr name="uidControlPrimaryDisabledAlpha" format="reference|float"/>
+        <attr name="uidControlPrimaryTextDisabledAlpha" format="reference|float"/>
+
+        <attr name="uidControlPrimaryAlternateEnabledColor" format="reference|color"/>
+        <attr name="uidControlPrimaryAlternatePressedColor" format="reference|color"/>
+        <attr name="uidControlPrimaryAlternateTextColor" format="reference|color"/>
+        <attr name="uidControlPrimaryAltDisabledAlpha" format="reference|float"/>
+        <attr name="uidControlPrimaryAltTextDisabledAlpha" format="reference|float"/>
+        <attr name="uidApplicationBackground" format="reference|color"/>
+
+        <attr name="uidTextPrimary" format="reference|color"/>
+        <attr name="uidTextSecondary" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="DlsColorPallet">
+        <attr name="uidColorLevel90" format="reference|color"/>
+        <attr name="uidColorLevel85" format="reference|color"/>
+        <attr name="uidColorLevel80" format="reference|color"/>
+        <attr name="uidColorLevel75" format="reference|color"/>
+        <attr name="uidColorLevel70" format="reference|color"/>
+        <attr name="uidColorLevel65" format="reference|color"/>
+        <attr name="uidColorLevel60" format="reference|color"/>
+        <attr name="uidColorLevel55" format="reference|color"/>
+        <attr name="uidColorLevel50" format="reference|color"/>
+        <attr name="uidColorLevel45" format="reference|color"/>
+        <attr name="uidColorLevel40" format="reference|color"/>
+        <attr name="uidColorLevel35" format="reference|color"/>
+        <attr name="uidColorLevel30" format="reference|color"/>
+        <attr name="uidColorLevel25" format="reference|color"/>
+        <attr name="uidColorLevel20" format="reference|color"/>
+        <attr name="uidColorLevel15" format="reference|color"/>
+        <attr name="uidColorLevel10" format="reference|color"/>
+        <attr name="uidColorLevel05" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDComponentType">
+        <attr name="uidComponentType" format="enum">
+            <enum name="Primary" value="0"/>
+            <enum name="AltPrimary" value="1"/>
+            <enum name="Secondary" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>

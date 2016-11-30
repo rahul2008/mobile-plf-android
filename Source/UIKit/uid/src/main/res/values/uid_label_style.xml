@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UIDLabel">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_label_text_size</item>
+    </style>
+
+    <style name="UIDLabel.MarginTop">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom</item>
+    </style>
+
+    <style name="UIDLabel.MarginEnd">
+        <item name="android:layout_marginEnd">@dimen/uid_label_margin_start</item>
+    </style>
+
+    <style name="UIDLabel.MarginBottom">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_control</item>
+    </style>
+
+    <style name="UIDLabel.MarginStart">
+        <item name="android:layout_marginStart">@dimen/uid_label_margin_left_control</item>
+    </style>
+
+    <style name="UIDLabel.SliderMarginBottom">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
+    </style>
+
+    <style name="UIDLabelDescription">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
+        <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_100</item>
+    </style>
+
+    <style name="UIDLabelDescription.MarginStart">
+        <item name="android:layout_marginStart">@dimen/uid_label_margin_left_control</item>
+    </style>
+
+    <style name="UIDLabelDescription.SliderMarginBottom">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
+    </style>
+</resources>

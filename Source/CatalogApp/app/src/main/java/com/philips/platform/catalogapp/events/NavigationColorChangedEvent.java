@@ -1,6 +1,6 @@
 package com.philips.platform.catalogapp.events;
 
-import com.philips.platform.uit.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 
 public class NavigationColorChangedEvent extends MessageEvent {
     private NavigationColor navigationColor;
