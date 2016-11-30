@@ -40,7 +40,7 @@ public class ThemeColorHelper {
     }
 
     public int getColorResourceId(final Resources resources, final String basecolor, final String level, final String packageName) {
-        return resources.getIdentifier(String.format(Locale.getDefault(), "uit_%s_level_%s", basecolor, level), "color", packageName);
+        return resources.getIdentifier(String.format(Locale.getDefault(), "uid_%s_level_%s", basecolor, level), "color", packageName);
     }
 
     public List<ColorModel> getContentColorModelList(final ColorRange colorRange, final Context context) {
