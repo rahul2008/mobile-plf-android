@@ -32,4 +32,6 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:4.48"
     compile "com.j256.ormlite:ormlite-android:4.48"
     compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
+    //APTELIGENT
+    compile 'com.crittercism:crittercism-android-agent:+'
 }

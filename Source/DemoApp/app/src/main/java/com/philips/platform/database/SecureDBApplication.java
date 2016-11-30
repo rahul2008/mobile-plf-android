@@ -7,6 +7,7 @@ package com.philips.platform.database;
 
 import android.app.Application;
 
+import com.crittercism.app.Crittercism;
 import com.facebook.stetho.Stetho;
 
 public class SecureDBApplication extends Application {
@@ -15,5 +16,6 @@ public class SecureDBApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Stetho.initializeWithDefaults(this);
+        Crittercism.initialize(getApplicationContext(),"513a43d30f754f219b006e795cd7a20600555300");
     }
 }

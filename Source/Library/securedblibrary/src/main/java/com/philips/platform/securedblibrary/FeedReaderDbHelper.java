@@ -34,9 +34,11 @@ public class FeedReaderDbHelper extends DemoOrmLiteSqliteOpenHelper {
     private static final String KEY_NAME = "TextField";
     private static final String KEY_NO = "number";
     private static final String KEY_GROUP_MAX = "groupMax";
+    Contact mContact;
 
     public FeedReaderDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION, "Test@123");
+        mContact = new Contact("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", "1234500000", "");
     }
 
     /**
@@ -46,22 +48,28 @@ public class FeedReaderDbHelper extends DemoOrmLiteSqliteOpenHelper {
     // Adding new contact
     public void addContact(Contact contact) {
         SQLiteDatabase db = this.getWritableDatabase("Test@123");
+        db.beginTransaction();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName()); // Contact Name
-        values.put(KEY_NO, contact.getNumber()); // Contact Number
-        values.put(KEY_GROUP_MAX, contact.getGroupMaxNumber());
-//        if(!contact.getGroupMaxNumber().equalsIgnoreCase("")){
-//            if (Integer.valueOf(contact.getGroupMaxNumber()) % 10 == 0) {
-//                values.put(KEY_GROUP_MAX, contact.getGroupMaxNumber());
-//            } else {
-////            mContact.setGroupMaxNumberNumber("");
-//            }
-//        }
 
 
-        // Inserting Row
-        db.insert(TABLE_CONTACTS, null, values);
+        for (int i = 0; i < 1000; i++) {
+            mContact.setNumber("1234500000" + i);
+            if (i % 100 == 0) {
+                mContact.setGroupMaxNumberNumber("" + i);
+            } else {
+                mContact.setGroupMaxNumberNumber("");
+            }
+            values.put(KEY_NAME, contact.getName()); // Contact Name
+            values.put(KEY_NO, contact.getNumber()); // Contact Number
+            values.put(KEY_GROUP_MAX, contact.getGroupMaxNumber());
+
+            // Inserting Row
+            db.insert(TABLE_CONTACTS, null, values);
+        }
+
+
+        db.endTransaction();
         db.close(); // Closing database connection
     }
 
@@ -109,17 +117,28 @@ public class FeedReaderDbHelper extends DemoOrmLiteSqliteOpenHelper {
     }
 
     // Updating single contact
-    public int updateContact(Contact contact) {
+    public void updateContact(Contact contact) {
         SQLiteDatabase db = this.getWritableDatabase("Test@123");
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName());
-        values.put(KEY_NO, contact.getNumber());
-        values.put(KEY_GROUP_MAX, contact.getGroupMaxNumber());
 
-        // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[]{String.valueOf(contact.getID())});
+        for (int i = 0; i < 1000; i++) {
+            mContact.setNumber("1234500000" + i);
+            if (i % 100 == 0) {
+                mContact.setGroupMaxNumberNumber("" + i);
+            } else {
+                mContact.setGroupMaxNumberNumber("");
+            }
+            values.put(KEY_NAME, contact.getName()); // Contact Name
+            values.put(KEY_NO, contact.getNumber()); // Contact Number
+            values.put(KEY_GROUP_MAX, contact.getGroupMaxNumber());
+
+            // updating row
+            db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
+                    new String[]{String.valueOf(contact.getID())});
+
+        }
+
     }
 
     // Deleting single contact

@@ -50,14 +50,13 @@ public class MainActivity extends AppCompatActivity {
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String InsertStartTime = getLocalTimestamp();
                 Log.d("Insert Start Time: ", "Inserting .." + getLocalTimestamp());
-
 
                 mFeedReaderDbHelper.addContact(mContact);
 
                 Log.d("Insert End Time: ", "Insert End .." + getLocalTimestamp());
-
                 String InsertEndTime = getLocalTimestamp();
                 getFinalTime(InsertStartTime, InsertEndTime, "InsertTime");
 
@@ -70,10 +69,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("Update Start Time: ", "Update.." + getLocalTimestamp());
                 String UpdateStart = getLocalTimestamp();
+
+
                 mFeedReaderDbHelper.updateContact(mContact);
+
                 Log.d("Update End Time: ", "Update.." + getLocalTimestamp());
                 String UpdateEnd = getLocalTimestamp();
                 getFinalTime(UpdateStart, UpdateEnd, "UpdateTime");
+
 
             }
         });
