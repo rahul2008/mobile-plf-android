@@ -325,25 +325,32 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:4.48"
     compile "com.j256.ormlite:ormlite-android:4.48"
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.1.0-rc.+', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.1.0-rc.+', ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true){
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-rc.+', ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-SNAPSHOT', ext: 'aar', changing: true){
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.1.0-rc.+', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.1.0-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.1.1-rc.+', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.4-rc.+', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.2.0-SNAPSHOT', ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
     compile project(':pluginreferenceboard')
 
     testCompile 'junit:junit:4.12'
