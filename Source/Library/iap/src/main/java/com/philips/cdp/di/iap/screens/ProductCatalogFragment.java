@@ -80,7 +80,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
         Bundle mBundle = getArguments();
-        String currentCountryCode = HybrisDelegate.getInstance().getStore().getCountry();
+        String currentCountryCode = HybrisDelegate.getInstance(mContext).getStore().getCountry();
         String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
