@@ -101,7 +101,7 @@ public class RegUtility {
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.Opt_In_Receive_Promotional);
+        String receivePhilipsNews = activity.getString(R.string.reg_Opt_In_Receive_Promotional);
         String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
         receivePhilipsNewsView.setText(receivePhilipsNews);

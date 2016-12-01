@@ -81,7 +81,7 @@
                     android:id="@+id/btn_reg_Verify"
                     style="@style/reg_style_btn"
                     android:enabled="false"
-                    android:text="@string/Account_ActivationCode_Verify_Account"
+                    android:text="@string/reg_Account_ActivationCode_Verify_Account"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <ProgressBar

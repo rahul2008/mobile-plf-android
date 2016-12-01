@@ -82,7 +82,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     private void checkingEmailorMobile() {
         //need to changed by service discover as 01 or 02
         if (RegistrationHelper.getInstance().isChinaFlow()) {
-            mEtEmail.setHint(getResources().getString(R.string.CreateAccount_PhoneNumber));
+            mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_PhoneNumber));
             mEtEmail.setInputType(InputType.TYPE_CLASS_NUMBER);
         }else {
             mEtEmail.setHint(getResources().getString(R.string.reg_EmailAddPlaceHolder_txtField));
@@ -231,7 +231,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
                 if (RegistrationHelper.getInstance().isChinaFlow()) {
-                    setErrDescription(getResources().getString(R.string.Invalid_PhoneNumber_ErrorMsg));
+                    setErrDescription(getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
                 }else {
                     setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
                 }
@@ -254,7 +254,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
                 if (RegistrationHelper.getInstance().isChinaFlow()){
                     AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                             AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_MOBILE);
-                    setErrDescription(getResources().getString(R.string.Invalid_PhoneNumber_ErrorMsg));
+                    setErrDescription(getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
                 }else {
 
                     AppTagging.trackAction(AppTagingConstants.SEND_DATA,

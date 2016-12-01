@@ -337,7 +337,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         mJoinNow = (TextView) view.findViewById(R.id.tv_join_now);
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         mJoinNow.setText(Html.fromHtml(sourceString));
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);

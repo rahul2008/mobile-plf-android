@@ -270,7 +270,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         if (response == null) {
             mEtCodeNUmber.hideResendSpinner();
             mEtCodeNUmber.showEmailIsInvalidAlert();
-            mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.URX_SMS_InternalServerError));
+            mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_URX_SMS_InternalServerError));
             return;
         }
         RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + isAccountActivate);
@@ -317,8 +317,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     private void handleResendVerificationEmailSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Resend_SMS_title),
-                mContext.getResources().getString(R.string.Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Resend_SMS_title),
+                mContext.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
     }
 
     private void handleActivate(String response) {
@@ -335,7 +335,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR,
                             AppTagingConstants.ACTIVATION_NOT_VERIFIEF);
                     if (jsonObject.getString("code").toString().equals(String.valueOf(RegChinaConstants.URXInvalidVerificationCode))) {
-                        mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.Mobile_Verification_Invalid_Code));
+                        mEtCodeNUmber.setErrDescription(mContext.getResources().getString(R.string.reg_Mobile_Verification_Invalid_Code));
                     } else {
                         mEtCodeNUmber.setErrDescription(jsonObject.getString("error_description").toString());
                     }

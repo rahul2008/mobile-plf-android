@@ -328,7 +328,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
 
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         mJoinnow.setText(Html.fromHtml(sourceString));
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mBtnCreateAccount.setOnClickListener(this);

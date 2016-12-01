@@ -202,7 +202,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         mBtnNoThanks = (Button) view.findViewById(R.id.btn_reg_no_thanks);
         mTvJoinNow = (TextView) view.findViewById(R.id.tv_reg_Join_now);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         mTvJoinNow.setText(Html.fromHtml(sourceString));
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsView,
