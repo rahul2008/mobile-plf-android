@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
@@ -18,6 +19,7 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
 import org.joda.time.DateTime;
@@ -50,6 +52,9 @@ public class DataPullSynchronise {
     private final Executor executor;
 
     @NonNull
+    private final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers;
+
+    @NonNull
     private final Eventing eventing;
 
     private volatile RetrofitError fetchResult;
@@ -60,12 +65,12 @@ public class DataPullSynchronise {
     DataServicesManager mDataServicesManager;
 
     @Inject
-    public DataPullSynchronise(@NonNull final MomentsDataFetcher fetcher,
+    public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
                                @NonNull final Executor executor,
                                @NonNull final Eventing  eventing) {
         mDataServicesManager = DataServicesManager.getInstance();
         this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
-        this.mMomentsDataFetcher = fetcher;
+        this.fetchers = fetchers;
         this.executor = executor;
         this.eventing = eventing;
     }
@@ -152,7 +157,7 @@ public class DataPullSynchronise {
     }
 
     private void postError(final int referenceId, final RetrofitError error) {
-        Log.i("**SPO**","Error" + error.getMessage());
+        Log.i("**SPO**","Error DataPullSynchronize postError" + error.getMessage());
         eventing.post(new BackendResponse(referenceId, error));
     }
 
@@ -167,16 +172,28 @@ public class DataPullSynchronise {
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments) {
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments ,final List<? extends ConsentDetail> consentDetails) {
         Log.i("**SPO**","In Data Pull Synchronize fetchData");
         initFetch();
-        startFetching(lastSyncDateTime, referenceId, mMomentsDataFetcher);
-    }
+        for(DataFetcher fetcher:fetchers){
+            /*if ((fetcher instanceof MomentsDataFetcher || fetcher instanceof ConsentsDataFetcher && nonSynchronizedMoments != null && !nonSynchronizedMoments.isEmpty())) {
+                numberOfRunningFetches.decrementAndGet();
+                continue;
+            }*/
+
+            if(fetcher instanceof ConsentsDataFetcher){
+                ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
+            }
+            //if(fetcher instanceof  MomentsDataFetcher) {
+                startFetching(lastSyncDateTime, referenceId, fetcher);
+            //}
+        //startFetching(lastSyncDateTime, referenceId, mMomentsDataFetcher);
+    }}
 
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         Log.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
         final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments);
+        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments,response.getConsentDetails());
        // unRegisterEvent();
     }
 }

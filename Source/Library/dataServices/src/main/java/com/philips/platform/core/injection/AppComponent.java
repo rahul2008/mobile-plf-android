@@ -23,5 +23,6 @@ public interface AppComponent {
 
     void injectApplication(DataServicesManager dataServicesManager);
 
+    //TODO: Spoorti: Can this be removed ? Action item on Spoorti
     void injectUCoreProvider(UCoreAccessProvider uCoreAccessProvider);
 }

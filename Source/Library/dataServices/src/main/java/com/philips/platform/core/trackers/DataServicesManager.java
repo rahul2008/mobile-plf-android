@@ -16,22 +16,22 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
-import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
@@ -40,6 +40,7 @@ import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
+import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.EventMonitor;
@@ -61,7 +62,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.philips.platform.core.injection.DaggerAppComponent;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -121,11 +122,11 @@ public class DataServicesManager {
         return mDataServicesManager;
     }
 
-    public UCoreAccessProvider getUCoreAccessProvider(){
+    public UCoreAccessProvider getUCoreAccessProvider() {
         return (UCoreAccessProvider) mBackendIdProvider;
     }
 
-    public BaseAppDataCreator getDataCreater(){
+    public BaseAppDataCreator getDataCreater() {
         return mDataCreater;
     }
 
@@ -134,25 +135,48 @@ public class DataServicesManager {
         mEventing.post(new MomentSaveRequest(moment));
         return moment;
     }
+
     public Moment update(@NonNull final Moment moment) {
         mEventing.post(new MomentUpdateRequest(moment));
         return moment;
     }
 
-    public void fetch(final @NonNull MomentType... type){
-        mEventing.post(new LoadMomentsRequest(type[0]));
+    public void fetch(final @NonNull Integer... type) {
+        mEventing.post(new LoadMomentsRequest(type));
     }
 
-    public void fetchMomentById(final int momentID){
+    public void fetchMomentById(final int momentID) {
         mEventing.post(new LoadMomentsRequest(momentID));
     }
 
-    public void fetchAllData(){
+    public void fetchAllData() {
         mEventing.post(new LoadMomentsRequest());
     }
 
     @NonNull
-    public Moment createMoment(@NonNull final MomentType type) {
+    public void fetchConsent() {
+        mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public Consent createConsent() {
+        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
+    }
+
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber, final boolean isSynchronized) {
+        if (consent == null) {
+            consent = createConsent();
+        }
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, isSynchronized, consent);
+        consent.addConsentDetails(consentDetail);
+    }
+
+    public void save(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+    }
+
+    @NonNull
+    public Moment createMoment(@NonNull final String type) {
         return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type);
     }
 
@@ -162,7 +186,7 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final MomentDetailType type, @NonNull final Moment moment) {
+    public MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment) {
         MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
         return momentDetail;
@@ -176,7 +200,7 @@ public class DataServicesManager {
     }*/
 
     @NonNull
-    public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final MeasurementGroup measurementGroup) {
+    public Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup) {
         Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
         measurementGroup.addMeasurement(measurement);
         return measurement;
@@ -188,7 +212,7 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      @NonNull final Measurement measurement) {
         MeasurementDetail measurementDetail = mDataCreater.createMeasurementDetail(type, measurement);
         measurement.addMeasurementDetail(measurementDetail);
@@ -199,18 +223,18 @@ public class DataServicesManager {
         mEventing.post(new MomentDeleteRequest(moment));
     }
 
-    public void updateMoment(Moment moment){
+    public void updateMoment(Moment moment) {
         mEventing.post((new MomentUpdateRequest(moment)));
     }
 
-    public void synchchronize(){
+    public void synchchronize() {
         sendPullDataEvent();
     }
 
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders){
+    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
-        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise,mDataPushSynchronise);
+        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
         monitor.start(mEventing);
     }
 
@@ -227,11 +251,10 @@ public class DataServicesManager {
 
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
-        if(mCore !=null) {
+        if (mCore != null) {
             mCore.start();
-        }
-        else{
-            mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        } else {
+            mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         }
         mEventing.post(new ReadDataFromBackendRequest(null));
     }
@@ -260,16 +283,16 @@ public class DataServicesManager {
         mMonitors.add(mLoggingMonitor);
         mMonitors.add(mExceptionMonitor);
 
-        mCore = new BaseAppCore(mEventing, mDataCreater,mBackend, mMonitors,mDbMonitors);
+        mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         mCore.start();
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
-    public void deleteAll(){
+    public void deleteAll() {
         mEventing.post(new DataClearRequest());
     }
 
-    public void deleteAllMoment(){
+    public void deleteAllMoment() {
         mEventing.post(new DataClearRequest());
     }
 
@@ -291,7 +314,7 @@ public class DataServicesManager {
     }
 
 
-    public MeasurementGroupDetail createMeasurementGroupDetail(MeasurementGroupDetailType tempOfDay, MeasurementGroup mMeasurementGroup) {
+    public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 }

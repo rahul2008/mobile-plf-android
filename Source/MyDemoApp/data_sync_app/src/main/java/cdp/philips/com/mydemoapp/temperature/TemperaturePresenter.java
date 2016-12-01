@@ -7,7 +7,6 @@ package cdp.philips.com.mydemoapp.temperature;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteException;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,20 +17,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedUpdate;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
-import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 
@@ -45,28 +38,25 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
-import cdp.philips.com.mydemoapp.database.OrmDeleting;
-import cdp.philips.com.mydemoapp.database.OrmUpdating;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
-
-import static android.R.attr.data;
-import static android.R.attr.value;
-import static android.R.attr.yearListItemTextAppearance;
 
 public class TemperaturePresenter {
     private DataServicesManager mDataServices;
 
     //private Moment mMoment;
     private Measurement mMeasurement;
+    private String mMomentType;
     private MeasurementGroup mMeasurementGroup;
     private MeasurementGroup mMeasurementGroupInside;
-    private MomentType mMomentType;
     private Context mContext;
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
@@ -77,11 +67,18 @@ public class TemperaturePresenter {
     EditText mPhase;
     Button mDialogButton;
 
-    TemperaturePresenter(Context context, MomentType momentType) {
+    TemperaturePresenter(Context context, String momentType) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
     }
+
+//    public void createMoment(String momemtDetail, String measurement, String measurementDetail) {
+//        mMoment = mDataServices.createMoment(mMomentType);
+//        createMomentDetail(momemtDetail);
+//        createMeasurement(measurement);
+//        createMeasurementDetail(measurementDetail);
+//    }
 
     public Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
         Log.i("***CREATE***", "In Create Moment");
@@ -136,7 +133,7 @@ public class TemperaturePresenter {
     }
 
     public void fetchData() {
-        mDataServices.fetch(MomentType.TEMPERATURE);
+        mDataServices.fetchAllData();
     }
 
    /* public Moment getMoment(){

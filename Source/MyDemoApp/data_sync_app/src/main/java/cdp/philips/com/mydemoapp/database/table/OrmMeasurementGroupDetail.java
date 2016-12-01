@@ -2,9 +2,7 @@ package cdp.philips.com.mydemoapp.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
-import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
 
 import java.io.Serializable;
 
@@ -47,7 +45,7 @@ public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serial
     }
 
     @Override
-    public MeasurementGroupDetailType getType() {
+    public String getType() {
         return type.getType();
     }
 

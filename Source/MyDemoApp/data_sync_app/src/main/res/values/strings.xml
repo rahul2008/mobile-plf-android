@@ -20,5 +20,6 @@
     <string name="synced">Not Synced</string>
     <string name="create_moment">Create moment</string>
     <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
+    <string name="consents">Consents</string>
 
 </resources>

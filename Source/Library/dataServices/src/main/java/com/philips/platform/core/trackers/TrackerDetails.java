@@ -9,7 +9,6 @@ package com.philips.platform.core.trackers;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 
 import org.joda.time.DateTime;

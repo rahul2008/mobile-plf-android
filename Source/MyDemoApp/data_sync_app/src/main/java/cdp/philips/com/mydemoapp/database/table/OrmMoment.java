@@ -17,8 +17,6 @@ import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
 import org.joda.time.DateTime;
@@ -28,6 +26,7 @@ import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -92,8 +91,8 @@ public class OrmMoment implements Moment, Serializable {
     @Override
     @NonNull
     public String getAnalyticsId() {
-        for ( OrmMomentDetail d : ormMomentDetails) {
-            if (d.getType() == MomentDetailType.TAGGING_ID) {
+        for (OrmMomentDetail d : ormMomentDetails) {
+            if (d.getType().equalsIgnoreCase(MomentDetailType.getDescriptionFromID(53))) {
                 return d.getValue();
             }
         }
@@ -113,7 +112,7 @@ public class OrmMoment implements Moment, Serializable {
 
     @Override
     @NonNull
-    public MomentType getType() {
+    public String getType() {
         return type.getType();
     }
 

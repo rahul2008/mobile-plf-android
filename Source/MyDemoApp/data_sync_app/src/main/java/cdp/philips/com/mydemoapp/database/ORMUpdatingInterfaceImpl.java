@@ -1,8 +1,3 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 package cdp.philips.com.mydemoapp.database;
 
 import android.util.Log;
@@ -10,15 +5,11 @@ import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
-import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -34,13 +25,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
-
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import retrofit.RetrofitError;
 
@@ -69,7 +65,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public int processMomentsReceivedFromBackend(final List<? extends Moment> moments) {
         int updatedCount = 0;
         for (final Moment moment : moments) {
-            if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {
+            if (!moment.getType().equalsIgnoreCase(MomentType.PHOTO) || photoFileExistsForPhotoMoments(moment)) {
                 updatedCount = processMoment(updatedCount, moment);
             }
         }
@@ -158,13 +154,39 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         notifyAllFailure((Exception) error);
     }
 
+    @Override
+    public void updateConsent(Consent consent) {
+        try {
+            OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
+            OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+            Log.d("Creator ID MODI", ormConsent.getCreatorId());
+
+            if (consentInDatabase != null) {
+
+                int id = consentInDatabase.getId();
+                deleting.deleteConsent(consentInDatabase);
+                ormConsent.setId(id);
+                saving.saveConsent(ormConsent);
+
+            } else {
+                saving.saveConsent(ormConsent);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     private boolean photoFileExistsForPhotoMoments(final Moment moment) {
         final Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
         if (momentDetails == null) {
             return false;
         }
         for (final MomentDetail momentDetail : momentDetails) {
-            if (momentDetail.getType() == MomentDetailType.PHOTO) {
+            if (momentDetail.getType().equalsIgnoreCase(MomentDetailType.PHOTO)) {
                 final File file = new File(momentDetail.getValue());
                 if (file.exists()) {
                     return true;
@@ -344,6 +366,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return momentInDatabase;
     }
 
+    //TODO: Spoorti - Already part of Temperature Helper
     private void notifyAllSuccess(Object ormMoments) {
         final Map<Integer, ArrayList<DBChangeListener>> eventMap =
                 EventHelper.getInstance().getEventMap();

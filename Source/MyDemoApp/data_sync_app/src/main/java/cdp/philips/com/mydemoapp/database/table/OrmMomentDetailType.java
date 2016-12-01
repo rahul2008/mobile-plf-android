@@ -8,11 +8,11 @@ package cdp.philips.com.mydemoapp.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.MomentDetailType;
 
 import java.io.Serializable;
 
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -32,13 +32,13 @@ public class OrmMomentDetailType implements Serializable {
     OrmMomentDetailType() {
     }
 
-    public OrmMomentDetailType(final MomentDetailType momentType) {
-        this.id = momentType.getId();
-        this.description = momentType.getDescription();
+    public OrmMomentDetailType(final int id,final String momentType) {
+        this.id = id;
+        this.description = momentType;
     }
 
-    public MomentDetailType getType() {
-        return MomentDetailType.fromId(id);
+    public String getType() {
+        return description;
     }
 
     @Override

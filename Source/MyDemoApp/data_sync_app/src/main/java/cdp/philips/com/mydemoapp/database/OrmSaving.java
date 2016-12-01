@@ -10,22 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
-import com.philips.cdp.prxclient.datamodels.assets.Data;
-import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementGroup;
-import com.philips.platform.core.datatypes.MeasurementGroupDetail;
-import com.philips.platform.core.datatypes.MeasurementGroupDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
-import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -59,6 +50,13 @@ public class OrmSaving {
     private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
 
     @NonNull
+    private final Dao<OrmConsent, Integer> consentDao;
+
+    @NonNull
+    private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
+
+
+    @NonNull
     private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailsDao;
 
     public OrmSaving(@NonNull final Dao<OrmMoment, Integer> momentDao,
@@ -66,6 +64,8 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                      @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                      @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
+                     @NonNull final Dao<OrmConsent, Integer> constentDao,
+                     @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails) {
         this.momentDao = momentDao;
@@ -73,6 +73,9 @@ public class OrmSaving {
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.synchronisationDataDao = synchronisationDataDao;
+
+        this.consentDao = constentDao;
+        this.consentDetailsDao = constentDetailsDao;
         this.measurementGroupDao = measurementGroup;
         this.measurementGroupDetailsDao = measurementGroupDetails;
     }
@@ -82,7 +85,7 @@ public class OrmSaving {
         momentDao.createOrUpdate(moment);
         assureMomentDetailsAreSaved(moment.getMomentDetails());
         assureMeasurementGroupsAreSaved(moment);
-       // assureMeasurementsAreSaved(moment.getMeasurements());
+        // assureMeasurementsAreSaved(moment.getMeasurements());
     }
 
 
@@ -134,7 +137,7 @@ public class OrmSaving {
 
     private void assureMeasurementGroupsAreSaved(OrmMoment moment) throws SQLException {
         Collection<? extends OrmMeasurementGroup> measurementGroups = moment.getMeasurementGroups();
-        for(OrmMeasurementGroup group : measurementGroups) {
+        for (OrmMeasurementGroup group : measurementGroups) {
             saveMeasurementGroup(group);
             assureMeasurementGroupsInsideAreSaved(group);
         }
@@ -142,7 +145,7 @@ public class OrmSaving {
 
     private void assureMeasurementGroupsInsideAreSaved(OrmMeasurementGroup measurementGroup) throws SQLException {
         ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
-        for(OrmMeasurementGroup group : measurementGroups) {
+        for (OrmMeasurementGroup group : measurementGroups) {
             saveMeasurementGroupWithinGroup(group);
         }
     }
@@ -165,5 +168,19 @@ public class OrmSaving {
         }
     }
 
+    public void saveConsent(OrmConsent consent) throws SQLException {
+        consentDao.createOrUpdate(consent);
+        assureConsentDetailsAreSaved((Collection<? extends OrmConsentDetail>) consent.getConsentDetails());
+    }
+
+    private void assureConsentDetailsAreSaved(Collection<? extends OrmConsentDetail> consentDetails) throws SQLException {
+        for (OrmConsentDetail consentDetail : consentDetails) {
+            saveConsentDetail(consentDetail);
+        }
+    }
+
+    public void saveConsentDetail(OrmConsentDetail consentDetail) throws SQLException {
+        consentDetailsDao.createOrUpdate(consentDetail);
+    }
 
 }

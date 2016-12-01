@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
@@ -53,6 +55,14 @@ public class OrmDeleting {
     @NonNull
     private final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao;
 
+    @NonNull
+    private final Dao<OrmConsent, Integer> consentDao;
+
+    @NonNull
+    private final Dao<OrmConsentDetail, Integer> consentDetailDao;
+
+
+
 
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
@@ -61,8 +71,10 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                        @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
-                       @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao
-                     ) {
+                       @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
+                       @NonNull final Dao<OrmConsent, Integer> constentDao,
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao
+                       ) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -70,6 +82,9 @@ public class OrmDeleting {
         this.synchronisationDataDao = synchronisationDataDao;
         this.measurementGroupDetailDao = measurementGroupDetailDao;
         this.measurementGroupsDao = measurementGroupsDao;
+        this.consentDao = constentDao;
+
+        this.consentDetailDao = constentDetailsDao;
     }
 
     public void deleteAll() throws SQLException {
@@ -78,6 +93,8 @@ public class OrmDeleting {
         measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
+        consentDao.executeRawNoArgs("DELETE FROM `ormconsent`");
+        consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
     }
 
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
@@ -185,4 +202,16 @@ public class OrmDeleting {
 
         return updateBuilder.delete();
     }
+
+    public void deleteConsent(OrmConsent ormConsent) throws SQLException {
+        deleteConsentDetails(ormConsent);
+        consentDao.delete(ormConsent);
+    }
+
+    private void deleteConsentDetails(@NonNull final OrmConsent ormConsent) throws SQLException {
+        for (OrmConsentDetail consentDetail : ormConsent.getConsentDetails()) {
+            consentDetailDao.delete(consentDetail);
+        }
+    }
+
 }

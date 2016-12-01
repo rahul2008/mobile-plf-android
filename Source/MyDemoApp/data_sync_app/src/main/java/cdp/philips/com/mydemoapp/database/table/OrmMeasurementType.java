@@ -8,20 +8,21 @@ package cdp.philips.com.mydemoapp.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.MeasurementType;
 
 import java.io.Serializable;
 
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 @DatabaseTable
-public class OrmMeasurementType implements Serializable{
+public class OrmMeasurementType implements Serializable {
 
-    private static final long serialVersionUID = 11L;
+    final long serialVersionId = 11L;
+    static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private int id;
@@ -36,14 +37,14 @@ public class OrmMeasurementType implements Serializable{
     OrmMeasurementType() {
     }
 
-    public OrmMeasurementType(final MeasurementType momentType) {
-        this.id = momentType.getId();
-        this.description = momentType.getDescription();
-        this.unit = momentType.getUnit();
+    public OrmMeasurementType(final int id, final String momentType, final String unit) {
+        this.id = id;
+        this.description = momentType;
+        this.unit = unit;
     }
 
-    public MeasurementType getType() {
-        return MeasurementType.fromId(id);
+    public String getType() {
+        return description;
     }
 
     @Override

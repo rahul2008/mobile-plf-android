@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public interface MeasurementGroupDetail extends BaseAppData, Serializable {
 
-    public MeasurementGroupDetailType getType();
+    public String getType();
 
     public String getValue();
 

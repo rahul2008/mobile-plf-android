@@ -26,7 +26,7 @@ public interface Moment extends BaseAppData, DateData, Serializable {
     String getSubjectId();
 
 
-    com.philips.platform.core.datatypes.MomentType getType();
+    String getType();
 
     void setDateTime(@NonNull DateTime dateTime);
 

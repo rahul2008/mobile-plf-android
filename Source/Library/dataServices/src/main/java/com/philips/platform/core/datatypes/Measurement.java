@@ -19,7 +19,7 @@ public interface Measurement extends BaseAppData, DateData, Serializable {
 
     int getId();
 
-    com.philips.platform.core.datatypes.MeasurementType getType();
+    String getType();
 
     double getValue();
 
