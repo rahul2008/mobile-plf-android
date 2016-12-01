@@ -98,9 +98,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     }
 
     private void dispatchRequest(LocalRequestType requestType, final String portName, final int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BleRequest(mDeviceCache, mCppId, portName, productId, requestType, null, responseHandler);
-        addTimeoutToRequest(request);
-        mExecutor.execute(request);
+        dispatchRequest(requestType, null, portName, productId, responseHandler);
     }
 
     private void dispatchRequest(LocalRequestType requestType, Map<String, Object> dataMap, final String portName, final int productId, ResponseHandler responseHandler) {
