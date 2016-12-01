@@ -27,12 +27,12 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
             if (SHNDevice.State.Connected.equals(shnDevice.getState())) {
-                bleDeviceCache.addDevice(shnDevice);
 
                 if (discoveryListener != null) {
                     final NetworkNode networkNode = createNetworkNode(shnDevice);
 
                     if (networkNode != null) {
+                        bleDeviceCache.addDevice(shnDevice);
                         discoveryListener.onNetworkNodeDiscovered(networkNode);
                     }
                 }

@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.strategy;
+package com.philips.cdp2.commlib.communication;
 
 import org.junit.runner.RunWith;
 
@@ -20,6 +20,6 @@ import cucumber.api.junit.Cucumber;
         strict = true,
         tags = {"@automated","@android","~@not_android"}
 )
-public class BleStrategyTest {
+public class BleCommunicationStrategyTest {
 
 }

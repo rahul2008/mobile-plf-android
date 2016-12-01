@@ -6,7 +6,7 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.BleDeviceCache;
-import com.philips.cdp2.commlib.strategy.BleStrategy;
+import com.philips.cdp2.commlib.communication.BleCommunicationStrategy;
 
 public class BleReferenceApplianceFactory extends DICommApplianceFactory<BleReferenceAppliance> {
     private final BleDeviceCache bleDeviceCache;
@@ -23,7 +23,7 @@ public class BleReferenceApplianceFactory extends DICommApplianceFactory<BleRefe
     @Override
     public BleReferenceAppliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
-            final CommunicationStrategy communicationStrategy = new BleStrategy(networkNode.getCppId(), bleDeviceCache);
+            final CommunicationStrategy communicationStrategy = new BleCommunicationStrategy(networkNode.getCppId(), bleDeviceCache);
 
             return new BleReferenceAppliance(networkNode, communicationStrategy);
         }

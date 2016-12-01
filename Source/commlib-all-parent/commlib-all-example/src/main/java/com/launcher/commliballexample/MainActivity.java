@@ -25,7 +25,6 @@ import com.philips.cdp2.commlib.CommLibContext;
 import com.philips.cdp2.commlib.CommLibContextBuilder;
 import com.philips.cdp2.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNDevice;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private BleReferenceApplianceFactory applianceFactory;
     private CommLibContext commLibContext;
     private SHNCentral shnCentral;
-    private SHNDevice device;
 
     private DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
         @Override
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            final BleReferenceAppliance appliance = applianceFactory.createApplianceForNode(networkNode);
+            BleReferenceAppliance appliance = applianceFactory.createApplianceForNode(networkNode);
 
             if (appliance == null) {
                 updateStateAndResult(getString(R.string.lblDone), getString(R.string.lblGetPropsFailed, "Unsupported network node: " + networkNode.getName()));
@@ -133,15 +131,6 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (device != null) {
-            device.disconnect();
         }
     }
 

@@ -11,28 +11,28 @@
     tools:context="com.launcher.commliballexample.MainActivity">
 
     <Button
-        android:text="@string/lblStartDiscovery"
+        android:id="@+id/btnStartDiscovery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnStartDiscovery"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:text="@string/lblStartDiscovery" />
 
     <TextView
         android:id="@+id/txtState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lblNotApplicable"
-        android:layout_below="@+id/btnStartDiscovery"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp" />
+        android:layout_below="@id/btnStartDiscovery"
+        android:layout_marginTop="14dp"
+        android:text="@string/lblNotApplicable" />
 
     <TextView
         android:id="@+id/txtResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Result here"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/txtState"
         android:layout_marginTop="22dp"
-        android:layout_below="@+id/txtState"
-        android:layout_alignParentStart="true" />
+        tools:text="Result here" />
 </RelativeLayout>

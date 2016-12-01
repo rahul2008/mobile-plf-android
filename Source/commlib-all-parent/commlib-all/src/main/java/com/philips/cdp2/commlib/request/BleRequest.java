@@ -14,6 +14,7 @@ import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.commlib.error.BleErrorMap;
+import com.philips.cdp2.commlib.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -35,7 +36,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * The type BleRequest.
  * <p>
- * This type is used by {@link com.philips.cdp2.commlib.strategy.BleStrategy} to perform DiComm
+ * This type is used by {@link BleCommunicationStrategy} to perform DiComm
  * requests to a BLE device. The request uses a {@link CountDownLatch} to block the thread on
  * which it is running until a call to either {@link ResponseHandler#onSuccess(String)} or
  * {@link ResponseHandler#onError(Error, String)} is made to ensure that all requests that are

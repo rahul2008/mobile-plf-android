@@ -9,6 +9,6 @@
     <string name="lblGetPropsSuccess">GetProps success: \'%1$s\'</string>
     <string name="lblGetPropsFailed">GetProps failed: \'%1$s\'</string>
     <string name="lblStartDiscovery">Start discovery</string>
-    <string name="lblDiscoveryFailed">Dicovery failed.</string>
+    <string name="lblDiscoveryFailed">Discovery failed.</string>
     <string name="lblReady">Ready.</string>
 </resources>

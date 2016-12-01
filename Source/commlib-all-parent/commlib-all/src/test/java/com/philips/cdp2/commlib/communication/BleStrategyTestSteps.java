@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.strategy;
+package com.philips.cdp2.commlib.communication;
 
 import android.support.annotation.NonNull;
 
@@ -40,7 +40,6 @@ import java.util.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -79,7 +78,7 @@ public class BleStrategyTestSteps {
     }
 
     private BleDeviceCache mDeviceCache;
-    private BleStrategy mStrategy;
+    private BleCommunicationStrategy mStrategy;
 
     private Map<String, Set<ResultListener<SHNDataRaw>>> mRawDataListeners;
     private Deque<QueuedRequest> mResponseQueue;
@@ -106,7 +105,7 @@ public class BleStrategyTestSteps {
 
     @Given("^the BleStrategy is initialized with id '(.*?)'$")
     public void the_BleStrategy_is_initialized_with_id(String deviceId) {
-        mStrategy = new BleStrategy(deviceId, mDeviceCache) {
+        mStrategy = new BleCommunicationStrategy(deviceId, mDeviceCache) {
             @Override
             protected Timer addTimeoutToRequest(BleRequest request) {
                 mResponseQueue.peekLast().request = request;
@@ -163,7 +162,7 @@ public class BleStrategyTestSteps {
         when(device.getAddress()).thenReturn(deviceId);
         when(device.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(capability);
 
-        mDeviceCache.deviceFound(null, info);
+        mDeviceCache.addDevice(device);
     }
 
     @When("^the mock device with id '(.*?)' receives data '([0-9A-F]*?)'$")
