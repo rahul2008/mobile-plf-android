@@ -18,7 +18,7 @@ buildscript {
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9"
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
@@ -26,7 +26,6 @@ buildscript {
     }
 }
 
-apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
@@ -66,6 +65,7 @@ allprojects {
     }
 }
 
+apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
