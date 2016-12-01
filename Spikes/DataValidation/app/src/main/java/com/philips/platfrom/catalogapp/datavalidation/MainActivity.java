@@ -1,21 +1,28 @@
 package com.philips.platfrom.catalogapp.datavalidation;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+
+import com.philips.platfrom.catalogapp.datavalidation.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    ValidationTextView textView;
+    public ValidationTextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        textView = (ValidationTextView) findViewById(R.id.sample_view);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                textView.showValidationError();
-            }
-        });
+
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        textView = binding.sampleErrorView;
+        binding.setActivity(this);
+    }
+
+    public void showError() {
+        textView.showValidationError();
+    }
+
+    public void dismissError() {
+        textView.dismissError();
     }
 }
