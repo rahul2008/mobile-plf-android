@@ -86,7 +86,7 @@ public class JRSession implements JRConnectionManagerDelegate {
     private static final String ARCHIVE_AUTH_NATIVE_PROVIDERS = "jrAuthenticatedNativeProviders";
 
     private static final String RPXNOW_BASE_URL = "https://rpxnow.com";
-    private static String mEngageBaseUrl = RPXNOW_BASE_URL;
+    private static String mEngageBaseUrl = (Jump.getFlowEngage()==null)? RPXNOW_BASE_URL :Jump.getFlowEngage();
     private static final String UNFORMATTED_CONFIG_URL =
             "%s/openid/mobile_config_and_baseurl?appId=%s&device=android&app_name=%s&version=%s";
     private static final String TAG_GET_CONFIGURATION = "getConfiguration";

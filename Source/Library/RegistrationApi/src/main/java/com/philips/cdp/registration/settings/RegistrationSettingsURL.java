@@ -334,6 +334,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 // If configuration is Staging pass this
                                                                                 if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(Configuration.STAGING.getValue())) {
                                                                                     jumpConfig.flowCDN = "https://janrain-capture-static.cn.janrain.com";
+                                                                                    jumpConfig.flowEngage = "https://philips-staging.login.cn.janrain.com/openid/mobile_config_and_baseurl";
                                                                                 }
                                                                                  mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;
