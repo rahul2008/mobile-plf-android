@@ -31,7 +31,7 @@
                     android:id="@+id/tv_reg_verify"
                     style="@style/reg_textStyle"
                     android:layout_marginTop="@dimen/reg_header_margin_top"
-                    android:text="@string/Account_ActivationCode_Title_lbltxt"
+                    android:text="@string/reg_Account_ActivationCode_Title_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XVerifyNumber
