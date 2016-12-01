@@ -4,6 +4,9 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
+import android.content.Context;
+
+import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public interface DiscoveryStrategy {
@@ -20,7 +23,7 @@ public interface DiscoveryStrategy {
         void onDiscoveryFinished();
     }
 
-    void start(DiscoveryListener discoveryListener);
+    void start(Context context, DiscoveryListener discoveryListener) throws MissingPermissionException;
 
     void stop();
 

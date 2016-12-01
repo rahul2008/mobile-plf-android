@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
+import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
@@ -65,7 +67,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
     }
 
     @Override
-    public void start(DiscoveryListener discoveryListener) {
+    public void start(Context context, DiscoveryListener discoveryListener) throws MissingPermissionException {
         this.discoveryListener = discoveryListener;
 
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {

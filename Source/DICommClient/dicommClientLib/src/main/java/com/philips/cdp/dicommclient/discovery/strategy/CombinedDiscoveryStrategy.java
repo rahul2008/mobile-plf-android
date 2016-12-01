@@ -4,8 +4,10 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.Locale;
@@ -30,9 +32,9 @@ public class CombinedDiscoveryStrategy implements DiscoveryStrategy, DiscoverySt
     }
 
     @Override
-    public void start(DiscoveryListener listener) {
+    public void start(Context context, DiscoveryListener listener) throws MissingPermissionException {
         for (DiscoveryStrategy strategy : strategies) {
-            strategy.start(this);
+            strategy.start(context, this);
         }
     }
 
