@@ -1,4 +1,4 @@
-package com.launcher.commliballexample.appliance;
+package com.philips.cdp2.commlib.example.appliance;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;

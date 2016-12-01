@@ -8,31 +8,39 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.launcher.commliballexample.MainActivity">
+    tools:context="com.philips.cdp2.commlib.example.MainActivity">
 
     <Button
         android:id="@+id/btnStartDiscovery"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/lblStartDiscovery" />
+
+    <Button
+        android:id="@+id/btnStopDiscovery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnStartDiscovery"
+        android:layout_centerHorizontal="true"
+        android:text="@string/lblStopDiscovery" />
 
     <TextView
         android:id="@+id/txtState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/btnStartDiscovery"
-        android:layout_marginTop="14dp"
-        android:text="@string/lblNotApplicable" />
+        android:layout_below="@+id/btnStopDiscovery"
+        android:text="@string/lblNotApplicable"
+        tools:text="State here" />
 
     <TextView
         android:id="@+id/txtResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/txtState"
+        android:layout_below="@+id/txtState"
         android:layout_marginTop="22dp"
         tools:text="Result here" />
 </RelativeLayout>

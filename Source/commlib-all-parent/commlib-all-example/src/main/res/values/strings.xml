@@ -11,4 +11,5 @@
     <string name="lblStartDiscovery">Start discovery</string>
     <string name="lblDiscoveryFailed">Discovery failed.</string>
     <string name="lblReady">Ready.</string>
+    <string name="lblStopDiscovery">Stop discovery</string>
 </resources>

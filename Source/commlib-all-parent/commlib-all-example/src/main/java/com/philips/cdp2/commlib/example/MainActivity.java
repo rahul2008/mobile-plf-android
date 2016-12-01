@@ -1,4 +1,4 @@
-package com.launcher.commliballexample;
+package com.philips.cdp2.commlib.example;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -11,8 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.launcher.commliballexample.appliance.BleReferenceAppliance;
-import com.launcher.commliballexample.appliance.BleReferenceApplianceFactory;
+import com.launcher.commliballexample.R;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
@@ -23,6 +22,8 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.commlib.CommLibContext;
 import com.philips.cdp2.commlib.CommLibContextBuilder;
+import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
+import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
 import com.philips.cdp2.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNCentral;
 
@@ -31,14 +32,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
 
     private Button btnStartDiscovery;
+    private Button btnStopDiscovery;
+
     private TextView txtState;
     private TextView txtResult;
 
     private BleReferenceApplianceFactory applianceFactory;
     private CommLibContext commLibContext;
     private SHNCentral shnCentral;
+    private DiscoveryStrategy discoveryStrategy;
 
-    private DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
+    private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
         @Override
         public void onDiscoveryStarted() {
             txtState.setText(R.string.lblConnectingToDevice);
@@ -97,30 +101,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
         commLibContext = builder.create();
+        discoveryStrategy = commLibContext.getDiscoveryStrategy();
         shnCentral = commLibContext.getShnCentral();
         shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
 
+        // Start discovery button
         btnStartDiscovery = (Button) findViewById(R.id.btnStartDiscovery);
         btnStartDiscovery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtState.setText(R.string.lblScanningForDevice);
+                updateStateAndResult(getString(R.string.lblScanningForDevice), getString(R.string.lblNotApplicable));
 
                 try {
-                    commLibContext.getDiscoveryStrategy().start(MainActivity.this, discoveryListener);
+                    discoveryStrategy.start(MainActivity.this, discoveryListener);
                 } catch (MissingPermissionException e) {
-                    txtState.setText(R.string.lblDiscoveryFailed);
+                    updateStateAndResult(getString(R.string.lblDiscoveryFailed), getString(R.string.lblNotApplicable));
 
                     acquirePermission();
                 }
             }
         });
 
-        txtState = (TextView) findViewById(R.id.txtState);
-        txtState.setText(R.string.lblReady);
+        // Stop discovery button
+        btnStopDiscovery = (Button) findViewById(R.id.btnStopDiscovery);
+        btnStopDiscovery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discoveryStrategy.stop();
+                updateStateAndResult(getString(R.string.lblReady), getString(R.string.lblNotApplicable));
+            }
+        });
 
+        // Text fields
+        txtState = (TextView) findViewById(R.id.txtState);
         txtResult = (TextView) findViewById(R.id.txtResult);
-        txtResult.setText(R.string.lblNotApplicable);
+
+        updateStateAndResult(getString(R.string.lblReady), getString(R.string.lblNotApplicable));
     }
 
     @Override
