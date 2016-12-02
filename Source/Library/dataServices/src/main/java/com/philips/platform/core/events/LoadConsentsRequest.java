@@ -6,11 +6,6 @@
 
 package com.philips.platform.core.events;
 
-import android.support.annotation.NonNull;
-
-import com.philips.platform.core.datatypes.ConsentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
-
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -18,8 +13,8 @@ import com.philips.platform.core.datatypes.MomentType;
  */
 public class LoadConsentsRequest extends Event {
 
-    private final ConsentDetailType type;
-    private ConsentDetailType[] types;
+    private final String type;
+    private String[] types;
 
     public LoadConsentsRequest() {
         types = null;
@@ -30,11 +25,11 @@ public class LoadConsentsRequest extends Event {
         return type != null;
     }
 
-    public ConsentDetailType getType() {
+    public String getType() {
         return type;
     }
 
-    public ConsentDetailType[] getTypes() {
+    public String[] getTypes() {
         return types;
     }
 }

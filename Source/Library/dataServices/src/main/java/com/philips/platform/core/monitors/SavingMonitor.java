@@ -30,7 +30,7 @@ public class SavingMonitor extends EventMonitor {
     public void onEventAsync(final MomentSaveRequest momentSaveRequest) throws SQLException {
         boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment());
         if (saved) {
-            eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
+            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
         } else {
             eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
         }

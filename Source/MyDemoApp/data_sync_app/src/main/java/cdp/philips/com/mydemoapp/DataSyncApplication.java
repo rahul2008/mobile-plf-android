@@ -3,6 +3,7 @@ package cdp.philips.com.mydemoapp;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -15,9 +16,13 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.core.utils.UuidGenerator;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -37,7 +42,12 @@ public class DataSyncApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-        //Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
+        LeakCanary.install(this);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
+        databaseHelper.getWritableDatabase();
+        Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
     }

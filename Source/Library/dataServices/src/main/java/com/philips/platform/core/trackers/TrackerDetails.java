@@ -9,7 +9,6 @@ package com.philips.platform.core.trackers;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementType;
 import com.philips.platform.core.datatypes.Moment;
 
 import org.joda.time.DateTime;
@@ -67,9 +66,9 @@ public class TrackerDetails {
 
     public void applyDuration(@NonNull final DataServicesManager tracker, @NonNull final Moment moment, @NonNull final DateTime dateTime) {
         if (getDuration() > 0) {
-            Measurement measurement = tracker.createMeasurement(MeasurementType.DURATION, moment);
-            measurement.setDateTime(dateTime);
-            measurement.setValue(duration);
+     //       Measurement measurement = tracker.createMeasurement(MeasurementType.DURATION, moment);
+      //      measurement.setDateTime(dateTime);
+        //    measurement.setValue(duration);
         }
     }
 }

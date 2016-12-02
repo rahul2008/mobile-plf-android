@@ -1,14 +1,20 @@
 package cdp.philips.com.mydemoapp.database;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.philips.platform.core.datatypes.Measurement;
+import com.philips.platform.core.datatypes.MeasurementDetail;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.trackers.DataServicesManager;
+
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -19,7 +25,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
@@ -27,6 +39,8 @@ import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import retrofit.RetrofitError;
+
+import static android.R.attr.value;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     private static final String TAG = ORMUpdatingInterfaceImpl.class.getSimpleName();
@@ -51,12 +65,83 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public int processMomentsReceivedFromBackend(final List<? extends Moment> moments) {
         int updatedCount = 0;
         for (final Moment moment : moments) {
-            if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {
+            if (!moment.getType().equalsIgnoreCase(MomentType.PHOTO) || photoFileExistsForPhotoMoments(moment)) {
                 updatedCount = processMoment(updatedCount, moment);
             }
         }
         notifyAllSuccess(moments);
         return updatedCount;
+    }
+
+    @Override
+    public void processCreatedMoment(List<? extends Moment> moments) {
+        for (final Moment moment : moments) {
+            if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {
+                final OrmMoment ormMoment = getOrmMoment(moment);
+                ormMoment.setSynced(true);
+                updateOrSaveMomentInDatabase(ormMoment);
+            }
+        }
+        notifyAllSuccess(moments);
+    }
+
+    public Moment createMoment(Moment old) {
+        DataServicesManager manager = DataServicesManager.getInstance();
+        Moment newMoment= manager.createMoment(MomentType.TEMPERATURE);
+
+        newMoment.setId(old.getId());
+        newMoment.setSynced(true);
+        if (old.getSynchronisationData() != null) {
+            newMoment.setSynchronisationData(old.getSynchronisationData());
+        }
+
+        ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(old.getMomentDetails());
+        for(MomentDetail detail : momentDetails){
+            MomentDetail momentDetail = manager.
+                    createMomentDetail(MomentDetailType.PHASE, newMoment);
+            momentDetail.setValue(detail.getValue());
+        }
+
+        ArrayList<? extends MeasurementGroup> oldMeasurementGroups = new ArrayList<>(old.getMeasurementGroups());
+
+        for(MeasurementGroup oldMeasurementGroup : oldMeasurementGroups){
+            MeasurementGroup measurementGroup = manager.
+                    createMeasurementGroup(newMoment);
+
+            //null coming here
+            ArrayList<? extends MeasurementGroupDetail> measurementGroupDetails = new ArrayList<>(oldMeasurementGroup.getMeasurementGroupDetails());
+            for(MeasurementGroupDetail detail : measurementGroupDetails) {
+                MeasurementGroupDetail measurementGroupDetail = manager.
+                        createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY, measurementGroup);
+                measurementGroupDetail.setValue(detail.getValue());
+                measurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
+            }
+            MeasurementGroup measurementGroupInside = null;
+            Collection<? extends MeasurementGroup> oldMeasurementGroupsInide = oldMeasurementGroup.getMeasurementGroups();
+            for(MeasurementGroup oldMeasurementGroupInside : oldMeasurementGroupsInide){
+                measurementGroupInside = manager.
+                        createMeasurementGroup(measurementGroup);
+
+                ArrayList<? extends Measurement> measurements = new ArrayList<>(oldMeasurementGroupInside.getMeasurements());
+                for(Measurement measurement : measurements){
+                    Measurement measurementValue = manager.createMeasurement(MeasurementType.TEMPERATURE, measurementGroupInside);
+                    measurementValue.setValue(Double.valueOf(measurement.getValue()));
+                    measurementValue.setDateTime(DateTime.now());
+
+                    ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
+                    for(MeasurementDetail detail : measurementDetails) {
+                        MeasurementDetail measurementDetail = manager.createMeasurementDetail(MeasurementDetailType.LOCATION, measurementValue);
+                        measurementDetail.setValue(detail.getValue());
+                        measurementValue.addMeasurementDetail(measurementDetail);
+                    }
+                    measurementGroupInside.addMeasurement(measurementValue);
+                }
+
+            }
+            measurementGroup.addMeasurementGroup(measurementGroupInside);
+            newMoment.addMeasurementGroup(measurementGroup);
+        }
+        return newMoment;
     }
 
     @Override
@@ -74,7 +159,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             OrmConsent ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-            Log.d("Creator ID MODI",ormConsent.getCreatorId());
+            Log.d("Creator ID MODI", ormConsent.getCreatorId());
 
             if (consentInDatabase != null) {
 
@@ -83,7 +168,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 ormConsent.setId(id);
                 saving.saveConsent(ormConsent);
 
-            }else{
+            } else {
                 saving.saveConsent(ormConsent);
             }
         } catch (SQLException e) {
@@ -101,7 +186,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             return false;
         }
         for (final MomentDetail momentDetail : momentDetails) {
-            if (momentDetail.getType() == MomentDetailType.PHOTO) {
+            if (momentDetail.getType().equalsIgnoreCase(MomentDetailType.PHOTO)) {
                 final File file = new File(momentDetail.getValue());
                 if (file.exists()) {
                     return true;
@@ -116,8 +201,13 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public int processMoment(int count, final Moment moment) {
         try {
             final OrmMoment momentInDatabase = getOrmMomentFromDatabase(moment);
+           // updating.updateMoment(momentInDatabase);
             if (hasDifferentMomentVersion(moment, momentInDatabase)) {
                 final OrmMoment ormMoment = getOrmMoment(moment);
+                /*if(isSyncedMomentUpdatedBeforeSync(momentInDatabase)){
+                    momentInDatabase.getSynchronisationData().setVersion(moment.getSynchronisationData().getVersion());
+                    momentInDatabase.getSynchronisationData().setGuid(moment.getSynchronisationData().getGuid());
+                }*/
                 if (!isActive(ormMoment.getSynchronisationData())) {
                     deleteMomentInDatabaseIfExists(momentInDatabase);
                 } else if (isNeverSyncedMomentDeletedLocallyDuringSync(momentInDatabase)) {
@@ -129,7 +219,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                     if (!isMomentModifiedLocallyDuringSync(momentInDatabase, ormMoment)) {
                         ormMoment.setSynced(true);
                     }
-
                     //This is required for deleting duplicate
                     // measurements, measurementDetails and momentDetails
                     deleteAndSaveMoment(momentInDatabase, ormMoment);
@@ -158,7 +247,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     private void deleteAndSaveMoment(final OrmMoment momentInDatabase,
                                      final OrmMoment ormMoment) throws SQLException {
-        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, ormMoment);
+        if (momentInDatabase != null) {
+            ormMoment.setId(momentInDatabase.getId());
+        }
+     //   OrmMoment moment = (OrmMoment) createMoment(ormMoment);
+        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment);
+      //  OrmMoment moment = (OrmMoment) createMoment(ormMoment);
         updateOrSaveMomentInDatabase(ormMoment);
     }
 
@@ -173,11 +267,39 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
-    private void deleteMeasurementAndMomentDetailsAndSetId(final OrmMoment momentInDatabase,
-                                                           final OrmMoment ormMoment) throws SQLException {
+    private boolean isSyncedMomentUpdatedBeforeSync(final OrmMoment momentInDatabase) {
         if (momentInDatabase != null) {
-            ormMoment.setId(momentInDatabase.getId());
-            deleting.deleteMomentAndMeasurementDetails(momentInDatabase);
+            final OrmSynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
+            if (synchronisationData != null && !momentInDatabase.isSynced()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isNeverSynced(final OrmMoment momentInDatabase) {
+        if (momentInDatabase != null) {
+           /*// final OrmSynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
+            if (synchronisationData != null) {
+                return synchronisationData.getGuid().
+                        equals(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
+            }*/
+            return momentInDatabase.isSynced();
+        }
+        return false;
+    }
+
+    private boolean isUpdatedMomentNotSynced(final OrmMoment momentInDatabase) {
+        if (momentInDatabase != null) {
+            return momentInDatabase.isSynced();
+        }
+        return false;
+    }
+
+    private void deleteMeasurementAndMomentDetailsAndSetId(final OrmMoment momentInDatabase,OrmMoment ormMoment) throws SQLException {
+        if (momentInDatabase != null) {
+            //Check Y this was commented, is it that while creating its been assigned ?
+            deleting.deleteMomentAndMeasurementGroupDetails(momentInDatabase);
         }
     }
 

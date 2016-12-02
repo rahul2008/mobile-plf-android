@@ -15,6 +15,7 @@ public interface DBUpdatingInterface {
     void updateOrSaveMomentInDatabase(final Moment ormMoment);
     Moment getOrmMoment(final Moment moment);
     int processMomentsReceivedFromBackend(final List<? extends Moment> moments);
+    void processCreatedMoment(final List<? extends Moment> moments);
     void updateFailed(Exception e);
     void postRetrofitError(Throwable error);
     void updateConsent(final Consent consent);

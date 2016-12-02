@@ -19,15 +19,12 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -83,11 +80,9 @@ public class DataServicesManager {
 
     private BaseAppDataCreator mDataCreater;
 
-    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPullSynchronise mDataPullSynchronise;
 
-    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPushSynchronise mDataPushSynchronise;
 
@@ -103,14 +98,16 @@ public class DataServicesManager {
     @Inject
     Backend mBackend;
 
+    AppComponent mAppComponent;
+
     private BackendIdProvider mBackendIdProvider;
     private BaseAppCore mCore;
 
     private DBMonitors mDbMonitors;
     private List<EventMonitor> mMonitors = new ArrayList<>();
 
-    private static DataServicesManager sDataServicesManager;
-
+    private static DataServicesManager mDataServicesManager;
+    private Context mContext;
     private UserRegistrationFacade mUserRegistrationFacadeImpl;
 
     @Singleton
@@ -119,10 +116,10 @@ public class DataServicesManager {
     }
 
     public static DataServicesManager getInstance() {
-        if (sDataServicesManager == null) {
-            return sDataServicesManager = new DataServicesManager();
+        if (mDataServicesManager == null) {
+            return mDataServicesManager = new DataServicesManager();
         }
-        return sDataServicesManager;
+        return mDataServicesManager;
     }
 
     public UCoreAccessProvider getUCoreAccessProvider() {
@@ -144,8 +141,8 @@ public class DataServicesManager {
         return moment;
     }
 
-    public void fetch(final @NonNull MomentType... type) {
-        mEventing.post(new LoadMomentsRequest(type[0]));
+    public void fetch(final @NonNull Integer... type) {
+        mEventing.post(new LoadMomentsRequest(type));
     }
 
     public void fetchMomentById(final int momentID) {
@@ -157,26 +154,65 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public Moment createMoment(@NonNull final MomentType type) {
+    public void fetchConsent() {
+        mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public Consent createConsent() {
+        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
+    }
+
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber, final boolean isSynchronized) {
+        if (consent == null) {
+            consent = createConsent();
+        }
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, isSynchronized, consent);
+        consent.addConsentDetails(consentDetail);
+    }
+
+    public void save(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+    }
+
+    @NonNull
+    public Moment createMoment(@NonNull final String type) {
         return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type);
     }
 
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final MomentDetailType type, @NonNull final Moment moment) {
+    public MeasurementGroup createMeasurementGroup(@NonNull final Moment moment) {
+        return mDataCreater.createMeasurementGroup(moment);
+    }
+
+    @NonNull
+    public MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment) {
         MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
         return momentDetail;
     }
 
-    @NonNull
+  /*  @NonNull
     public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment) {
         Measurement measurement = mDataCreater.createMeasurement(type, moment);
         moment.addMeasurement(measurement);
         return measurement;
+    }*/
+
+    @NonNull
+    public Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup) {
+        Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
+        measurementGroup.addMeasurement(measurement);
+        return measurement;
     }
 
     @NonNull
-    public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public MeasurementGroup createMeasurementGroup(@NonNull final MeasurementGroup measurementGroup) {
+        return mDataCreater.createMeasurementGroup(measurementGroup);
+    }
+
+    @NonNull
+    public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      @NonNull final Measurement measurement) {
         MeasurementDetail measurementDetail = mDataCreater.createMeasurementDetail(type, measurement);
         measurement.addMeasurementDetail(measurementDetail);
@@ -195,13 +231,23 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
-    //TODO: In case fetchers and senders are passed as null, we can create pullsynchronize and pushsynchronise and start
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         Log.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
         monitor.start(mEventing);
     }
+
+ /*   private void sendPushEvent() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("***SPO***", "In DataServicesManager.sendPushEvent");
+                mEventing.post(new WriteDataToBackendRequest());
+            }
+        }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
+
+    }*/
 
     private void sendPullDataEvent() {
         Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
@@ -223,12 +269,14 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
+
+        mContext = context;
         this.mDataCreater = creator;
         this.mUserRegistrationFacadeImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
-
+        mAppComponent.injectApplication(this);
         mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
 
         mMonitors = new ArrayList<>();
@@ -249,61 +297,24 @@ public class DataServicesManager {
     }
 
 
-    private void prepareInjectionsGraph(Context context) {
+    protected void prepareInjectionsGraph(Context context) {
         BackendModule backendModule = new BackendModule(mEventing);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
-        AppComponent appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
-        appComponent.injectApplication(this);
+        mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
     }
 
     public void stopCore() {
         mCore.stop();
-        releaseInstances();
     }
-
-    private void releaseInstances() {
-        mUserRegistrationFacadeImpl = null;
-        mBackendIdProvider = null;
-        mBackend = null;
-        mDataCreater = null;
-        mDataPullSynchronise = null;
-        mDataPushSynchronise = null;
-        mDbMonitors = null;
-        mExceptionMonitor = null;
-        mLoggingMonitor = null;
-        mSharedPreferences = null;
-    }
-
 
     public UserRegistrationFacade getUserRegistrationImpl() {
         return mUserRegistrationFacadeImpl;
     }
 
-    public void save(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent,false));
-    }
 
-    @NonNull
-    public void fetchConsent() {
-        mEventing.post(new LoadConsentsRequest());
-    }
-
-    @NonNull
-    public Consent createConsent() {
-        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
-    }
-
-    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
-        if (consent == null) {
-            consent = createConsent();
-        }
-        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
-        consent.addConsentDetails(consentDetail);
-    }
-
-    public void UpdateConsent(@NonNull final Consent consent) {
-
+    public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {
+        return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 }

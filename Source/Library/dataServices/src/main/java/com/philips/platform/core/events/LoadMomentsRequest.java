@@ -8,8 +8,6 @@ package com.philips.platform.core.events;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.MomentType;
-
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -17,9 +15,9 @@ import com.philips.platform.core.datatypes.MomentType;
  */
 public class LoadMomentsRequest extends Event {
 
-    private final MomentType type;
+    private final Integer type;
     private final int momentID;
-    private MomentType[] types;
+    private Integer[] types;
 
     public LoadMomentsRequest() {
         types = null;
@@ -27,7 +25,7 @@ public class LoadMomentsRequest extends Event {
         momentID = -1;
     }
 
-    public LoadMomentsRequest(final @NonNull MomentType... type) {
+    public LoadMomentsRequest(final @NonNull Integer... type) {
         this.type = type[0];
         this.types = type;
         momentID = -1;
@@ -50,11 +48,11 @@ public class LoadMomentsRequest extends Event {
         return momentID != -1;
     }
 
-    public MomentType getType() {
+    public Object getType() {
         return type;
     }
 
-    public MomentType[] getTypes() {
+    public Object[] getTypes() {
         return types;
     }
 }

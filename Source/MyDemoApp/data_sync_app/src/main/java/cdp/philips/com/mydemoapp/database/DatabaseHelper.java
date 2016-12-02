@@ -14,22 +14,24 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.philips.platform.core.datatypes.ConsentDetailType;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import java.sql.SQLException;
 import java.util.List;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementType;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
@@ -57,11 +59,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementType, Integer> measurementTypeDao;
     private Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
     private Dao<OrmMeasurementDetailType, Integer> measurementDetailTypeDao;
+    private Dao<OrmMeasurementGroupDetailType, Integer> measurementGroupDetailTypes;
+    private Dao<OrmMeasurementGroup, Integer> measurementGroup;
+    private Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     private TemperatureMomentHelper mTemperatureMomentHelper;
     private Dao<OrmConsent, Integer> consentDao;
     private Dao<OrmConsentDetail, Integer> consentDetailDao;
-    private Dao<OrmConsentDetailType, Integer> consentDetailTypeDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -87,53 +91,49 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMeasurementTypes();
         insertMomentDetailsTypes();
         insertMeasurementDetailTypes();
-        insertConsentDetailsTypes();
-    }
-
-    private void insertConsentDetailsTypes() throws SQLException {
-        ConsentDetailType[] values = ConsentDetailType.values();
-        final Dao<OrmConsentDetailType, Integer> ormConsentDetailTypes = getConsentDetailTypeDao();
-        for (final ConsentDetailType value : values) {
-            ormConsentDetailTypes.createOrUpdate(new OrmConsentDetailType(value));
-        }
-    }
-
-    private Dao<OrmConsentDetailType, Integer> getConsentDetailTypeDao() throws SQLException {
-        if (consentDetailTypeDao == null) {
-            consentDetailTypeDao = getDao(OrmConsentDetailType.class);
-        }
-        return consentDetailTypeDao;
+        insertMeasurementGroupDetailType();
     }
 
     private void insertMeasurementTypes() throws SQLException {
-        MeasurementType[] values = MeasurementType.values();
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
-        for (final MeasurementType value : values) {
-            measurementTypeDao.createOrUpdate(new OrmMeasurementType(value));
+        List<String> values = MeasurementType.getMeasurementTypes();
+        for (final String value : values) {
+            measurementTypeDao.createOrUpdate(new OrmMeasurementType(MeasurementType.getIDFromDescription(value),
+                    value,
+                    MeasurementType.getUnitFromDescription(value)));
         }
     }
 
     private void insertMomentDetailsTypes() throws SQLException {
-        MomentDetailType[] values = MomentDetailType.values();
         final Dao<OrmMomentDetailType, Integer> momentDetailTypeDao = getMomentDetailTypeDao();
-        for (final MomentDetailType value : values) {
-            momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(value));
+        List<String> values = MomentDetailType.getMomentDetailTypes();
+        for (final String value : values) {
+            momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(MomentDetailType.getIDFromDescription(value), value));
         }
     }
 
     private void insertMeasurementDetailTypes() throws SQLException {
         Dao<OrmMeasurementDetailType, Integer> measurementDetailTypeDao = getMeasurementDetailTypeDao();
-        MeasurementDetailType[] values = MeasurementDetailType.values();
-        for (final MeasurementDetailType value : values) {
-            measurementDetailTypeDao.createOrUpdate(new OrmMeasurementDetailType(value));
+        List<String> values = MeasurementDetailType.getMeasurementDetailTypes();
+        for (final String value : values) {
+            measurementDetailTypeDao.createOrUpdate(new OrmMeasurementDetailType(MeasurementDetailType.getIDFromDescription(value), value));
         }
     }
 
     private void insertMomentTypes() throws SQLException {
         Dao<OrmMomentType, Integer> momentTypeDao = getMomentTypeDao();
-        MomentType[] values = MomentType.values();
-        for (final MomentType value : values) {
-            momentTypeDao.createOrUpdate(new OrmMomentType(value));
+        List<String> values = MomentType.getMomentTypes();
+        for (final String value : values) {
+            momentTypeDao.createOrUpdate(new OrmMomentType(MomentType.getIDFromDescription(value), value));
+        }
+    }
+
+    private void insertMeasurementGroupDetailType() throws SQLException {
+        Dao<OrmMeasurementGroupDetailType, Integer> measurementGroupDetailTypes = getMeasurementGroupDetailTypeDao();
+        // MeasurementGroupDetailType[] values = MeasurementGroupDetailType.values();
+        List<String> values = MeasurementGroupDetailType.getMeasurementGroupDetailType();
+        for (final String value : values) {
+            measurementGroupDetailTypes.createOrUpdate(new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(value), value));
         }
     }
 
@@ -150,13 +150,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmSynchronisationData.class);
         TableUtils.createTable(connectionSource, OrmConsent.class);
         TableUtils.createTable(connectionSource, OrmConsentDetail.class);
-        TableUtils.createTable(connectionSource, OrmConsentDetailType.class);
+        TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
+        TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
+        TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         Log.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
-        if (newVer>oldVer){
+        if (newVer > oldVer) {
             //Alter your table here...
         }
     }
@@ -164,27 +166,30 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void addMeasurementTypes(MeasurementType... measurementTypes) throws SQLException {
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
-        for (MeasurementType measurementType : measurementTypes) {
-            measurementTypeDao.createOrUpdate(new OrmMeasurementType(measurementType));
-        }
+        // for (MeasurementType measurementType : measurementTypes) {
+        measurementTypeDao.createOrUpdate(new OrmMeasurementType(41, "TEMPERATURE", "\u2103"));
+//        }
     }
 
     private void addMomentTypes(MomentType... momentTypes) throws SQLException {
         final Dao<OrmMomentType, Integer> ormMomentTypeDao = getMomentTypeDao();
         for (MomentType momentType : momentTypes) {
-            ormMomentTypeDao.createOrUpdate(new OrmMomentType(momentType));
+            ormMomentTypeDao.createOrUpdate(new OrmMomentType(MomentType.getIDFromDescription("TEMPERATURE"),
+                    MomentType.getDescriptionFromID(25)));
         }
     }
 
 
     private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
         final Dao<OrmMomentDetailType, Integer> momentDetailTypeDao = getMomentDetailTypeDao();
-        momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(MomentDetailType.TAGGING_ID));
+        momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(MomentDetailType.getIDFromDescription("TAGGING_ID"),
+                MomentDetailType.getDescriptionFromID(54)));
 
         final Dao<OrmMoment, Integer> ormMomentDao = getDao(OrmMoment.class);
         List<OrmMoment> moments = ormMomentDao.queryForAll();
         for (OrmMoment moment : moments) {
-            final OrmMomentDetailType detailType = new OrmMomentDetailType(MomentDetailType.TAGGING_ID);
+            final OrmMomentDetailType detailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription("TAGGING_ID"),
+                    MomentDetailType.getDescriptionFromID(54));
             if (OrmMoment.NO_ID.equals(moment.getAnalyticsId())) {
                 OrmMomentDetail detail = new OrmMomentDetail(detailType, moment);
                 detail.setValue(uuidGenerator.generateRandomUUID());
@@ -208,7 +213,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmSynchronisationData.class, true);
         TableUtils.dropTable(connectionSource, OrmConsent.class, true);
         TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
-        TableUtils.dropTable(connectionSource, OrmConsentDetailType.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {
@@ -223,6 +227,27 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             momentTypeDao = getDao(OrmMomentType.class);
         }
         return momentTypeDao;
+    }
+
+    public Dao<OrmMeasurementGroupDetailType, Integer> getMeasurementGroupDetailTypeDao() throws SQLException {
+        if (measurementGroupDetailTypes == null) {
+            measurementGroupDetailTypes = getDao(OrmMeasurementGroupDetailType.class);
+        }
+        return measurementGroupDetailTypes;
+    }
+
+    public Dao<OrmMeasurementGroup, Integer> getMeasurementGroupDao() throws SQLException {
+        if (measurementGroup == null) {
+            measurementGroup = getDao(OrmMeasurementGroup.class);
+        }
+        return measurementGroup;
+    }
+
+    public Dao<OrmMeasurementGroupDetail, Integer> getMeasurementGroupDetailDao() throws SQLException {
+        if (measurementGroupDetails == null) {
+            measurementGroupDetails = getDao(OrmMeasurementGroupDetail.class);
+        }
+        return measurementGroupDetails;
     }
 
     public Dao<OrmMomentDetail, Integer> getMomentDetailDao() throws SQLException {
@@ -288,10 +313,4 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return consentDetailDao;
     }
 
-    public Dao<OrmConsentDetailType, Integer> getConsentDetailsTypeDao() throws SQLException {
-        if (consentDetailTypeDao == null) {
-            consentDetailTypeDao = getDao(OrmConsentDetailType.class);
-        }
-        return consentDetailTypeDao;
-    }
 }
