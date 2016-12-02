@@ -245,7 +245,6 @@
         <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
 
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel55</item>
-        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
     </style>
