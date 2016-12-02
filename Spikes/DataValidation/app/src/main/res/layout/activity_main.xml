@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="activity"
+            type="com.philips.platfrom.catalogapp.datavalidation.MainActivity"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <com.philips.platfrom.catalogapp.datavalidation.ValidationTextView
+            android:id="@+id/sample_error_view"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:text="Error View"
+            android:onFocusChange="@{(v, hasFocus)-> hasFocus == true? activity.dismissError(): activity.showError()}"/>
+
+        <EditText
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Tap to change text"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Show error"
+                android:onClick="@{(v) -> activity.showError()}"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:text="Hide error"
+                android:onClick="@{(v) -> activity.dismissError()}"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
