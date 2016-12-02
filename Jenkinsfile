@@ -17,6 +17,7 @@ node ('androidppc') {
 		}
 		try {
 			stage ('build') {
+				sh './check_and_delete_artifact.sh'
                 sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDoc tgzTask appFramework:aP'
 																
 			}
