@@ -240,7 +240,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         String UUid = mUser.getJanrainUUID();
         String verifiedMobileNumber = FieldsValidator.getVerifiedMobileNumber(UUid, mEtCodeNUmber.getNumber());
         System.out.println("JUMP URL : "+Jump.getCaptureDomain());
-        String url = "https://philips-china-test.eu-dev.janraincapture.com/access/useVerificationCode";
+        String url = "https://"+Jump.getCaptureDomain()+"/access/useVerificationCode";
+        System.out.print("**************** URL : "+url);
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);

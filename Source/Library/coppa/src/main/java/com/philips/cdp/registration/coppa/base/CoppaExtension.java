@@ -82,7 +82,7 @@ public class CoppaExtension {
                 coppaStatus = CoppaStatus.kDICOPPAConsentNotGiven;
             }
         } else {
-            coppaStatus = CoppaStatus.kDICOPPAConsentNotGiven;
+            coppaStatus = CoppaStatus.kDICOPPAConsentPending;
         }
         return coppaStatus;
     }
