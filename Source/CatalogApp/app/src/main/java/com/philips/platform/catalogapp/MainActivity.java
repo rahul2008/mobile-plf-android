@@ -195,10 +195,6 @@ public class MainActivity extends AppCompatActivity {
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
     }
 
-    public void showFragment(final BaseFragment fragment) {
-        navigationController.switchFragment(fragment);
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
