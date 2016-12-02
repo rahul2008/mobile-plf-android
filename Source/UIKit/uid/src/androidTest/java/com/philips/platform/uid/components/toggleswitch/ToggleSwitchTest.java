@@ -16,9 +16,7 @@ import android.support.v4.content.ContextCompat;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
-import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
-import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -31,7 +29,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.GroupBlue10;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
 import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
@@ -54,55 +51,6 @@ public class ToggleSwitchTest {
     }
 
     //*********************************Toggle Switch Layout TestScenarios**************************//
-    @Test
-    public void verifyToggleSwitchWidth() {
-        UIDTestUtils.waitFor(testResources, 750);
-        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_width);
-        getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
-    }
-
-    @Test
-    public void verifyToggleSwitchHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
-        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_thumb_height);
-        getToggleSwitch().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
-    }
-
-    @Test
-    public void verifyToggleSwitchTrackWidth() {
-        UIDTestUtils.waitFor(testResources, 750);
-        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_track_width);
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameWidth(trackFunction(), expectedWidth, trackID())));
-    }
-
-    @Test
-    public void verifyToggleSwitchTrackHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
-        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_track_height);
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameHeight(trackFunction(), expectedHeight, trackID())));
-    }
-
-    @Test
-    public void verifyToggleSwitchThumbHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
-        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_thumb_height);
-        getToggleSwitch()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedHeight)));
-    }
-
-    @Test
-    public void verifyToggleSwitchThumbWidth() {
-        UIDTestUtils.waitFor(testResources, 750);
-        int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_thumb_height);
-        getToggleSwitch()
-                .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, expectedWidth)));
-    }
-
-    @Test
-    public void verifyToggleSwitchCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.toggleswitch_corner_radius));
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameRadius(trackFunction(), 0, radius)));
-    }
 
     @Test
     public void verifyToggleSwitchNotCheckedOnEnabledTap() {
@@ -159,25 +107,6 @@ public class ToggleSwitchTest {
         getToggleSwitch().check(matches(isChecked()));
         getToggleSwitch().check(matches(FunctionDrawableMatchers
                 .isSameColor(trackFunction(), android.R.attr.state_checked, expectedTrackEnabledColor, trackID())));
-    }
-
-    @Test
-    public void verifyToggleSwitchTrackOffColorTest() {
-        final int expectedTrackOffEnabledColor = modulateColorAlpha(Color.parseColor("#1474A4"), 0.30f);
-        getToggleSwitch().check(matches(FunctionDrawableMatchers
-                .isSameColor(trackFunction(), android.R.attr.state_enabled, expectedTrackOffEnabledColor, trackID())));
-    }
-
-    @Test
-    public void verifyDisabledToggleSwitchTrackFillColorTest() {
-        final int expectedTrackOffEnabledColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(trackFunction(), -android.R.attr.enabled, expectedTrackOffEnabledColor, trackID())));
-    }
-
-    @Test
-    public void verifyDisabledToggleSwitchThumbFillColorTest() {
-        final int disableThumbColor = ContextCompat.getColor(instrumentationContext, GroupBlue10);
-        getToggleSwitch().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_THUMB_DRAWABLE, -android.R.attr.enabled, disableThumbColor)));
     }
 
     private ViewInteraction getToggleSwitch() {
