@@ -9,6 +9,7 @@
     <item name="uid_alpha_per_25" format="float" type="dimen">0.25</item>
     <item name="uid_alpha_per_30" format="float" type="dimen">0.30</item>
     <item name="uid_alpha_per_35" format="float" type="dimen">0.35</item>
+    <item name="uid_alpha_per_40" format="float" type="dimen">0.40</item>
     <item name="uid_alpha_per_50" format="float" type="dimen">0.50</item>
     <item name="uid_alpha_per_60" format="float" type="dimen">0.60</item>
     <item name="uid_alpha_per_70" format="float" type="dimen">0.70</item>

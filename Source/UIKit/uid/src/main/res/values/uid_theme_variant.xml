@@ -10,8 +10,8 @@
         <item name="uidControlPrimaryAlternatePressedColor">?attr/uidColorLevel85</item>
         <item name="uidControlPrimaryAltDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uidControlPrimaryTrackOff">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_15</item>
+        <item name="uidControlPrimaryTrackOff">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_60</item>
         <item name="uidControlPrimaryBuffer">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidControlPrimaryBufferAlpha">@dimen/uid_alpha_per_50</item>
 
@@ -47,12 +47,12 @@
         <item name="uidInputTextHintTextDisabledColor">?attr/uidInputTextTextDisabledColor</item>
         <item name="uidInputTextHintTextDisabledAlpha">?attr/uidInputTextTextDisabledAlpha</item>
 
-        <item name="uidSwitchTrackOnColor">?attr/uidColorLevel45</item>
+        <item name="uidSwitchTrackOnColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidSwitchThumbColor">@android:color/white</item>
-        <item name="uidSwitchTrackOffColor">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidSwitchTrackOffColor">@color/uidColorWhite</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_60</item>
         <item name="uidSwitchTrackDisabledColor">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_15</item>
         <item name="uidSwitchBorderColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_20</item>
 
@@ -104,7 +104,12 @@
         <item name="uidInputTextBorderDisabledColor">@color/uid_gray_level_10</item>
         <item name="uidInputTextBorderWidth">@dimen/uid_texteditbox_stroke_width_ultralight</item>
 
-        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel10</item>
+        <item name="uidSwitchTrackOffColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidSwitchThumbDisabledColor">@color/uidColorWhite</item>
+        <item name="uidControlPrimaryTrackOff">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+
 
         <item name="uidTextPrimary">@color/uid_gray_level_75</item>
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
@@ -138,7 +143,10 @@
         <item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel25</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel10</item>
+        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_70</item>
+        <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_15</item>
 
         <item name="uidTextPrimary">?attr/uidColorLevel75</item>
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
@@ -172,8 +180,10 @@
         <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_texteditbox_border_20_alpha
         </item>
 
-        <item name="uidSwitchTrackOnColor">?attr/uidColorLevel75</item>
-        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel40</item>
+        <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel20</item>
+        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_70</item>
+        <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_25</item>
     </style>
 
     <style name="Bright">
@@ -201,9 +211,9 @@
         <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_texteditbox_border_25_alpha</item>
         <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
 
-        <item name="uidSwitchTrackOnColor">?attr/uidColorLevel75</item>
-        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel65</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_25</item>
+        <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel35</item>
+        <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
     </style>
 
     <style name="VeryDark">
@@ -237,5 +247,6 @@
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel55</item>
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
     </style>
 </resources>
