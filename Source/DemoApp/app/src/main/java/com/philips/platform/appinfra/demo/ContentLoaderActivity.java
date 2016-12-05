@@ -166,12 +166,13 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
                                         ContentInterface details = contentArticle.get(position);
-                                        List<Tag> tag = details.getTags();
+                                        List<String> tag = details.getTags();
+                                        showAlertDialog("ID" + " " + details.getId(), "Tagname: " + tag.toString() + "\r\n");
 
-                                        for (Tag t : tag) {
+                                     //   for (Tag t : tag) {
 
-                                            showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
-                                        }
+                                           // showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
+                                      //  }
 
                                     }
                                 });
@@ -211,10 +212,12 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                                         ContentInterface details = contentArticle.get(position);
-                                        List<Tag> tag = details.getTags();
-                                        for (Tag t : tag) {
-                                            showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
-                                        }
+                                        List<String> tag = details.getTags();
+                                        showAlertDialog("ID" + " " + details.getId(), "Tagname: " + tag.toString() + "\r\n");
+
+//                                        for (Tag t : tag) {
+//                                            showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
+//                                        }
                                     }
                                 });
                             }
@@ -251,10 +254,12 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
                                         ContentInterface details = contentArticle.get(position);
-                                        List<Tag> tag = details.getTags();
-                                        for (Tag t : tag) {
-                                            showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
-                                        }
+                                        List<String> tag = details.getTags();
+                                        showAlertDialog("ID" + " " + details.getId(), "Tagname: " + tag.toString() + "\r\n");
+
+//                                        for (Tag t : tag) {
+//                                            showAlertDialog("ID" + " " + details.getId(), "Tagname: " + t.name + "\r\n" + " " + "TagId: " + t.getId());
+//                                        }
                                     }
                                 });
                             }
@@ -290,11 +295,11 @@ public class ContentLoaderActivity extends AppCompatActivity {
         return result;
     }
 
-    private String getTagsString(List<Tag> tagList) {
+    private String getTagsString(List<String> tagList) {
         String tags = "";
         if (null != tagList && tagList.size() > 0) {
-            for (Tag tagId : tagList) {
-                tags += tagId.getId() + ",";
+            for (String tagId : tagList) {
+                tags += tagId+ ",";
             }
             tags = tags.substring(0, tags.length() - 1);// remove last comma
         }

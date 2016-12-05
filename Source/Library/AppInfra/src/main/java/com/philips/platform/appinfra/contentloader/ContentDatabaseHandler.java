@@ -10,9 +10,12 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -33,6 +36,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_EXPIRE_TIMESTAMP = "expire_at";
     private static final String KEY_RAW_CONTENT = "rawData";
     private static final String KEY_VERSION_NUMBER = "versionNumber";
+    private static final String KEY_LASTUPDATED_TIME = "lastupdatedtime";
 
     //table name
     private static final String CONTENT_LOADER_STATES = "ContentLoaderStates";
@@ -46,6 +50,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_CONTENT_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_TABLE + "("
                 + KEY_ID + " TEXT ,"
+                + KEY_LASTUPDATED_TIME + "DATE ,"
                 + KEY_SERVICE_ID + " TEXT,"
                 + KEY_RAW_CONTENT + " TEXT,"
                 + KEY_TAG_IDS + " TEXT,"
@@ -69,21 +74,21 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    protected void addContents(List<ContentItem> serverContentItems, String serviceID, long expiryDate) {
+    protected void addContents(List<ContentItem> serverContentItems, Date mLastUpdatedTime, String serviceID, long expiryDate) {
 
         List<ContentItem> databaseContents = getContentItems(serviceID);
         if (null != databaseContents && databaseContents.size() > 0) {
             // if already contents present for given service ID
-            updateContents(serverContentItems, databaseContents, serviceID, expiryDate);
+            updateContents(serverContentItems,mLastUpdatedTime, databaseContents, serviceID, expiryDate);
         } else {
             // first run for given service id
-            insertContents(serverContentItems, serviceID, expiryDate);
+            insertContents(serverContentItems,mLastUpdatedTime, serviceID, expiryDate);
         }
 
     }
 
 
-    private void insertContents(List<ContentItem> refreshedContentItems, String serviceID, long expiryDate) {
+    private void insertContents(List<ContentItem> refreshedContentItems, Date mLastUpdatedTime, String serviceID, long expiryDate) {
         // first run, no entry available fo given service id so all content item will be inserted
         SQLiteDatabase db = this.getWritableDatabase();
         try {
@@ -102,7 +107,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
             if (allRowInserted) {
                 ///
-                isContentloaderStateTableUpdated = updateContentLoaderStateTable(db, serviceID, expiryDate);
+                isContentloaderStateTableUpdated = updateContentLoaderStateTable(db,mLastUpdatedTime, serviceID, expiryDate);
             }
             if (isContentloaderStateTableUpdated) {
                 db.setTransactionSuccessful();
@@ -115,16 +120,16 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    private void updateContents(List<ContentItem> serverContentItems, List<ContentItem> databaseContentItems, String serviceID, long expiryDate) {
+    private void updateContents(List<ContentItem> serverContentItems, Date mLastUpdatedTime, List<ContentItem> databaseContentItems, String serviceID, long expiryDate) {
         boolean SQLitetransaction = true;
         SQLiteDatabase db = this.getWritableDatabase();
-        List<ContentItem> newContentItemToBeAddedFromServer = new ArrayList<ContentItem>();
-        List<ContentItem> newContentItemToBeUpdatedFromServer = new ArrayList<ContentItem>();
-        Set<String> serverItemIdSet = new HashSet<String>();
-        Set<String> dataBaseItemIdSet = new HashSet<String>();
-        Set<String> dataBaseItemIdSetTemp = new HashSet<String>();
-        Set<Long> serverItemVersionSet = new HashSet<Long>();
-        Set<Long> dataBaseItemVersionSet = new HashSet<Long>();
+        List<ContentItem> newContentItemToBeAddedFromServer = new ArrayList<>();
+        List<ContentItem> newContentItemToBeUpdatedFromServer = new ArrayList<>();
+        Set<String> serverItemIdSet = new HashSet<>();
+        Set<String> dataBaseItemIdSet = new HashSet<>();
+        Set<String> dataBaseItemIdSetTemp = new HashSet<>();
+        Set<Long> serverItemVersionSet = new HashSet<>();
+        Set<Long> dataBaseItemVersionSet = new HashSet<>();
         /////////////////TEST START
 
       /*  ContentItem ci = new ContentItem();
@@ -145,12 +150,12 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         ////////////////TEST END
         for (ContentItem contentItem : serverContentItems) {
             serverItemIdSet.add(contentItem.getId());
-            serverItemVersionSet.add(new Long(contentItem.getVersionNumber()));
+            serverItemVersionSet.add(contentItem.getVersionNumber());
         }
         for (ContentItem contentItem : databaseContentItems) {
             dataBaseItemIdSet.add(contentItem.getId());
             dataBaseItemIdSetTemp.add(contentItem.getId());// tmp value as dataBaseItemIdSet will be modified after removeAll()
-            dataBaseItemVersionSet.add(new Long(contentItem.getVersionNumber()));
+            dataBaseItemVersionSet.add(contentItem.getVersionNumber());
         }
 
         dataBaseItemIdSet.removeAll(serverItemIdSet); //  dataBaseItemIdSet reduce to Old item set to be removed from database
@@ -235,7 +240,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
 
         //
-        boolean isContentLoaderStateTableUpdated = updateContentLoaderStateTable(db, serviceID, expiryDate);
+        boolean isContentLoaderStateTableUpdated = updateContentLoaderStateTable(db, mLastUpdatedTime, serviceID, expiryDate);
         if (isContentLoaderStateTableUpdated) {
             db.setTransactionSuccessful();
         }
@@ -367,9 +372,11 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return ContentItemList;
     }
 
-    private boolean updateContentLoaderStateTable(SQLiteDatabase db, String serviceID, long expiryDate) {
+    private boolean updateContentLoaderStateTable(SQLiteDatabase db, Date mLastUpdatedTime, String serviceID, long expiryDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" , Locale.ENGLISH);
         ContentValues values = new ContentValues();
         values.put(KEY_SERVICE_ID, serviceID);
+        values.put(KEY_LASTUPDATED_TIME  , dateFormat.format(mLastUpdatedTime));
         values.put(KEY_EXPIRE_TIMESTAMP, expiryDate);
         long rowId = db.replace(CONTENT_LOADER_STATES, null, values);
         if (rowId == -1) {

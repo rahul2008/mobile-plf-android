@@ -7,6 +7,9 @@
 package com.philips.platform.appinfra.contentloader.model;
 
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.contentloader.ContentInterface;
 
 import java.util.ArrayList;
@@ -17,6 +20,25 @@ import java.util.List;
  * Article example: https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(0).limit.(100).json
  */
 public class ContentArticle implements ContentInterface {
+
+    private String overlay;
+    private String linkurl;
+    private String text;
+    private String description;
+    private String title;
+    // private URL previewimage;
+    // private URL portraitimage;
+    private String imageUrl;
+    private String articleDescription;
+    public List<Tag> tags = new ArrayList<Tag>();
+    public List<String> tagIds = new ArrayList<>();
+    //private List<Map<String,String>> tags;
+    private String link;
+    // private ASSET[] assets;
+    private long modDate;
+    private String uid;
+
+
     // region ContentInterface implementation
     @Override
     public String getId() {
@@ -25,15 +47,25 @@ public class ContentArticle implements ContentInterface {
 
     @Override
     public boolean hasTag(String tag) {
-        if (tags == null)
+        if (tagIds == null)
             return false;
-        return tags.contains(tag);
+        return tagIds.contains(tag);
     }
 
     @Override
-    public List<Tag> getTags() {
+    public List<String> getTags() {
+        return tagIds;
+    }
+
+//    @Override
+//    public List<String> getTag() {
+//        return tagList;
+//    }
+
+    public List<Tag> getTagsList() {
         return tags;
     }
+
 
     @Override
     public long getVersion() {
@@ -47,39 +79,35 @@ public class ContentArticle implements ContentInterface {
 
     @Override
     public boolean parseInput(String json) {
-        this.uid = json.substring(7, 12);
+        System.out.println("JSONELEMENT" + "" + json);
+        JsonElement response = new JsonParser().parse(json);
+        this.title = String.valueOf(response.getAsJsonObject().get("title"));
+        this.link = String.valueOf(response.getAsJsonObject().get("link"));
+        this.linkurl = String.valueOf(response.getAsJsonObject().get("link"));
+        this.imageUrl = String.valueOf(response.getAsJsonObject().get("imageUrl"));
+        this.text = String.valueOf(response.getAsJsonObject().get("text"));
+        this.overlay = String.valueOf(response.getAsJsonObject().get("overlay"));
+        this.articleDescription = String.valueOf(response.getAsJsonObject().get("description"));
+        this.uid = String.valueOf(response.getAsJsonObject().get("uid"));
+        JsonElement tagElement = response.getAsJsonObject().get("tags");
+
+        if (tagElement != null && tagElement.isJsonArray()) {
+            JsonArray tagArray = tagElement.getAsJsonArray();
+            if (tagArray != null) {
+                for (int i = 0; i < tagArray.size(); i++) {
+                    JsonElement tagobj = tagArray.get(i);
+                    Tag tag = new Tag();
+                    String tagName = String.valueOf(tagobj.getAsJsonObject().get("name"));
+                    String tagId = String.valueOf(tagobj.getAsJsonObject().get("id"));
+                    String key = String.valueOf(tagobj.getAsJsonObject().get("key"));
+                    tag.setId(tagId);
+                    tag.setName(tagName);
+                    tag.setKey(key);
+                    tags.add(tag);
+                    tagIds.add(tagId);
+                }
+            }
+        }
         return true;
     }
-    // endregion ContentInterface
-
-    // region sub types
-  /*  private enum RENDERTYPE {XS, S, M, L};
-    private enum ASSETTYPE {IMAGE, YOUTUBEVIDEO, SCENE7VIDEO};
-    private class ASSET {
-        private RENDERTYPE Rendition;
-        private ASSETTYPE type;
-        private URL original;
-        private URL thumbnail;
-        private String caption;
-        private String youtubeid;
-        private String Scene7id;
-    }*/
-    // endregion sub types
-
-    // region private members
-    private String overlay;
-    private String linkurl;
-    private String text;
-    private String description;
-    private String title;
-   // private URL previewimage;
-   // private URL portraitimage;
-    private String imageUrl;
-    public List<Tag> tags = new ArrayList<Tag>();
-    //private List<Map<String,String>> tags;
-    private String link;
-   // private ASSET[] assets;
-    private long modDate;
-    private String uid;
-
 }

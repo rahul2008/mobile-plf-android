@@ -29,7 +29,7 @@ public interface ContentInterface {
     /**
      * @return array of Tags set for this article
      */
-    List<Tag> getTags();
+    List<String> getTags();
 
     /**
      * @return version number of this article
