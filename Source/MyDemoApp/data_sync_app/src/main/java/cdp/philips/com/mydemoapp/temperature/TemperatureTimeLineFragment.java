@@ -82,10 +82,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
         mProgressBar.setCancelable(false);
-        init();
+
     }
 
     @Override
@@ -124,7 +125,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton.setOnClickListener(this);
         mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvSetCosents.setOnClickListener(this);
-        mTemperaturePresenter.fetchData();
+
         return view;
     }
 
@@ -140,6 +141,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
+        mTemperaturePresenter.fetchData();
 
     }
 
@@ -208,6 +210,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
         //cancelPendingIntent();
         //mDataServicesManager.stopCore();
+        mDataServicesManager.releaseDataServicesInstances();
     }
 
     @Override
