@@ -13,7 +13,7 @@ public class MeasurementGroupDetailType {
 
 
     public static int getIDFromDescription(String description) {
-        switch (description) {
+        switch (description.toUpperCase()) {
             case UNKNOWN:
                 return -1;
             case TEMP_OF_DAY:

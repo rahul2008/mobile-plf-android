@@ -15,7 +15,7 @@ public class ConsentDetailStatusType {
 
 
     public static int getIDFromDescription(String description) {
-        switch (description) {
+        switch (description.toUpperCase()) {
             case UNKNOWN:
                 return -1;
             case ACCEPTED:
