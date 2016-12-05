@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 
@@ -57,8 +58,6 @@ import com.janrain.android.utils.CollectionUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.PrefUtils;
 import com.janrain.android.utils.StringUtils;
-
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -702,6 +701,7 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     private JREngageError startGetConfiguration() {
         try {
+            mEngageBaseUrl = (Jump.getFlowEngage()==null)? RPXNOW_BASE_URL :Jump.getFlowEngage();
             String urlString = String.format(UNFORMATTED_CONFIG_URL,
                     mEngageBaseUrl,
                     mAppId,

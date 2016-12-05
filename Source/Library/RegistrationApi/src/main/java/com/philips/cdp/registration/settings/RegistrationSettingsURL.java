@@ -7,7 +7,6 @@ import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -308,6 +307,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +"Service Deiscover inis at non China local");
                                                                                 setChinaFlow(false);
+                                                                                jumpConfig.flowEngage = null;
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;
@@ -332,9 +332,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
                                                                                 // If configuration is Staging pass this
+                                                                                jumpConfig.flowEngage = null;
                                                                                 if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(Configuration.STAGING.getValue())) {
                                                                                     jumpConfig.flowCDN = "https://janrain-capture-static.cn.janrain.com";
-                                                                                    jumpConfig.flowEngage = "https://philips-staging.login.cn.janrain.com/openid/mobile_config_and_baseurl";
+                                                                                    jumpConfig.flowEngage = "https://philips-staging.login.cn.janrain.com";
                                                                                 }
                                                                                  mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;

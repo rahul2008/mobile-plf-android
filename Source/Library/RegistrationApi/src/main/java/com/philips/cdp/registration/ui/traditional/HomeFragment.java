@@ -339,7 +339,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
+                mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
             }
         });
     }
