@@ -34,6 +34,8 @@ public class TemperatureMomentHelper {
             return 0.0;
         } catch (IndexOutOfBoundsException e) {
             return 0.0;
+        }catch (Exception e){
+            return -1;
         }
         //return -1;
     }
@@ -49,6 +51,8 @@ public class TemperatureMomentHelper {
         } catch (ArrayIndexOutOfBoundsException e) {
             return "default";
         } catch (IndexOutOfBoundsException e) {
+            return "default";
+        }catch (Exception e){
             return "default";
         }
     }
@@ -70,6 +74,8 @@ public class TemperatureMomentHelper {
         } catch (ArrayIndexOutOfBoundsException e) {
             return "default";
         } catch (IndexOutOfBoundsException e) {
+            return "default";
+        }catch (Exception e){
             return "default";
         }
         //return null;
