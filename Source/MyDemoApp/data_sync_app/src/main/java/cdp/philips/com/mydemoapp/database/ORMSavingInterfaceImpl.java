@@ -85,7 +85,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     public boolean saveBackEndConsent(Consent consent) throws SQLException {
 
         if(consent==null){
-            notifyFailConsent(new OrmTypeChecking.OrmTypeException("consent null"));;
+            notifyFailConsent(new OrmTypeChecking.OrmTypeException("consent null"));
             return false;
         }
         OrmConsent ormConsent = null;
