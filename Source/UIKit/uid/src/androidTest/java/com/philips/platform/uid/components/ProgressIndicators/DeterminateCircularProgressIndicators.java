@@ -26,7 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
 import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
-public class DeterminateCircularProgressIndicatorsTest {
+public class DeterminateCircularProgressIndicators {
     private Context activityContext;
     private Context instrumentationContext;
 

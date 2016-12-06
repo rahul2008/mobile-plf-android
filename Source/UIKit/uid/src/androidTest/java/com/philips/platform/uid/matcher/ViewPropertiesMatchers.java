@@ -15,8 +15,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getPaddingLeft(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(view.getPaddingLeft()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -25,8 +25,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getPaddingStart(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(view.getPaddingStart()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -35,8 +35,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getPaddingEnd(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(view.getPaddingEnd()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -45,8 +45,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getPaddingRight(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(view.getPaddingRight()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -55,8 +55,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getPaddingTop(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(view.getPaddingTop()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -65,8 +65,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getPaddingBottom(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(view.getPaddingBottom()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -75,9 +75,7 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getWidth(), expectedValue);
-
-                return areEqual();
+                return view.getWidth() == expectedValue;
             }
         };
     }
@@ -86,8 +84,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(view.getHeight(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(view.getHeight()), String.valueOf(expectedValue));
+                return view.getHeight() == expectedValue;
             }
         };
     }
@@ -97,8 +95,8 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                setValues(lp.leftMargin, expectedValue);
-                return areEqual();
+                setValues(String.valueOf(lp.leftMargin), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -108,8 +106,8 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                setValues(lp.getMarginEnd(), expectedValue);
-                return areEqual();
+                setValues(String.valueOf(lp.getMarginEnd()), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -119,8 +117,8 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                setValues(lp.bottomMargin, expectedValue);
-                return areEqual();
+                setValues(String.valueOf(lp.bottomMargin), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -130,8 +128,8 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                setValues(lp.topMargin, expectedValue);
-                return areEqual();
+                setValues(String.valueOf(lp.topMargin), String.valueOf(expectedValue));
+                return actual == expected;
             }
         };
     }
@@ -140,8 +138,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                setValues(view.getMinimumHeight(), expectedIconHeight);
-                return areEqual();
+                setValues(String.valueOf(view.getMinimumHeight()), String.valueOf(expectedIconHeight));
+                return actual == expected;
             }
         };
     }
@@ -150,8 +148,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                setValues(view.getMinimumWidth(), expectedIconWidth);
-                return areEqual();
+                setValues(String.valueOf(view.getMinimumWidth()), String.valueOf(expectedIconWidth));
+                return actual == expected;
             }
         };
     }
@@ -160,8 +158,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                setValues(view.getVisibility(), gone);
-                return areEqual();
+                setValues(String.valueOf(view.getVisibility()), String.valueOf(gone));
+                return actual == expected;
             }
         };
     }
@@ -172,8 +170,8 @@ public class ViewPropertiesMatchers {
             protected boolean matchesSafely(final View view) {
                 if (view instanceof Toolbar) {
                     Toolbar toolbar = (Toolbar) view;
-                    setValues(toolbar.getTitleMarginEnd(), rightMargin);
-                    return areEqual();
+                    setValues(String.valueOf(toolbar.getTitleMarginEnd()), String.valueOf(rightMargin));
+                    return actual == expected;
                 }
                 return false;
             }
@@ -186,8 +184,8 @@ public class ViewPropertiesMatchers {
             protected boolean matchesSafely(final View view) {
                 if (view instanceof Toolbar) {
                     Toolbar toolbar = (Toolbar) view;
-                    setValues(toolbar.getTitleMarginStart(), leftMargin);
-                    return areEqual();
+                    setValues(String.valueOf(toolbar.getTitleMarginStart()), String.valueOf(leftMargin));
+                    return actual == expected;
                 }
                 return false;
             }

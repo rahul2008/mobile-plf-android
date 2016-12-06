@@ -13,20 +13,15 @@ import org.hamcrest.TypeSafeMatcher;
  * @param <T>
  */
 public abstract class BaseTypeSafteyMatcher<T> extends TypeSafeMatcher<T> {
-    Object actual;
-    Object expected;
-
+    String actual;
+    String expected;
     @Override
     public void describeTo(Description description) {
         description.appendText("Actual=" + actual + " expected=" + expected);
     }
 
-    void setValues(Object actual, Object expected) {
+    void setValues(String actual, String expected) {
         this.actual = actual;
         this.expected = expected;
-    }
-
-    protected boolean areEqual() {
-        return actual.equals(expected);
     }
 }

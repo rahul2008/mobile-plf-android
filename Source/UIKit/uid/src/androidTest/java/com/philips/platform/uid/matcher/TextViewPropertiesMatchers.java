@@ -19,6 +19,7 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     int actual = ((TextView) view).getTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
+                    setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
                     return actual == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
@@ -32,8 +33,8 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     int actual = ((TextView) view).getHintTextColors().getColorForState(new int[]{stateAttr}, Color.MAGENTA);
-                    setValues(actual, expectedValue);
-                    return areEqual();
+                    setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
+                    return actual == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
@@ -45,8 +46,8 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    setValues((((TextView) view).getTextSize()), expectedValue);
-                    return areEqual();
+                    setValues(String.valueOf(((TextView) view).getTextSize()), String.valueOf(expectedValue));
+                    return ((TextView) view).getTextSize() == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
@@ -58,8 +59,8 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    setValues(((TextView) view).getLineSpacingExtra(), expectedValue);
-                    return areEqual();
+                    setValues(String.valueOf(((TextView) view).getLineSpacingExtra()), String.valueOf(expectedValue));
+                    return ((TextView) view).getLineSpacingExtra() == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
@@ -71,7 +72,7 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
-                    setValues((((TextView) view).getCompoundDrawablePadding()), expectedValue);
+                    setValues(String.valueOf(((TextView) view).getCompoundDrawablePadding()), String.valueOf(expectedValue));
                     return ((TextView) view).getCompoundDrawablePadding() == expectedValue;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());

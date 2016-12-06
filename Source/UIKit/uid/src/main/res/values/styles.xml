@@ -11,6 +11,7 @@
 
         <item name="switchStyle">@style/UIDSwitchStyle</item>
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
+
         <!-- Action bar and toolbar style-->
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
          <item name="android:actionBarStyle">@style/UIDToolbar</item>

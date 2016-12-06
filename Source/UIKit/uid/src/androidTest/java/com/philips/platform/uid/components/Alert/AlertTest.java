@@ -157,13 +157,13 @@ public class AlertTest {
      * Alert content layout scenarios without title
      ******************************/
     @Test
-    public void verifyAlertIsDisplayedWithNoTitle() {
+    public void VerifyAlertIsDisplayedWithNoTitle() {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
     }
 
     @Test
-    public void verifyContentTopMarginWithNoTitle() {
+    public void VerifyContentTopMarginWithNoTitle() {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
 

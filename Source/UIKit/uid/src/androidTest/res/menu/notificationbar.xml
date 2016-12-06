@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/theme_settings"
-        android:icon="@drawable/ic_back_icon"
+        android:icon="@drawable/uid_switch_thumb"
         android:title="Hi"
         app:showAsAction="ifRoom"></item>
     <item
