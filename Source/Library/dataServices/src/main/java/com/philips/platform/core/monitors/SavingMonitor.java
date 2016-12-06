@@ -50,9 +50,5 @@ public class SavingMonitor extends EventMonitor {
 
     }
 
-    public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
 
-        dbInterface.saveBackEndConsent(consentBackendSaveResponse.getConsent());
-
-    }
 }
