@@ -73,7 +73,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    private ProgressDialog mProgressDialog;
     private TextView mTvSetCosents;
     private Context mContext;
     SharedPreferences mSharedPreferences;
@@ -83,16 +82,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
         mProgressBar.setCancelable(false);
-        if (!mSharedPreferences.getBoolean("isSynced", false)) {
-            if (!mProgressBar.isShowing()) {
-                mProgressBar.setMessage("Loading Please wait!!!");
-                mProgressBar.show();
-            }
-        }
-        init();
+
     }
 
     @Override
@@ -104,12 +98,18 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
+        if (!mSharedPreferences.getBoolean("isSynced", false)) {
+            showProgressDialog();
+        }
         setUpBackendSynchronizationLoop();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        cancelPendingIntent();
+        mDataServicesManager.stopCore();
+        dismissProgressDialog();
     }
 
 
@@ -125,8 +125,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton.setOnClickListener(this);
         mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvSetCosents.setOnClickListener(this);
-        mProgressDialog = new ProgressDialog(getActivity());
-        mTemperaturePresenter.fetchData();
+
         return view;
     }
 
@@ -142,6 +141,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
+        mTemperaturePresenter.fetchData();
 
     }
 
@@ -208,8 +208,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onDestroy() {
         super.onDestroy();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        cancelPendingIntent();
-        mDataServicesManager.stopCore();
+        //cancelPendingIntent();
+        //mDataServicesManager.stopCore();
+        mDataServicesManager.releaseDataServicesInstances();
     }
 
     @Override
@@ -237,9 +238,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mAdapter.notifyDataSetChanged();
 
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    if (mProgressBar.isShowing()) {
-                        mProgressBar.dismiss();
-                    }
+                    dismissProgressDialog();
                 }
             }
         });
@@ -279,14 +278,15 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void showProgressDialog() {
-        if (mProgressDialog != null && !mProgressDialog.isShowing()) {
-            mProgressDialog.show();
+        if (mProgressBar != null && !mProgressBar.isShowing()) {
+            mProgressBar.setMessage("Loading Please wait!!!");
+            mProgressBar.show();
         }
     }
 
     private void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
+        if (mProgressBar != null && mProgressBar.isShowing()) {
+            mProgressBar.dismiss();
         }
     }
 }

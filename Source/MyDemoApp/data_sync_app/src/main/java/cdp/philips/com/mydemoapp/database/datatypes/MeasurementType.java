@@ -26,7 +26,7 @@ public class MeasurementType {
 
 
     public static int getIDFromDescription(String description) {
-        switch (description) {
+        switch (description.toUpperCase()) {
             case UNKNOWN:
                 return -1;
             case TEMPERATURE:
@@ -47,7 +47,7 @@ public class MeasurementType {
     }
 
     public static String getUnitFromDescription(String description) {
-        switch (description) {
+        switch (description.toUpperCase()) {
             case UNKNOWN:
                 return "UnknownUnit";
             case TEMPERATURE:

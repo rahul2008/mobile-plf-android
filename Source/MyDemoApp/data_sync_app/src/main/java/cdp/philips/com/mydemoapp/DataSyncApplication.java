@@ -18,6 +18,7 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -38,12 +39,12 @@ public class DataSyncApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
         Stetho.initializeWithDefaults(this);
-        LeakCanary.install(this);
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
