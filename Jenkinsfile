@@ -9,9 +9,9 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node_ext = “build_t”
-if (env.triggerBy == “ppc”) {
-  node_ext = “build_p”
+node_ext = "build_t"
+if (env.triggerBy == "ppc") {
+  node_ext = "build_p"
 }
 
 node ('androidppc &&' + node_ext) {
