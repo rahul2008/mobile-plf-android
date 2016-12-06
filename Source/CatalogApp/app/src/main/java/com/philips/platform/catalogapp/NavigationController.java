@@ -1,5 +1,6 @@
 package com.philips.platform.catalogapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -34,9 +35,10 @@ public class NavigationController {
     private MenuItem setTheme;
     SharedPreferences fragmentPreference;
 
-    public NavigationController(final MainActivity mainActivity) {
+    public NavigationController(final MainActivity mainActivity, final Intent intent) {
         this.mainActivity = mainActivity;
         fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        clearLastFragmentOnFreshLaunch(intent);
     }
 
     protected void processBackButton() {
@@ -50,6 +52,13 @@ public class NavigationController {
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
+            storeFragmentInPreference(null);
+        }
+    }
+
+    private void clearLastFragmentOnFreshLaunch(Intent intent) {
+        if (intent != null && !intent.hasExtra(MainActivity.THEMESETTINGS_ACTIVITY_RESTART)) {
+            storeFragmentInPreference(null);
         }
     }
 
@@ -183,7 +192,7 @@ public class NavigationController {
         return toolbar;
     }
 
-    private void storeFragmentInPreference(String fragmentTag) {
+    public void storeFragmentInPreference(String fragmentTag) {
         fragmentPreference.edit().putString("activeFragment", fragmentTag).commit();
     }
 

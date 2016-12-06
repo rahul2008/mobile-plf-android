@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
     private static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
+    static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
     protected static final String TITLE_TEXT = "TITLE_TEXT";
 
     private ContentColor contentColor;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         EventBus.getDefault().register(this);
-        navigationController = new NavigationController(this);
+        navigationController = new NavigationController(this, getIntent());
         navigationController.init(savedInstanceState);
     }
 
@@ -99,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void restartActivity() {
-        startActivity(new Intent(this, com.philips.platform.catalogapp.MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        Intent intent = new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART, true);
+        startActivity(intent);
         this.overridePendingTransition(0, 0);
         startActivity(new Intent(this, PreviewActivity.class));
     }
@@ -190,10 +193,6 @@ public class MainActivity extends AppCompatActivity {
         saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
         saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
-    }
-
-    public void showFragment(final BaseFragment fragment) {
-        navigationController.switchFragment(fragment);
     }
 
     @Override
