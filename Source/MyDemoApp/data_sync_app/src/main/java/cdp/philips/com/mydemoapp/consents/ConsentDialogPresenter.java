@@ -32,13 +32,13 @@ public class ConsentDialogPresenter {
         Consent consent = mDataServices.createConsent();
         mDataServices.createConsentDetail
                 (consent, ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, true);
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
         mDataServices.createConsentDetail
                 (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,true);
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
         mDataServices.createConsentDetail
                 (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,true);
-        mDataServices.save(consent);
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+        mDataServices.saveConsent(consent);
     }
 }

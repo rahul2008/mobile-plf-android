@@ -161,15 +161,19 @@ public class DataServicesManager {
         return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
     }
 
-    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber, final boolean isSynchronized) {
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
         if (consent == null) {
             consent = createConsent();
         }
-        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, isSynchronized, consent);
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, true, consent);
         consent.addConsentDetails(consentDetail);
     }
 
-    public void save(Consent consent) {
+    public void saveConsent(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+    }
+
+    public void updateConsent(Consent consent) {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false));
     }
 

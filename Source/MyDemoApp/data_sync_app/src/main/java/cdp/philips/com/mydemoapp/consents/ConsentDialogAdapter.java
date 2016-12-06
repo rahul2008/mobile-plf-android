@@ -72,7 +72,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void updateConsentDetails() {
-        DataServicesManager.getInstance().save(mConsent);
+        DataServicesManager.getInstance().updateConsent(mConsent);
     }
 
 

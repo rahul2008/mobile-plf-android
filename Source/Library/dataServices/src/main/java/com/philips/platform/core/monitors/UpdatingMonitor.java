@@ -11,6 +11,7 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentDataSenderUpdatedRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
@@ -51,9 +52,9 @@ public class UpdatingMonitor extends EventMonitor {
         if (ormMoment == null) {
             return;
         }
-          //  dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
-            dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
-       //     eventing.post(new MomentChangeEvent(requestId, moment));
+        //  dbDeletingInterface.ormDeletingDeleteMoment(ormMoment);
+        dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
+        //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
 
@@ -89,19 +90,7 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        //int requestId = momentSaveRequest.getEventId();
-
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
-        // boolean savedAllMoments = updatedCount == moments.size();
-        /*if(savedAllMoments) {
-            try {
-                dbFetchingInterface.fetchMoments(MomentType.TEMPERATURE);
-            } catch (SQLException e) {
-                dbUpdatingInterface.updateFailed(e);
-                e.printStackTrace();
-            }
-        }*/
-        //eventing.post(new ListSaveResponse(requestId, savedAllMoments));
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
@@ -111,5 +100,11 @@ public class UpdatingMonitor extends EventMonitor {
         }
 
         dbUpdatingInterface.processCreatedMoment(moments);
+    }
+
+    public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
+
+        dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent());
+
     }
 }
