@@ -36,12 +36,12 @@ public class SynchronisationMonitor extends EventMonitor {
     }
 
     public void onEventAsync(ReadDataFromBackendRequest event) {
-        Log.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
+       // Log.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
         pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
     }
 
     public void onEventAsync(WriteDataToBackendRequest event) {
-        Log.i("***SPO***","In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
+        //Log.i("***SPO***","In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
         //TODO: also should pull new data from BE
         pushSynchronise.startSynchronise(event.getEventId());
     }

@@ -42,7 +42,7 @@ public class MomentsMonitor extends EventMonitor {
     public void onEventAsync(MomentChangeEvent momentChangeEvent) {
 
         if (momentsDataSender.sendDataToBackend(Collections.singletonList(momentChangeEvent.getMoment()))) {
-            final RetrofitError retrofitError = momentsDataFetcher.fetchDataSince(DateTime.now());
+             momentsDataFetcher.fetchDataSince(DateTime.now());
         }
     }
 }
