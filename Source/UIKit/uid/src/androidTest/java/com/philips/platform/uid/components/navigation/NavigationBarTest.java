@@ -45,8 +45,47 @@ public class NavigationBarTest {
         applicationContext = baseTestActivity.getApplicationContext();
     }
 
+    //Title test cases
+    //Android doesnt provide api to set margin left right
     @Test
-    public void VerifyToolbarHeightOnLandscapeMode() throws Exception {
+    public void verifyTitleMarginLeft() throws Exception {
+        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
+
+        getNavigationBar().check(matches(ToolbarMatcher.isSameTitleMarginStart(titleMargin)));
+    }
+
+    @Test
+    public void verifyTitleMarginRight() throws Exception {
+        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
+
+        getNavigationBar().check(matches(ToolbarMatcher.isSameTitleMarginRight(titleMargin)));
+    }
+
+    @Test
+    public void verifyTitleTextColor() throws Exception {
+        final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.White);
+
+        getTitleView().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+    }
+
+    @Ignore
+    @Test
+    public void verifyTitleLineSpacing() throws Exception {
+        int linespacing = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+
+        getTitleView().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
+    }
+
+    @Test
+    public void verifyTitleTextSize() throws Exception {
+        int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
+
+        getTitleView().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
+    }
+
+    //Toolbar tests cases
+    @Test
+    public void verifyToolbarHeightOnLandscapeMode() throws Exception {
         final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(new Intent());
         landscapeModeActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         landscapeModeActivity.switchFragment(new NavigationbarFragment());
@@ -56,95 +95,32 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void VerifyToolbarHeight() throws Exception {
+    public void verifyToolbarHeight() throws Exception {
         int toolbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_height);
 
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
     }
 
-    @Ignore
+    //Menu icon test cases
     @Test
-    public void VerifyTitleLeftMargin() throws Exception {
-        int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
-
-        getTitleView().check(matches(ViewPropertiesMatchers.isSameTittleLeftMargin(iconpadding)));
-    }
-
-    @Ignore
-    @Test
-    public void VerifyTitleRightMargin() throws Exception {
-        int iconpadding = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
-
-        getTitleView().check(matches(ViewPropertiesMatchers.isSameTitleRightMargin(iconpadding)));
-    }
-
-    @Test
-    public void VerifyMenuIconSize() throws Exception {
+    public void verifyMenuIconSize() throws Exception {
         int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
-        getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameHeight("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.uid_switch_thumb)));
-        getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameWidth("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.uid_switch_thumb)));
+        getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameHeight("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.ic_hamburger_menu)));
+        getNavigationIcon().check(matches(FunctionDrawableMatchers.isSameWidth("getDrawable", iconSize, com.philips.platform.uid.test.R.drawable.ic_hamburger_menu)));
     }
 
     @Ignore
     @Test
-    public void VerifyMenuIconMargin() throws Exception {
+    public void verifyMenuIconMargin() throws Exception {
         int padding = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_padding);
 
         getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameLeftPadding(padding)));
         getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameRightPadding(padding)));
     }
 
-    //Android doesnt provide api to set margin left right
-    @Ignore
     @Test
-    public void VerifyTitleMarginLeft() throws Exception {
-        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
-
-        getTitleView().check(matches(ViewPropertiesMatchers.isSameLeftMargin(titleMargin)));
-    }
-
-    //Android doesnt provide api to set margin left right
-    @Ignore
-    @Test
-    public void VerifyTitleMarginRight() throws Exception {
-        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
-
-        getTitleView().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
-    }
-
-    @Ignore
-    @Test
-    public void VerifyTitlePaddingStart() throws Exception {
-        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
-
-        getTitleView().check(matches(ViewPropertiesMatchers.isSameStartPadding(titleMargin)));
-    }
-
-    @Test
-    public void VerifyTitleTextColor() throws Exception {
-        final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.White);
-
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
-    }
-
-    @Ignore
-    @Test
-    public void VerifyTitleLineSpacing() throws Exception {
-        int linespacing = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
-
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
-    }
-
-    @Test
-    public void VerifyTitleTextSize() throws Exception {
-        int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
-
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
-    }
-
-    @Test
-    public void VerifyNavigationBarIconSize() throws Exception {
+    public void verifyNavigationBarIconSize() throws Exception {
         int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
         getNavigationMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
@@ -152,7 +128,7 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void VerifyNavigationBarIconTouchableArea() throws Exception {
+    public void verifyNavigationBarIconTouchableArea() throws Exception {
         int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
 
         getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
@@ -163,11 +139,11 @@ public class NavigationBarTest {
     }
 
     private ViewInteraction getNavigationIcon() {
-        return onView(withContentDescription("navigationIcon"));
+        return onView(withContentDescription(applicationContext.getResources().getString(com.philips.platform.uid.test.R.string.navigation_content_desc)));
     }
 
     private ViewInteraction getTitleView() {
-        return onView(withText(com.philips.platform.uid.test.R.string.catalog_app_name));
+        return onView(withText(applicationContext.getResources().getString(com.philips.platform.uid.test.R.string.catalog_app_name)));
     }
 
     private ViewInteraction getNavigationMenuIcon() {

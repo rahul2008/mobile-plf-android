@@ -5,7 +5,11 @@
 package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.philips.platform.uid.R;
 
@@ -32,5 +36,14 @@ public class UIDHelper {
             themeConfiguration.controlType.injectPrimaryControlColors(theme);
         }
         themeConfiguration.navigationColor.injectNavigationColor(theme);
+    }
+
+    public static void setupToolbar(@NonNull final AppCompatActivity activity, @DrawableRes final int navigationIcon, @StringRes int title) {
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.uid_toolbar);
+        toolbar.setNavigationIcon(navigationIcon);
+        toolbar.setTitleMarginStart(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
+        toolbar.setTitleMarginEnd(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
+        toolbar.setTitle(title);
+        activity.setSupportActionBar(toolbar);
     }
 }
