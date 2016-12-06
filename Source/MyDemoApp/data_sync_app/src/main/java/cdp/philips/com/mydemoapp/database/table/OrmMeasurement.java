@@ -41,6 +41,9 @@ public class OrmMeasurement implements Measurement, Serializable {
     @DatabaseField
     private double value;
 
+    @DatabaseField
+    private String unit;
+
     @DatabaseField(canBeNull = false)
     private DateTime dateTime = new DateTime();
 
@@ -116,6 +119,16 @@ public class OrmMeasurement implements Measurement, Serializable {
     @Override
     public OrmMeasurementGroup getMeasurementGroup() {
         return ormMeasurementGroup;
+    }
+
+    @Override
+    public String getUnit() {
+        return unit;
+    }
+
+    @Override
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     @Override

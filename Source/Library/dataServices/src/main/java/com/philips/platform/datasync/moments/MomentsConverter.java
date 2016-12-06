@@ -233,6 +233,7 @@ public class MomentsConverter {
             Measurement measurement = baseAppDataCreater.createMeasurement(uCoreMeasurement.getType(), measurementGroup);
             measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
             measurement.setValue(uCoreMeasurement.getValue());
+            measurement.setUnit(uCoreMeasurement.getUnit());
 
             List<UCoreDetail> uCoreDetailList = uCoreMeasurement.getDetails();
             if (uCoreDetailList != null) {
@@ -429,7 +430,7 @@ public class MomentsConverter {
             uCoreMeasurement.setTimestamp(measurement.getDateTime().toString());
             uCoreMeasurement.setType(measurement.getType());
             uCoreMeasurement.setValue(measurement.getValue());
-
+            uCoreMeasurement.setUnit(measurement.getUnit());
             addToUCoreMeasurementDetails(measurement.getMeasurementDetails(), uCoreMeasurement);
             uCoreMeasurementList.add(uCoreMeasurement);
         }
