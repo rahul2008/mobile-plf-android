@@ -35,4 +35,8 @@ public interface Measurement extends BaseAppData, DateData, Serializable {
 
     MeasurementGroup getMeasurementGroup();
 
+    String getUnit();
+
+    void setUnit(String unit);
+
 }
