@@ -10,10 +10,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BackendIdProvider;
-import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -30,23 +28,23 @@ public class UCoreAccessProvider implements BackendIdProvider {
     SharedPreferences sharedPreferences;
 
     @NonNull
-    private final UserRegistrationFacade userRegistrationFacade;
+    private final ErrorHandler errorHandler;
 
-    public UCoreAccessProvider(@NonNull final UserRegistrationFacade userRegistrationFacade) {
-        this.userRegistrationFacade = userRegistrationFacade;
+    public UCoreAccessProvider(@NonNull final ErrorHandler errorHandler) {
+        this.errorHandler = errorHandler;
     }
 
     public boolean isLoggedIn() {
-        return userRegistrationFacade.isUserLoggedIn();
+        return errorHandler.isUserLoggedIn();
     }
 
     public String getAccessToken() {
-        return userRegistrationFacade.getAccessToken();
+        return errorHandler.getAccessToken();
     }
 
     @Override
     public String getUserId() {
-        return userRegistrationFacade.getUserProfile().getGUid();
+        return errorHandler.getUserProfile().getGUid();
     }
 
     @Override
@@ -56,7 +54,7 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     @Override
     public String getSubjectId() {
-        return userRegistrationFacade.getUserProfile().getGUid();
+        return errorHandler.getUserProfile().getGUid();
     }
 
     public String getMomentLastSyncTimestamp() {

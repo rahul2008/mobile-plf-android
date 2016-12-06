@@ -54,7 +54,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
-import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
+import cdp.philips.com.mydemoapp.registration.ErrorHandlerImpl;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -135,7 +135,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
-        mDataServicesManager.initialize(mContext, creator, new UserRegistrationFacadeImpl(mContext, new User(mContext)));
+        mDataServicesManager.initialize(mContext, creator, new ErrorHandlerImpl(mContext, new User(mContext)));
         mDataServicesManager.initializeSyncMonitors(null, null);
 
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
