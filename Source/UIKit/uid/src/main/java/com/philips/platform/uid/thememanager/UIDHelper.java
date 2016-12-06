@@ -6,6 +6,7 @@ package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -38,8 +39,20 @@ public class UIDHelper {
         themeConfiguration.navigationColor.injectNavigationColor(theme);
     }
 
-    public static void setupToolbar(@NonNull final AppCompatActivity activity, @DrawableRes final int navigationIcon, @StringRes int title) {
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.uid_toolbar);
+    /**
+     * This API will setup toolbar with title navigation icon
+     *
+     * @param activity       reference of activity you want to setup toolbar
+     * @param navigationIcon Icon resource to be displayed as navigation(hamburger or back button)
+     * @param title          title resource to be displayed as title on screen
+     * @param toolbarId
+     */
+    public static void setupToolbar(@NonNull final AppCompatActivity activity, @DrawableRes final int navigationIcon, @StringRes int title, @IdRes final int toolbarId) {
+        Toolbar toolbar = (Toolbar) activity.findViewById(toolbarId);
+        if (toolbar == null) {
+            final String formattedException = String.format("Please include a layout with view android.support.v7.widget.toolbar containing id %id in  you layout", toolbar);
+            throw new RuntimeException(formattedException);
+        }
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setTitleMarginStart(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
         toolbar.setTitleMarginEnd(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
