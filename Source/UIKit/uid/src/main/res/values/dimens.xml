@@ -88,7 +88,6 @@
     <dimen name="uid_navigation_bar_icon_maxsize">48dp</dimen>
     <dimen name="uid_navigation_bar_height">?attr/actionBarSize</dimen>
     <dimen name="uid_navigation_bar_title_margin_left_right">24dp</dimen>
-    <dimen name="uid_navigation_bar_text_size">20sp</dimen>
     <dimen name="uid_navigation_bar_text_line_spacing">4dp</dimen>
 
     <!-- ProgressBar -->

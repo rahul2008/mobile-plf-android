@@ -71,7 +71,6 @@ public class TextBoxTest {
         getTextBox().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
     }
 
-    @Ignore
     @Test
     public void verifySameTextEditBoxRadiusOnDynamicCreation() {
         TextEditBox textEditBox = new TextEditBox(mActivityTestRule.getActivity());

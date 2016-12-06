@@ -137,7 +137,7 @@ public class AlertTest {
     @Test
     public void verifyAlertContentLeftMargin() {
         UIDTestUtils.waitFor(testResources, 750);
-        int expectedLeftMargin = (int) testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertcontent_leftrightbottom_margin);
+        int expectedLeftMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertcontent_leftrightbottom_margin);
         getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
 
@@ -157,13 +157,13 @@ public class AlertTest {
      * Alert content layout scenarios without title
      ******************************/
     @Test
-    public void VerifyAlertIsDisplayedWithNoTitle() {
+    public void verifyAlertIsDisplayedWithNoTitle() {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
     }
 
     @Test
-    public void VerifyContentTopMarginWithNoTitle() {
+    public void verifyContentTopMarginWithNoTitle() {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
 
@@ -190,7 +190,7 @@ public class AlertTest {
     @Test
     public void verifyActionAreaHeight() {
         UIDTestUtils.waitFor(testResources, 750);
-        int expectedActionareaHeight = (int) testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertactionarea_height);
+        int expectedActionareaHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertactionarea_height);
         getAlertActionArea()
                 .check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedActionareaHeight)));
     }
