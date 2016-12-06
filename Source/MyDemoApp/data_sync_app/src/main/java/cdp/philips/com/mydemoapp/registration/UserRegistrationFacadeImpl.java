@@ -58,8 +58,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int statusCode) {
-                    if(context!=null)
-                        Toast.makeText(context,"refresh token failed and status code is = " + statusCode,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "refresh token failed and status code is = " + statusCode, Toast.LENGTH_LONG).show();
                     notifyLoginSessionResponse();
                 }
 
@@ -215,9 +214,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     public void onFailure(final RetrofitError error) {
         if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
             Log.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
-            if (context != null) {
-                Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
             return;
         }
         refreshAccessTokenUsingWorkAround();
