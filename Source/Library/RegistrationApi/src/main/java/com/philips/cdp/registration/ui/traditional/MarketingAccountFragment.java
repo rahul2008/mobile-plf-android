@@ -202,14 +202,17 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         mBtnNoThanks = (Button) view.findViewById(R.id.btn_reg_no_thanks);
         mTvJoinNow = (TextView) view.findViewById(R.id.tv_reg_Join_now);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
-        mTvJoinNow.setText(Html.fromHtml(sourceString));
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsView,
                 getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         mBtnCountMe.setOnClickListener(this);
         mBtnNoThanks.setOnClickListener(this);
         mViewLine = view.findViewById(R.id.reg_accept_terms_line);
+
+        String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
+        joinNow = String.format(joinNow, updateJoinNowText);
+        mTvJoinNow.setText(joinNow);
         handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);

@@ -123,6 +123,8 @@ public final class JumpConfig {
      */
     public String flowCDN;
 
+    public String flowEngage;
+
 
     /**
      * Set this to "true" if you want the Janrain SDK to silently fail, then attempt WebView authentication

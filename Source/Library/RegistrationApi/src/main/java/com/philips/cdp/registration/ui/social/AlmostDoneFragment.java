@@ -35,6 +35,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XEmail;
@@ -337,7 +338,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         mJoinNow = (TextView) view.findViewById(R.id.tv_join_now);
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         mJoinNow.setText(Html.fromHtml(sourceString));
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -394,27 +395,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
             } else {
-               final UIFlow abStrings=RegUtility.getUiFlow();
-                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                final UIFlow abStrings = RegUtility.getUiFlow();
+                if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                     RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.GONE);
-                }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
+                } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mLlPeriodicOffersCheck.setVisibility(View.GONE);
                     view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
                     mJoinNow.setVisibility(View.GONE);
-                }else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)){
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_C)) {
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                     mJoinNow.setVisibility(View.VISIBLE);
                 }
 
 
                 if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A) ||
-                        abStrings.equals(UIFlow.STRING_EXPERIENCE_C) ){
+                        abStrings.equals(UIFlow.STRING_EXPERIENCE_C)) {
                     RLog.d(RLog.AB_TESTING, "UI Flow Type A and C");
                     mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
                 } else {
@@ -501,7 +502,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (mBundle == null) {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
-                        storeEmailInPreference();
+
+                        RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
+                        if (!registrationSettingsURL.isChinaFlow()) {
+                            storeEmailInPreference();
+                        } else {
+                            storeMobileInPreference();
+                        }
+
                         launchWelcomeFragment();
                     } else {
                         mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -533,8 +541,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (email != null) {
                 RegPreferenceUtility.storePreference(mContext, email, true);
             }
+
         }
     }
+
+    private void storeMobileInPreference() {
+        User user = new User(mContext);
+        String email = user.getMobile();
+        if (email != null) {
+            RegPreferenceUtility.storePreference(mContext, email, true);
+        }
+    }
+
 
     private void register() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -662,7 +680,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         User user = new User(mContext);
-        final UIFlow abStrings=RegUtility.getUiFlow();
+        final UIFlow abStrings = RegUtility.getUiFlow();
         if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type A");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
@@ -672,12 +690,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             } else {
                 launchAccountActivateFragment();
             }
-        } else if(abStrings.equals(UIFlow.STRING_EXPERIENCE_B)){
+        } else if (abStrings.equals(UIFlow.STRING_EXPERIENCE_B)) {
             RLog.d(RLog.AB_TESTING, "UI Flow Type B");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
             getRegistrationFragment().addFragment(new MarketingAccountFragment());
-        }else {
+        } else {
             RLog.d(RLog.AB_TESTING, "UI Flow Type C");
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                     AppTagingConstants.REGISTRATION_SOCIAL_PROOF);

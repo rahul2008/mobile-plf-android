@@ -55,7 +55,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     @Override
     public void onSuccess() {
         Jump.saveToDisk(mContext);
-        User user = new User(mContext);
         saveDIUserProfileToDisk(mProfile);
         mUpdateUserRecordHandler.updateUserRecordRegister();
         mTraditionalRegisterHandler.onRegisterSuccess();

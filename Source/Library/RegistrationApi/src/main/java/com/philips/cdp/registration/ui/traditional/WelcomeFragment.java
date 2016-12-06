@@ -189,7 +189,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
             email = String.format(email, mUser.getEmail());
             mTvSignInEmail.setText(email);
         }else {
-            mUserDetails = getString(R.string.InitialSignedIn_SigninMobileNumberText);
+            mUserDetails = getString(R.string.reg_InitialSignedIn_SigninMobileNumberText);
             mUserDetails = String.format(mUserDetails, mUser.getMobile());
             mTvSignInEmail.setText(mUserDetails);
         }

@@ -87,6 +87,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     @Override
     public void updateUserRecordRegister() {
+
         if (Jump.getSignedInUser() != null) {
             CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
             JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
@@ -97,6 +98,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
             RegistrationHelper userSettings = RegistrationHelper.getInstance();
             // visitedMicroSites
             try {
+
                 ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
                 String currentDate = ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT);
                 JSONObject visitedMicroSitesObject = new JSONObject();
@@ -116,18 +118,6 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
                 primaryAddressObject.put(CONSUMER_COUNTRY, UserRegistrationInitializer.getInstance().getRegistrationSettings()
                         .getPreferredCountryCode());
-                primaryAddressObject.put(CONSUMER_ADDRESS1, "");
-                primaryAddressObject.put(CONSUMER_ADDRESS2, "");
-                primaryAddressObject.put(CONSUMER_ADDRESS3, "");
-                primaryAddressObject.put(CONSUMER_CITY, "");
-                primaryAddressObject.put(CONSUMER_COMPANY, "");
-                primaryAddressObject.put(CONSUMER_PHONE_NUMBER, "");
-                primaryAddressObject.put(CONSUMER_HOUSE_NUMBER, "");
-                primaryAddressObject.put(CONSUMER_MOBILE, "");
-                primaryAddressObject.put(CONSUMER_PHONE, "");
-                primaryAddressObject.put(CONSUMER_STATE, "");
-                primaryAddressObject.put(CONSUMER_ZIP, "");
-                primaryAddressObject.put(CONSUMER_ZIP_PLUS, "");
                 JSONArray primaryAddressArray = new JSONArray();
                 primaryAddressArray.put(primaryAddressObject);
 
@@ -139,16 +129,17 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 if (!(originalUserInfo.getBoolean(OLDER_THAN_AGE_LIMIT) && updatedUser.getBoolean(OLDER_THAN_AGE_LIMIT))) {
                     updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
                 }
+
                 updateUserRecord(updatedUser, originalUserInfo);
 
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "On success, Caught JSON Exception");
             }
         }
-
     }
 
-    private void updateUserRecord(CaptureRecord user, JSONObject originalUserInfo) {
+    private void updateUserRecord(CaptureRecord user, final JSONObject originalUserInfo) {
+
         try {
             user.synchronize(new Capture.CaptureApiRequestCallback() {
 
@@ -169,6 +160,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     @Override
     public void updateUserRecordLogin() {
+
         if (Jump.getSignedInUser() != null) {
             CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
             JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);

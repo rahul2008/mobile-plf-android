@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 
@@ -57,8 +58,6 @@ import com.janrain.android.utils.CollectionUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.PrefUtils;
 import com.janrain.android.utils.StringUtils;
-
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -86,7 +85,7 @@ public class JRSession implements JRConnectionManagerDelegate {
     private static final String ARCHIVE_AUTH_NATIVE_PROVIDERS = "jrAuthenticatedNativeProviders";
 
     private static final String RPXNOW_BASE_URL = "https://rpxnow.com";
-    private static String mEngageBaseUrl = RPXNOW_BASE_URL;
+    private static String mEngageBaseUrl = (Jump.getFlowEngage()==null)? RPXNOW_BASE_URL :Jump.getFlowEngage();
     private static final String UNFORMATTED_CONFIG_URL =
             "%s/openid/mobile_config_and_baseurl?appId=%s&device=android&app_name=%s&version=%s";
     private static final String TAG_GET_CONFIGURATION = "getConfiguration";
@@ -702,6 +701,7 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     private JREngageError startGetConfiguration() {
         try {
+            mEngageBaseUrl = (Jump.getFlowEngage()==null)? RPXNOW_BASE_URL :Jump.getFlowEngage();
             String urlString = String.format(UNFORMATTED_CONFIG_URL,
                     mEngageBaseUrl,
                     mAppId,

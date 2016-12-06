@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -338,7 +339,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                mCountryDisplayy.setText(new Locale("",s.toUpperCase()).getDisplayCountry());
+                mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
             }
         });
     }
@@ -366,9 +367,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 public void onSelectCountry(String name, String code) {
 
                     mCountryDisplayy.setText(name);
-                    ((RegistrationFragment) getParentFragment()).hideKeyBoard();
                       RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                         changeCountry(code.trim().toUpperCase());
+                       picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                        picker.dismiss();
 
                 }

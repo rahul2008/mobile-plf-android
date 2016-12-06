@@ -129,6 +129,7 @@ public class Jump {
         String captureRecoverUri;
 
         String flowCDN;
+        String flowEngage;
 
 
         // Transient state values:
@@ -214,6 +215,7 @@ public class Jump {
         state.captureForgotPasswordFormName = jumpConfig.captureForgotPasswordFormName;
         state.captureResendEmailVerificationFormName = jumpConfig.captureResendEmailVerificationFormName;
         state.flowCDN = jumpConfig.flowCDN;
+        state.flowEngage = jumpConfig.flowEngage;
         if(jumpConfig.captureRedirectUri == null){
             state.captureRedirectUri = "http://android.library";
         }else{
@@ -309,6 +311,10 @@ public class Jump {
 
     public static String getCaptureResendEmailVerificationFormName() {
         return state.captureResendEmailVerificationFormName;
+    }
+
+    public static String getFlowEngage() {
+        return state.flowEngage;
     }
 
     public static String getResponseType() {

@@ -109,6 +109,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private boolean isSavedPasswordErr;
 
+    private TextView mTvFirstToKnow;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
@@ -265,7 +267,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mLlAcceptTermsContainer, width);
         applyParams(config, mPasswordHintView, width);
         applyParams(config, mTvEmailExist, width);
+        applyParams(config, mTvFirstToKnow, width);
     }
+
 
     @Override
     protected void handleOrientation(View view) {
@@ -298,6 +302,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mLlCreateAccountContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
         mJoinnow = (TextView) view.findViewById(R.id.tv_join_now);
+        mTvFirstToKnow = (TextView)view.findViewById(R.id.tv_reg_first_to_know);
+
         final UIFlow abStrings=RegUtility.getUiFlow();
         if (abStrings.equals(UIFlow.STRING_EXPERIENCE_A)){
             RLog.d(RLog.AB_TESTING,"UI Flow Type A");
@@ -311,6 +317,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             RLog.d(RLog.AB_TESTING,"UI Flow Type C");
             mLlCreateAccountContainer.setVisibility(View.VISIBLE);
             mJoinnow.setVisibility(View.VISIBLE);
+            mTvFirstToKnow.setVisibility(View.VISIBLE);
+
         }
         mLlAcceptTermsContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_accept_terms);
@@ -328,8 +336,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
 
-        String sourceString = mContext.getResources().getString(R.string.Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.Opt_In_Over_Peers) + "</b> ";
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) + " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        String updateJoinNowText = mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers);
+        sourceString = String.format(sourceString, updateJoinNowText);
         mJoinnow.setText(Html.fromHtml(sourceString));
+
+        String firstToKnow = "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Be_The_First) + "</b> ";
+        mTvFirstToKnow.setText(Html.fromHtml(firstToKnow));
+
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mBtnCreateAccount.setOnClickListener(this);
         mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);

@@ -9,9 +9,7 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -20,9 +18,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class RegistrationApplication extends Application {
@@ -54,7 +50,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.DEVELOPMENT);
+            initRegistration(Configuration.STAGING);
         }
     }
 
@@ -215,13 +211,6 @@ public class RegistrationApplication extends Application {
                 break;
         }
 
-       HSDPInfo hsdpInfo1 = RegistrationConfiguration.getInstance().getHSDPInfo();
-        if(hsdpInfo1!=null) {
-            System.out.println("HSDP: " + hsdpInfo1.getApplicationName());
-            System.out.println("HSDP: " + hsdpInfo1.getSecreteId());
-            System.out.println("HSDP: " + hsdpInfo1.getSharedId());
-            System.out.println("HSDP: " + hsdpInfo1.getBaseURL());
-        }
 
 
     }

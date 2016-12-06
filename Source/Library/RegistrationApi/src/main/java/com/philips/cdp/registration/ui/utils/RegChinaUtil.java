@@ -15,31 +15,31 @@ public class RegChinaUtil {
 
         switch (errorCode) {
             case RegChinaConstants.URXSMSSuccessCode:
-               errorMsg = context.getResources().getString(R.string.URX_SMS_Success);
+               errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Success);
                 break;
             case RegChinaConstants.URXSMSInvalidNumber:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_Invalid_PhoneNumber);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Invalid_PhoneNumber);
                 break;
             case RegChinaConstants.URXSMSUnAvailNumber:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_PhoneNumber_UnAvail_ForSMS);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_PhoneNumber_UnAvail_ForSMS);
                 break;
             case RegChinaConstants.URXSMSUnSupportedCountry:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_UnSupported_Country_ForSMS);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_UnSupported_Country_ForSMS);
                 break;
             case RegChinaConstants.URXSMSLimitReached:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_Limit_Reached);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Limit_Reached);
                 break;
             case RegChinaConstants.URXSMSInternalServerError:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_InternalServerError);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_InternalServerError);
                 break;
             case RegChinaConstants.URXSMSNoInfo:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_NoInformation_Available);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_NoInformation_Available);
                 break;
             case RegChinaConstants.URXSMSNotSent:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_Not_Sent);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Not_Sent);
                 break;
             case RegChinaConstants.URXSMSAlreadyVerifed:
-                errorMsg = context.getResources().getString(R.string.URX_SMS_Already_Verified);
+                errorMsg = context.getResources().getString(R.string.reg_URX_SMS_Already_Verified);
                 break;
 
             default:

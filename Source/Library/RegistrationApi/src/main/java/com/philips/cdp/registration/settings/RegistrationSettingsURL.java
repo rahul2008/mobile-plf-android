@@ -26,17 +26,15 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     public static final String PROD_CAPTURE_DOMAIN = "https://philips.janraincapture.com";
 
+    public static final String DEV_CAPTURE_DOMAIN_CHINA = "https://philips-cn-dev.capture.cn.janrain.com";
+
     public static final String DEV_CAPTURE_DOMAIN_CHINA_EU = "https://philips-china-eu.eu-dev.janraincapture.com";
 
-    public static final String DEV_CAPTURE_DOMAIN_CHINA = "https://philips-cn-dev.capture.cn.janrain.com";// Removed from Doc
+    public static final String TEST_CAPTURE_DOMAIN_CHINA= "https://philips-cn-test.capture.cn.janrain.com";
 
-    public static final String TEST_CAPTURE_DOMAIN_CHINA= "https://philips-china-test.eu-dev.janraincapture.com";
+    public static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-china-test.eu-dev.janraincapture.com";
 
-    public static final String TEST_CAPTURE_DOMAIN_CHINA_EU = "https://philips-cn-test.capture.cn.janrain.com";// Removed from Doc
-
-    public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-china-staging.capture.cn.janrain.com";
-
-    public static final String STAG_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";// New added
+    public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
 
     public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";
 
@@ -159,10 +157,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN,"x7nftvwfz8e8vcutz49p8eknqp");
         map.put(EVAL_CAPTURE_DOMAIN,"nt5dqhp6uck5mcu57snuy8uk6c");
         map.put(PROD_CAPTURE_DOMAIN,"hffxcm638rna8wrxxggx2gykhc");
-        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"euwkgsf83m56hqknjxgnranezh");
         map.put(DEV_CAPTURE_DOMAIN_CHINA,"7629q5uxm2jyrbk7ehuwryj7a4");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA,"vdgkb3z57jpv93mxub34x73mqu");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"hqmhwxu7jtdcye758vvxux4ryb");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"euwkgsf83m56hqknjxgnranezh");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"hqmhwxu7jtdcye758vvxux4ryb");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"vdgkb3z57jpv93mxub34x73mqu");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"czwfzs7xh23ukmpf4fzhnksjmd");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"59fceb32hvkycquwn7fvhs9b99");
         RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
@@ -176,10 +174,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN,"fhbmobeahciagddgfidm");
         map.put(EVAL_CAPTURE_DOMAIN,"jgehpoggnhbagolnihge");
         map.put(PROD_CAPTURE_DOMAIN,"ddjbpmgpeifijdlibdio");
-        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"bdbppnbjfcibijknnfkk");
         map.put(DEV_CAPTURE_DOMAIN_CHINA,"ruaheighoryuoxxdwyfs");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA,"fhbmobeahciagddgfidm");
-        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"jndphelwbhuevcmovqtn");
+        map.put(DEV_CAPTURE_DOMAIN_CHINA_EU,"bdbppnbjfcibijknnfkk");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA,"jndphelwbhuevcmovqtn");
+        map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"fhbmobeahciagddgfidm");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"uyfpympodtnesxejzuic");
         map.put(PROD_CAPTURE_DOMAIN_CHINA,"ddjbpmgpeifijdlibdio");
         RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
@@ -225,7 +223,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.api", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
@@ -310,6 +307,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +"Service Deiscover inis at non China local");
                                                                                 setChinaFlow(false);
+                                                                                jumpConfig.flowEngage = null;
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;
@@ -334,8 +332,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
                                                                                 // If configuration is Staging pass this
+                                                                                jumpConfig.flowEngage = null;
                                                                                 if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(Configuration.STAGING.getValue())) {
                                                                                     jumpConfig.flowCDN = "https://janrain-capture-static.cn.janrain.com";
+                                                                                    jumpConfig.flowEngage = "https://philips-staging.login.cn.janrain.com";
                                                                                 }
                                                                                  mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;

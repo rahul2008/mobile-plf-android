@@ -38,7 +38,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:gravity="left"
-                    android:text="@string/Opt_In_Be_The_First"
+                    android:text="@string/reg_Opt_In_Be_The_First"
                     android:textSize="@dimen/reg_back_arrow_size"
                     android:textStyle="bold"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
@@ -49,7 +49,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:gravity="left"
-                    android:text="@string/Opt_In_What_Are_You_Going_To_Get"
+                    android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
                     android:textSize="@dimen/reg_error_alert_size"
                     android:textStyle="bold"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
@@ -60,7 +60,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:gravity="left"
-                    android:text="@string/Opt_In_Special_Offers"
+                    android:text="@string/reg_Opt_In_Special_Offers"
                     android:textSize="@dimen/reg_button_text_size"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
             </LinearLayout>
@@ -76,7 +76,7 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_Join_now"
                     style="@style/reg_text_description"
-                    android:text="@string/Opt_In_Join_Now"
+                    android:text="@string/reg_Opt_In_Join_Now"
                     android:textColor="@color/reg_social_to_social_ui_blocker_bg"
                     android:textSize="@dimen/reg_title_text_size_medium"
                     android:visibility="visible"
@@ -121,7 +121,7 @@
                     android:id="@+id/btn_reg_count_me"
                     style="@style/reg_style_btn"
                     android:enabled="true"
-                    android:text="@string/Opt_In_Count_Me_In"
+                    android:text="@string/reg_Opt_In_Count_Me_In"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
             </RelativeLayout>
@@ -140,7 +140,7 @@
                     style="@style/reg_style_btn"
                     android:background="@drawable/reg_btn_forgot_selector"
                     android:enabled="true"
-                    android:text="@string/Opt_In_No_Thanks"
+                    android:text="@string/reg_Opt_In_No_Thanks"
                     android:textColor="@drawable/reg_btn_secondary_text_selector"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 

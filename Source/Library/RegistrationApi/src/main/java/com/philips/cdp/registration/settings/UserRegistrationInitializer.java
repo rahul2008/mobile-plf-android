@@ -19,6 +19,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.janrain.android.Jump;
+import com.janrain.android.JumpConfig;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -169,13 +171,17 @@ public class UserRegistrationInitializer {
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
         serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-            @Override
+           @Override
             public void onSuccess(String s) {
                 System.out.println("STRING S : " + s);
-                String localeArr[] = s.toString().split("_");
+                String localeArr[] = s.split("_");
                 serviceDiscoveryInterface.setHomeCountry(localeArr[1].trim().toUpperCase());
+                
                 RegistrationHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
-                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
+                System.out.println("STRING Change : " + localeArr[0].trim()+"-"+localeArr[1].trim());
+               PILLocaleManager localeManager = new PILLocaleManager(context);
+               localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
+                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), localeArr[0].trim()+"-"+localeArr[1].trim());
 
             }
 
@@ -183,9 +189,13 @@ public class UserRegistrationInitializer {
             public void onError(ERRORVALUES errorvalues, String s) {
                 System.out.println("STRING S : " + s);
                 try {
-                    String localeArr[] = s.toString().split("_");
+                    String localeArr[] = s.split("_");
                     RegistrationHelper.getInstance().setCountryCode(localeArr[1]);
-                    mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), initLocale);
+                    System.out.println("STRING Change : " +localeArr[0].trim()+"-"+localeArr[1].trim());
+                    PILLocaleManager localeManager = new PILLocaleManager(context);
+                    localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
+
+                    mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), localeArr[0].trim()+"-"+localeArr[1].trim());
                 } catch (ArrayIndexOutOfBoundsException e) {
                     e.printStackTrace();
                 }

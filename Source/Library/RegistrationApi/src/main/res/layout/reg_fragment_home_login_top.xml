@@ -129,7 +129,7 @@
                         style="@style/reg_textStyle"
                         android:layout_width="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/Reg_Country"
+                        android:text="@string/reg_Reg_Country"
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                     <com.philips.cdp.registration.ui.customviews.XTextView
@@ -138,7 +138,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/tv_country"
                         android:gravity="center"
-                        android:text="@string/Reg_Country"
+                        android:text="@string/reg_Reg_Country"
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
                 </RelativeLayout>
 
