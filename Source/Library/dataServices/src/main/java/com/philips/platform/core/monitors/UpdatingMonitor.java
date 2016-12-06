@@ -82,15 +82,17 @@ public class UpdatingMonitor extends EventMonitor {
             dbUpdatingInterface.updateFailed(e);
             e.printStackTrace();
         }
-        eventing.post(new WriteDataToBackendRequest());
+       // eventing.post(new WriteDataToBackendRequest());
     }
 
     public void onEventBackgroundThread(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
+            eventing.post(new WriteDataToBackendRequest());
             return;
         }
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
+        eventing.post(new WriteDataToBackendRequest());
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {

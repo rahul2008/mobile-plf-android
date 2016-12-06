@@ -268,6 +268,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
+                dismissProgressDialog();
             }
         });
     }
