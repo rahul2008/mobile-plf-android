@@ -12,7 +12,7 @@ def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.
 node_ext = “build_t”
 if (env.triggerBy == “ppc”) {
   node_ext = “build_p”
-{
+}
 
 node ('androidppc '&& node_ext) {
 	timestamps {
