@@ -121,10 +121,6 @@ public class NavigationBarTest {
         getTitleView().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
 
-    private void setupUltralightTonalRangeActivity() {
-        setupActivity(NAVIGATION_COLOR_ULTRALIGHT);
-    }
-
     @Test
     public void verifyTitleTextSize() throws Exception {
         setupUltralightTonalRangeActivity();
@@ -168,10 +164,28 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void verifyMenuTextSize() throws Exception {
+    public void verifyMenuTextColorDefaultColor() throws Exception {
         setupUltralightTonalRangeActivity();
 
         final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.navigationTextColor);
+
+        getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+    }
+
+    @Test
+    public void verifyMenuTextColorForUltraLight() throws Exception {
+        setupActivity(NavigationColor.ULTRA_LIGHT.ordinal());
+
+        final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.Gray75);
+
+        getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+    }
+
+    @Test
+    public void verifyMenuTextColorForVeryLight() throws Exception {
+        setupActivity(NavigationColor.VERY_LIGHT.ordinal());
+
+        final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.GroupBlue75);
 
         getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
@@ -205,6 +219,10 @@ public class NavigationBarTest {
 
         getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
         getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
+    }
+
+    private void setupUltralightTonalRangeActivity() {
+        setupActivity(NAVIGATION_COLOR_ULTRALIGHT);
     }
 
     private ViewInteraction getNavigationBar() {
