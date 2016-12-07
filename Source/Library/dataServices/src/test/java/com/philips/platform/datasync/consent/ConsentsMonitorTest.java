@@ -1,5 +1,6 @@
 package com.philips.platform.datasync.consent;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.philips.platform.core.BackendIdProvider;
@@ -12,6 +13,10 @@ import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.Event;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.injection.ApplicationModule;
+import com.philips.platform.core.injection.BackendModule;
+import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -78,6 +83,9 @@ public class ConsentsMonitorTest {
     private Consent consentMock;
 
     @Mock
+    private Context contextMock;
+
+    @Mock
     private List<UCoreConsentDetail> uCoreConsentDetailMock;
 
     @Mock
@@ -86,8 +94,8 @@ public class ConsentsMonitorTest {
     @Mock
     private ConsentBackendListSaveRequest consentSaveListRequestMock;
 
-//    @Mock
-//    DataServicesManager dataServicesManagerMock;
+    @Mock
+    DataServicesManager dataServicesManagerMock;
 
     @Captor
     private ArgumentCaptor<BackendResponse> errorCaptor;
@@ -132,8 +140,7 @@ public class ConsentsMonitorTest {
 
         verify(eventingMock).post(errorCaptor.capture());
         assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
-    }
-*/
+    }*/
     /*
 
     @Test
@@ -328,6 +335,16 @@ public class ConsentsMonitorTest {
         assertThat(consentEvent.getConsent()).isNull();
     }
 */
+
+
+    private void prepareInjectionsGraph() {
+        BackendModule backendModule = new BackendModule(eventingMock);
+        final ApplicationModule applicationModule = new ApplicationModule(contextMock);
+
+        // initiating all application module events
+        AppComponent appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        appComponent.injectApplication(dataServicesManagerMock);
+    }
 
 
 }
