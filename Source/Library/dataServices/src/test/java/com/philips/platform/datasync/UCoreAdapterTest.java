@@ -90,9 +90,9 @@ public class UCoreAdapterTest {
         when(restAdapterBuilderMock.setEndpoint(anyString())).thenReturn(restAdapterBuilderMock);
         when(restAdapterBuilderMock.setLogLevel(UCoreAdapter.LOG_LEVEL)).thenReturn(restAdapterBuilderMock);
         when(restAdapterBuilderMock.setRequestInterceptor(any(RequestInterceptor.class))).thenReturn(restAdapterBuilderMock);
-        //when(restAdapterBuilderMock.setClient(okClientMock)).thenReturn(restAdapterBuilderMock);
-        //when(restAdapterBuilderMock.setConverter(gsonConverterMock)).thenReturn(restAdapterBuilderMock);
-        //when(restAdapterBuilderMock.build()).thenReturn(restAdapterMock);
+        when(restAdapterBuilderMock.setClient(okClientMock)).thenReturn(restAdapterBuilderMock);
+        when(restAdapterBuilderMock.setConverter(gsonConverterMock)).thenReturn(restAdapterBuilderMock);
+        when(restAdapterBuilderMock.build()).thenReturn(restAdapterMock);
 
         //when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
         //String test_package_name = "TEST_PACKAGE_NAME";

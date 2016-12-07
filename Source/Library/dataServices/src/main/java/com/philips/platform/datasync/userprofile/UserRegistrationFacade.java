@@ -2,7 +2,6 @@ package com.philips.platform.datasync.userprofile;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.UserCredentials;
 import com.philips.platform.core.datatypes.UserProfile;
 
 /**
@@ -19,8 +18,5 @@ public interface UserRegistrationFacade {
     @NonNull
     UserProfile getUserProfile();
 
-    boolean isSameUser();
-
-    UserCredentials getUserCredentials();
     String getHSDHsdpUrl();
 }

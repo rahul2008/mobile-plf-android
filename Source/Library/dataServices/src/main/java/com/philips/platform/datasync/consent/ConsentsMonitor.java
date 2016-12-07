@@ -32,8 +32,8 @@ import retrofit.converter.GsonConverter;
  * All rights reserved.
  */
 public class ConsentsMonitor extends EventMonitor {
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+   /* @NonNull
+    private final UCoreAccessProvider accessProvider;*/
 
     @NonNull
     private final UCoreAdapter uCoreAdapter;
@@ -44,21 +44,18 @@ public class ConsentsMonitor extends EventMonitor {
     @NonNull
     private final ConsentsConverter consentsConverter;
 
-    DataServicesManager mDataServicesManager;
+    private  DataServicesManager mDataServicesManager;
 
-    private BaseAppDataCreator mDataCreater;
+    //private BaseAppDataCreator mDataCreater;
 
     @Inject
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final ConsentsConverter consentsConverter,
                            @NonNull final GsonConverter gsonConverter) {
-
-        mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
-        this.mDataCreater = mDataServicesManager.getDataCreater();
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
+        mDataServicesManager=DataServicesManager.getInstance();
 
     }
 
@@ -86,7 +83,7 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     private void getConsent(ConsentBackendGetRequest event) {
-        Log.i("***SPO***", "Get Consent called");
+
         if (isUserInvalid()) {
             postError(event.getEventId(), getNonLoggedInError());
             return;
@@ -94,9 +91,8 @@ public class ConsentsMonitor extends EventMonitor {
         if(event.getConsentDetails()==null){
             return;
         }
-        Log.i("***SPO***", "Get Consent called before ConsentsClient");
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, accessProvider.getAccessToken(), gsonConverter);
-        Log.i("***SPO***", "Get Consent called After ConsentsClient");
+
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, mDataServicesManager.getUCoreAccessProvider().getAccessToken(), gsonConverter);
         try {
 
             List<ConsentDetail> consentDetails=event.getConsentDetails();
@@ -110,10 +106,10 @@ public class ConsentsMonitor extends EventMonitor {
 
             }
 
-            List<UCoreConsentDetail> consentDetailList = client.getConsent(accessProvider.getUserId(), consentDetailTypes,
+            List<UCoreConsentDetail> consentDetailList = client.getConsent(mDataServicesManager.getUCoreAccessProvider().getUserId(), consentDetailTypes,
                     deviceIdentificationList,documentVersionList);
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
-                Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, accessProvider.getUserId());
+                Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, mDataServicesManager.getUCoreAccessProvider().getUserId());
                 for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                     consentDetail.setBackEndSynchronized(true);
                 }
@@ -139,7 +135,7 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, accessProvider.getAccessToken(), gsonConverter);
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, mDataServicesManager.getUCoreAccessProvider().getAccessToken(), gsonConverter);
 
         Consent consent = event.getConsent();
 
@@ -177,7 +173,7 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     public boolean isUserInvalid() {
-        final String accessToken = accessProvider.getAccessToken();
-        return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
+        final String accessToken = mDataServicesManager.getUCoreAccessProvider().getAccessToken();
+        return !mDataServicesManager.getUCoreAccessProvider().isLoggedIn() || accessToken == null || accessToken.isEmpty();
     }
 }
