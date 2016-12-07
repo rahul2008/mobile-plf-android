@@ -21,7 +21,7 @@ import cdp.philips.com.mydemoapp.listener.EventHelper;
  */
 public class TemperatureMomentHelper {
 
-    double getTemperature(Moment moment) {
+    String getTemperature(Moment moment) {
         try {
 
             ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
@@ -31,11 +31,11 @@ public class TemperatureMomentHelper {
             // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
             return measurements.get(0).getValue();
         } catch (ArrayIndexOutOfBoundsException e) {
-            return 0.0;
+            return "default";
         } catch (IndexOutOfBoundsException e) {
-            return 0.0;
+            return "default";
         }catch (Exception e){
-            return -1;
+            return "default";
         }
         //return -1;
     }

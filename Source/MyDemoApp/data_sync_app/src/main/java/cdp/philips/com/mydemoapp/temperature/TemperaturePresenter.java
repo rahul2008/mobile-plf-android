@@ -100,7 +100,7 @@ public class TemperaturePresenter {
 
     private void createMeasurement(MeasurementGroup group, String value) {
         mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, group);
-        mMeasurement.setValue(Double.valueOf(value));
+        mMeasurement.setValue(value);
         mMeasurement.setDateTime(DateTime.now());
         mMeasurement.setUnit("celsius");
     }
@@ -217,7 +217,7 @@ public class TemperaturePresenter {
             for (MeasurementGroup next1 : measurementGroupsInside) {
                 Collection<? extends Measurement> measurements = next1.getMeasurements();
                 for (Measurement next2 : measurements) {
-                    next2.setValue(Double.parseDouble(meausrementValue));
+                    next2.setValue(meausrementValue);
 
                     Collection<? extends MeasurementDetail> measurementDetails = next2.getMeasurementDetails();
                     for (MeasurementDetail next3 : measurementDetails) {
