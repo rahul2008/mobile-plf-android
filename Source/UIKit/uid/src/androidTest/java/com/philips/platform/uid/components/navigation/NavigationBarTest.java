@@ -128,10 +128,11 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void verifyNavigationBarIconTouchableArea() throws Exception {
+    public void verifyNavigationBarIconTargetArea() throws Exception {
         int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
 
         getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
+        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
     }
 
     private ViewInteraction getNavigationBar() {

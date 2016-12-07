@@ -153,6 +153,7 @@ public class NavigationController {
 
     @NonNull
     private Fragment getFragmentAtBackStackIndex(final int index) {
+
         final FragmentManager.BackStackEntry backStackEntry = supportFragmentManager.getBackStackEntryAt(index);
         final String name = backStackEntry.getName();
         return supportFragmentManager.findFragmentByTag(name);
