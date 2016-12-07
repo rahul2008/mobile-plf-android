@@ -1,4 +1,5 @@
 package com.philips.platform.core.monitors;
+
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -6,9 +7,11 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.ExceptionEvent;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
+import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
+import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 
@@ -20,19 +23,11 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FetchingMonitorTest {
@@ -58,10 +53,20 @@ public class FetchingMonitorTest {
     private GetNonSynchronizedDataRequest getNonSynchronizedDataRequestMock;
 
     @Mock
+    private GetNonSynchronizedMomentsRequest getNonSynchronizedMomentsRequestMock;
+
+    @Mock
+    private GetNonSynchronizedDataResponse getNonSynchronizedDataResponseMock;
+
+    @Mock
     private Consent consentMock;
 
     @Captor
     private ArgumentCaptor<GetNonSynchronizedDataResponse> getNonSynchronizedDataResponseCaptor;
+
+    @Captor
+    private ArgumentCaptor<GetNonSynchronizedMomentsRequest> getNonSynchronizedMomentsResponseCaptor;
+
 
     @Mock
     private Moment ormMomentMock;
@@ -96,18 +101,14 @@ public class FetchingMonitorTest {
     }
 
     @Test
-    public void ShouldThrowException_FetchingMomentsThrowsException() throws Exception {
-        final SQLException exception = new SQLException("test");
-        //when(fetching.fetchMoments()).thenThrow(exception);
-
+    public void ShouldThrowException_FetchingMoments() throws Exception {
         fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest());
+        verify(fetching).fetchMoments();
+    }
 
-        ArgumentCaptor<ExceptionEvent> captor = ArgumentCaptor.forClass(ExceptionEvent.class);
-//        verify(eventingMock, times(2)).post(captor.capture());
-//        final ExceptionEvent exceptionEvent = captor.getValue();
-
- //       assertThat(exceptionEvent.getCause()).isSameAs(exception);
- //       assertThat(exceptionEvent.getMessage()).isEqualTo("Loading timeline failed");
+    @Test
+    public void fetchingMomentsLoadLastMomentRequest() throws Exception {
+        fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature"));
     }
 
     @Test
@@ -118,6 +119,22 @@ public class FetchingMonitorTest {
         verify(fetching).fetchMoments();
     }
 
+    @Test
+    public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
+
+        fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest());
+
+        verify(fetching).fetchConsents();
+    }
+
+    /*@Test
+    public void getNonSynchronizedDataRequestTest() throws SQLException {
+        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
+        Map<Class, List<?>> dataToSync = new HashMap<>();
+        verify(fetching.putMomentsForSync(dataToSync));
+        verify(fetching.putConsentForSync(dataToSync));
+        eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
+    }*/
 
     private GetNonSynchronizedDataResponse getNonSynchronizedDataResponse() {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
@@ -125,5 +142,13 @@ public class FetchingMonitorTest {
         verify(eventingMock).post(getNonSynchronizedDataResponseCaptor.capture());
 
         return getNonSynchronizedDataResponseCaptor.getValue();
+    }
+
+    private GetNonSynchronizedMomentsRequest getNonSynchronizedMomentsRequest() {
+        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
+
+        verify(eventingMock).post(getNonSynchronizedMomentsResponseCaptor.capture());
+
+        return getNonSynchronizedMomentsResponseCaptor.getValue();
     }
 }
