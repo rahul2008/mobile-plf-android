@@ -190,6 +190,15 @@ public class NavigationBarTest {
         getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
+    @Test
+    public void verifyNavigationMenuTextSize() throws Exception {
+        setupActivity(NavigationColor.VERY_LIGHT.ordinal());
+
+        int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
+
+        getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
+    }
+
     @Ignore
     @Test
     public void verifyMenuIconMargin() throws Exception {
