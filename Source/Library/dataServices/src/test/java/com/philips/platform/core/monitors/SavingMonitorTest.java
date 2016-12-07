@@ -30,7 +30,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmSavingMonitorTest {
+public class SavingMonitorTest {
 
     public static final String TEST_GUID = "TEST_GUID";
     public static final int TEST_ID = 111;
