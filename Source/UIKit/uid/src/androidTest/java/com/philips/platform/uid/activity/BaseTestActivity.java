@@ -27,13 +27,18 @@ public class BaseTestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        int navigationColor = NavigationColor.BRIGHT.ordinal();
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            final Bundle extras = getIntent().getExtras();
+            navigationColor = extras.getInt("NavigationColor", 1);
+        }
         UIDHelper.injectCalligraphyFonts();
-        UIDHelper.init(getThemeConfig());
+        UIDHelper.init(getThemeConfig(navigationColor));
         super.onCreate(savedInstanceState);
     }
 
-    private ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, this);
+    private ThemeConfiguration getThemeConfig(final int navigationColor) {
+        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.values()[navigationColor], this);
     }
 
     public void switchTo(final int layout) {
