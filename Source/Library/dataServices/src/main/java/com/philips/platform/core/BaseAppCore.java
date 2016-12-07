@@ -88,19 +88,6 @@ public class BaseAppCore implements BaseAppDataCreator {
         return database.createMomentDetail(type, moment);
     }
 
-//    @NonNull
-//    @Override
-//    public Measurement createMeasurement(@NonNull String type, @NonNull Moment moment) {
-//        return database.createMeasurement(type, moment);
-//    }
-
-    /*@NonNull
-    public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment) {
-    @NonNull
-    public Measurement createMeasurement(@NonNull final String type, @NonNull final Moment moment) {
-        return database.createMeasurement(type, moment);
-    }*/
-
     @NonNull
     public Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup) {
         return database.createMeasurement(type, measurementGroup);
