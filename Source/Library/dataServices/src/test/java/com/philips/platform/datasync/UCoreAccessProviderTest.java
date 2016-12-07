@@ -3,7 +3,7 @@ package com.philips.platform.datasync;
 import android.content.SharedPreferences;
 
 import com.philips.platform.core.datatypes.UserProfile;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class UCoreAccessProviderTest {
     public static final String TEST_BABY_ID = "TEST_BABY_ID";
 
     @Mock
-    private UserRegistrationFacade userRegistrationFacadeMock;
+    private ErrorHandler userRegistrationFacadeMock;
 
     @Mock
     private UserProfile userProfileMock;
