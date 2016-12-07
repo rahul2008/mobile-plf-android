@@ -474,13 +474,23 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             throw new IllegalStateException("Capability already registered");
         }
 
+        if (capability instanceof SHNCapabilityThreadSafe) {
+            ((SHNCapabilityThreadSafe) capability).setHandlers(shnCentral.getInternalHandler(), shnCentral.getUserHandler());
+        }
+
         registeredByClassCapabilities.put(type, capability);
     }
 
+    @Override
+    public Set<Class<? extends SHNCapability>> getSupportedCapabilityClasses() {
+        return registeredByClassCapabilities.keySet();
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     @Nullable
-    public <T extends SHNCapability> T getCapability(@NonNull final Class<T> clazz) {
-        return (T) registeredByClassCapabilities.get(clazz);
+    public <T extends SHNCapability> T getCapability(@NonNull final Class<T> type) {
+        return (T) registeredByClassCapabilities.get(type);
     }
 
     public void registerService(SHNService shnService) {
