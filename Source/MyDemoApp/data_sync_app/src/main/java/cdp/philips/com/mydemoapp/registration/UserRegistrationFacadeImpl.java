@@ -13,13 +13,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.core.datatypes.UserCredentials;
-import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -166,15 +161,10 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     }*/
 
 
-    @Override
-    public boolean isSameUser() {
-        return email == null || email.length() == 0 || email.equals(getUserProfile().getEmail());
-    }
-
-    @Override
-    public UserCredentials getUserCredentials() {
-        return new UserCredentials(user.getHsdpUUID(), user.getHsdpAccessToken(), user.getJanrainUUID(), user.getAccessToken());
-    }
+//    @Override
+//    public UserCredentials getUserCredentials() {
+//        return new UserCredentials(user.getHsdpUUID(), user.getHsdpAccessToken(), user.getJanrainUUID(), user.getAccessToken());
+//    }
 
 //    @Nullable
 //    private Map<String, String> getQueryParams(final String url, final int baseUrlIndex) {

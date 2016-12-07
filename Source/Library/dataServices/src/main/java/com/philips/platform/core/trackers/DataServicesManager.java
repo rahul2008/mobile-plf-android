@@ -271,8 +271,7 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
-
-        mEventing = new EventingImpl(new EventBus(), new Handler());
+        this.mEventing = new EventingImpl(new EventBus(), new Handler());
         this.mDataCreater = creator;
         this.mUserRegistrationFacadeImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
