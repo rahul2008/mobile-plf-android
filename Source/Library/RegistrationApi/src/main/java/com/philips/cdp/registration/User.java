@@ -359,9 +359,13 @@ public class User {
             JSONObject userAddress = new JSONObject(captureRecord.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(captureRecord.getString(CONSUMER_PREFERED_LANGUAGE));
-            if (RegistrationHelper.getInstance().isChinaFlow()) {
+            //Need to change in better way
+            try{
                 diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
+            }catch (Exception ignored){
+                
             }
+
             String gender = captureRecord.getString(UpdateGender.USER_GENDER);
             if (null != gender) {
                 if (gender.equalsIgnoreCase(Gender.MALE.toString())) {
