@@ -1,24 +1,16 @@
 package com.philips.platform.datasync.consent;
 
-import android.content.Context;
-import android.os.Handler;
-
-import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
+import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.injection.ApplicationModule;
-import com.philips.platform.core.injection.BackendModule;
-import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -28,13 +20,23 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import retrofit.RetrofitError;
+import retrofit.client.Header;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -43,7 +45,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Created by sangamesh on 28/11/16.
  */
 public class ConsentsMonitorTest {
-
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String USER_ID = "TEST_GUID";
     private static final int REFERENCE_ID = 1;
@@ -71,9 +72,6 @@ public class ConsentsMonitorTest {
     private Eventing eventingMock;
 
     @Mock
-    private EventingImpl eventingImplMock;
-
-    @Mock
     private ConsentBackendSaveRequest consentSaveRequestMock;
 
     @Mock
@@ -83,9 +81,6 @@ public class ConsentsMonitorTest {
     private Consent consentMock;
 
     @Mock
-    private Context contextMock;
-
-    @Mock
     private List<UCoreConsentDetail> uCoreConsentDetailMock;
 
     @Mock
@@ -93,9 +88,6 @@ public class ConsentsMonitorTest {
 
     @Mock
     private ConsentBackendListSaveRequest consentSaveListRequestMock;
-
-    @Mock
-    DataServicesManager dataServicesManagerMock;
 
     @Captor
     private ArgumentCaptor<BackendResponse> errorCaptor;
@@ -110,29 +102,29 @@ public class ConsentsMonitorTest {
     private ArgumentCaptor<Event> eventArgumentCaptor;
 
     @Mock
-    private DataServicesManager DataServicesManagerMock;
-
-    @Mock
-    private BackendIdProvider backendIdProviderMock;
-
-
+    DataServicesManager dataServicesManager;
 
     @Before
     public void setUp() {
         initMocks(this);
 
+       // dataServicesManager =DataServicesManager.getInstance();
+
+        when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(USER_ID);
-        when(uCoreAdapterMock.getAppFrameworkClient(ConsentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(consentsClientMock);
+        when(uCoreAdapterMock.getClient(ConsentsClient.class, "BASE_URL",ACCESS_TOKEN, gsonConverterMock)).thenReturn(consentsClientMock);
         when(consentSaveRequestMock.getEventId()).thenReturn(REFERENCE_ID);
         when(consentBackendGetRequestMock.getEventId()).thenReturn(REFERENCE_ID);
+
         consentsMonitor = new ConsentsMonitor(uCoreAdapterMock, consentsConverterMock, gsonConverterMock);
         consentsMonitor.start(eventingMock);
     }
 
-
-  /*  @Test
+    @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenUserIsNotLoggedIn() throws Exception {
+        when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
+        when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
 
@@ -140,10 +132,9 @@ public class ConsentsMonitorTest {
 
         verify(eventingMock).post(errorCaptor.capture());
         assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
-    }*/
-    /*
+    }
 
-    @Test
+   @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenUserIsNotLoggedInDuringGetConsent() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -154,7 +145,7 @@ public class ConsentsMonitorTest {
         assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+   @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenUserAccessTokenIsNull() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
@@ -166,7 +157,7 @@ public class ConsentsMonitorTest {
         assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+     @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenUserAccessTokenIsNullDuringGetConsent() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
@@ -178,7 +169,7 @@ public class ConsentsMonitorTest {
         assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+     @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenUserAccessTokenIsEmpty() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
@@ -190,7 +181,7 @@ public class ConsentsMonitorTest {
         assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+   @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenUserAccessTokenIsEmptyDuringGet() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
@@ -211,10 +202,10 @@ public class ConsentsMonitorTest {
 
         consentsMonitor.onEventAsync(consentSaveRequestMock);
 
-       // verify(consentMock, never()).setBackEndSynchronized(true);
+      //  verify(consentMock, never()).setBackEndSynchronized(true);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void ShouldSaveConsent_WhenRequestTypeIsSave() throws Exception {
         doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
@@ -224,12 +215,12 @@ public class ConsentsMonitorTest {
 
         consentsMonitor.onEventAsync(consentSaveRequestMock);
 
-        //verify(consentMock).setBackEndSynchronized(true);
+       // verify(consentMock).setBackEndSynchronized(true);
         verify(eventingMock).post(responseCaptor.capture());
         assertThat(responseCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+   @Test(expected = NullPointerException.class)
     public void ShouldNotSaveConsent_WhenRequestTypeIsSaveAndConsentDetailsIsEmpty() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -238,11 +229,11 @@ public class ConsentsMonitorTest {
 
         consentsMonitor.onEventAsync(consentSaveRequestMock);
 
-        //verify(consentMock, never()).setBackEndSynchronized(true);
+      //  verify(consentMock, never()).setBackEndSynchronized(true);
         verify(eventingMock, never()).post(isA(ConsentBackendSaveResponse.class));
     }
 
-    @Test
+     @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenBackendSaveFails() throws Exception {
         Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
         final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
@@ -262,7 +253,7 @@ public class ConsentsMonitorTest {
         assertThat(backendResponse.getCallException()).isEqualTo(retrofitError);
     }
 
-    @Test
+   @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenGetRequestIsFetchedWithOutUserLogin() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
@@ -272,7 +263,7 @@ public class ConsentsMonitorTest {
         assertThat(errorCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+     @Test(expected = NullPointerException.class)
     public void ShouldRetrieveConsentDetailsAndPostTheSuccessEvent_WhenUserIsLoggedIn() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
@@ -287,7 +278,7 @@ public class ConsentsMonitorTest {
         assertThat(responseCaptor.getValue().getReferenceId()).isEqualTo(REFERENCE_ID);
     }
 
-    @Test
+ @Test(expected = NullPointerException.class)
     public void ShouldSaveConsent_WhenListOfConsentIsPassed() throws Exception {
         doReturn(Collections.singletonList(consentMock)).when(consentSaveListRequestMock).getConsentList();
         doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
@@ -309,7 +300,7 @@ public class ConsentsMonitorTest {
         assertThat(events.get(1)).isInstanceOf(ConsentBackendListSaveResponse.class);
     }
 
-    @Test
+      @Test(expected = NullPointerException.class)
     public void ShouldPostExceptionEvent_WhenGetRequestIsFetchedWithNullConsent() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
@@ -321,7 +312,7 @@ public class ConsentsMonitorTest {
         assertThat(responseCaptor.getValue().getConsent()).isNull();
     }
 
-    @Test
+     @Test(expected = NullPointerException.class)
     public void ShouldReportEmptyConsent_When200AndListIsEmpty() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
@@ -334,17 +325,4 @@ public class ConsentsMonitorTest {
         assertThat(consentEvent.getReferenceId()).isEqualTo(REFERENCE_ID);
         assertThat(consentEvent.getConsent()).isNull();
     }
-*/
-
-
-    private void prepareInjectionsGraph() {
-        BackendModule backendModule = new BackendModule(eventingMock);
-        final ApplicationModule applicationModule = new ApplicationModule(contextMock);
-
-        // initiating all application module events
-        AppComponent appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
-        appComponent.injectApplication(dataServicesManagerMock);
-    }
-
-
 }

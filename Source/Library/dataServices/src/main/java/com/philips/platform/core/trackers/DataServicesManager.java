@@ -76,7 +76,7 @@ import de.greenrobot.event.EventBus;
 public class DataServicesManager {
 
     @NonNull
-    private final Eventing mEventing;
+    private  Eventing mEventing;
 
     private BaseAppDataCreator mDataCreater;
 
@@ -110,7 +110,7 @@ public class DataServicesManager {
 
     @Singleton
     private DataServicesManager() {
-        this.mEventing = new EventingImpl(new EventBus(), new Handler());
+
     }
 
     public static DataServicesManager getInstance() {
@@ -271,6 +271,8 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
+
+        mEventing = new EventingImpl(new EventBus(), new Handler());
         this.mDataCreater = creator;
         this.mUserRegistrationFacadeImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
