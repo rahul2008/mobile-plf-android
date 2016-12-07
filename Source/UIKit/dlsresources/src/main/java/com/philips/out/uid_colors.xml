@@ -1,4 +1,4 @@
-<resources>
+<resources name="Hello world">
   <color name="uid_aqua_0">#ffffff</color>
   <color name="uid_aqua_10">#DAF1F2</color>
   <color name="uid_aqua_100">#000000</color>
