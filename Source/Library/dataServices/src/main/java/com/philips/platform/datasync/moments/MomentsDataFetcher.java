@@ -73,9 +73,11 @@ public class MomentsDataFetcher extends DataFetcher {
                 accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
                 List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
+/*
                 if (uCoreMoments != null && uCoreMoments.size() <= 0) {
                     return null;
                 }
+*/
 
                 List<Moment> moments = converter.convert(uCoreMoments);
                 eventing.post(new BackendMomentListSaveRequest(moments));

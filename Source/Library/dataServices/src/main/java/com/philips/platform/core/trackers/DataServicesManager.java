@@ -57,7 +57,7 @@ import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -106,7 +106,7 @@ public class DataServicesManager {
 
     private static DataServicesManager sDataServicesManager;
 
-    private UserRegistrationFacade mUserRegistrationFacadeImpl;
+    private ErrorHandler mErrorHandlerImpl;
 
     @Singleton
     private DataServicesManager() {
@@ -158,7 +158,7 @@ public class DataServicesManager {
 
     @NonNull
     public Consent createConsent() {
-        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
+        return mDataCreater.createConsent(mErrorHandlerImpl.getUserProfile().getGUid());
     }
 
     public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
@@ -270,10 +270,10 @@ public class DataServicesManager {
         mDbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
     }
 
-    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
-        this.mEventing = new EventingImpl(new EventBus(), new Handler());
+    public void initialize(Context context, BaseAppDataCreator creator, ErrorHandler facade) {
+        getEventingImpl();
         this.mDataCreater = creator;
-        this.mUserRegistrationFacadeImpl = facade;
+        this.mErrorHandlerImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
@@ -288,8 +288,14 @@ public class DataServicesManager {
         mCore.start();
     }
 
+    private void getEventingImpl() {
+        if (mEventing == null)
+            mEventing = new EventingImpl(new EventBus(), new Handler());
+    }
+
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
     public void deleteAll() {
+        getEventingImpl();
         mEventing.post(new DataClearRequest());
     }
 
@@ -313,7 +319,7 @@ public class DataServicesManager {
     }
 
     public void releaseDataServicesInstances() {
-        mUserRegistrationFacadeImpl = null;
+        mErrorHandlerImpl = null;
         mBackendIdProvider = null;
         mBackend = null;
         mDataCreater = null;
@@ -326,8 +332,8 @@ public class DataServicesManager {
     }
 
 
-    public UserRegistrationFacade getUserRegistrationImpl() {
-        return mUserRegistrationFacadeImpl;
+    public ErrorHandler getUserRegistrationImpl() {
+        return mErrorHandlerImpl;
     }
 
 

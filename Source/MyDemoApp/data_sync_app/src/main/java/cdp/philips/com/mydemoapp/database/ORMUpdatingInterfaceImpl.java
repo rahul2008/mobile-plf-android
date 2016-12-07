@@ -126,7 +126,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 ArrayList<? extends Measurement> measurements = new ArrayList<>(oldMeasurementGroupInside.getMeasurements());
                 for(Measurement measurement : measurements){
                     Measurement measurementValue = manager.createMeasurement(MeasurementType.TEMPERATURE, measurementGroupInside);
-                    measurementValue.setValue(Double.valueOf(measurement.getValue()));
+                    measurementValue.setValue(measurement.getValue());
                     measurementValue.setDateTime(DateTime.now());
 
                     ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
@@ -428,7 +428,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     private void notifyAllFailure(Exception e) {
-        final RetrofitError error = (RetrofitError) e;
+        RetrofitError error = null;
+        if (e instanceof RetrofitError)
+            error = (RetrofitError) e;
         int status = -1000;
         if (error != null && error.getResponse() != null) {
             status = error.getResponse().getStatus();

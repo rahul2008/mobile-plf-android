@@ -21,9 +21,9 @@ public interface Measurement extends BaseAppData, DateData, Serializable {
 
     String getType();
 
-    double getValue();
+    String getValue();
 
-    void setValue(double value);
+    void setValue(String value);
 
     DateTime getDateTime();
 

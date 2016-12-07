@@ -13,8 +13,9 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -30,7 +31,7 @@ import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
  * All rights reserved.
  */
 @Singleton
-public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
+public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureListener {
 
     // TODO: This I do not want
     @NonNull
@@ -77,7 +78,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     private String email;
 
     @Inject
-    public UserRegistrationFacadeImpl(
+    public ErrorHandlerImpl(
             @NonNull final Context context,
             @NonNull final User user) {
         this.context = context;

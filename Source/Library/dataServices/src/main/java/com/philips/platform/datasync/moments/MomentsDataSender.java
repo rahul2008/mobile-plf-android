@@ -14,7 +14,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
@@ -23,7 +22,7 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -107,7 +106,7 @@ public class MomentsDataSender implements DataSender<Moment> {
         }
         boolean conflictHappened = false;
         DataServicesManager dataServicesManager = DataServicesManager.getInstance();
-        UserRegistrationFacade userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
+        ErrorHandler userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
         String BASE = userRegistrationImpl.getHSDHsdpUrl();
 
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, BASE,
