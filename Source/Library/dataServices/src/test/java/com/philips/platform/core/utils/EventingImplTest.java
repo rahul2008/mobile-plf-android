@@ -49,7 +49,7 @@ public class EventingImplTest {
     @Test
     public void ShouldForwardPostOnMainThread_WhenPostIsCalled() {
         eventingImpl.post(eventMock);
- //       verify(eventBusMock).post(eventMock);
+       // verify(eventBusMock).post(eventMock);
     }
 
     @Test
