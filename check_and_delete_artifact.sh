@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMPONENT_NAME="RegistrationApi"
+COMPONENT_NAME="registrationApi"
 CURRENT_TAG=`git tag -l --points-at HEAD`
 OUTPUT=`curl -u admin:password -X GET http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/api/search/artifact?name=${COMPONENT_NAME}*${CURRENT_TAG}&repos=libs-stage-local-android`
 echo $OUTPUT | grep -q ".pom"
