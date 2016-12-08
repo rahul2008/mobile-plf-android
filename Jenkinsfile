@@ -22,7 +22,8 @@ node ('android_pipeline &&' + node_ext) {
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/Library/PrxSample && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug assembleRelease zipDocuments artifactoryPublish'
+				sh './check_and_delete_artifact.sh'
+                sh 'chmod -R 775 . && cd ./Source/Library/PrxSample && ./gradlew clean assembleDebug assembleRelease zipDocuments artifactoryPublish'
 			}
             currentBuild.result = 'SUCCESS'
         }
