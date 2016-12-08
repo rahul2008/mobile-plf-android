@@ -9,12 +9,12 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node_ext = "Ubuntu"
+node_ext = "build_t"
 if (env.triggerBy == "ppc") {
   node_ext = "build_p"
 }
 
-node ('android_pipeline &&' + node_ext) {
+node ('Ubuntu &&' + node_ext) {
 	timestamps {
 		stage ('Checkout') {
             echo "branch to checkout ${BranchName}"
