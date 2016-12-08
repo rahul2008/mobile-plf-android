@@ -24,6 +24,7 @@ node ('android_pipeline &&' + node_ext) {
         
 		try {
 			stage ('build') {
+				sh './check_and_delete_artifact.sh'
                 sh 'cd ./Source/Library && ./gradlew clean assembleDebug lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
 			}
             currentBuild.result = 'SUCCESS'
