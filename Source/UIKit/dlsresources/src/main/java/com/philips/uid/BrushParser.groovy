@@ -30,6 +30,7 @@ brushObject.each {
 }
 
 flushAttrsFile(allAttributes)
+createBlueDarkStyle(allAttributes)
 
 def flushAttrsFile(attrList) {
     def sw = new StringWriter()
@@ -51,4 +52,42 @@ def flushAttrsFile(attrList) {
 
     attrFile.createNewFile();
     attrFile.write(sw.toString())
+}
+
+def createBlueDarkStyle(allAttributes) {
+    def colorRangeMap = [GroupBlue: 'group_blue', Blue: 'blue', Aqua: 'aqua',
+                         Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
+
+    def tonalRangeList = ['UltraLight', 'VeryLight', 'Light', 'Bright', 'VeryDark']
+    def colorsXmlInput = new XmlParser().parseText(new File("../out/uid_colors.xml").text)
+    colorRangeMap.each {
+        theme, color_name ->
+
+            def sw = new StringWriter()
+            def xml = new MarkupBuilder(sw)
+            xml.setDoubleQuotes(true)
+
+            xml.resources() {
+                tonalRangeList.each {
+                    def tonalRange = "$it"
+                    xml.style(name: "Theme.Philips.${theme}${it}") {
+
+                        allAttributes.each {
+                            def tr = tonalRange.toString()
+                            if (it.attributeMap.containsKey(tr)) {
+                                item(name: it.attrName, it.attributeMap.get(tr).getValue("${color_name}", colorsXmlInput))
+                            }
+                        }
+                    }
+
+                }
+            }
+            def attrFile = new File("../out/uid_theme_${color_name}.xml")
+            if (attrFile.exists()) {
+                attrFile.delete()
+            }
+
+            attrFile.createNewFile()
+            attrFile.write(sw.toString())
+    }
 }
