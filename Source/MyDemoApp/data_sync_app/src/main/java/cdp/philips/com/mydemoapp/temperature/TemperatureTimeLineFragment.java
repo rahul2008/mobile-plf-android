@@ -55,6 +55,7 @@ import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.registration.ErrorHandlerImpl;
+import cdp.philips.com.mydemoapp.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -77,12 +78,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
+    Utility mUtility;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
         mProgressBar.setCancelable(false);
@@ -98,10 +101,16 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-        if (!mSharedPreferences.getBoolean("isSynced", false)) {
+        setUpBackendSynchronizationLoop();
+
+        if(!mUtility.isOnline(getContext())){
+            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
             showProgressDialog();
         }
-        setUpBackendSynchronizationLoop();
     }
 
     @Override
