@@ -1,9 +1,7 @@
 package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.BackendResponse;
@@ -15,7 +13,7 @@ import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import java.net.HttpURLConnection;
@@ -113,20 +111,20 @@ public class ConsentsMonitor extends EventMonitor {
                 for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                     consentDetail.setBackEndSynchronized(true);
                 }
-                Log.i("***SPO***", "Get Consent called After ConsentsClient before sending consents response");
+                DSLog.i("***SPO***", "Get Consent called After ConsentsClient before sending consents response");
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
             } else {
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
             }
         } catch (Exception e) {
-            Log.i("***SPO***", "ConsentsMonitor exception Error");
+            DSLog.i("***SPO***", "ConsentsMonitor exception Error");
             eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
             //  eventing.post(new BackendResponse(event.getEventId(), e));
         }
     }
 
     private void postError(int referenceId, final RetrofitError error) {
-        Log.i("***SPO***", "Error In ConsentsMonitor - posterror");
+        DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 

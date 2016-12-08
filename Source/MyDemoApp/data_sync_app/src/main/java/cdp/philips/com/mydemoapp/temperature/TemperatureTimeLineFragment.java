@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import java.sql.SQLException;
@@ -232,7 +232,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, "http : UI updated");
+                DSLog.i(TAG, "http : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
@@ -260,11 +260,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             @Override
             public void run() {
                 if (e != null && e.getMessage() != null) {
-                    Log.i(TAG, "http : UI update Failed" + e.getMessage());
+                    DSLog.i(TAG, "http : UI update Failed" + e.getMessage());
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.i(TAG, "http : UI update Failed");
+                    DSLog.i(TAG, "http : UI update Failed");
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }

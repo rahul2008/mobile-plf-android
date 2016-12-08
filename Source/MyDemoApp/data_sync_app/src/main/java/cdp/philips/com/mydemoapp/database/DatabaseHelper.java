@@ -8,12 +8,12 @@ package cdp.philips.com.mydemoapp.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import java.sql.SQLException;
@@ -76,12 +76,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
-        Log.d(TAG, "onCreate DatabaseHelper");
+        DSLog.d(TAG, "onCreate DatabaseHelper");
         try {
             createTables(connectionSource);
             insertDictionaries();
         } catch (SQLException e) {
-            Log.e(TAG, "Error Unable to create databases", e);
+            DSLog.e(TAG, "Error Unable to create databases" + e);
             mTemperatureMomentHelper.notifyAllFailure(e);
         }
     }
@@ -157,7 +157,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
-        Log.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
+        DSLog.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
         if (newVer > oldVer) {
             //Alter your table here...
         }

@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.philips.platform.core.events.ExceptionEvent;
 import com.philips.platform.core.utils.DSLog;
@@ -14,9 +13,7 @@ import org.mockito.Mock;
 
 import de.greenrobot.event.SubscriberExceptionEvent;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -29,9 +26,6 @@ public class ExceptionMonitorTest {
 
     @Mock
     private Handler handlerMock;
-
-    @Mock
-    Log log;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;

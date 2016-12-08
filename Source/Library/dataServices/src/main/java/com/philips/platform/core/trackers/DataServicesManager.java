@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
@@ -49,6 +48,7 @@ import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.monitors.LoggingMonitor;
 import com.philips.platform.core.monitors.SavingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -235,7 +235,7 @@ public class DataServicesManager {
 
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
-        Log.i("***SPO***", "In DataServicesManager.Synchronize");
+        DSLog.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
         monitor.start(mEventing);
     }
@@ -252,7 +252,7 @@ public class DataServicesManager {
     }*/
 
     private void sendPullDataEvent() {
-        Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
+        DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
         if (mCore != null) {
             mCore.start();
         } else {
