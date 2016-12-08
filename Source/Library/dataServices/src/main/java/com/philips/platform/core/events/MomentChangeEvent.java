@@ -13,7 +13,7 @@ import com.philips.platform.core.datatypes.Moment;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class MomentChangeEvent extends com.philips.platform.core.events.MomentEvent {
+public class MomentChangeEvent extends MomentEvent {
 
     public MomentChangeEvent(final int referenceId, final Moment moment) {
         super(referenceId, moment);
