@@ -22,6 +22,7 @@ node ('android_pipeline &&' + node_ext) {
 		}
 		try {
 			stage ('build') {
+				sh './check_and_delete_artifact.sh'
                 sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug assembleRelease zipDocuments artifactoryPublish'
 			}
             currentBuild.result = 'SUCCESS'
