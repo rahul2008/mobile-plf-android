@@ -12,18 +12,11 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.listener.DBChangeListener;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
@@ -75,6 +68,11 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             return false;
         }
 
+    }
+
+    @Override
+    public void postError(Exception e) {
+        mTemperatureMomentHelper.notifyAllFailure(e);
     }
 
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {

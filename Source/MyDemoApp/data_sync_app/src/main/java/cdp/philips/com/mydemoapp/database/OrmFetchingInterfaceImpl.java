@@ -86,6 +86,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         }
     }
 
+    @Override
+    public void postError(Exception e) {
+        mTemperatureMomentHelper.notifyAllFailure(e);
+    }
+
     private void notifySucessConsentChange(ArrayList<? extends OrmConsent> ormConsents) {
         Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
         Set<Integer> integers = eventMap.keySet();

@@ -12,4 +12,5 @@ import java.sql.SQLException;
 public interface DBSavingInterface {
     boolean saveMoment(final Moment moment) throws SQLException;
     boolean saveConsent(final Consent consent) throws SQLException;
+    void postError(Exception e);
 }

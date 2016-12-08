@@ -35,4 +35,6 @@ public interface DBFetchingInterface {
     void fetchConsents() throws SQLException;
 
     Consent fetchConsent() throws SQLException;
+
+    void postError(Exception e);
 }

@@ -10,10 +10,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.events.ExceptionEvent;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
@@ -47,7 +45,8 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchMoments();
         } catch (SQLException e) {
-            eventing.post(new ExceptionEvent("Loading timeline failed", e));
+            //eventing.post(new ExceptionEvent("Loading timeline failed", e));
+            dbInterface.postError(e);
         }
     }
     
@@ -55,7 +54,8 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchLastMoment(event.getType());
         } catch (SQLException e) {
-            eventing.post(new ExceptionEvent("Loading last entry", e));
+            //eventing.post(new ExceptionEvent("Loading last entry", e));
+            dbInterface.postError(e);
         }
     }
 
@@ -72,7 +72,8 @@ public class FetchingMonitor extends EventMonitor {
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             Log.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
-            eventing.post(new ExceptionEvent("Loading last entry", e));
+            //eventing.post(new ExceptionEvent("Loading last entry", e));
+            dbInterface.postError(e);
         }
     }
 
@@ -86,7 +87,8 @@ public class FetchingMonitor extends EventMonitor {
                 dbInterface.fetchMoments();
             }
         } catch (SQLException e) {
-            eventing.post(new ExceptionEvent("Loading in graph", e));
+            //eventing.post(new ExceptionEvent("Loading in graph", e));
+            dbInterface.postError(e);
         }
     }
 
@@ -96,7 +98,8 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchConsents();
         } catch (SQLException e) {
-            eventing.post(new ExceptionEvent("Loading in graph", e));
+            //eventing.post(new ExceptionEvent("Loading in graph", e));
+            dbInterface.postError(e);
         }
     }
 
@@ -113,7 +116,8 @@ public class FetchingMonitor extends EventMonitor {
             }
 
         } catch (SQLException e) {
-            eventing.post(new GetNonSynchronizedMomentsResponse(null,null));
+            //eventing.post(new GetNonSynchronizedMomentsResponse(null,null));
+            dbInterface.postError(e);
         }
     }
 }
