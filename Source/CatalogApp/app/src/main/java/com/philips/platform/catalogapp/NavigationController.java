@@ -2,7 +2,6 @@ package com.philips.platform.catalogapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -13,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
@@ -30,6 +30,9 @@ public class NavigationController {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    @Bind(R.id.title)
+    TextView title;
     private FragmentManager supportFragmentManager;
     private MainActivity mainActivity;
     private MenuItem themeSetting;
@@ -87,7 +90,7 @@ public class NavigationController {
         final ThemeSettingsFragment themeSettingsFragment = new ThemeSettingsFragment();
         final boolean switchedFragment = switchFragment(themeSettingsFragment);
         if (switchedFragment) {
-            mainActivity.setTitle(R.string.page_title_theme_settings);
+            setTitleText(R.string.page_title_theme_settings);
 
             themeSettingsIconVisible(false);
         }
@@ -106,10 +109,9 @@ public class NavigationController {
 
     private void initTitle(final int titleResourceId) {
         if (titleResourceId != -1) {
-            mainActivity.setTitle(titleResourceId);
+            setTitleText(titleResourceId);
         }
     }
-
     public boolean switchFragment(BaseFragment fragment) {
 
         final List<Fragment> fragments = supportFragmentManager.getFragments();
@@ -131,14 +133,13 @@ public class NavigationController {
         transaction.addToBackStack(null);
         transaction.commit();
         toggleHamburgerIcon();
-        toolbar.setTitle(fragment.getPageTitle());
         return true;
     }
 
     private void showHamburgerIcon() {
         toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_menu, mainActivity.getTheme()));
         hamburgerIconVisible = true;
-        toolbar.setTitle(R.string.catalog_app_name);
+        title.setText(R.string.catalog_app_name);
         titleResource = R.string.catalog_app_name;
     }
 
@@ -162,10 +163,8 @@ public class NavigationController {
     public void init(final Bundle savedInstanceState) {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
         ButterKnife.bind(this, mainActivity);
-        mainActivity.setSupportActionBar(toolbar);
+        UIDHelper.setupToolbar(mainActivity, R.drawable.ic_hamburger_menu, R.id.toolbar);
 
-        final Resources resources = mainActivity.getResources();
-        UIDHelper.setupToolbar(mainActivity, R.drawable.ic_hamburger_menu, R.string.catalog_app_name, R.id.toolbar);
         if (savedInstanceState == null) {
             initDemoListFragment();
             showHamburgerIcon();
@@ -187,7 +186,7 @@ public class NavigationController {
 
     public void setTitleText(final int titleId) {
         titleResource = titleId;
-        toolbar.setTitle(titleId);
+        title.setText(titleId);
     }
 
     //Needed only untill we have hamburger
