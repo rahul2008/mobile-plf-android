@@ -16,7 +16,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class BackendMomentListSaveRequest extends com.philips.platform.core.events.ListEvent<Moment> {
+public class BackendMomentListSaveRequest extends ListEvent<Moment> {
 
     public BackendMomentListSaveRequest(@NonNull final List<? extends Moment> dataList) {
         super(dataList);
