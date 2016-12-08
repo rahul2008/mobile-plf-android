@@ -9,7 +9,7 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node_ext = "build_t"
+node_ext = "Ubuntu"
 if (env.triggerBy == "ppc") {
   node_ext = "build_p"
 }
@@ -25,7 +25,7 @@ node ('android_pipeline &&' + node_ext) {
 		try {
 			stage ('build') {
 				sh './check_and_delete_artifact.sh'
-                sh 'cd ./Source/Library && ./gradlew clean assembleDebug lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
+                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
 			}
             currentBuild.result = 'SUCCESS'
         }
