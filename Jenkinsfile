@@ -25,8 +25,7 @@ node ('android_pipeline &&' + node_ext) {
 		
         try {
 			stage ('build') {
-				sh 'chmod -R 775 ./check_and_delete_artifact.sh && ./check_and_delete_artifact.sh'
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug lint cC assembleRelease zipDocuments artifactoryPublish'
+				sh 'cd ./Source/Library && ./gradlew clean assembleDebug && chmod -R 775 ../../check_and_delete_artifact.sh && ./check_and_delete_artifact.sh && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
 			}
             currentBuild.result = 'SUCCESS'
             
