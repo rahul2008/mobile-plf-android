@@ -9,8 +9,16 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.monitors.DBMonitors;
+import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.monitors.FetchingMonitor;
+import com.philips.platform.core.monitors.SavingMonitor;
+import com.philips.platform.core.monitors.UpdatingMonitor;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -20,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,8 +46,29 @@ public class BaseAppCoreTest {
     private Eventing eventing;
     @Mock
     BaseAppDataCreator database;
+
+    SavingMonitor savingMonitor;
+
+    FetchingMonitor fetchMonitor;
+
+    DeletingMonitor deletingMonitor;
+
+    UpdatingMonitor updatingMonitor;
+
+    DBMonitors dbMonitors;
+
     @Mock
-    private DBMonitors dbMonitors;
+    DBSavingInterface savingInterface;
+
+    @Mock
+    DBFetchingInterface fetchingInterface;
+
+    @Mock
+    DBDeletingInterface deletingInterface;
+
+    @Mock
+    DBUpdatingInterface updatingInterface;
+
     @Mock
     private BaseAppBackend appBackend;
     @Mock
@@ -46,6 +76,14 @@ public class BaseAppCoreTest {
 
     @Before
     public void setUp() {
+
+        savingMonitor = new SavingMonitor(savingInterface);
+        fetchMonitor = new FetchingMonitor(fetchingInterface);
+        deletingMonitor = new DeletingMonitor(deletingInterface);
+        updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
+
+        dbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
+
         baseAppCoreCreator = new BaseAppCore(eventing, database, appBackend, eventMonitors, dbMonitors);
         baseAppCoreCreator.start();
     }

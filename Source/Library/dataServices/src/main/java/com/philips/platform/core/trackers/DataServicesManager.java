@@ -257,6 +257,7 @@ public class DataServicesManager {
             mCore.start();
         } else {
             mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
+            mCore.start();
         }
         mEventing.post(new ReadDataFromBackendRequest(null));
     }
