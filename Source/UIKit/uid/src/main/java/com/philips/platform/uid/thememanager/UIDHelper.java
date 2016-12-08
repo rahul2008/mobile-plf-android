@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -41,13 +40,13 @@ public class UIDHelper {
 
     /**
      * This API will setup toolbar with title navigation icon
+     * Be-aware that this API will override the title from toolbar to make title center aligned
      *
-     * @param activity       reference of activity you want to setup toolbar
+     * @param activity       Reference of activity you want to setup toolbar
      * @param navigationIcon Icon resource to be displayed as navigation(hamburger or back button)
-     * @param title          title resource to be displayed as title on screen
-     * @param toolbarId
+     * @param toolbarId      Resource id for toolbar from your activity layout
      */
-    public static void setupToolbar(@NonNull final AppCompatActivity activity, @DrawableRes final int navigationIcon, @StringRes int title, @IdRes final int toolbarId) {
+    public static void setupToolbar(@NonNull final AppCompatActivity activity, @DrawableRes final int navigationIcon, @IdRes final int toolbarId) {
         Toolbar toolbar = (Toolbar) activity.findViewById(toolbarId);
         if (toolbar == null) {
             final String formattedException = String.format("Please include a layout with view android.support.v7.widget.toolbar containing id %id in  you layout", toolbar);
@@ -56,7 +55,8 @@ public class UIDHelper {
         toolbar.setNavigationIcon(navigationIcon);
         toolbar.setTitleMarginStart(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
         toolbar.setTitleMarginEnd(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
-        toolbar.setTitle(title);
+        toolbar.setTitle(null);
         activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 }
