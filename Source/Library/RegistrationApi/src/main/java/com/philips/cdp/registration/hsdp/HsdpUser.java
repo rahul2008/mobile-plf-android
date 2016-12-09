@@ -2,6 +2,7 @@ package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -23,7 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.security.SecureRandom;
 import java.util.Map;
 
 public class HsdpUser {
@@ -264,7 +264,7 @@ public class HsdpUser {
                             new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
                     final DhpAuthenticationResponse dhpAuthenticationResponse =
                             authenticationManagementClient.loginSocialProviders(email,
-                                    accessToken, generateRefreshSecret());
+                                    accessToken, Jump.getRefreshSecret());
                     if (dhpAuthenticationResponse == null) {
                         handleSocialConnectionFailed(loginHandler, NETWORK_ERROR_CODE +
                                         RegConstants.HSDP_LOWER_ERROR_BOUND,
@@ -337,7 +337,7 @@ public class HsdpUser {
 
         void onFileWriteFailure();
     }
-
+/*
     private String generateRefreshSecret() {
         final int SECRET_LENGTH = 40;
         SecureRandom random = new SecureRandom();
@@ -347,7 +347,7 @@ public class HsdpUser {
             buffer.append(Integer.toHexString(random.nextInt()));
         }
         return buffer.toString().substring(0, SECRET_LENGTH);
-    }
+    }*/
 
     /**
      * Hspd user signed in
