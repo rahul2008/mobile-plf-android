@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import java.sql.SQLException;
@@ -54,7 +54,8 @@ import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
-import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
+import cdp.philips.com.mydemoapp.registration.ErrorHandlerImpl;
+import cdp.philips.com.mydemoapp.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -77,12 +78,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
+    Utility mUtility;
 
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
         mProgressBar.setCancelable(false);
@@ -98,10 +101,16 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-        if (!mSharedPreferences.getBoolean("isSynced", false)) {
+        setUpBackendSynchronizationLoop();
+
+        if(!mUtility.isOnline(getContext())){
+            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
             showProgressDialog();
         }
-        setUpBackendSynchronizationLoop();
     }
 
     @Override
@@ -135,7 +144,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
-        mDataServicesManager.initialize(mContext, creator, new UserRegistrationFacadeImpl(mContext, new User(mContext)));
+        mDataServicesManager.initialize(mContext, creator, new ErrorHandlerImpl(mContext, new User(mContext)));
         mDataServicesManager.initializeSyncMonitors(null, null);
 
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
@@ -232,7 +241,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, "http : UI updated");
+                DSLog.i(TAG, "http : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
@@ -260,14 +269,15 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             @Override
             public void run() {
                 if (e != null && e.getMessage() != null) {
-                    Log.i(TAG, "http : UI update Failed" + e.getMessage());
+                    DSLog.i(TAG, "http : UI update Failed" + e.getMessage());
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.i(TAG, "http : UI update Failed");
+                    DSLog.i(TAG, "http : UI update Failed");
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
+                dismissProgressDialog();
             }
         });
     }

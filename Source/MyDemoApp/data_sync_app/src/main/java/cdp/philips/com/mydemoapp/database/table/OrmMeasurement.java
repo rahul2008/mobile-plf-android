@@ -39,7 +39,7 @@ public class OrmMeasurement implements Measurement, Serializable {
     private OrmMeasurementType type;
 
     @DatabaseField
-    private double value;
+    private String value;
 
     @DatabaseField
     private String unit;
@@ -82,12 +82,12 @@ public class OrmMeasurement implements Measurement, Serializable {
     }
 
     @Override
-    public double getValue() {
+    public String getValue() {
         return value;
     }
 
     @Override
-    public void setValue(final double value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 

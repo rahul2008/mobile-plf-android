@@ -24,6 +24,9 @@ public class MomentType {
 
 
     public static int getIDFromDescription(String description) {
+        if(description == null){
+            return -1;
+        }
         switch (description.toUpperCase()) {
             case UNKNOWN:
                 return -1;

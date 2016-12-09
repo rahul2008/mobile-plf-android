@@ -1,7 +1,6 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
@@ -12,13 +11,12 @@ import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
-import com.philips.platform.core.events.MomentDataSenderUpdatedRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
-import com.philips.platform.core.events.MomentChangeEvent;
+import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
+import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -73,24 +71,26 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
-        Log.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
+        DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
-            Log.i("**SPO**", "In Updating Monitor before calling fetchMoments");
+            DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
             dbFetchingInterface.fetchMoments();
         } catch (SQLException e) {
-            Log.i("**SPO**", "In Updating Monitor report exception");
+            DSLog.i("**SPO**", "In Updating Monitor report exception");
             dbUpdatingInterface.updateFailed(e);
             e.printStackTrace();
         }
-        eventing.post(new WriteDataToBackendRequest());
+       // eventing.post(new WriteDataToBackendRequest());
     }
 
     public void onEventBackgroundThread(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
+            eventing.post(new WriteDataToBackendRequest());
             return;
         }
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
+        eventing.post(new WriteDataToBackendRequest());
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {

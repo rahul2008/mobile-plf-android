@@ -8,22 +8,21 @@ package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class MomentsDataSender implements DataSender<Moment> {
 
     @Override
     public boolean sendDataToBackend(@NonNull final List<? extends Moment> dataToSend) {
-        Log.i("***SPO***","MomentsDataSender sendDataToBackend");
+        DSLog.i("***SPO***","MomentsDataSender sendDataToBackend");
         if (!accessProvider.isLoggedIn()) {
             return false;
         }
@@ -101,13 +100,13 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
-        Log.i("***SPO***","MomentsDataSender sendMoments");
+        DSLog.i("***SPO***","MomentsDataSender sendMoments");
         if(moments == null || moments.isEmpty()) {
             return true;
         }
         boolean conflictHappened = false;
         DataServicesManager dataServicesManager = DataServicesManager.getInstance();
-        UserRegistrationFacade userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
+        ErrorHandler userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
         String BASE = userRegistrationImpl.getHSDHsdpUrl();
 
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, BASE,
@@ -127,7 +126,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        Log.i("***SPO***","MomentsDataSender sendMomentToBackend");
+        DSLog.i("***SPO***","MomentsDataSender sendMomentToBackend");
         if (shouldCreateMoment(moment)) {
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {
@@ -191,7 +190,7 @@ public class MomentsDataSender implements DataSender<Moment> {
             return false;
         } catch (RetrofitError error) {
             if(error!=null && error.getResponse().getStatus()== HttpURLConnection.HTTP_CONFLICT){
-                Log.i("***SPO***","Exception - 409");
+                DSLog.i("***SPO***","Exception - 409");
                 //dont do anything
             }else {
                 eventing.post(new BackendResponse(1, error));
@@ -226,7 +225,7 @@ public class MomentsDataSender implements DataSender<Moment> {
 
     private boolean isConflict(final Response response){
         boolean isconflict = response!=null && response.getStatus() == HttpURLConnection.HTTP_CONFLICT;
-        Log.i("***SPO***","isConflict = " + isconflict);
+        DSLog.i("***SPO***","isConflict = " + isconflict);
         return isconflict;
     }
 

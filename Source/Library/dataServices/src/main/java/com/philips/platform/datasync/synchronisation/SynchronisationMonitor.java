@@ -7,7 +7,6 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;

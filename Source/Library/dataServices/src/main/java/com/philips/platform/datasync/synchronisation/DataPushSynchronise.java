@@ -7,7 +7,6 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
@@ -15,6 +14,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.moments.MomentsDataSender;
@@ -61,15 +61,15 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     public void startSynchronise(final int eventId) {
-        Log.i("***SPO***","In startSynchronise - DataPushSynchronize");
+        DSLog.i("***SPO***","In startSynchronise - DataPushSynchronize");
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if (isLoggedIn) {
-            Log.i("***SPO***","DataPushSynchronize isLogged-in is true");
+            DSLog.i("***SPO***","DataPushSynchronize isLogged-in is true");
             registerEvent();
             fetchNonSynchronizedData(eventId);
         }else{
-            Log.i("***SPO***","DataPushSynchronize isLogged-in is false");
+            DSLog.i("***SPO***","DataPushSynchronize isLogged-in is false");
             eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
         }
     }
@@ -88,19 +88,19 @@ public class DataPushSynchronise extends EventMonitor {
 
 
     private void fetchNonSynchronizedData(int eventId) {
-        Log.i("***SPO***","DataPushSynchronize fetchNonSynchronizedData before calling GetNonSynchronizedDataRequest");
+        DSLog.i("***SPO***","DataPushSynchronize fetchNonSynchronizedData before calling GetNonSynchronizedDataRequest");
         eventing.post(new GetNonSynchronizedDataRequest(eventId));
     }
 
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
-        Log.i("***SPO***","DataPushSynchronize GetNonSynchronizedDataResponse");
+        DSLog.i("***SPO***","DataPushSynchronize GetNonSynchronizedDataResponse");
         startAllSenders(response);
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        Log.i("***SPO***","DataPushSynchronize startAllSenders");
+        DSLog.i("***SPO***","DataPushSynchronize startAllSenders");
         for (final com.philips.platform.datasync.synchronisation.DataSender sender : senders) {
-            Log.i("***SPO***","DataPushSynchronize startAllSenders inside loop");
+            DSLog.i("***SPO***","DataPushSynchronize startAllSenders inside loop");
 
            // if(sender instanceof MomentsDataSender) {
                 sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));

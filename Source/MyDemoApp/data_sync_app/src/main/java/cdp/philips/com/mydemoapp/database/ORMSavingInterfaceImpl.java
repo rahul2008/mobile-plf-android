@@ -5,25 +5,17 @@
 
 package cdp.philips.com.mydemoapp.database;
 
-import android.util.Log;
-
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.listener.DBChangeListener;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
@@ -55,7 +47,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
             mTemperatureMomentHelper.notifyAllFailure(e);
             return false;
         }
@@ -70,16 +62,21 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             new ConsentHelper().notifyAllSuccess(ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
             new ConsentHelper().notifyFailConsent(e);
             return false;
         }
 
     }
 
+    @Override
+    public void postError(Exception e) {
+        mTemperatureMomentHelper.notifyAllFailure(e);
+    }
+
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-        Log.d("Creator ID MODI",ormConsent.getCreatorId());
+        DSLog.d("Creator ID MODI",ormConsent.getCreatorId());
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
             for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {

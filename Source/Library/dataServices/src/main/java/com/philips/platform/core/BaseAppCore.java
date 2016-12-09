@@ -7,7 +7,6 @@
 package com.philips.platform.core;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -20,6 +19,7 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
 
@@ -59,7 +59,7 @@ public class BaseAppCore implements BaseAppDataCreator {
             }
         } catch (NullPointerException e) {
             if (e.getMessage() != null)
-                Log.i("***SPO***", "e = " + e.getMessage());
+                DSLog.i("***SPO***", "e = " + e.getMessage());
         }
     }
 

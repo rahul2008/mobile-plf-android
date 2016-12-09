@@ -1,18 +1,16 @@
 package cdp.philips.com.mydemoapp.database;
 
-import android.util.Log;
-import android.widget.Toast;
-
+import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
 
@@ -32,7 +30,6 @@ import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
@@ -40,8 +37,6 @@ import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import retrofit.RetrofitError;
-
-import static android.R.attr.value;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     private static final String TAG = ORMUpdatingInterfaceImpl.class.getSimpleName();
@@ -126,7 +121,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 ArrayList<? extends Measurement> measurements = new ArrayList<>(oldMeasurementGroupInside.getMeasurements());
                 for(Measurement measurement : measurements){
                     Measurement measurementValue = manager.createMeasurement(MeasurementType.TEMPERATURE, measurementGroupInside);
-                    measurementValue.setValue(Double.valueOf(measurement.getValue()));
+                    measurementValue.setValue(measurement.getValue());
                     measurementValue.setDateTime(DateTime.now());
 
                     ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
@@ -169,12 +164,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             notifyAllSuccess(ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
             notifyFailConsent(e);
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
-            Log.wtf(TAG, "Exception occurred during updateDatabaseWithMoments", e);
+            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
             notifyFailConsent(e);
             return false;
         }
@@ -182,7 +177,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
-        Log.d("Creator ID MODI",ormConsent.getCreatorId());
+        DSLog.d("Creator ID MODI",ormConsent.getCreatorId());
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
 
         if (consentInDatabase != null) {
@@ -356,7 +351,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
-            Log.e(TAG, "Eror while type checking");
+            DSLog.e(TAG, "Eror while type checking");
         }
         return null;
     }
@@ -428,7 +423,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     private void notifyAllFailure(Exception e) {
-        final RetrofitError error = (RetrofitError) e;
+        RetrofitError error = null;
+        if (e instanceof RetrofitError)
+            error = (RetrofitError) e;
         int status = -1000;
         if (error != null && error.getResponse() != null) {
             status = error.getResponse().getStatus();

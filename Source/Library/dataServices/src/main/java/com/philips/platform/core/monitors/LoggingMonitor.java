@@ -6,10 +6,8 @@
 
 package com.philips.platform.core.monitors;
 
-import android.util.Log;
-
-
 import com.philips.platform.core.events.Event;
+import com.philips.platform.core.utils.DSLog;
 
 import javax.inject.Inject;
 
@@ -39,6 +37,6 @@ public class LoggingMonitor extends EventMonitor {
         builder.append("): ");
         builder.append(event.toString());
 
-        Log.v(TAG, builder.toString());
+        DSLog.v(TAG, builder.toString());
     }
 }

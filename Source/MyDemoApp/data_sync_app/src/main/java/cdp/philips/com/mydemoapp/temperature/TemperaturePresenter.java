@@ -9,7 +9,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,6 +25,7 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
@@ -71,7 +71,6 @@ public class TemperaturePresenter {
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
-        Log.i("***CREATE***", "In Create Moment");
         Moment moment = mDataServices.createMoment(mMomentType);
         createMomentDetail(momemtDetail, moment);
 
@@ -100,7 +99,7 @@ public class TemperaturePresenter {
 
     private void createMeasurement(MeasurementGroup group, String value) {
         mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, group);
-        mMeasurement.setValue(Double.valueOf(value));
+        mMeasurement.setValue(value);
         mMeasurement.setDateTime(DateTime.now());
         mMeasurement.setUnit("celsius");
     }
@@ -184,7 +183,7 @@ public class TemperaturePresenter {
             adapter.notifyDataSetChanged();
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "e = " + e.getMessage());
+                DSLog.i("***SPO***", "e = " + e.getMessage());
             }
         }
     }
@@ -217,7 +216,7 @@ public class TemperaturePresenter {
             for (MeasurementGroup next1 : measurementGroupsInside) {
                 Collection<? extends Measurement> measurements = next1.getMeasurements();
                 for (Measurement next2 : measurements) {
-                    next2.setValue(Double.parseDouble(meausrementValue));
+                    next2.setValue(meausrementValue);
 
                     Collection<? extends MeasurementDetail> measurementDetails = next2.getMeasurementDetails();
                     for (MeasurementDetail next3 : measurementDetails) {

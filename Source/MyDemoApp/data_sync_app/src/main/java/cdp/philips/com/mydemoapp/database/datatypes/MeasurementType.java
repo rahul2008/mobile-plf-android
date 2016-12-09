@@ -26,6 +26,9 @@ public class MeasurementType {
 
 
     public static int getIDFromDescription(String description) {
+        if(description == null){
+            return -1;
+        }
         switch (description.toUpperCase()) {
             case UNKNOWN:
                 return -1;
@@ -47,6 +50,9 @@ public class MeasurementType {
     }
 
     public static String getUnitFromDescription(String description) {
+        if(description == null){
+            return "default";
+        }
         switch (description.toUpperCase()) {
             case UNKNOWN:
                 return "UnknownUnit";

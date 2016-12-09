@@ -1,27 +1,19 @@
 package cdp.philips.com.mydemoapp.database;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
-import cdp.philips.com.mydemoapp.database.OrmDeleting;
-import cdp.philips.com.mydemoapp.database.OrmSaving;
-import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
-import cdp.philips.com.mydemoapp.listener.DBChangeListener;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 /**
@@ -53,7 +45,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "exception = " + e.getMessage());
+                DSLog.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -83,7 +75,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "exception = " + e.getMessage());
+                DSLog.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -102,7 +94,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "Exception = " + e.getMessage());
+                DSLog.i("***SPO***", "Exception = " + e.getMessage());
             }
         }
         return null;
