@@ -271,12 +271,6 @@ public class DataServicesManagerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void ShouldSynchchronize_WhenSynchchronizeIsCalled() throws Exception {
-        //noinspection ConstantConditions
-        tracker.synchchronize();
-    }
-
-    @Test(expected = NullPointerException.class)
     public void ShouldCreateMeasurementDetail_WhenCreateMeasurementDetailIsCalled() throws Exception {
         //noinspection ConstantConditions
         tracker.createMeasurementDetail(TEST_MEASUREMENT_TYPE, measurementMock);
