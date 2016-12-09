@@ -23,8 +23,7 @@ node ('androidppc &&' + node_ext) {
 
 		try {
 			stage ('build') {
-				sh './check_and_delete_artifact.sh'
-                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC assembleRelease zipDoc tgzTask appFramework:aP'
+                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug cC && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh appFramework && ./gradlew assembleRelease zipDoc tgzTask appFramework:aP '
 				currentBuild.result = 'SUCCESS'												
 			}
         }
