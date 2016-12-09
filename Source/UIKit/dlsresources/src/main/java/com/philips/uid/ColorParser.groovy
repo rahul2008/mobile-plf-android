@@ -32,6 +32,10 @@ void parseColorsAndCreateColorsXml() {
 }
 
 private void createColorsXml(StringWriter sw) {
+    def outDir = new File("../out")
+    if (!outDir.exists()) {
+        outDir.mkdir()
+    }
     def colorFile = new File("../out/uid_colors.xml")
     if (colorFile.exists()) {
         colorFile.delete()
