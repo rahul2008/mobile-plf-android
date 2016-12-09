@@ -635,13 +635,13 @@
             "reference": "control-alt-primary-text"
         },
         "Light": {
-            "colorNumber": 76,
+            "colorNumber": 75,
             "rangeName": "gray",
             "alpha": 0.5,
             "reference": "control-alt-primary-text"
         },
         "Bright": {
-            "colorNumber": 77,
+            "colorNumber": 75,
             "rangeName": "gray",
             "alpha": 0.35,
             "reference": "control-alt-primary-text"

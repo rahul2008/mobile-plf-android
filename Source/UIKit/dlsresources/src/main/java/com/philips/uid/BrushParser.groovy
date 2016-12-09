@@ -14,14 +14,12 @@ brushObject.each {
         def themeAttr = new ThemeAttribute(joinedKey)
         value.each {
             entry ->
-                def name = "uid" + entry.key.split("-").collect { it.capitalize() }.join("")
+                def name = entry.key
                 def colorNumber = entry.value.get("colorNumber")
                 def alpha = entry.value.get("alpha")
                 def reference = entry.value.get("reference")
                 if (reference != null) {
-                    reference = "uid" + entry.value.get("reference").split("-").collect {
-                        it.capitalize()
-                    }.join("")
+                    reference = "uid" + entry.value.get("reference").split("-").collect { it.capitalize() }.join("")
                 }
                 def rangeName = entry.value.get("rangeName")
                 themeAttr.addTonalRange(name, colorNumber, alpha, reference, rangeName)
@@ -50,7 +48,7 @@ def flushAttrsFile(attrList) {
         attrFile.delete()
     }
 
-    attrFile.createNewFile();
+    attrFile.createNewFile()
     attrFile.write(sw.toString())
 }
 

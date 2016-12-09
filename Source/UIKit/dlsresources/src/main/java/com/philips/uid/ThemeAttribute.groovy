@@ -30,29 +30,29 @@ class ThemeAttribute {
             this.reference = reference
             this.rangeName = rangeName
         }
-    }
 
-    //color range in format of goup_blue or blue or aqua , having match with uid_colors.xml
-    def getValue(colorRange, colorsXmlInput) {
-        if (alpha == null && reference != null) {
-            return "?attr/${reference}"
-        } else if (alpha == null) {
-            return "@color/uid_${colorRange}_${colorNumber}"
-        } else if (colorNumber != null) {
-            def hexAlpha = alphaToHex(alpha)
-            def colorCode = "uid_${colorRange}_${colorNumber}"
-            def color = colorsXmlInput.findAll { it.@name == colorCode }*.text().get(0)
-            return color.replace("#","#${hexAlpha}")
+        //color range in format of goup_blue or blue or aqua , having match with uid_colors.xml
+        def getValue(colorRange, colorsXmlInput) {
+            if (alpha == null && reference != null) {
+                return "?attr/${reference}"
+            } else if (alpha == null) {
+                return "@color/uid_${colorRange}_${colorNumber}"
+            } else if (colorNumber != null) {
+                def hexAlpha = alphaToHex(alpha)
+                def colorCode = "uid_${colorRange}_${colorNumber}"
+                def color = colorsXmlInput.findAll { it.@name == colorCode }*.text().get(0)
+                return color.replace("#", "#${hexAlpha}")
+            }
+            return "@null"
         }
-        return "@null"
-    }
 
-    def alphaToHex(alpha) {
-        int roundAlpha = (int) Math.round(alpha * 255)
-        String hexAlpha = Integer.toHexString(roundAlpha).toUpperCase();
-        if (hexAlpha.length() == 1) {
-            hexAlpha = "0${hexAlpha}"
+        def alphaToHex(alpha) {
+            int roundAlpha = (int) Math.round(alpha * 255)
+            String hexAlpha = Integer.toHexString(roundAlpha).toUpperCase();
+            if (hexAlpha.length() == 1) {
+                hexAlpha = "0${hexAlpha}"
+            }
+            return hexAlpha
         }
-        return hexAlpha
     }
 }
