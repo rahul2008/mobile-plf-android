@@ -273,13 +273,13 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, ErrorHandler facade) {
-        getEventingImpl();
+
         this.mDataCreater = creator;
         this.mErrorHandlerImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
-
+        getEventingImpl();
         mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
 
         mMonitors = new ArrayList<>();

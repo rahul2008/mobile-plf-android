@@ -1,8 +1,29 @@
 package com.philips.platform.datasync.consent;
 
+import android.support.annotation.Nullable;
+
+import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.events.ConsentBackendGetRequest;
+import com.philips.platform.core.events.ConsentBackendListSaveRequest;
+import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.synchronisation.DataSender;
+
+import org.joda.time.DateTime;
 import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+
+import java.util.Collections;
+import java.util.List;
+
+import retrofit.RetrofitError;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -10,9 +31,70 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 public class ConsentsDataFetcherTest {
 
+    private ConsentsDataFetcher consentDataFetcher;
+
+    @Mock
+    UCoreAdapter uCoreAdapterMock;
+
+    @Mock
+    Eventing eventingMock;
+
+    @Mock
+    ConsentDetail consentDetailMock;
+
+    @Captor
+    private ArgumentCaptor<ConsentBackendGetRequest> ConsentBackendGetRequestEventCaptor;
+
     @Before
     public void setUp() {
         initMocks(this);
+        consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock,eventingMock);
     }
 
+    @Test
+    public void shouldNotFetchDataSince_WhenDataSenderIsBusy() throws Exception {
+
+        consentDataFetcher.synchronizationState.set(DataSender.State.BUSY.getCode());
+        consentDataFetcher.fetchDataSince(new DateTime());
+        verify(eventingMock, never()).post(ConsentBackendGetRequestEventCaptor.capture());
+    }
+
+    @Test
+    public void shouldFetchDataSince_WhenDataSenderIsNotBusy() throws Exception {
+
+        consentDataFetcher.synchronizationState.set(DataSender.State.IDLE.getCode());
+        consentDataFetcher.fetchDataSince(new DateTime());
+        verify(eventingMock).post(ConsentBackendGetRequestEventCaptor.capture());
+    }
+
+    @Test
+    public void shouldReturnConsentDetails_WhenGetConsentDetailsIsCalled() throws Exception {
+        consentDataFetcher.getConsentDetails();
+
+    }
+
+    /*  public List<ConsentDetail> getConsentDetails() {
+        return consentDetails;
+    }*/
+
+
+
+ /*   @Test
+    public void ShouldNotPostAnEventToBackend_WhenStateIsNotIdle() throws Exception {
+        consentDataSender.synchronizationState.set(DataSender.State.BUSY.getCode());
+
+        consentDataSender.sendDataToBackend(Collections.singletonList(consentMock));
+
+        verify(eventingMock, never()).post(consentListSaveRequestEventCaptor.capture());
+    }*/
+
+    /* @Nullable
+    @Override
+    public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+            eventing.post(new ConsentBackendGetRequest(1, consentDetails));
+        }
+        return null;
+    }
+*/
 }

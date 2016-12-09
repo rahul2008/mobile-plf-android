@@ -16,4 +16,10 @@ public class ConsentDetailStatusTypeTest {
         assertThat(ConsentDetailStatusType.REFUSED).isEqualTo(ConsentDetailStatusType.fromId(202));
     }
 
+    @Test
+    public void shouldReturnUnknow_WhenPassedIncorrectId(){
+        ConsentDetailStatusType.fromId(-1);
+        assertThat(ConsentDetailStatusType.UNKNOWN).isEqualTo(ConsentDetailStatusType.fromId(-1));
+    }
+
 }

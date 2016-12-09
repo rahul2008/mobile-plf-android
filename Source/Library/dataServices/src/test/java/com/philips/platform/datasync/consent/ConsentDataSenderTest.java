@@ -84,5 +84,9 @@ public class ConsentDataSenderTest {
         assertThat(consentDataSender.synchronizationState.get()).isEqualTo(DataSender.State.IDLE.getCode());
     }
 
+    @Test
+    public void ShouldGetClassForSyncData_WhenCalled() throws Exception {
+        consentDataSender.getClassForSyncData();
+    }
 
 }
