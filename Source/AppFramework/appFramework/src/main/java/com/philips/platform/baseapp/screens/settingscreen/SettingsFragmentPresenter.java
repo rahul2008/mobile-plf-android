@@ -5,16 +5,13 @@
 */
 package com.philips.platform.baseapp.screens.settingscreen;
 
-import android.support.v4.app.FragmentActivity;
-
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
-import com.philips.platform.baseapp.screens.userregistration.URStateListener;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -51,7 +48,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
     public void onEvent(int componentID) {
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
-        baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SETTINGS, eventState);
+        if(settingsView!=null) {
+            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SETTINGS), eventState);
+        }
         if (baseState != null) {
             baseState.setUiStateData(uiStateData);
             fragmentLauncher = getFragmentLauncher();

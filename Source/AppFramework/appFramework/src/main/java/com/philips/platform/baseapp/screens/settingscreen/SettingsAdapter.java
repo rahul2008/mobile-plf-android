@@ -52,6 +52,8 @@ public class SettingsAdapter extends BaseAdapter{
     private SettingListItemType type;
     private View vi;
     private ProgressDialog progress,progressDialog;
+    private int LOGIN_VIEW = 0;
+    private int VERTICAL_SETTING_VIEW = 1;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            UIBasePresenter fragmentPresenter) {
@@ -79,63 +81,81 @@ public class SettingsAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
-        return getView(position, convertView);
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public int getItemViewType(int position) {
+        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
+                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
+            return LOGIN_VIEW;
+        }
+        return VERTICAL_SETTING_VIEW;
     }
 
     @NonNull
-    private View getView(int position, View convertView) {
+    @Override
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         vi = convertView;
-        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
-                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
-
-            if (convertView == null) {
-                vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, null);
-                UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
-                if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
-                    btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
-                } else {
-                    btn_settings_logout.setText(getString(R.string.settings_list_item_login));
-                }
-
-                btn_settings_logout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
-                            logoutAlert();
-                        } else {
-                            fragmentPresenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
-                        }
-                    }
-                });
+        int type = getItemViewType(position);
+        if (vi == null) {
+            if (type == LOGIN_VIEW) {
+                vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, parent, false);
             }
-
-        } else {
-            if (convertView == null) {
-                vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
-            }
-            name = (TextView) vi.findViewById(R.id.ifo);
-            value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-            number = (TextView) vi.findViewById(R.id.numberwithouticon);
-            on_off = (TextView) vi.findViewById(R.id.medium);
-            arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
-            description = (TextView) vi.findViewById(R.id.text_description_without_icons);
-            type = settingsItemList.get(position).type;
-
-            switch (type) {
-                case HEADER:
-                    headerSection(position);
-                    break;
-                case CONTENT:
-                    subSection(position);
-                    break;
-                case NOTIFICATION:
-                    notificationSection(position);
-                    break;
+            else {
+                vi = inflater.inflate(R.layout.uikit_listview_without_icons, parent, false);
             }
         }
-
+        if (type == LOGIN_VIEW) {
+            loginButtonView();
+        } else {
+            verticalAppView(position);
+        }
         return vi;
+    }
+
+    private void verticalAppView(int position) {
+        name = (TextView) vi.findViewById(R.id.ifo);
+        value = (PuiSwitch) vi.findViewById(R.id.switch_button);
+        number = (TextView) vi.findViewById(R.id.numberwithouticon);
+        on_off = (TextView) vi.findViewById(R.id.medium);
+        arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
+        description = (TextView) vi.findViewById(R.id.text_description_without_icons);
+        type = settingsItemList.get(position).type;
+
+        switch (type) {
+            case HEADER:
+                headerSection(position);
+                break;
+            case CONTENT:
+                subSection(position);
+                break;
+            case NOTIFICATION:
+                notificationSection(position);
+                break;
+        }
+    }
+
+    private void loginButtonView() {
+        UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
+        if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
+            btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
+        } else {
+            btn_settings_logout.setText(getString(R.string.settings_list_item_login));
+        }
+
+        btn_settings_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
+                    logoutAlert();
+                } else {
+                    fragmentPresenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+                }
+            }
+        });
     }
 
     private void notificationSection(int position) {
@@ -213,7 +233,7 @@ public class SettingsAdapter extends BaseAdapter{
     }
 
     private void headerSection(int position) {
-        CharSequence titleText = null;
+        CharSequence titleText;
         titleText = settingsItemList.get(position).title;
         if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
             name.setText(titleText);
@@ -227,7 +247,7 @@ public class SettingsAdapter extends BaseAdapter{
     }
 
     private void logoutAlert() {
-        new AlertDialog.Builder(activityContext)
+        new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
                 .setTitle(getString(R.string.settings_list_item_log_out))
                 .setMessage(activityContext.getResources().getString(R.string.settings_logout_alert))
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -265,6 +285,7 @@ public class SettingsAdapter extends BaseAdapter{
                 .show();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isEnabled(int position) {
         if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_main)).toString())

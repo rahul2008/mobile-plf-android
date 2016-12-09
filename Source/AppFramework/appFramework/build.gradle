@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-everywhere'
 
+archivesBaseName = "appFramework"
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -15,8 +17,8 @@ buildscript {
 
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9"		
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
@@ -24,7 +26,6 @@ buildscript {
     }
 }
 
-apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
@@ -63,6 +64,7 @@ allprojects {
     }
 }
 
+apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
@@ -81,6 +83,11 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
             }
+			defaults {
+				publications ('apk')
+				publishPom = true
+				publishArtifacts = true
+			}
         }
     }
     resolve {
@@ -117,6 +124,49 @@ task tgzTask(type: Tar) {
     compression = Compression.GZIP
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId project.archivesBaseName
+
+            artifact zipDoc
+						
+            if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk")
+            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk")
+            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-AppFrameworkTabbed-debug.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-AppFrameworkTabbed-debug.apk")
+            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk").exists()) {
+                artifact("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk")
+            } else{
+			}
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
+
+                    //If there are any exclusions in dependency
+                    if (it.excludeRules.size() > 0) {
+                        def exclusionsNode = dependencyNode.appendNode('exclusions')
+                        it.excludeRules.each { rule ->
+                            def exclusionNode = exclusionsNode.appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', rule.group)
+                            exclusionNode.appendNode('artifactId', rule.module)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 24
@@ -292,9 +342,15 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '1.2.2', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.2.0-SNAPSHOT', ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
 
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.0', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'

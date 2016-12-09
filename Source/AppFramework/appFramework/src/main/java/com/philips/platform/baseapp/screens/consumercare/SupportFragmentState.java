@@ -18,11 +18,11 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.base.UIStateListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -124,7 +124,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
     @Override
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
-            this.baseState = getApplicationContext().getTargetFlowManager().getNextState(AppStates.SUPPORT, SUPPORT_PR);
+            BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SUPPORT), SUPPORT_PR);
             this.baseState.navigate(new FragmentLauncher(getFragmentActivity(),((AppFrameworkBaseActivity)getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
             return true;
         }

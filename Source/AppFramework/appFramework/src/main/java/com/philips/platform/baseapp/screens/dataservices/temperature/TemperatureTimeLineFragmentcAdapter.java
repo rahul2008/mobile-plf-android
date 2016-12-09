@@ -1,4 +1,4 @@
-package com.philips.platform.datasevices.temperature;
+package com.philips.platform.baseapp.screens.dataservices.temperature;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureMomentHelper;
+import com.philips.platform.baseapp.screens.dataservices.temperature.TemperaturePresenter;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasevices.database.table.OrmMoment;
 
 import java.util.ArrayList;
 import java.util.List;

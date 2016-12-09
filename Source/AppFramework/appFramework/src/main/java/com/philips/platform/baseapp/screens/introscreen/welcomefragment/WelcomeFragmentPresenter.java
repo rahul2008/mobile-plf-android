@@ -9,11 +9,10 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.userregistration.URStateListener;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -24,7 +23,6 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
     private AppFrameworkApplication appFrameworkApplication;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private BaseState baseState;
-    private FragmentLauncher fragmentLauncher;
     private WelcomeFragmentView welcomeFragmentView;
     private String WELCOME_SKIP = "welcome_skip";
     private String WELCOME_DONE = "welcome_done";
@@ -44,10 +42,10 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
-        baseState = appFrameworkApplication.getTargetFlowManager().getNextState(AppStates.WELCOME, eventState);
+        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.WELCOME), eventState);
         if(baseState!=null) {
-            fragmentLauncher = getFragmentLauncher();
-            baseState.navigate(fragmentLauncher);
+            baseState.navigate(getFragmentLauncher());
         }
     }
 
