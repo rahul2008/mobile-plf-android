@@ -42,10 +42,5 @@ public abstract class DataFetcher {
     public RetrofitError fetchAllData() {
         return fetchDataSince(null);
     }
-
-    /*protected boolean isUserInvalid() {
-        final String accessToken = accessProvider.getAccessToken();
-        return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
-    }*/
 }
 

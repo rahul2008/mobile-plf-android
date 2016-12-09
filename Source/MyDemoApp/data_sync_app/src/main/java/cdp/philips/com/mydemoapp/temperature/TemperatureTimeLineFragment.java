@@ -217,8 +217,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onDestroy() {
         super.onDestroy();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        //cancelPendingIntent();
-        //mDataServicesManager.stopCore();
         mDataServicesManager.releaseDataServicesInstances();
     }
 

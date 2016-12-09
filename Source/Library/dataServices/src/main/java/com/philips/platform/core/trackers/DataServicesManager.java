@@ -110,7 +110,6 @@ public class DataServicesManager {
 
     @Singleton
     private DataServicesManager() {
-
     }
 
     public static DataServicesManager getInstance() {
@@ -331,6 +330,7 @@ public class DataServicesManager {
         mExceptionMonitor = null;
         mLoggingMonitor = null;
         mSharedPreferences = null;
+       // mCore.stop();
     }
 
 

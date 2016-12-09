@@ -56,32 +56,4 @@ public class ConsentsConverter {
         return uCoreConsentDetailList;
     }
 
-    public List<String> getDocumentVersionList() {
-        //final ConsentDetailType[] values = ConsentDetailType.values();
-        List<String> documentVersionList = new ArrayList<>(3);
-       /* for (int index = 0; index < values.length; index++) {
-            documentVersionList.add(Consent.DEFAULT_DOCUMENT_VERSION);
-        }*/
-        documentVersionList.add(Consent.DEFAULT_DOCUMENT_VERSION);
-        documentVersionList.add(Consent.DEFAULT_DOCUMENT_VERSION);
-        documentVersionList.add(Consent.DEFAULT_DOCUMENT_VERSION);
-        return documentVersionList;
-    }
-
-    public List<String> getDeviceIdentificationNumberList() {
-       // final ConsentDetailType[] values = ConsentDetailType.values();
-        List<String> deviceIdentificationNumberList = new ArrayList<>(3);
-        deviceIdentificationNumberList.add(Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        deviceIdentificationNumberList.add(Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        deviceIdentificationNumberList.add(Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-
-        /*for (int index = 0; index < values.length; index++) {
-            if (ConsentDetailType.ROOM_TEMPERATURE == values[index] || ConsentDetailType.RELATIVE_HUMIDITY == values[index]) {
-                deviceIdentificationNumberList.add(Consent.SMART_BABY_MONITOR);
-            } else {
-                deviceIdentificationNumberList.add(Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-            }
-        }*/
-        return deviceIdentificationNumberList;
-    }
-}
+   }
