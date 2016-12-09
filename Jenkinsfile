@@ -25,7 +25,6 @@ node ('android_pipeline &&' + node_ext) {
 			stage ('build') {
                 echo "fetch git config"
                 echo "******"
-				sh 'chmod -R 775 ./check_and_delete_artifact.sh && ./check_and_delete_artifact.sh'
                // sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew :coppa:clean'
                 sh 'chmod -R 775 . && cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh && ./gradlew cC assembleRelease zipDocuments artifactoryPublish'
 			}
