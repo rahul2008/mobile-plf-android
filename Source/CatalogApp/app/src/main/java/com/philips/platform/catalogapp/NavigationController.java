@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
@@ -21,30 +22,28 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 public class NavigationController {
     protected static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
     protected static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
-    @Bind(R.id.title)
-    TextView title;
     private FragmentManager supportFragmentManager;
     private MainActivity mainActivity;
     private MenuItem themeSetting;
     private MenuItem setTheme;
     SharedPreferences fragmentPreference;
+    private ActivityMainBinding activityMainBinding;
     boolean hamburgerIconVisible;
     boolean themeSettingsIconVisible;
     private int titleResource;
+    private Toolbar toolbar;
+    private TextView title;
 
-    public NavigationController(final MainActivity mainActivity, final Intent intent) {
+    public NavigationController(final MainActivity mainActivity, final Intent intent, final ActivityMainBinding activityMainBinding) {
         this.mainActivity = mainActivity;
         fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        this.activityMainBinding = activityMainBinding;
+        toolbar = (Toolbar) activityMainBinding.appBar.findViewById(R.id.uid_toolbar);
+        title = (TextView) activityMainBinding.appBar.findViewById(R.id.uid_toolbar_title);
         clearLastFragmentOnFreshLaunch(intent);
     }
 
@@ -112,6 +111,7 @@ public class NavigationController {
             setTitleText(titleResourceId);
         }
     }
+
     public boolean switchFragment(BaseFragment fragment) {
 
         final List<Fragment> fragments = supportFragmentManager.getFragments();
@@ -162,8 +162,8 @@ public class NavigationController {
 
     public void init(final Bundle savedInstanceState) {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
-        ButterKnife.bind(this, mainActivity);
-        UIDHelper.setupToolbar(mainActivity, R.drawable.ic_hamburger_menu, R.id.toolbar);
+
+        UIDHelper.setupToolbar(mainActivity, R.drawable.ic_hamburger_menu, com.philips.platform.uid.R.id.uid_toolbar);
 
         if (savedInstanceState == null) {
             initDemoListFragment();

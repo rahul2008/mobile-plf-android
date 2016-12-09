@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/appBar"
-        layout="@layout/toolbar"/>
+    <data>
+    </data>
 
-    <FrameLayout
-        android:id="@+id/mainContainer"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
-    </FrameLayout>
-</LinearLayout>
+
+        <include
+            android:id="@+id/appBar"
+            layout="@layout/uid_toolbar_center_title"/>
+
+        <FrameLayout
+            android:id="@+id/mainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+        </FrameLayout>
+    </LinearLayout>
+</layout>

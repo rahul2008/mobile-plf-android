@@ -9,6 +9,7 @@ package com.philips.platform.catalogapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -17,9 +18,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
+import com.philips.platform.catalogapp.themesettings.NavigationModel;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -34,6 +37,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+
 public class MainActivity extends AppCompatActivity {
 
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
@@ -46,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences defaultSharedPreferences;
 
     private NavigationController navigationController;
+    private NavigationModel navigationModel;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        navigationModel = new NavigationModel();
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         EventBus.getDefault().register(this);
-        navigationController = new NavigationController(this, getIntent());
+        navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
     }
 
