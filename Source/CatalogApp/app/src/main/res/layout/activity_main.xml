@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/appBar"
-            layout="@layout/uid_toolbar_center_title"/>
+            layout="@layout/uid_toolbar"/>
 
         <FrameLayout
             android:id="@+id/mainContainer"
