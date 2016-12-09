@@ -14,28 +14,16 @@ import android.test.InstrumentationTestCase;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.controller.RegisterTraditional;
-import com.philips.cdp.registration.dao.ConsumerArray;
-import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserTest extends InstrumentationTestCase {
 
@@ -247,7 +235,7 @@ public class UserTest extends InstrumentationTestCase {
     }
 
     public void testResendVerificationMail(){
-        synchronized (context) {
+       /* synchronized (context) {
             try {
                 RegistrationHelper.getInstance().setAppInfraInstance(new AppInfra.Builder().build(context));
             }catch(Exception e){
@@ -336,7 +324,7 @@ public class UserTest extends InstrumentationTestCase {
                         socialProviderLoginHandler, "socialRegistrationToken");
             }
             catch(Exception e){}
-
+*/
 //            UpdateUserDetailsHandler updateReceiveMarketingEmail = new UpdateUserDetailsHandler() {
 //                @Override
 //                public void onUpdateSuccess() {
@@ -349,7 +337,7 @@ public class UserTest extends InstrumentationTestCase {
 //                }
 //            };
 //            mUser.updateReceiveMarketingEmail(updateReceiveMarketingEmail,true);
-        }
+        //}
     }
 
 //    public void testUserr(){
