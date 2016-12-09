@@ -22,7 +22,6 @@ import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
-import com.philips.platform.catalogapp.themesettings.NavigationModel;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences defaultSharedPreferences;
 
     private NavigationController navigationController;
-    private NavigationModel navigationModel;
     private ActivityMainBinding activityMainBinding;
 
     @Override
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        navigationModel = new NavigationModel();
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         EventBus.getDefault().register(this);
         navigationController = new NavigationController(this, getIntent(), activityMainBinding);
