@@ -8,16 +8,19 @@ import com.philips.platform.appinfra.MockitoTestCase;
 
 public class ApisigningTest extends MockitoTestCase {
 
+    private PshmacLib pshmacLib;
     @Override
     protected void setUp() throws Exception {
+        pshmacLib = new PshmacLib();
         super.setUp();
     }
 
     public void testApisigning(){
-        byte[] key = hexStringToByteArray("e124794bab4949cd4affc267d446ddd95c938a7428d75d7901992e0cb4bc320cd94c28dae1e56d83eaf19010ccc8574d6d83fb687cf5d12ff2afddbaf73801b5");
+        byte[] key = hexStringToByteArray("e124794bab4949cd4affc267d446ddd95c938a7428d75d7901992e0cb4bc320cd94c28dae1e56d83eaf19010ccc8574d6d83fb687cf5d12ff2afddbaf73801b5e1");
         byte[] httpMethodType = {'P','O','S','T'};
+        //byte[] httpMethodType = str.getBytes();
 
-        byte[] resultBytes = PshmacLib.createHmac(key,httpMethodType);
+        byte[] resultBytes = pshmacLib.createHmac(key,httpMethodType);
         assertEquals("aefb42a311b78e4514ea4dc59120211bf421edc4978426309ab11b2e205a329b",bytesToHex(resultBytes));
     }
 

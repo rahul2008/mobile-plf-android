@@ -16,7 +16,7 @@ public class PshmacLib{
 
     public static native byte[] pshmac(byte[] key, byte[] message);
 
-    public static byte[] createHmac(final byte[] key, final byte[] data) {
+    public byte[] createHmac(final byte[] key, final byte[] data) {
         return pshmac(key, data);
     }
 }
