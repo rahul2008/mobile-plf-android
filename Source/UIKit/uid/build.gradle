@@ -51,6 +51,10 @@ dependencies {
     compile("com.android.support:appcompat-v7:24.2.0") {
         exclude module: "com.android.support"
     }
+
+    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
+    compile "com.android.support:support-v4:${supportLibraryVer}"
+    compile "com.android.support:design:${supportLibraryVer}"
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
 
     //test

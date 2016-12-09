@@ -81,11 +81,8 @@ dependencies {
     }
     compile "com.jakewharton:butterknife:${butterKnifeVer}"
     compile project(':uid')
-    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
-    compile "com.android.support:support-v4:${supportLibraryVer}"
-    compile "com.android.support:design:${supportLibraryVer}"
-    testCompile "junit:junit:${jUnitVer}"
     testCompile "com.android.support:support-v4:${supportLibraryVer}"
+    testCompile "junit:junit:${jUnitVer}"
     testCompile("org.robolectric:robolectric:${robolectricVer}")
             {
                 exclude module: "com.android.support"
