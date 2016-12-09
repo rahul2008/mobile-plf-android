@@ -149,8 +149,6 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-//                int actual = (int) (stateColors.getRingThicknessRatio() / 100);
-//                int expected = (int) (expectedValue * 100);
                 setValues(stateColors.getRingThicknessRatio(), expectedValue);
                 return areEqual();
             }
@@ -162,8 +160,6 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-//                int actual = (int) (stateColors.getInnerRadiusRatio());
-//                int expected = (int) (expectedValue * 100);
                 setValues(stateColors.getInnerRadiusRatio(), expectedValue);
                 return areEqual();
             }

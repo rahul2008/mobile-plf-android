@@ -16,7 +16,6 @@ import com.philips.platform.uid.DialogTestFragment;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -29,7 +28,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.Gray65;
 import static com.philips.platform.uid.test.R.color.Gray75;
-import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class AlertTest {
 
@@ -69,21 +67,18 @@ public class AlertTest {
 
     @Test
     public void verifyAlertTitleIconHeight() {
-        waitFor(testResources, 750);
         int expectedIconHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alerttitle_iconsize);
         getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedIconHeight)));
     }
 
     @Test
     public void verifyAlertTitleIconWidth() {
-        waitFor(testResources, 750);
         int expectedIconWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alerttitle_iconsize);
         getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameViewMinWidth(expectedIconWidth)));
     }
 
     @Test
     public void verifyAlertTitleIconRightPadding() {
-        waitFor(testResources, 750);
         int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alerttitle_icon_rightpadding);
         getAlertTitleIcon().check(matches((ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding))));
     }
@@ -136,7 +131,6 @@ public class AlertTest {
 
     @Test
     public void verifyAlertContentLeftMargin() {
-        UIDTestUtils.waitFor(testResources, 750);
         int expectedLeftMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertcontent_leftrightbottom_margin);
         getAlertContent().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
@@ -157,13 +151,13 @@ public class AlertTest {
      * Alert content layout scenarios without title
      ******************************/
     @Test
-    public void VerifyAlertIsDisplayedWithNoTitle() {
+    public void verifyAlertIsDisplayedWithNoTitle() {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
     }
 
     @Test
-    public void VerifyContentTopMarginWithNoTitle() {
+    public void verifyContentTopMarginWithNoTitle() {
         mActivityTestRule.getActivity().switchFragment(DialogTestFragment.create());
         getAlertTitle().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
 
@@ -189,7 +183,6 @@ public class AlertTest {
 
     @Test
     public void verifyActionAreaHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
         int expectedActionareaHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertactionarea_height);
         getAlertActionArea()
                 .check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedActionareaHeight)));
@@ -253,7 +246,6 @@ public class AlertTest {
     private ViewInteraction getAlertConfirmativeButton() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_positive_button));
     }
-
 
 }
 

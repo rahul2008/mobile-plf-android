@@ -28,7 +28,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
 import static com.philips.platform.uid.test.R.color.GroupBlue55;
-import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class QuietButtonTest {
 
@@ -51,7 +50,6 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietButtonHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.button_height);
 
         getQuietButton()
@@ -81,7 +79,6 @@ public class QuietButtonTest {
      *********************************************/
     @Test
     public void verifyQuietIconOnlyButtonWidth() {
-        waitFor(testResources, 750);
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.iconbutton_width);
         getQuietIconOnlyButton()
                 .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
@@ -89,14 +86,12 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietButtonIconHeight() {
-        waitFor(testResources, 750);
         int expectedIconHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.icon_height);
         getQuietIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
     public void verifyQuietButtonIconWidth() {
-        waitFor(testResources, 750);
         int expectedIconWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.icon_width);
         getQuietIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
@@ -115,7 +110,6 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextandIconButtonCompoundPadding() {
-        waitFor(testResources, 750);
         int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.iconandtextbutton_compoundpadding);
         getQuietIconandTextButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
