@@ -329,7 +329,7 @@ public class DataServicesManager {
         mExceptionMonitor = null;
         mLoggingMonitor = null;
         mSharedPreferences = null;
-        mCore.stop();
+       // mCore.stop();
     }
 
 
