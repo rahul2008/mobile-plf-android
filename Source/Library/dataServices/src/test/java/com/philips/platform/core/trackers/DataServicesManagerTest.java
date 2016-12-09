@@ -270,6 +270,12 @@ public class DataServicesManagerTest {
         tracker.initializeSyncMonitors(new ArrayList<DataFetcher>(), new ArrayList<DataSender>());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void ShouldSynchchronize_WhenSynchchronizeIsCalled() throws Exception {
+        //noinspection ConstantConditions
+        tracker.synchchronize();
+    }
+
     @Test(expected = NullPointerException.class)
     public void ShouldCreateMeasurementDetail_WhenCreateMeasurementDetailIsCalled() throws Exception {
         //noinspection ConstantConditions
