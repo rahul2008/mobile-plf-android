@@ -12,24 +12,7 @@ package com.philips.platform.core.events;
  * All rights reserved.
  */
 public class LoadConsentsRequest extends Event {
-
-    private final String type;
-    private String[] types;
-
     public LoadConsentsRequest() {
-        types = null;
-        type = null;
-    }
 
-    public boolean hasType() {
-        return type != null;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String[] getTypes() {
-        return types;
     }
 }

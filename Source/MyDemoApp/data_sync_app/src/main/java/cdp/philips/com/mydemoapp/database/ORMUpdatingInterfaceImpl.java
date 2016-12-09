@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
@@ -65,7 +66,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 updatedCount = processMoment(updatedCount, moment);
             }
         }
-        notifyAllSuccess(moments);
+        new TemperatureMomentHelper().notifyAllSuccess(moments);
         return updatedCount;
     }
 
@@ -78,7 +79,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 updateOrSaveMomentInDatabase(ormMoment);
             }
         }
-        notifyAllSuccess(moments);
+        new TemperatureMomentHelper().notifyAllSuccess(moments);
     }
 
     public Moment createMoment(Moment old) {
@@ -153,7 +154,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public boolean updateConsent(Consent consent) {
         if(consent==null){
-            notifyFailConsent(new OrmTypeChecking.OrmTypeException("consent null"));;
+            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("consent null"));;
             return false;
         }
         OrmConsent ormConsent = null;
@@ -161,16 +162,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             ormConsent=getModifiedConsent(ormConsent);
             saving.saveConsent(ormConsent);
-            notifyAllSuccess(ormConsent);
+            new ConsentHelper().notifyAllSuccess(ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            notifyFailConsent(e);
+            new ConsentHelper().notifyFailConsent(e);
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            notifyFailConsent(e);
+            new ConsentHelper().notifyFailConsent(e);
             return false;
         }
 
@@ -205,21 +206,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         }
         return ormConsent;
     }
-
-
-
-    //TODO: Spoorti - Move it to ConsentHelper class
-    private void notifyFailConsent(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if (integers.contains(EventHelper.CONSENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
-            }
-        }
-    }
-
 
 
     private boolean photoFileExistsForPhotoMoments(final Moment moment) {
@@ -281,7 +267,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             saving.saveMoment((OrmMoment) ormMoment);
             updating.updateMoment((OrmMoment) ormMoment);
-            notifyAllSuccess(ormMoment);
+            new TemperatureMomentHelper().notifyAllSuccess(ormMoment);
         } catch (SQLException e) {
             notifyAllFailure(e);
         }
@@ -408,19 +394,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return momentInDatabase;
     }
 
-    //TODO: Spoorti - Already part of Temperature Helper
-    private void notifyAllSuccess(Object ormMoments) {
-        final Map<Integer, ArrayList<DBChangeListener>> eventMap =
-                EventHelper.getInstance().getEventMap();
-        final Set<Integer> integers = eventMap.keySet();
-        if (integers.contains(EventHelper.MOMENT)) {
-            final ArrayList<DBChangeListener> dbChangeListeners =
-                    EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (final DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
 
     private void notifyAllFailure(Exception e) {
         RetrofitError error = null;

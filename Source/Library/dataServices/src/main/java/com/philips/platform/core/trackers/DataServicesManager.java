@@ -110,7 +110,6 @@ public class DataServicesManager {
 
     @Singleton
     private DataServicesManager() {
-
     }
 
     public static DataServicesManager getInstance() {
@@ -279,7 +278,6 @@ public class DataServicesManager {
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
 
         prepareInjectionsGraph(context);
-        getEventingImpl();
         mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
 
         mMonitors = new ArrayList<>();
@@ -331,6 +329,7 @@ public class DataServicesManager {
         mExceptionMonitor = null;
         mLoggingMonitor = null;
         mSharedPreferences = null;
+        mCore.stop();
     }
 
 
