@@ -49,7 +49,7 @@ public class UIDHelper {
     public static void setupToolbar(@NonNull final AppCompatActivity activity, @DrawableRes final int navigationIcon, @IdRes final int toolbarId) {
         Toolbar toolbar = (Toolbar) activity.findViewById(toolbarId);
         if (toolbar == null) {
-            final String formattedException = String.format("Please include a layout with view android.support.v7.widget.toolbar containing id %id in  you layout", toolbar);
+            final String formattedException = String.format("Please include a layout with view android.support.v7.widget.toolbar containing id %d in  you layout", toolbarId);
             throw new RuntimeException(formattedException);
         }
         toolbar.setNavigationIcon(navigationIcon);

@@ -65,14 +65,13 @@ public class NavigationBarTest {
         return intent;
     }
 
-    //Title test cases
-    //Android doesnt provide api to set margin left right
     @Test
-    public void verifyTitleMarginLeft() throws Exception {
+    public void verifyTitleMargin() throws Exception {
         setupUltralightTonalRangeActivity();
         int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
 
-        getNavigationBar().check(matches(ToolbarMatcher.isSameTitleMarginStart(titleMargin)));
+        getTitle().check(matches(ViewPropertiesMatchers.isSameLeftMargin(titleMargin)));
+        getTitle().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
     }
 
     @Test
@@ -173,6 +172,15 @@ public class NavigationBarTest {
     }
 
     @Test
+    public void verifyMenuTextPadding() throws Exception {
+        setupUltralightTonalRangeActivity();
+
+        int marginleft = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_padding_left_right);
+
+        getNavigationMenuText().check(matches(ViewPropertiesMatchers.isSameStartPadding(marginleft)));
+    }
+
+    @Test
     public void verifyMenuTextColorForUltraLight() throws Exception {
         setupActivity(NavigationColor.ULTRA_LIGHT.ordinal());
 
@@ -230,6 +238,20 @@ public class NavigationBarTest {
         getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
     }
 
+    @Test
+    public void verifyNavigationBarIconTargetAreaInLandscape() throws Exception {
+
+        final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
+        applicationContext = landscapeModeActivity.getApplicationContext();
+        landscapeModeActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
+        landscapeModeActivity.switchFragment(new NavigationbarFragment());
+
+        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
+
+        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
+        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
+    }
+
     private void setupUltralightTonalRangeActivity() {
         setupActivity(NAVIGATION_COLOR_ULTRALIGHT);
     }
@@ -252,5 +274,9 @@ public class NavigationBarTest {
 
     private ViewInteraction getNavigationMenuText() {
         return onView(withId(com.philips.platform.uid.test.R.id.set_theme_settings));
+    }
+
+    private ViewInteraction getTitle() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_toolbar_title));
     }
 }

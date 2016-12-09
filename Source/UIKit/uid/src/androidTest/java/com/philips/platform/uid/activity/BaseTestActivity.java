@@ -48,10 +48,11 @@ public class BaseTestActivity extends AppCompatActivity {
                     public void run() {
                         setContentView(layout);
                         if (layout == com.philips.platform.uid.test.R.layout.main_layout) {
-                            toolbar = (Toolbar) findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
+                            toolbar = (Toolbar) findViewById(com.philips.platform.uid.R.id.uid_toolbar);
                             toolbar.setNavigationContentDescription(getString(com.philips.platform.uid.test.R.string.navigation_content_desc));
                             UIDHelper.setupToolbar(BaseTestActivity.this, com.philips.platform.uid.test.R.drawable.ic_hamburger_menu,
-                                    com.philips.platform.uid.test.R.id.uid_toolbar);
+                                    com.philips.platform.uid.R.id.uid_toolbar);
+                            toolbar.setTitle(getString(com.philips.platform.uid.test.R.string.catalog_app_name));
                         }
                     }
                 }
