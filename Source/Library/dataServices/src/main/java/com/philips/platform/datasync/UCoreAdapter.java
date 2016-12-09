@@ -106,7 +106,7 @@ public class UCoreAdapter {
         };
     }
 
-    private String getAppAgentHeader() {
+    public String getAppAgentHeader() {
         String versionName = "";
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);

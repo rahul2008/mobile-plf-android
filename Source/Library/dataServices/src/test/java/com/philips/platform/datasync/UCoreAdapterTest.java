@@ -5,14 +5,20 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.Eventing;
 import com.philips.platform.datasync.consent.ConsentsClient;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.util.Strftime;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -27,7 +33,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-
+@RunWith(RobolectricTestRunner.class)
 public class UCoreAdapterTest {
 
 
@@ -60,6 +66,14 @@ public class UCoreAdapterTest {
     @Mock
     private GsonConverter gsonConverterMock;
 
+    @Mock
+    ErrorHandler userRegistrationImplMock;
+
+    @Mock
+    BaseAppDataCreator baseAppDataCreatorMock;
+
+    Eventing mEventing;
+
 //    @Mock
 //    private IcpClientFacade icpClientFacadeMock;
 
@@ -84,12 +98,6 @@ public class UCoreAdapterTest {
         uCoreAdapter = new UCoreAdapter(okClientFactoryMock, restAdapterBuilderMock, contextMock);
 
         when(okClientFactoryMock.create(okHttpClientMock)).thenReturn(okClientMock);
-
-        final String TEST_CQ5_URL = "TEST_CQ5_URL";
-//        when(icpClientFacadeMock.getUrl(IcpClientFacade.CQ5_SERVICE_TAG)).thenReturn(TEST_CQ5_URL);
-//        when(icpClientFacadeMock.getUrl(IcpClientFacade.BASE_SERVICE_TAG)).thenReturn(TEST_BASE_URL);
-//        when(icpClientFacadeMock.getUrl(IcpClientFacade.INSIGHTS_SERVICE_TAG)).thenReturn(TEST_INSIGHTS_URL);
-
         when(restAdapterBuilderMock.setEndpoint(anyString())).thenReturn(restAdapterBuilderMock);
         when(restAdapterBuilderMock.setLogLevel(UCoreAdapter.LOG_LEVEL)).thenReturn(restAdapterBuilderMock);
         when(restAdapterBuilderMock.setRequestInterceptor(any(RequestInterceptor.class))).thenReturn(restAdapterBuilderMock);
@@ -107,6 +115,7 @@ public class UCoreAdapterTest {
 
     @Test(expected = NullPointerException.class)
     public void ShouldCreateClient_WhenGetClientIsCalled() throws Exception {
+        //mEventing = new EventingImpl(new EventBus(), new Handler());
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(CLIENT_CLASS, ACCESS_TOKEN, gsonConverterMock);
 
         assertThat(client).isSameAs(clientMock);
@@ -165,4 +174,16 @@ public class UCoreAdapterTest {
         verify(requestFacadeMock).addHeader(UCoreAdapter.API_VERSION_CUSTOM_HEADER, String.valueOf(UCoreAdapter.API_VERSION));
         verify(requestFacadeMock).addHeader(eq(UCoreAdapter.APP_AGENT_HEADER), anyString());
     }
+
+    @Test
+    public void ShouldGetAppAgentHeader_WhenRequestIsIntercepted() throws Exception {
+        String agentHeader = uCoreAdapter.getAppAgentHeader();
+       assertThat(agentHeader).isNotEmpty();
+    }
+
+//    @Test
+//    public void ShouldGetBuildTime_WhenRequestIsIntercepted() throws Exception {
+//        String agentHeader = uCoreAdapter.getBuildTime();
+//        assertThat(agentHeader).isNotEmpty();
+//    }
 }
