@@ -24,8 +24,7 @@ node ('Ubuntu &&' + node_ext) {
         
 		try {
 			stage ('build') {
-				sh './check_and_delete_artifact.sh'
-                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
+                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "product-registration-lib" && ./gradlew lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
 			}
             currentBuild.result = 'SUCCESS'
         }
