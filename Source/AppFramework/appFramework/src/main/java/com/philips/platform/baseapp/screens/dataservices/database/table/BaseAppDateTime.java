@@ -8,6 +8,8 @@ package com.philips.platform.baseapp.screens.dataservices.database.table;
 
 import android.util.Log;
 
+import com.philips.platform.core.utils.DSLog;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
@@ -39,7 +41,7 @@ public class BaseAppDateTime {
             dateTime = localDateTime.toDateTime(DateTimeZone.getDefault());
         } catch (ParseException e) {
             if (e.getMessage() != null)
-                Log.i("***SPO***", "exception = " + e.getMessage());
+                DSLog.i("***SPO***", "exception = " + e.getMessage());
         }
         return dateTime;
     }

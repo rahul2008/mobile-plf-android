@@ -25,7 +25,7 @@ import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationFacadeImpl;
+import com.philips.platform.baseapp.screens.dataservices.registration.ErrorHandlerImpl;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -267,7 +267,7 @@ public class SettingsAdapter extends BaseAdapter{
                                     @Override
                                     public void onLogoutSuccess() {
                                     //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
-                                        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, userRegistrationState.getUserObject(activityContext));
+                                        ErrorHandlerImpl userRegistrationFacade = new ErrorHandlerImpl(activityContext, userRegistrationState.getUserObject(activityContext));
                                         userRegistrationFacade.clearUserData();
                                         progressDialog.cancel();
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);

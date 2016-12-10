@@ -15,11 +15,11 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
+import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
 import org.joda.time.DateTime;
@@ -35,24 +35,36 @@ import java.util.Collection;
 @DatabaseTable
 public class OrmMoment implements Moment, Serializable {
 
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
     public static final String NO_ID = "No ID";
-    @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();
-    @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmMomentDetail> ormMomentDetails = new EmptyForeignCollection<>();
+
     @DatabaseField(generatedId = true)
     private int id;
+
     @DatabaseField(canBeNull = false)
     private String creatorId;
+
     @DatabaseField(canBeNull = false)
     private String subjectId;
+
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
     private OrmMomentType type;
+
     @DatabaseField(canBeNull = false)
     private DateTime dateTime = new DateTime();
+
     @DatabaseField
     private boolean synced;
+
+    /*@ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();*/
+
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMomentDetail> ormMomentDetails = new EmptyForeignCollection<>();
+
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurementGroup> ormMeasurementGroups = new EmptyForeignCollection<>();
+
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private OrmSynchronisationData synchronisationData;
 
@@ -64,6 +76,7 @@ public class OrmMoment implements Moment, Serializable {
         this.creatorId = creatorId;
         this.subjectId = subjectId;
         this.type = type;
+        this.id = -1;
     }
 
     @Override
@@ -78,8 +91,8 @@ public class OrmMoment implements Moment, Serializable {
     @Override
     @NonNull
     public String getAnalyticsId() {
-        for ( OrmMomentDetail d : ormMomentDetails) {
-            if (d.getType() == MomentDetailType.TAGGING_ID) {
+        for (OrmMomentDetail d : ormMomentDetails) {
+            if (d.getType().equalsIgnoreCase(MomentDetailType.getDescriptionFromID(53))) {
                 return d.getValue();
             }
         }
@@ -99,7 +112,7 @@ public class OrmMoment implements Moment, Serializable {
 
     @Override
     @NonNull
-    public MomentType getType() {
+    public String getType() {
         return type.getType();
     }
 
@@ -113,7 +126,7 @@ public class OrmMoment implements Moment, Serializable {
         this.dateTime = dateTime;
     }
 
-    @Override
+   /* @Override
     public Collection<? extends OrmMeasurement> getMeasurements() {
         return ormMeasurements;
     }
@@ -121,6 +134,16 @@ public class OrmMoment implements Moment, Serializable {
     @Override
     public void addMeasurement(final Measurement measurement) {
         ormMeasurements.add((OrmMeasurement) measurement);
+    }*/
+
+    @Override
+    public Collection<? extends OrmMeasurementGroup> getMeasurementGroups() {
+        return ormMeasurementGroups;
+    }
+
+    @Override
+    public void addMeasurementGroup(final MeasurementGroup measurementGroup) {
+        ormMeasurementGroups.add((OrmMeasurementGroup) measurementGroup);
     }
 
     @Override

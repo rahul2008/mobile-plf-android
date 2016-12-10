@@ -1,52 +1,46 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
-
 package com.philips.platform.baseapp.screens.dataservices.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
-import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 
 import java.io.Serializable;
 
-
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Created by 310218660 on 11/17/2016.
  */
 @DatabaseTable
-public class OrmMomentDetail implements MomentDetail, Serializable {
+public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serializable{
 
     private static final long serialVersionUID = 11L;
 
     @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
+
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private OrmMomentDetailType type;
+    private OrmMeasurementGroupDetailType type;
 
     @DatabaseField(canBeNull = false)
     private String value;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
-    private OrmMoment ormMoment;
+    private OrmMeasurementGroup ormMeasurementGroup;
 
     @DatabaseConstructor
-    OrmMomentDetail() {
-    }
-
-    public OrmMomentDetail(final OrmMomentDetailType type, final OrmMoment ormMoment) {
-        this.type = type;
-        this.ormMoment = ormMoment;
+    OrmMeasurementGroupDetail() {
     }
 
     @Override
     public int getId() {
         return id;
+    }
+
+    public OrmMeasurementGroupDetail(final OrmMeasurementGroupDetailType type, final OrmMeasurementGroup ormMeasurementGroup) {
+        this.type = type;
+        this.ormMeasurementGroup = ormMeasurementGroup;
+        this.id = -1;
     }
 
     @Override
@@ -65,12 +59,12 @@ public class OrmMomentDetail implements MomentDetail, Serializable {
     }
 
     @Override
-    public OrmMoment getMoment() {
-        return ormMoment;
+    public OrmMeasurementGroup getOrmMeasurementGroup() {
+        return ormMeasurementGroup;
     }
 
     @Override
     public String toString() {
-        return "[OrmMomentDetail, id=" + id + ", ormMomentDetailType=" + type + ", value=" + value + ", ormMoment=" + ormMoment + "]";
+        return "[OrmMeasurementDetail, id=" + id + ", ormMeasurementDetailType=" + type + ", value=" + value + ", ormMeasurement=" + ormMeasurementGroup + "]";
     }
 }

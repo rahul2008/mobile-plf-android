@@ -4,7 +4,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 
 import java.io.Serializable;
 
@@ -20,8 +19,8 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private OrmConsentDetailType type;
+    @DatabaseField(canBeNull = false)
+    private String type;
 
     @DatabaseField(canBeNull = false)
     private String version;
@@ -42,7 +41,7 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
     OrmConsentDetail() {
     }
 
-    public OrmConsentDetail(final OrmConsentDetailType type, final String status, final String version, final String deviceIdentificationNumber, final OrmConsent ormConsent,boolean beSynchronized) {
+    public OrmConsentDetail(final String type, final String status, final String version, final String deviceIdentificationNumber, final OrmConsent ormConsent,boolean beSynchronized) {
         this.type = type;
         this.status = status;
         this.version = version;
@@ -56,10 +55,16 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
         return id;
     }
 
-    @Override
+   /* @Override
     public ConsentDetailType getType() {
         return type.getType();
+    }*/
+
+    @Override
+    public String getType() {
+        return type;
     }
+
 
     @Override
     public String getStatus() {
@@ -77,18 +82,13 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
     }
 
     @Override
-    public void setVersion(final String version) {
-        this.version = version;
-    }
-
-    @Override
     public String getDeviceIdentificationNumber() {
         return deviceIdentificationNumber;
     }
 
     @Override
-    public void setDeviceIdentificationNumber(final String deviceIdentificationNumber) {
-        this.deviceIdentificationNumber = deviceIdentificationNumber;
+    public void setBackEndSynchronized(boolean backEndSynchronized) {
+        this.beSynchronized = backEndSynchronized;
     }
 
     @Override
@@ -97,8 +97,13 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
     }
 
     @Override
-    public void setBackEndSynchronized(boolean backEndSynchronized) {
-        this.beSynchronized = backEndSynchronized;
+    public void setVersion(final String version) {
+        this.version = version;
+    }
+
+    @Override
+    public void setDeviceIdentificationNumber(final String deviceIdentificationNumber) {
+        this.deviceIdentificationNumber = deviceIdentificationNumber;
     }
 
     @Override

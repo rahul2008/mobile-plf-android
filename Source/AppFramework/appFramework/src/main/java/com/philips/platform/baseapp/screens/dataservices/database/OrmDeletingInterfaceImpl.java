@@ -8,6 +8,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynch
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureMomentHelper;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
 
@@ -44,7 +45,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "exception = " + e.getMessage());
+                DSLog.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -61,7 +62,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
                 saveMoment(moment);
             }
             //notifyAllSuccess(moment);
-        } catch (SQLException e) {
+        }catch (SQLException e){
             mTemperatureMomentHelper.notifyAllFailure(e);
         }
     }
@@ -74,7 +75,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "exception = " + e.getMessage());
+                DSLog.i("***SPO***", "exception = " + e.getMessage());
             }
         }
     }
@@ -93,7 +94,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "Exception = " + e.getMessage());
+                DSLog.i("***SPO***", "Exception = " + e.getMessage());
             }
         }
         return null;
