@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureMomentHelper;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperaturePresenter;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,14 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     private Drawable mOptionsDrawable;
 
 
-    private TemperaturePresenter mTemperaturePresenter;
+    DataServicesManager mDataServices;
+    private final TemperaturePresenter mTemperaturePresenter;
 
 
     public TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data, TemperaturePresenter mTemperaturePresenter) {
 
         this.mTemperaturePresenter = mTemperaturePresenter;
+        mDataServices = DataServicesManager.getInstance();
         mData = data;
         mContext = context;
         initDrawables();
@@ -54,7 +58,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
             TemperatureMomentHelper helper = new TemperatureMomentHelper();
-            Moment moment = mData.get(position);
+            Moment moment = (OrmMoment) mData.get(position);
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));

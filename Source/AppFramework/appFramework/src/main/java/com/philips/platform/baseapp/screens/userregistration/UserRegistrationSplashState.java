@@ -12,7 +12,8 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationFacadeImpl;
+import com.philips.platform.baseapp.screens.dataservices.registration.ErrorHandlerImpl;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -36,7 +37,7 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.welcome_frame_container, (ActionBarListener) getFragmentActivity()));
             }
-            UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activity, getUserObject(activity));
+            ErrorHandlerImpl userRegistrationFacade = new ErrorHandlerImpl(activity, getUserObject(activity));
             userRegistrationFacade.clearUserData();
         }
     }
@@ -53,7 +54,7 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
 
     @Override
     public void onUserLogoutSuccess() {
-        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
+        ErrorHandlerImpl userRegistrationFacade = new ErrorHandlerImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
         userRegistrationFacade.clearUserData();
     }
 
@@ -63,7 +64,7 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
+        ErrorHandlerImpl userRegistrationFacade = new ErrorHandlerImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
         userRegistrationFacade.clearUserData();
     }
 

@@ -23,10 +23,10 @@ import java.util.ArrayList;
  */
 
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final ConsentDialogPresenter consentDialogPresenter;
     Context mContext;
     private ArrayList<? extends ConsentDetail> consentDetails;
     private Consent mConsent;
+    private final ConsentDialogPresenter consentDialogPresenter;
 
     public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
         mContext = context;
@@ -45,7 +45,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if (holder instanceof ConsentDetailViewHolder) {
             ConsentDetailViewHolder mConsentViewHolder = (ConsentDetailViewHolder) holder;
-            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType().getDescription());
+            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType());
 
             boolean isAccepted = consentDialogPresenter.getConsentDetailStatus(consentDetails.get(position));
             mConsentViewHolder.mConsentDetailSwitch.setChecked(isAccepted);
@@ -71,13 +71,9 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void updateConsentDetails() {
-        DataServicesManager.getInstance().save(mConsent);
+        DataServicesManager.getInstance().updateConsent(mConsent);
     }
 
-    public void setData(OrmConsent consent) {
-        this.consentDetails = new ArrayList(consent.getConsentDetails());
-        this.mConsent = consent;
-    }
 
     public class ConsentDetailViewHolder extends RecyclerView.ViewHolder {
         public Switch mConsentDetailSwitch;
@@ -86,6 +82,12 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             mConsentDetailSwitch = (Switch) itemView.findViewById(R.id.switch_consent_detail_type);
         }
+    }
+
+
+    public void setData(OrmConsent consent) {
+        this.consentDetails = new ArrayList(consent.getConsentDetails());
+        this.mConsent = consent;
     }
 
 }
