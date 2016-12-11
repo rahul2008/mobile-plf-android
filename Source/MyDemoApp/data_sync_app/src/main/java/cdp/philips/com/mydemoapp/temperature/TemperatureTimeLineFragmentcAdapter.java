@@ -27,7 +27,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
 public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<? extends Moment> mData;
-    Context mContext;
+    private Context mContext;
     private Drawable mOptionsDrawable;
 
 

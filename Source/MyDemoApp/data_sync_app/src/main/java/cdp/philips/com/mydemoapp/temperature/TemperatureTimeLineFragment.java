@@ -280,11 +280,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void showProgressDialog() {
         if (mProgressBar != null && !mProgressBar.isShowing()) {
             mProgressBar.setMessage("Loading Please wait!!!");

@@ -7,5 +7,5 @@ import retrofit.RetrofitError;
  */
 
 public interface UserRegistrationFailureListener {
-    public void onFailure(RetrofitError error);
+    void onFailure(RetrofitError error);
 }
