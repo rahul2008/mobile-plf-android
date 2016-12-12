@@ -177,9 +177,9 @@ public class ConsentHandler implements RefreshUserHandler {
     private void updateUiBasedOnConsentStatus(final CoppaStatus coppaStatus) {
         if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
             completeConsentActions(coppaStatus);
-        } else if (coppaStatus == CoppaStatus.kDICOPPAConfirmationGiven) {
+        } else if (coppaStatus == CoppaStatus.kDICOPPAConfirmationGiven || coppaStatus == CoppaStatus.kDICOPPAConsentGiven) {
             completeConsentActions(coppaStatus);
-        } else {
+        }else {
             if (mParentalApprovalFragment.getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
                 mParentalApprovalFragment.getRegistrationFragment().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(mParentalApprovalFragment.getActivity());
