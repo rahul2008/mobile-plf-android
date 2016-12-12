@@ -105,6 +105,7 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         Map<String, String> headers = new LinkedHashMap<String, String>();
 
         RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
+        HsdpLog.d("Hsdp old refreshToken: ", "" + refreshToken);
         DhpResponse dhpResponse = sendSignedRequest("PUT", apiEndpoint, queryParams, headers, request);
 
         if(dhpResponse == null){

@@ -132,19 +132,20 @@ public class HsdpUser {
                     dhpAuthenticationResponse = null;
                     if (mHsdpUserRecord != null &&
                             mHsdpUserRecord.getAccessCredential() != null &&
-                            mHsdpUserRecord.getAccessCredential().getRefreshToken() == null
+                            mHsdpUserRecord.getAccessCredential().getRefreshToken() != null
                             ) {
                         dhpAuthenticationResponse = authenticationManagementClient.
-                                refreshSecret(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().
-                                                getAccessToken(), mHsdpUserRecord.
-                                                getRefreshSecret());
+                                refresh(mHsdpUserRecord.getUserUUID(),
+                                        mHsdpUserRecord.getAccessCredential().getRefreshToken());
+
                     } else if (mHsdpUserRecord != null &&
                             null != mHsdpUserRecord.getUserUUID() &&
                             null != mHsdpUserRecord.getAccessCredential()) {
                         dhpAuthenticationResponse = authenticationManagementClient.
-                                refresh(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().getRefreshToken());
+                                refreshSecret(mHsdpUserRecord.getUserUUID(),
+                                        mHsdpUserRecord.getAccessCredential().
+                                                getAccessToken(), Jump.
+                                                getRefreshSecret());
                     }
                     if (dhpAuthenticationResponse == null) {
                         refreshHandler.
@@ -358,7 +359,7 @@ public class HsdpUser {
         HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
         return hsdpUserRecord != null && ((hsdpUserRecord.getAccessCredential() != null &&
                 hsdpUserRecord.getAccessCredential().getRefreshToken() != null)
-                || hsdpUserRecord.getRefreshSecret() != null) &&
+                || Jump.getRefreshSecret() != null) &&
                 hsdpUserRecord.getUserUUID() != null
                 && (getHsdpUserRecord().getAccessCredential() != null &&
                 getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
