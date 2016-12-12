@@ -1,23 +1,24 @@
 package com.philips.platform.datasync.consent;
 
+import android.content.Context;
+
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.verticals.VerticalCreater;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,13 +26,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by sangamesh on 02/12/16.
  */
-@Ignore
+@RunWith(RobolectricTestRunner.class)
 public class ConsentsConverterTest {
 
     private final String TEST_DEVICE_ID = "manual";
     private ConsentsConverter consentsConverter;
 
-    private BaseAppDataCreator uGrowDataCreator;
+    private BaseAppDataCreator verticalDataCreater;
 
     private final String TEST_STATUS = "TEST_STATUS";
 
@@ -42,25 +43,30 @@ public class ConsentsConverterTest {
     @Mock
     private ConsentDetail consentDetailMock;
 
+    Context context;
+
     @Mock
     private UuidGenerator generatorMock;
 
-    @Mock
     DataServicesManager dataServicesManager;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        uGrowDataCreator = dataServicesManager.getDataCreater();
+        context = RuntimeEnvironment.application;
+
+        dataServicesManager = DataServicesManager.getInstance();
+        verticalDataCreater = new VerticalCreater();
+        dataServicesManager.initialize(context, verticalDataCreater,null);
 
         consentsConverter = new ConsentsConverter();
     }
 
     @Test
     public void ShouldReturnUCoreConsentDetailList_WhenAppConsentDetailListIsPassed() throws Exception {
-        Consent consent = uGrowDataCreator.createConsent("TEST_CREATORID");
-        ConsentDetail consentDetail = uGrowDataCreator.createConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,false, consent);
+        Consent consent = verticalDataCreater.createConsent("TEST_CREATORID");
+        ConsentDetail consentDetail = verticalDataCreater.createConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,false, consent);
 
         List<UCoreConsentDetail> uCoreConsentDetailList = consentsConverter.convertToUCoreConsentDetails(Collections.singletonList(consentDetail));
 
