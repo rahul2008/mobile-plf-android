@@ -318,7 +318,7 @@ dependencies {
     })
 
     // Module projects
-//    compile project(':dataServices')
+    compile project(':dataServices')
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
 
