@@ -22,9 +22,11 @@ public class UCoreMeasurement {
     @Expose
     private String timestamp;
     @Expose
-    private double value;
+    private String value;
     @Expose
     private String type;
+    @Expose
+    private String unit;
 
     @Expose
     @Nullable
@@ -38,11 +40,11 @@ public class UCoreMeasurement {
         this.timestamp = timestamp;
     }
 
-    public double getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(final double value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 
@@ -61,5 +63,13 @@ public class UCoreMeasurement {
 
     public void setDetails(@Nullable final List<UCoreDetail> details) {
         this.details = details;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

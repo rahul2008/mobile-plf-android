@@ -15,7 +15,6 @@ import java.sql.SQLException;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -39,17 +38,14 @@ public class OrmUpdating {
     @NonNull
     private final Dao<OrmConsentDetail, Integer> constentDetailsDao;
 
-    //TODO: Spoorti - Remove Unused
-    @NonNull
-    private final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao;
+
 
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                        @NonNull final Dao<OrmConsent, Integer> constentDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao) {
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -57,7 +53,6 @@ public class OrmUpdating {
         this.constentDao = constentDao;
         this.constentDetailsDao = constentDetailsDao;
 
-        this.constentDetailTypeDao = constentDetailTypeDao;
     }
 
     public void updateMoment(OrmMoment moment) throws SQLException {

@@ -8,22 +8,23 @@ package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -81,7 +82,7 @@ public class DataPullSynchronise {
 
 
     public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
-        Log.i("**SPO**","In Data Pull Synchronize startFetching");
+        DSLog.i("**SPO**","In Data Pull Synchronize startFetching");
         preformFetch(fetcher, lastSyncDateTime, referenceId);
       /*  executor.execute(new Runnable() {
             @Override
@@ -93,21 +94,21 @@ public class DataPullSynchronise {
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
-        Log.i("***SPO***","In startSynchronise - DataPullSynchronize");
+        DSLog.i("***SPO***","In startSynchronise - DataPullSynchronize");
         this.lastSyncDateTime = lastSyncDateTime;
         this.referenceId = referenceId;
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if(!isLoggedIn){
-            Log.i("***SPO***","DataPullSynchronize isLogged-in is false");
+            DSLog.i("***SPO***","DataPullSynchronize isLogged-in is false");
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
             return;
         }
 
         if (!isSyncStarted()) {
-            Log.i("***SPO***","DataPullSynchronize isLogged-in is true");
+            DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
-            Log.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
+            DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
             eventing.postSticky(new GetNonSynchronizedMomentsRequest());
         }
     }
@@ -125,15 +126,15 @@ public class DataPullSynchronise {
     }*/
 
     private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
-        Log.i("**SPO**","In Data Pull Synchronize preformFetch");
+        DSLog.i("**SPO**","In Data Pull Synchronize preformFetch");
         RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
         updateResult(resultError);
 
         int jobsRunning = numberOfRunningFetches.decrementAndGet();
-        Log.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning);
+        DSLog.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning);
 
         if (jobsRunning == 0) {
-            Log.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning + "calling report result");
+            DSLog.i("**SPO**","In Data Pull Synchronize preformFetch and jobsRunning = " + jobsRunning + "calling report result");
             reportResult(fetchResult, referenceId);
         }
     }
@@ -145,34 +146,34 @@ public class DataPullSynchronise {
     }
 
     private void reportResult(final RetrofitError result, final int referenceId) {
-        Log.i("**SPO**","In Data Pull Synchronize reportResult");
+        DSLog.i("**SPO**","In Data Pull Synchronize reportResult");
         if (result == null) {
-            Log.i("**SPO**","In Data Pull Synchronize reportResult is OK call postOK");
+            DSLog.i("**SPO**","In Data Pull Synchronize reportResult is OK call postOK");
             postOk(referenceId);
         } else {
-            Log.i("**SPO**","In Data Pull Synchronize reportResult is not OK call postError");
+            DSLog.i("**SPO**","In Data Pull Synchronize reportResult is not OK call postError");
             postError(referenceId, result);
         }
     }
 
     private void postError(final int referenceId, final RetrofitError error) {
-        Log.i("**SPO**","Error DataPullSynchronize postError" + error.getMessage());
+        DSLog.i("**SPO**","Error DataPullSynchronize postError" + error.getMessage());
         eventing.post(new BackendResponse(referenceId, error));
     }
 
     private void postOk(final int referenceId) {
-        Log.i("**SPO**","In Data Pull Synchronize postOK");
+        DSLog.i("**SPO**","In Data Pull Synchronize postOK");
         eventing.post(new ReadDataFromBackendResponse(referenceId));
     }
 
     private void initFetch() {
-        Log.i("**SPO**","In Data Pull Synchronize initFetch");
+        DSLog.i("**SPO**","In Data Pull Synchronize initFetch");
         numberOfRunningFetches.set(1);
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments) {
-        Log.i("**SPO**","In Data Pull Synchronize fetchData");
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments ,final List<? extends ConsentDetail> consentDetails) {
+        DSLog.i("**SPO**","In Data Pull Synchronize fetchData");
         initFetch();
         for(DataFetcher fetcher:fetchers){
             /*if ((fetcher instanceof MomentsDataFetcher || fetcher instanceof ConsentsDataFetcher && nonSynchronizedMoments != null && !nonSynchronizedMoments.isEmpty())) {
@@ -180,6 +181,9 @@ public class DataPullSynchronise {
                 continue;
             }*/
 
+            if(fetcher instanceof ConsentsDataFetcher){
+                ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
+            }
             //if(fetcher instanceof  MomentsDataFetcher) {
                 startFetching(lastSyncDateTime, referenceId, fetcher);
             //}
@@ -187,9 +191,9 @@ public class DataPullSynchronise {
     }}
 
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
-        Log.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
+        DSLog.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
         final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments);
+        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments,response.getConsentDetails());
        // unRegisterEvent();
     }
 }

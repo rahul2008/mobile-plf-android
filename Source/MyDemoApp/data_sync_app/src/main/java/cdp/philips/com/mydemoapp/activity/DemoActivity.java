@@ -15,27 +15,29 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
-import cdp.philips.com.mydemoapp.registration.UserRegistrationFacadeImpl;
+import cdp.philips.com.mydemoapp.registration.ErrorHandlerImpl;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener{
 
     private ActionBarListener actionBarListener;
     private DatabaseHelper databaseHelper;
-    private UserRegistrationFacadeImpl userRegistrationFacade;
+    private ErrorHandlerImpl userRegistrationFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
+        DSLog.enableLogging(true);
         User user = new User(this);
-        userRegistrationFacade = new UserRegistrationFacadeImpl(this, new User(this));
+        userRegistrationFacade = new ErrorHandlerImpl(this, new User(this));
 
         if (savedInstanceState == null)
             if(user.isUserSignIn()){

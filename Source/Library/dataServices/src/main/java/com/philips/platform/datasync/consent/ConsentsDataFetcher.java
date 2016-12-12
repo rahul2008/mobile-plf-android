@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -11,6 +12,7 @@ import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
@@ -26,6 +28,8 @@ public class ConsentsDataFetcher extends DataFetcher {
     @NonNull
     protected final AtomicInteger synchronizationState = new AtomicInteger(0);
 
+    private List<ConsentDetail> consentDetails;
+
     @Inject
     public ConsentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
                                @NonNull final Eventing eventing) {
@@ -36,13 +40,22 @@ public class ConsentsDataFetcher extends DataFetcher {
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-            eventing.post(new ConsentBackendGetRequest(1));
+            eventing.post(new ConsentBackendGetRequest(1, consentDetails));
         }
         return null;
     }
 
+    public List<ConsentDetail> getConsentDetails() {
+        return consentDetails;
+    }
+
+    public void setConsentDetails(List<ConsentDetail> consentDetails) {
+        this.consentDetails = consentDetails;
+    }
+
     @Override
     public RetrofitError fetchAllData() {
+
         return super.fetchAllData();
     }
 

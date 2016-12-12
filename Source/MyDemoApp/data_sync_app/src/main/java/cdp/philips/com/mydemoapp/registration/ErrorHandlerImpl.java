@@ -6,22 +6,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.core.datatypes.UserCredentials;
 import com.philips.platform.core.datatypes.UserProfile;
-import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -37,7 +31,7 @@ import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
  * All rights reserved.
  */
 @Singleton
-public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserRegistrationFailureListener {
+public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureListener {
 
     // TODO: This I do not want
     @NonNull
@@ -45,11 +39,6 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
     @NonNull
     private final User user;
-
-
-    @NonNull
-    private SharedPreferences sharedPreferences;
-    //private DateTime accessTokenRefreshTime;
     private boolean accessTokenRefreshInProgress;
     private String accessToken = "";
     private Runnable refreshLoginSessionRunnable = new Runnable() {
@@ -65,8 +54,7 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
 
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int statusCode) {
-                    if(context!=null)
-                    Toast.makeText(context,"refresh token failed and status code is = " + statusCode,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "refresh token failed and status code is = " + statusCode, Toast.LENGTH_LONG).show();
                     notifyLoginSessionResponse();
                 }
 
@@ -86,24 +74,19 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
         accessToken = "";
     }
 
-    private RegistrationConfiguration registrationConfiguration;
-
     @Nullable
     private String email;
 
     @Inject
-    public UserRegistrationFacadeImpl(
+    public ErrorHandlerImpl(
             @NonNull final Context context,
             @NonNull final User user) {
         this.context = context;
-        this.user =  user;
-        EventHelper.getInstance().registerURNotification(EventHelper.UR,this);
+        this.user = user;
+        EventHelper.getInstance().registerURNotification(EventHelper.UR, this);
     }
 
     private String gethsdpaccesstoken() {
-        if (getUser(context) == null) {
-            return accessToken;
-        }
         return getUser(context).getHsdpAccessToken();
     }
 
@@ -131,30 +114,22 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     @NonNull
     @Override
     public UserProfile getUserProfile() {
-        UserProfile userProfile = getUserProfileUserRegistrationPart();
-
-
-
-        return userProfile;
+        return getUserProfileUserRegistrationPart();
     }
 
     @NonNull
     private UserProfile getUserProfileUserRegistrationPart() {
         final UserProfile userProfile;
-        if (user != null) {
-            userProfile = new UserProfile(user.getGivenName(), user.getFamilyName(), user.getEmail(), user.getHsdpUUID());
-        } else {
-            userProfile = new UserProfile("", "", "", "");
-        }
+        userProfile = new UserProfile(user.getGivenName(), user.getFamilyName(), user.getEmail(), user.getHsdpUUID());
         return userProfile;
     }
 
     // TODO: We may have to ask the common component to take care of this
     private synchronized void refreshAccessTokenUsingWorkAround() {
-        if(accessTokenRefreshInProgress){
+        if (accessTokenRefreshInProgress) {
             return;
         }
-        Log.d("***SPO***","refreshAccessTokenUsingWorkAround()");
+        DSLog.d("***SPO***", "refreshAccessTokenUsingWorkAround()");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
         accessTokenRefreshInProgress = true;
@@ -175,8 +150,8 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     }
 
     private boolean isAccessTokenStillValid() {
-        return accessToken!= null || !accessToken.isEmpty();
-      //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
+        return (null != accessToken) || !(accessToken != null ? accessToken.isEmpty() : false);
+        //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
     }
 
 /*    public void clearUserData() {
@@ -187,44 +162,38 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     }*/
 
 
+//    @Override
+//    public UserCredentials getUserCredentials() {
+//        return new UserCredentials(user.getHsdpUUID(), user.getHsdpAccessToken(), user.getJanrainUUID(), user.getAccessToken());
+//    }
 
-    @Override
-    public boolean isSameUser() {
-        return email == null || email.length() == 0 || email.equals(getUserProfile().getEmail());
-    }
+//    @Nullable
+//    private Map<String, String> getQueryParams(final String url, final int baseUrlIndex) {
+//        Map<String, String> paramsMap = parseQueryParameters(url.substring(baseUrlIndex + 1));
+//        if (paramsMap.isEmpty()) {
+//            return null;
+//        }
+//        return paramsMap;
+//    }
 
-    @Override
-    public UserCredentials getUserCredentials() {
-        return new UserCredentials(user.getHsdpUUID(), user.getHsdpAccessToken(), user.getJanrainUUID(), user.getAccessToken());
-    }
-
-    @Nullable
-    private Map<String, String> getQueryParams(final String url, final int baseUrlIndex) {
-        Map<String, String> paramsMap = parseQueryParameters(url.substring(baseUrlIndex + 1));
-        if (paramsMap.isEmpty()) {
-            return null;
-        }
-        return paramsMap;
-    }
-
-    private Map<String, String> parseQueryParameters(String query) {
-        Map<String, String> queryPairsMap = new LinkedHashMap<>();
-        String[] queryParamsPairs = query.split("&");
-        for (String pair : queryParamsPairs) {
-            int idx = pair.indexOf(":");
-            queryPairsMap.put(pair.substring(0, idx), pair.substring(idx + 1));
-        }
-        return queryPairsMap;
-    }
+//    private Map<String, String> parseQueryParameters(String query) {
+//        Map<String, String> queryPairsMap = new LinkedHashMap<>();
+//        String[] queryParamsPairs = query.split("&");
+//        for (String pair : queryParamsPairs) {
+//            int idx = pair.indexOf(":");
+//            queryPairsMap.put(pair.substring(0, idx), pair.substring(idx + 1));
+//        }
+//        return queryPairsMap;
+//    }
 
     private void clearPreferences() {
-        sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
     }
 
     @Override
-    public String getHSDHsdpUrl(){
+    public String getHSDHsdpUrl() {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
@@ -235,10 +204,8 @@ public class UserRegistrationFacadeImpl implements UserRegistrationFacade, UserR
     @Override
     public void onFailure(final RetrofitError error) {
         if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
-            Log.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
-            if (context != null) {
-                Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
-            }
+            DSLog.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
+            Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
             return;
         }
         refreshAccessTokenUsingWorkAround();

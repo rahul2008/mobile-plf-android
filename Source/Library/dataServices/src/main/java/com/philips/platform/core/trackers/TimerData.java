@@ -89,12 +89,4 @@ public class TimerData {
     public List<com.philips.platform.core.trackers.TimerRun> getTimerRuns() {
         return new ArrayList<>(timerRuns);
     }
-
-    public long getTotalDuration() {
-        long duration = 0;
-        for (com.philips.platform.core.trackers.TimerRun run : timerRuns) {
-            duration = duration + run.getDurationInSeconds();
-        }
-        return duration;
-    }
 }

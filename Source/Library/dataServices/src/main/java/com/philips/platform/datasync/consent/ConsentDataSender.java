@@ -49,8 +49,4 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
     public Class<Consent> getClassForSyncData() {
         return Consent.class;
     }
-
-    public boolean isUserInvalid() {
-        return false;
-    }
 }

@@ -3,13 +3,9 @@ package com.philips.platform.core.monitors;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
-import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.ExceptionEvent;
-import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentSaveRequest;
 
 import java.sql.SQLException;
@@ -30,9 +26,10 @@ public class SavingMonitor extends EventMonitor {
     public void onEventAsync(final MomentSaveRequest momentSaveRequest) throws SQLException {
         boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment());
         if (saved) {
-            eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
+            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
         } else {
-            eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
+            //eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
+            dbInterface.postError(new Exception("Failed to insert"));
         }
     }
 
@@ -41,7 +38,8 @@ public class SavingMonitor extends EventMonitor {
         boolean saved = dbInterface.saveConsent(consent);
 
         if (!saved) {
-            eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
+            //eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
+            dbInterface.postError(new Exception("Failed to insert"));
             return;
         }
         if (!consentSaveRequest.isUpdateSyncFlag()) {
@@ -50,9 +48,5 @@ public class SavingMonitor extends EventMonitor {
 
     }
 
-    public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
 
-        dbInterface.saveBackEndConsent(consentBackendSaveResponse.getConsent());
-
-    }
 }

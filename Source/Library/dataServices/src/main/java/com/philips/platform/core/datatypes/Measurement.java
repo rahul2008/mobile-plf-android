@@ -19,11 +19,11 @@ public interface Measurement extends BaseAppData, DateData, Serializable {
 
     int getId();
 
-    com.philips.platform.core.datatypes.MeasurementType getType();
+    String getType();
 
-    double getValue();
+    String getValue();
 
-    void setValue(double value);
+    void setValue(String value);
 
     DateTime getDateTime();
 
@@ -33,6 +33,10 @@ public interface Measurement extends BaseAppData, DateData, Serializable {
 
     void addMeasurementDetail(com.philips.platform.core.datatypes.MeasurementDetail measurementDetail);
 
-    com.philips.platform.core.datatypes.Moment getMoment();
+    MeasurementGroup getMeasurementGroup();
+
+    String getUnit();
+
+    void setUnit(String unit);
 
 }
