@@ -25,6 +25,8 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
  */
 public final class CommLibContextBuilder<A extends DICommAppliance> {
 
+    private static final long BLE_DISCOVERY_TIMEOUT_MS = 20000L;
+
     public interface ApplianceFactoryBuilder<B extends DICommAppliance> {
         DICommApplianceFactory<B> create(@NonNull BleDeviceCache bleDeviceCache);
     }
@@ -33,7 +35,6 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
     private final ApplianceFactoryBuilder<A> applianceFactoryBuilder;
     private DICommApplianceDatabase<A> mApplianceDatabase;
     private CloudController mCloudController;
-    private DICommApplianceFactory<A> mApplianceFactory;
 
     /**
      * Instantiates a new CommLibBuilder.
@@ -60,14 +61,13 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
             throw new CommLibInitializationException(e);
         }
 
-        DICommApplianceFactory<A> applianceFactory = applianceFactoryBuilder.create(deviceCache);
-
-        DiscoveryManager<A> discoveryManager = createCommLib(applianceFactory);
+        final DICommApplianceFactory<A> applianceFactory = applianceFactoryBuilder.create(deviceCache);
+        final DiscoveryManager<A> discoveryManager = createDiscoveryManager(applianceFactory);
 
         // TODO Use defaults?
-        DiscoveryStrategy discoveryStrategy = new BleDiscoveryStrategy(deviceCache, shnCentral.getShnDeviceScanner(), 10000L);
+        DiscoveryStrategy discoveryStrategy = new BleDiscoveryStrategy(deviceCache, shnCentral.getShnDeviceScanner(), BLE_DISCOVERY_TIMEOUT_MS);
 
-        return new CommLibContext<A>(discoveryStrategy, discoveryManager, shnCentral, deviceCache);
+        return new CommLibContext<>(discoveryStrategy, discoveryManager, shnCentral, deviceCache);
     }
 
     /**
@@ -76,7 +76,7 @@ public final class CommLibContextBuilder<A extends DICommAppliance> {
      * @param applianceFactory the appliance factory
      * @return the DiscoveryManager
      */
-    private DiscoveryManager<A> createCommLib(DICommApplianceFactory<A> applianceFactory) {
+    private DiscoveryManager<A> createDiscoveryManager(DICommApplianceFactory<A> applianceFactory) {
         if (DICommClientWrapper.getContext() == null) {
             DICommClientWrapper.initializeDICommLibrary(mContext, applianceFactory, mApplianceDatabase, mCloudController);
         }
