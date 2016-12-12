@@ -11,10 +11,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
@@ -53,7 +51,7 @@ public class QuietButtonTest {
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.button_height);
 
         getQuietButton()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
+                .check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
@@ -81,7 +79,7 @@ public class QuietButtonTest {
     public void verifyQuietIconOnlyButtonWidth() {
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.iconbutton_width);
         getQuietIconOnlyButton()
-                .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
+                .check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test

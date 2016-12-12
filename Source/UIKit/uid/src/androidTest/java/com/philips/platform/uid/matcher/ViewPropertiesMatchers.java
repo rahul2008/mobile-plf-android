@@ -75,7 +75,8 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                return view.getWidth() == expectedValue;
+                setValues(view.getWidth(), expectedValue);
+                return areEqual();
             }
         };
     }
@@ -85,7 +86,7 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 setValues(view.getHeight(), expectedValue);
-                return view.getHeight() == expectedValue;
+                return areEqual();
             }
         };
     }

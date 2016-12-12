@@ -47,16 +47,17 @@ public class PrimaryButtonWithIconOnlyTest {
 
     @Test
     public void verifyIconOnlyButtonHeight() {
+
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.button_height);
         getIconOnlyButton()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
+                .check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
     public void verifyIconOnlyButtonWidth() {
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.iconbutton_width);
         getIconOnlyButton()
-                .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
+                .check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
