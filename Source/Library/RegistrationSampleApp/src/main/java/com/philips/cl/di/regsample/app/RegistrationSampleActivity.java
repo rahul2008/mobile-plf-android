@@ -55,6 +55,8 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
@@ -372,7 +374,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
                 } else {
                     System.out.println("pre  login"+user.getDateOfBirth());
-                    handleDoBUpdate();
+                    handleDoBUpdate(user.getDateOfBirth());
 
 
                 }
@@ -418,11 +420,16 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     }
 
-    private void handleDoBUpdate() {
-        final int year, month, day;
-        Calendar calendar = Calendar.getInstance();
+    private void handleDoBUpdate(Date userDOB) {
+        int year, month, day;
+        Calendar calendar = new GregorianCalendar();
+        if (userDOB != null) {
+            calendar.setTime(userDOB);
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+        }
         year = calendar.get(Calendar.YEAR);
-
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
