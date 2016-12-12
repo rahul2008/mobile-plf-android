@@ -211,7 +211,7 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    compile "org.mockito:mockito-all:1.10.17"
+    testCompile "org.mockito:mockito-all:1.10.17"
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 }
 
