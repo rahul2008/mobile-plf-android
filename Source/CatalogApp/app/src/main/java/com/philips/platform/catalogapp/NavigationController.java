@@ -137,7 +137,7 @@ public class NavigationController {
     }
 
     private void showHamburgerIcon() {
-        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_menu, mainActivity.getTheme()));
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_icon, mainActivity.getTheme()));
         hamburgerIconVisible = true;
         title.setText(R.string.catalog_app_name);
         titleResource = R.string.catalog_app_name;
@@ -163,7 +163,7 @@ public class NavigationController {
     public void init(final Bundle savedInstanceState) {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
 
-        UIDHelper.setupToolbar(mainActivity, R.drawable.ic_hamburger_menu, com.philips.platform.uid.R.id.uid_toolbar);
+        UIDHelper.setupToolbar(mainActivity, R.drawable.ic_hamburger_icon, com.philips.platform.uid.R.id.uid_toolbar);
 
         if (savedInstanceState == null) {
             initDemoListFragment();

@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.AppBarLayout
+<android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/UIDToolbar"
+    android:id="@id/uid_toolbar"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:title="@null"
+    app:theme="@style/UIDToolbar">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@id/uid_toolbar"
-        style="@style/UIDToolbar"
-        android:layout_width="match_parent"
+    <TextView
+        style="@style/UIDToolbarBarTitleText"
+        android:id="@id/uid_toolbar_title"
         android:layout_height="wrap_content"
-        android:title="@null"
-        app:theme="@style/UIDToolbar">
+        android:layout_width="match_parent"
+        android:textIsSelectable="true"/>
+</android.support.v7.widget.Toolbar>
 
-        <TextView
-            style="@style/UIDToolbarBarTitleText"
-            android:layout_marginStart="@dimen/uid_page_marging_left_right"
-            android:layout_marginEnd="@dimen/uid_page_marging_left_right"
-            android:id="@id/uid_toolbar_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textIsSelectable="true"/>
-    </android.support.v7.widget.Toolbar>
-
-</android.support.design.widget.AppBarLayout>

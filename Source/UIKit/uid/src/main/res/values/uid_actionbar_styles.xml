@@ -30,6 +30,8 @@
         <item name="android:textColor">?attr/uidNavigationTextColor</item>
         <item name="android:textColorPrimary">?attr/uidNavigationTextColor</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/uid_page_marging_left_right</item>
+        <item name="android:layout_marginEnd">@dimen/uid_page_marging_left_right</item>
     </style>
 
     <style name="UIDActionBarOverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">

@@ -75,15 +75,6 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void verifyTitleMarginRight() throws Exception {
-        setupUltralightTonalRangeActivity();
-
-        int titleMargin = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_margin);
-
-        getNavigationBar().check(matches(ToolbarMatcher.isSameTitleMarginRight(titleMargin)));
-    }
-
-    @Test
     public void verifyTitleTextColorInUltraLight() throws Exception {
         setupUltralightTonalRangeActivity();
 

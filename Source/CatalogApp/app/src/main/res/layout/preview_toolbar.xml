@@ -18,6 +18,7 @@
             style="@style/UIDToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:title="@null"
             app:theme="@style/UIDToolbar">
 
             <RelativeLayout
@@ -33,7 +34,7 @@
                     android:layout_toStartOf="@+id/preview_title"
                     android:gravity="start|center_vertical"
                     android:text="@string/cancel"
-                    android:onClick="@{(v)-> preActivity.viewClicked()}"
+                    android:onClick="@{(v)-> preActivity.cancleOrPreviewClicked()}"
                     app:uidLabelTextColor="?attr/uidNavigationTextColor"/>
 
                 <TextView
@@ -54,7 +55,7 @@
                     android:layout_toEndOf="@+id/preview_title"
                     android:gravity="end|center_vertical"
                     android:text="@string/preview"
-                    android:onClick="@{(v)-> preActivity.viewClicked()}"
+                    android:onClick="@{(v)-> preActivity.cancleOrPreviewClicked()}"
                     app:uidLabelTextColor="?attr/uidNavigationTextColor"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>

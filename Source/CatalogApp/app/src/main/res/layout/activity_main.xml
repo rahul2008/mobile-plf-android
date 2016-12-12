@@ -10,9 +10,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
+        <android.support.design.widget.AppBarLayout
             android:id="@+id/appBar"
-            layout="@layout/uid_toolbar"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/uid_toolbar"/>
+        </android.support.design.widget.AppBarLayout>
+
 
         <FrameLayout
             android:id="@+id/mainContainer"

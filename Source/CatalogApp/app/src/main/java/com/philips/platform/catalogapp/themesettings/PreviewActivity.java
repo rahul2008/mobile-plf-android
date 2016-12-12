@@ -10,13 +10,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.philips.platform.catalogapp.BuildConfig;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.ActivityPreviewBinding;
-import com.philips.platform.catalogapp.databinding.PreviewToolbarBinding;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -49,11 +49,12 @@ public class PreviewActivity extends AppCompatActivity {
         final ActivityPreviewBinding dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_preview);
         dataBinding.setPreviewActivity(this);
 
-        final PreviewToolbarBinding toolbar = dataBinding.toolbar;
+        final com.philips.platform.catalogapp.databinding.PreviewToolbarBinding toolbar = dataBinding.toolbar;
         toolbar.setPreActivity(this);
         setSupportActionBar(toolbar.previewbar);
-        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        final ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setDisplayOptions(DISPLAY_SHOW_CUSTOM);
+        supportActionBar.setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class PreviewActivity extends AppCompatActivity {
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 
-    public void viewClicked() {
+    public void cancleOrPreviewClicked() {
         finish();
     }
 }
