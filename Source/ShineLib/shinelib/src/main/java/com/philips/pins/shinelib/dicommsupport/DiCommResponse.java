@@ -5,8 +5,6 @@
 
 package com.philips.pins.shinelib.dicommsupport;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
@@ -26,8 +24,6 @@ public class DiCommResponse {
     private StatusCode mStatus;
     private Map<String, Object> mProperties = new HashMap<>();
     private String mJsonString;
-
-    private final Gson mGson = new GsonBuilder().serializeNulls().create();
 
     public DiCommResponse(DiCommMessage diCommMessage) throws IllegalArgumentException, InvalidPayloadFormatException, InvalidStatusCodeException, InvalidMessageTerminationException {
         if (MessageType.GenericResponse != diCommMessage.getMessageType()) {
@@ -53,7 +49,7 @@ public class DiCommResponse {
 
             mJsonString = new String(propertiesData, StandardCharsets.UTF_8);
             try {
-                mProperties = mGson.fromJson(mJsonString, mProperties.getClass());
+                mProperties = GsonProvider.getGson().fromJson(mJsonString, mProperties.getClass());
             } catch (JsonSyntaxException e) {
                 throw new InvalidPayloadFormatException("Error evaluating JSON from payload string: " + mJsonString);
             }

@@ -17,10 +17,10 @@ import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshi
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener {
 
@@ -29,7 +29,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
     private boolean isAvailable;
 
-    private Set<DiCommPort> diCommPorts = new HashSet<>();
+    private Set<DiCommPort> diCommPorts = new CopyOnWriteArraySet<>();
     private List<RequestInfo> pendingRequests = new ArrayList<>();
 
     @NonNull

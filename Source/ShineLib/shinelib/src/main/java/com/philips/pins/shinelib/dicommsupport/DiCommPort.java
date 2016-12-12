@@ -17,9 +17,9 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class DiCommPort {
 
@@ -34,7 +34,7 @@ public class DiCommPort {
 
     private boolean isAvailable;
     private Map<String, Object> properties = new HashMap<>();
-    private Set<UpdateListener> updateListeners = new HashSet<>();
+    private Set<UpdateListener> updateListeners = new CopyOnWriteArraySet<>();
     private final Timer subscriptionTimer;
     @NonNull
     private Handler internalHandler;
@@ -140,8 +140,7 @@ public class DiCommPort {
     public void subscribe(@NonNull UpdateListener updateListener, @NonNull final SHNResultListener shnResultListener) {
         SHNLogger.d(TAG, "subscribe " + updateListener);
 
-        if (!updateListeners.contains(updateListener)) {
-            updateListeners.add(updateListener);
+        if (updateListeners.add(updateListener)) {
             if (updateListeners.size() == 1) {
                 refreshSubscription();
                 SHNLogger.d(TAG, "Started polling properties for port: " + name);
@@ -197,8 +196,7 @@ public class DiCommPort {
     }
 
     private void notifyPropertiesChanged(Map<String, Object> properties) {
-        Set<UpdateListener> copyOfUpdateListeners = new HashSet<>(updateListeners);
-        for (UpdateListener updateListener : copyOfUpdateListeners) {
+        for (UpdateListener updateListener : updateListeners) {
             updateListener.onPropertiesChanged(properties);
         }
     }
@@ -206,9 +204,7 @@ public class DiCommPort {
     public void unsubscribe(UpdateListener updateListener, @Nullable final SHNResultListener shnResultListener) {
         SHNLogger.d(TAG, "unsubscribe " + updateListener);
 
-        if (updateListeners.contains(updateListener)) {
-            updateListeners.remove(updateListener);
-
+        if (updateListeners.remove(updateListener)) {
             if (updateListeners.isEmpty()) {
                 subscriptionTimer.stop();
                 SHNLogger.d(TAG, "Stopped polling properties for port: " + name);

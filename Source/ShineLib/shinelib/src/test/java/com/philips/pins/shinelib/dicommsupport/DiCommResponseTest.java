@@ -14,14 +14,13 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DiCommResponseTest extends RobolectricTest {
 
-    public static final int VALUE = 5;
+    public static final double VALUE = 5D;
     public static final String KEY = "data";
     public static final String DATA_JSON = "{\"" + KEY + "\":" + VALUE + "}";
 
@@ -176,7 +175,7 @@ public class DiCommResponseTest extends RobolectricTest {
         new DiCommResponse(diCommMessageMock);
     }
 
-    @Test(expected = InvalidPayloadFormatException.class)
+    @Test
     public void whenResponseHasNoJSONThenStatusCodeIsRead() throws Exception {
         byte[] data = new byte[2];
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
@@ -188,7 +187,7 @@ public class DiCommResponseTest extends RobolectricTest {
         DiCommResponse diCommResponse = new DiCommResponse(diCommMessageMock);
 
         assertEquals(StatusCode.OutOfMemory, diCommResponse.getStatus());
-        assertNull(diCommResponse.getProperties());
+        assertTrue(diCommResponse.getProperties().size() == 0);
     }
 
     @Test

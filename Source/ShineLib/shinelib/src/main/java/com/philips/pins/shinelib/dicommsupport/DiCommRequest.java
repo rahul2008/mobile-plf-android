@@ -9,17 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Base64;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DiCommRequest {
-
-    private final Gson mGson = new GsonBuilder().serializeNulls().create();
 
     @NonNull
     public DiCommMessage getPropsRequestDataWithProduct(@NonNull String product, @NonNull String port) {
@@ -35,7 +30,7 @@ public class DiCommRequest {
         }
         Map<String, Object> encodedProperties = encodeByteArraysToBase64(properties);
 
-        String propertiesString = mGson.toJson(encodedProperties);
+        String propertiesString = GsonProvider.getGson().toJson(encodedProperties);
         byte[] byteArray = encodeDiCommPayload(product, port, propertiesString);
 
         return new DiCommMessage(MessageType.PutPropsRequest, byteArray);
