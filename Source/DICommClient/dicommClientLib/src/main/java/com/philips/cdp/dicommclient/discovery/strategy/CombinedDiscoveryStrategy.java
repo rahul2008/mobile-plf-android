@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -32,9 +33,14 @@ public class CombinedDiscoveryStrategy implements DiscoveryStrategy, DiscoverySt
     }
 
     @Override
-    public void start(Context context, DiscoveryListener listener) throws MissingPermissionException {
+    public void start(Context context, @NonNull DiscoveryListener listener) throws MissingPermissionException {
+        start(context, listener, null);
+    }
+
+    @Override
+    public void start(Context context, @NonNull DiscoveryListener discoveryListener, Collection<String> deviceTypes) throws MissingPermissionException {
         for (DiscoveryStrategy strategy : strategies) {
-            strategy.start(context, this);
+            strategy.start(context, this, deviceTypes);
         }
     }
 

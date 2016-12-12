@@ -28,6 +28,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -67,18 +68,23 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
     }
 
     @Override
-    public void start(Context context, DiscoveryListener discoveryListener) throws MissingPermissionException {
+    public void start(Context context, @NonNull DiscoveryListener discoveryListener) throws MissingPermissionException {
+        start(context, discoveryListener, null);
+    }
+
+    @Override
+    public void start(Context context, @NonNull DiscoveryListener discoveryListener, Collection<String> deviceTypes) throws MissingPermissionException {
         this.discoveryListener = discoveryListener;
 
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
             ssdpServiceHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
+
+            if (discoveryListener != null) {
+                discoveryListener.onDiscoveryStarted();
+            }
         }
         networkMonitor.startNetworkChangedReceiver();
-
-        if (discoveryListener != null) {
-            discoveryListener.onDiscoveryStarted();
-        }
     }
 
     @Override
