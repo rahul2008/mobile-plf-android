@@ -81,7 +81,6 @@ dependencies {
     }
     compile "com.jakewharton:butterknife:${butterKnifeVer}"
     compile project(':uid')
-    testCompile "com.android.support:support-v4:${supportLibraryVer}"
     testCompile "junit:junit:${jUnitVer}"
 
 

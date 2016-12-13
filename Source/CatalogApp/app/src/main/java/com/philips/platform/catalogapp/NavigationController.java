@@ -163,7 +163,7 @@ public class NavigationController {
     public void init(final Bundle savedInstanceState) {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
 
-        UIDHelper.setupToolbar(mainActivity, R.drawable.ic_hamburger_icon, com.philips.platform.uid.R.id.uid_toolbar);
+        UIDHelper.setupToolbar(mainActivity);
 
         if (savedInstanceState == null) {
             initDemoListFragment();
