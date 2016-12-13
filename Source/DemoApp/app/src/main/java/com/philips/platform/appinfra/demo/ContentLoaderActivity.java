@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.demo;
 
 import android.content.DialogInterface;
@@ -18,7 +23,6 @@ import com.philips.platform.appinfra.contentloader.ContentInterface;
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.ContentLoaderInterface;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
-import com.philips.platform.appinfra.contentloader.model.Tag;
 
 import java.util.List;
 

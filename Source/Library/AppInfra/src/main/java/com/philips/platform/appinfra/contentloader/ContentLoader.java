@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.contentloader;
 
 import android.content.Context;
@@ -100,7 +105,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         // to used when serviceId is ready
         try {
             jsonRequest = new JsonObjectRequest(Request.Method.GET,
-                    mServiceId, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYCOUNTRY, getOffsetPath(offset), null, new Response.Listener<JSONObject>() {
+                    mServiceId, ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE, getOffsetPath(offset), null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     JsonObject jsonObjectTree = null;
@@ -196,6 +201,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public STATE getStatus() {
+        if(null==downloadInProgress) return STATE.NOT_INITIALIZED;
         if (!downloadInProgress.get()) return STATE.REFRESHING;
         long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
         Calendar calendar = Calendar.getInstance();
@@ -226,28 +232,18 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     public void getContentById(String id, OnResultListener<Content> listener) {
         String[] IDs = new String[1];
         IDs[0] = id;
-        List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, IDs);
-        if (null != contentItems && contentItems.size() > 0) {
-            ContentItem contentItem = contentItems.get(0);
-            List<Content> result = new ArrayList<>(1);
-            try {
-                Content a = mClassType.newInstance();
-                a.parseInput(contentItem.getRawData());
-                result.add(a);
-                listener.onSuccess(result);
-            } catch (InstantiationException | IllegalAccessException e) {
-                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
-            }
-        } else {
-            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given ID not found in DB");
-        }
+        getContentBySingleOrMultipleID(IDs,listener);
     }
 
     @Override
     public void getContentById(String[] ids, OnResultListener<Content> listener) {
+        getContentBySingleOrMultipleID(ids,listener);
+    }
+
+    private void getContentBySingleOrMultipleID(String[] ids, OnResultListener<Content> listener){
         List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, ids);
         if (null != contentItems && contentItems.size() > 0) {
-            List<Content> result = new ArrayList<>(1);
+            List<Content> result = new ArrayList<>();
             try {
                 for (ContentItem ci : contentItems) {
                     Content c = mClassType.newInstance();
@@ -267,27 +263,20 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     public void getContentByTag(String tagID, OnResultListener<Content> listener) {
         String[] tag = new String[1];
         tag[0] = tagID;
-        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tag, null);
-        if (null != contentItems && contentItems.size() > 0) {
-            List<Content> result = new ArrayList<>(1);
-            try {
-                for (ContentItem ci : contentItems) {
-                    Content c = mClassType.newInstance();
-                    c.parseInput(ci.getRawData());
-                    result.add(c);
-                }
-                listener.onSuccess(result);
-            } catch (InstantiationException | IllegalAccessException e) {
-                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
-            }
-        } else {
-            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given IDs not found in DB");
-        }
+        getContentBySingleOrMultipleTag(tag,null,listener);
     }
 
     @Override
     public void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener) {
-        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs, andOr.toString());
+        getContentBySingleOrMultipleTag(tagIDs,andOr,listener);
+    }
+
+    private void getContentBySingleOrMultipleTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener){
+        String logicalOperator=null;
+        if(null!=andOr){
+            logicalOperator=andOr.toString();
+        }
+        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs,logicalOperator );
         if (null != contentItems && contentItems.size() > 0) {
             List<Content> result = new ArrayList<>(1);
             try {

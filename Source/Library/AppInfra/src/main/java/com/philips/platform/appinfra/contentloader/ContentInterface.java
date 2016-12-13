@@ -6,8 +6,6 @@
 
 package com.philips.platform.appinfra.contentloader;
 
-import com.philips.platform.appinfra.contentloader.model.Tag;
-
 import java.util.List;
 
 /*

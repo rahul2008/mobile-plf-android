@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.contentloader;
 
 import android.content.ContentValues;
@@ -88,7 +93,8 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    private void insertContents(List<ContentItem> refreshedContentItems, Date mLastUpdatedTime, String serviceID, long expiryDate) {
+    private boolean insertContents(List<ContentItem> refreshedContentItems, Date mLastUpdatedTime, String serviceID, long expiryDate) {
+        boolean insertOperation=false;
         // first run, no entry available fo given service id so all content item will be inserted
         SQLiteDatabase db = this.getWritableDatabase();
         try {
@@ -111,6 +117,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
             if (isContentloaderStateTableUpdated) {
                 db.setTransactionSuccessful();
+                insertOperation=true;
             }
         } catch (Exception e) {
             Log.e("INS FAIL", "");
@@ -118,9 +125,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             db.endTransaction();
         }
         db.close();
+        return insertOperation;
     }
 
-    private void updateContents(List<ContentItem> serverContentItems, Date mLastUpdatedTime, List<ContentItem> databaseContentItems, String serviceID, long expiryDate) {
+    private boolean updateContents(List<ContentItem> serverContentItems, Date mLastUpdatedTime, List<ContentItem> databaseContentItems, String serviceID, long expiryDate) {
         boolean SQLitetransaction = true;
         SQLiteDatabase db = this.getWritableDatabase();
         List<ContentItem> newContentItemToBeAddedFromServer = new ArrayList<>();
@@ -247,19 +255,20 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         db.endTransaction();
 
         db.close();
+        return SQLitetransaction;
     }
 
     //Delete Query
     private void removeContent(String serviceId) {
-        String deleteQuery = "DELETE FROM " + CONTENT_TABLE + " where " + KEY_SERVICE_ID + "= " + serviceId;
+        String deleteQuery = "DELETE FROM " + CONTENT_TABLE + " where " + KEY_SERVICE_ID + "= ?" ;
         SQLiteDatabase db = this.getReadableDatabase();
-        db.execSQL(deleteQuery);
+        db.execSQL(deleteQuery,new String[]{serviceId});
     }
 
     private List<ContentItem> getContentItems(String serviceId) {
-        String selectQuery = "SELECT  * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \'" + serviceId + "\'";
+        String selectQuery = "SELECT  * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{serviceId});
         List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
         if (cursor.moveToFirst()) {
             do {
@@ -281,8 +290,8 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String getAllIDQuery = null;
         try {
-            getAllIDQuery = "SELECT " + KEY_ID + " FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\"";
-            Cursor cursor = db.rawQuery(getAllIDQuery, null);
+            getAllIDQuery = "SELECT " + KEY_ID + " FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
+            Cursor cursor = db.rawQuery(getAllIDQuery, new String[]{serviceID});
             if (cursor.moveToFirst()) {
                 do {
                     Ids.add(cursor.getString(0));
@@ -302,18 +311,12 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String getContentByIdQuery = null;
         try {
-            if (contentIDs.length == 1) {
-                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\" AND " + KEY_ID + " = \"" + contentIDs[0] + "\"";
-            } else if (contentIDs.length > 1) {
-                String[] whereClause = new String[contentIDs.length];
-                int idCount = 0;
-                for (String id : contentIDs) {
-                    whereClause[idCount++] = KEY_ID + " = \"" + id + "\"";
-                }
-                String formattedwhereClause = TextUtils.join(" OR ", whereClause);
-                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\" AND (" + formattedwhereClause + " )";
-            }
-            Cursor cursor = db.rawQuery(getContentByIdQuery, null);
+
+            getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ? AND "+KEY_ID+ " IN (" + makePlaceholders(contentIDs.length) + ")";
+            String[] params =  new  String[contentIDs.length+1]  ;
+            params[0]= serviceID;
+            System.arraycopy(contentIDs ,0,params,1,contentIDs.length);
+            Cursor cursor = db.rawQuery(getContentByIdQuery,params );
             if (cursor.moveToFirst()) {
                 do {
                     ContentItem contentItem = new ContentItem();
@@ -341,7 +344,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         String getContentByIdQuery = null;
         try {
             if (tagIDs.length == 1) {
-                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\" AND " + KEY_TAG_IDS + " LIKE \'%" + tagIDs[0] + "%\'";
+                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ? AND " + KEY_TAG_IDS + " LIKE \'%" + tagIDs[0] + "%\'";
             } else if (tagIDs.length > 1) {
                 String[] whereClause = new String[tagIDs.length];
                 int idCount = 0;
@@ -349,9 +352,9 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                     whereClause[idCount++] = KEY_TAG_IDS + " LIKE \'%" + id + "%\'";
                 }
                 String formattedwhereClause = TextUtils.join(" " + logicalGate + " ", whereClause);
-                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\" AND (" + formattedwhereClause + " )";
+                getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ? AND (" + formattedwhereClause + " )";
             }
-            Cursor cursor = db.rawQuery(getContentByIdQuery, null);
+            Cursor cursor = db.rawQuery(getContentByIdQuery, new String[] {serviceID});
             if (cursor.moveToFirst()) {
                 do {
                     ContentItem contentItem = new ContentItem();
@@ -391,8 +394,8 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     protected long getContentLoaderServiceStateExpiry(String serviceID) {
         long expiryTime = 0l;
         SQLiteDatabase db = this.getWritableDatabase();
-        String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\"";
-        Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, null);
+        String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?";
+        Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, new String[]{serviceID});
         if (cursor.moveToFirst()) {
             expiryTime = cursor.getLong(0);
         }
@@ -412,10 +415,23 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     protected void clearCacheForContentLoader(String serviceID) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\"");
-        db.execSQL("delete from " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = \"" + serviceID + "\"");
+        db.execSQL("delete from " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?", new String[]{serviceID});
+        db.execSQL("delete from " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?", new String[]{serviceID});
         db.close();
         Log.d("DEL SUC", "" + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
 
+    }
+    String makePlaceholders(int len) {
+        if (len < 1) {
+            // It will lead to an invalid query anyway ..
+            throw new RuntimeException("No placeholders");
+        } else {
+            StringBuilder sb = new StringBuilder(len * 2 - 1);
+            sb.append("?");
+            for (int i = 1; i < len; i++) {
+                sb.append(",?");
+            }
+            return sb.toString();
+        }
     }
 }
