@@ -77,10 +77,7 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
     @Override
     public void stop() {
         deviceScanner.stopScanning();
-
-        if (discoveryListener != null) {
-            discoveryListener.onDiscoveryFinished();
-        }
+        this.discoveryListener.onDiscoveryFinished();
     }
 
     @Override
@@ -93,9 +90,7 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
 
     @Override
     public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-        if (discoveryListener != null) {
-            discoveryListener.onDiscoveryFinished();
-        }
+        this.discoveryListener.onDiscoveryFinished();
     }
 
     private NetworkNode createNetworkNode(final SHNDevice shnDevice) {
