@@ -7,40 +7,45 @@ parseColorsAndCreateColorsXml()
 
 void parseColorsAndCreateColorsXml() {
     def jsonSlurper = new JsonSlurper()
-    def obj = jsonSlurper.parseText(new File("../res/color_ranges.json").text)
 
-    def sw = new StringWriter()
-    def xml = new MarkupBuilder(sw)
-    xml.setDoubleQuotes(true)
-    xml.resources() {
-        obj.each {
-            key, value ->
-                value.each {
-                    level, clr ->
-                        def newKey = key.replaceAll("-", "_").toLowerCase()
-                        def newLevel = level.replaceAll("-", "_").toLowerCase()
-                        if (newKey == newLevel) {
-                            color(name: "uid_${newKey}", "${clr}")
+    def colorRangeMappings = jsonSlurper.parseText(new File(DLSResourceConstants.PATH_COLOR_RANGES_JSON).text)
+
+    def writer = new StringWriter()
+    def colorXML = new MarkupBuilder(writer)
+    colorXML.setDoubleQuotes(true)
+    colorXML.resources() {
+        colorRangeMappings.each {
+            colorRange, colorLevelMap ->
+                colorLevelMap.each {
+                    colorLevel, colorCode ->
+                        def lowerCaseColorKey = colorRange.replaceAll("-", "_").toLowerCase()
+                        def lowerCaseColorLevel = colorLevel.replaceAll("-", "_").toLowerCase()
+                        if (lowerCaseColorKey == lowerCaseColorLevel) {
+                            color(name: "${DLSResourceConstants.LIB_PREFIX}_${lowerCaseColorKey}", "${colorCode}")
                         } else {
-                            color(name: "uid_${newKey}_${newLevel}", "${clr}")
+                            color(name: "${DLSResourceConstants.LIB_PREFIX}_${lowerCaseColorKey}_${lowerCaseColorLevel}", "${colorCode}")
                         }
                 }
         }
     }
-//    println sw
-    createColorsXml(sw)
+    createColorsXml(writer)
 }
 
 private void createColorsXml(StringWriter sw) {
-    def outDir = new File("../out")
+    def outDir = new File(DLSResourceConstants.PATH_OUT)
+
     if (!outDir.exists()) {
         outDir.mkdir()
+    } else {
+        outDir.delete()
+        outDir.mkdir()
     }
-    def colorFile = new File("../out/uid_colors.xml")
+
+    def colorFile = new File(DLSResourceConstants.PATH_OUT_COLORS_FILE)
     if (colorFile.exists()) {
         colorFile.delete()
     }
 
-    colorFile.createNewFile();
+    colorFile.createNewFile()
     colorFile.write(sw.toString())
 }

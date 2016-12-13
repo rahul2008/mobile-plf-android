@@ -4,24 +4,24 @@ import groovy.json.JsonSlurper
 import groovy.xml.MarkupBuilder
 
 def jsonSlurper = new JsonSlurper()
-def brushObject = jsonSlurper.parseText(new File("../res/semantic_brushes_generated.json").text)
+def brushesMap = jsonSlurper.parseText(new File(DLSResourceConstants.PATH_SEMANTIC_BRUSH_JSON).text)
 
 def allAttributes = new ArrayList()
 
-brushObject.each {
+brushesMap.each {
     key, value ->
-        def joinedKey = "uid" + key.split("-").collect { it.capitalize() }.join("")
+        def joinedKey = "${DLSResourceConstants.LIB_PREFIX}" + key.split("-").collect { it.capitalize() }.join("")
         def themeAttr = new ThemeAttribute(joinedKey)
         value.each {
             entry ->
                 def name = entry.key
-                def colorNumber = entry.value.get("colorNumber")
-                def alpha = entry.value.get("alpha")
-                def reference = entry.value.get("reference")
+                def colorNumber = entry.value.get(DLSResourceConstants.JSON_KEY_COLOR_NUMBER)
+                def alpha = entry.value.get(DLSResourceConstants.JSON_KEY_ALPHA)
+                def reference = entry.value.get(DLSResourceConstants.JSON_KEY_REFERENCE)
                 if (reference != null) {
-                    reference = "uid" + entry.value.get("reference").split("-").collect { it.capitalize() }.join("")
+                    reference = "${DLSResourceConstants.LIB_PREFIX}${entry.value.get(DLSResourceConstants.JSON_KEY_REFERENCE).split("-").collect { it.capitalize() }.join("")}"
                 }
-                def rangeName = entry.value.get("rangeName")
+                def rangeName = entry.value.get(DLSResourceConstants.JSON_KEY_RANGE_NAME)
                 themeAttr.addTonalRange(name, colorNumber, alpha, reference, rangeName)
         }
         allAttributes.add(themeAttr)
@@ -43,7 +43,7 @@ def flushAttrsFile(attrList) {
         }
     }
 
-    def attrFile = new File("../out/uid_attrs.xml")
+    def attrFile = new File("${DLSResourceConstants.PROJECT_BASE_PATH}/out/uid_attrs.xml")
     if (attrFile.exists()) {
         attrFile.delete()
     }
@@ -53,12 +53,8 @@ def flushAttrsFile(attrList) {
 }
 
 def createBlueDarkStyle(allAttributes) {
-    def colorRangeMap = [GroupBlue: 'group_blue', Blue: 'blue', Aqua: 'aqua',
-                         Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
-
-    def tonalRangeList = ['UltraLight', 'VeryLight', 'Light', 'Bright', 'VeryDark']
     def colorsXmlInput = new XmlParser().parseText(new File("../out/uid_colors.xml").text)
-    colorRangeMap.each {
+    DLSResourceConstants.COLOR_RANGES.each {
         theme, color_name ->
 
             def sw = new StringWriter()
@@ -66,7 +62,7 @@ def createBlueDarkStyle(allAttributes) {
             xml.setDoubleQuotes(true)
 
             xml.resources() {
-                tonalRangeList.each {
+                DLSResourceConstants.TONAL_RANGES.each {
                     def tonalRange = "$it"
                     xml.style(name: "Theme.Philips.${theme}${it}") {
 
@@ -80,12 +76,12 @@ def createBlueDarkStyle(allAttributes) {
 
                 }
             }
-            def attrFile = new File("../out/uid_theme_${color_name}.xml")
-            if (attrFile.exists()) {
-                attrFile.delete()
+            def themeFile = new File(DLSResourceConstants.getThemeFilePath(color_name))
+            if (themeFile.exists()) {
+                themeFile.delete()
             }
 
-            attrFile.createNewFile()
-            attrFile.write(sw.toString())
+            themeFile.createNewFile()
+            themeFile.write(sw.toString())
     }
 }

@@ -12,10 +12,6 @@ class ThemeAttribute {
         attributeMap.put(name, new TonalRange(name, colorNumber, alpha, reference, rangeName))
     }
 
-    Map getAttributesMap() {
-        return attributeMap
-    }
-
     class TonalRange {
         def name
         def colorNumber
@@ -31,7 +27,7 @@ class ThemeAttribute {
             this.rangeName = rangeName
         }
 
-        //color range in format of goup_blue or blue or aqua , having match with uid_colors.xml
+        //color range in format of group_blue or blue or aqua , having match with uid_colors.xml
         def getValue(colorRange, colorsXmlInput) {
             if (alpha == null && reference != null) {
                 return "?attr/${reference}"
