@@ -36,6 +36,7 @@ import retrofit.RetrofitError;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
     @NonNull

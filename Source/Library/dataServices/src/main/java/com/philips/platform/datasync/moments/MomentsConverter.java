@@ -32,6 +32,7 @@ import javax.inject.Inject;
  *  * All rights reserved.
  *
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentsConverter {
 
     @NonNull
