@@ -57,9 +57,10 @@ public class MomentsDataFetcher extends DataFetcher {
     @CheckResult
     @Nullable
     public RetrofitError fetchDataSince(@Nullable final DateTime sinceTimestamp) {
-        /*if (isUserInvalid()) {
+
+        if (isUserInvalid()) {
             return null;
-        }*/
+        }
         try {
             String momentsLastSyncUrl = accessProvider.getMomentLastSyncTimestamp();
 
@@ -88,5 +89,10 @@ public class MomentsDataFetcher extends DataFetcher {
             eventing.post(new BackendMomentRequestFailed(ex));
             return ex;
         }
+    }
+
+    protected boolean isUserInvalid() {
+        final String accessToken = accessProvider.getAccessToken();
+        return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
     }
 }

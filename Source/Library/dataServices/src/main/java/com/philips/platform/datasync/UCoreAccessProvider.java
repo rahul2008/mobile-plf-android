@@ -35,16 +35,25 @@ public class UCoreAccessProvider implements BackendIdProvider {
     }
 
     public boolean isLoggedIn() {
-        return errorHandler.isUserLoggedIn();
+        if (errorHandler != null)
+            return errorHandler.isUserLoggedIn();
+        else
+            return false;
     }
 
     public String getAccessToken() {
-        return errorHandler.getAccessToken();
+        if (errorHandler != null)
+            return errorHandler.getAccessToken();
+        else
+            return null;
     }
 
     @Override
     public String getUserId() {
-        return errorHandler.getUserProfile().getGUid();
+        if (errorHandler != null)
+            return errorHandler.getUserProfile().getGUid();
+        else
+            return null;
     }
 
     @Override
@@ -54,7 +63,11 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     @Override
     public String getSubjectId() {
-        return errorHandler.getUserProfile().getGUid();
+        if(errorHandler!=null) {
+            return errorHandler.getUserProfile().getGUid();
+        }else {
+            return null;
+        }
     }
 
     public String getMomentLastSyncTimestamp() {
