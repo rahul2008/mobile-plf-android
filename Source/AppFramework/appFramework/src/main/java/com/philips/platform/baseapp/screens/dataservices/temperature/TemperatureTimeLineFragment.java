@@ -11,7 +11,6 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,9 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
@@ -78,6 +80,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
+    ErrorHandlerImpl errorHandler;
+    User mUser;
     Utility mUtility;
 
 
@@ -89,7 +93,13 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        mDataServicesManager = DataServicesManager.getInstance();
+        mUser = new User(mContext);
+        errorHandler = new ErrorHandlerImpl(mContext, mUser);
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
+        alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
+        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -106,6 +116,18 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onStart() {
         super.onStart();
+
+        if(mUser!=null && !mUser.isUserSignIn()){
+            Toast.makeText(getContext(),"Please Login",Toast.LENGTH_SHORT).show();
+            mAddButton.setVisibility(View.INVISIBLE);
+            mTvSetCosents.setVisibility(View.INVISIBLE);
+            return;
+        }
+
+        deleteUserDataIfNewUserLoggedIn();
+
+        init();
+
         setUpBackendSynchronizationLoop();
 
         if(!mUtility.isOnline(getContext())){
@@ -116,6 +138,24 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         if (!mSharedPreferences.getBoolean("isSynced", false) ) {
             showProgressDialog();
         }
+    }
+
+    private void deleteUserDataIfNewUserLoggedIn() {
+        if(getLastStoredEmail()==null){
+            storeLastEmail();
+            return;
+        }
+
+        if(!isSameEmail()){
+            errorHandler.clearUserData();
+        }
+        storeLastEmail();
+    }
+
+    private boolean isSameEmail() {
+        if(getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+            return true;
+        return false;
     }
 
     @Override
@@ -145,16 +185,10 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     private void init() {
         //Stetho.initializeWithDefaults(getActivity().getApplicationContext());
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
-        mDataServicesManager.initialize(mContext, creator, new ErrorHandlerImpl(mContext, new User(mContext)));
+        mDataServicesManager.initialize(mContext, creator, errorHandler);
         mDataServicesManager.initializeSyncMonitors(null, null);
-
-        alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
-        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
         mTemperaturePresenter.fetchData();
 
     }
@@ -296,5 +330,20 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         if (mProgressBar != null && mProgressBar.isShowing()) {
             mProgressBar.dismiss();
         }
+    }
+
+    String getLastStoredEmail(){
+        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        String decryptedData= ssInterface.fetchValueForKey("last_email",ssError);
+        return decryptedData;
+    }
+
+    void storeLastEmail(){
+        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+        ssInterface.storeValueForKey("last_email",mUser.getEmail(), ssError);
     }
 }

@@ -10,10 +10,8 @@ import android.app.Activity;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.baseapp.screens.dataservices.registration.ErrorHandlerImpl;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -37,8 +35,6 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.welcome_frame_container, (ActionBarListener) getFragmentActivity()));
             }
-            ErrorHandlerImpl userRegistrationFacade = new ErrorHandlerImpl(activity, getUserObject(activity));
-            userRegistrationFacade.clearUserData();
         }
     }
 
@@ -54,8 +50,6 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
 
     @Override
     public void onUserLogoutSuccess() {
-        ErrorHandlerImpl userRegistrationFacade = new ErrorHandlerImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
-        userRegistrationFacade.clearUserData();
     }
 
     @Override
@@ -64,8 +58,6 @@ public class UserRegistrationSplashState extends UserRegistrationState implement
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        ErrorHandlerImpl userRegistrationFacade = new ErrorHandlerImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
-        userRegistrationFacade.clearUserData();
     }
 
 
