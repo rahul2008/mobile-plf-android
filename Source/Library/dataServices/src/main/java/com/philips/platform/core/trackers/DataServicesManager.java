@@ -315,7 +315,8 @@ public class DataServicesManager {
     }
 
     public void stopCore() {
-        mCore.stop();
+        if (mCore != null)
+            mCore.stop();
         // releaseInstances();
     }
 
