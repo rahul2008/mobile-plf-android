@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/lblStartDiscovery" />
+        android:text="@string/btnStartDiscovery" />
 
     <Button
         android:id="@+id/btnStopDiscovery"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnStartDiscovery"
         android:layout_centerHorizontal="true"
-        android:text="@string/lblStopDiscovery" />
+        android:text="@string/btnStopDiscovery" />
 
     <TextView
         android:id="@+id/txtState"
@@ -32,15 +32,59 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/btnStopDiscovery"
-        android:text="@string/lblNotApplicable"
-        tools:text="State here" />
+        android:text="@string/lblResultNotApplicable"
+        android:textSize="18sp"
+        tools:text="Discovery state here" />
+
+    <Button
+        android:id="@+id/btnDisconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnConnect"
+        android:layout_marginTop="12dp"
+        android:text="@string/btnDisconnect" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txtState"
+        android:layout_marginTop="12dp"
+        android:text="@string/btnConnect" />
+
+    <Button
+        android:id="@+id/btnGetTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnDisconnect"
+        android:layout_marginTop="12dp"
+        android:text="@string/btnGetTime" />
+
+    <Button
+        android:id="@+id/btnSetTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnGetTime"
+        android:layout_marginTop="12dp"
+        android:text="@string/btnSetTime" />
 
     <TextView
         android:id="@+id/txtResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtState"
-        android:layout_marginTop="22dp"
+        android:layout_below="@+id/btnSetTime"
+        android:layout_marginTop="12dp"
+        android:textSize="18sp"
         tools:text="Result here" />
+
 </RelativeLayout>
