@@ -43,7 +43,7 @@ def flushAttrsFile(attrList) {
         }
     }
 
-    def attrFile = new File("${DLSResourceConstants.PROJECT_BASE_PATH}/out/uid_attrs.xml")
+    def attrFile = new File(DLSResourceConstants.PATH_OUT_ATTRS_FILE)
     if (attrFile.exists()) {
         attrFile.delete()
     }
@@ -53,7 +53,7 @@ def flushAttrsFile(attrList) {
 }
 
 def createBlueDarkStyle(allAttributes) {
-    def colorsXmlInput = new XmlParser().parseText(new File("../out/uid_colors.xml").text)
+    def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
     DLSResourceConstants.COLOR_RANGES.each {
         theme, color_name ->
 

@@ -16,11 +16,12 @@ class DLSResourceConstants {
     static final String PATH_COLOR_RANGES_JSON = "${PATH_RES}/color_ranges.json"
 
     static final String PATH_OUT = "${PROJECT_BASE_PATH}/out"
-    static final String PATH_OUT_ATTRS_FILE = "${PATH_OUT}/uid_theme_%s.xml"
+    static final String PATH_OUT_THEME_FILE = "${PATH_OUT}/uid_theme_%s.xml"
     static final String PATH_OUT_COLORS_FILE = "${PATH_OUT}/uid_colors.xml"
+    static final String PATH_OUT_ATTRS_FILE = "${PATH_OUT}/uid_attrs.xml"
 
     static def getThemeFilePath(fileName) {
-        String.format(PATH_OUT_ATTRS_FILE, "${fileName}")
+        String.format(PATH_OUT_THEME_FILE, "${fileName}")
     }
 
     //JSON key constants
