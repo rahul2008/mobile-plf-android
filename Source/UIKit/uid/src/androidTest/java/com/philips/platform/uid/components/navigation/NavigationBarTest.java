@@ -31,7 +31,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class NavigationBarTest {
     private static final int GRAY_75 = R.color.uid_gray_level_75;
@@ -80,7 +79,7 @@ public class NavigationBarTest {
 
         final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.navigationTextColor);
 
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -89,7 +88,7 @@ public class NavigationBarTest {
 
         final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.White);
 
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -98,7 +97,7 @@ public class NavigationBarTest {
 
         final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.GroupBlue75);
 
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -116,17 +115,39 @@ public class NavigationBarTest {
 
         int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
 
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
+    }
+
+    @Test
+    public void verifyTitleLineSpacingInLandscape() throws Exception {
+        setupLandscapeModeActivity();
+
+        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
+    }
+
+    @Test
+    public void verifyTitleTextSizeInLandscape() throws Exception {
+        setupLandscapeModeActivity();
+
+        int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_size);
+
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
+    }
+
+    private void setupLandscapeModeActivity() {
+        final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
+        applicationContext = landscapeModeActivity.getApplicationContext();
+        landscapeModeActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
+        landscapeModeActivity.switchFragment(new NavigationbarFragment());
     }
 
     //Toolbar tests cases
     @Test
     public void verifyToolbarHeightOnLandscapeMode() throws Exception {
 
-        final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
-        applicationContext = landscapeModeActivity.getApplicationContext();
-        landscapeModeActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        landscapeModeActivity.switchFragment(new NavigationbarFragment());
+        setupLandscapeModeActivity();
 
         int toolbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_height_land);
         getNavigationBar().check(matches(ViewPropertiesMatchers.isSameViewHeight(toolbarHeight)));
@@ -231,15 +252,11 @@ public class NavigationBarTest {
     @Test
     public void verifyNavigationBarIconTargetAreaInLandscape() throws Exception {
 
-        final LandscapeModeActivity landscapeModeActivity = landscapeModeActivityRule.launchActivity(getLaunchIntent(NAVIGATION_COLOR_ULTRALIGHT));
-        applicationContext = landscapeModeActivity.getApplicationContext();
-        landscapeModeActivity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        landscapeModeActivity.switchFragment(new NavigationbarFragment());
+        setupLandscapeModeActivity();
 
-        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
+        int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area_landscape);
 
         getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
-        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
     }
 
     private void setupUltralightTonalRangeActivity() {
@@ -252,10 +269,6 @@ public class NavigationBarTest {
 
     private ViewInteraction getNavigationIcon() {
         return onView(withContentDescription(applicationContext.getResources().getString(com.philips.platform.uid.test.R.string.navigation_content_desc)));
-    }
-
-    private ViewInteraction getTitleView() {
-        return onView(withText(applicationContext.getResources().getString(com.philips.platform.uid.test.R.string.catalog_app_name)));
     }
 
     private ViewInteraction getNavigationMenuIcon() {
