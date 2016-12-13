@@ -5,11 +5,10 @@
 package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.philips.platform.uid.R;
 
@@ -39,24 +38,20 @@ public class UIDHelper {
     }
 
     /**
-     * This API will setup toolbar with title navigation icon
-     * Be-aware that this API will override the title from toolbar to make title center aligned
+     * This API will setup toolbar
+     * Be-aware that this API will override the title from toolbar to make title center aligned, <br>Make sure to include uid_toolbar_layout in your activity.
+     * <br> If you have used your own toobar then you can setup toolbar on your own using activity.setSupportActionBar(toolbar);
      *
-     * @param activity       Reference of activity you want to setup toolbar
-     * @param navigationIcon Icon resource to be displayed as navigation(hamburger or back button)
-     * @param toolbarId      Resource id for toolbar from your activity layout
+     * @param activity Reference of activity you want to setup toolbar
      */
-    public static void setupToolbar(@NonNull final AppCompatActivity activity, @DrawableRes final int navigationIcon, @IdRes final int toolbarId) {
-        Toolbar toolbar = (Toolbar) activity.findViewById(toolbarId);
-        if (toolbar == null) {
-            final String formattedException = String.format("Please include a layout with view android.support.v7.widget.toolbar containing id %d in  you layout", toolbarId);
-            throw new RuntimeException(formattedException);
+    public static void setupToolbar(@NonNull final AppCompatActivity activity) {
+        final View toolbarView = activity.findViewById(com.philips.platform.uid.R.id.uid_toolbar);
+        if (toolbarView instanceof Toolbar) {
+            Toolbar toolbar = (Toolbar) toolbarView;
+            activity.setSupportActionBar(toolbar);
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+            return;
         }
-        toolbar.setNavigationIcon(navigationIcon);
-        toolbar.setTitleMarginStart(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
-        toolbar.setTitleMarginEnd(activity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
-        toolbar.setTitle(null);
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        throw new RuntimeException("Please include a uid_toolbar_layout in your main activity");
     }
 }

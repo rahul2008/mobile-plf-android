@@ -101,14 +101,13 @@ public class NavigationBarTest {
         getTitleView().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
-    @Ignore
     @Test
     public void verifyTitleLineSpacing() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int linespacing = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
 
-        getTitleView().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
 
     @Test
