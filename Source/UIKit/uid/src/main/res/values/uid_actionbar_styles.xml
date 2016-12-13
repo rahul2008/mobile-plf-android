@@ -51,10 +51,6 @@
     </style>
 
     <style name="UIDToolbarNavigationButton" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:maxHeight">@dimen/uid_navigation_bar_height</item>
-        <item name="android:maxWidth">@dimen/uid_navigation_bar_height</item>
-        <item name="android:minWidth">@dimen/uid_navigation_bar_icon_size</item>
-        <item name="android:minHeight">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:scaleType">center</item>
         <item name="textAllCaps">false</item>
