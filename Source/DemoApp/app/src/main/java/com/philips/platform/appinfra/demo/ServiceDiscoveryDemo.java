@@ -12,9 +12,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +60,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             "Get replaced Url by country with multiple service id",
             "Get replaced Url by Language with multiple service id"};
 
-
+    private HashMap<String, String> parameters;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +98,13 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             }
         });
 
+        JSONObject json = getMasterConfigFromApp();
+        try {
+            parameters = (HashMap<String, String>) jsonToMap(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         getUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,37 +133,37 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                     mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener);
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with replaced url")) {
                     editTextData = idEditText.getText().toString();
-                    Map<String, String> parameters = new HashMap<>();
-                    parameters.put("ctn", "HD9740");
-                    parameters.put("sector", "B2C");
-                    parameters.put("catalog", "shavers");
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
                     mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData, mOnGetServiceUrlListener, parameters);
 
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with replaced url")) {
                     editTextData = idEditText.getText().toString();
-                    Map<String, String> parameters = new HashMap<>();
-                    parameters.put("ctn", "HD9740");
-                    parameters.put("sector", "B2C");
-                    parameters.put("catalog", "shavers");
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
                     mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData, mOnGetServiceUrlListener, parameters);
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by country with multiple service id")) {
 
                     String[] serviceIds = idEditText.getText().toString().split(",");
                     ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                    Map<String, String> parameters = new HashMap<>();
-                    parameters.put("ctn", "HD9740");
-                    parameters.put("sector", "B2C");
-                    parameters.put("catalog", "shavers");
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
                     mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener, parameters);
 
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by Language with multiple service id")) {
 
                     String[] serviceIds = idEditText.getText().toString().split(",");
                     ArrayList<String> serviceId = new ArrayList<>(Arrays.asList(serviceIds));
-                    Map<String, String> parameters = new HashMap<>();
-                    parameters.put("ctn", "HD9740");
-                    parameters.put("sector", "B2C");
-                    parameters.put("catalog", "shavers");
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
                     mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener, parameters);
 
                 }
@@ -166,6 +180,40 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //                }
             }
         });
+    }
+
+    protected JSONObject getMasterConfigFromApp() {
+        JSONObject result = null;
+        try {
+            InputStream mInputStream = this.getAssets().open("SDReplacementValues.json");
+            BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+            StringBuilder total = new StringBuilder();
+            String line;
+            while ((line = r.readLine()) != null) {
+                total.append(line).append('\n');
+            }
+            result = new JSONObject(total.toString());
+            appInfra.getLogging().log(LoggingInterface.LogLevel.VERBOSE, "Json",
+                    result.toString());
+
+        } catch (Exception e) {
+            appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "Service Discover exception",
+                    Log.getStackTraceString(e));
+        }
+        return result;
+    }
+
+    private Map jsonToMap(Object JSON) throws JSONException {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        JSONObject jObject = new JSONObject(JSON.toString());
+        Iterator<?> keys = jObject.keys();
+
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            Object value = jObject.get(key);
+            map.put(key, value);
+        }
+        return map;
     }
 
     @Override
