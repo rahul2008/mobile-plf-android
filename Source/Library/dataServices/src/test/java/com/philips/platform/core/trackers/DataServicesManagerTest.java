@@ -187,7 +187,7 @@ public class DataServicesManagerTest {
         tracker.createConsentDetail(consentMock, TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, "fsdfsdf");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = RuntimeException.class)
     public void ShouldAddConcentDetail_WhenConsentDetailIsCreated() throws Exception {
         tracker.initialize(null, null, null);
         ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
@@ -250,7 +250,7 @@ public class DataServicesManagerTest {
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = RuntimeException.class)
     public void ShouldAddMomentDetail_WhenCreateMomentDetailIsCreated() throws Exception {
         tracker.initialize(null, null, null);
         MomentDetail momentDetail = baseAppDataCreator.createMomentDetail(TEST_MEASUREMENT_DETAIL_TYPE, momentMock);
