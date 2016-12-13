@@ -69,7 +69,7 @@ public class PreviewActivity extends AppCompatActivity {
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 
-    public void cancleOrPreviewClicked() {
+    public void cancelOrPreviewClicked() {
         finish();
     }
 }
