@@ -1,5 +1,6 @@
 package com.philips.platform.core.dbinterfaces;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 
@@ -19,4 +20,5 @@ public interface DBUpdatingInterface {
     void updateFailed(Exception e);
     void postRetrofitError(Throwable error);
     boolean updateConsent(final Consent consent) throws SQLException;
+    void updateCharacteristics(final Characteristics characteristics) throws SQLException;
 }

@@ -1,5 +1,6 @@
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -29,6 +30,7 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -175,6 +177,18 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             return false;
         }
 
+    }
+
+    @Override
+    public void updateCharacteristics(Characteristics characteristics) throws SQLException {
+        OrmCharacteristics ormCharacteristics = null;
+        try {
+            ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+        }
+        deleting.deleteCharacteristics();
+        saving.saveCharacteristics(ormCharacteristics);
     }
 
     private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {

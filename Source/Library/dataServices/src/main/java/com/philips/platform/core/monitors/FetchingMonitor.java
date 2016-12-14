@@ -15,6 +15,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
+import com.philips.platform.core.events.LoadCharacterSicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -120,4 +121,13 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e);
         }
     }
+
+    public void onEventBackgroundThread(LoadCharacterSicsRequest request) {
+        try {
+            dbInterface.fetchCharacteristics();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

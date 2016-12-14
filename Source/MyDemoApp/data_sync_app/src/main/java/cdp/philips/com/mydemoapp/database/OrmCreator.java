@@ -9,6 +9,8 @@ package cdp.philips.com.mydemoapp.database;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -28,6 +30,8 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -148,6 +152,18 @@ public class OrmCreator implements BaseAppDataCreator {
         // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
 
         return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristics(@NonNull String creatorId) {
+        return new OrmCharacteristics(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics) {
+        return new OrmCharacteristicsDetail(type,value,parentID,(OrmCharacteristics) characteristics);
     }
 
     @NonNull

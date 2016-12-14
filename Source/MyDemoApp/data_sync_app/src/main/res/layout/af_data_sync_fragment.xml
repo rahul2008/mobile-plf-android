@@ -87,5 +87,16 @@
         android:layout_marginStart="10dp"
         android:id="@+id/tv_set_consents" />
 
+    <TextView
+        android:text="Set Characteristics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="end"
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/tv_set_characteristics" />
 
     </RelativeLayout>

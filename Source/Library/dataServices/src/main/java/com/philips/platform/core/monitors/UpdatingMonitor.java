@@ -11,6 +11,7 @@ import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
+import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
@@ -105,6 +106,12 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
 
         dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent());
+
+    }
+
+    public void onEventAsync(final DatabaseCharacteristicsUpdateRequest databaseCharacteristicsUpdateRequest) throws SQLException {
+
+        dbUpdatingInterface.updateCharacteristics(databaseCharacteristicsUpdateRequest.getCharacteristics());
 
     }
 }

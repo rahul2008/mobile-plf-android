@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -48,14 +50,17 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     private final Dao<OrmConsent, Integer> consentDao;
     private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
 
+    private final Dao<OrmCharacteristics, Integer> characteristicsDao;
+
 
     private TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao) {
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
+        this.characteristicsDao = characteristicsDao;
         mTemperatureMomentHelper = new TemperatureMomentHelper();
 
         this.consentDao = consentDao;
@@ -84,6 +89,20 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Characteristics fetchCharacteristics() throws SQLException {
+
+        QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();
+        List<OrmCharacteristics> ormCharacteristicses= characteristicsDao.query(queryBuilder.prepare());
+
+        if(ormCharacteristicses.isEmpty()){
+            return null;
+        }else{
+            return ormCharacteristicses.get(0);
+        }
+        //Notify to UI Here .
     }
 
     @Override

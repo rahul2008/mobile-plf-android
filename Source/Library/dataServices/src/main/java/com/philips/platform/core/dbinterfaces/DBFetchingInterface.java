@@ -2,6 +2,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 
 import java.sql.SQLException;
@@ -35,6 +36,8 @@ public interface DBFetchingInterface {
     void fetchConsents() throws SQLException;
 
     Consent fetchConsent() throws SQLException;
+
+    Characteristics fetchCharacteristics() throws SQLException;
 
     void postError(Exception e);
 }

@@ -13,6 +13,7 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -205,6 +206,16 @@ public class DataServicesManagerTest {
         tracker.saveConsent(consentMock);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
+    }
+
+    @Test
+    public  void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled()throws Exception{
+        tracker.updateCharacteristics(any(Characteristics.class));
+    }
+
+    @Test
+    public  void ShouldPostFetchCharacteristicsRequest_WhenFetchCharacteristicsIsCalled()throws Exception{
+        tracker.fetchUserCharacteristics();
     }
 
     @Test(expected = NullPointerException.class)

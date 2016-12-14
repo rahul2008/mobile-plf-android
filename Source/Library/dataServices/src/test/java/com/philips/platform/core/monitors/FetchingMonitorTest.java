@@ -10,6 +10,7 @@ import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
+import com.philips.platform.core.events.LoadCharacterSicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -125,6 +126,14 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest());
 
         verify(fetching).fetchConsents();
+    }
+
+    @Test
+    public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
+
+        fetchingMonitor.onEventBackgroundThread(new LoadCharacterSicsRequest());
+
+        verify(fetching).fetchCharacteristics();
     }
 
     /*@Test

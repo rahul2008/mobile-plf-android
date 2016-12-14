@@ -15,6 +15,7 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -24,12 +25,15 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.LoadCharacterSicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -342,4 +346,26 @@ public class DataServicesManager {
     public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
+
+    public void updateCharacteristics(@NonNull final Characteristics userCharacteristics){
+        mEventing.post(new DatabaseCharacteristicsUpdateRequest(userCharacteristics));
+    }
+
+    public void fetchUserCharacteristics(){
+        mEventing.post(new LoadCharacterSicsRequest());
+    }
+
+    @NonNull
+    public Characteristics createCharacteristics() {
+        return mDataCreater.createCharacteristics(mErrorHandlerImpl.getUserProfile().getGUid());
+    }
+
+    public void createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType,@NonNull final String detailValue) {
+        if (characteristics == null) {
+            characteristics = createCharacteristics();
+        }
+        CharacteristicsDetail characteristicsDetail = mDataCreater.createCharacteristicsDetails(detailType,detailValue,1, characteristics);
+        characteristics.addCharacteristicsDetail(characteristicsDetail);
+    }
+
 }
