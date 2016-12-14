@@ -187,6 +187,11 @@ public class TextBoxTest {
                 matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
 
+    @Test
+    public void verifyTextBoxTextMasked() throws Exception {
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isPasswordType()));
+    }
+
     private ViewInteraction getTextBox() {
         return onView(withId(com.philips.platform.uid.test.R.id.textBox));
     }
@@ -197,5 +202,9 @@ public class TextBoxTest {
 
     private ViewInteraction getDisabledFilledTextBox() {
         return onView(withId(com.philips.platform.uid.test.R.id.FilledTextBoxDisabled));
+    }
+
+    private ViewInteraction getPasswordTextbox() {
+        return onView(withId(com.philips.platform.uid.test.R.id.passwordTextBox));
     }
 }

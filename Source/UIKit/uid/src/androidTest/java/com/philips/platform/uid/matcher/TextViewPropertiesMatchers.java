@@ -6,6 +6,7 @@ package com.philips.platform.uid.matcher;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.InputType;
 import android.view.View;
 import android.widget.TextView;
 
@@ -136,6 +137,19 @@ public class TextViewPropertiesMatchers {
                     return false;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<? super View> isPasswordType() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(String.valueOf(((TextView) view).getInputType()), String.valueOf(InputType.TYPE_TEXT_VARIATION_PASSWORD));
+                    return actual == expected;
+                }
+                return false;
             }
         };
     }

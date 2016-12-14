@@ -12,18 +12,23 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.widget.EditText;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.compat.StrokeCompat;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
-public class TextEditBox extends EditText {
+public class TextEditBox extends AppCompatEditText {
     private final static int DRAWABLE_FILL_INDEX = 0;
     private final static int DRAWABLE_STROKE_INDEX = 1;
+    public static final int ADDITIONAL_TOUCH_AREA = 40;
     private ColorStateList strokeColorStateList;
     private ColorStateList fillColorStateList;
 
@@ -49,10 +54,88 @@ public class TextEditBox extends EditText {
         if (backgroundDrawable != null) {
             setBackground(getLayeredBackgroundDrawable(typedArray, theme));
         }
+
         setHintTextColors(typedArray, theme);
         setTextColors(typedArray, theme);
         restorePadding(paddingRect);
+
+        setPasswordType(theme, attrs, defStyleAttr);
         typedArray.recycle();
+    }
+
+    @Override
+    public boolean onTouchEvent(final MotionEvent event) {
+        final int inputType = getInputType();
+        if (inputType == 129) {
+            final Drawable[] compoundDrawables = getCompoundDrawables();
+
+            final Drawable drawable = compoundDrawables[2];
+            if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null) {
+                final float rawX = event.getRawX();
+                final float rawY = event.getRawY();
+                final Rect bounds = drawable.getBounds();
+                final int width = getWidth();
+                final int height = getHeight();
+                final int left = getLeft();
+                final int right = getRight();
+                boolean touchedDrawable = (rawX > (left + width - (drawable.getIntrinsicWidth() + ADDITIONAL_TOUCH_AREA)) &&
+                        (rawX < (left + width + ADDITIONAL_TOUCH_AREA)) &&
+                        (rawY > (right - height + (drawable.getIntrinsicHeight() + ADDITIONAL_TOUCH_AREA))) &&
+                        (rawY < (right + height + ADDITIONAL_TOUCH_AREA)));
+                if (touchedDrawable) {
+                    if (getTransformationMethod() == null) {
+                        setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    } else {
+                        setTransformationMethod(null);
+                    }
+                    return true;
+                }
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private void setPasswordType(final Resources.Theme theme, final AttributeSet attrs, final int defStyleAttr) {
+
+        final int inputType = getInputType();
+        if (inputType == 129) {
+            final Drawable showPasswordDrawable = VectorDrawableCompat.create(getResources(), R.drawable.uid_password_show_icon, theme);
+            setCompoundDrawablesWithIntrinsicBounds(null, null, showPasswordDrawable, null);
+            setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(final View view, final MotionEvent event) {
+                    final Drawable[] compoundDrawables = getCompoundDrawables();
+
+                    final Drawable drawable = compoundDrawables[2];
+                    if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null) {
+                        boolean touchedDrawable = isShowPasswordIconTouched(view, event, drawable);
+                        if (touchedDrawable) {
+                            if (getTransformationMethod() == null) {
+                                setTransformationMethod(PasswordTransformationMethod.getInstance());
+                            } else {
+                                setTransformationMethod(null);
+                            }
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
+    }
+
+    private boolean isShowPasswordIconTouched(final View view, final MotionEvent event, final Drawable drawable) {
+        final float rawX = event.getRawX();
+        final float rawY = event.getRawY();
+        final Rect bounds = drawable.getBounds();
+        final int width = view.getWidth();
+        final int height = view.getHeight();
+        final int left = view.getLeft();
+        final int right = view.getRight();
+        return (rawX > (left + width - (drawable.getIntrinsicWidth() + ADDITIONAL_TOUCH_AREA)) &&
+                (rawX < (left + width - ADDITIONAL_TOUCH_AREA)) &&
+                (rawY > (right - height + (drawable.getIntrinsicHeight() + ADDITIONAL_TOUCH_AREA))) &&
+                (rawY < (right + height - ADDITIONAL_TOUCH_AREA)));
     }
 
     private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
@@ -75,7 +158,8 @@ public class TextEditBox extends EditText {
         setPadding(viewPaddings.left, viewPaddings.top, viewPaddings.right, viewPaddings.bottom);
     }
 
-    private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray, final Resources.Theme theme) {
+    private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray,
+                                                  final Resources.Theme theme) {
         Drawable fillDrawable = getFillBackgroundDrawable(typedArray, theme);
         Drawable borderDrawable = getBorderBackground(typedArray, theme);
         Drawable backgroundDrawable = fillDrawable;
@@ -87,7 +171,8 @@ public class TextEditBox extends EditText {
         return backgroundDrawable;
     }
 
-    private Drawable getBorderBackground(final @NonNull TypedArray typedArray, final Resources.Theme theme) {
+    private Drawable getBorderBackground(final @NonNull TypedArray typedArray,
+                                         final Resources.Theme theme) {
         int borderDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextBorderBackground, -1);
         Drawable strokeDrawable = null;
         if (borderDrawableID != -1) {
@@ -102,7 +187,8 @@ public class TextEditBox extends EditText {
         return strokeDrawable;
     }
 
-    private Drawable getFillBackgroundDrawable(final @NonNull TypedArray typedArray, final Resources.Theme theme) {
+    private Drawable getFillBackgroundDrawable(final @NonNull TypedArray typedArray,
+                                               final Resources.Theme theme) {
         int fillDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextFillBackground, -1);
         Drawable fillDrawable = null;
         if (fillDrawableID != -1) {

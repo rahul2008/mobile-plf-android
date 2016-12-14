@@ -39,4 +39,14 @@
         android:layout_marginTop="@dimen/component_bottom_spacing"
         android:hint="Filled text"/>
 
+    <com.philips.platform.uid.view.widget.TextEditBox
+        android:id="@+id/passwordTextBox"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="true"
+        android:inputType="textWebPassword"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="password"/>
+
 </LinearLayout>
