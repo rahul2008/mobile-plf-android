@@ -34,8 +34,20 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
     private OrmCharacteristics ormCharacteristics;
 
+    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
+    private OrmCharacteristicsDetail ormCharacteristicsDetail;
+
+
     @DatabaseConstructor
     OrmCharacteristicsDetail() {
+    }
+
+    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics,OrmCharacteristicsDetail ormCharacteristicsDetail) {
+        this.type = type;
+        this.ormCharacteristics = ormCharacteristics;
+        this.value = value;
+        this.parent = parent;
+        this.ormCharacteristicsDetail=ormCharacteristicsDetail;
     }
 
     public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics) {
@@ -79,7 +91,6 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     public String getValue() {
         return value;
     }
-
 
     @Override
     public String toString() {

@@ -16,4 +16,5 @@ public interface CharacteristicsDetail extends BaseAppData, Serializable {
 
     void setValue(String value);
     String getValue();
+
 }

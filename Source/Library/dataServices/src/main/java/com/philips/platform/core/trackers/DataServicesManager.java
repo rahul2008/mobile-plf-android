@@ -360,12 +360,19 @@ public class DataServicesManager {
         return mDataCreater.createCharacteristics(mErrorHandlerImpl.getUserProfile().getGUid());
     }
 
-    public void createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType,@NonNull final String detailValue) {
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType,@NonNull final String detailValue,int parent,CharacteristicsDetail characteristicsDetail) {
         if (characteristics == null) {
             characteristics = createCharacteristics();
         }
-        CharacteristicsDetail characteristicsDetail = mDataCreater.createCharacteristicsDetails(detailType,detailValue,1, characteristics);
-        characteristics.addCharacteristicsDetail(characteristicsDetail);
+        CharacteristicsDetail chDetail=null;
+        if(characteristicsDetail!=null) {
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, parent, characteristics, characteristicsDetail);
+        }else{
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, parent, characteristics);
+        }
+        characteristics.addCharacteristicsDetail(chDetail);
+        return characteristicsDetail;
     }
 
 }
+
