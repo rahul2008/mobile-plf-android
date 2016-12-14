@@ -5,7 +5,6 @@
 package com.philips.cdp.dicommclient.discovery.strategy;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -17,19 +16,16 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy implements DiscoveryStrategy.DiscoveryListener {
 
-    private final Set<DiscoveryStrategy> strategies = new CopyOnWriteArraySet<>();
-    private final Set<DiscoveryListener> discoveryListeners = new CopyOnWriteArraySet<>();
+    private static final int MINIMUM_REQUIRED_NUMBER_OF_STRATEGIES = 2;
+
+    private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
 
     public CombinedDiscoveryStrategy(Set<DiscoveryStrategy> strategies) {
-        final int minimumRequiredNumberOfStrategies = 2;
-
-        if (strategies.size() < minimumRequiredNumberOfStrategies) {
-            throw new IllegalArgumentException(String.format(Locale.US, "A minimum of %d discovery strategies is required.", minimumRequiredNumberOfStrategies));
+        if (strategies.size() < MINIMUM_REQUIRED_NUMBER_OF_STRATEGIES) {
+            throw new IllegalArgumentException(String.format(Locale.US, "A minimum of %d discovery discoveryStrategies is required.", MINIMUM_REQUIRED_NUMBER_OF_STRATEGIES));
         }
-
-        for (DiscoveryStrategy strategy : strategies) {
-            addDiscoveryStrategy(strategy);
-        }
+        addDiscoveryListener(this);
+        this.discoveryStrategies.addAll(strategies);
     }
 
     @Override
@@ -39,40 +35,42 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
 
     @Override
     public void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException {
-        for (DiscoveryStrategy strategy : strategies) {
+        for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.start(context, deviceTypes);
         }
+        this.onDiscoveryStarted();
     }
 
     @Override
     public void stop() {
-        for (DiscoveryStrategy strategy : strategies) {
+        for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.stop();
         }
+        this.onDiscoveryStopped();
+    }
+
+    @Override
+    public void onDiscoveryStarted() {
+        notifyDiscoveryStarted();
     }
 
     @Override
     public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-        // TODO define combined logic here
-
         notifyNetworkNodeDiscovered(networkNode);
     }
 
     @Override
     public void onNetworkNodeLost(NetworkNode networkNode) {
-        // TODO define combined logic here
-
         notifyNetworkNodeLost(networkNode);
     }
 
     @Override
     public void onNetworkNodeUpdated(NetworkNode networkNode) {
-        // TODO define combined logic here
-
         notifyNetworkNodeUpdated(networkNode);
     }
 
-    private void addDiscoveryStrategy(@NonNull DiscoveryStrategy strategy) {
-        strategies.add(strategy);
+    @Override
+    public void onDiscoveryStopped() {
+        notifyDiscoveryStopped();
     }
 }
