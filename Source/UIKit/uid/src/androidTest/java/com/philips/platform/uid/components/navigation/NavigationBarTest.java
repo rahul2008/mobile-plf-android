@@ -22,7 +22,6 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,10 +41,6 @@ public class NavigationBarTest {
 
     private Context applicationContext;
     private BaseTestActivity baseTestActivity;
-
-    @Before
-    public void setUp() throws Exception {
-    }
 
     private void setupActivity(final int navigationColor) {
         final Intent intent = getLaunchIntent(navigationColor);
