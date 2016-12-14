@@ -11,6 +11,7 @@ import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ExchangeKeyRequest;
+import com.philips.cdp.dicommclient.request.GetKeyRequest;
 import com.philips.cdp.dicommclient.request.LocalRequest;
 import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.Request;
@@ -40,35 +41,35 @@ public class LocalStrategy extends CommunicationStrategy {
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.GET, null, responseHandler, mDISecurity);
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LocalRequestType.GET, null, responseHandler, mDISecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.PUT, dataMap, responseHandler, mDISecurity);
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LocalRequestType.PUT, dataMap, responseHandler, mDISecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.POST, dataMap, responseHandler, mDISecurity);
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LocalRequestType.POST, dataMap, responseHandler, mDISecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.DELETE, null, responseHandler, mDISecurity);
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LocalRequestType.DELETE, null, responseHandler, mDISecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, mDISecurity);
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LocalRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, mDISecurity);
         mRequestQueue.addRequest(request);
     }
 
@@ -76,7 +77,7 @@ public class LocalStrategy extends CommunicationStrategy {
     public void unsubscribe(String portName, int productId,
                             ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.DELETE, getUnsubscriptionData(), responseHandler, mDISecurity);
+        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LocalRequestType.DELETE, getUnsubscriptionData(), responseHandler, mDISecurity);
         mRequestQueue.addRequest(request);
     }
 
@@ -92,7 +93,12 @@ public class LocalStrategy extends CommunicationStrategy {
 
     private void exchangeKeyIfNecessary(NetworkNode networkNode) {
         if (networkNode.getEncryptionKey() == null && !isKeyExchangeOngoing) {
-            doKeyExchange(networkNode);
+            if (!networkNode.getHttps()) {
+                doKeyExchange(networkNode);
+            }
+            else {
+                getKey(networkNode);
+            }
         }
     }
 
@@ -102,6 +108,23 @@ public class LocalStrategy extends CommunicationStrategy {
             @Override
             public void onSuccess(String key) {
                 networkNode.setEncryptionKey(key);
+                isKeyExchangeOngoing = false;
+            }
+
+            @Override
+            public void onError(Error error, String errorData) {
+                isKeyExchangeOngoing = false;
+            }
+        });
+        isKeyExchangeOngoing = true;
+        mRequestQueue.addRequestInFrontOfQueue(request);
+    }
+
+    private void getKey(final NetworkNode networkNode) {
+        GetKeyRequest request = new GetKeyRequest(networkNode, new ResponseHandler() {
+
+            @Override
+            public void onSuccess(String data) {
                 isKeyExchangeOngoing = false;
             }
 

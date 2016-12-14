@@ -25,27 +25,44 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.Map;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 
 public class LocalRequest extends Request {
 
     private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
     private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
     public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
+    public static final String BASEURL_PORTS_HTTPS = "https://%s/di/v%d/products/%d/%s";
     private final String mUrl;
     private final LocalRequestType mRequestType;
     private final DISecurity mDISecurity;
+    private boolean mHttps = false;
 
-    public LocalRequest(String applianceIpAddress, int protocolVersion, String portName, int productId, LocalRequestType requestType, Map<String, Object> dataMap,
+    private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true; //Just accept everything
+        }
+    };
+
+    public LocalRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, String portName, int productId, LocalRequestType requestType, Map<String, Object> dataMap,
                         ResponseHandler responseHandler, DISecurity diSecurity) {
         super(dataMap, responseHandler);
+        mHttps = isHttps;
         mUrl = createPortUrl(applianceIpAddress, protocolVersion, portName, productId);
         mRequestType = requestType;
         mDISecurity = diSecurity;
     }
 
     private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId) {
+        if (mHttps) {
+            return String.format(BASEURL_PORTS_HTTPS, ipAddress, dicommProtocolVersion, productId, portName);
+        }
         return String.format(BASEURL_PORTS, ipAddress, dicommProtocolVersion, productId, portName);
     }
 
@@ -55,7 +72,7 @@ public class LocalRequest extends Request {
         String data = Request.convertKeyValuesToJson(dataMap);
         DICommLog.i(DICommLog.LOCALREQUEST, "Data to send: " + data);
 
-        if (mDISecurity != null) {
+        if (!mHttps && mDISecurity != null) {
             return mDISecurity.encryptData(data);
         }
         DICommLog.i(DICommLog.LOCALREQUEST, "Not encrypting data");
@@ -144,7 +161,7 @@ public class LocalRequest extends Request {
         String errorMessage = convertInputStreamToString(inputStream);
         DICommLog.e(DICommLog.LOCALREQUEST, "BAD REQUEST - " + errorMessage);
 
-        if (mDISecurity != null) {
+        if (!mHttps && mDISecurity != null) {
             DICommLog.e(DICommLog.LOCALREQUEST, "Request not properly encrypted - notifying listener");
             mDISecurity.notifyEncryptionFailedListener();
         }
@@ -187,6 +204,9 @@ public class LocalRequest extends Request {
             conn = (HttpURLConnection) wifiNetworkForSocket.openConnection(url);
         } else {
             conn = (HttpURLConnection) url.openConnection();
+        }
+        if (url.toString().startsWith("https://")) {
+            ((HttpsURLConnection)conn).setHostnameVerifier(hostnameVerifier);
         }
         conn.setRequestProperty("content-type", "application/json");
         conn.setRequestMethod(requestMethod);

@@ -358,6 +358,12 @@ public class DiscoveryManager<T extends DICommAppliance> {
             notifyListeners = true;
         }
 
+        if (existingAppliance.getNetworkNode().getHttps() != networkNode.getHttps()) {
+            existingAppliance.getNetworkNode().setHttps(networkNode.getHttps());
+            updateApplianceInDatabase(existingAppliance);
+            notifyListeners = true;
+        }
+
         if (notifyListeners) {
             notifyDiscoveryListener();
         }

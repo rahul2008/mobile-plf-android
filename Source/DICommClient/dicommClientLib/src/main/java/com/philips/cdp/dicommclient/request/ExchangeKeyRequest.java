@@ -21,7 +21,7 @@ public class ExchangeKeyRequest extends LocalRequest {
     private String mRandomValue;
 
     public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, ResponseHandler responseHandler) {
-        super(applianceIpAddress, protocolVersion, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
+        super(applianceIpAddress, protocolVersion, false, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
         String sdiffie = EncryptionUtil.generateDiffieKey(mRandomValue);
