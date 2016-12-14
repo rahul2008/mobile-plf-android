@@ -84,7 +84,7 @@
     <dimen name="navigation_button_touchable_area_landscape">44dp</dimen>
     <dimen name="navigation_title_text_size">20sp</dimen>
     <dimen name="navigation_menu_text_size">16sp</dimen>
-    <dimen name="navigation_title_text_Height">24dp</dimen>
+    <dimen name="navigation_title_text_height">24dp</dimen>
     <dimen name="navigation_title_text_spacing">24dp</dimen>
 
     <!--Below margin needs to be 20 but changed to 24 because of design contraint -->

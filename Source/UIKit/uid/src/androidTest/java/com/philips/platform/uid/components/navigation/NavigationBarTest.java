@@ -125,7 +125,7 @@ public class NavigationBarTest {
     public void verifyTitleLineHeightInLandscape() throws Exception {
         setupLandscapeModeActivity();
 
-        float lineheight = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_Height);
+        float lineheight = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_height);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
     }

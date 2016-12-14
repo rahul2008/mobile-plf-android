@@ -37,7 +37,9 @@
         <item name="android:layout_marginEnd">@dimen/uid_page_marging_left_right</item>
         <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing_extra
         </item>
-        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uid_navigation_bar_text_line_spacing_multiplier
+        </item>
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
@@ -96,7 +98,9 @@
         <item name="android:textSize">@dimen/uid_navigation_bar_text_size</item>
         <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing_extra
         </item>
-        <item name="android:lineSpacingMultiplier">0</item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uid_navigation_bar_text_line_spacing_multiplier
+        </item>
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
