@@ -35,6 +35,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/preview_title"
                     android:gravity="start|center_vertical"
+                    android:textColor="?attr/uidNavigationTextColor"
                     android:text="@string/cancel"
                     android:onClick="@{(v)-> preActivity.cancelOrPreviewClicked()}"
                     app:uidLabelTextColor="?attr/uidNavigationTextColor"/>
@@ -55,6 +56,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_toEndOf="@+id/preview_title"
+                    android:textColor="?attr/uidNavigationTextColor"
                     android:gravity="end|center_vertical"
                     android:text="@string/preview"
                     android:onClick="@{(v)-> preActivity.cancelOrPreviewClicked()}"
