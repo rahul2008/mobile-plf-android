@@ -184,7 +184,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     private void init() {
-        //Stetho.initializeWithDefaults(getActivity().getApplicationContext());
+       // Stetho.initializeWithDefaults(getActivity().getApplicationContext());
+        DSLog.enableLogging(true);
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         injectDBInterfacesToCore();
         mDataServicesManager.initialize(mContext, creator, errorHandler);
