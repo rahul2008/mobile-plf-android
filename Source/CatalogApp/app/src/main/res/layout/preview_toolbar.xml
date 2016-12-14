@@ -18,10 +18,10 @@
             style="@style/UIDToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:contentInsetStartWithNavigation="0dp"
             app:contentInsetStart="0dp"
-            app:title="@null"
-            app:theme="@style/UIDToolbar">
+            app:contentInsetStartWithNavigation="0dp"
+            app:theme="@style/UIDToolbar"
+            app:title="@null">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -35,9 +35,10 @@
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/preview_title"
                     android:gravity="start|center_vertical"
-                    android:textColor="?attr/uidNavigationTextColor"
-                    android:text="@string/cancel"
                     android:onClick="@{(v)-> preActivity.cancelOrPreviewClicked()}"
+                    android:text="@string/cancel"
+                    android:textColor="?attr/uidNavigationTextColor"
+                    app:uidButtonTextColorList="@color/toolbar_quiet_button_selector"
                     app:uidLabelTextColor="?attr/uidNavigationTextColor"/>
 
                 <TextView
@@ -56,10 +57,11 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_toEndOf="@+id/preview_title"
-                    android:textColor="?attr/uidNavigationTextColor"
                     android:gravity="end|center_vertical"
-                    android:text="@string/preview"
                     android:onClick="@{(v)-> preActivity.cancelOrPreviewClicked()}"
+                    android:text="@string/preview"
+                    android:textColor="?attr/uidNavigationTextColor"
+                    app:uidButtonTextColorList="@color/toolbar_quiet_button_selector"
                     app:uidLabelTextColor="?attr/uidNavigationTextColor"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
