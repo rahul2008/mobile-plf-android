@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
-import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
+import com.philips.cdp.dicommclient.discovery.strategy.ObservableDiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.BleDeviceCache;
@@ -18,9 +18,8 @@ import com.philips.pins.shinelib.SHNResult;
 
 import java.util.Collection;
 
-public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceScanner.SHNDeviceScannerListener {
+public final class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
-    private DiscoveryListener discoveryListener;
     private final BleDeviceCache bleDeviceCache;
     private final long timeoutMillis;
     private final SHNDeviceScanner deviceScanner;
@@ -28,16 +27,17 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
     private SHNDevice.SHNDeviceListener deviceListener = new SHNDevice.SHNDeviceListener() {
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
+
+            final NetworkNode networkNode = createNetworkNode(shnDevice);
+            if (networkNode == null) {
+                return;
+            }
+
             if (SHNDevice.State.Connected.equals(shnDevice.getState())) {
-
-                if (discoveryListener != null) {
-                    final NetworkNode networkNode = createNetworkNode(shnDevice);
-
-                    if (networkNode != null) {
-                        bleDeviceCache.addDevice(shnDevice);
-                        discoveryListener.onNetworkNodeDiscovered(networkNode);
-                    }
-                }
+                bleDeviceCache.addDevice(shnDevice);
+                notifyNetworkNodeDiscovered(networkNode);
+            } else if (SHNDevice.State.Disconnected.equals(shnDevice.getState())) {
+                notifyNetworkNodeLost(networkNode);
             }
         }
 
@@ -59,25 +59,22 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
     }
 
     @Override
-    public void start(Context context, DiscoveryListener discoveryListener) throws MissingPermissionException {
-        start(context, discoveryListener, null);
+    public void start(Context context) throws MissingPermissionException {
+        start(context, null);
     }
 
     @Override
-    public void start(Context context, @NonNull DiscoveryListener discoveryListener, Collection<String> deviceTypes) throws MissingPermissionException {
+    public void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             throw new MissingPermissionException("Discovery over BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        this.discoveryListener = discoveryListener;
-
         deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis);
-        this.discoveryListener.onDiscoveryStarted();
+        notifyDiscoveryStarted();
     }
 
     @Override
     public void stop() {
         deviceScanner.stopScanning();
-        this.discoveryListener.onDiscoveryFinished();
     }
 
     @Override
@@ -90,7 +87,7 @@ public final class BleDiscoveryStrategy implements DiscoveryStrategy, SHNDeviceS
 
     @Override
     public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-        this.discoveryListener.onDiscoveryFinished();
+        notifyDiscoveryStopped();
     }
 
     private NetworkNode createNetworkNode(final SHNDevice shnDevice) {

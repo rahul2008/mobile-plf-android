@@ -23,7 +23,6 @@ import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.FirmwarePort;
-import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.commlib.CommLibContext;
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private Runnable permissionCallback;
 
     private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
+
         @Override
         public void onDiscoveryStarted() {
             updateStateAndResult(getString(R.string.lblStateDiscovering), getString(R.string.lblResultNotApplicable));
@@ -71,23 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            BleReferenceAppliance appliance = applianceFactory.createApplianceForNode(networkNode);
+            try {
+                appliance = setupAppliance(createNetworkNode(device));
 
-            if (appliance == null) {
-                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsFailed, "Unsupported network node: " + networkNode.getName()));
-            } else {
-                appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
-                    @Override
-                    public void onPortUpdate(FirmwarePort firmwarePort) {
-                        updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsSuccess, firmwarePort.getPortProperties().getVersion()));
-                    }
-
-                    @Override
-                    public void onPortError(FirmwarePort diCommPort, Error error, String s) {
-                        updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsFailed, s));
-                    }
-                });
+                // Perform request on port
                 appliance.getFirmwarePort().getPortProperties();
+            } catch (IllegalArgumentException e) {
+                updateStateAndResult(getString(R.string.lblStateError), getString(R.string.lblResultPortError, "Appliance is null."));
             }
         }
 
@@ -102,12 +92,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onDiscoveryFinished() {
-            // NOOP
+        public void onDiscoveryStopped() {
+            updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultNotApplicable));
         }
     };
 
-    private SHNDeviceScanner.SHNDeviceScannerListener scannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
+    private final SHNDeviceScanner.SHNDeviceScannerListener scannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
             shnDeviceScanner.stopScanning();
@@ -124,48 +114,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private SHNDevice.SHNDeviceListener deviceListener = new SHNDevice.SHNDeviceListener() {
+    private final SHNDevice.SHNDeviceListener deviceListener = new SHNDevice.SHNDeviceListener() {
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
             if (SHNDevice.State.Connected.equals(shnDevice.getState())) {
                 updateStateAndResult(getString(R.string.lblStateConnected), getString(R.string.lblResultNotApplicable));
 
-                NetworkNode networkNode = createNetworkNode(device);
-                appliance = applianceFactory.createApplianceForNode(networkNode);
-
-                if (appliance == null) {
+                try {
+                    appliance = setupAppliance(createNetworkNode(device));
+                } catch (IllegalArgumentException e) {
                     updateStateAndResult(getString(R.string.lblStateError), getString(R.string.lblResultPortError, "Appliance is null."));
-                } else {
-                    appliance.getTimePort().addPortListener(new DICommPortListener<TimePort>() {
-
-                        @Override
-                        public void onPortUpdate(TimePort timePort) {
-                            DateTime dateTime = new DateTime(timePort.getPortProperties().datetime);
-                            DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_OUTPUT_FORMAT);
-
-                            updateStateAndResult(getString(R.string.lblStateDone), dateTime.toString(dateTimeFormatter));
-                        }
-
-                        @Override
-                        public void onPortError(TimePort timePort, Error error, final String s) {
-                            updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultPortError, s));
-                        }
-                    });
-
-                    appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
-                        @Override
-                        public void onPortUpdate(FirmwarePort firmwarePort) {
-                            final FirmwarePortProperties portProperties = firmwarePort.getPortProperties();
-
-                            updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsSuccess, portProperties.getVersion()));
-                        }
-
-                        @Override
-                        public void onPortError(FirmwarePort diCommPort, Error error, String s) {
-                            updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultPortError, s));
-                        }
-                    });
-
                 }
             } else if (SHNDevice.State.Disconnected.equals(shnDevice.getState())) {
                 updateStateAndResult(getString(R.string.lblStateDisconnected), getString(R.string.lblResultNotApplicable));
@@ -188,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnStartDiscovery:
-                    startDiscovery(MainActivity.this, MainActivity.this.discoveryListener);
+                    startDiscovery(MainActivity.this);
                     break;
                 case R.id.btnStopDiscovery:
                     stopDiscovery();
@@ -214,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Init CommLib and BlueLib
+        // Setup CommLib
         CommLibContextBuilder<BleReferenceAppliance> builder = new CommLibContextBuilder<>(this, new CommLibContextBuilder.ApplianceFactoryBuilder<BleReferenceAppliance>() {
             @Override
             public DICommApplianceFactory<BleReferenceAppliance> create(@NonNull BleDeviceCache bleDeviceCache) {
@@ -225,11 +183,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         commLibContext = builder.create();
-        discoveryStrategy = commLibContext.getDiscoveryStrategy();
+
+        // Setup BlueLib
         shnCentral = commLibContext.getShnCentral();
         shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
 
-        // Buttons
+        // Setup discovery strategy
+        discoveryStrategy = commLibContext.getDiscoveryStrategy();
+        discoveryStrategy.addDiscoveryListener(discoveryListener);
+
+        // Setup buttons
         findViewById(R.id.btnStartDiscovery).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnStopDiscovery).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnConnect).setOnClickListener(buttonClickListener);
@@ -274,16 +237,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startDiscovery(Context context, DiscoveryStrategy.DiscoveryListener discoveryListener) {
+    private void startDiscovery(final Context context) {
         try {
-            discoveryStrategy.start(context, discoveryListener);
+            discoveryStrategy.start(context);
         } catch (MissingPermissionException e) {
             updateStateAndResult(getString(R.string.lblStatePermissionError), getString(R.string.lblResultDiscoveryFailed));
 
             acquirePermission(new Runnable() {
                 @Override
                 public void run() {
-                    startDiscovery(MainActivity.this, MainActivity.this.discoveryListener);
+                    startDiscovery(context);
                 }
             });
         }
@@ -320,6 +283,45 @@ public class MainActivity extends AppCompatActivity {
                 txtResult.setText(result);
             }
         });
+    }
+
+    private BleReferenceAppliance setupAppliance(NetworkNode networkNode) {
+        BleReferenceAppliance appliance = applianceFactory.createApplianceForNode(networkNode);
+        if (appliance == null) {
+            throw new IllegalArgumentException("Cannot create appliance for provided NetworkNode.");
+        }
+
+        // Setup firmware port
+        appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
+            @Override
+            public void onPortUpdate(FirmwarePort firmwarePort) {
+                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsSuccess, firmwarePort.getPortProperties().getVersion()));
+            }
+
+            @Override
+            public void onPortError(FirmwarePort diCommPort, Error error, String s) {
+                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsFailed, s));
+            }
+        });
+
+        // Setup time port
+        appliance.getTimePort().addPortListener(new DICommPortListener<TimePort>() {
+
+            @Override
+            public void onPortUpdate(TimePort timePort) {
+                DateTime dateTime = new DateTime(timePort.getPortProperties().datetime);
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_OUTPUT_FORMAT);
+
+                updateStateAndResult(getString(R.string.lblStateDone), dateTime.toString(dateTimeFormatter));
+            }
+
+            @Override
+            public void onPortError(TimePort timePort, Error error, final String s) {
+                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultPortError, s));
+            }
+        });
+
+        return appliance;
     }
 
     private NetworkNode createNetworkNode(final SHNDevice shnDevice) {
