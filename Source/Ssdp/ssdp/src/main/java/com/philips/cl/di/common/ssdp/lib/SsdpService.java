@@ -336,7 +336,11 @@ public class SsdpService extends HandlerThread {
 					Log.i(ConnectionLibContants.LOG_TAG, "pNts: " + pNts);
 					final String ipAddress = (InetAddress.getByName(url.getHost()).getHostAddress());
 					final int port = url.getPort();
-					deviceParam = new DeviceModel(pNts, pUsn, pLocation, ipAddress, port, bootId);
+					boolean https = false;
+					if (url.toString().startsWith("https://")) {
+						https = true;
+					}
+					deviceParam = new DeviceModel(pNts, pUsn, pLocation, ipAddress, port, bootId, https);
 				} catch (final MalformedURLException e) {
 					Log.e(ConnectionLibContants.LOG_TAG, "MalformedURLException : " + e.getMessage());
 				} catch (final UnknownHostException e) {

@@ -19,12 +19,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 
 /**
  * @author 310151556
  * @version $Revision: 1.0 $
  */
 public class SSDPUtils {
+    private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true; //Just accept everything
+        }
+    };
+
     /**
      * HTTP GETs icon from selected url.
      *
@@ -100,12 +110,16 @@ public class SSDPUtils {
                 StrictMode.setThreadPolicy(policy);
             }
 
-            HttpURLConnection connection = null;
+            URLConnection connection = null;
             InputStreamReader is = null;
             BufferedReader br = null;
             try {
-                connection = (HttpURLConnection) url.openConnection();
+                connection = url.openConnection();
                 if (null != connection) {
+                    if (url.toString().startsWith("https://"))
+                    {
+                        ((HttpsURLConnection)connection).setHostnameVerifier(hostnameVerifier);
+                    }
                     connection.setConnectTimeout(3000);
                     connection.connect();
                     is = new InputStreamReader(connection.getInputStream());
@@ -135,7 +149,7 @@ public class SSDPUtils {
                 }
                 if (null != connection) {
                     try {
-                        connection.disconnect();
+                        ((HttpURLConnection)connection).disconnect();
                     } catch (Exception e) {
                         Log.e(ConnectionLibContants.LOG_TAG, "IOException: " + e.getMessage());
                     }
