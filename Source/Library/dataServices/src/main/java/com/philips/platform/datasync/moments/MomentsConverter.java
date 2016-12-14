@@ -141,13 +141,14 @@ public class MomentsConverter {
 
             List<UCoreMeasurementGroups> childUCoreList = parentUCore.getMeasurementGroups();
             int i = 0;
-            for (UCoreMeasurementGroups uCoreMeasurementGroups1 : childUCoreList) {
-               // UCoreMeasurementGroups childUCore = childUCoreList.get(i);
+            while (childUCoreList != null) {
+                UCoreMeasurementGroups childUCore = childUCoreList.get(i);
                 MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
-                addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroups1, childOrm);
+                addMeasurementsAndDeatilsToMeasurementGroup(childUCore, childOrm);
                 parentOrmToAttachMoment.addMeasurementGroup(childOrm);
                 parentOrm = childOrm;
-                uCoreMeasurementGroups1.getMeasurementGroups();
+                childUCoreList = childUCore.getMeasurementGroups();
+                i++;
             }
 
 

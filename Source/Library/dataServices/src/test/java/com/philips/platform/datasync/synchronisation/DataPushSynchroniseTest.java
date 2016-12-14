@@ -7,9 +7,11 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
+import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -33,6 +35,7 @@ import java.util.concurrent.Executor;
 import de.greenrobot.event.EventBus;
 
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -47,8 +50,8 @@ public class DataPushSynchroniseTest {
 
     private DataPushSynchronise dataPushSynchronise;
 
-    //@Mock
-    //private Eventing eventingMock;
+    @Mock
+    private Eventing eventingMock;
 
     @Mock
     private UCoreAccessProvider accessProviderMock;
@@ -126,11 +129,31 @@ public class DataPushSynchroniseTest {
     }
 
     @Test
+    public void ShouldPostGetNonSynchronizedEvent_WhenUserIsNotLoggedIn() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+
+        dataPushSynchronise.startSynchronise(TEST_REFERENCE_ID);
+
+        // verify(eventingMock).post(getNonSynchronizedDataRequestArgumentCaptor.capture());
+
+        // assertThat(getNonSynchronizedDataRequestArgumentCaptor.getValue().getReferenceId()).isEqualTo(TEST_REFERENCE_ID);
+    }
+
+    @Test
     public void ShouldCallInExecutor_WhenSyncSucceed() throws Exception {
 
         when(responseEventMock.getReferenceId()).thenReturn(TEST_REFERENCE_ID);
 
         dataPushSynchronise.onEventAsync(responseEventMock);
+        //runExecutor();
+    }
+
+    @Test
+    public void ShouldUnRegister_WhenUnRegisterEventWhenTrue() throws Exception {
+
+        when(eventingMock.isRegistered(responseEventMock)).thenReturn(true);
+        dataPushSynchronise.unRegisterEvent();
+        //verify(eventingMock).unregister(responseEventMock);
         //runExecutor();
     }
 

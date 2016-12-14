@@ -143,7 +143,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         mDataServicesManager = DataServicesManager.getInstance();
         injectDBInterfacesToCore();
-        mDataServicesManager.setDataCreater(creator);
         mDataServicesManager.initialize(mContext, creator, new ErrorHandlerImpl(mContext, new User(mContext)));
         mDataServicesManager.initializeSyncMonitors(null, null);
 
