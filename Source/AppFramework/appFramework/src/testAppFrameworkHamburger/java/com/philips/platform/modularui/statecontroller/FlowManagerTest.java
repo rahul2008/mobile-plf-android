@@ -15,8 +15,6 @@ import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
-import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivityState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 

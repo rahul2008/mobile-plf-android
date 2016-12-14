@@ -38,9 +38,9 @@ public class SplashPresenter extends UIBasePresenter{
     @Override
     public void onEvent(int componentID) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SPLASH), APP_START);
-        baseState.setStateListener(this);
+        baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), APP_START);
         if (null != baseState) {
+            baseState.setStateListener(this);
             if (baseState instanceof UserRegistrationState) {
                 uiView.showActionBar();
             }

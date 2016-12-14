@@ -20,7 +20,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSplashState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 
 import java.io.File;
@@ -58,7 +58,7 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        userRegistrationState = new UserRegistrationSplashState();
+        userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
