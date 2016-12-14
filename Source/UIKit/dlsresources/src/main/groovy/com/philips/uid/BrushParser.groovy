@@ -9,26 +9,26 @@ def brushesMap = jsonSlurper.parseText(new File(DLSResourceConstants.PATH_SEMANT
 def allAttributes = new ArrayList()
 
 brushesMap.each {
-    key, value ->
-        def joinedKey = "${DLSResourceConstants.LIB_PREFIX}" + key.split("-").collect { it.capitalize() }.join("")
+    semanticName, themesMap ->
+        def joinedKey = "${DLSResourceConstants.LIB_PREFIX}" + semanticName.split("-").collect { it.capitalize() }.join("")
         def themeAttr = new ThemeAttribute(joinedKey)
-        value.each {
-            entry ->
-                def name = entry.key
-                def colorNumber = entry.value.get(DLSResourceConstants.JSON_KEY_COLOR_NUMBER)
-                def alpha = entry.value.get(DLSResourceConstants.JSON_KEY_ALPHA)
-                def reference = entry.value.get(DLSResourceConstants.JSON_KEY_REFERENCE)
+        themesMap.each {
+            theme ->
+                def name = theme.key
+                def colorNumber = theme.value.get(DLSResourceConstants.JSON_KEY_COLOR_NUMBER)
+                def alpha = theme.value.get(DLSResourceConstants.JSON_KEY_ALPHA)
+                def reference = theme.value.get(DLSResourceConstants.JSON_KEY_REFERENCE)
                 if (reference != null) {
-                    reference = "${DLSResourceConstants.LIB_PREFIX}${entry.value.get(DLSResourceConstants.JSON_KEY_REFERENCE).split("-").collect { it.capitalize() }.join("")}"
+                    reference = "${DLSResourceConstants.LIB_PREFIX}${theme.value.get(DLSResourceConstants.JSON_KEY_REFERENCE).split("-").collect { it.capitalize() }.join("")}"
                 }
-                def rangeName = entry.value.get(DLSResourceConstants.JSON_KEY_RANGE_NAME)
+                def rangeName = theme.value.get(DLSResourceConstants.JSON_KEY_RANGE_NAME)
                 themeAttr.addTonalRange(name, colorNumber, alpha, reference, rangeName)
         }
         allAttributes.add(themeAttr)
 }
 
 flushAttrsFile(allAttributes)
-createBlueDarkStyle(allAttributes)
+createThemeXml(allAttributes)
 
 def flushAttrsFile(attrList) {
     def sw = new StringWriter()
@@ -52,7 +52,7 @@ def flushAttrsFile(attrList) {
     attrFile.write(sw.toString())
 }
 
-def createBlueDarkStyle(allAttributes) {
+def createThemeXml(allAttributes) {
     def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
     DLSResourceConstants.COLOR_RANGES.each {
         theme, color_name ->
