@@ -14,7 +14,6 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.base.UIStateData;
-import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import junit.framework.TestCase;
 import org.junit.Before;

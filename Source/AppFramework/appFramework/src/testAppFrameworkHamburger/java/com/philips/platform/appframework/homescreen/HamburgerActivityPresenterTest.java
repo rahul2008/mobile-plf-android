@@ -17,7 +17,6 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.dataservices.DataSyncScreenState;
-import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 

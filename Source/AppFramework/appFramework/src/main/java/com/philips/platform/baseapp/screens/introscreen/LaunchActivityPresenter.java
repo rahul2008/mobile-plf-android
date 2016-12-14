@@ -7,7 +7,6 @@ package com.philips.platform.baseapp.screens.introscreen;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -49,7 +48,7 @@ public class LaunchActivityPresenter extends UIBasePresenter{
 
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.FIRST_STATE), eventState);
+        baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
         if (baseState != null && !(baseState instanceof UserRegistrationState)) {
             baseState.setStateListener(this);
             baseState.setUiStateData(getUiStateData());
@@ -65,10 +64,6 @@ public class LaunchActivityPresenter extends UIBasePresenter{
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return LAUNCH_BACK_PRESSED;
-            /*case USER_REGISTRATION_STATE:
-                return WELCOME_REGISTRATION;*/
-            case APP_LAUNCH_STATE:
-                return APP_LAUNCH;
             default:return null;
         }
     }

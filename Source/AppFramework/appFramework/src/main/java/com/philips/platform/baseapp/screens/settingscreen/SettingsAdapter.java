@@ -259,7 +259,6 @@ public class SettingsAdapter extends BaseAdapter{
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 progressDialog = new ProgressDialog(activityContext);
-                                progressDialog.setCancelable(false);
                                 progressDialog.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
                                 progressDialog.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

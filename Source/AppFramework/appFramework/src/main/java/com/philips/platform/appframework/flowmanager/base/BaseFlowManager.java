@@ -9,7 +9,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
@@ -25,11 +24,12 @@ public abstract class BaseFlowManager {
     protected Map<String, BaseCondition> conditionMap;
     private Map<String, List<AppFlowEvent>> appFlowMap;
     private BaseState currentState;
+    private BaseState previousState;
     private Context context;
     private AppFlowModel appFlowModel;
     private List<AppFlowEvent> appFlowEvents;
+    private String firstState;
 
-    // TODO: Deepthi we need to change to string
     public BaseFlowManager(final Context context, final String jsonPath) {
         this.context = context;
         mapAppFlowStates(jsonPath);
@@ -92,19 +92,19 @@ public abstract class BaseFlowManager {
                     if (appFlowEvent.getEventId() != null && string.equals(eventId)) {
                         final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                         BaseState appFlowNextState = getUiState(appFlowNextStates);
-                        if (appFlowNextState != null)
-                        {
+                        if (appFlowNextState != null) {
+                            previousState = this.currentState;
                             setCurrentState(appFlowNextState);
                             return appFlowNextState;
                         }
-
                         break;
                     }
                 }
             }
-        }
-        else {
-            return stateMap.get(AppStates.FIRST_STATE);
+        } else {
+            BaseState baseState = stateMap.get(firstState);
+            this.currentState = baseState;
+            return baseState;
         }
         return null;
     }
@@ -143,6 +143,7 @@ public abstract class BaseFlowManager {
     private void mapAppFlowStates(final String jsonPath) {
         appFlowModel = AppFlowParser.getAppFlow(jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
+            firstState = appFlowModel.getAppFlow().getFirstState();
             appFlowMap = AppFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
         }
     }

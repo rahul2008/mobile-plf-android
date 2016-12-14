@@ -10,28 +10,28 @@ import android.app.Activity;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-public class UserRegistrationWelcomeState extends UserRegistrationState implements UserRegistrationUIEventListener{
+public class UserRegistrationOnBoardingState extends UserRegistrationState implements UserRegistrationUIEventListener {
 
     private BaseState baseState;
     /**
      * AppFlowState constructor
      *
      */
-    public UserRegistrationWelcomeState() {
-        super(AppStates.WELCOME_REGISTRATION);
+    public UserRegistrationOnBoardingState() {
+        super(AppStates.ON_BOARDING_REGISTRATION);
     }
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SPLASH), "splash_home");
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), "URComplete");
             if (null != baseState) {
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.welcome_frame_container, (ActionBarListener) getFragmentActivity()));
@@ -66,5 +66,6 @@ public class UserRegistrationWelcomeState extends UserRegistrationState implemen
         UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
         userRegistrationFacade.clearUserData();
     }
+
 
 }
