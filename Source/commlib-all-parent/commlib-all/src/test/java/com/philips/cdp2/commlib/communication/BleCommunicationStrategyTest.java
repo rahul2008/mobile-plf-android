@@ -13,12 +13,12 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
         plugin = {"pretty"},
         format = {
-                "json:" + "../build/cucumber-reports/libsoftwaregateway-app-results.json",
-                "html:" + "build/reports/java" + "/html"
+                "json:../build/cucumber-reports/BleCommunicationStrategyTest.json",
+                "html:../build/cucumber-reports/html"
         },
         features = "src/test/features",
         strict = true,
-        tags = {"@automated","@android","~@not_android"}
+        tags = {"@automated", "@android", "~@not_android"}
 )
 public class BleCommunicationStrategyTest {
 
