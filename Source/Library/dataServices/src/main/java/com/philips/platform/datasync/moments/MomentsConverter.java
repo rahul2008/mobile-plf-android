@@ -151,17 +151,6 @@ public class MomentsConverter {
                 i++;
             }
 
-
-//            while (childUCoreList != null) {
-//                UCoreMeasurementGroups childUCore = childUCoreList.get(i);
-//                MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
-//                addMeasurementsAndDeatilsToMeasurementGroup(childUCore, childOrm);
-//                parentOrmToAttachMoment.addMeasurementGroup(childOrm);
-//                parentOrm = childOrm;
-//                childUCoreList = childUCore.getMeasurementGroups();
-//                i++;
-//            }
-
             /*Collection<? extends UCoreMeasurementGroups> uCoreMeasurementGroups1 = uCoreMeasurementGroups.getMeasurementGroups();
             MeasurementGroup measurementGroup1 = measurementGroup;
             if(uCoreMeasurementGroups1!=null){
@@ -365,7 +354,7 @@ public class MomentsConverter {
          return uCoreMeasurementGroupList;
      }*/
 
-   private List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
+    private List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
         ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
         int size = measurementGroups.size();
         for (int i = 0, j = 0; i < size; i++) {
