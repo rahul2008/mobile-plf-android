@@ -3,12 +3,12 @@
 
     <style name="UIDNavigationbarUltraLight">
         <item name="uidActionBarBackground">@color/uidColorWhite</item>
-        <item name="uidNavigationTextColor">@color/uid_gray_level_75</item>
+        <item name="uidNavigationTextColor">?attr/uidColorLevel45</item>
     </style>
 
     <style name="UIDNavigationbarVeryLight">
         <item name="uidActionBarBackground">?attr/uidColorLevel10</item>
-        <item name="uidNavigationTextColor">?attr/uidColorLevel75</item>
+        <item name="uidNavigationTextColor">?attr/uidColorLevel45</item>
     </style>
 
     <style name="UIDNavigationbarLight">
