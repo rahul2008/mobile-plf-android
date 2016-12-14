@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>10</zoom_level>
+  <zoom_level>11</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>410</y>
-      <w>360</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>CombinedDiscoveryStrategy
---
-List&lt;Nodes&gt; mergedNodes
-List&lt;DiscoveryStrategy&gt; strategies
---
-merge Nodes found by strategies</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>800</x>
-      <y>220</y>
-      <w>220</w>
-      <h>150</h>
+      <x>682</x>
+      <y>462</y>
+      <w>242</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
 DiscoveryStrategy()
@@ -38,83 +22,83 @@ stop()
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>780</y>
-      <w>180</w>
-      <h>50</h>
+      <x>297</x>
+      <y>902</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>BleDiscoveryStrategy
 --
-nodes it found
+Set of nodes (no duplicates)
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>690</y>
-      <w>180</w>
-      <h>50</h>
+      <x>297</x>
+      <y>803</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>LanDiscoveryStrategy
 --
-nodes it found</panel_attributes>
+Set of nodes (no duplicates)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>600</y>
-      <w>230</w>
-      <h>50</h>
+      <x>297</x>
+      <y>704</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>DeviceCloudDiscoveryStrategy
 --
-nodes it found</panel_attributes>
+Set of nodes (no duplicates)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>610</x>
-      <y>360</y>
-      <w>320</w>
-      <h>470</h>
+      <x>539</x>
+      <y>616</y>
+      <w>286</w>
+      <h>341</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>300.0;10.0;300.0;450.0;10.0;450.0</additional_attributes>
+    <additional_attributes>240.0;10.0;240.0;290.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>610</x>
-      <y>360</y>
-      <w>320</w>
-      <h>370</h>
+      <x>539</x>
+      <y>616</y>
+      <w>286</w>
+      <h>231</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>300.0;10.0;300.0;350.0;10.0;350.0</additional_attributes>
+    <additional_attributes>240.0;10.0;240.0;190.0;10.0;190.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
-      <y>360</y>
-      <w>270</w>
-      <h>280</h>
+      <x>539</x>
+      <y>616</y>
+      <w>286</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>250.0;10.0;250.0;260.0;10.0;260.0</additional_attributes>
+    <additional_attributes>240.0;10.0;240.0;100.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
-      <y>310</y>
-      <w>70</w>
-      <h>30</h>
+      <x>627</x>
+      <y>561</y>
+      <w>77</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
@@ -122,32 +106,25 @@ nodes it found</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>60</y>
-      <w>660</w>
-      <h>90</h>
+      <x>440</x>
+      <y>198</y>
+      <w>484</w>
+      <h>187</h>
     </coordinates>
-    <panel_attributes>Application</panel_attributes>
+    <panel_attributes>ApplianceManager
+--
+all known appliances
+store(Appliance)
+</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>530</x>
-      <y>140</y>
-      <w>30</w>
-      <h>290</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>580</x>
-      <y>240</y>
-      <w>180</w>
-      <h>130</h>
+      <x>440</x>
+      <y>462</y>
+      <w>198</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Interface&gt;&gt;
 DiscoveryDelegate
@@ -160,45 +137,85 @@ nodeUpdated(Node)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>360</y>
-      <w>220</w>
-      <h>160</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>200.0;10.0;200.0;140.0;10.0;140.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>710</x>
-      <y>360</y>
-      <w>150</w>
+      <x>759</x>
+      <y>374</y>
+      <w>33</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;90.0;130.0;90.0;130.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>660</x>
-      <y>360</y>
-      <w>30</w>
-      <h>70</h>
-    </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>165</x>
+      <y>0</y>
+      <w>759</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>Application
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>165</x>
+      <y>198</y>
+      <w>231</w>
+      <h>143</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+ApplianceManagerDelegate
+--
+applianceFound(Appliance)
+applianceUpdated(Appliance)
+</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
-      <y>140</y>
-      <w>30</w>
-      <h>120</h>
+      <x>253</x>
+      <y>88</y>
+      <w>33</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>385</x>
+      <y>297</y>
+      <w>77</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>517</x>
+      <y>88</y>
+      <w>33</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>517</x>
+      <y>374</y>
+      <w>33</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
