@@ -81,8 +81,10 @@ public class MomentsDataFetcher extends DataFetcher {
 */
 
                 List<Moment> moments = converter.convert(uCoreMoments);
+                DSLog.e("***SPO***", "DataPullSynchronize fetch Success");
                 eventing.post(new BackendMomentListSaveRequest(moments));
             }
+            DSLog.e("***SPO***", "DataPullSynchronize fetch send null");
             return null;
         } catch (RetrofitError ex) {
             DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
