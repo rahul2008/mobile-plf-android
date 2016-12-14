@@ -73,16 +73,16 @@ public class NavigationBarTest {
         getTitle().check(matches(ViewPropertiesMatchers.isSameRightMargin(titleMargin)));
     }
 
+    private int getNavigationTextExpectedFromThemeColor() {
+        return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationTextColor);
+    }
+
     @Test
     public void verifyTitleTextColorInUltraLight() throws Exception {
         setupUltralightTonalRangeActivity();
 
         int expectedColor = getNavigationTextExpectedFromThemeColor();
         getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
-    }
-
-    private int getNavigationTextExpectedFromThemeColor() {
-        return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationTextColor);
     }
 
     @Test
@@ -104,12 +104,12 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void verifyTitleLineHeight() throws Exception {
+    public void verifyTitleLineSpacing() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        float lineHeight = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_Height);
+        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
 
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineHeight)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
 
     @Test
@@ -128,6 +128,15 @@ public class NavigationBarTest {
         float lineheight = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_Height);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
+    }
+
+    @Test
+    public void verifyTitleLineSpacingInLandscape() throws Exception {
+        setupLandscapeModeActivity();
+
+        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
     }
 
     @Test
@@ -214,9 +223,11 @@ public class NavigationBarTest {
 
     @Test
     public void verifyNavigationMenuTextSize() throws Exception {
+
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
         int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
-
+        //Added wait because test is failing could be it takes time to inflate menu
+        UIDTestUtils.waitFor(applicationContext, 800);
         getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
