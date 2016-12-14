@@ -3,8 +3,8 @@ package cdp.philips.com.mydemoapp.database.table;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 
@@ -17,7 +17,7 @@ import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 /**
  * Created by 310218660 on 11/17/2016.
  */
-
+@DatabaseTable
 public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
     private static final long serialVersionUID = 11L;
 

@@ -22,14 +22,12 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
-import cdp.philips.com.mydemoapp.registration.ErrorHandlerImpl;
 import cdp.philips.com.mydemoapp.temperature.TemperatureTimeLineFragment;
 
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener{
 
     private ActionBarListener actionBarListener;
     private DatabaseHelper databaseHelper;
-    private ErrorHandlerImpl userRegistrationFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,6 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         setContentView(R.layout.af_user_registration_activity);
         DSLog.enableLogging(true);
         User user = new User(this);
-        userRegistrationFacade = new ErrorHandlerImpl(this, new User(this));
 
         if (savedInstanceState == null)
             if(user.isUserSignIn()){
@@ -96,7 +93,6 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccess() {
-        userRegistrationFacade.clearUserData();
     }
 
     @Override
@@ -106,13 +102,11 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        userRegistrationFacade.clearUserData();
     }
 
     @Override
     public void onUserRegistrationComplete(final Activity activity) {
         showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
-        userRegistrationFacade.clearUserData();
     }
 
     public void showFragment(Fragment fragment, String fragmentTag) {
