@@ -37,7 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by indrajitkumar on 07/12/16.
  */
-@RunWith(MockitoJUnitRunner.class)
 public class BaseAppCoreTest {
     private static final String UUID = "UUID";
     @Mock

@@ -72,29 +72,13 @@ public class ConsentsDataFetcherTest {
         consentDataFetcher.getConsentDetails();
 
     }
-
-    /*  public List<ConsentDetail> getConsentDetails() {
-        return consentDetails;
-    }*/
-
-
-
- /*   @Test
-    public void ShouldNotPostAnEventToBackend_WhenStateIsNotIdle() throws Exception {
-        consentDataSender.synchronizationState.set(DataSender.State.BUSY.getCode());
-
-        consentDataSender.sendDataToBackend(Collections.singletonList(consentMock));
-
-        verify(eventingMock, never()).post(consentListSaveRequestEventCaptor.capture());
-    }*/
-
-    /* @Nullable
-    @Override
-    public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-            eventing.post(new ConsentBackendGetRequest(1, consentDetails));
-        }
-        return null;
+    @Test
+    public void shouldFetchDataSince_WhenDataSenderToSetConsentDetail() throws Exception {
+        consentDataFetcher.setConsentDetails(Collections.singletonList(consentDetailMock));
     }
-*/
+
+    @Test
+    public void shouldFetchDataSince_WhenDataSenderTofetchAllData() throws Exception {
+        consentDataFetcher.fetchAllData();
+    }
 }

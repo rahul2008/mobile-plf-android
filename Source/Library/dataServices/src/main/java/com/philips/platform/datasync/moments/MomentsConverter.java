@@ -140,15 +140,25 @@ public class MomentsConverter {
 
             List<UCoreMeasurementGroups> childUCoreList = parentUCore.getMeasurementGroups();
             int i = 0;
-            while (childUCoreList != null) {
-                UCoreMeasurementGroups childUCore = childUCoreList.get(i);
+            for (UCoreMeasurementGroups uCoreMeasurementGroups1 : childUCoreList) {
+               // UCoreMeasurementGroups childUCore = childUCoreList.get(i);
                 MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
-                addMeasurementsAndDeatilsToMeasurementGroup(childUCore, childOrm);
+                addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroups1, childOrm);
                 parentOrmToAttachMoment.addMeasurementGroup(childOrm);
                 parentOrm = childOrm;
-                childUCoreList = childUCore.getMeasurementGroups();
-                i++;
+                uCoreMeasurementGroups1.getMeasurementGroups();
             }
+
+
+//            while (childUCoreList != null) {
+//                UCoreMeasurementGroups childUCore = childUCoreList.get(i);
+//                MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
+//                addMeasurementsAndDeatilsToMeasurementGroup(childUCore, childOrm);
+//                parentOrmToAttachMoment.addMeasurementGroup(childOrm);
+//                parentOrm = childOrm;
+//                childUCoreList = childUCore.getMeasurementGroups();
+//                i++;
+//            }
 
             /*Collection<? extends UCoreMeasurementGroups> uCoreMeasurementGroups1 = uCoreMeasurementGroups.getMeasurementGroups();
             MeasurementGroup measurementGroup1 = measurementGroup;
@@ -353,7 +363,7 @@ public class MomentsConverter {
          return uCoreMeasurementGroupList;
      }*/
 
-    List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
+   private List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
         ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
         int size = measurementGroups.size();
         for (int i = 0, j = 0; i < size; i++) {
@@ -379,7 +389,7 @@ public class MomentsConverter {
         return uCoreMeasurementGroupList;
     }
 
-    UCoreMeasurementGroups convertMeasurementGroupToUCoreMeasurementGroup(MeasurementGroup measurementGroup, UCoreMeasurementGroups uCoreMeasurementGroups) {
+    private UCoreMeasurementGroups convertMeasurementGroupToUCoreMeasurementGroup(MeasurementGroup measurementGroup, UCoreMeasurementGroups uCoreMeasurementGroups) {
         //Added Details
         List<UCoreMeasurementGroupDetail> measurementGroupDetails = new ArrayList<>();
         List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetails = addToUCoreMeasurementGroupDetails(measurementGroup.getMeasurementGroupDetails(), measurementGroupDetails);

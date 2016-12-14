@@ -13,6 +13,7 @@ import com.philips.platform.core.events.Event;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.testing.verticals.DataServiceManagerMock;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -102,14 +103,12 @@ public class ConsentsMonitorTest {
     private ArgumentCaptor<Event> eventArgumentCaptor;
 
     @Mock
-    DataServicesManager dataServicesManager;
+    DataServiceManagerMock dataServicesManager;
 
     @Before
     public void setUp() {
         initMocks(this);
-
        // dataServicesManager =DataServicesManager.getInstance();
-
         when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(USER_ID);
@@ -123,6 +122,7 @@ public class ConsentsMonitorTest {
 
     @Test(expected = NullPointerException.class)
     public void ShouldPostError_WhenUserIsNotLoggedIn() throws Exception {
+       // dataServicesManager.initialize(null,null,null);
         when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
