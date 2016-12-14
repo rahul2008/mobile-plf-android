@@ -12,8 +12,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 public class DSLog {
     public final static String LOG = "DataServices";
     public static boolean isLoggingEnabled = false;
-    private static BaseAppDataCreator mDataCreater;
-
     public static void enableLogging(boolean enableLog) {
         isLoggingEnabled = enableLog;
     }

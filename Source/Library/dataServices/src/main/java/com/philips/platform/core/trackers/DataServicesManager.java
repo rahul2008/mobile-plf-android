@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
@@ -77,7 +76,7 @@ import de.greenrobot.event.EventBus;
 public class DataServicesManager {
 
     @NonNull
-    private  Eventing mEventing;
+    private Eventing mEventing;
 
     private BaseAppDataCreator mDataCreater;
 
@@ -332,7 +331,7 @@ public class DataServicesManager {
         mExceptionMonitor = null;
         mLoggingMonitor = null;
         mSharedPreferences = null;
-       // mCore.stop();
+        // mCore.stop();
     }
 
 

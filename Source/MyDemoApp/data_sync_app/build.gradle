@@ -25,6 +25,7 @@ apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
@@ -48,7 +49,9 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' } 
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
 //        apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -89,7 +92,7 @@ version = objcdp.getVersion()
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz' )
+def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz')
 artifacts {
     archives zipDoc
     archives zipSrc
@@ -97,7 +100,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
@@ -108,7 +111,7 @@ task tgzTask(type: Tar) {
     classifier = 'src'
     from projectDir
     include '**/*'
-    exclude ('build')
+    exclude('build')
     extension = 'tgz'
     compression = Compression.GZIP
 }
@@ -123,7 +126,7 @@ android {
         targetSdkVersion 23
         versionCode 5
         versionName "0.1.2"
-vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         generatedDensities = []
@@ -144,11 +147,11 @@ vectorDrawables.useSupportLibrary = true
         javaMaxHeapSize "4g" // 2g should be also OK
     }
     buildTypes {
-       // release {
-         //   minifyEnabled true
-           // shrinkResources true
-           // proguardFile 'proguard-rules.pro'
-            //signingConfig signingConfigs.release
+        // release {
+        //   minifyEnabled true
+        // shrinkResources true
+        // proguardFile 'proguard-rules.pro'
+        //signingConfig signingConfigs.release
         //}
 
         debug {
@@ -254,71 +257,6 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }
-
-//task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-//
-//    description 'Run findbugs'
-//    group 'verification'
-//    ignoreFailures = true
-//    classes = fileTree('build/intermediates/classes/debug')
-//    source = fileTree('src/main/java')
-//    classpath = files()
-//
-//    effort = 'max'
-//
-//    excludeFilter = file("findbugs-exclude.xml")
-//
-//    reports {
-//        xml.enabled = true
-//        html.enabled = false
-//    }
-//}
-//
-//task pmd(type: Pmd, dependsOn: "assembleDebug") {
-//
-//    description 'Run pmd'
-//    group 'verification'
-//    ignoreFailures = true
-//    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-//    source = fileTree('src/main/java')
-//
-//    reports {
-//        xml.enabled = true
-//        html.enabled = false
-//    }
-//
-//}
-//
-//task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-//    group = "Reporting"
-//
-////    jvmArgs = ["-XX:-UseSplitVerifier"]
-//    description = "Generate Jacoco coverage reports"
-//
-//    classDirectories = fileTree(
-//            dir: '../dataServices/build/intermediates/classes/debug',
-//            excludes: ['**/R.class',
-//                       '**/R$*.class',
-//                       '**/BuildConfig.*',
-//                       '**/response/*/*.class',
-//                       '**/view/*.class',
-//                       '**/adapters/*.class',
-//                       '**/analytics/*.class',
-//                       '**/utils/*.class',
-//                       '**/activity/*.class',
-//                       '**/Fragments/*.class']
-//    )
-//
-//    additionalSourceDirs = files(coverageSourceDirs)
-//    sourceDirectories = files(coverageSourceDirs)
-//    executionData = files('../dataServices/build/jacoco/testDebugUnitTest.exec')
-//
-//    reports {
-//        xml.enabled = true
-//        html.enabled = true
-//    }
-//
-//}
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
