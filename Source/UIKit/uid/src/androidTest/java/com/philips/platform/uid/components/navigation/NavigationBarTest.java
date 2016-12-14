@@ -22,7 +22,6 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -171,7 +170,7 @@ public class NavigationBarTest {
 
     //Menu icon test cases
     @Test
-    public void verifyMenuIconSize() throws Exception {
+    public void verifyNavigationMenuIconSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
         int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
@@ -186,16 +185,7 @@ public class NavigationBarTest {
 
         final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
-        getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
-    }
-
-    @Test
-    public void verifyMenuTextPadding() throws Exception {
-        setupUltralightTonalRangeActivity();
-
-        int marginleft = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_padding_left_right);
-
-        getNavigationMenuText().check(matches(ViewPropertiesMatchers.isSameStartPadding(marginleft)));
+        getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -204,7 +194,7 @@ public class NavigationBarTest {
 
         final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
-        getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+        getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -213,58 +203,47 @@ public class NavigationBarTest {
 
         final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
-        getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+        getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
-    public void verifyNavigationMenuTextSize() throws Exception {
+    public void verifyOptionsMenuTextSize() throws Exception {
 
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
         int fontSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_menu_text_size);
         //Added wait because test is failing could be it takes time to inflate menu
         UIDTestUtils.waitFor(applicationContext, 800);
-        getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
-    }
-
-    @Ignore
-    @Test
-    public void verifyMenuIconMargin() throws Exception {
-        setupUltralightTonalRangeActivity();
-
-        int padding = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_padding);
-
-        getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameLeftPadding(padding)));
-        getNavigationIcon().check(matches(ViewPropertiesMatchers.isSameRightPadding(padding)));
+        getOptionsMenuText().check(matches(TextViewPropertiesMatchers.isSameFontSize(fontSize)));
     }
 
     @Test
-    public void verifyNavigationBarIconSize() throws Exception {
+    public void verifyOptionsMenuIconSize() throws Exception {
         setupUltralightTonalRangeActivity();
 
         int iconSize = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_icon_size);
 
-        getNavigationMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
-        getNavigationMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
+        getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameHeight(iconSize)));
+        getOptionsMenuIcon().check(matches(FunctionDrawableMatchers.isSameWidth(iconSize)));
     }
 
     @Test
-    public void verifyNavigationBarIconTargetArea() throws Exception {
+    public void verifyOptionsMenuIconTargetArea() throws Exception {
         setupUltralightTonalRangeActivity();
 
         int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area);
 
-        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
-        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
+        getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
+        getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(navigationbarHeight)));
     }
 
     @Test
-    public void verifyNavigationBarIconTargetAreaInLandscape() throws Exception {
+    public void verifyOptionsMenuIconTargetAreaInLandscape() throws Exception {
 
         setupLandscapeModeActivity();
 
         int navigationbarHeight = (int) applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_button_touchable_area_landscape);
 
-        getNavigationMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
+        getOptionsMenuIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(navigationbarHeight)));
     }
 
     private void setupUltralightTonalRangeActivity() {
@@ -279,11 +258,11 @@ public class NavigationBarTest {
         return onView(withContentDescription(applicationContext.getResources().getString(com.philips.platform.uid.test.R.string.navigation_content_desc)));
     }
 
-    private ViewInteraction getNavigationMenuIcon() {
+    private ViewInteraction getOptionsMenuIcon() {
         return onView(withId(com.philips.platform.uid.test.R.id.theme_settings));
     }
 
-    private ViewInteraction getNavigationMenuText() {
+    private ViewInteraction getOptionsMenuText() {
         return onView(withId(com.philips.platform.uid.test.R.id.set_theme_settings));
     }
 

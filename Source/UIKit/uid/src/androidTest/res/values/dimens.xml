@@ -74,7 +74,6 @@
     <dimen name="navigation_height">56dp</dimen>
     <dimen name="navigation_left_margin">16dp</dimen>
     <dimen name="navigation_right_margin">16dp</dimen>
-    <dimen name="navigation_icon_padding">16dp</dimen>
     <dimen name="navigation_menu_text_padding_left_right">8dp</dimen>
     <dimen name="navigation_menu_text_margin">4dp</dimen>
     <dimen name="navigation_icon_size">24dp</dimen>
