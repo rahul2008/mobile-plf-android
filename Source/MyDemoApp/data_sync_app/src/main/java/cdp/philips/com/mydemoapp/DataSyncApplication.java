@@ -3,7 +3,6 @@ package cdp.philips.com.mydemoapp;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.facebook.stetho.Stetho;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -44,11 +43,11 @@ public class DataSyncApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-        Stetho.initializeWithDefaults(this);
+        //Stetho.initializeWithDefaults(this);
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();
-        Stetho.initializeWithDefaults(this);
+       // Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
     }
@@ -273,7 +272,8 @@ public class DataSyncApplication extends Application {
                 "HSDPConfiguration.ApplicationName",
                 URConfigurationConstants.UR,
                 //"Datacore",
-                "uGrow",
+                //"uGrow",
+                "HealthySleepSolutions",
                 configError);
 
         gAppInfra.
@@ -294,8 +294,9 @@ public class DataSyncApplication extends Application {
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 URConfigurationConstants.UR,
-                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+                //"https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
                 //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+                "https://healthysleep-ds-development.eu-west.philips-healthsuite.com",
                 configError);
     }
 }
