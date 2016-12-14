@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -78,25 +77,19 @@ public class NavigationBarTest {
     public void verifyTitleTextColorInUltraLight() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        int expectedColor = getNavigationTextExpectedColor();
+        int expectedColor = getNavigationTextExpectedFromThemeColor();
         getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
-    private int getNavigationTextExpectedColor() {
-        final int attributeColor = UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationTextColor);
-//        final int[] attrs = new int[]{R.attr.uidNavigationTextColor};
-//        TypedArray typedArray = baseTestActivity.obtainStyledAttributes(attrs);
-//        int expectedColor = typedArray.getResourceId(0, 0);
-//        typedArray.recycle();
-//        expectedColor = ContextCompat.getColor(applicationContext, expectedColor);
-        return attributeColor;
+    private int getNavigationTextExpectedFromThemeColor() {
+        return UIDTestUtils.getAttributeColor(baseTestActivity, R.attr.uidNavigationTextColor);
     }
 
     @Test
     public void verifyTitleTextColorInBright() throws Exception {
         setupActivity(NavigationColor.BRIGHT.ordinal());
 
-        final int expectedColor = getNavigationTextExpectedColor();
+        final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
@@ -105,18 +98,18 @@ public class NavigationBarTest {
     public void verifyTitleTextColorInVeryLight() throws Exception {
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
 
-        final int expectedColor = getNavigationTextExpectedColor();
+        final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
-    public void verifyTitleLineSpacing() throws Exception {
+    public void verifyTitleLineHeight() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+        float lineHeight = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_Height);
 
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineHeight)));
     }
 
     @Test
@@ -129,12 +122,12 @@ public class NavigationBarTest {
     }
 
     @Test
-    public void verifyTitleLineSpacingInLandscape() throws Exception {
+    public void verifyTitleLineHeightInLandscape() throws Exception {
         setupLandscapeModeActivity();
 
-        float linespacing = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_spacing);
+        float lineheight = applicationContext.getResources().getDimension(com.philips.platform.uid.test.R.dimen.navigation_title_text_Height);
 
-        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineSpacing(linespacing)));
+        getTitle().check(matches(TextViewPropertiesMatchers.isSameLineHeight(lineheight)));
     }
 
     @Test
@@ -187,7 +180,7 @@ public class NavigationBarTest {
     public void verifyMenuTextColorDefaultColor() throws Exception {
         setupUltralightTonalRangeActivity();
 
-        final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.navigationTextColor);
+        final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
         getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
@@ -205,7 +198,7 @@ public class NavigationBarTest {
     public void verifyMenuTextColorForUltraLight() throws Exception {
         setupActivity(NavigationColor.ULTRA_LIGHT.ordinal());
 
-        final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.Gray75);
+        final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
         getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
@@ -214,7 +207,7 @@ public class NavigationBarTest {
     public void verifyMenuTextColorForVeryLight() throws Exception {
         setupActivity(NavigationColor.VERY_LIGHT.ordinal());
 
-        final int expectedColor = ContextCompat.getColor(applicationContext, com.philips.platform.uid.test.R.color.GroupBlue75);
+        final int expectedColor = getNavigationTextExpectedFromThemeColor();
 
         getNavigationMenuText().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }

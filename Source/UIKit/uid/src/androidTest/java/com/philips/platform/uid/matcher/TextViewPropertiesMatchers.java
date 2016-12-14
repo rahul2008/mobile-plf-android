@@ -60,7 +60,7 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     setValues(((TextView) view).getLineSpacingExtra(), expectedValue);
-                    return ((TextView) view).getLineSpacingExtra() == expectedValue;
+                    return areEqual();
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
@@ -73,7 +73,7 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(View view) {
                 if (view instanceof TextView) {
                     setValues(((TextView) view).getCompoundDrawablePadding(), expectedValue);
-                    return ((TextView) view).getCompoundDrawablePadding() == expectedValue;
+                    return areEqual();
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
@@ -134,6 +134,19 @@ public class TextViewPropertiesMatchers {
                         return result;
                     }
                     return false;
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<? super View> isSameLineHeight(final float expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getLineHeight(), (int) expectedValue);
+                    return areEqual();
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }

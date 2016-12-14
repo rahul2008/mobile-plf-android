@@ -89,6 +89,7 @@
     <dimen name="uid_navigation_bar_title_margin_left_right">24dp</dimen>
     <dimen name="uid_navigation_bar_text_size">20sp</dimen>
     <dimen name="uid_navigation_bar_text_line_spacing_extra">24dp</dimen>
+    <integer name="uid_navigation_bar_text_line_spacing_multiplier">0</integer>
     <dimen name="uid_navigation_menu_text_margin">4dp</dimen>
 
     <!-- ProgressBar -->
