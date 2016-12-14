@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class CombinedDiscoveryStrategy implements DiscoveryStrategy, DiscoveryStrategy.DiscoveryListener {
+public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy implements DiscoveryStrategy.DiscoveryListener {
 
     private final Set<DiscoveryStrategy> strategies = new CopyOnWriteArraySet<>();
     private final Set<DiscoveryListener> discoveryListeners = new CopyOnWriteArraySet<>();
@@ -33,14 +33,14 @@ public class CombinedDiscoveryStrategy implements DiscoveryStrategy, DiscoverySt
     }
 
     @Override
-    public void start(Context context, @NonNull DiscoveryListener listener) throws MissingPermissionException {
-        start(context, listener, null);
+    public void start(Context context) throws MissingPermissionException {
+        start(context, null);
     }
 
     @Override
-    public void start(Context context, @NonNull DiscoveryListener discoveryListener, Collection<String> deviceTypes) throws MissingPermissionException {
+    public void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException {
         for (DiscoveryStrategy strategy : strategies) {
-            strategy.start(context, this, deviceTypes);
+            strategy.start(context, deviceTypes);
         }
     }
 
@@ -49,11 +49,6 @@ public class CombinedDiscoveryStrategy implements DiscoveryStrategy, DiscoverySt
         for (DiscoveryStrategy strategy : strategies) {
             strategy.stop();
         }
-    }
-
-    @Override
-    public void onDiscoveryStarted() {
-        // TODO
     }
 
     @Override
@@ -77,30 +72,7 @@ public class CombinedDiscoveryStrategy implements DiscoveryStrategy, DiscoverySt
         notifyNetworkNodeUpdated(networkNode);
     }
 
-    @Override
-    public void onDiscoveryFinished() {
-        // TODO
-    }
-
     private void addDiscoveryStrategy(@NonNull DiscoveryStrategy strategy) {
         strategies.add(strategy);
-    }
-
-    private void notifyNetworkNodeDiscovered(@NonNull NetworkNode networkNode) {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onNetworkNodeDiscovered(networkNode);
-        }
-    }
-
-    private void notifyNetworkNodeLost(@NonNull NetworkNode networkNode) {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onNetworkNodeLost(networkNode);
-        }
-    }
-
-    private void notifyNetworkNodeUpdated(@NonNull NetworkNode networkNode) {
-        for (DiscoveryListener listener : discoveryListeners) {
-            listener.onNetworkNodeUpdated(networkNode);
-        }
     }
 }

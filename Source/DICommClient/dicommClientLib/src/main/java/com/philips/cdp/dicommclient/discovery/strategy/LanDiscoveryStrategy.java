@@ -36,18 +36,19 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public final class LanDiscoveryStrategy<T extends DICommAppliance> implements DiscoveryStrategy {
+public final class LanDiscoveryStrategy<T extends DICommAppliance> extends ObservableDiscoveryStrategy {
+
+    private static final Lock LOCK = new ReentrantLock();
 
     private DICommApplianceDatabase<T> applianceDatabase;
     private DICommApplianceFactory<T> applianceFactory;
-    private DiscoveryListener discoveryListener;
-    private final Set<DiscoveryEventListener> discoveryEventListeners = new CopyOnWriteArraySet<>();
     private LinkedHashMap<String, T> allAppliancesMap;
     private List<NetworkNode> addedAppliances;
     private NetworkMonitor networkMonitor;
     private NetworkNodeDatabase networkNodeDatabase;
     private SsdpServiceHelper ssdpServiceHelper;
-    private static final Lock LOCK = new ReentrantLock();
+
+    private final Set<DiscoveryEventListener> discoveryEventListeners = new CopyOnWriteArraySet<>();
 
     private final Handler.Callback ssdpCallback = new Handler.Callback() {
 
@@ -68,21 +69,15 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
     }
 
     @Override
-    public void start(Context context, @NonNull DiscoveryListener discoveryListener) throws MissingPermissionException {
-        start(context, discoveryListener, null);
+    public void start(Context context) throws MissingPermissionException {
+        start(context, null);
     }
 
     @Override
-    public void start(Context context, @NonNull DiscoveryListener discoveryListener, Collection<String> deviceTypes) throws MissingPermissionException {
-        this.discoveryListener = discoveryListener;
-
+    public void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException {
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
             ssdpServiceHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
-
-            if (discoveryListener != null) {
-                discoveryListener.onDiscoveryStarted();
-            }
         }
         networkMonitor.startNetworkChangedReceiver();
     }
@@ -91,10 +86,6 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
     public void stop() {
         ssdpServiceHelper.stopDiscoveryImmediate();
         networkMonitor.stopNetworkChangedReceiver();
-
-        if (discoveryListener != null) {
-            discoveryListener.onDiscoveryFinished();
-        }
     }
 
     private void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
@@ -107,16 +98,10 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
 
         if (allAppliancesMap.containsKey(networkNode.getCppId())) {
             updateExistingAppliance(networkNode);
-
-            if (discoveryListener != null) {
-                discoveryListener.onNetworkNodeUpdated(networkNode);
-            }
+            notifyNetworkNodeUpdated(networkNode);
         } else {
             addNewAppliance(networkNode);
-
-            if (discoveryListener != null) {
-                discoveryListener.onNetworkNodeDiscovered(networkNode);
-            }
+            notifyNetworkNodeDiscovered(networkNode);
         }
     }
 
@@ -137,11 +122,9 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> implements Di
             }
         }
 
-        if (discoveryListener != null) {
-            final NetworkNode networkNode = createNetworkNode(deviceModel);
-            if (networkNode != null) {
-                discoveryListener.onNetworkNodeLost(networkNode);
-            }
+        final NetworkNode networkNode = createNetworkNode(deviceModel);
+        if (networkNode != null) {
+            notifyNetworkNodeLost(networkNode);
         }
     }
 

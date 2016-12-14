@@ -15,20 +15,20 @@ import java.util.Collection;
 public interface DiscoveryStrategy {
 
     interface DiscoveryListener {
-        void onDiscoveryStarted();
-
         void onNetworkNodeDiscovered(NetworkNode networkNode);
 
         void onNetworkNodeLost(NetworkNode networkNode);
 
         void onNetworkNodeUpdated(NetworkNode networkNode);
-
-        void onDiscoveryFinished();
     }
 
-    void start(Context context, @NonNull DiscoveryListener discoveryListener) throws MissingPermissionException;
+    void addDiscoveryListener(@NonNull DiscoveryListener discoveryListener);
 
-    void start(Context context, @NonNull DiscoveryListener discoveryListener, Collection<String> deviceTypes) throws MissingPermissionException;
+    void removeDiscoveryListener(@NonNull DiscoveryListener discoveryListener);
+
+    void start(Context context) throws MissingPermissionException;
+
+    void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException;
 
     void stop();
 
