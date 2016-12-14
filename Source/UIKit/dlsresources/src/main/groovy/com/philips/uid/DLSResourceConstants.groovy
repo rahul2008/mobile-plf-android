@@ -1,15 +1,21 @@
 package com.philips.uid
 
 class DLSResourceConstants {
+    //Theme specific constants
     static final LIB_PREFIX = "uid"
+    static final THEME_PREFIX = "Theme.DLS"
+    static final THEME_DECLARED_ID = "PhilipsUID"
+    static final THEME_DECLARED_STYLEABLE = "declare-styleable"
+    static final FORMAT_REF_OR_COLOR = "reference|color"
+    static final ITEM_NAME = "name"
+    static final ITEM_FORMAT = "format"
 
     static final COLOR_RANGES = [GroupBlue: 'group_blue', Blue: 'blue', Aqua: 'aqua',
                          Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
 
     static final TONAL_RANGES = ['UltraLight', 'VeryLight', 'Light', 'Bright', 'VeryDark']
 
-
-
+    //Path constants
     static final String PROJECT_BASE_PATH = "src/main/groovy/com/philips"
     static final String PATH_RES = "${PROJECT_BASE_PATH}/res"
     static final String PATH_SEMANTIC_BRUSH_JSON = "${PATH_RES}/semantic_brushes_generated.json"

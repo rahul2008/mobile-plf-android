@@ -35,10 +35,10 @@ def flushAttrsFile(attrList) {
     def xml = new MarkupBuilder(sw)
     xml.setDoubleQuotes(true)
     xml.resources() {
-        xml.'declare-styleable'(name: "PhilipsUID") {
+        xml."${DLSResourceConstants.THEME_DECLARED_STYLEABLE}"("${DLSResourceConstants.ITEM_NAME}": DLSResourceConstants.THEME_DECLARED_ID) {
 
             attrList.each {
-                attr(name: it.attrName, format: "reference|color")
+                attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
             }
         }
     }
@@ -57,19 +57,19 @@ def createBlueDarkStyle(allAttributes) {
     DLSResourceConstants.COLOR_RANGES.each {
         theme, color_name ->
 
-            def sw = new StringWriter()
-            def xml = new MarkupBuilder(sw)
+            def writer = new StringWriter()
+            def xml = new MarkupBuilder(writer)
             xml.setDoubleQuotes(true)
 
             xml.resources() {
                 DLSResourceConstants.TONAL_RANGES.each {
                     def tonalRange = "$it"
-                    xml.style(name: "Theme.Philips.${theme}${it}") {
+                    xml.style("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.THEME_PREFIX}.${theme}${it}") {
 
                         allAttributes.each {
                             def tr = tonalRange.toString()
                             if (it.attributeMap.containsKey(tr)) {
-                                item(name: it.attrName, it.attributeMap.get(tr).getValue("${color_name}", colorsXmlInput))
+                                item("${DLSResourceConstants.ITEM_NAME}": it.attrName, it.attributeMap.get(tr).getValue("${color_name}", colorsXmlInput))
                             }
                         }
                     }
@@ -82,6 +82,6 @@ def createBlueDarkStyle(allAttributes) {
             }
 
             themeFile.createNewFile()
-            themeFile.write(sw.toString())
+            themeFile.write(writer.toString())
     }
 }

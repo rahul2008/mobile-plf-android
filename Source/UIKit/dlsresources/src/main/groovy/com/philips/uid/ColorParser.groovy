@@ -21,9 +21,9 @@ void parseColorsAndCreateColorsXml() {
                         def lowerCaseColorKey = colorRange.replaceAll("-", "_").toLowerCase()
                         def lowerCaseColorLevel = colorLevel.replaceAll("-", "_").toLowerCase()
                         if (lowerCaseColorKey == lowerCaseColorLevel) {
-                            color(name: "${DLSResourceConstants.LIB_PREFIX}_${lowerCaseColorKey}", "${colorCode}")
+                            color("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}_${lowerCaseColorKey}", "${colorCode}")
                         } else {
-                            color(name: "${DLSResourceConstants.LIB_PREFIX}_${lowerCaseColorKey}_${lowerCaseColorLevel}", "${colorCode}")
+                            color("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}_${lowerCaseColorKey}_${lowerCaseColorLevel}", "${colorCode}")
                         }
                 }
         }
