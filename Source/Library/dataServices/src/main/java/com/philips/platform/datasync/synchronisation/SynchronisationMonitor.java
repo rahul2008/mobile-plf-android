@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.utils.DSLog;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -35,12 +36,12 @@ public class SynchronisationMonitor extends EventMonitor {
     }
 
     public void onEventAsync(ReadDataFromBackendRequest event) {
-       // Log.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
+        DSLog.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
         pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
     }
 
     public void onEventAsync(WriteDataToBackendRequest event) {
-        //Log.i("***SPO***","In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
+        DSLog.i("***SPO***","In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
         //TODO: also should pull new data from BE
         pushSynchronise.startSynchronise(event.getEventId());
     }

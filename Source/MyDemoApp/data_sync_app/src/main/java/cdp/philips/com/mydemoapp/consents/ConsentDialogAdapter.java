@@ -22,7 +22,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsent;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     private ArrayList<? extends ConsentDetail> consentDetails;

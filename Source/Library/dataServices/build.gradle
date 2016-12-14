@@ -48,9 +48,9 @@ allprojects {
 
     apply plugin: 'com.jfrog.artifactory-upload'
 
-    group = 'com.philips.cdp'
+   // group = 'com.philips.cdp'
 
-    artifactory {
+  /*  artifactory {
         contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         publish {
             repository {
@@ -68,7 +68,7 @@ allprojects {
                 repoKey = 'libs-release-local'
             }
         }
-    }
+    }*/
 }
 
 group = 'com.philips.cdp'
@@ -79,7 +79,7 @@ artifactory {
     publish {
 	contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = "libs-snapshot-local-ios"
+            repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
           //  publishPom = true
@@ -211,7 +211,7 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testDebugCompile "org.mockito:mockito-all:1.10.17"
+    testCompile "org.mockito:mockito-all:1.10.17"
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 }
 

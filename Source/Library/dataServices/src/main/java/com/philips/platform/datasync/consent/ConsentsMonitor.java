@@ -14,6 +14,7 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import java.net.HttpURLConnection;
@@ -171,7 +172,11 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     public boolean isUserInvalid() {
-        final String accessToken = mDataServicesManager.getUCoreAccessProvider().getAccessToken();
-        return !mDataServicesManager.getUCoreAccessProvider().isLoggedIn() || accessToken == null || accessToken.isEmpty();
+        UCoreAccessProvider uCoreAccessProvider = mDataServicesManager.getUCoreAccessProvider();
+        if(uCoreAccessProvider!=null) {
+            String accessToken = uCoreAccessProvider.getAccessToken();
+            return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
+        }
+        return false;
     }
 }

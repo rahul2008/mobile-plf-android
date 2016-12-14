@@ -25,7 +25,6 @@ apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
@@ -49,9 +48,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
-        }
+		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' } 
 //        apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -92,7 +89,7 @@ version = objcdp.getVersion()
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz')
+def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz' )
 artifacts {
     archives zipDoc
     archives zipSrc
@@ -100,7 +97,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
@@ -111,7 +108,7 @@ task tgzTask(type: Tar) {
     classifier = 'src'
     from projectDir
     include '**/*'
-    exclude('build')
+    exclude ('build')
     extension = 'tgz'
     compression = Compression.GZIP
 }
@@ -125,8 +122,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 5
-        versionName "0.1.6"
-        vectorDrawables.useSupportLibrary = true
+        versionName "0.1.2"
+vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         generatedDensities = []
@@ -147,11 +144,11 @@ android {
         javaMaxHeapSize "4g" // 2g should be also OK
     }
     buildTypes {
-        // release {
-        //   minifyEnabled true
-        // shrinkResources true
-        // proguardFile 'proguard-rules.pro'
-        //signingConfig signingConfigs.release
+       // release {
+         //   minifyEnabled true
+           // shrinkResources true
+           // proguardFile 'proguard-rules.pro'
+            //signingConfig signingConfigs.release
         //}
 
         debug {
