@@ -179,7 +179,7 @@ public static <fields>;
 ##--------------- Eventbus  ----------
 
 -keepclassmembers class ** {
-    !private void onEvent*(**);
+    !private void onEvent*(**);}
 #     @org.greenrobot.eventbus.Subscribe <methods>;
 #     public void onEvent(**);
 #     public void onEventMainThread(**);
@@ -187,7 +187,7 @@ public static <fields>;
 #     public void onEvent*(***);
 #     void onEvent*(**);
 #     void onEvent*(***);
-}
+
 #-keep enum org.greenrobot.eventbus.ThreadMode { *; }
 #-keep class de.greenrobot.event.** { *; }
 #-keep class de.greenrobot.** {*;}
@@ -237,6 +237,8 @@ public static <fields>;
 -keep class com.philips.platform.datasync.moments.UCoreMeasurement { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMomentsHistory { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMomentSaveResponse { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMeasurementGroupDetail { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
