@@ -298,6 +298,8 @@ public class HsdpUser {
     }
 
     private boolean fileExistance(Context context ,String fname){
+        System.out.println("file existance"+context);
+        System.out.println("file existance"+fname);
         File file = context.getFileStreamPath(fname);
         return file.exists();
     }

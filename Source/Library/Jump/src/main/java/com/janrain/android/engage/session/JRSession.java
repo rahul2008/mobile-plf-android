@@ -120,6 +120,8 @@ public class JRSession implements JRConnectionManagerDelegate {
     private JRActivityObject mActivity;
     private String mTokenUrl;
     private String mAppId;
+    //WeChat China
+    private String mAppUrl;
     private String mRpBaseUrl;
     private String mUrlEncodedAppName;
     private String mUniqueIdentifier;
@@ -145,17 +147,18 @@ public class JRSession implements JRConnectionManagerDelegate {
         return sInstance;
     }
 
-    public static JRSession getInstance(String appId, String tokenUrl, JRSessionDelegate delegate) {
+    //WeChat China
+    public static JRSession getInstance(String appId, String appUrl, String tokenUrl, JRSessionDelegate delegate) {
         if (sInstance != null) {
             if (sInstance.isUiShowing()) {
                 LogUtils.loge("Cannot reinitialize JREngage while its UI is showing");
             } else {
                 LogUtils.logd("reinitializing, registered delegates will be unregistered");
-                sInstance.initialize(appId, tokenUrl, delegate);
+                sInstance.initialize(appId, appUrl, tokenUrl, delegate);
             }
         } else {
             LogUtils.logd("returning new instance.");
-            sInstance = new JRSession(appId, tokenUrl, delegate);
+            sInstance = new JRSession(appId, appUrl, tokenUrl, delegate);
         }
 
         return sInstance;
@@ -199,14 +202,15 @@ public class JRSession implements JRConnectionManagerDelegate {
         return new JRProvider(providerId, dict);
     }
 
-    private JRSession(String appId, String tokenUrl, JRSessionDelegate delegate) {
-        initialize(appId, tokenUrl, delegate);
+    //WeChat China
+    private JRSession(String appId, String appUrl, String tokenUrl, JRSessionDelegate delegate) {
+        initialize(appId, appUrl, tokenUrl, delegate);
     }
 
     /* We runtime type check the deserialized generics so we can safely ignore these unchecked
      * assignment warnings. */
     @SuppressWarnings("unchecked")
-    private void initialize(String appId, String tokenUrl, JRSessionDelegate delegate) {
+    private void initialize(String appId, String appUrl, String tokenUrl, JRSessionDelegate delegate) {
         LogUtils.logd("initializing instance.");
 
         // for configurability to test against e.g. staging
@@ -217,6 +221,7 @@ public class JRSession implements JRConnectionManagerDelegate {
         mDelegates.add(delegate);
 
         mAppId = appId;
+        mAppUrl = appUrl;
         mTokenUrl = tokenUrl;
         mUniqueIdentifier = this.getUniqueIdentifier();
 
@@ -693,28 +698,31 @@ public class JRSession implements JRConnectionManagerDelegate {
         mError = startGetConfiguration();
     }
 
-    public void tryToReconfigureLibraryWithNewAppId(String engageAppId) {
+    //WeChat China
+    public void tryToReconfigureLibraryWithNewAppId(String engageAppId, String engageAppUrl) {
         clearEngageConfigurationCache();
         mAppId = engageAppId;
+        mAppUrl = engageAppUrl;
         tryToReconfigureLibrary();
     }
 
+    //WeChat China
     private JREngageError startGetConfiguration() {
-        try {
-            mEngageBaseUrl = (Jump.getFlowEngage()==null)? RPXNOW_BASE_URL :Jump.getFlowEngage();
-            String urlString = String.format(UNFORMATTED_CONFIG_URL,
-                    mEngageBaseUrl,
-                    mAppId,
-                    mUrlEncodedAppName,
-                    mUrlEncodedLibraryVersion);
-            BasicNameValuePair eTagHeader = new BasicNameValuePair("If-None-Match", mOldEtag);
-            List<NameValuePair> headerList = new ArrayList<NameValuePair>();
-            headerList.add(eTagHeader);
-
-            JRConnectionManager.createConnection(urlString, this, TAG_GET_CONFIGURATION, headerList, null, false);
-        } catch (Exception e) {
-            LogUtils.loge("failed", e);
+        String engageBaseUrl = mEngageBaseUrl;
+        if(!mAppUrl.isEmpty()){
+            engageBaseUrl = String.format("https://%s", mAppUrl);
         }
+        String urlString = String.format(UNFORMATTED_CONFIG_URL,
+                engageBaseUrl,
+                mAppId,
+                mUrlEncodedAppName,
+                mUrlEncodedLibraryVersion);
+        BasicNameValuePair eTagHeader = new BasicNameValuePair("If-None-Match", mOldEtag);
+        List<NameValuePair> headerList = new ArrayList<NameValuePair>();
+        headerList.add(eTagHeader);
+
+        JRConnectionManager.createConnection(urlString, this, TAG_GET_CONFIGURATION, headerList, null, false);
+
         return null;
     }
 

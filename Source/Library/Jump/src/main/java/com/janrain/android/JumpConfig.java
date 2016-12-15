@@ -210,4 +210,14 @@ public final class JumpConfig {
 
     public String captureRecoverUri;
 
+    /**
+     * WeChat China settings...
+     */
+    public String engageAppUrl;
+    public String weChatAppId;
+    public String weChatAppSecret;
+    public String downloadFlowUrl;
+
+
+
 }

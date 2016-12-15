@@ -215,7 +215,8 @@ public class Capture {
         CaptureApiConnection c = new CaptureApiConnection(url);
 
         c.addAllToParams(CaptureFlowUtils.getFormFields(newUser, registrationForm, Jump.getCaptureFlow()));
-
+        //WeChat China
+        c.addAllToParams("registration_emailAddressOrMobile",newUser.optString("registration_emailAddressOrMobile"));
         String refreshSecret = generateAndStoreRefreshSecret();
 
         if (refreshSecret == null) {

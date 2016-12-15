@@ -73,9 +73,14 @@ public class CaptureFlowUtils {
                 continue;
             }
 
+
             Object schemaId = ((Map) fieldEntry.getValue()).get("schemaId");
 
             String key = (String) fieldEntry.getKey();
+            //WeChat China
+            //Only added in as a work around to flow fields with no schemaId defined
+            //These are most likely not an issue in production flows.
+            if (schemaId != null){
 
             if (schemaId instanceof String) {
                 String dotPath = (String) schemaId;
@@ -95,6 +100,7 @@ public class CaptureFlowUtils {
 
                     addValueForDotPathToParams(retval, dotPath, newUser, paramName);
                 }
+            }
             }
         }
 

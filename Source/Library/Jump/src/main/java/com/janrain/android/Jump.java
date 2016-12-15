@@ -131,6 +131,9 @@ public class Jump {
         String flowCDN;
         String flowEngage;
 
+        //WeChat China
+        /*package*/ String engageAppUrl;
+        /*package*/ String downloadFlowUrl;
 
         // Transient state values:
         /*
@@ -198,8 +201,9 @@ public class Jump {
         state.initCalled = true;
 
         state.context = context;
+        //WeChat China
         state.jrEngage = JREngage.initInstance(context.getApplicationContext(), jumpConfig.engageAppId,
-                null, null, jumpConfig.customProviders);
+                jumpConfig.engageAppUrl, null, null, jumpConfig.customProviders);
         state.captureSocialRegistrationFormName = jumpConfig.captureSocialRegistrationFormName;
         state.captureTraditionalRegistrationFormName = jumpConfig.captureTraditionalRegistrationFormName;
         state.captureEditUserProfileFormName = jumpConfig.captureEditUserProfileFormName;
@@ -222,8 +226,12 @@ public class Jump {
             state.captureRedirectUri = jumpConfig.captureRedirectUri;
         }
         state.captureRecoverUri = jumpConfig.captureRecoverUri;
-
         state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET,new SecureStorageInterface.SecureStorageError());
+
+        //WeChat China
+        state.engageAppUrl = jumpConfig.engageAppUrl;
+        state.downloadFlowUrl = jumpConfig.downloadFlowUrl;
+
 
 
         final Context tempContext = context;
@@ -282,8 +290,8 @@ public class Jump {
      * @param engageAppId
      *   The new Engage app ID
      */
-    public static void reconfigureWithNewEngageAppId(String engageAppId) {
-        state.jrEngage.changeEngageAppId(engageAppId);
+    public static void reconfigureWithNewEngageAppId(String engageAppId, String engageAppUrl) {
+        state.jrEngage.changeEngageAppId(engageAppId, engageAppUrl);
     }
 
     /**
@@ -960,18 +968,33 @@ public class Jump {
 
     private static void downloadFlow() {
         String flowVersion = state.captureFlowVersion != null ? state.captureFlowVersion : "HEAD";
-
+        // below commented  code need to confirm with Vinayak
     //After
-        if (state.flowCDN == null)
-        {
-            state.flowCDN = String.format("https://%s.cloudfront.net",state.flowUsesTestingCdn ? "dlzjvycct5xka" : "d1lqe9temigv1p");
+//        if (state.flowCDN == null)
+//        {
+//            state.flowCDN = String.format("https://%s.cloudfront.net",state.flowUsesTestingCdn ? "dlzjvycct5xka" : "d1lqe9temigv1p");
+//        }
+//        String flowUrlString =
+//                String.format("%s/widget_data/flows/%s/%s/%s/%s.json",
+//                        state.flowCDN,
+//                        state.captureAppId, state.captureFlowName, flowVersion,
+//                        state.captureLocale);
+//        System.out.println("FLOW CD : "+flowUrlString);
+
+        String flowUrlString = "";
+
+        if(!state.downloadFlowUrl.isEmpty()){
+            flowUrlString = String.format("https://%s/widget_data/flows/%s/%s/%s/%s.json",
+                    state.downloadFlowUrl,
+                    state.captureAppId, state.captureFlowName, flowVersion,
+                    state.captureLocale);
+        }else{
+            flowUrlString = String.format("https://%s.cloudfront.net/widget_data/flows/%s/%s/%s/%s.json",
+                    state.flowUsesTestingCdn ? "dlzjvycct5xka" : "d1lqe9temigv1p",
+                    state.captureAppId, state.captureFlowName, flowVersion,
+                    state.captureLocale);
         }
-        String flowUrlString =
-                String.format("%s/widget_data/flows/%s/%s/%s/%s.json",
-                        state.flowCDN,
-                        state.captureAppId, state.captureFlowName, flowVersion,
-                        state.captureLocale);
-        System.out.println("FLOW CD : "+flowUrlString);
+
 
         //Before
        /* String flowUrlString =
@@ -1364,7 +1387,7 @@ public class Jump {
     public static void reinitialize(Context context, JumpConfig jumpConfig) {
         state.initCalled = false;
         init(context, jumpConfig);
-        state.jrEngage.changeEngageAppId(jumpConfig.engageAppId);
+        state.jrEngage.changeEngageAppId(jumpConfig.engageAppId, jumpConfig.engageAppUrl);
     }
 
     public static String getJumpVersion(){

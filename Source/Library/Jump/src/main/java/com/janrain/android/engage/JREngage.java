@@ -198,11 +198,13 @@ public class JREngage {
      * @return The shared instance of the JREngage object initialized with the given
      *         appId, tokenUrl, and delegate.  If the given appId is null, returns null
      */
+    //WeChat China
     public static JREngage initInstance(final Context context,
                                         final String appId,
+                                        final String appUrl,
                                         final String tokenUrl,
                                         final JREngageDelegate delegate) {
-        return JREngage.initInstance(context, appId, tokenUrl, delegate, null);
+        return JREngage.initInstance(context, appId, appUrl, tokenUrl, delegate, null);
     }
 
     /**
@@ -222,8 +224,10 @@ public class JREngage {
      * @return The shared instance of the JREngage object initialized with the given
      *         appId, tokenUrl, and delegate.  If the given appId is null, returns null
      */
+    //WeChat China
     public static JREngage initInstance(final Context context,
                                         final String appId,
+                                        final String appUrl,
                                         final String tokenUrl,
                                         final JREngageDelegate delegate,
                                         final Map<String, JRDictionary> customProviders) {
@@ -246,7 +250,7 @@ public class JREngage {
             // Initialize JRSession in background thread because it does a bunch of IO
             ThreadUtils.executeInBg(new Runnable() {
                 public void run() {
-                    sInstance.mSession = JRSession.getInstance(appId, tokenUrl, sInstance.mJrsd);
+                    sInstance.mSession = JRSession.getInstance(appId, appUrl, tokenUrl, sInstance.mJrsd);
                     sInstance.mSession.setCustomProviders(customProviders);
 
                     // any use of the library is guarded by blockOnInitialization, which checks this ivar,
@@ -712,7 +716,8 @@ public class JREngage {
      * @param engageAppId
      *   The new Engage app id
      */
-    public void changeEngageAppId(String engageAppId) {
+    //WeChat China
+    public void changeEngageAppId(String engageAppId, String engageAppUrl) {
         blockOnInitialization();
 
         mConfigFinishListeners.add(new ConfigFinishListener() {
@@ -733,7 +738,7 @@ public class JREngage {
                 }
             }
         });
-        JRSession.getInstance().tryToReconfigureLibraryWithNewAppId(engageAppId);
+        JRSession.getInstance().tryToReconfigureLibraryWithNewAppId(engageAppId, engageAppUrl);
     }
 
     /**

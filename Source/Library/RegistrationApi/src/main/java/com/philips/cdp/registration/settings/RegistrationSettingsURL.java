@@ -103,6 +103,9 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
         jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
 
+    //Added for We chat: need to cross check with maqsood/vinayak
+        jumpConfig.engageAppUrl = "philips-staging.login.cn.janrain.com";
+        jumpConfig.downloadFlowUrl = "janrain-capture-static.cn.janrain.com";
 
         initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
