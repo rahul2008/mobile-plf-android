@@ -1,5 +1,3 @@
-package com.philips.uid
-
 class ThemeAttribute {
     def attrName
     def attributeMap = new HashMap()

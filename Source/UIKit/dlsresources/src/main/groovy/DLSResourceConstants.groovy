@@ -1,5 +1,3 @@
-package com.philips.uid
-
 class DLSResourceConstants {
     //Theme specific constants
     static final LIB_PREFIX = "uid"
@@ -16,12 +14,12 @@ class DLSResourceConstants {
     static final TONAL_RANGES = ['UltraLight', 'VeryLight', 'Light', 'Bright', 'VeryDark']
 
     //Path constants
-    static final String PROJECT_BASE_PATH = "src/main/groovy/com/philips"
-    static final String PATH_RES = "${PROJECT_BASE_PATH}/res"
+    static final String PROJECT_BASE_PATH = "src/main/groovy"
+    static final String PATH_RES = "src/main/res"
     static final String PATH_SEMANTIC_BRUSH_JSON = "${PATH_RES}/semantic_brushes_generated.json"
     static final String PATH_COLOR_RANGES_JSON = "${PATH_RES}/color_ranges.json"
 
-    static final String PATH_OUT = "${PROJECT_BASE_PATH}/out"
+    static final String PATH_OUT = "generated"
     static final String PATH_OUT_THEME_FILE = "${PATH_OUT}/uid_theme_%s.xml"
     static final String PATH_OUT_COLORS_FILE = "${PATH_OUT}/uid_colors.xml"
     static final String PATH_OUT_ATTRS_FILE = "${PATH_OUT}/uid_attrs.xml"
