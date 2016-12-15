@@ -1,7 +1,5 @@
 package com.philips.platform.core.monitors;
 
-import android.support.annotation.NonNull;
-
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
@@ -16,8 +14,6 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
-import com.philips.platform.datasync.consent.ConsentsClient;
-import com.philips.platform.datasync.consent.ConsentsMonitor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +21,6 @@ import org.mockito.Mock;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -67,15 +62,13 @@ public class UpdatingMonitorTest {
     DBFetchingInterface dbFetchingInterface;
 
     UpdatingMonitor updatingMonitor;
-
+    @Mock
+    BackendResponse backendResponseMock;
+    @Mock
+    BackendMomentRequestFailed backendMomentRequestFailedMock;
     @Mock
     private Eventing eventingMock;
 
-    @Mock
-    BackendResponse backendResponseMock;
-
-    @Mock
-    BackendMomentRequestFailed backendMomentRequestFailedMock;
     @Before
     public void setUp() {
         initMocks(this);
@@ -86,11 +79,13 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldDeleteUpdateAndPostMoment_whenMomentUpdateRequestIsCalled() throws Exception {
-
+        when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
         when(momentUpdateRequestmock.getMoment()).thenReturn(momentMock);
         updatingMonitor.onEventAsync(momentUpdateRequestmock);
         verify(momentMock).setSynced(false);
+        verify(dbUpdatingInterface).updateOrSaveMomentInDatabase(momentMock);
     }
+
     @Test
     public void shouldDeleteUpdateAndPostMoment_whenDatabaseConsentUpdateRequestIsCalled() throws Exception {
 
@@ -106,6 +101,7 @@ public class UpdatingMonitorTest {
         updatingMonitor.onEventAsync(consentBackendSaveResponseMock);
 //        verify(consentMock).setSynced(false);
     }
+
     @Test
     public void shouldDeleteUpdateAndPostMoment_whenonEventBackgroundThreadIsCalled() throws Exception {
 
@@ -132,13 +128,14 @@ public class UpdatingMonitorTest {
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         updatingMonitor.onEventBackgroundThread(backendMomentListSaveRequestMock);
         List<? extends Moment> moments = backendMomentListSaveRequestMock.getList();
-        //verify(dbUpdatingInterface).processMomentsReceivedFromBackend(moments);
+       // verify(dbUpdatingInterface).processMomentsReceivedFromBackend(moments);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
         updatingMonitor.onEventBackgroundThread(momentDataSenderCreatedRequestMock);
         List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
-       // verify(dbUpdatingInterface).processCreatedMoment(moments);
+        // verify(dbUpdatingInterface).processCreatedMoment(moments);
     }
+
 }

@@ -89,7 +89,7 @@ public class UpdatingMonitor extends EventMonitor {
             eventing.post(new WriteDataToBackendRequest());
             return;
         }
-        int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
+        dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
         eventing.post(new WriteDataToBackendRequest());
     }
 

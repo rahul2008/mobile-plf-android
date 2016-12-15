@@ -80,13 +80,11 @@ public class MomentsDataFetcherTest {
     @Mock
     Moment momentMock;
 
-    @Mock
     DataServiceManagerMock dataServiceManagerMock;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        when(dataServiceManagerMock.getUCoreAccessProvider()).thenReturn(accessProviderMock);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(USER_ID);
