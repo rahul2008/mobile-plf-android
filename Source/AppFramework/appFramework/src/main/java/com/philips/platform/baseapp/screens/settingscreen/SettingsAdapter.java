@@ -261,6 +261,7 @@ public class SettingsAdapter extends BaseAdapter{
                                 progressDialog = new ProgressDialog(activityContext);
                                 progressDialog.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
                                 progressDialog.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
+                                progressDialog.setCancelable(false);
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progressDialog.show();
                                 userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
