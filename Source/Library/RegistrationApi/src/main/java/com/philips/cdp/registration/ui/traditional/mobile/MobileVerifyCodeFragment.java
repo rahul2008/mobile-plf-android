@@ -415,13 +415,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
         String  eMobileNumber;
         System.out.println("Configration : "+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-        if (!mUser.getMobile().contains("86")){
-            eMobileNumber="86"+mUser.getMobile();
-        }else {
-            eMobileNumber=mUser.getMobile();
-        }
         String url = initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment())+"?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + eMobileNumber;
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mUser.getMobile();
 
         System.out.println("RESEND URL : "+url);
 

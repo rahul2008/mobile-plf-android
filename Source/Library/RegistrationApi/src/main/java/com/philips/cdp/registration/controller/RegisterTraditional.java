@@ -136,14 +136,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         if (FieldsValidator.isValidEmail(mUserEmailorMobile)){
             mProfile.setEmail(mUserEmailorMobile);
         }else {
-            // check mobile umber validation
-            String eMobileNumber;
-            if (!mUserEmailorMobile.contains("86")){
-                eMobileNumber="86"+mUserEmailorMobile;
-            }else {
-                eMobileNumber=mUserEmailorMobile;
-            }
-            mProfile.setMobile(eMobileNumber);
+            mProfile.setMobile(mUserEmailorMobile);
         }
         mProfile.setPassword(password);
         mProfile.setOlderThanAgeLimit(olderThanAgeLimit);
