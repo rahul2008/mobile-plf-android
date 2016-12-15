@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
@@ -82,24 +83,25 @@ public abstract class BaseFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public BaseState getNextState(BaseState currentState, String eventId) {
-        String string;
+    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException {
+        String appFlowEventId;
         if (null != currentState && null != eventId) {
             appFlowEvents = getAppFlowEvents(currentState.getStateID());
             if (appFlowEvents != null) {
                 for (final AppFlowEvent appFlowEvent : appFlowEvents) {
-                    string = appFlowEvent.getEventId();
-                    if (appFlowEvent.getEventId() != null && string.equals(eventId)) {
+                    appFlowEventId = appFlowEvent.getEventId();
+                    if (appFlowEvent.getEventId() != null && appFlowEventId.equals(eventId)) {
                         final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                         BaseState appFlowNextState = getUiState(appFlowNextStates);
                         if (appFlowNextState != null) {
-                            previousState = this.currentState;
+                            previousState = currentState;
                             setCurrentState(appFlowNextState);
                             return appFlowNextState;
                         }
                         break;
                     }
                 }
+                throw new NoEventFoundException();
             }
         } else {
             BaseState baseState = stateMap.get(firstState);

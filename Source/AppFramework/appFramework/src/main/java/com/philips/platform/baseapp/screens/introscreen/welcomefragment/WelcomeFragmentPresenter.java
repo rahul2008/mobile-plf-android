@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -35,15 +36,20 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
     @Override
     public void onEvent(final int componentID) {
         appFrameworkApplication = getApplicationContext();
-        welcomeFragmentView.showActionBar();
         String eventState = getEventState(componentID);
         if (eventState.equals(WELCOME_DONE)) {
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+        try {
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), "high");
+        } catch (NoEventFoundException e) {
+            e.printStackTrace();
+        }
+
         if(baseState!=null) {
+            welcomeFragmentView.showActionBar();
             baseState.navigate(getFragmentLauncher());
         }
     }

@@ -8,6 +8,7 @@ package com.philips.platform.baseapp.screens.settingscreen;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
@@ -50,7 +51,11 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
         String eventState = getEventState(componentID);
         if (settingsView != null) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+            try {
+                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+            } catch (NoEventFoundException e) {
+                e.printStackTrace();
+            }
         }
         if (baseState != null) {
             baseState.setUiStateData(uiStateData);
