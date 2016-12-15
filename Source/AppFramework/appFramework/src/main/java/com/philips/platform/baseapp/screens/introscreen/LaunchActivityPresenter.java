@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
@@ -48,7 +49,11 @@ public class LaunchActivityPresenter extends UIBasePresenter{
 
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+        try {
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+        } catch (NoEventFoundException e) {
+            e.printStackTrace();
+        }
         if (baseState != null && !(baseState instanceof UserRegistrationState)) {
             baseState.setStateListener(this);
             baseState.setUiStateData(getUiStateData());
