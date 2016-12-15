@@ -272,9 +272,11 @@ public class TemperaturePresenter {
 
                 switch (addOrUpdate) {
                     case ADD:
+                        mDialogButton.setEnabled(false);
                         createAndSaveMoment();
                         break;
                     case UPDATE:
+                        mDialogButton.setEnabled(false);
                         try {
                             updateMoment((OrmMoment) moment);
                         } catch (java.sql.SQLException e) {
