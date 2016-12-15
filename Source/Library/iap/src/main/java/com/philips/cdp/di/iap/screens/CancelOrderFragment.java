@@ -24,6 +24,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
 
     public static final String TAG = CancelOrderFragment.class.getName();
     private String phoneNumber;
+    private Context mContext;
 
     public static CancelOrderFragment createInstance
             (Bundle args, InAppBaseFragment.AnimationType animType) {
@@ -45,13 +46,13 @@ public class CancelOrderFragment extends InAppBaseFragment {
         Bundle bundle = getArguments();
         if (null != bundle) {
                 phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
-                phoneNumberText.setText("Call " + PhoneNumberUtils.formatNumber(phoneNumber,
+                phoneNumberText.setText(mContext.getString(R.string.iap_call)+ " " + PhoneNumberUtils.formatNumber(phoneNumber,
                         HybrisDelegate.getInstance().getStore().getCountry()));
                 String weekdaysTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
                 String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
-                openingTimingText.setText(getString(R.string.iap_opening_hours) + weekdaysTiming + "\n" + saturdayTiming);
-                cancelOrderId.setText(getString(R.string.iap_cancel_your_order) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
-                keepOrderText.setText(getString(R.string.iap_keep_order_number) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
+                openingTimingText.setText(mContext.getString(R.string.iap_opening_hours) + weekdaysTiming + "\n" + saturdayTiming);
+                cancelOrderId.setText(mContext.getString(R.string.iap_cancel_your_order) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
+                keepOrderText.setText(mContext.getString(R.string.iap_keep_order_number) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
         }
         phoneNumberText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +70,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
     }
 
     @Override

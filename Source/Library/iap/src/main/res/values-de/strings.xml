@@ -137,7 +137,7 @@
 <string name="iap_order_processing">Wird verarbeitet</string>
 <string name="iap_order_completed">Abgeschlossen</string>
 <string name="iap_not_shipped_msg">Ihre Bestellung wurde noch nicht versendet. Sie wird voraussichtlich innerhalb von 24 Stunden nach der Bestellbestätigung an den Kurierdienst übergeben.</string>
-<string name="iap_order_completed_text">Der Versand erfolgt durch \nFedEx (Päckchen) \nTrackingnummer %1$s</string>
+<string name="iap_order_completed_text">Der Versand erfolgt durch \nFedEx (Päckchen) \nTrackingnummer ##</string>
 <string name="iap_order_completed_text_without_track_id">Der Versand erfolgt durch \nFedEx (Päckchen)</string>
 <string name="iap_view_invoice">Rechnung anzeigen</string>
 <string name="iap_invoice">Rechnung</string>
@@ -198,4 +198,13 @@
 <string name="iap_no_internet">Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.</string>
 <string name="iap_server_problem">Überprüfen Sie Ihre Internetverbindung, oder versuchen Sie es später erneut, wenn das Problem weiterhin auftritt. Möglicherweise ist es ein Server-Problem.</string>
 <string name="iap_authentication_failure">Authentifizierung fehlgeschlagen</string>
+<string name="iap_stock_left"></string>
+<string name="iap_delete_item_alert_title"></string>
+<string name="iap_delete_item_alert_message"></string>
+<string name="iap_user_not_registered"></string>
+<string name="iap_invalid_product_ctn"></string>
+<string name="iap_call"></string>
+<string name="iap_validating_address"></string>
+<string name="iap_fetching_payment"></string>
+<string name="iap_select_delivery"></string>
 </resources>

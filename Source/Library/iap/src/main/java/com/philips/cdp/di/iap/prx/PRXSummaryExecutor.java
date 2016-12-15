@@ -28,7 +28,7 @@ public class PRXSummaryExecutor {
     Context mContext;
     ArrayList<String> mCtns;
     AbstractModel.DataLoadListener mDataLoadListener;
-    private HashMap<String,SummaryModel> mPRXSummaryData;
+    private HashMap<String, SummaryModel> mPRXSummaryData;
 
     //Handling error cases where Product is in Hybris but not in PRX store.
     protected volatile int mProductUpdateCount;
@@ -41,14 +41,14 @@ public class PRXSummaryExecutor {
         mPRXSummaryData = new HashMap<>();
     }
 
-    public void preparePRXDataRequest(){
-        for(String ctn: mCtns){
+    public void preparePRXDataRequest() {
+        for (String ctn : mCtns) {
             if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
                 mProductUpdateCount++;
                 mProductPresentInPRX++;
                 mPRXSummaryData.put(ctn, CartModelContainer.getInstance().getProductSummary(ctn));
-            }else {
-                executeRequest(ctn,prepareSummaryRequest(ctn));
+            } else {
+                executeRequest(ctn, prepareSummaryRequest(ctn));
             }
         }
 
@@ -59,7 +59,7 @@ public class PRXSummaryExecutor {
         }
     }
 
-    protected void executeRequest(final String ctn,final ProductSummaryRequest productSummaryBuilder) {
+    protected void executeRequest(final String ctn, final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
@@ -67,8 +67,8 @@ public class PRXSummaryExecutor {
             public void onResponseSuccess(ResponseData responseData) {
                 mProductUpdateCount++;
                 mProductPresentInPRX++;
-                SummaryModel summaryModel = (SummaryModel)responseData;
-                if(summaryModel.isSuccess()) {
+                SummaryModel summaryModel = (SummaryModel) responseData;
+                if (summaryModel.isSuccess()) {
                     CartModelContainer.getInstance().addProductSummary(ctn, summaryModel);
                 }
                 notifySuccess((SummaryModel) responseData);
@@ -96,14 +96,15 @@ public class PRXSummaryExecutor {
     }
 
     protected void notifySuccess(SummaryModel model) {
-        mPRXSummaryData.put(model.getData().getCtn(), model);
+        if (model.getData() != null) {
+            mPRXSummaryData.put(model.getData().getCtn(), model);
+        }
         if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
             Message result = Message.obtain();
             result.obj = mPRXSummaryData;
             mDataLoadListener.onModelDataLoadFinished(result);
         }
     }
-
 
     private ProductSummaryRequest prepareSummaryRequest(final String code) {
         String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
