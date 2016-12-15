@@ -246,7 +246,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldReleaseDataServicesInstances_WhenReleaseDataServicesInstancesIsCalled() throws Exception {
         //noinspection ConstantConditions
-//        tracker.releaseDataServicesInstances();
+        tracker.releaseDataServicesInstances();
     }
 
 
@@ -291,7 +291,7 @@ public class DataServicesManagerTest {
     @Test(expected = NullPointerException.class)
     public void ShouldCreateMeasurement_WhenqCreateMeasurementIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.createMeasurementGroup( measurementGroupMock);
+        tracker.createMeasurementGroup(measurementGroupMock);
 
         verify(baseAppDataCreator).createMeasurementGroup(measurementGroupMock);
     }

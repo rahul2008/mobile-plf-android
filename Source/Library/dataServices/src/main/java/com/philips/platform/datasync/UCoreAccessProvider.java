@@ -57,15 +57,15 @@ public class UCoreAccessProvider implements BackendIdProvider {
     }
 
     @Override
-    public void injectSaredPrefs(SharedPreferences sharedPreferences){
+    public void injectSaredPrefs(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
     @Override
     public String getSubjectId() {
-        if(errorHandler!=null) {
+        if (errorHandler != null) {
             return errorHandler.getUserProfile().getGUid();
-        }else {
+        } else {
             return null;
         }
     }

@@ -76,7 +76,7 @@ import de.greenrobot.event.EventBus;
 public class DataServicesManager {
 
     @NonNull
-    private  Eventing mEventing;
+    private Eventing mEventing;
 
     private BaseAppDataCreator mDataCreater;
 
@@ -332,7 +332,7 @@ public class DataServicesManager {
         mExceptionMonitor = null;
         mLoggingMonitor = null;
         mSharedPreferences = null;
-       // mCore.stop();
+        // mCore.stop();
     }
 
 
