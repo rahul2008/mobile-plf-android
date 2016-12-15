@@ -155,7 +155,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public boolean updateConsent(Consent consent) {
         if(consent==null){
-            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("consent null"));;
+            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));;
             return false;
         }
         OrmConsent ormConsent = null;
