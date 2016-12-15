@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
@@ -36,14 +35,12 @@ public class NavigationController {
     boolean themeSettingsIconVisible;
     private int titleResource;
     private Toolbar toolbar;
-    private TextView title;
 
     public NavigationController(final MainActivity mainActivity, final Intent intent, final ActivityMainBinding activityMainBinding) {
         this.mainActivity = mainActivity;
         fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
         this.activityMainBinding = activityMainBinding;
         toolbar = (Toolbar) activityMainBinding.appBar.findViewById(R.id.uid_toolbar);
-        title = (TextView) activityMainBinding.appBar.findViewById(R.id.uid_toolbar_title);
         clearLastFragmentOnFreshLaunch(intent);
     }
 
@@ -139,7 +136,7 @@ public class NavigationController {
     private void showHamburgerIcon() {
         toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_icon, mainActivity.getTheme()));
         hamburgerIconVisible = true;
-        title.setText(R.string.catalog_app_name);
+        setTitleText(R.string.catalog_app_name);
         titleResource = R.string.catalog_app_name;
     }
 
@@ -186,7 +183,7 @@ public class NavigationController {
 
     public void setTitleText(final int titleId) {
         titleResource = titleId;
-        title.setText(titleId);
+        UIDHelper.setTitle(mainActivity, titleId);
     }
 
     //Needed only untill we have hamburger

@@ -75,10 +75,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
         exclude module: "com.android.support"
     }
+    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
+
     compile "com.jakewharton:butterknife:${butterKnifeVer}"
     compile project(':uid')
     testCompile "junit:junit:${jUnitVer}"
