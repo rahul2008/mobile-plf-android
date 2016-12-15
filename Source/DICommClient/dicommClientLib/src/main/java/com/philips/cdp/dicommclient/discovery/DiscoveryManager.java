@@ -625,6 +625,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         String name = ssdpDevice.getFriendlyName();
         String modelName = ssdpDevice.getModelName();
         String networkSsid = mNetwork.getLastKnownNetworkSsid();
+        boolean isHttps = deviceModel.getHttps();
         Long bootId = -1l;
         String modelNumber = ssdpDevice.getModelNumber();
         try {
@@ -642,6 +643,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
+        networkNode.setHttps(isHttps);
 
         if (!isValidNetworkNode(networkNode)) return null;
 
