@@ -129,6 +129,7 @@ public class DataServicesManager {
 
     @NonNull
     public Moment save(@NonNull final Moment moment) {
+        DSLog.i("***SPO***", "In DataServicesManager.save for " + moment.toString());
         mEventing.post(new MomentSaveRequest(moment));
         return moment;
     }

@@ -83,7 +83,7 @@ public class MomentsDataSender implements DataSender<Moment> {
 
     @Override
     public boolean sendDataToBackend(@NonNull final List<? extends Moment> dataToSend) {
-        DSLog.i("***SPO***","MomentsDataSender sendDataToBackend");
+        DSLog.i("***SPO***","sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
         if (!accessProvider.isLoggedIn()) {
             return false;
         }
@@ -100,7 +100,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
-        DSLog.i("***SPO***","MomentsDataSender sendMoments");
+        DSLog.i("***SPO***","MomentsDataSender sendMoments and momets = " + moments.toString());
         if(moments == null || moments.isEmpty()) {
             return true;
         }
@@ -126,7 +126,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        DSLog.i("***SPO***","MomentsDataSender sendMomentToBackend");
+        DSLog.i("***SPO***","MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
         if (shouldCreateMoment(moment)) {
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {
