@@ -9,28 +9,45 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node ('android_pipeline') {
+node_ext = "build_t"
+if (env.triggerBy == "ppc") {
+  node_ext = "build_p"
+}
+
+node ('android_pipeline &&' + node_ext) {
 	timestamps {
 		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@atlas.natlab.research.philips.com:7999/mail/prxclient-android.git']]])
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@atlas.natlab.research.philips.com:7999/mail/prxclient-android.git']]])
 			step([$class: 'StashNotifier'])
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/Library/PrxSample && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug assembleRelease zipDocuments artifactoryPublish'
+                sh 'chmod -R 775 . && cd ./Source/Library/PrxSample && ./gradlew clean assembleDebug && ../../../check_and_delete_artifact.sh "prx" && ./gradlew assembleRelease zipDocuments artifactoryPublish'
 			}
-			
-            /* next if-then + stage is mandatory for the platform CI pipeline integration */
-            if (env.triggerBy != "ppc") {
+            currentBuild.result = 'SUCCESS'
+        }
+
+        catch(err) {
+            currentBuild.result = 'FAILURE'
+            error ("Someone just broke the build")
+        }
+
+        try {      
+            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
             	stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: 'prx']]
+                    currentBuild.result = 'SUCCESS'
             	}            
             }
             
-		} //end try
+		} 
 		
 		catch(err) {
-            echo "Someone just broke the build"
+            currentBuild.result = 'UNSTABLE'
         }
 
         stage('informing') {
@@ -38,5 +55,5 @@ node ('android_pipeline') {
         	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         }
 
-	} // end timestamps
-} // end node ('android')
+	} 
+}
