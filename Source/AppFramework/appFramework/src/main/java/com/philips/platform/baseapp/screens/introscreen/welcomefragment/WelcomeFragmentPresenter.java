@@ -20,7 +20,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class WelcomeFragmentPresenter extends UIBasePresenter{
 
     private final int MENU_OPTION_HOME = 0;
-    private AppFrameworkApplication appFrameworkApplication;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private BaseState baseState;
     private WelcomeFragmentView welcomeFragmentView;
@@ -35,7 +34,6 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
 
     @Override
     public void onEvent(final int componentID) {
-        appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         if (eventState.equals(WELCOME_DONE)) {
             sharedPreferenceUtility = new SharedPreferenceUtility(welcomeFragmentView.getFragmentActivity());
@@ -43,7 +41,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), "high");
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
         } catch (NoEventFoundException e) {
             e.printStackTrace();
         }
