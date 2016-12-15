@@ -125,11 +125,11 @@ public class SupportFragmentState extends BaseState implements CcListener {
         if (s.equalsIgnoreCase("product_registration")) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             try {
-                baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SUPPORT), SUPPORT_PR);
+                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SUPPORT_PR);
             } catch (NoEventFoundException e) {
                 e.printStackTrace();
             }
-            this.baseState.navigate(new FragmentLauncher(getFragmentActivity(), ((AppFrameworkBaseActivity) getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
+            baseState.navigate(new FragmentLauncher(getFragmentActivity(), ((AppFrameworkBaseActivity) getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
             return true;
         }
         return false;
