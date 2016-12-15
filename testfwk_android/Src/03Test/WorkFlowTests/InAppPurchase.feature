@@ -26,7 +26,7 @@ Scenario: Verify that user can purchase a product from retailer using "Buy Now"
 	Then I verify that user can navigate back from webview to retailer list view 
 	Then I verify that user can navigate back to product detail view from retailer list view 
 
-@E2ETesting	
+	
 Scenario: Verify behaviour of "No Retailer" for a selected product.
     Given that the application is in logout state 
 	Then I click on Skip
