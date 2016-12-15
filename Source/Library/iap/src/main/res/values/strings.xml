@@ -1,4 +1,5 @@
 <resources>
+
     <string name="iap_app_name">InAppPurchase</string>
 
     <!-- Shopping Cart screen -->
@@ -195,6 +196,7 @@
     <string name="iap_customer_help">Our customer care team is pleased to help you.</string>
     <string name="iap_keep_order_number">Please keep your order number at hand:</string>
     <string name="iap_opening_hours">Call center opening hours:\n</string>
+    <string name="iap_call">Call</string>
 
     <!-- Track Order -->
     <string name="iap_handed_to_courier">Handed over to the carrier</string>
@@ -231,6 +233,8 @@
 
     <!-- Progress text -->
     <string name="iap_please_wait">Please Wait</string>
+    <string name="iap_validating_address">Validating Address&#8230;</string>
+    <string name="iap_fetching_payment">Fetching Payment Details&#8230;</string>
 
     <!-- Model Alert -->
     <string name="iap_ok">OK</string>
@@ -245,5 +249,13 @@
     <string name="iap_no_internet">Your internet connection does not seem to be working. Please check and try again</string>
     <string name="iap_server_problem">Please check your internet connection or try again later if the problem persists (it could be a server problem)</string>
     <string name="iap_authentication_failure">Authentication failed</string>
+
+    <!-- Missed Strings -->
+    <string name="iap_stock_left">left in stock</string>
+    <string name="iap_delete_item_alert_title">Delete Item</string>
+    <string name="iap_delete_item_alert_message">Are you sure you want to delete the item?</string>
+    <string name="iap_user_not_registered">Authentication failure</string>
+    <string name="iap_invalid_product_ctn">Please provide a non empty product CTN</string>
+    <string name="iap_select_delivery">Please select your delivery method for this order:</string>
 
 </resources>
