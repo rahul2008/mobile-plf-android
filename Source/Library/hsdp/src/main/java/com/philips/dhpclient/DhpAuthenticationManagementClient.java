@@ -1,5 +1,6 @@
 package com.philips.dhpclient;
 
+import android.os.SystemClock;
 import android.util.Base64;
 
 import com.philips.cdp.servertime.ServerTime;
@@ -118,7 +119,7 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         String newAccessToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessToken");
         String newRefreshToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.refreshToken");
         String expiresIn = MapUtils.extract(dhpResponse.rawResponse, "exchange.expiresIn");
-
+        HsdpLog.d("Hsdp refresh token response recvd ", "" + SystemClock.elapsedRealtime());
         return new DhpAuthenticationResponse(newAccessToken, newRefreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
     }
 
