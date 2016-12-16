@@ -8,14 +8,16 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.platform.appframework.flowmanager.FlowManager;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+
 import junit.framework.TestCase;
+
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -65,7 +67,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         };
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.WELCOME)).thenReturn(welcomeState);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(welcomeState);
         when(uiFlowManagerMock.getNextState(welcomeState,"welcome_skip")).thenReturn(userRegStateMock);
         welcomeFragmentPresenter.onEvent(R.id.welcome_skip_button);
         verify(welcomeFragmentViewMock).showActionBar();
@@ -96,7 +98,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         };
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.WELCOME)).thenReturn(welcomeState);
+        when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(welcomeState);
         when(uiFlowManagerMock.getNextState(welcomeState,"welcome_home")).thenReturn(hamburgerActivityStateMock);
         welcomeFragmentPresenter.onEvent(0);
         verify(hamburgerActivityStateMock, atLeastOnce()).navigate(fragmentLauncherMock);

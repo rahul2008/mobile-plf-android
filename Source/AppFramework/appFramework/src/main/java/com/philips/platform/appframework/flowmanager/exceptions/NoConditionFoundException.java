@@ -9,6 +9,6 @@ public class NoConditionFoundException extends Exception {
 
 
     public NoConditionFoundException() {
-        super("No Event Found");
+        super("No Condition Found");
     }
 }

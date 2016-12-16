@@ -12,11 +12,13 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.dataservices.DataSyncScreenState;
+import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -82,7 +84,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
         assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof UIStateData);
     }
 
-    public void testOnClick() {
+    public void testOnClick() throws NoEventFoundException {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
@@ -153,7 +155,12 @@ public class HamburgerActivityPresenterTest extends TestCase {
         FlowManager uiFlowManager = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
         when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.HAMBURGER_HOME)).thenReturn(hamburgerActivityState);
-        when(uiFlowManager.getNextState(hamburgerActivityState, "data_sync")).thenReturn(dataSyncStateMock);
+        try {
+            when(uiFlowManager.getNextState(hamburgerActivityState, "data_sync")).thenReturn(dataSyncStateMock);
+            when(uiFlowManager.getNextState(hamburgerActivityState, "some_event")).thenReturn(dataSyncStateMock);
+        } catch (Exception e) {
+            assertTrue(e instanceof NoEventFoundException);
+        }
         hamburgerActivityPresenter.onEvent(5);
         verify(dataSyncStateMock, times(1)).navigate(fragmentLauncherMock);
     }
