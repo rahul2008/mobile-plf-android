@@ -9,104 +9,140 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.database.DatabaseHelper;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 
 public class TemperaturePresenter {
     private DataServicesManager mDataServices;
 
-    private Moment mMoment;
     private Measurement mMeasurement;
-    private MomentType mMomentType;
+    private String mMomentType;
+    private MeasurementGroup mMeasurementGroup;
+    private MeasurementGroup mMeasurementGroupInside;
     private Context mContext;
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
-    public static final int ADD = 2;
+    static final int ADD = 2;
 
-    EditText mTemperature;
-    EditText mLocation;
-    EditText mPhase;
-    Button mDialogButton;
+    private EditText mTemperature;
+    private EditText mLocation;
+    private EditText mPhase;
+    private Button mDialogButton;
 
-    TemperaturePresenter(Context context, MomentType momentType) {
+    TemperaturePresenter(Context context, String momentType) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
     }
 
-    public void createMoment(String momemtDetail, String measurement, String measurementDetail) {
-        mMoment = mDataServices.createMoment(mMomentType);
-        createMomentDetail(momemtDetail);
-        createMeasurement(measurement);
-        createMeasurementDetail(measurementDetail);
+    private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
+        Moment moment = mDataServices.createMoment(mMomentType);
+        createMomentDetail(momemtDetail, moment);
+
+        createMeasurementGroup(moment);
+        createMeasurementGroupDetail(measurementDetail);
+
+        createMeaurementGroupInsideMeasurementGroup(measurement, measurementDetail);
+        mMeasurementGroupInside.addMeasurement(mMeasurement);
+        mMeasurementGroup.addMeasurementGroup(mMeasurementGroupInside);
+        moment.addMeasurementGroup(mMeasurementGroup);
+        return moment;
     }
 
+    private void createMeaurementGroupInsideMeasurementGroup(String measurement, String measurementDetail) {
+        mMeasurementGroupInside = mDataServices.
+                createMeasurementGroup(mMeasurementGroup);
+        createMeasurement(mMeasurementGroupInside, measurement);
+        createMeasurementDetail(measurementDetail);
+    }
 
     public void createMeasurementDetail(String value) {
         MeasurementDetail measurementDetail = mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, mMeasurement);
         measurementDetail.setValue(value);
+        mMeasurement.addMeasurementDetail(measurementDetail);
     }
 
-    public void createMeasurement(String value) {
-        mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, mMoment);
-        mMeasurement.setValue(Double.valueOf(value));
+    private void createMeasurement(MeasurementGroup group, String value) {
+        mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, group);
+        mMeasurement.setValue(value);
         mMeasurement.setDateTime(DateTime.now());
+        mMeasurement.setUnit("celsius");
     }
 
-    public void createMomentDetail(String value) {
+    private void createMomentDetail(String value, Moment moment) {
         MomentDetail momentDetail = mDataServices.
-                createMomentDetail(MomentDetailType.PHASE, mMoment);
+                createMomentDetail(MomentDetailType.PHASE, moment);
         momentDetail.setValue(value);
     }
 
-    public void fetchData() {
-        mDataServices.fetch(MomentType.TEMPERATURE);
+    private void createMeasurementGroupDetail(String value) {
+        MeasurementGroupDetail measurementGroupDetail = mDataServices.
+                createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY, mMeasurementGroup);
+        measurementGroupDetail.setValue(value);
+        mMeasurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
     }
 
-    public Moment getMoment() {
-        return mMoment;
+    private void createMeasurementGroup(Moment moment) {
+        mMeasurementGroup = mDataServices.
+                createMeasurementGroup(moment);
     }
 
-    public void saveRequest() {
-        if (mMoment.getCreatorId() == null || mMoment.getSubjectId() == null) {
+    void fetchData() {
+        mDataServices.fetchAllData();
+    }
+
+    private void saveRequest(Moment moment) {
+        if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
-            mDataServices.save(mMoment);
+            mDataServices.save(moment);
         }
     }
 
-    public void createAndSaveMoment() {
-        createMoment(mPhase.getText().toString(),
+    private void createAndSaveMoment() {
+        Moment moment = createMoment(mPhase.getText().toString(),
                 mTemperature.getText().toString(), mLocation.getText().toString());
-        saveRequest();
+        saveRequest(moment);
     }
 
-    public void bindDeleteOrUpdatePopUp(final TemperatureTimeLineFragmentcAdapter adapter,
-                                        final List<? extends Moment> data, final View view,
-                                        final int selectedItem) {
+    void bindDeleteOrUpdatePopUp(final TemperatureTimeLineFragmentcAdapter adapter,
+                                 final List<? extends Moment> data, final View view,
+                                 final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<>();
 
         final String delete = mContext.getResources().getString(R.string.delete);
@@ -147,25 +183,64 @@ public class TemperaturePresenter {
             adapter.notifyDataSetChanged();
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
-                Log.i("***SPO***", "e = " + e.getMessage());
+                DSLog.i("***SPO***", "e = " + e.getMessage());
             }
         }
     }
 
+    private void updateMoment(OrmMoment old) throws SQLException {
+        DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
 
-    private void updateAndSaveMoment(Moment moment) {
+        Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
+        Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
+        Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
+        Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
+        Dao<OrmMeasurementGroup, Integer> measurementGroup = databaseHelper.getMeasurementGroupDao();
 
-        try {
-            mDataServices.update(new TemperatureMomentHelper().updateMoment(moment,
-                    mPhase.getText().toString(), mTemperature.getText().toString(), mLocation.getText().toString()));
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-            if (ArrayIndexOutOfBoundsException.getMessage() != null) {
-                Log.i("***SPO***", "e = " + ArrayIndexOutOfBoundsException.getMessage());
-            }
+        String momentDetail = mPhase.getText().toString();
+        String meausrementValue = mTemperature.getText().toString();
+        String measurementDetailValue = mLocation.getText().toString();
+
+        Collection<? extends MomentDetail> momentDetails = old.getMomentDetails();
+
+
+        for (MomentDetail momentDetail1 : momentDetails) {
+            momentDetail1.setValue(momentDetail);
+            momentDetailDao.createOrUpdate((OrmMomentDetail) momentDetail1);
+            momentDetailDao.refresh((OrmMomentDetail) momentDetail1);
         }
+
+        Collection<? extends MeasurementGroup> measurementGroups = old.getMeasurementGroups();
+        for (MeasurementGroup next : measurementGroups) {
+            Collection<? extends MeasurementGroup> measurementGroupsInside = next.getMeasurementGroups();
+            for (MeasurementGroup next1 : measurementGroupsInside) {
+                Collection<? extends Measurement> measurements = next1.getMeasurements();
+                for (Measurement next2 : measurements) {
+                    next2.setValue(meausrementValue);
+
+                    Collection<? extends MeasurementDetail> measurementDetails = next2.getMeasurementDetails();
+                    for (MeasurementDetail next3 : measurementDetails) {
+                        next3.setValue(measurementDetailValue);
+                        measurementDetailDao.createOrUpdate((OrmMeasurementDetail) next3);
+                        measurementDetailDao.refresh((OrmMeasurementDetail) next3);
+                    }
+                    measurementDao.createOrUpdate((OrmMeasurement) next2);
+                    measurementDao.refresh((OrmMeasurement) next2);
+                }
+                measurementGroup.createOrUpdate((OrmMeasurementGroup) next1);
+                measurementGroup.refresh((OrmMeasurementGroup) next1);
+            }
+            measurementGroup.createOrUpdate((OrmMeasurementGroup) next);
+            measurementGroup.refresh((OrmMeasurementGroup) next);
+        }
+        old.setDateTime(DateTime.now());
+        old.setSynced(false);
+        momentDao.createOrUpdate(old);
+        momentDao.refresh(old);
+        mDataServices.update(old);
     }
 
-    public void addOrUpdateMoment(final int addOrUpdate, final Moment moment) {
+    void addOrUpdateMoment(final int addOrUpdate, final Moment moment) {
         final Dialog dialog = new Dialog(mContext);
         dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
         dialog.setTitle(mContext.getResources().getString(R.string.create_moment));
@@ -200,7 +275,11 @@ public class TemperaturePresenter {
                         createAndSaveMoment();
                         break;
                     case UPDATE:
-                        updateAndSaveMoment(moment);
+                        try {
+                            updateMoment((OrmMoment) moment);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                         break;
                 }
                 dialog.dismiss();
@@ -240,9 +319,7 @@ public class TemperaturePresenter {
     }
 
     private boolean isDialogButtonEnabled() {
-        return mPhase.getText().toString() != null && !mPhase.getText().toString().isEmpty() &&
-                mTemperature.getText().toString() != null && !mTemperature.getText().toString().isEmpty() &&
-                mLocation.getText().toString() != null && !mLocation.getText().toString().isEmpty();
+        return !mPhase.getText().toString().isEmpty() && !mTemperature.getText().toString().isEmpty() && !mLocation.getText().toString().isEmpty();
     }
 
     private boolean validateInputFields() {

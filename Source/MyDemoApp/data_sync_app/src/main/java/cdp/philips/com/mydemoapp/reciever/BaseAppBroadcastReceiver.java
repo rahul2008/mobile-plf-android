@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTimeConstants;
 
 import javax.inject.Inject;
+
+import cdp.philips.com.mydemoapp.utility.Utility;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -24,9 +27,11 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
 
     DataServicesManager mDataServices;
 
+    Utility mUtility;
+
     @Inject
     public BaseAppBroadcastReceiver() {
-
+        mUtility = new Utility();
     }
 
     @Override
@@ -37,21 +42,10 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
             return;
         }
         //TODO: review changing connection
-        if (isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
+        if (mUtility.isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
+            Log.i("***SPO***","START SYNC FROM REC");
             mDataServices.synchchronize();
         }
     }
 
-    private boolean isOnline(Context context) {
-        try {
-            final ConnectivityManager connectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isAvailable() &&
-                    networkInfo.isConnected();
-        } catch (Exception ignored) {
-            return false;
-        }
-    }
 }

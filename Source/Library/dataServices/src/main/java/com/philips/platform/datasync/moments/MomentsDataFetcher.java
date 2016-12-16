@@ -3,13 +3,13 @@ package com.philips.platform.datasync.moments;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -57,9 +57,10 @@ public class MomentsDataFetcher extends DataFetcher {
     @CheckResult
     @Nullable
     public RetrofitError fetchDataSince(@Nullable final DateTime sinceTimestamp) {
-        /*if (isUserInvalid()) {
+
+        if (isUserInvalid()) {
             return null;
-        }*/
+        }
         try {
             String momentsLastSyncUrl = accessProvider.getMomentLastSyncTimestamp();
 
@@ -73,18 +74,27 @@ public class MomentsDataFetcher extends DataFetcher {
                 accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
                 List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
+/*
                 if (uCoreMoments != null && uCoreMoments.size() <= 0) {
                     return null;
                 }
+*/
 
                 List<Moment> moments = converter.convert(uCoreMoments);
+                DSLog.e("***SPO***", "DataPullSynchronize fetch Success");
                 eventing.post(new BackendMomentListSaveRequest(moments));
             }
+            DSLog.e("***SPO***", "DataPullSynchronize fetch send null");
             return null;
         } catch (RetrofitError ex) {
-            Log.e(TAG, "RetrofitError: " + ex.getMessage(), ex);
+            DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendMomentRequestFailed(ex));
             return ex;
         }
+    }
+
+    protected boolean isUserInvalid() {
+        final String accessToken = accessProvider.getAccessToken();
+        return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
     }
 }

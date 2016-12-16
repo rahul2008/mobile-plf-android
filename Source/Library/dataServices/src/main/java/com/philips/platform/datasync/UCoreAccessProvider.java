@@ -10,10 +10,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BackendIdProvider;
-import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -30,33 +28,46 @@ public class UCoreAccessProvider implements BackendIdProvider {
     SharedPreferences sharedPreferences;
 
     @NonNull
-    private final UserRegistrationFacade userRegistrationFacade;
+    private final ErrorHandler errorHandler;
 
-    public UCoreAccessProvider(@NonNull final UserRegistrationFacade userRegistrationFacade) {
-        this.userRegistrationFacade = userRegistrationFacade;
+    public UCoreAccessProvider(@NonNull final ErrorHandler errorHandler) {
+        this.errorHandler = errorHandler;
     }
 
     public boolean isLoggedIn() {
-        return userRegistrationFacade.isUserLoggedIn();
+        if (errorHandler != null)
+            return errorHandler.isUserLoggedIn();
+        else
+            return false;
     }
 
     public String getAccessToken() {
-        return userRegistrationFacade.getAccessToken();
+        if (errorHandler != null)
+            return errorHandler.getAccessToken();
+        else
+            return null;
     }
 
     @Override
     public String getUserId() {
-        return userRegistrationFacade.getUserProfile().getGUid();
+        if (errorHandler != null)
+            return errorHandler.getUserProfile().getGUid();
+        else
+            return null;
     }
 
     @Override
-    public void injectSaredPrefs(SharedPreferences sharedPreferences){
+    public void injectSaredPrefs(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
     @Override
     public String getSubjectId() {
-        return userRegistrationFacade.getUserProfile().getGUid();
+        if (errorHandler != null) {
+            return errorHandler.getUserProfile().getGUid();
+        } else {
+            return null;
+        }
     }
 
     public String getMomentLastSyncTimestamp() {
@@ -77,6 +88,7 @@ public class UCoreAccessProvider implements BackendIdProvider {
             int indexOf = lastSyncUrl.indexOf('=');
             lastSyncUrl = lastSyncUrl.substring(indexOf + 1);
             SharedPreferences.Editor editor = edit.putString(key, lastSyncUrl);
+            editor = edit.putBoolean("isSynced", true);
             editor.commit();
         }
     }

@@ -13,7 +13,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
@@ -32,7 +32,7 @@ import retrofit.converter.GsonConverter;
 public class UCoreAdapter {
 
     public static final RestAdapter.LogLevel LOG_LEVEL = RestAdapter.LogLevel.FULL;
-    public static final int API_VERSION = 4;
+    public static final int API_VERSION = 9;
     public static final String API_VERSION_CUSTOM_HEADER = "api-version";
     public static final String APP_AGENT_HEADER = "appAgent";
     public static final String APP_AGENT_HEADER_VALUE = "%s android %s, %s";
@@ -68,8 +68,11 @@ public class UCoreAdapter {
 
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
         DataServicesManager dataServicesManager = DataServicesManager.getInstance();
-        UserRegistrationFacade userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
-        String baseUrl = userRegistrationImpl.getHSDHsdpUrl();
+        ErrorHandler userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
+        String baseUrl = null;
+        if(userRegistrationImpl!=null) {
+            baseUrl = userRegistrationImpl.getHSDHsdpUrl();
+        }
         if (baseUrl == null || baseUrl.isEmpty()) {
             return null;
         }
@@ -106,7 +109,7 @@ public class UCoreAdapter {
         };
     }
 
-    private String getAppAgentHeader() {
+    public String getAppAgentHeader() {
         String versionName = "";
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);

@@ -25,4 +25,6 @@ public interface SynchronisationData {
     void setVersion(int version);
 
     void setInactive(boolean inActive);
+
+    void setGuid(String guid);
 }

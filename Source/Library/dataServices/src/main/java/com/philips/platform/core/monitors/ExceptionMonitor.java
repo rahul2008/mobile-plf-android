@@ -8,9 +8,9 @@ package com.philips.platform.core.monitors;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.events.ExceptionEvent;
+import com.philips.platform.core.utils.DSLog;
 
 import javax.inject.Inject;
 
@@ -37,12 +37,12 @@ public class ExceptionMonitor extends EventMonitor {
         final String message = event.getMessage();
         final Throwable cause = event.getCause();
 
-        Log.v(TAG, "onExceptionEvent (" + requestId + "): " + message, cause);
+        DSLog.v(TAG, "onExceptionEvent (" + requestId + "): " + message + cause);
 
         handler.post(new Runnable() {
             @Override
             public void run() {
-                throw new IllegalStateException(message, cause);
+              //  throw new IllegalStateException(message, cause);
             }
         });
     }
@@ -52,7 +52,7 @@ public class ExceptionMonitor extends EventMonitor {
         final Object causingSubscriber = event.causingSubscriber;
 
         final String message = "onSubscriberExceptionEvent causingSubscriber(" + causingEvent + ") causingEvent(" + causingSubscriber + ")";
-        Log.v(TAG, message);
+        DSLog.v(TAG, message);
 
         handler.post(new Runnable() {
             @Override

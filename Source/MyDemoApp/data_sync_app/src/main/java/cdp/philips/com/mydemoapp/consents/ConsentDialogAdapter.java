@@ -22,7 +22,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsent;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     private ArrayList<? extends ConsentDetail> consentDetails;
@@ -46,7 +46,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if (holder instanceof ConsentDetailViewHolder) {
             ConsentDetailViewHolder mConsentViewHolder = (ConsentDetailViewHolder) holder;
-            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType().getDescription());
+            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType());
 
             boolean isAccepted = consentDialogPresenter.getConsentDetailStatus(consentDetails.get(position));
             mConsentViewHolder.mConsentDetailSwitch.setChecked(isAccepted);
@@ -72,7 +72,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void updateConsentDetails() {
-        DataServicesManager.getInstance().save(mConsent);
+        DataServicesManager.getInstance().updateConsent(mConsent);
     }
 
 

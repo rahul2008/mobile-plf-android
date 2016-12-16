@@ -2,14 +2,16 @@ package cdp.philips.com.mydemoapp.temperature;
 
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
+import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 
@@ -19,43 +21,64 @@ import cdp.philips.com.mydemoapp.listener.EventHelper;
  */
 public class TemperatureMomentHelper {
 
-    double getTemperature(Moment moment){
+    String getTemperature(Moment moment) {
         try {
-            ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+
+            ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
+            ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
+            ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
+
+            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
             return measurements.get(0).getValue();
         } catch (ArrayIndexOutOfBoundsException e) {
-            return 0.0;
+            return "default";
         } catch (IndexOutOfBoundsException e) {
-            return 0.0;
+            return "default";
+        }catch (Exception e){
+            return "default";
         }
+        //return -1;
     }
 
-    String getTime(Moment moment){
+    String getTime(Moment moment) {
         try {
             ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
-            for(MomentDetail detail : momentDetails){
-                if(detail.getType() == MomentDetailType.PHASE)
+            for (MomentDetail detail : momentDetails) {
+                if (detail.getType().equalsIgnoreCase(MomentDetailType.PHASE))
                     return detail.getValue();
             }
             return "default";
-        }catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             return "default";
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
+            return "default";
+        }catch (Exception e){
             return "default";
         }
     }
 
-    String getNotes(Moment moment){
+    String getNotes(Moment moment) {
         try {
-            ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+
+            ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
+            ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
+            ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
+
+            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+            //return measurements.get(0).getValue();
+
+            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
             Measurement measurement = measurements.get(0);
             ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
             return measurementDetails.get(0).getValue();
-        }catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             return "default";
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
+            return "default";
+        }catch (Exception e){
             return "default";
         }
+        //return null;
     }
 
     public void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
@@ -87,19 +110,19 @@ public class TemperatureMomentHelper {
         }
     }
 
-    Moment updateMoment(Moment moment,String phase, String temperature, String notes){
+    Moment updateMoment(Moment moment, String phase, String temperature, String notes) {
         ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
-        int momentDetailsSize=momentDetails.size();
-        MomentDetail momentDetail = momentDetails.get(momentDetailsSize-1);
+        int momentDetailsSize = momentDetails.size();
+        MomentDetail momentDetail = momentDetails.get(momentDetailsSize - 1);
         momentDetail.setValue(phase);
 
-        ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
-        Measurement measurement = measurements.get(0);
-        measurement.setValue(Double.parseDouble(temperature));
+        //  ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
+        // Measurement measurement = measurements.get(0);
+        // measurement.setValue(Double.parseDouble(temperature));
 
-        ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
-        MeasurementDetail measurementDetail = measurementDetails.get(0);
-        measurementDetail.setValue(notes);
+        //  ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
+        // MeasurementDetail measurementDetail = measurementDetails.get(0);
+        //measurementDetail.setValue(notes);
 
         return moment;
     }

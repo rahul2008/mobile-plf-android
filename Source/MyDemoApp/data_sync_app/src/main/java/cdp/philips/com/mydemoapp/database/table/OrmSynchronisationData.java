@@ -23,7 +23,7 @@ import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 @DatabaseTable
 public class OrmSynchronisationData implements SynchronisationData, Serializable {
 
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private String guid;
@@ -76,6 +76,11 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
     @Override
     public void setInactive(final boolean inactive) {
         this.inactive = inactive;
+    }
+
+    @Override
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class ConsentsConverter {
         Consent consent = dataCreator.createConsent(creatorId);
         for (UCoreConsentDetail uCoreConsentDetail : uCoreConsentDetails) {
             //Needs to be modified later
-            ConsentDetail consentDetail = dataCreator.createConsentDetail(ConsentDetailType.fromDescription(uCoreConsentDetail.getName()), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber(),false, consent);
+            ConsentDetail consentDetail = dataCreator.createConsentDetail(uCoreConsentDetail.getName(), uCoreConsentDetail.getStatus(), uCoreConsentDetail.getDocumentVersion(), uCoreConsentDetail.getDeviceIdentificationNumber(),false, consent);
             consent.addConsentDetails(consentDetail);
         }
 
@@ -46,10 +45,10 @@ public class ConsentsConverter {
     public List<UCoreConsentDetail> convertToUCoreConsentDetails(@NonNull final Collection<? extends ConsentDetail> consentDetails) {
         List<UCoreConsentDetail> uCoreConsentDetailList = new ArrayList<>();
         for (ConsentDetail consentDetail : consentDetails) {
-            ConsentDetailType type = consentDetail.getType();
+            String type = consentDetail.getType();
 
             if (type != null) {
-                UCoreConsentDetail uCoreConsentDetail = new UCoreConsentDetail(type.getDescription(),
+                UCoreConsentDetail uCoreConsentDetail = new UCoreConsentDetail(type,
                         consentDetail.getStatus(), consentDetail.getVersion(), consentDetail.getDeviceIdentificationNumber());
                 uCoreConsentDetailList.add(uCoreConsentDetail);
             }
@@ -57,25 +56,4 @@ public class ConsentsConverter {
         return uCoreConsentDetailList;
     }
 
-    public List<String> getDocumentVersionList() {
-        final ConsentDetailType[] values = ConsentDetailType.values();
-        List<String> documentVersionList = new ArrayList<>(values.length);
-        for (int index = 0; index < values.length; index++) {
-            documentVersionList.add(Consent.DEFAULT_DOCUMENT_VERSION);
-        }
-        return documentVersionList;
-    }
-
-    public List<String> getDeviceIdentificationNumberList() {
-        final ConsentDetailType[] values = ConsentDetailType.values();
-        List<String> deviceIdentificationNumberList = new ArrayList<>(values.length);
-        for (int index = 0; index < values.length; index++) {
-            if (ConsentDetailType.ROOM_TEMPERATURE == values[index] || ConsentDetailType.RELATIVE_HUMIDITY == values[index]) {
-                deviceIdentificationNumberList.add(Consent.SMART_BABY_MONITOR);
-            } else {
-                deviceIdentificationNumberList.add(Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-            }
-        }
-        return deviceIdentificationNumberList;
-    }
-}
+   }

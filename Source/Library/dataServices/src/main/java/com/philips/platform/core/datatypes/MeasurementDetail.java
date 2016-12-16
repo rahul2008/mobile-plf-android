@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public interface MeasurementDetail extends BaseAppData, Serializable {
 
-    com.philips.platform.core.datatypes.MeasurementDetailType getType();
+    String getType();
 
     String getValue();
 

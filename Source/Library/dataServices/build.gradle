@@ -35,40 +35,26 @@ buildscript {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
 
     }
 
     apply plugin: 'com.jfrog.artifactory-upload'
 
-    group = 'com.philips.cdp'
-
-    artifactory {
-        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-        publish {
-            repository {
-                repoKey = objcdp.getArtifactoryRepoKey('android')
-                username = objcdp.getArtifactoryUploadUser()
-                password = objcdp.getArtifactoryUploadPwd()
-                //publishPom = true
-                //publishIvy = false
-                //publishBuildInfo = true
-                //maven = true
-            }
-        }
-        resolve {
-            repository {
-                repoKey = 'libs-release-local'
-            }
-        }
-    }
 }
 
 group = 'com.philips.cdp'
@@ -77,16 +63,16 @@ version = objcdp.getVersion()
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
-	contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
         repository {
-            repoKey = "libs-snapshot-local-ios"
+            repoKey = objcdp.getArtifactoryRepoKey('android')
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
-          //  publishPom = true
-          //  publishIvy = false
-          //  publishBuildInfo = true
+            //  publishPom = true
+            //  publishIvy = false
+            //  publishBuildInfo = true
         }
-				        defaults {
+        defaults {
             publishIvy = false
             publishPom = true
             publishArtifacts = true
@@ -98,7 +84,8 @@ artifactory {
             repoKey = 'libs-release-local'
         }
     }
-	clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -109,7 +96,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
@@ -202,41 +189,18 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'javax.inject:javax.inject:1'
     testApt "com.google.dagger:dagger-compiler:2.0.2"
+
+    // Tests
+    // testCompile project(':dataServices')
+
+    testCompile "junit:junit:4.12"
+    testCompile("org.robolectric:robolectric:3.0") {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    testCompile "org.mockito:mockito-all:1.10.17"
+    testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 }
-
-/*task findbugs(type: FindBugs, dependsOn: assembleDebug) {
-
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}*/
-
-/*task pmd(type: Pmd, dependsOn: assembleDebug) {
-
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-
-}*/
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 

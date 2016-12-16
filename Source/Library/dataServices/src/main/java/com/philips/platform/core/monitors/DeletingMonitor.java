@@ -34,7 +34,7 @@ public class DeletingMonitor extends EventMonitor{
 
     public void onEventAsync(@NonNull MomentDeleteRequest event) {
             dbInterface.deleteMoment(event.getMoment());
-            eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
+         //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
 
     }
 

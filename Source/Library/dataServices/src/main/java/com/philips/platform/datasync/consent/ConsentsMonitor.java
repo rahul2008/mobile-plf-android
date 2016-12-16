@@ -1,12 +1,9 @@
 package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
@@ -16,10 +13,12 @@ import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,8 +31,8 @@ import retrofit.converter.GsonConverter;
  * All rights reserved.
  */
 public class ConsentsMonitor extends EventMonitor {
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+   /* @NonNull
+    private final UCoreAccessProvider accessProvider;*/
 
     @NonNull
     private final UCoreAdapter uCoreAdapter;
@@ -44,18 +43,19 @@ public class ConsentsMonitor extends EventMonitor {
     @NonNull
     private final ConsentsConverter consentsConverter;
 
-    DataServicesManager mDataServicesManager;
+    private  DataServicesManager mDataServicesManager;
+
+    //private BaseAppDataCreator mDataCreater;
 
     @Inject
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final ConsentsConverter consentsConverter,
                            @NonNull final GsonConverter gsonConverter) {
-
-        mDataServicesManager=DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();;
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
+        mDataServicesManager=DataServicesManager.getInstance();
+
     }
 
     //TODO: Commented part can you clearify with Ajay
@@ -82,36 +82,50 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     private void getConsent(ConsentBackendGetRequest event) {
-        Log.i("***SPO***","Get Consent called");
+
         if (isUserInvalid()) {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        Log.i("***SPO***","Get Consent called before ConsentsClient");
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, accessProvider.getAccessToken(), gsonConverter);
-        Log.i("***SPO***","Get Consent called After ConsentsClient");
+        if(event.getConsentDetails()==null || mDataServicesManager.getUCoreAccessProvider()==null){
+            return;
+        }
+
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, mDataServicesManager.getUCoreAccessProvider().getAccessToken(), gsonConverter);
         try {
-            List<UCoreConsentDetail> consentDetailList = client.getConsent(accessProvider.getUserId(), ConsentDetailType.getDescriptionAsList(),
-                    consentsConverter.getDeviceIdentificationNumberList(), consentsConverter.getDocumentVersionList());
+
+            List<ConsentDetail> consentDetails=event.getConsentDetails();
+            ArrayList<String> consentDetailTypes = new ArrayList<>();
+            ArrayList<String> deviceIdentificationList = new ArrayList<>();
+            ArrayList<String> documentVersionList = new ArrayList<>();
+            for(ConsentDetail consentDetail:consentDetails){
+                consentDetailTypes.add(consentDetail.getType());
+                deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
+                documentVersionList.add(consentDetail.getVersion());
+
+            }
+
+            List<UCoreConsentDetail> consentDetailList = client.getConsent(mDataServicesManager.getUCoreAccessProvider().getUserId(), consentDetailTypes,
+                    deviceIdentificationList,documentVersionList);
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
-                Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, accessProvider.getUserId());
-                for (ConsentDetail consentDetail:consent.getConsentDetails()){
+                Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, mDataServicesManager.getUCoreAccessProvider().getUserId());
+                for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                     consentDetail.setBackEndSynchronized(true);
                 }
-                Log.i("***SPO***","Get Consent called After ConsentsClient before sending consents response");
+                DSLog.i("***SPO***", "Get Consent called After ConsentsClient before sending consents response");
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
             } else {
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
             }
         } catch (Exception e) {
-            Log.i("***SPO***","ConsentsMonitor exception Error");
+            DSLog.i("***SPO***", "ConsentsMonitor exception Error");
             eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
-          //  eventing.post(new BackendResponse(event.getEventId(), e));
+            //  eventing.post(new BackendResponse(event.getEventId(), e));
         }
     }
 
     private void postError(int referenceId, final RetrofitError error) {
-        Log.i("***SPO***","Error In ConsentsMonitor - posterror");
+        DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 
@@ -120,7 +134,10 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, accessProvider.getAccessToken(), gsonConverter);
+        if(mDataServicesManager.getUCoreAccessProvider()==null){
+            return;
+        }
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, mDataServicesManager.getUCoreAccessProvider().getAccessToken(), gsonConverter);
 
         Consent consent = event.getConsent();
 
@@ -128,14 +145,14 @@ public class ConsentsMonitor extends EventMonitor {
             return;
         }
         //Check if all Consents are synchronized ,then do not send to uCore
-        boolean isAllConsentDetailsSynced=true;
-        for (ConsentDetail consentDetail:consent.getConsentDetails()){
-            if(!consentDetail.getBackEndSynchronized()){
-                isAllConsentDetailsSynced=false;
+        boolean isAllConsentDetailsSynced = true;
+        for (ConsentDetail consentDetail : consent.getConsentDetails()) {
+            if (!consentDetail.getBackEndSynchronized()) {
+                isAllConsentDetailsSynced = false;
                 break;
             }
         }
-        if(isAllConsentDetailsSynced){
+        if (isAllConsentDetailsSynced) {
             return;
         }
 
@@ -148,17 +165,21 @@ public class ConsentsMonitor extends EventMonitor {
 
             client.saveConsent(consent.getCreatorId(), consentDetailList);
 
-            for (ConsentDetail consentDetail:consent.getConsentDetails()){
+            for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                 consentDetail.setBackEndSynchronized(true);
             }
-            eventing.post(new DatabaseConsentSaveRequest(consent,true));
+            eventing.post(new DatabaseConsentSaveRequest(consent, true));
         } catch (RetrofitError error) {
             postError(event.getEventId(), error);
         }
     }
 
     public boolean isUserInvalid() {
-        final String accessToken = accessProvider.getAccessToken();
-        return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
+        UCoreAccessProvider uCoreAccessProvider = mDataServicesManager.getUCoreAccessProvider();
+        if(uCoreAccessProvider!=null) {
+            String accessToken = uCoreAccessProvider.getAccessToken();
+            return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
+        }
+        return false;
     }
 }

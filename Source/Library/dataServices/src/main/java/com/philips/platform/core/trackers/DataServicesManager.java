@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
@@ -19,15 +18,12 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -52,6 +48,7 @@ import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.monitors.LoggingMonitor;
 import com.philips.platform.core.monitors.SavingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -60,7 +57,7 @@ import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
-import com.philips.platform.datasync.userprofile.UserRegistrationFacade;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,16 +75,18 @@ import de.greenrobot.event.EventBus;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
+    volatile boolean isPullComplete = true;
+
+    volatile boolean isPushComplete = true;
+
     @NonNull
-    private final Eventing mEventing;
+    private Eventing mEventing;
 
     private BaseAppDataCreator mDataCreater;
 
-    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPullSynchronise mDataPullSynchronise;
 
-    //TODO: This cannot be injected as fetchers and providers will be provided by Applcation
     @Inject
     DataPushSynchronise mDataPushSynchronise;
 
@@ -111,14 +110,14 @@ public class DataServicesManager {
 
     private static DataServicesManager sDataServicesManager;
 
-    private UserRegistrationFacade mUserRegistrationFacadeImpl;
+    private ErrorHandler mErrorHandlerImpl;
 
     @Singleton
     private DataServicesManager() {
-        this.mEventing = new EventingImpl(new EventBus(), new Handler());
+        mEventing = new EventingImpl(new EventBus(), new Handler());
     }
 
-    public static DataServicesManager getInstance() {
+    public static synchronized DataServicesManager getInstance() {
         if (sDataServicesManager == null) {
             return sDataServicesManager = new DataServicesManager();
         }
@@ -135,6 +134,7 @@ public class DataServicesManager {
 
     @NonNull
     public Moment save(@NonNull final Moment moment) {
+        DSLog.i("***SPO***", "In DataServicesManager.save for " + moment.toString());
         mEventing.post(new MomentSaveRequest(moment));
         return moment;
     }
@@ -144,8 +144,8 @@ public class DataServicesManager {
         return moment;
     }
 
-    public void fetch(final @NonNull MomentType... type) {
-        mEventing.post(new LoadMomentsRequest(type[0]));
+    public void fetch(final @NonNull Integer... type) {
+        mEventing.post(new LoadMomentsRequest(type));
     }
 
     public void fetchMomentById(final int momentID) {
@@ -157,26 +157,69 @@ public class DataServicesManager {
     }
 
     @NonNull
-    public Moment createMoment(@NonNull final MomentType type) {
+    public void fetchConsent() {
+        mEventing.post(new LoadConsentsRequest());
+    }
+
+    @NonNull
+    public Consent createConsent() {
+        return mDataCreater.createConsent(mErrorHandlerImpl.getUserProfile().getGUid());
+    }
+
+    public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
+        if (consent == null) {
+            consent = createConsent();
+        }
+        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber, true, consent);
+        consent.addConsentDetails(consentDetail);
+    }
+
+    public void saveConsent(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+    }
+
+    public void updateConsent(Consent consent) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+    }
+
+    @NonNull
+    public Moment createMoment(@NonNull final String type) {
         return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type);
     }
 
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final MomentDetailType type, @NonNull final Moment moment) {
+    public MeasurementGroup createMeasurementGroup(@NonNull final Moment moment) {
+        return mDataCreater.createMeasurementGroup(moment);
+    }
+
+    @NonNull
+    public MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment) {
         MomentDetail momentDetail = mDataCreater.createMomentDetail(type, moment);
         moment.addMomentDetail(momentDetail);
         return momentDetail;
     }
 
-    @NonNull
+  /*  @NonNull
     public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment) {
         Measurement measurement = mDataCreater.createMeasurement(type, moment);
         moment.addMeasurement(measurement);
         return measurement;
+    }*/
+
+    @NonNull
+    public Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup) {
+        Measurement measurement = mDataCreater.createMeasurement(type, measurementGroup);
+        measurementGroup.addMeasurement(measurement);
+        return measurement;
     }
 
     @NonNull
-    public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public MeasurementGroup createMeasurementGroup(@NonNull final MeasurementGroup measurementGroup) {
+        return mDataCreater.createMeasurementGroup(measurementGroup);
+    }
+
+    @NonNull
+    public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      @NonNull final Measurement measurement) {
         MeasurementDetail measurementDetail = mDataCreater.createMeasurementDetail(type, measurement);
         measurement.addMeasurementDetail(measurementDetail);
@@ -195,21 +238,33 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
-    //TODO: In case fetchers and senders are passed as null, we can create pullsynchronize and pushsynchronise and start
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
-        Log.i("***SPO***", "In DataServicesManager.Synchronize");
+        DSLog.i("***SPO***", "In DataServicesManager.Synchronize");
         SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
         monitor.start(mEventing);
     }
 
+ /*   private void sendPushEvent() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("***SPO***", "In DataServicesManager.sendPushEvent");
+                mEventing.post(new WriteDataToBackendRequest());
+            }
+        }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
+
+    }*/
+
     private void sendPullDataEvent() {
-        Log.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
+        DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
         if (mCore != null) {
+            DSLog.i("SPO","mCore not null");
             mCore.start();
-        } else {
+        } /*else {
             mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
-        }
+            mCore.start();
+        }*/
         mEventing.post(new ReadDataFromBackendRequest(null));
     }
 
@@ -222,11 +277,11 @@ public class DataServicesManager {
         mDbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
     }
 
-    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationFacade facade) {
+    public void initialize(Context context, BaseAppDataCreator creator, ErrorHandler facade) {
+        DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
-        this.mUserRegistrationFacadeImpl = facade;
+        this.mErrorHandlerImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
-
         prepareInjectionsGraph(context);
 
         mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
@@ -235,6 +290,7 @@ public class DataServicesManager {
         mMonitors.add(mLoggingMonitor);
         mMonitors.add(mExceptionMonitor);
 
+        DSLog.i("SPO","before starting baseAppCore");
         mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         mCore.start();
     }
@@ -259,12 +315,13 @@ public class DataServicesManager {
     }
 
     public void stopCore() {
-        mCore.stop();
-        releaseInstances();
+        if (mCore != null)
+            mCore.stop();
+        // releaseInstances();
     }
 
-    private void releaseInstances() {
-        mUserRegistrationFacadeImpl = null;
+    public void releaseDataServicesInstances() {
+        mErrorHandlerImpl = null;
         mBackendIdProvider = null;
         mBackend = null;
         mDataCreater = null;
@@ -274,36 +331,32 @@ public class DataServicesManager {
         mExceptionMonitor = null;
         mLoggingMonitor = null;
         mSharedPreferences = null;
+        // mCore.stop();
     }
 
 
-    public UserRegistrationFacade getUserRegistrationImpl() {
-        return mUserRegistrationFacadeImpl;
+    public ErrorHandler getUserRegistrationImpl() {
+        return mErrorHandlerImpl;
     }
 
-    public void save(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent,false));
+
+    public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {
+        return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 
-    @NonNull
-    public void fetchConsent() {
-        mEventing.post(new LoadConsentsRequest());
+    public boolean isPullComplete() {
+        return isPullComplete;
     }
 
-    @NonNull
-    public Consent createConsent() {
-        return mDataCreater.createConsent(mUserRegistrationFacadeImpl.getUserProfile().getGUid());
+    public void setPullComplete(boolean pullComplete) {
+        isPullComplete = pullComplete;
     }
 
-    public void createConsentDetail(@NonNull Consent consent, @NonNull final ConsentDetailType detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber,final boolean isSynchronized) {
-        if (consent == null) {
-            consent = createConsent();
-        }
-        ConsentDetail consentDetail = mDataCreater.createConsentDetail(detailType, consentDetailStatusType.getDescription(), Consent.DEFAULT_DOCUMENT_VERSION, deviceIdentificationNumber,isSynchronized,consent);
-        consent.addConsentDetails(consentDetail);
+    public boolean isPushComplete() {
+        return isPushComplete;
     }
 
-    public void UpdateConsent(@NonNull final Consent consent) {
-
+    public void setPushComplete(boolean pushComplete) {
+        isPushComplete = pushComplete;
     }
 }

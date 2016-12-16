@@ -27,9 +27,9 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    private final SharedPreferences sharedPreferences;
-    private final PackageManager packageManager;
-    private final Context context;
+    private SharedPreferences sharedPreferences;
+    private PackageManager packageManager;
+    private Context context;
 
     public ApplicationModule(Context context) {
         sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
