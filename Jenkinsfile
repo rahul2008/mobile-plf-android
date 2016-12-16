@@ -23,6 +23,7 @@ node ('Ubuntu && 24.0.3 &&' + node_ext) {
 		try {
 			stage ('build') {
                 sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "uikitLib" && ./gradlew assembleRelease zipDocuments artifactoryPublish'
+
 			}
             currentBuild.result = 'SUCCESS'
         }
