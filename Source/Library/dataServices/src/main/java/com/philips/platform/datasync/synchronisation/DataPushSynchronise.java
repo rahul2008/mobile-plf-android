@@ -94,7 +94,10 @@ public class DataPushSynchronise extends EventMonitor {
 
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
         DSLog.i("***SPO***","DataPushSynchronize GetNonSynchronizedDataResponse");
-        startAllSenders(response);
+        synchronized (this) {
+            startAllSenders(response);
+        }
+        mDataServicesManager.setPushComplete(true);
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {

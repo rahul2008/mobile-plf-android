@@ -42,7 +42,7 @@ public class ExceptionMonitor extends EventMonitor {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                throw new IllegalStateException(message, cause);
+              //  throw new IllegalStateException(message, cause);
             }
         });
     }
@@ -57,7 +57,7 @@ public class ExceptionMonitor extends EventMonitor {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                throw new IllegalStateException(message, event.throwable);
+//                throw new IllegalStateException(message, event.throwable);
             }
         });
     }

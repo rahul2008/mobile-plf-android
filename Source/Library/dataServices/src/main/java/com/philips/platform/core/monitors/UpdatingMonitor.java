@@ -87,12 +87,14 @@ public class UpdatingMonitor extends EventMonitor {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
             DSLog.i("***SPO***","In updatingMonitor moments null hence start push");
-            eventing.post(new WriteDataToBackendRequest());
+//            eventing.post(new WriteDataToBackendRequest());
             return;
         }
         int updatedCount = dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
+        boolean savedAllMoments = updatedCount == moments.size();
         DSLog.i("***SPO***","In updatingMonitor start push after processing moments");
-        eventing.post(new WriteDataToBackendRequest());
+  /*      if (savedAllMoments)
+            eventing.post(new WriteDataToBackendRequest());*/
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {

@@ -123,6 +123,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         deleteUserDataIfNewUserLoggedIn();
 
         init();
+        mTemperaturePresenter.fetchData();
 
         setUpBackendSynchronizationLoop();
 
@@ -185,8 +186,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         injectDBInterfacesToCore();
         mDataServicesManager.initialize(mContext, creator, errorHandler);
         mDataServicesManager.initializeSyncMonitors(null, null);
-        mTemperaturePresenter.fetchData();
-
     }
 
     void injectDBInterfacesToCore() {

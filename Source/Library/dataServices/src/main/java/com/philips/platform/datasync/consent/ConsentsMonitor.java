@@ -87,7 +87,7 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        if(event.getConsentDetails()==null){
+        if(event.getConsentDetails()==null || mDataServicesManager.getUCoreAccessProvider()==null){
             return;
         }
 
@@ -132,6 +132,9 @@ public class ConsentsMonitor extends EventMonitor {
     private void sendToBackend(ConsentBackendSaveRequest event) {
         if (isUserInvalid()) {
             postError(event.getEventId(), getNonLoggedInError());
+            return;
+        }
+        if(mDataServicesManager.getUCoreAccessProvider()==null){
             return;
         }
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, mDataServicesManager.getUCoreAccessProvider().getAccessToken(), gsonConverter);

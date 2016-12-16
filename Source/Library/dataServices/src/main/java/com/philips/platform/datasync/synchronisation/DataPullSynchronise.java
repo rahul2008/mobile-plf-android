@@ -16,6 +16,7 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -192,9 +193,13 @@ public class DataPullSynchronise {
     }}
 
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
-        DSLog.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
-        final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments,response.getConsentDetails());
+        synchronized (this) {
+            DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
+            final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
+            fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, response.getConsentDetails());
+        }
+        mDataServicesManager.setPullComplete(true);
+        eventing.post(new WriteDataToBackendRequest());
        // unRegisterEvent();
     }
 }

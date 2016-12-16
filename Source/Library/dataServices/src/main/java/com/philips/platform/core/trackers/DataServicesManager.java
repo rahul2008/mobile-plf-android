@@ -75,6 +75,10 @@ import de.greenrobot.event.EventBus;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
+    volatile boolean isPullComplete = true;
+
+    volatile boolean isPushComplete = true;
+
     @NonNull
     private Eventing mEventing;
 
@@ -110,9 +114,10 @@ public class DataServicesManager {
 
     @Singleton
     private DataServicesManager() {
+        mEventing = new EventingImpl(new EventBus(), new Handler());
     }
 
-    public static DataServicesManager getInstance() {
+    public static synchronized DataServicesManager getInstance() {
         if (sDataServicesManager == null) {
             return sDataServicesManager = new DataServicesManager();
         }
@@ -254,12 +259,12 @@ public class DataServicesManager {
     private void sendPullDataEvent() {
         DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
         if (mCore != null) {
+            DSLog.i("SPO","mCore not null");
             mCore.start();
-        } else {
+        } /*else {
             mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
             mCore.start();
-        }
-        getEventingImpl();
+        }*/
         mEventing.post(new ReadDataFromBackendRequest(null));
     }
 
@@ -273,11 +278,10 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, ErrorHandler facade) {
-
+        DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
         this.mErrorHandlerImpl = facade;
         this.mBackendIdProvider = new UCoreAccessProvider(facade);
-        getEventingImpl();
         prepareInjectionsGraph(context);
 
         mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
@@ -286,18 +290,13 @@ public class DataServicesManager {
         mMonitors.add(mLoggingMonitor);
         mMonitors.add(mExceptionMonitor);
 
+        DSLog.i("SPO","before starting baseAppCore");
         mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
         mCore.start();
     }
 
-    private void getEventingImpl() {
-        if (mEventing == null)
-            mEventing = new EventingImpl(new EventBus(), new Handler());
-    }
-
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
     public void deleteAll() {
-        getEventingImpl();
         mEventing.post(new DataClearRequest());
     }
 
@@ -343,5 +342,21 @@ public class DataServicesManager {
 
     public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
+    }
+
+    public boolean isPullComplete() {
+        return isPullComplete;
+    }
+
+    public void setPullComplete(boolean pullComplete) {
+        isPullComplete = pullComplete;
+    }
+
+    public boolean isPushComplete() {
+        return isPushComplete;
+    }
+
+    public void setPushComplete(boolean pushComplete) {
+        isPushComplete = pushComplete;
     }
 }
