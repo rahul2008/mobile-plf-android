@@ -54,7 +54,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         layoutParams.width = colorPickerwidth;
         view.setLayoutParams(layoutParams);
         ThemeColorAdapter.ViewHolder viewHolder = new ViewHolder(view);
-        drawableCompat = VectorDrawableCompat.create(view.getContext().getResources(), R.drawable.ic_transparent_done, view.getContext().getTheme());
+        drawableCompat = VectorDrawableCompat.create(view.getContext().getResources(), R.drawable.ic_transparent_done_icon, view.getContext().getTheme());
 
         return viewHolder;
     }

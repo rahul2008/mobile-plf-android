@@ -20,8 +20,8 @@ public class ProgressBarMatcher {
             protected boolean matchesSafely(View view) {
                 if (view instanceof ProgressBar) {
                     int actual = UIDTestUtils.getIntFieldValueFromReflection(view, INDETERMINATE_DURATION);
-                    setValues(String.valueOf(actual), String.valueOf(expectedValue));
-                    return actual == expectedValue;
+                    setValues(actual, expectedValue);
+                    return areEqual();
                 }
                 throw new RuntimeException("expected ProgressBar got " + view.getClass().getName());
             }

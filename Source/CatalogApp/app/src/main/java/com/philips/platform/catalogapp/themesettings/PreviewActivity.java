@@ -6,26 +6,26 @@
 package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 
 import com.philips.platform.catalogapp.BuildConfig;
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.databinding.ActivityPreviewBinding;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -33,8 +33,6 @@ public class PreviewActivity extends AppCompatActivity {
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private NavigationColor navigationColor = NavigationColor.VERY_LIGHT;
     private ThemeHelper themeHelper;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -48,19 +46,15 @@ public class PreviewActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_preview);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        setTitle(R.string.page_title_preview);
+        final ActivityPreviewBinding dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_preview);
+        dataBinding.setPreviewActivity(this);
 
-        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_back_icon, getTheme()));
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                finish();
-            }
-        });
+        final com.philips.platform.catalogapp.databinding.PreviewToolbarBinding toolbar = dataBinding.toolbar;
+        toolbar.setPreActivity(this);
+        setSupportActionBar(toolbar.previewbar);
+        final ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setDisplayOptions(DISPLAY_SHOW_CUSTOM);
+        supportActionBar.setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -73,5 +67,9 @@ public class PreviewActivity extends AppCompatActivity {
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
+    }
+
+    public void cancelOrPreviewClicked() {
+        finish();
     }
 }

@@ -20,8 +20,8 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 Rect bounds = drawable.getBounds();
                 int actualHeight = bounds.bottom - bounds.top;
-                setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
-                return actualHeight == expectedValue;
+                setValues(actualHeight, expectedValue);
+                return areEqual();
             }
         };
     }
@@ -33,7 +33,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 Rect bounds = drawable.getBounds();
                 int actualHeight = bounds.bottom - bounds.top;
-                setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
+                setValues(actualHeight, expectedValue);
                 return actualHeight >= expectedValue;
             }
         };
@@ -46,7 +46,7 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 Rect bounds = drawable.getBounds();
                 int actualHeight = bounds.right - bounds.left;
-                setValues(String.valueOf(actualHeight), String.valueOf(expectedValue));
+                setValues(actualHeight, expectedValue);
                 return actualHeight >= expectedValue;
             }
         };
@@ -59,8 +59,8 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 Rect bounds = drawable.getBounds();
                 int actualWidth = bounds.right - bounds.left;
-                setValues(String.valueOf(actualWidth), String.valueOf(expectedValue));
-                return actual == expected;
+                setValues(actualWidth, expectedValue);
+                return areEqual();
             }
         };
     }
@@ -71,7 +71,7 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(stateColors.getCornerRadius()[index]), String.valueOf(expectedValue));
+                setValues(stateColors.getCornerRadius()[index], expectedValue);
                 return Float.compare(stateColors.getCornerRadius()[index], expectedValue) == 0;
             }
         };
@@ -89,8 +89,8 @@ public class DrawableMatcher {
                 } else {
                     color = stateColors.getStateColor(state);
                 }
-                setValues(String.valueOf(Integer.toHexString(color)), Integer.toHexString(expectedValue));
-                return color == expectedValue;
+                setValues(color, expectedValue);
+                return areEqual();
             }
         };
     }
@@ -101,8 +101,8 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(stateColors.getStrokeSolidStateColor(state)), String.valueOf(expectedValue));
-                return stateColors.getStrokeSolidStateColor(state) == expectedValue;
+                setValues(stateColors.getStrokeSolidStateColor(state), expectedValue);
+                return areEqual();
             }
         };
     }
@@ -113,8 +113,8 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(stateColors.getStrokeWidth()), String.valueOf(expectedValue));
-                return stateColors.getStrokeWidth() == expectedValue;
+                setValues(stateColors.getStrokeWidth(), expectedValue);
+                return areEqual();
             }
         };
     }
@@ -125,8 +125,8 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(stateColors.getRippleRadius()), String.valueOf(expectedValue));
-                return stateColors.getRippleRadius() == expectedValue;
+                setValues(stateColors.getRippleRadius(), expectedValue);
+                return areEqual();
             }
         };
     }
@@ -137,8 +137,8 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                setValues(String.valueOf(stateColors.getRippleColor(attr)), String.valueOf(expectedValue));
-                return stateColors.getRippleColor(attr) == expectedValue;
+                setValues(stateColors.getRippleColor(attr), expectedValue);
+                return areEqual();
             }
         };
     }
@@ -149,10 +149,8 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                int actual = (int) (stateColors.getRingThicknessRatio() * 100);
-                int expected = (int) (expectedValue * 100);
-                setValues(String.valueOf(actual), String.valueOf(expectedValue));
-                return actual == expected;
+                setValues(stateColors.getRingThicknessRatio(), expectedValue);
+                return areEqual();
             }
         };
     }
@@ -162,10 +160,8 @@ public class DrawableMatcher {
             @Override
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
-                int actual = (int) (stateColors.getInnerRadiusRatio() * 100);
-                int expected = (int) (expectedValue * 100);
-                setValues(String.valueOf(actual), String.valueOf(expectedValue));
-                return actual == expected;
+                setValues(stateColors.getInnerRadiusRatio(), expectedValue);
+                return areEqual();
             }
         };
     }
@@ -176,8 +172,8 @@ public class DrawableMatcher {
             protected boolean matchesSafely(Drawable drawable) {
                 GradientDrawableUtils.StateColors stateColors = GradientDrawableUtils.getStateColors(drawable);
                 int actual = stateColors.getColors()[index];
-                setValues(Integer.toHexString(actual), Integer.toHexString(expectedValue));
-                return actual == expectedValue;
+                setValues(actual, expectedValue);
+                return areEqual();
             }
         };
     }

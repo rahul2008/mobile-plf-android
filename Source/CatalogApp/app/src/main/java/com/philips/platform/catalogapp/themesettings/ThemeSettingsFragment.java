@@ -104,7 +104,6 @@ public class ThemeSettingsFragment extends BaseFragment {
                 buildContentTonalRangeList(colorRange);
                 buildNavigationList(colorRange);
 
-                buildAccentColorsList(colorRange);
                 view.setVisibility(View.VISIBLE);
             }
         });

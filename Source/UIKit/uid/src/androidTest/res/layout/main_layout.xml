@@ -5,14 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@id/uid_toolbar"
-        style="@style/UIDToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:theme="@style/UIDToolbar">
-    </android.support.v7.widget.Toolbar>
-
+    <include layout="@layout/uid_toolbar_layout"/>
 
     <FrameLayout
         android:id="@+id/container"
