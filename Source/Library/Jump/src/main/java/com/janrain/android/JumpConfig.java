@@ -118,12 +118,12 @@ public final class JumpConfig {
     public Jump.TraditionalSignInType traditionalSignInType;
 
 
-    /**
-     * Flow cdn added by Philips
-     */
-    public String flowCDN;
-
-    public String flowEngage;
+//    /**
+//     * Flow cdn added by Philips
+//     */
+//    public String flowCDN;
+//
+//    public String flowEngage;
 
 
     /**

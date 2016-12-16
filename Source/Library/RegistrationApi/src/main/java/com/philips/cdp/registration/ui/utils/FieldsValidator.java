@@ -170,10 +170,27 @@ public class FieldsValidator {
         }
     }
 
-    public static String getVerifiedMobileNumber(String uuid, String sms){
-        String uuid_a = uuid.replaceAll("[0|i|o|l|1|-]","");
+    public static String getMobileNumber(String mobileNumber) {
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        if (mobileNumber.length() > 0) {
+            if (android.util.Patterns.PHONE.matcher(mobileNumber).matches()) {
+                try {
+                    numberProto = phoneUtil.parse(mobileNumber, "CN");
+                    mobileNumber = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164).toString();
+                    mobileNumber = mobileNumber.replace("+","");
+                } catch (NumberParseException e) {
+                    e.printStackTrace();
+                }
+                RLog.d("Validate MobileNumber", mobileNumber);
+            }
+        }
+        return mobileNumber;
+    }
+
+    public static String getVerifiedMobileNumber(String uuid, String sms) {
+        String uuid_a = uuid.replaceAll("[0|i|o|l|1|-]", "");
         String resultStr = sms;
-        while (resultStr.length()<32){
+        while (resultStr.length() < 32) {
             resultStr += uuid_a;
         }
         resultStr = resultStr.substring(0, Math.min(resultStr.length(), 32));

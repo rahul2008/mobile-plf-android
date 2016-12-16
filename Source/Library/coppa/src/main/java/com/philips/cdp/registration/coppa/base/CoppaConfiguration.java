@@ -110,6 +110,10 @@ class CoppaConfiguration {
         consentIndex = 0;
         isCampaignIdPresent = false;
 
+        if(jsonObject==null){
+            return;
+        }
+
         if (!jsonObject.isNull(COPPA_COMMUNICATION_SENT_AT)) {
             coppaCommunicationSentAt = (String) jsonObject.opt(COPPA_COMMUNICATION_SENT_AT);
             RLog.i("Consent", "consent sent @ : " + coppaCommunicationSentAt);

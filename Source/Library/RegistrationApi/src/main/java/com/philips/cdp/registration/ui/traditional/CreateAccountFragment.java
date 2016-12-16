@@ -367,14 +367,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void register() {
+        RLog.d("OHC","******** TESTING OHC LOGS");
         mRegAccptTermsError.setVisibility(View.GONE);
         mEtName.clearFocus();
         mEtEmail.clearFocus();
         mEtPassword.clearFocus();
         showSpinner();
-        mEmail = mEtEmail.getEmailId();
-        mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
-                .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
+        if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+            mEmail = mEtEmail.getEmailId();
+        }else{
+            mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId());
+        }
+        mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEmail
+                , mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
     }
 
     private String mEmail;

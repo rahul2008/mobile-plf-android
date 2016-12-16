@@ -139,7 +139,9 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     }
 
     private void updateUserRecord(CaptureRecord user, final JSONObject originalUserInfo) {
-
+        Log.d(LOG_TAG, " ***** Testing OHC Logs *****");
+        Log.d(LOG_TAG, "******** updateUserRecord :"+user.toString());
+        System.out.println("******** user Record :"+user.toString());
         try {
             user.synchronize(new Capture.CaptureApiRequestCallback() {
 

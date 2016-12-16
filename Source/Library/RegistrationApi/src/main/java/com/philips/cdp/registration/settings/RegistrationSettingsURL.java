@@ -103,10 +103,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
         jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
 
-    //Added for We chat: need to cross check with maqsood/vinayak
-        jumpConfig.engageAppUrl = "philips-staging.login.cn.janrain.com";
-        jumpConfig.downloadFlowUrl = "janrain-capture-static.cn.janrain.com";
-
         initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
 
@@ -301,7 +297,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                     @Override
                                                                     public void onSuccess(URL url) {
                                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" + url.toString());
-                                                                        jumpConfig.flowCDN = url.toString();
+                                                                        jumpConfig.downloadFlowUrl = url.toString();
 
                                                                         serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.smssupported", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
@@ -310,7 +306,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" + error);
                                                                                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +"Service Deiscover inis at non China local");
                                                                                 setChinaFlow(false);
-                                                                                jumpConfig.flowEngage = null;
+                                                                                jumpConfig.engageAppUrl = "https://philips-staging.login.cn.janrain.com";;
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;
@@ -335,10 +331,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
                                                                                 // If configuration is Staging pass this
-                                                                                jumpConfig.flowEngage = null;
+                                                                                jumpConfig.engageAppUrl = null;
                                                                                 if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(Configuration.STAGING.getValue())) {
-                                                                                    jumpConfig.flowCDN = "https://janrain-capture-static.cn.janrain.com";
-                                                                                    jumpConfig.flowEngage = "https://philips-staging.login.cn.janrain.com";
+                                                                                    jumpConfig.downloadFlowUrl = "janrain-capture-static.cn.janrain.com";
+                                                                                    jumpConfig.engageAppUrl = "https://philips-staging.login.cn.janrain.com";
                                                                                 }
                                                                                  mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;

@@ -58,6 +58,7 @@ import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
 import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
@@ -128,8 +129,8 @@ public class Jump {
         String captureRedirectUri;
         String captureRecoverUri;
 
-        String flowCDN;
-        String flowEngage;
+//        String flowCDN;
+//        String flowEngage;
 
         //WeChat China
         /*package*/ String engageAppUrl;
@@ -218,8 +219,8 @@ public class Jump {
         state.captureTraditionalSignInFormName = jumpConfig.captureTraditionalSignInFormName;
         state.captureForgotPasswordFormName = jumpConfig.captureForgotPasswordFormName;
         state.captureResendEmailVerificationFormName = jumpConfig.captureResendEmailVerificationFormName;
-        state.flowCDN = jumpConfig.flowCDN;
-        state.flowEngage = jumpConfig.flowEngage;
+        state.downloadFlowUrl = jumpConfig.downloadFlowUrl;
+        state.engageAppUrl = jumpConfig.engageAppUrl;
         if(jumpConfig.captureRedirectUri == null){
             state.captureRedirectUri = "http://android.library";
         }else{
@@ -322,7 +323,7 @@ public class Jump {
     }
 
     public static String getFlowEngage() {
-        return state.flowEngage;
+        return state.engageAppUrl;
     }
 
     public static String getResponseType() {

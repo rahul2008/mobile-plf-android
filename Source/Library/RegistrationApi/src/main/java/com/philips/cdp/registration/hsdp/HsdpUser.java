@@ -265,43 +265,38 @@ public class HsdpUser {
         if (mHsdpUserRecord != null) {
             return mHsdpUserRecord;
         }
-        if( fileExistance(mContext,HSDP_RECORD_FILE)){
-            try {
-                final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
-                final ObjectInputStream ois = new ObjectInputStream(fis);
-                final Object object = ois.readObject();
-                byte[] plainBytes = null;
-                if (object instanceof byte[]) {
-                    plainBytes = (byte[]) object;
-                }
-                mContext.deleteFile(HSDP_RECORD_FILE);
-                fis.close();
-                ois.close();
 
-                Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
-                        new String(plainBytes), new SecureStorageInterface.SecureStorageError());
-
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            //Read from file
+            final FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
+            final ObjectInputStream ois = new ObjectInputStream(fis);
+            final Object object = ois.readObject();
+            byte[] plainBytes = null;
+            if (object instanceof byte[]) {
+                plainBytes = (byte[]) object;
             }
+            mContext.deleteFile(HSDP_RECORD_FILE);
+            fis.close();
+            ois.close();
+
+            Jump.getSecureStorageInterface().storeValueForKey(HSDP_RECORD_FILE,
+                    new String(plainBytes), new SecureStorageInterface.SecureStorageError());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        String hsdpRecord  =  Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE,
+
+        String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE,
                 new SecureStorageInterface.SecureStorageError());
 
-        if(hsdpRecord !=null){
-            Object  obj = SecureStorage.stringToObject(hsdpRecord);
-            if(obj instanceof HsdpUserRecord){
-                mHsdpUserRecord = (HsdpUserRecord) obj ;
+        if (hsdpRecord != null) {
+            Object obj = SecureStorage.stringToObject(hsdpRecord);
+            if (obj instanceof HsdpUserRecord) {
+                mHsdpUserRecord = (HsdpUserRecord) obj;
             }
         }
         return mHsdpUserRecord;
-    }
 
-    private boolean fileExistance(Context context ,String fname){
-        System.out.println("file existance"+context);
-        System.out.println("file existance"+fname);
-        File file = context.getFileStreamPath(fname);
-        return file.exists();
     }
 
     /**
