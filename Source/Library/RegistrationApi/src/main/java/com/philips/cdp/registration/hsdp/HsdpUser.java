@@ -2,6 +2,7 @@ package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 
 import com.janrain.android.Jump;
@@ -53,7 +54,7 @@ public class HsdpUser {
      */
     public void logOut(final LogoutHandler logoutHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            final Handler handler = new Handler();
+            final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -135,7 +136,7 @@ public class HsdpUser {
      * @param refreshHandler refresh handler
      */
     public void refreshToken(final RefreshLoginSessionHandler refreshHandler) {
-        final Handler handler = new Handler();
+        final Handler handler = new Handler(Looper.getMainLooper());
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             new Thread(new Runnable() {
                 @Override
@@ -311,7 +312,7 @@ public class HsdpUser {
     public void socialLogin(final String email, final String accessToken, final SocialLoginHandler
             loginHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            final Handler handler = new Handler();
+            final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(new Runnable() {
                 @Override
                 public void run() {
