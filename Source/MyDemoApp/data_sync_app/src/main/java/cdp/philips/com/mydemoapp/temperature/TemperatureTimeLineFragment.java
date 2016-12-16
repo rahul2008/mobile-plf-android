@@ -101,7 +101,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
         mProgressBar.setCancelable(false);
-
     }
 
     @Override

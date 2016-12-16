@@ -103,9 +103,11 @@ public class OrmSaving {
     }
 
     public void saveMeasurementGroup(OrmMeasurementGroup measurementGroup) throws SQLException {
-        measurementGroupDao.createOrUpdate(measurementGroup);
-        assureMeasurementsAreSaved(measurementGroup.getMeasurements());
-        assureMeasurementGroupDetailsAreSaved(measurementGroup.getMeasurementGroupDetails());
+        if(measurementGroup!=null) {
+            measurementGroupDao.createOrUpdate(measurementGroup);
+            assureMeasurementsAreSaved(measurementGroup.getMeasurements());
+            assureMeasurementGroupDetailsAreSaved(measurementGroup.getMeasurementGroupDetails());
+        }
     }
 
     private void assureMeasurementGroupDetailsAreSaved(Collection<? extends OrmMeasurementGroupDetail> measurementGroupDetails) throws SQLException {
@@ -144,9 +146,11 @@ public class OrmSaving {
     }
 
     private void assureMeasurementGroupsInsideAreSaved(OrmMeasurementGroup measurementGroup) throws SQLException {
-        ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
-        for (OrmMeasurementGroup group : measurementGroups) {
-            saveMeasurementGroupWithinGroup(group);
+        if(measurementGroup!=null) {
+            ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
+            for (OrmMeasurementGroup group : measurementGroups) {
+                saveMeasurementGroupWithinGroup(group);
+            }
         }
     }
 
