@@ -1,0 +1,18 @@
+apply plugin: 'groovy'
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+task generateColors(dependsOn: 'classes', type: JavaExec, group:"DLS theme tasks"){
+    main = 'com.philips.uid.ColorParser'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task generateAllThemes(dependsOn: generateColors, type: JavaExec, group:"DLS theme tasks") {
+    main = 'com.philips.uid.BrushParser'
+    classpath = sourceSets.main.runtimeClasspath
+}
