@@ -20,10 +20,10 @@
   },
 
   "appinfra": {
-    "appidentity.micrositeId" : "77000",
+    "appidentity.micrositeId" : "81451",
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "STAGING",
-    "appidentity.serviceDiscoveryEnvironment"  : "Production",
+    "appidentity.serviceDiscoveryEnvironment"  : "production",
     "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success"]
   }
 
