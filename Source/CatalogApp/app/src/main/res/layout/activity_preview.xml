@@ -22,11 +22,6 @@
                 android:id="@+id/toolbar"
                 layout="@layout/preview_toolbar"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="?attr/uidNavigationSecondaryColor"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:text="@string/alternate_primary_label"
-                    app:uidComponentType="AltPrimary"/>
+                    android:visibility="gone" app:uidComponentType="AltPrimary"/>
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/seconday_button"
