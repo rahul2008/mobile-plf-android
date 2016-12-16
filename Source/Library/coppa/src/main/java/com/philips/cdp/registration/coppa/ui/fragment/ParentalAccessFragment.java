@@ -41,6 +41,7 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        RLog.d("OHC TESTING LOGS ", "************ OHC ");
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
 
         View view = inflater.inflate(R.layout.reg_fragment_coppa_parental_access, null);
