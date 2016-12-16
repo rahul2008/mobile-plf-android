@@ -39,6 +39,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * Created by indrajitkumar on 07/12/16.
  */
+@Ignore
 public class MomentsDataFetcherTest {
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     public static final String USER_ID = "TEST_GUID";
