@@ -84,7 +84,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     User mUser;
     Utility mUtility;
 
-
+   
     @Override
     public String getActionbarTitle() {
         return "Datasync";
