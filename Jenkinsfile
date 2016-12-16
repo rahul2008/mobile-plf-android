@@ -7,30 +7,47 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
 ])
 
-def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 
-node ('android_pipeline') {
+node_ext = "build_t"
+if (env.triggerBy == "ppc") {
+  node_ext = "build_p"
+}
+
+node ('Ubuntu && 24.0.3 &&' + node_ext) {
 	timestamps {
 		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/cds/datasync_android.git']]])
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'acb45cf5-594a-4209-a56b-b0e75ae62849', url: 'ssh://git@atlas.natlab.research.philips.com:7999/cds/datasync_android.git']]])
 			step([$class: 'StashNotifier'])
 		}
 		try {
 			stage ('build') {
-                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug assembleRelease test zipDocuments artifactoryPublish'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh dataServices && ./gradlew assembleRelease zipDocuments artifactoryPublish'
 			}
+            currentBuild.result = 'SUCCESS'
+
+        }
 			
-            /* next if-then + stage is mandatory for the platform CI pipeline integration */
-            if (env.triggerBy != "ppc") {
+        catch(err) {
+            currentBuild.result = 'FAILURE'
+            error ("Someone just broke the build")
+        }    
+
+        try {
+            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
             	stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dsc'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
+                    currentBuild.result = 'SUCCESS'
             	}            
-            }
-            
-		} //end try
+            }  
+		} 
 		
 		catch(err) {
-            error ("Someone just broke the build")
+            currentBuild.result = 'UNSTABLE'
         }
 
         stage('informing') {
