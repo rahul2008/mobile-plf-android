@@ -153,15 +153,18 @@ public class HsdpUser {
                             ) {
                         RLog.i(RLog.HSDP,"issuing refresh "+ SystemClock.elapsedRealtime());
                         dhpAuthenticationResponse = authenticationManagementClient.
-                                refreshSecret(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().
-                                                getAccessToken(),Jump.getRefreshSecret());
-                    }else if (mHsdpUserRecord!=null &&
-                            null!=mHsdpUserRecord.getUserUUID() &&
-                            null!=mHsdpUserRecord.getAccessCredential()){
-                        dhpAuthenticationResponse = authenticationManagementClient.
                                 refresh(mHsdpUserRecord.getUserUUID(),
                                         mHsdpUserRecord.getAccessCredential().getRefreshToken());
+
+                    } else if (mHsdpUserRecord != null &&
+                            null != mHsdpUserRecord.getUserUUID() &&
+                            null != mHsdpUserRecord.getAccessCredential()) {
+                        RLog.i(RLog.HSDP,"issuing refreshSecret "+ SystemClock.elapsedRealtime());
+                        dhpAuthenticationResponse = authenticationManagementClient.
+                                refreshSecret(mHsdpUserRecord.getUserUUID(),
+                                        mHsdpUserRecord.getAccessCredential().
+                                                getAccessToken(), Jump.
+                                                getRefreshSecret());
                     }
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
