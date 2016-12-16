@@ -1,27 +1,20 @@
+apply plugin: 'java'
 apply plugin: 'groovy'
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'org.codehaus.groovy:groovy-all:2.4.7'
-}
-
-sourceSets {
-    main {
-        groovy {
-            srcDirs = ['src/main/groovy/']
-        }
-    }
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 
-
-task generateColors(dependsOn: 'classes', type: JavaExec) {
-    main = 'ColorParser'
+task generateColors(dependsOn: 'classes', type: JavaExec){
+    main = 'com.philips.uid.ColorParser'
     classpath = sourceSets.main.runtimeClasspath
 }
 
 task generateAllThemes(dependsOn: generateColors, type: JavaExec) {
-    main = 'BrushParser'
+    main = 'com.philips.uid.BrushParser'
     classpath = sourceSets.main.runtimeClasspath
 }
