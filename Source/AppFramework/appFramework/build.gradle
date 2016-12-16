@@ -223,7 +223,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled = true
+            testCoverageEnabled = false
         }
     }
 
