@@ -334,13 +334,5 @@ public class HsdpUserRecord implements Serializable {
     public AccessCredential getAccessCredential() {
         return accessCredential;
     }
-
-    public String getRefreshSecret() {
-        return refreshSecret;
-    }
-
-    public void setRefreshSecret(String refreshSecret) {
-        this.refreshSecret = refreshSecret;
-    }
 }
 
