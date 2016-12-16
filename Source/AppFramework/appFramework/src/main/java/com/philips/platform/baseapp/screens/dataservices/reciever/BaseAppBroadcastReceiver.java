@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTimeConstants;
 
@@ -40,7 +41,7 @@ public class BaseAppBroadcastReceiver extends BroadcastReceiver {
         }
         //TODO: review changing connection
         if (mUtility.isOnline(context) && (action.equals(ACTION_USER_DATA_FETCH) || action.equals(ConnectivityManager.CONNECTIVITY_ACTION))) {
-            Log.i("***SPO***","START SYNC FROM REC");
+            DSLog.i("***SPO***","START SYNC FROM REC");
             mDataServices.synchchronize();
         }
     }
