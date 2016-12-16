@@ -181,7 +181,7 @@ public class FieldsValidator {
                 } catch (NumberParseException e) {
                     e.printStackTrace();
                 }
-                RLog.d("Validate MobileNumber", mobileNumber);
+                RLog.d("Validated MobileNumber", mobileNumber);
             }
         }
         return mobileNumber;
