@@ -1,24 +1,15 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
-
 package com.philips.platform.baseapp.screens.dataservices.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 
 import java.io.Serializable;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Created by 310218660 on 11/17/2016.
  */
-@DatabaseTable
-public class OrmMeasurementDetailType implements Serializable {
 
+public class OrmMeasurementGroupDetailType implements Serializable {
     private static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
@@ -28,10 +19,10 @@ public class OrmMeasurementDetailType implements Serializable {
     private String description;
 
     @DatabaseConstructor
-    OrmMeasurementDetailType() {
+    OrmMeasurementGroupDetailType() {
     }
 
-    public OrmMeasurementDetailType(final int id, final String momentType) {
+    public OrmMeasurementGroupDetailType(final int id, final String momentType) {
         this.id = id;
         this.description = momentType;
     }

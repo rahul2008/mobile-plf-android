@@ -86,7 +86,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 "HSDPConfiguration.ApplicationName",
                 UR,
                // "Datacore",
-                "uGrow",
+                //"uGrow",
+                "HealthySleepSolutions",
                 configError);
 
         ((AppFrameworkApplication)applicationContext).getAppInfra().
@@ -108,7 +109,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 "HSDPConfiguration.BaseURL",
                 UR,
                 //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
-                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+               // "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+                "https://healthysleep-ds-development.eu-west.philips-healthsuite.com",
                 configError);
     }
 
