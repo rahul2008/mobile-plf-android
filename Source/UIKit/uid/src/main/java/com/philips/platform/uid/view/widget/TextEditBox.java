@@ -63,38 +63,6 @@ public class TextEditBox extends AppCompatEditText {
         typedArray.recycle();
     }
 
-    @Override
-    public boolean onTouchEvent(final MotionEvent event) {
-        final int inputType = getInputType();
-        if (inputType == 129) {
-            final Drawable[] compoundDrawables = getCompoundDrawables();
-
-            final Drawable drawable = compoundDrawables[2];
-            if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null) {
-                final float rawX = event.getRawX();
-                final float rawY = event.getRawY();
-                final Rect bounds = drawable.getBounds();
-                final int width = getWidth();
-                final int height = getHeight();
-                final int left = getLeft();
-                final int right = getRight();
-                boolean touchedDrawable = (rawX > (left + width - (drawable.getIntrinsicWidth() + ADDITIONAL_TOUCH_AREA)) &&
-                        (rawX < (left + width + ADDITIONAL_TOUCH_AREA)) &&
-                        (rawY > (right - height + (drawable.getIntrinsicHeight() + ADDITIONAL_TOUCH_AREA))) &&
-                        (rawY < (right + height + ADDITIONAL_TOUCH_AREA)));
-                if (touchedDrawable) {
-                    if (getTransformationMethod() == null) {
-                        setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    } else {
-                        setTransformationMethod(null);
-                    }
-                    return true;
-                }
-            }
-        }
-        return super.onTouchEvent(event);
-    }
-
     private void setPasswordType(final Resources.Theme theme, final AttributeSet attrs, final int defStyleAttr) {
 
         final int inputType = getInputType();
