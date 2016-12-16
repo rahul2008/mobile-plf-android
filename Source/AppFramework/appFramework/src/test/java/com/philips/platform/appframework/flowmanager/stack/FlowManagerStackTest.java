@@ -33,7 +33,7 @@ public class FlowManagerStackTest extends TestCase {
             assertEquals(aboutState, flowManagerStack.pop());
             flowManagerStack.push(iapRetailer);
             flowManagerStack.pop();
-            assertEquals(flowManagerStack.getBaseStateList().size(), 1);
+            assertEquals(flowManagerStack.size(), 1);
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(e instanceof NoStateException);
@@ -60,13 +60,13 @@ public class FlowManagerStackTest extends TestCase {
         } catch (NoStateException e) {
             e.printStackTrace();
         }
-        assertEquals(flowManagerStack.getBaseStateList().size(), 5);
+        assertEquals(flowManagerStack.size(), 5);
         try {
             assertTrue(flowManagerStack.pop(prState) instanceof ProductRegistrationState);
         } catch (NoStateException e) {
             e.printStackTrace();
         }
-        assertEquals(flowManagerStack.getBaseStateList().size(), 2);
+        assertEquals(flowManagerStack.size(), 2);
     }
 
     public void testPush() throws NoStateException {
@@ -75,10 +75,10 @@ public class FlowManagerStackTest extends TestCase {
         BaseState iapRetailer = new IAPRetailerFlowState();
         flowManagerStack.push(aboutState);
         flowManagerStack.push(aboutState);
-        assertEquals(1, flowManagerStack.getBaseStateList().size());
+        assertEquals(1, flowManagerStack.size());
         flowManagerStack.push(iapRetailer);
         flowManagerStack.push(prState);
-        assertEquals(3, flowManagerStack.getBaseStateList().size());
+        assertEquals(3, flowManagerStack.size());
         assertEquals(iapRetailer, flowManagerStack.pop());
     }
 
@@ -89,8 +89,8 @@ public class FlowManagerStackTest extends TestCase {
         flowManagerStack.push(aboutState);
         flowManagerStack.push(iapRetailer);
         flowManagerStack.push(prState);
-        assertEquals(3, flowManagerStack.getBaseStateList().size());
+        assertEquals(3, flowManagerStack.size());
         flowManagerStack.clear();
-        assertEquals(0, flowManagerStack.getBaseStateList().size());
+        assertEquals(0, flowManagerStack.size());
     }
 }
