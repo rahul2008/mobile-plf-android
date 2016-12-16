@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
 package com.philips.uid
 
 import groovy.json.JsonSlurper
@@ -10,8 +14,10 @@ def allAttributes = new ArrayList()
 
 brushesMap.each {
     semanticName, themesMap ->
-        def joinedKey = "${DLSResourceConstants.LIB_PREFIX}" + semanticName.split("-").collect { it.capitalize() }.join("")
-        def themeAttr = new ThemeAttribute(joinedKey)
+        def attributeName = "${DLSResourceConstants.LIB_PREFIX}" + semanticName.split("-").collect {
+            it.capitalize()
+        }.join("")
+        def themeAttr = new ThemeAttribute(attributeName)
         themesMap.each {
             theme ->
                 def name = theme.key
