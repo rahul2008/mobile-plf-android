@@ -8,28 +8,29 @@ import java.util.List;
 
 public class FlowManagerStack {
 
-    private List<BaseState> baseStateList;
+    private List<BaseState> stack;
 
     public FlowManagerStack() {
-        baseStateList = new ArrayList<>();
+        stack = new ArrayList<>();
     }
 
     public void push(BaseState baseState) {
-        if (!baseStateList.contains(baseState))
-            baseStateList.add(baseState);
+        if (!stack.contains(baseState))
+            stack.add(baseState);
     }
 
     public BaseState pop() throws NoStateException {
-        if (baseStateList.size() > 1) {
-            baseStateList.remove(baseStateList.size() - 1);
-            return baseStateList.get(baseStateList.size() - 1);
+        int size = stack.size();
+        if (size > 1) {
+            stack.remove(size - 1);
+            return stack.get(size - 1);
         } else
             throw new NoStateException();
     }
 
     public BaseState pop(BaseState state) throws NoStateException {
-        int index = baseStateList.indexOf(state);
-        int remove = baseStateList.size() - (index + 1);
+        int index = stack.indexOf(state);
+        int remove = stack.size() - (index + 1);
         BaseState nextState = null;
         for (int i = 0; i < remove; i++) {
             nextState = pop();
@@ -37,11 +38,11 @@ public class FlowManagerStack {
         return nextState;
     }
 
-    protected List<BaseState> getBaseStateList() {
-        return baseStateList;
+    public int size() {
+        return stack.size();
     }
 
     public void clear() {
-        baseStateList.removeAll(baseStateList);
+        stack.clear();
     }
 }
