@@ -33,8 +33,10 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textSize">@dimen/uid_navigation_bar_text_size</item>
-        <item name="android:layout_marginStart">@dimen/uid_page_marging_left_right</item>
-        <item name="android:layout_marginEnd">@dimen/uid_page_marging_left_right</item>
+        <item name="android:layout_marginStart">@dimen/uid_navigation_bar_title_margin_left_right
+        </item>
+        <item name="android:layout_marginEnd">@dimen/uid_navigation_bar_title_margin_left_right
+        </item>
         <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing_extra
         </item>
         <item name="android:lineSpacingMultiplier">
