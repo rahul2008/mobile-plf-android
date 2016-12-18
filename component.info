@@ -12,6 +12,6 @@
   "release format"     : "maven",
   "release url"        : "",
   "version"            : "1.0.0",
-  "source url"         : "https://atlas.natlab.research.philips.com/bitbucket/projects/COM/repos/android-cloudcontroller-api",
+  "source url"         : "https://bitbucket.atlas.philips.com/projects/COM/repos/android-cloudcontroller-api",
   "documentation url"  : "",
 }
