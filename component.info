@@ -12,6 +12,6 @@
   "release format"     : "maven",
   "release url"        : "",
   "version"            : "3.2.0",
-  "source url"         : "https://atlas.natlab.research.philips.com/stash/projects/MU/repos/mobileuitoolkit-android",
+  "source url"         : "https://bitbucket.atlas.philips.com/projects/MU/repos/mobileuitoolkit-android",
   "documentation url"  : "",
 }
