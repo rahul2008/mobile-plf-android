@@ -12,6 +12,6 @@
   "release format"     : "maven",
   "release url"        : "",
   "version"            : "0.3.3.2",
-  "source url"         : "https://atlas.natlab.research.philips.com/stash/projects/EHSHN/repos/android-shinelib",
+  "source url"         : "https://bitbucket.atlas.philips.com/projects/EHSHN/repos/android-shinelib",
   "documentation url"  : "",
 }
