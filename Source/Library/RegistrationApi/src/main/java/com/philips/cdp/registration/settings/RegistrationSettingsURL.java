@@ -332,25 +332,55 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                 jumpConfig.captureLocale = locale;
                                                                                 jumpConfig.captureTraditionalSignInFormName = "userInformationMobileForm";
                                                                                 // If configuration is Staging pass this
-                                                                                jumpConfig.flowEngage = null;
-                                                                                if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(Configuration.STAGING.getValue())) {
-                                                                                    jumpConfig.flowCDN = "https://janrain-capture-static.cn.janrain.com";
-                                                                                    jumpConfig.flowEngage = "https://philips-staging.login.cn.janrain.com";
-                                                                                }
-                                                                                mPreferredCountryCode = countryCode;
-                                                                                mPreferredLangCode = langCode;
 
-                                                                                try {
-                                                                                    RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " +jumpConfig);
-                                                                                    Jump.reinitialize(mContext, jumpConfig);
-                                                                                } catch (Exception e) {
-                                                                                    e.printStackTrace();
-                                                                                    if (e instanceof RuntimeException) {
-                                                                                        mContext.deleteFile("jr_capture_flow");
-                                                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                                                serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.cdn", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                                                                                    @Override
+                                                                                    public void onError(ERRORVALUES errorvalues, String s) {
+                                                                                        RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.cdn : " + errorvalues);
+                                                                                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                                                                                     }
-                                                                                }
-                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " + isChinaFlow());
+
+                                                                                    @Override
+                                                                                    public void onSuccess(URL url) {
+
+                                                                                        RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.cdn :" +url.toString());
+                                                                                        jumpConfig.flowCDN = url.toString();
+
+                                                                                        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.engage", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+                                                                                            @Override
+                                                                                            public void onError(ERRORVALUES errorvalues, String s) {
+
+                                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.engage : " + errorvalues);
+                                                                                                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                                                                                            }
+
+                                                                                            @Override
+                                                                                            public void onSuccess(URL url) {
+
+                                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.engage :" +url.toString());
+                                                                                                jumpConfig.flowEngage = url.toString();
+                                                                                                mPreferredCountryCode = countryCode;
+                                                                                                mPreferredLangCode = langCode;
+
+                                                                                                try {
+                                                                                                    RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " +jumpConfig);
+                                                                                                    Jump.reinitialize(mContext, jumpConfig);
+                                                                                                } catch (Exception e) {
+                                                                                                    e.printStackTrace();
+                                                                                                    if (e instanceof RuntimeException) {
+                                                                                                        mContext.deleteFile("jr_capture_flow");
+                                                                                                        Jump.reinitialize(mContext, jumpConfig);
+                                                                                                    }
+                                                                                                }
+                                                                                                RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " + isChinaFlow());
+                                                                                            }
+                                                                                        });
+
+
+                                                                                    }
+                                                                                });
                                                                             }
                                                                         });
 
