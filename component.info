@@ -12,6 +12,6 @@
   "release format"     : "maven",
   "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ libs-release-local-android:com/philips/cdp/productselection/1.1.1",
   "version"            : "1.1.1",
-  "source url"         : "https://atlas.natlab.research.philips.com/stash/scm/cc/productselection_android",
+  "source url"         : "https://bitbucket.atlas.philips.com/scm/cc/productselection_android",
   "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ libs-release-local-android:com/philips/cdp/productselection/1.1.1",
 }
