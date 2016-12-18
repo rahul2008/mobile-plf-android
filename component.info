@@ -12,6 +12,6 @@
   "release format"     : "maven",
   "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/5.0.0",
   "version"            : "5.0.0",
-  "source url"         : "https://atlas.natlab.research.philips.com/stash/scm/cc/consumer_care_android",
+  "source url"         : "https://bitbucket.atlas.philips.com/scm/cc/consumer_care_android",
   "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/5.0.0",
 }

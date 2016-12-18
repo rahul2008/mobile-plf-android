@@ -9,7 +9,7 @@
         <configVersion>2</configVersion>
         <userRemoteConfigs>
             <hudson.plugins.git.UserRemoteConfig>
-                <url>ssh://git@atlas.natlab.research.philips.com:7999/ehug/ugrow-android.git</url>
+                <url>ssh://git@bitbucket.atlas.philips.com:7999/ehug/ugrow-android.git</url>
             </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
         <branches>
