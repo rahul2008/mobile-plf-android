@@ -255,12 +255,7 @@ public class DataServicesManager {
         DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
         this.mErrorHandlerImpl = facade;
-      //  this.mBackendIdProvider = new UCoreAccessProvider(facade);
         prepareInjectionsGraph(context);
-
-      //  DSLog.i("SPO","before starting baseAppCore");
-
-        //mCore.start();
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
@@ -292,6 +287,11 @@ public class DataServicesManager {
         mErrorHandlerImpl = null;
         mBackendIdProvider = null;
         mDataCreater = null;
+        mAppComponent = null;
+        mDeletingInterface = null;
+        mFetchingInterface = null;
+        mSavingInterface = null;
+        mUpdatingInterface = null;
         // mCore.stop();
     }
 
