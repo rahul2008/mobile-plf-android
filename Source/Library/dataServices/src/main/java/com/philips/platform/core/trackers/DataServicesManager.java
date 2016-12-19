@@ -237,10 +237,7 @@ public class DataServicesManager {
             DSLog.i("SPO","mCore not null");
             DSLog.i("SPO","before starting baseAppCore");
             mCore.start();
-        } /*else {
-            mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
-            mCore.start();
-        }*/
+        }
         mEventing.post(new ReadDataFromBackendRequest(null));
     }
 

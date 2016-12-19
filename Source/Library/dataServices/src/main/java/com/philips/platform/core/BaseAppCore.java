@@ -18,17 +18,11 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
-import com.philips.platform.core.monitors.EventMonitor;
-import com.philips.platform.core.monitors.ExceptionMonitor;
-import com.philips.platform.core.monitors.LoggingMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
 
 import org.joda.time.DateTime;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -42,13 +36,6 @@ public class BaseAppCore implements BaseAppDataCreator {
     Eventing eventing;
 
     @Inject
-    LoggingMonitor loggingMonitor;
-
-    @Inject
-    ExceptionMonitor exceptionMonitor;
-
-    //private final Eventing eventing;
-    @Inject
     BaseAppDataCreator database;
 
     @Inject
@@ -57,29 +44,15 @@ public class BaseAppCore implements BaseAppDataCreator {
     @Inject
     Backend appBackend;
 
-    private List<EventMonitor> eventMonitors;
-
     @Inject
     public BaseAppCore() {
         DataServicesManager.mAppComponent.injectBaseAppCore(this);
-        this.eventMonitors = getEventMonitors();
-    }
-
-    List<EventMonitor> getEventMonitors(){
-        List monitors = new ArrayList<>();
-        monitors.add(loggingMonitor);
-        monitors.add(exceptionMonitor);
-        return monitors;
     }
 
     public void start() {
         try {
             dbMonitors.start(eventing);
             appBackend.start(eventing);
-
-            for (EventMonitor eventMonitor : eventMonitors) {
-                eventMonitor.start(eventing);
-            }
         } catch (NullPointerException e) {
             if (e.getMessage() != null)
                 DSLog.i("***SPO***", "e = " + e.getMessage());
@@ -87,10 +60,6 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     public void stop() {
-        for (EventMonitor eventMonitor : eventMonitors) {
-            eventMonitor.stop();
-        }
-
         appBackend.stop();
         dbMonitors.stop();
     }

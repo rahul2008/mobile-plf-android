@@ -21,9 +21,7 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.EventMonitor;
-import com.philips.platform.core.monitors.ExceptionMonitor;
 import com.philips.platform.core.monitors.FetchingMonitor;
-import com.philips.platform.core.monitors.LoggingMonitor;
 import com.philips.platform.core.monitors.SavingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.datasync.Backend;
@@ -173,15 +171,6 @@ public class BackendModule {
         UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
 
         return new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
-    }
-
-    @Provides
-    @Singleton
-    public List<EventMonitor> providesEventMonitors(LoggingMonitor loggingMonitor, ExceptionMonitor exceptionMonitor){
-        List monitors = new ArrayList<>();
-        monitors.add(loggingMonitor);
-        monitors.add(exceptionMonitor);
-        return monitors;
     }
 
     @Provides
