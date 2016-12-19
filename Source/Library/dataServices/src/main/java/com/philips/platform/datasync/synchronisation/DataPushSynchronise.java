@@ -45,19 +45,17 @@ public class DataPushSynchronise extends EventMonitor {
     @NonNull
     private final Executor executor;
 
-    @NonNull
-    private final Eventing eventing;
+    @Inject
+    Eventing eventing;
 
     DataServicesManager mDataServicesManager;
 
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders,
-                               @NonNull final Executor executor,
-                               @NonNull final Eventing eventing) {
+                               @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.mAppComponent.injectDataPushSynchronize(this);
         this.senders = senders;
         this.executor = executor;
-        this.eventing = eventing;
     }
 
     public void startSynchronise(final int eventId) {

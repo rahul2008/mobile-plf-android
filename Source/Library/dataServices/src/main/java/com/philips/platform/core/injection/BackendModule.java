@@ -20,7 +20,6 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
-import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.monitors.SavingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
@@ -41,7 +40,6 @@ import com.philips.platform.datasync.userprofile.ErrorHandler;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -117,10 +115,9 @@ public class BackendModule {
     @Singleton
     DataPullSynchronise providesDataSynchronise(
             @NonNull final MomentsDataFetcher momentsDataFetcher,
-            @NonNull final ConsentsDataFetcher consentsDataFetcher,
-            @NonNull final Eventing eventing, @NonNull final ExecutorService executor) {
+            @NonNull final ConsentsDataFetcher consentsDataFetcher,@NonNull final ExecutorService executor) {
 
-        return new DataPullSynchronise(Arrays.asList(momentsDataFetcher,consentsDataFetcher), executor, eventing);
+        return new DataPullSynchronise(Arrays.asList(momentsDataFetcher,consentsDataFetcher), executor);
     }
 
     //TODO: Spoorti: Can this move out so that we can support senders and fetchers from Application
@@ -128,10 +125,9 @@ public class BackendModule {
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
-            @NonNull final ConsentDataSender consentDataSender,
-            @NonNull final Eventing eventing) {
+            @NonNull final ConsentDataSender consentDataSender) {
         return new DataPushSynchronise(Arrays.asList(momentsDataSender,consentDataSender),
-                null, eventing);
+                null);
     }
 
     @Provides

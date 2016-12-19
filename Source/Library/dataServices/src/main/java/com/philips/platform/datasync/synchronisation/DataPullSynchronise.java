@@ -56,8 +56,8 @@ public class DataPullSynchronise {
     @NonNull
     private final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers;
 
-    @NonNull
-    private final Eventing eventing;
+    @Inject
+    Eventing eventing;
 
     private volatile RetrofitError fetchResult;
 
@@ -68,13 +68,11 @@ public class DataPullSynchronise {
 
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
-                               @NonNull final Executor executor,
-                               @NonNull final Eventing  eventing) {
+                               @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
-        this.eventing = eventing;
     }
 
 
