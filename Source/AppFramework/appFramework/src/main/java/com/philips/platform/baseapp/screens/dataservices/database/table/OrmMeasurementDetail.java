@@ -8,12 +8,10 @@ package com.philips.platform.baseapp.screens.dataservices.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-
+import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import java.io.Serializable;
-
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -22,9 +20,9 @@ import java.io.Serializable;
 @DatabaseTable
 public class OrmMeasurementDetail implements MeasurementDetail, Serializable {
 
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
@@ -43,6 +41,7 @@ public class OrmMeasurementDetail implements MeasurementDetail, Serializable {
     public OrmMeasurementDetail(final OrmMeasurementDetailType type, final OrmMeasurement ormMeasurement) {
         this.type = type;
         this.ormMeasurement = ormMeasurement;
+        this.id = -1;
     }
 
     @Override
@@ -51,7 +50,7 @@ public class OrmMeasurementDetail implements MeasurementDetail, Serializable {
     }
 
     @Override
-    public MeasurementDetailType getType() {
+    public String getType() {
         return type.getType();
     }
 

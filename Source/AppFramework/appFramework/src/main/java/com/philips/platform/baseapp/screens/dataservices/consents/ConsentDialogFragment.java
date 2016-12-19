@@ -28,13 +28,13 @@ import java.util.ArrayList;
 
 public class ConsentDialogFragment extends DialogFragment implements DBChangeListener, View.OnClickListener {
 
-    ConsentDialogPresenter consentDialogPresenter;
-    ArrayList<? extends ConsentDetail> consentDetails;
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
     private Button mBtnCancel;
     private ConsentDialogAdapter lConsentAdapter;
+    ConsentDialogPresenter consentDialogPresenter;
     private ProgressDialog mProgressDialog;
+    ArrayList<? extends ConsentDetail> consentDetails;
 
     @Nullable
     @Override
@@ -56,6 +56,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         consentDetails=new ArrayList<>();
         lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
+        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
+        fetchConsent();
         return rootView;
 
     }
@@ -63,8 +65,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onResume() {
         super.onResume();
-        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
-        fetchConsent();
     }
 
     @Override
@@ -136,6 +136,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStop() {
         super.onStop();
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
+        dismissProgressDialog();
     }
 
     @Override
@@ -146,15 +148,13 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onPause() {
         super.onPause();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
-        dismissProgressDialog();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        dialog.setTitle("Consents");
+        dialog.setTitle("consents");
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -178,6 +178,4 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         showProgressDialog();
         DataServicesManager.getInstance().fetchConsent();
     }
-
-
 }

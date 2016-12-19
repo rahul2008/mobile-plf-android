@@ -16,7 +16,6 @@ import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCo
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementType;
 
 import org.joda.time.DateTime;
 
@@ -29,27 +28,45 @@ import java.util.Collection;
  */
 @DatabaseTable
 public class OrmMeasurement implements Measurement, Serializable {
-    public static final long serialVersionUID = 11L;
-    @ForeignCollectionField(eager = true)
-    ForeignCollection<OrmMeasurementDetail> ormMeasurementDetails = new EmptyForeignCollection<>();
-    @DatabaseField(generatedId = true)
+    private static final long serialVersionUID = 11L;
+
+    @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
+
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
     private OrmMeasurementType type;
+
     @DatabaseField
-    private double value;
+    private String value;
+
+    @DatabaseField
+    private String unit;
+
     @DatabaseField(canBeNull = false)
     private DateTime dateTime = new DateTime();
+
+   /* @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
+    private OrmMoment ormMoment;*/
+
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
-    private OrmMoment ormMoment;
+    private OrmMeasurementGroup ormMeasurementGroup;
+
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmMeasurementDetail> ormMeasurementDetails = new EmptyForeignCollection<>();
 
     @DatabaseConstructor
     OrmMeasurement() {
     }
 
-    public OrmMeasurement(final OrmMeasurementType type, final OrmMoment ormMoment) {
+   /* public OrmMeasurement(final OrmMeasurementType type, final OrmMoment ormMoment) {
         this.type = type;
         this.ormMoment = ormMoment;
+    }*/
+
+    public OrmMeasurement(final OrmMeasurementType type, final OrmMeasurementGroup ormMeasurementGroup) {
+        this.type = type;
+        this.ormMeasurementGroup = ormMeasurementGroup;
+        this.id = -1;
     }
 
     @Override
@@ -58,17 +75,17 @@ public class OrmMeasurement implements Measurement, Serializable {
     }
 
     @Override
-    public MeasurementType getType() {
+    public String getType() {
         return type.getType();
     }
 
     @Override
-    public double getValue() {
+    public String getValue() {
         return value;
     }
 
     @Override
-    public void setValue(final double value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 
@@ -92,13 +109,28 @@ public class OrmMeasurement implements Measurement, Serializable {
         ormMeasurementDetails.add((OrmMeasurementDetail) measurementDetail);
     }
 
-    @Override
+   /* @Override
     public OrmMoment getMoment() {
         return ormMoment;
+    }*/
+
+    @Override
+    public OrmMeasurementGroup getMeasurementGroup() {
+        return ormMeasurementGroup;
+    }
+
+    @Override
+    public String getUnit() {
+        return unit;
+    }
+
+    @Override
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     @Override
     public String toString() {
-        return "[OrmMeasurement, id=" + id + ", OrmMeasurementType=" + type + ", value=" + value + ", dateTime=" + dateTime + ", ormMoment=" + ormMoment + "]";
+        return "[OrmMeasurement, id=" + id + ", OrmMeasurementType=" + type + ", value=" + value + ", dateTime=" + dateTime + ", ormMoment=" + ormMeasurementGroup + "]";
     }
 }

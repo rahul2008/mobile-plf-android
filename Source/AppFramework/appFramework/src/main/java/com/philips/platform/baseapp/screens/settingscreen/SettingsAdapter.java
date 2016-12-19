@@ -25,7 +25,6 @@ import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationFacadeImpl;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -262,13 +261,12 @@ public class SettingsAdapter extends BaseAdapter{
                                 progressDialog.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
                                 progressDialog.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                progressDialog.setCancelable(false);
                                 progressDialog.show();
                                 userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
                                     @Override
                                     public void onLogoutSuccess() {
                                     //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
-                                        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activityContext, userRegistrationState.getUserObject(activityContext));
-                                        userRegistrationFacade.clearUserData();
                                         progressDialog.cancel();
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                                     }

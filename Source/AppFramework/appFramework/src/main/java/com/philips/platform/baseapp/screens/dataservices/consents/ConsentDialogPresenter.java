@@ -5,7 +5,6 @@ import android.content.Context;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 /**
@@ -22,7 +21,10 @@ public class ConsentDialogPresenter {
 
     protected boolean getConsentDetailStatus(ConsentDetail consentDetail) {
 
-        return consentDetail.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name());
+        if (consentDetail.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
+            return true;
+        }
+        return false;
     }
 
     protected void createSaveDefaultConsent() {
@@ -30,13 +32,13 @@ public class ConsentDialogPresenter {
         Consent consent = mDataServices.createConsent();
         mDataServices.createConsentDetail
                 (consent, ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER, true);
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
         mDataServices.createConsentDetail
                 (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,true);
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
         mDataServices.createConsentDetail
                 (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
-                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER,true);
-        mDataServices.save(consent);
+                        Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+        mDataServices.saveConsent(consent);
     }
 }

@@ -12,7 +12,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
@@ -39,17 +38,14 @@ public class OrmUpdating {
     @NonNull
     private final Dao<OrmConsentDetail, Integer> constentDetailsDao;
 
-    //TODO: Spoorti - Remove Unused
-    @NonNull
-    private final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao;
+
 
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
                        @NonNull final Dao<OrmConsent, Integer> constentDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
-                       @NonNull final Dao<OrmConsentDetailType, Integer> constentDetailTypeDao) {
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -57,7 +53,6 @@ public class OrmUpdating {
         this.constentDao = constentDao;
         this.constentDetailsDao = constentDetailsDao;
 
-        this.constentDetailTypeDao = constentDetailTypeDao;
     }
 
     public void updateMoment(OrmMoment moment) throws SQLException {
