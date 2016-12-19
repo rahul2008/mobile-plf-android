@@ -1,5 +1,6 @@
 #!/bin/bash
 
+BASEDIR="$(dirname $0)"
 COMPONENT_NAME="registrationApi"
 echo "COMPONENT_NAME: ${COMPONENT_NAME}"
 if [ "$COMPONENT_NAME" == "" ] ; then
@@ -39,7 +40,7 @@ echo "COMPONENT_NAME: ${COMPONENT_NAME}"
 if [ "$COMPONENT_NAME" == "" ] ; then
     exit 0
 fi
-CURRENT_TAG=`cat VERSION_hsdp`
+CURRENT_TAG=`cat ${BASEDIR}/VERSION_hsdp`
 echo "Current tag: ${CURRENT_TAG}"
 if [ "$CURRENT_TAG" == "" ] ; then
     exit 0
@@ -56,7 +57,7 @@ echo "COMPONENT_NAME: ${COMPONENT_NAME}"
 if [ "$COMPONENT_NAME" == "" ] ; then
     exit 0
 fi
-CURRENT_TAG=`cat VERSION_JUMP`
+CURRENT_TAG=`cat ${BASEDIR}/VERSION_JUMP`
 echo "Current tag: ${CURRENT_TAG}"
 if [ "$CURRENT_TAG" == "" ] ; then
     exit 0
@@ -73,7 +74,7 @@ echo "COMPONENT_NAME: ${COMPONENT_NAME}"
 if [ "$COMPONENT_NAME" == "" ] ; then
     exit 0
 fi
-CURRENT_TAG=`cat VERSION_coppa`
+CURRENT_TAG=`cat ${BASEDIR}/VERSION_coppa`
 echo "Current tag: ${CURRENT_TAG}"
 if [ "$CURRENT_TAG" == "" ] ; then
     exit 0
