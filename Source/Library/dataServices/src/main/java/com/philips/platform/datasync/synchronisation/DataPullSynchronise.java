@@ -111,13 +111,13 @@ public class DataPullSynchronise {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.postSticky(new GetNonSynchronizedMomentsRequest());
+            eventing.post(new GetNonSynchronizedMomentsRequest());
         }
     }
 
     public void registerEvent() {
         if (!eventing.isRegistered(this)) {
-            eventing.registerSticky(this);
+            eventing.register(this);
         }
     }
 
