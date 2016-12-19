@@ -335,10 +335,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public URL applyURLParameters(URL inputURL, Map<String, String> parameters) {
         String url = inputURL.toString();
         URL output;
-        for (Map.Entry<String, String> param : parameters.entrySet()) {
-            String key = param.getKey();
-            String value = param.getValue();
-            url = url.replace('%' + key + '%', value);
+        if(parameters != null && parameters.size() > 0) {
+            for (Map.Entry<String, String> param : parameters.entrySet()) {
+                String key = param.getKey();
+                String value = param.getValue();
+                url = url.replace('%' + key + '%', value);
+            }
         }
         try {
             output = new URL(url);
