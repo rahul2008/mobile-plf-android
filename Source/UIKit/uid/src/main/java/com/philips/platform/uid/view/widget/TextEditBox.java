@@ -59,18 +59,15 @@ public class TextEditBox extends AppCompatEditText {
         setHintTextColors(typedArray, theme);
         setTextColors(typedArray, theme);
         restorePadding(paddingRect);
-        processPasswordInputType(theme, attrs, defStyleAttr);
+        processPasswordInputType(theme);
         typedArray.recycle();
     }
 
-    private void processPasswordInputType(final Resources.Theme theme, final AttributeSet attrs, final int defStyleAttr) {
+    private void processPasswordInputType(final Resources.Theme theme) {
 
-        final int inputType = getInputType();
-
-        final boolean isPasswordInputType = isPasswordInputType(inputType);
+        final boolean isPasswordInputType = isPasswordInputType(getInputType());
         if (isPasswordInputType) {
-            final Drawable showPasswordDrawable = VectorDrawableCompat.create(getResources(), R.drawable.uid_texteditbox_password_show_icon, theme);
-            setCompoundDrawablesWithIntrinsicBounds(null, null, showPasswordDrawable, null);
+            setCompoundDrawablesWithIntrinsicBounds(null, null, getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_show_icon), null);
             setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(final View view, final MotionEvent event) {
@@ -78,16 +75,10 @@ public class TextEditBox extends AppCompatEditText {
 
                     final Drawable drawable = compoundDrawables[2];
                     if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null) {
-                        boolean touchedDrawable = isShowPasswordIconTouched(view, event, drawable);
+                        boolean touchedDrawable = isShowPasswordIconTouched(view, event);
                         if (touchedDrawable) {
-                            if (getTransformationMethod() == null) {
-                                setTransformationMethod(PasswordTransformationMethod.getInstance());
-                                setCompoundDrawablesWithIntrinsicBounds(null, null, showPasswordDrawable, null);
-                            } else {
-                                setTransformationMethod(null);
-                                final Drawable hidePasswordDrawable = VectorDrawableCompat.create(getResources(), R.drawable.uid_texteditbox_password_hide_icon, theme);
-                                setCompoundDrawablesWithIntrinsicBounds(null, null, hidePasswordDrawable, null);
-                            }
+                            setCompoundDrawablesWithIntrinsicBounds(null, null, getShowHidePasswordDrawable(theme), null);
+                            setTransformationMethod(isPasswordHidden() ? PasswordTransformationMethod.getInstance() : null);
                             return true;
                         }
                     }
@@ -97,16 +88,29 @@ public class TextEditBox extends AppCompatEditText {
         }
     }
 
+    private VectorDrawableCompat getShowHidePasswordDrawable(final Resources.Theme theme) {
+        return isPasswordHidden() ?
+                getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_show_icon) :
+                getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_hide_icon);
+    }
+
+    private boolean isPasswordHidden() {
+        return getTransformationMethod() == null;
+    }
+
+    private VectorDrawableCompat getPasswordDrawable(final Resources.Theme theme, final int drawableResourceId) {
+        return VectorDrawableCompat.create(getResources(), drawableResourceId, theme);
+    }
+
     //Code from TextView of android to check the input type is numberPassword or textPassword
     private boolean isPasswordInputType(final int inputType) {
         final int variation = inputType & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
-        final boolean passwordInputType = variation == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
-        final boolean numberPasswordInputType = variation
-                == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
+        final boolean passwordInputType = (variation == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD));
+        final boolean numberPasswordInputType = (variation == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD));
         return passwordInputType || numberPasswordInputType;
     }
 
-    private boolean isShowPasswordIconTouched(final View view, final MotionEvent event, final Drawable drawable) {
+    private boolean isShowPasswordIconTouched(final View view, final MotionEvent event) {
         final int passwordDrawableTouchArea = view.getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
 
         final float rawX = event.getRawX();
