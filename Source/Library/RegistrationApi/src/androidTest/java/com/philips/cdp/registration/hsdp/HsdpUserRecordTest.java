@@ -3,15 +3,12 @@ package com.philips.cdp.registration.hsdp;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.dao.ConsumerArray;
-
 import org.junit.Before;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by 310243576 on 9/6/2016.
@@ -41,8 +38,8 @@ public class HsdpUserRecordTest extends InstrumentationTestCase {
         assertEquals("sample",mHsdpUserRecord.getLoginId());
         assertEquals(null,mHsdpUserRecord.getProfile());
         assertEquals(null,mHsdpUserRecord.getUserUUID());
-        mHsdpUserRecord.setRefreshSecret("refreshSecret");
-        assertEquals("refreshSecret",mHsdpUserRecord.getRefreshSecret());
+    //    mHsdpUserRecord.setRefreshSecret("refreshSecret");
+      //  assertEquals("refreshSecret",mHsdpUserRecord.getRefreshSecret());
         assertNotEquals(-1,mHsdpUserRecord.getUserIsActive());
     }
 
