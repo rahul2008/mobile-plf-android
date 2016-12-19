@@ -5,14 +5,23 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +45,22 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     EditText idEditText;
     EditText idEditTextCountry;
     String editTextData;
+    private Button getUrl;
+    private Spinner requestTypeSpinner;
 
+    String[] requestTypeOption = {"Get local by lang",
+            "Get local by country",
+            "Get url by lang",
+            "Get url by country",
+            "Get home country",
+            "Get Url by country with multiple service id",
+            "Get Url by language with multiple service id",
+            "Get Url by country with replaced url",
+            "Get Url by language with replaced url",
+            "Get replaced Url by country with multiple service id",
+            "Get replaced Url by Language with multiple service id"};
+
+    private HashMap<String, String> parameters;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,15 +72,14 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         mOnGetServiceUrlMapListener = this;
 
         setContentView(R.layout.service_discovery_demopage);
+        getUrl = (Button) findViewById(R.id.geturl);
+        requestTypeSpinner = (Spinner) findViewById(R.id.requestspinner);
+        ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, requestTypeOption);
+        requestTypeSpinner.setAdapter(input_adapter);
+
 
         idEditText = (EditText) findViewById(R.id.serviceid_editText);
-        Button localeByLang = (Button) findViewById(R.id.getlocal_by_lang_button);
-        Button localeByCountry = (Button) findViewById(R.id.getlocal_by_country_butn);
-        Button urlbyLang = (Button) findViewById(R.id.geturl_by_lang_buttn);
-        Button urlbyCountry = (Button) findViewById(R.id.geturl_by_country_btn);
-        Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
-        Button geturlbyCountry_ServiceIDs = (Button) findViewById(R.id.getul_country_btn);
-        Button geturlbyLanguage_ServiceIds = (Button) findViewById(R.id.getul_language_btn);
         Button setHomeCountry = (Button) findViewById(R.id.button2);
         idEditTextCountry = (EditText) findViewById(R.id.contry_edittext);
 
@@ -68,71 +91,129 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             @Override
             public void onClick(View view) {
                 String country = idEditTextCountry.getText().toString();
-                if(country.length() == 2){
+                if (country.length() == 2) {
                     mServiceDiscoveryInterface.setHomeCountry(country.toUpperCase());
                 }
 
             }
         });
 
-        localeByLang.setOnClickListener(new View.OnClickListener() {
+        JSONObject json = getMasterConfigFromApp();
+        try {
+            parameters = (HashMap<String, String>) jsonToMap(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        getUrl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get local by lang")) {
+                    editTextData = idEditText.getText().toString();
+                    mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(editTextData, mOnGetServiceLocaleListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get local by country")) {
+                    editTextData = idEditText.getText().toString();
+                    mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(editTextData, mOnGetServiceLocaleListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get url by lang")) {
+                    editTextData = idEditText.getText().toString();
+                    mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData, mOnGetServiceUrlListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get url by country")) {
+                    editTextData = idEditText.getText().toString();
+                    mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData, mOnGetServiceUrlListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country")) {
+                    editTextData = idEditText.getText().toString();
+                    mServiceDiscoveryInterface.getHomeCountry(mOnGetHomeCountryListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with multiple service id")) {
+                    String[] serviceIds = idEditText.getText().toString().split(",");
+                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with multiple service id")) {
+                    String[] serviceIds = idEditText.getText().toString().split(",");
+                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with replaced url")) {
+                    editTextData = idEditText.getText().toString();
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
+                    mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData, mOnGetServiceUrlListener, parameters);
 
-                editTextData = idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(editTextData, mOnGetServiceLocaleListener);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with replaced url")) {
+                    editTextData = idEditText.getText().toString();
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
+                    mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData, mOnGetServiceUrlListener, parameters);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by country with multiple service id")) {
 
+                    String[] serviceIds = idEditText.getText().toString().split(",");
+                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
+                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener, parameters);
 
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by Language with multiple service id")) {
+
+                    String[] serviceIds = idEditText.getText().toString().split(",");
+                    ArrayList<String> serviceId = new ArrayList<>(Arrays.asList(serviceIds));
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
+                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener, parameters);
+
+                }
+//                else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Replace Url")) {
+//                    Map<String, String> parameters = new HashMap<>();
+//                    parameters.put("ctn", "HD9740");
+//                    parameters.put("sector", "B2C");
+//                    parameters.put("catalog", "shavers");
+//
+//                    url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
+//                    URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
+//
+//
+//                }
             }
         });
-        localeByCountry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextData = idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(editTextData, mOnGetServiceLocaleListener);
-            }
-        });
-        urlbyLang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextData = idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData, mOnGetServiceUrlListener);
-            }
-        });
-        urlbyCountry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextData = idEditText.getText().toString();
-                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData, mOnGetServiceUrlListener);
-            }
-        });
-        getHomecountryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextData = idEditText.getText().toString();
-                mServiceDiscoveryInterface.getHomeCountry(mOnGetHomeCountryListener);
-            }
-        });
+    }
 
-
-        geturlbyCountry_ServiceIDs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] serviceIds = idEditText.getText().toString().split(",");
-                ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener);
-
+    protected JSONObject getMasterConfigFromApp() {
+        JSONObject result = null;
+        try {
+            InputStream mInputStream = this.getAssets().open("SDReplacementValues.json");
+            BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+            StringBuilder total = new StringBuilder();
+            String line;
+            while ((line = r.readLine()) != null) {
+                total.append(line).append('\n');
             }
-        });
+            result = new JSONObject(total.toString());
+            appInfra.getLogging().log(LoggingInterface.LogLevel.VERBOSE, "Json",
+                    result.toString());
 
-        geturlbyLanguage_ServiceIds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] serviceIds = idEditText.getText().toString().split(",");
-                ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId ,mOnGetServiceUrlMapListener);
-            }
-        });
+        } catch (Exception e) {
+            appInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "Service Discover exception",
+                    Log.getStackTraceString(e));
+        }
+        return result;
+    }
+
+    private Map jsonToMap(Object JSON) throws JSONException {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        JSONObject jObject = new JSONObject(JSON.toString());
+        Iterator<?> keys = jObject.keys();
+
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            Object value = jObject.get(key);
+            map.put(key, value);
+        }
+        return map;
     }
 
     @Override
@@ -150,12 +231,24 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(URL url) {
         Log.i("Success", "" + url);
-        resultView.setText("" + url);
+        try {
+//            Map<String, String> parameters = new HashMap<>();
+//            parameters.put("ctn", "HD9740");
+//            parameters.put("sector", "B2C");
+//            parameters.put("catalog", "shavers");
+//
+//            url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
+//            URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
+            resultView.setText("" + url);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onSuccess(String countryCode, SOURCE source) {
-        resultView.setText("Country Code : "+countryCode+" Source : "+source);
+        resultView.setText("Country Code : " + countryCode + " Source : " + source);
     }
 
     @Override
@@ -163,15 +256,15 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         ServiceDiscoveyService service = new ServiceDiscoveyService();
 
         String key = null;
-        String locale= null;
-        String configUrl= null ;
+        String locale = null;
+        String configUrl = null;
         Iterator it = urlMap.entrySet().iterator();
-        Map mMap= new HashMap<String,Map>();
+        Map mMap = new HashMap<String, Map>();
 
         while (it.hasNext()) {
 
-            Map dataMap = new HashMap<String,String >();
-            Map.Entry pair = (Map.Entry)it.next();
+            Map dataMap = new HashMap<String, String>();
+            Map.Entry pair = (Map.Entry) it.next();
             System.out.println(pair.getKey() + " = " + pair.getValue());
             key = pair.getKey().toString();
             service = (ServiceDiscoveyService) pair.getValue();
@@ -188,7 +281,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //            Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
 //            Log.i("SD", ""+urlMap.get(i).getConfigUrls());
 //        }
-        resultView.setText(" URL Model   : " +mMap);
+        resultView.setText(" URL Model   : " + mMap);
 
     }
 }

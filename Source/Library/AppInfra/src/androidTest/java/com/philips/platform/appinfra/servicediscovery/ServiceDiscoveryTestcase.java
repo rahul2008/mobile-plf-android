@@ -178,7 +178,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
     public void testConfig() {
 
-                mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
@@ -299,7 +299,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             e.printStackTrace();
         }
     }
-
 
 
     public void testgetServiceUrlWithLanguagePreference() {
@@ -578,7 +577,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, false);
+        }, false, null);
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceId() {
@@ -594,12 +593,12 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, true);
+        }, true, null);
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProg() {
         mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, null, false);
+        mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, null, false, null);
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner
@@ -616,7 +615,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, false);
+        }, false, null);
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
@@ -632,7 +631,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, false);
+        }, false, null);
     }
 
     public void testserviceswithCountryorLanguagePreferencesForNullServiceId() {
@@ -648,7 +647,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, false);
+        }, false, null);
     }
 
     public void testserviceswithCountryorLanguagePreferencesForServiceId() {
@@ -664,16 +663,15 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, true);
+        }, true, null);
     }
 
     public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProg() {
         mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
-        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, null, false);
+        mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, null, false, null);
     }
 
-    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner
-            () {
+    public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner() {
         mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
@@ -686,7 +684,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, false);
+        }, false, null);
     }
 
     public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
@@ -702,7 +700,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        }, false);
+        }, false, null);
     }
 
     public void testserviceLocalewithCountryorLanguagePreferencesForServiceId() {
@@ -743,8 +741,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }, false);
     }
 
-    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgfalse
-            () {
+    public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
         mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
@@ -759,6 +756,91 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
             }
         }, false);
     }
+
+    public void testgetServiceUrlWithCountryPreferenceReplacedUrl() {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("ctn", "HD9740");
+        parameters.put("sector", "B2C");
+        parameters.put("catalog", "shavers");
+        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("prxclient.assets", new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        assertNotNull(error);
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        assertNotNull(url);
+                    }
+
+                }, parameters);
+    }
+
+
+    public void testgetServiceUrlWithLanguagePreferenceReplacedUrl() {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("ctn", "HD9740");
+        parameters.put("sector", "B2C");
+        parameters.put("catalog", "shavers");
+        mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("prxclient.assets", new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        assertNotNull(error);
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        assertNotNull(url);
+                    }
+
+                }, parameters);
+    }
+
+    public void testgetServicesWithCountryPreferencewithServiceIds() {
+
+        String[] serviceIds = {"prxclient.assets", "prxclient.summary"};
+        ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("ctn", "HD9740");
+        parameters.put("sector", "B2C");
+        parameters.put("catalog", "shavers");
+        mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, new
+                ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        assertNotNull(error);
+                    }
+
+                    @Override
+                    public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                        assertNotNull(urlMap);
+                    }
+                }, parameters);
+    }
+
+    public void testgetServicesWithLanguagePreferencewithServiceIds() {
+        String[] serviceIds = {"prxclient.assets", "prxclient.summary"};
+        ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("ctn", "HD9740");
+        parameters.put("sector", "B2C");
+        parameters.put("catalog", "shavers");
+        mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, new
+                ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        assertNotNull(error);
+                    }
+
+                    @Override
+                    public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                        assertNotNull(urlMap);
+                    }
+                }, parameters);
+    }
+
 
 //    public void testfilterDataForUrlbyLang() {
 //        mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
