@@ -193,7 +193,7 @@ public class LocalRequest extends Request {
     }
 
     private String decryptData(String cypher) {
-        if (mDISecurity != null) {
+        if (!mHttps && mDISecurity != null) {
             return mDISecurity.decryptData(cypher);
         }
         return cypher;
