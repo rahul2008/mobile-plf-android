@@ -8,12 +8,19 @@ package com.philips.platform.baseapp.screens.dataservices.database;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
+import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementGroupDetailType;
+import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementType;
+import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
+import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetailType;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroup;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroupDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroupDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetail;
@@ -23,15 +30,12 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynch
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailType;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
-import com.philips.platform.core.datatypes.MeasurementDetailType;
-import com.philips.platform.core.datatypes.MeasurementType;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.MomentType;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
@@ -54,12 +58,12 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @Override
     @NonNull
-    public OrmMoment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull MomentType type) {
+    public OrmMoment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull String type) {
         final OrmMoment ormMoment = createMomentWithoutUUID(creatorId, subjectId, type);
-        final OrmMomentDetail ormMomentDetail = createMomentDetail(MomentDetailType.TAGGING_ID, ormMoment);
+        //   final OrmMomentDetail ormMomentDetail = createMomentDetail(MomentDetailType.TAGGING_ID, ormMoment);
 
-        ormMomentDetail.setValue(uuidGenerator.generateRandomUUID());
-        ormMoment.addMomentDetail(ormMomentDetail);
+        //    ormMomentDetail.setValue(uuidGenerator.generateRandomUUID());
+        //    ormMoment.addMomentDetail(ormMomentDetail);
 
         return ormMoment;
     }
@@ -67,31 +71,62 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public OrmMoment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId,
-                                             @NonNull final MomentType type) {
-        final OrmMomentType ormMomentType = new OrmMomentType(type);
+                                             @NonNull final String type) {
+        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
 
         return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
     @Override
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final MomentDetailType type,
+    public MomentDetail createMomentDetail(@NonNull final String type,
                                            @NonNull final Moment moment) {
         return createMomentDetail(type, (OrmMoment) moment);
     }
 
-    @Override
+//    @NonNull
+//    @Override
+//    public Measurement createMeasurement(@NonNull String type, @NonNull Moment moment) {
+//        return createMeasurement(type, (OrmMoment) moment);
+//    }
+
+   /* @Override
     @NonNull
-    public Measurement createMeasurement(@NonNull final MeasurementType type,
+    public Measurement createMeasurement(@NonNull final String type,
                                          @NonNull final Moment moment) {
         return createMeasurement(type, (OrmMoment) moment);
+    }*/
+
+    @Override
+    @NonNull
+    public Measurement createMeasurement(@NonNull final String type,
+                                         @NonNull final MeasurementGroup MeasurementGroup) {
+        return createMeasurement(type, (OrmMeasurementGroup) MeasurementGroup);
     }
 
     @Override
     @NonNull
-    public MeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      @NonNull final Measurement measurement) {
         return createMeasurementDetail(type, (OrmMeasurement) measurement);
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
+        return createMeasurementGroup((OrmMeasurementGroup) measurementGroup);
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
+        return createMeasurementGroup((OrmMoment) moment);
+    }
+
+    @NonNull
+    @Override
+    public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
+        return createMeasurementGroupDetail(type, (OrmMeasurementGroup) measurementGroup);
     }
 
     @NonNull
@@ -109,31 +144,61 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull ConsentDetailType type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber,boolean isSynchronized, @NonNull Consent consent) {
-        OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
+    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
+        // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
 
-        return new OrmConsentDetail(ormConsentDetailType, status, version, deviceIdentificationNumber, (OrmConsent) consent,isSynchronized);
+        return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
     }
 
     @NonNull
-    public OrmMomentDetail createMomentDetail(@NonNull final MomentDetailType type,
+    public OrmMomentDetail createMomentDetail(@NonNull final String type,
                                               @NonNull final OrmMoment moment) {
-        OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(type);
+        OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
         return new OrmMomentDetail(ormMomentDetailType, moment);
     }
 
-    @NonNull
+    /*@NonNull
     public OrmMeasurement createMeasurement(@NonNull final MeasurementType type,
+    @NonNull
+    public OrmMeasurement createMeasurement(@NonNull final String type,
                                             @NonNull final OrmMoment moment) {
-        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(type);
+        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
+                type,
+                MeasurementType.getUnitFromDescription(type));
         return new OrmMeasurement(ormMeasurementType, moment);
+    }*/
+
+    @NonNull
+    public OrmMeasurement createMeasurement(@NonNull final String type,
+                                            @NonNull final OrmMeasurementGroup ormMeasurementGroup) {
+        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
+                type,
+                MeasurementType.getUnitFromDescription(type));
+        return new OrmMeasurement(ormMeasurementType, ormMeasurementGroup);
     }
 
     @NonNull
-    public OrmMeasurementDetail createMeasurementDetail(@NonNull final MeasurementDetailType type,
+    public OrmMeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                         @NonNull final OrmMeasurement measurement) {
-        OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(type);
+        OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
         return new OrmMeasurementDetail(ormMeasurementDetailType, measurement);
     }
 
+    @NonNull
+    public OrmMeasurementGroup createMeasurementGroup(@NonNull OrmMoment ormMoment) {
+        return new OrmMeasurementGroup(ormMoment);
+    }
+
+
+    @NonNull
+    public OrmMeasurementGroup createMeasurementGroup(@NonNull OrmMeasurementGroup ormMeasurementGroup) {
+        return new OrmMeasurementGroup(ormMeasurementGroup);
+    }
+
+    @NonNull
+    public OrmMeasurementGroupDetail createMeasurementGroupDetail(@NonNull final String type,
+                                                                  @NonNull final OrmMeasurementGroup measurementGroup) {
+        OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
+        return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, measurementGroup);
+    }
 }

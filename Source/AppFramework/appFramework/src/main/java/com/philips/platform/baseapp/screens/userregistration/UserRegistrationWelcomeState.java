@@ -10,9 +10,8 @@ import android.app.Activity;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationFacadeImpl;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -36,8 +35,6 @@ public class UserRegistrationWelcomeState extends UserRegistrationState implemen
                 getFragmentActivity().finish();
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.welcome_frame_container, (ActionBarListener) getFragmentActivity()));
             }
-            UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(activity, getUserObject(activity));
-            userRegistrationFacade.clearUserData();
         }
     }
 
@@ -53,8 +50,6 @@ public class UserRegistrationWelcomeState extends UserRegistrationState implemen
 
     @Override
     public void onUserLogoutSuccess() {
-        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
-        userRegistrationFacade.clearUserData();
     }
 
     @Override
@@ -63,8 +58,6 @@ public class UserRegistrationWelcomeState extends UserRegistrationState implemen
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        UserRegistrationFacadeImpl userRegistrationFacade = new UserRegistrationFacadeImpl(getFragmentActivity(), getUserObject(getFragmentActivity()));
-        userRegistrationFacade.clearUserData();
     }
 
 }

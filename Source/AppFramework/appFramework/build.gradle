@@ -318,7 +318,7 @@ dependencies {
     })
 
     // Module projects
-//    compile project(':dataServices')
+    //compile project(':dataServices')
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
 
@@ -337,7 +337,7 @@ dependencies {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.1.0-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.2.0-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }

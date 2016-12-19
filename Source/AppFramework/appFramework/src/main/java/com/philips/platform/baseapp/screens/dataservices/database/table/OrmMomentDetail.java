@@ -10,7 +10,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.MomentDetailType;
 
 import java.io.Serializable;
 
@@ -22,9 +21,9 @@ import java.io.Serializable;
 @DatabaseTable
 public class OrmMomentDetail implements MomentDetail, Serializable {
 
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true, unique = true,canBeNull = false)
     private int id;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
@@ -51,7 +50,7 @@ public class OrmMomentDetail implements MomentDetail, Serializable {
     }
 
     @Override
-    public MomentDetailType getType() {
+    public String getType() {
         return type.getType();
     }
 

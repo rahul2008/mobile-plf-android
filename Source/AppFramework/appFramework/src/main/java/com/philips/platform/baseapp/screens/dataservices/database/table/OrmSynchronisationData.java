@@ -24,7 +24,7 @@ import java.io.Serializable;
 @DatabaseTable
 public class OrmSynchronisationData implements SynchronisationData, Serializable {
 
-    public static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 11L;
 
     @DatabaseField(id = true, canBeNull = false)
     private String guid;
@@ -60,11 +60,6 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
     }
 
     @Override
-    public void setInactive(final boolean inactive) {
-        this.inactive = inactive;
-    }
-
-    @Override
     public DateTime getLastModified() {
         return lastModified;
     }
@@ -77,6 +72,16 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
     @Override
     public void setVersion(final int version) {
         this.version = version;
+    }
+
+    @Override
+    public void setInactive(final boolean inactive) {
+        this.inactive = inactive;
+    }
+
+    @Override
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     @Override
