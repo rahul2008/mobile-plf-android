@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -58,7 +57,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
             BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
             try {
                 targetFlowManager.getBackState(null);
-            } catch (NoEventFoundException | NoStateException e) {
+            } catch (NoStateException e) {
                 e.printStackTrace();
             }
             targetFlowManager.clearStates();

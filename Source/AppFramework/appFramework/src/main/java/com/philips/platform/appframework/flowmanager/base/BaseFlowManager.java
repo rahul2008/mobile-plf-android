@@ -23,16 +23,13 @@ import java.util.TreeMap;
 
 public abstract class BaseFlowManager {
 
-    protected Map<String, BaseState> stateMap;
-    protected Map<String, BaseCondition> conditionMap;
+    private Map<String, BaseState> stateMap;
+    private Map<String, BaseCondition> conditionMap;
     private Map<String, List<AppFlowEvent>> appFlowMap;
     private BaseState currentState;
     private Context context;
-    private AppFlowModel appFlowModel;
-    private List<AppFlowEvent> appFlowEvents;
     private String firstState;
     private FlowManagerStack flowManagerStack;
-    private String BACK = "back";
 
     public BaseFlowManager(final Context context, final String jsonPath) {
         this.context = context;
@@ -88,24 +85,15 @@ public abstract class BaseFlowManager {
      * @return Object to next BaseState if available or 'null'.
      */
     public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException {
-        String appFlowEventId;
         if (null != currentState && null != eventId) {
-            appFlowEvents = getAppFlowEvents(currentState.getStateID());
+            List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             if (appFlowEvents != null) {
-                for (final AppFlowEvent appFlowEvent : appFlowEvents) {
-                    appFlowEventId = appFlowEvent.getEventId();
-                    if (appFlowEvent.getEventId() != null && appFlowEventId.equals(eventId)) {
-                        final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
-                        BaseState appFlowNextState = getUiState(appFlowNextStates);
-                        if (appFlowNextState != null) {
-                            setCurrentState(appFlowNextState);
-                            flowManagerStack.push(appFlowNextState);
-                            return appFlowNextState;
-                        }
-                        break;
-                    }
+                BaseState appFlowNextState = getStateForEventID(false, eventId, appFlowEvents);
+                if (appFlowNextState != null) {
+                    setCurrentState(appFlowNextState);
+                    flowManagerStack.push(appFlowNextState);
+                    return appFlowNextState;
                 }
-                throw new NoEventFoundException();
             }
         } else {
             BaseState baseState = stateMap.get(firstState);
@@ -116,12 +104,41 @@ public abstract class BaseFlowManager {
         return null;
     }
 
-    public BaseState getBackState(BaseState currentState) throws NoEventFoundException, NoStateException {
+    @Nullable
+    private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException {
+        String appFlowEventId;
+        for (final AppFlowEvent appFlowEvent : appFlowEvents) {
+            appFlowEventId = appFlowEvent.getEventId();
+            if (appFlowEvent.getEventId() != null && appFlowEventId.equals(eventId)) {
+                final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
+                return getUiState(appFlowNextStates);
+            }
+        }
+        if (!isBack)
+            throw new NoEventFoundException();
+        else
+            return null;
+    }
+
+    public BaseState getBackState(BaseState currentState) throws NoStateException {
         if (currentState != null) {
-            BaseState nextState = getNextState(currentState, BACK);
-            BaseState baseState = flowManagerStack.pop(nextState);
-            setCurrentState(baseState);
-            return baseState;
+            String BACK = "back";
+            List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
+            BaseState nextState = null;
+            try {
+                nextState = getStateForEventID(true, BACK, appFlowEvents);
+            } catch (NoEventFoundException e) {
+                e.printStackTrace();
+            }
+            if (nextState != null && flowManagerStack.contains(nextState)) {
+                BaseState baseState = flowManagerStack.pop(nextState);
+                setCurrentState(baseState);
+                return baseState;
+            } else {
+                setCurrentState(nextState);
+                flowManagerStack.push(nextState);
+                return nextState;
+            }
         } else {
             BaseState baseState = flowManagerStack.pop();
             setCurrentState(baseState);
@@ -165,7 +182,7 @@ public abstract class BaseFlowManager {
     }
 
     private void mapAppFlowStates(final String jsonPath) {
-        appFlowModel = AppFlowParser.getAppFlow(jsonPath);
+        AppFlowModel appFlowModel = AppFlowParser.getAppFlow(jsonPath);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             firstState = appFlowModel.getAppFlow().getFirstState();
             appFlowMap = AppFlowParser.getAppFlowMap(appFlowModel.getAppFlow());

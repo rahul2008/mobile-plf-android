@@ -75,14 +75,14 @@ public class LaunchActivityPresenterTest extends TestCase {
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(splashState);
-        when(uiFlowManagerMock.getNextState(splashState, "onBackPressed")).thenReturn(hamburgerStateMock);
+        when(uiFlowManagerMock.getBackState(splashState)).thenReturn(hamburgerStateMock);
         launchActivityPresenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
         verify(hamburgerStateMock, atLeastOnce()).setStateListener(launchActivityPresenter);
         verify(hamburgerStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
     public void testGetUiState() {
-        assertEquals("onBackPressed", launchActivityPresenter.getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT));
+        assertEquals("back", launchActivityPresenter.getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT));
     }
 
     public void testOnLoad() throws NoEventFoundException {
