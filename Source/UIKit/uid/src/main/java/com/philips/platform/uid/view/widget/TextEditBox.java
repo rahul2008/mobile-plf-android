@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
@@ -64,9 +65,7 @@ public class TextEditBox extends AppCompatEditText {
     }
 
     private void processPasswordInputType(final Resources.Theme theme) {
-
-        final boolean isPasswordInputType = isPasswordInputType(getInputType());
-        if (isPasswordInputType) {
+        if (isPasswordInputType()) {
             setCompoundDrawablesWithIntrinsicBounds(null, null, getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_show_icon), null);
             setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -78,7 +77,7 @@ public class TextEditBox extends AppCompatEditText {
                         boolean touchedDrawable = isShowPasswordIconTouched(view, event);
                         if (touchedDrawable) {
                             setCompoundDrawablesWithIntrinsicBounds(null, null, getShowHidePasswordDrawable(theme), null);
-                            setTransformationMethod(isPasswordHidden() ? PasswordTransformationMethod.getInstance() : null);
+                            setTransformationMethod(getPasswordTransaformationMethod());
                             return true;
                         }
                     }
@@ -86,6 +85,11 @@ public class TextEditBox extends AppCompatEditText {
                 }
             });
         }
+    }
+
+    @Nullable
+    private PasswordTransformationMethod getPasswordTransaformationMethod() {
+        return isPasswordHidden() ? PasswordTransformationMethod.getInstance() : null;
     }
 
     private VectorDrawableCompat getShowHidePasswordDrawable(final Resources.Theme theme) {
@@ -103,8 +107,8 @@ public class TextEditBox extends AppCompatEditText {
     }
 
     //Code from TextView of android to check the input type is numberPassword or textPassword
-    private boolean isPasswordInputType(final int inputType) {
-        final int variation = inputType & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
+    private boolean isPasswordInputType() {
+        final int variation = getInputType() & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
         final boolean passwordInputType = (variation == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD));
         final boolean numberPasswordInputType = (variation == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD));
         return passwordInputType || numberPasswordInputType;
@@ -113,18 +117,15 @@ public class TextEditBox extends AppCompatEditText {
     private boolean isShowPasswordIconTouched(final View view, final MotionEvent event) {
         final int passwordDrawableTouchArea = view.getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
 
-        final float rawX = event.getRawX();
-        final float rawY = event.getRawY();
-
-        return isTouchIsInBoundAroundXaxis(view, passwordDrawableTouchArea, rawX) && isTouchInBoundAroundYaxis(view, passwordDrawableTouchArea, event.getRawY());
+        return isTouchIsInBoundAroundXaxis(view, passwordDrawableTouchArea, event.getRawX()) && isTouchInBoundAroundYaxis(view, passwordDrawableTouchArea, event.getRawY());
     }
 
-    private boolean isTouchInBoundAroundYaxis(final View view, final int passwordDrawableTouchArea, final float rawY) {
-        return (rawY > (view.getTop() + view.getHeight() - passwordDrawableTouchArea));
+    private boolean isTouchInBoundAroundYaxis(final View view, final int passwordDrawableTouchArea, final float touchYcoordinate) {
+        return (touchYcoordinate > (view.getTop() + view.getHeight() - passwordDrawableTouchArea));
     }
 
-    private boolean isTouchIsInBoundAroundXaxis(final View view, final int passwordDrawableTouchArea, final float rawX) {
-        return (rawX > (view.getLeft() + view.getWidth() - passwordDrawableTouchArea)) && (rawX < view.getLeft() + view.getWidth());
+    private boolean isTouchIsInBoundAroundXaxis(final View view, final int passwordDrawableTouchArea, final float touchXcoordinate) {
+        return (touchXcoordinate > (view.getLeft() + view.getWidth() - passwordDrawableTouchArea)) && (touchXcoordinate < view.getLeft() + view.getWidth());
     }
 
     private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
