@@ -48,7 +48,7 @@
             ]
           },
           {
-            "eventId": "onBackPressed",
+            "eventId": "back",
             "nextStates": [
               {
                 "condition": [],

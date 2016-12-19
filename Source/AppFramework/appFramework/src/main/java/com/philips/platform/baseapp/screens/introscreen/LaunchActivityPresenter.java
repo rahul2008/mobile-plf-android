@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
@@ -28,7 +29,7 @@ public class LaunchActivityPresenter extends UIBasePresenter{
     private LaunchView launchView;
     private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
-    private String LAUNCH_BACK_PRESSED = "onBackPressed";
+    private String LAUNCH_BACK_PRESSED = "back";
     private String WELCOME_REGISTRATION = "welcome_registration";
     private String APP_LAUNCH = "onAppLaunch";
 
@@ -46,12 +47,14 @@ public class LaunchActivityPresenter extends UIBasePresenter{
     public void onEvent(int componentID) {
         showActionBar();
         String eventState = getEventState(componentID);
-
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
-        } catch (NoEventFoundException e) {
+            if (eventState == null)
+                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+            else if (eventState.equals(LAUNCH_BACK_PRESSED))
+                baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+        } catch (NoEventFoundException | NoStateException e) {
             e.printStackTrace();
         }
         if (baseState != null && !(baseState instanceof UserRegistrationState)) {
