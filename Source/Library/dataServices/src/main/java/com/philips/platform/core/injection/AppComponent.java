@@ -20,6 +20,7 @@ import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 
 import javax.inject.Singleton;
 
@@ -58,4 +59,6 @@ public interface AppComponent {
     void injectConsentsDataFetcher(ConsentsDataFetcher consentsDataFetcher);
 
     void injectConsentsSender(ConsentDataSender consentDataSender);
+
+    void injectSynchronizationMonitor(SynchronisationMonitor synchronisationMonitor);
 }

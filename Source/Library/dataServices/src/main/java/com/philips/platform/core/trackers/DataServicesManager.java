@@ -7,11 +7,9 @@
 package com.philips.platform.core.trackers;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
@@ -40,28 +38,15 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
-import com.philips.platform.core.monitors.DBMonitors;
-import com.philips.platform.core.monitors.DeletingMonitor;
-import com.philips.platform.core.monitors.EventMonitor;
-import com.philips.platform.core.monitors.ExceptionMonitor;
-import com.philips.platform.core.monitors.FetchingMonitor;
-import com.philips.platform.core.monitors.LoggingMonitor;
-import com.philips.platform.core.monitors.SavingMonitor;
-import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
-import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
-import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
-import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.ErrorHandler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -93,31 +78,10 @@ public class DataServicesManager {
     private BaseAppDataCreator mDataCreater;
 
     @Inject
-    DataPullSynchronise mDataPullSynchronise;
-
-    @Inject
-    DataPushSynchronise mDataPushSynchronise;
-
-    @Inject
-    SharedPreferences mSharedPreferences;
-
-    @Inject
-    LoggingMonitor mLoggingMonitor;
-
-    @Inject
-    ExceptionMonitor mExceptionMonitor;
-
-    @Inject
-    Backend mBackend;
-
-    @Inject
     UCoreAccessProvider mBackendIdProvider;
 
     @Inject
     BaseAppCore mCore;
-
-    @Inject
-    DBMonitors mDbMonitors;
 
     private static DataServicesManager sDataServicesManager;
 
@@ -252,7 +216,7 @@ public class DataServicesManager {
     @SuppressWarnings("rawtypes")
     public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         DSLog.i("***SPO***", "In DataServicesManager.Synchronize");
-        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
+        SynchronisationMonitor monitor = new SynchronisationMonitor();
         monitor.start(mEventing);
     }
 
@@ -271,6 +235,7 @@ public class DataServicesManager {
         DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
         if (mCore != null) {
             DSLog.i("SPO","mCore not null");
+            DSLog.i("SPO","before starting baseAppCore");
             mCore.start();
         } /*else {
             mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
@@ -293,9 +258,9 @@ public class DataServicesManager {
       //  this.mBackendIdProvider = new UCoreAccessProvider(facade);
         prepareInjectionsGraph(context);
 
-        DSLog.i("SPO","before starting baseAppCore");
+      //  DSLog.i("SPO","before starting baseAppCore");
 
-        mCore.start();
+        //mCore.start();
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
@@ -326,14 +291,7 @@ public class DataServicesManager {
     public void releaseDataServicesInstances() {
         mErrorHandlerImpl = null;
         mBackendIdProvider = null;
-        mBackend = null;
         mDataCreater = null;
-        mDataPullSynchronise = null;
-        mDataPushSynchronise = null;
-        mDbMonitors = null;
-        mExceptionMonitor = null;
-        mLoggingMonitor = null;
-        mSharedPreferences = null;
         // mCore.stop();
     }
 
