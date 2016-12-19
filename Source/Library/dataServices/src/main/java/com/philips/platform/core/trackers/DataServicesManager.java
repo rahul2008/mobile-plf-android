@@ -82,6 +82,14 @@ public class DataServicesManager {
     @NonNull
     private Eventing mEventing;
 
+    @NonNull
+    public static AppComponent mAppComponent;
+
+    DBDeletingInterface mDeletingInterface;
+    DBFetchingInterface mFetchingInterface;
+    DBSavingInterface mSavingInterface;
+    DBUpdatingInterface mUpdatingInterface;
+
     private BaseAppDataCreator mDataCreater;
 
     @Inject
@@ -102,11 +110,14 @@ public class DataServicesManager {
     @Inject
     Backend mBackend;
 
-    private BackendIdProvider mBackendIdProvider;
-    private BaseAppCore mCore;
+    @Inject
+    UCoreAccessProvider mBackendIdProvider;
 
-    private DBMonitors mDbMonitors;
-    private List<EventMonitor> mMonitors = new ArrayList<>();
+    @Inject
+    BaseAppCore mCore;
+
+    @Inject
+    DBMonitors mDbMonitors;
 
     private static DataServicesManager sDataServicesManager;
 
@@ -124,13 +135,13 @@ public class DataServicesManager {
         return sDataServicesManager;
     }
 
-    public UCoreAccessProvider getUCoreAccessProvider() {
+ /*   public UCoreAccessProvider getUCoreAccessProvider() {
         return (UCoreAccessProvider) mBackendIdProvider;
-    }
+    }*/
 
-    public BaseAppDataCreator getDataCreater() {
+  /*  public BaseAppDataCreator getDataCreater() {
         return mDataCreater;
-    }
+    }*/
 
     @NonNull
     public Moment save(@NonNull final Moment moment) {
@@ -269,29 +280,21 @@ public class DataServicesManager {
     }
 
     public void initializeDBMonitors(DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
-        SavingMonitor savingMonitor = new SavingMonitor(savingInterface);
-        FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
-        DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
-        UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
-
-        mDbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
+        this.mDeletingInterface = deletingInterface;
+        this.mFetchingInterface = fetchingInterface;
+        this.mSavingInterface = savingInterface;
+        this.mUpdatingInterface = updatingInterface;
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, ErrorHandler facade) {
         DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
         this.mErrorHandlerImpl = facade;
-        this.mBackendIdProvider = new UCoreAccessProvider(facade);
+      //  this.mBackendIdProvider = new UCoreAccessProvider(facade);
         prepareInjectionsGraph(context);
 
-        mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
-
-        mMonitors = new ArrayList<>();
-        mMonitors.add(mLoggingMonitor);
-        mMonitors.add(mExceptionMonitor);
-
         DSLog.i("SPO","before starting baseAppCore");
-        mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
+
         mCore.start();
     }
 
@@ -306,12 +309,12 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(mEventing);
+        BackendModule backendModule = new BackendModule(mEventing,mDataCreater,mErrorHandlerImpl,mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
-        AppComponent appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
-        appComponent.injectApplication(this);
+        mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        mAppComponent.injectApplication(this);
     }
 
     public void stopCore() {
@@ -335,9 +338,9 @@ public class DataServicesManager {
     }
 
 
-    public ErrorHandler getUserRegistrationImpl() {
+  /*  public ErrorHandler getUserRegistrationImpl() {
         return mErrorHandlerImpl;
-    }
+    }*/
 
 
     public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {

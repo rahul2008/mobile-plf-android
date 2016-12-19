@@ -36,8 +36,8 @@ import retrofit.RetrofitError;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
 
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+    @Inject
+    UCoreAccessProvider accessProvider;
 
     @NonNull
     private final List<? extends DataSender> senders;
@@ -54,7 +54,7 @@ public class DataPushSynchronise extends EventMonitor {
                                @NonNull final Executor executor,
                                @NonNull final Eventing eventing) {
         mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
+        mDataServicesManager.mAppComponent.injectDataPushSynchronize(this);
         this.senders = senders;
         this.executor = executor;
         this.eventing = eventing;

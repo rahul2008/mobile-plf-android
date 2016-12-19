@@ -7,11 +7,14 @@
 package com.philips.platform.datasync;
 
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BackendIdProvider;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.ErrorHandler;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -25,12 +28,15 @@ public class UCoreAccessProvider implements BackendIdProvider {
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
+    @Inject
     SharedPreferences sharedPreferences;
 
     @NonNull
     private final ErrorHandler errorHandler;
 
+    @Inject
     public UCoreAccessProvider(@NonNull final ErrorHandler errorHandler) {
+        DataServicesManager.mAppComponent.injectAccessProvider(this);
         this.errorHandler = errorHandler;
     }
 
@@ -54,11 +60,6 @@ public class UCoreAccessProvider implements BackendIdProvider {
             return errorHandler.getUserProfile().getGUid();
         else
             return null;
-    }
-
-    @Override
-    public void injectSaredPrefs(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
     }
 
     @Override

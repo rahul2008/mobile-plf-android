@@ -11,7 +11,21 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.philips.platform.core.BaseAppCore;
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.monitors.DBMonitors;
+import com.philips.platform.core.monitors.DeletingMonitor;
+import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.monitors.ExceptionMonitor;
+import com.philips.platform.core.monitors.FetchingMonitor;
+import com.philips.platform.core.monitors.LoggingMonitor;
+import com.philips.platform.core.monitors.SavingMonitor;
+import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
@@ -25,6 +39,7 @@ import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.datasync.userprofile.ErrorHandler;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -50,8 +65,32 @@ public class BackendModule {
     @NonNull
     private final Eventing eventing;
 
-    public BackendModule(@NonNull final Eventing eventing) {
+    @NonNull
+    private final ErrorHandler errorHandler;
+
+    @NonNull
+    private final BaseAppDataCreator creator;
+
+    @NonNull
+    private final DBDeletingInterface deletingInterface;
+
+    @NonNull
+    private final DBFetchingInterface fetchingInterface;
+
+    @NonNull
+    private final DBSavingInterface savingInterface;
+
+    @NonNull
+    private final DBUpdatingInterface updatingInterface;
+
+    public BackendModule(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator creator, @NonNull final ErrorHandler errorHandler,DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
         this.eventing = eventing;
+        this.creator = creator;
+        this.errorHandler = errorHandler;
+        this.deletingInterface = deletingInterface;
+        this.fetchingInterface = fetchingInterface;
+        this.savingInterface = savingInterface;
+        this.updatingInterface = updatingInterface;
     }
 
     @Provides
@@ -117,5 +156,47 @@ public class BackendModule {
     @Singleton
     public Eventing provideEventing() {
         return eventing;
+    }
+
+    @Provides
+    @Singleton
+    public BaseAppDataCreator provideCreater() {
+        return creator;
+    }
+
+    @Provides
+    @Singleton
+    public DBMonitors providesDMMonitors(){
+        SavingMonitor savingMonitor = new SavingMonitor(savingInterface);
+        FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
+        DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
+        UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
+
+        return new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
+    }
+
+    @Provides
+    @Singleton
+    public List<EventMonitor> providesEventMonitors(LoggingMonitor loggingMonitor, ExceptionMonitor exceptionMonitor){
+        List monitors = new ArrayList<>();
+        monitors.add(loggingMonitor);
+        monitors.add(exceptionMonitor);
+        return monitors;
+    }
+
+    @Provides
+    @Singleton
+    public BaseAppCore providesCore(){
+        return  new BaseAppCore();
+    }
+
+    @Provides
+    public ErrorHandler providesErrorHandler(){
+        return  errorHandler;
+    }
+
+    @Provides
+    public UCoreAccessProvider providesAccessProvider(){
+        return new UCoreAccessProvider(errorHandler);
     }
 }

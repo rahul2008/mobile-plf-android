@@ -19,10 +19,15 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.monitors.ExceptionMonitor;
+import com.philips.platform.core.monitors.LoggingMonitor;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.Backend;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,20 +38,38 @@ import javax.inject.Inject;
  * All rights reserved.
  */
 public class BaseAppCore implements BaseAppDataCreator {
+    @Inject
+    Eventing eventing;
 
-    private final Eventing eventing;
+    @Inject
+    LoggingMonitor loggingMonitor;
+
+    @Inject
+    ExceptionMonitor exceptionMonitor;
+
+    //private final Eventing eventing;
+    @Inject
     BaseAppDataCreator database;
-    private DBMonitors dbMonitors;
-    private final BaseAppBackend appBackend;
+
+    @Inject
+    DBMonitors dbMonitors;
+
+    @Inject
+    Backend appBackend;
+
     private List<EventMonitor> eventMonitors;
 
     @Inject
-    public BaseAppCore(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator database, final BaseAppBackend backend, @NonNull List<EventMonitor> eventMonitors, final DBMonitors dbMonitors) {
-        this.eventing = eventing;
-        this.database = database;
-        this.appBackend = backend;
-        this.eventMonitors = eventMonitors;
-        this.dbMonitors = dbMonitors;
+    public BaseAppCore() {
+        DataServicesManager.mAppComponent.injectBaseAppCore(this);
+        this.eventMonitors = getEventMonitors();
+    }
+
+    List<EventMonitor> getEventMonitors(){
+        List monitors = new ArrayList<>();
+        monitors.add(loggingMonitor);
+        monitors.add(exceptionMonitor);
+        return monitors;
     }
 
     public void start() {

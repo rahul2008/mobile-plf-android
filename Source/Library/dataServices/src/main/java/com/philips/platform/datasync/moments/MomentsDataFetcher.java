@@ -33,24 +33,25 @@ public class MomentsDataFetcher extends DataFetcher {
     @NonNull
     private final MomentsConverter converter;
 
+    @Inject
+    Eventing eventing;
+
     @NonNull
     private final GsonConverter gsonConverter;
 
-    @NonNull
-    protected final UCoreAccessProvider accessProvider;
+    @Inject
+    UCoreAccessProvider accessProvider;
 
     DataServicesManager mDataServicesManager;
 
     @Inject
     public MomentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
                               @NonNull final MomentsConverter converter,
-                              @NonNull final Eventing eventing,
                               @NonNull final GsonConverter gsonConverter) {
-        super(uCoreAdapter, eventing);
+        super(uCoreAdapter);
+        DataServicesManager.mAppComponent.injectMomentsDataFetcher(this);
         this.converter = converter;
         this.gsonConverter = gsonConverter;
-        mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
     }
 
     @Override

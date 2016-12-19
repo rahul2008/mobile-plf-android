@@ -40,8 +40,8 @@ import retrofit.RetrofitError;
 @SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+    @Inject
+    UCoreAccessProvider accessProvider;
 
     @Nullable
     private DateTime lastSyncDateTime;
@@ -71,7 +71,7 @@ public class DataPullSynchronise {
                                @NonNull final Executor executor,
                                @NonNull final Eventing  eventing) {
         mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
+        mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
         this.eventing = eventing;

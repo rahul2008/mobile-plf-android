@@ -6,8 +6,20 @@
 
 package com.philips.platform.core.injection;
 
+import com.philips.platform.core.BaseAppCore;
+import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.consent.ConsentDataSender;
+import com.philips.platform.datasync.consent.ConsentsConverter;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
+import com.philips.platform.datasync.consent.ConsentsMonitor;
+import com.philips.platform.datasync.moments.MomentsConverter;
+import com.philips.platform.datasync.moments.MomentsDataFetcher;
+import com.philips.platform.datasync.moments.MomentsDataSender;
+import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
+import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 
 import javax.inject.Singleton;
 
@@ -23,6 +35,27 @@ public interface AppComponent {
 
     void injectApplication(DataServicesManager dataServicesManager);
 
-    //TODO: Spoorti: Can this be removed ? Action item on Spoorti
-    void injectUCoreProvider(UCoreAccessProvider uCoreAccessProvider);
+    void injectBaseAppCore(BaseAppCore baseAppCore);
+
+    void injectDataPullSynchronize(DataPullSynchronise dataPullSynchronise);
+
+    void injectAccessProvider(UCoreAccessProvider accessProvider);
+
+    void injectMomentsDataFetcher(MomentsDataFetcher momentsDataFetcher);
+
+    void injectMomentsDataSender(MomentsDataSender momentsDataSender);
+
+    void injectDataPushSynchronize(DataPushSynchronise dataPushSynchronise);
+
+    void injectUCoreAdapter(UCoreAdapter uCoreAdapter);
+
+    void injectMomentsConverter(MomentsConverter momentsConverter);
+
+    void injectConsentsMonitor(ConsentsMonitor consentsMonitor);
+
+    void injectConsentsConverter(ConsentsConverter consentsConverter);
+
+    void injectConsentsDataFetcher(ConsentsDataFetcher consentsDataFetcher);
+
+    void injectConsentsSender(ConsentDataSender consentDataSender);
 }

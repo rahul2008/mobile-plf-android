@@ -39,6 +39,8 @@ public class UCoreAdapter {
     private static final int RED_TIME_OUT = 1; //1 Minute
     private static final int CONNECTION_TIME_OUT = 1; //1 Minute
 
+    @Inject
+    ErrorHandler userRegistrationImpl;
 
     @NonNull
     private final OkHttpClient okHttpClient;
@@ -57,6 +59,7 @@ public class UCoreAdapter {
             @NonNull final RestAdapter.Builder restAdapterBuilder,
             @NonNull final Context context) {
         super();
+        DataServicesManager.mAppComponent.injectUCoreAdapter(this);
         this.okHttpClient = new OkHttpClient();
         this.okHttpClient.setReadTimeout(RED_TIME_OUT, TimeUnit.MINUTES);
         this.okHttpClient.setConnectTimeout(CONNECTION_TIME_OUT, TimeUnit.MINUTES);
@@ -67,8 +70,6 @@ public class UCoreAdapter {
 
 
     public <T> T getAppFrameworkClient(Class<T> clientClass, @NonNull final String accessToken, GsonConverter gsonConverter) {
-        DataServicesManager dataServicesManager = DataServicesManager.getInstance();
-        ErrorHandler userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
         String baseUrl = null;
         if(userRegistrationImpl!=null) {
             baseUrl = userRegistrationImpl.getHSDHsdpUrl();
