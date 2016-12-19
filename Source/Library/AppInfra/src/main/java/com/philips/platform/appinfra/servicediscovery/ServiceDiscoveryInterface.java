@@ -128,7 +128,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId   name of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
-     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #replacePlaceholders(URL, Map)}
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
      */
     void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener,
                                              Map<String, String> replacement);
@@ -150,7 +150,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId   ArrayList of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
-     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #replacePlaceholders(URL, Map)}
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
      */
     void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener,
                                            Map<String, String> replacement);
@@ -171,7 +171,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId   name of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
-     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #replacePlaceholders(URL, Map)}
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
      */
     void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener,
                                             Map<String, String> replacement);
@@ -194,7 +194,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId   List of the services for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
-     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #replacePlaceholders(URL, Map)}
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
      */
     void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener,
                                           Map<String, String> replacement);
