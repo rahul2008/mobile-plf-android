@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,29 +39,29 @@ import java.util.ArrayList;
  * The following fields needs to be populated for the list
  */
 
-public class SettingsAdapter extends BaseAdapter{
+public class SettingsAdapter extends BaseAdapter {
     private Context activityContext;
     private LayoutInflater inflater = null;
     private UserRegistrationState userRegistrationState;
     private ArrayList<SettingListItem> settingsItemList = null;
     private UIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
-    private PuiSwitch value;
-    private TextView number,on_off,description,name;
-    private FontIconTextView arrow;
-    private SettingListItemType type;
-    private View vi;
-    private ProgressDialog progress,progressDialog;
+
+    private ProgressDialog progress, progressDialog;
     private int LOGIN_VIEW = 0;
     private int VERTICAL_SETTING_VIEW = 1;
+    private boolean isUserLoggedIn=false;
+    private boolean isMarketingEnabled=false;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                           UIBasePresenter fragmentPresenter) {
+                           UIBasePresenter fragmentPresenter,UserRegistrationState userRegistrationState,boolean isUserLoggedIn,boolean isMarketingEnabled) {
         activityContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        userRegistrationState = new UserRegistrationSettingsState();
         this.settingsItemList = settingsItemList;
         this.fragmentPresenter = fragmentPresenter;
+        this.isUserLoggedIn=isUserLoggedIn;
+        this.isMarketingEnabled=isMarketingEnabled;
+        this.userRegistrationState=userRegistrationState;
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
     }
 
@@ -96,50 +97,60 @@ public class SettingsAdapter extends BaseAdapter{
 
     @NonNull
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
-        vi = convertView;
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         int type = getItemViewType(position);
-        if (vi == null) {
+        VerticalViewHolder verticalViewHolder = null;
+        if (convertView == null) {
             if (type == LOGIN_VIEW) {
-                vi = inflater.inflate(R.layout.af_settings_fragment_logout_button, parent, false);
-            }
-            else {
-                vi = inflater.inflate(R.layout.uikit_listview_without_icons, parent, false);
+                convertView = inflater.inflate(R.layout.af_settings_fragment_logout_button, parent, false);
+            } else {
+                convertView = inflater.inflate(R.layout.uikit_listview_without_icons, parent, false);
+                verticalViewHolder = new VerticalViewHolder();
+                verticalViewHolder.name = (TextView) convertView.findViewById(R.id.ifo);
+                verticalViewHolder.value = (PuiSwitch) convertView.findViewById(R.id.switch_button);
+                verticalViewHolder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
+                verticalViewHolder.on_off = (TextView) convertView.findViewById(R.id.medium);
+                verticalViewHolder.arrow = (FontIconTextView) convertView.findViewById(R.id.arrowwithouticons);
+                verticalViewHolder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
+                convertView.setTag(verticalViewHolder);
             }
         }
         if (type == LOGIN_VIEW) {
-            loginButtonView();
+            loginButtonView(convertView);
         } else {
-            verticalAppView(position);
+            verticalViewHolder = (VerticalViewHolder) convertView.getTag();
+            verticalAppView(position, verticalViewHolder);
         }
-        return vi;
+        return convertView;
     }
 
-    private void verticalAppView(int position) {
-        name = (TextView) vi.findViewById(R.id.ifo);
-        value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        number = (TextView) vi.findViewById(R.id.numberwithouticon);
-        on_off = (TextView) vi.findViewById(R.id.medium);
-        arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
-        description = (TextView) vi.findViewById(R.id.text_description_without_icons);
-        type = settingsItemList.get(position).type;
+    private void verticalAppView(int position, VerticalViewHolder viewHolder) {
+
+
+        SettingListItemType type = settingsItemList.get(position).type;
 
         switch (type) {
             case HEADER:
-                headerSection(position);
+                headerSection(position,viewHolder);
                 break;
             case CONTENT:
-                subSection(position);
+                subSection(position,viewHolder);
                 break;
             case NOTIFICATION:
-                notificationSection(position);
+                notificationSection(position,viewHolder);
                 break;
         }
     }
 
-    private void loginButtonView() {
+    public static class VerticalViewHolder {
+        public TextView number, on_off, description, name;
+        public PuiSwitch value;
+        public FontIconTextView arrow;
+    }
+
+    private void loginButtonView(View vi) {
         UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
-        if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
+        if (isUserLoggedIn) {
             btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
         } else {
             btn_settings_logout.setText(getString(R.string.settings_list_item_login));
@@ -157,18 +168,17 @@ public class SettingsAdapter extends BaseAdapter{
         });
     }
 
-    private void notificationSection(int position) {
-        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
-            name.setVisibility(View.VISIBLE);
-            name.setText(settingsItemList.get(position).title);
-            value.setVisibility(View.VISIBLE);
-
-            if (userRegistrationState.getUserObject(activityContext).getReceiveMarketingEmail()) {
-                value.setChecked(true);
+    private void notificationSection(int position,VerticalViewHolder viewHolder) {
+        if (null != viewHolder.name && null != viewHolder.value && null != viewHolder.description && null != viewHolder.number && null != viewHolder.on_off && null != viewHolder.arrow) {
+            viewHolder.name.setVisibility(View.VISIBLE);
+            viewHolder.name.setText(settingsItemList.get(position).title);
+            viewHolder.value.setVisibility(View.VISIBLE);
+            if (isMarketingEnabled) {
+                viewHolder.value.setChecked(true);
             } else {
-                value.setChecked(false);
+                viewHolder.value.setChecked(false);
             }
-            value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            viewHolder.value.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     progress = new ProgressDialog(activityContext);
@@ -183,13 +193,13 @@ public class SettingsAdapter extends BaseAdapter{
                             public void onUpdateSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
-                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_success),Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_fail),Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_fail), Toast.LENGTH_LONG).show();
 
                             }
                         }, true);
@@ -199,13 +209,13 @@ public class SettingsAdapter extends BaseAdapter{
                             public void onUpdateSuccess() {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
-                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_success),Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext,activityContext.getResources().getString(R.string.settings_update_fail),Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_fail), Toast.LENGTH_LONG).show();
                             }
                         }, false);
                     }
@@ -215,32 +225,32 @@ public class SettingsAdapter extends BaseAdapter{
             String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
                     getString(R.string.settings_list_item_four_term_cond);
 
-            description.setVisibility(View.VISIBLE);
-            description.setText(descText);
-            arrow.setVisibility(View.GONE);
+            viewHolder.description.setVisibility(View.VISIBLE);
+            viewHolder.description.setText(descText);
+            viewHolder.arrow.setVisibility(View.GONE);
         }
     }
 
-    private void subSection(int position) {
-        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
-            name.setText(settingsItemList.get(position).title);
-            value.setVisibility(View.GONE);
-            description.setVisibility(View.GONE);
-            on_off.setVisibility(View.GONE);
-            arrow.setVisibility(View.VISIBLE);
+    private void subSection(int position,VerticalViewHolder viewHolder) {
+        if (null != viewHolder.name && null != viewHolder.value && null != viewHolder.description && null != viewHolder.number && null != viewHolder.on_off && null != viewHolder.arrow) {
+            viewHolder.name.setText(settingsItemList.get(position).title);
+            viewHolder.value.setVisibility(View.GONE);
+            viewHolder.description.setVisibility(View.GONE);
+            viewHolder.on_off.setVisibility(View.GONE);
+            viewHolder.arrow.setVisibility(View.VISIBLE);
         }
     }
 
-    private void headerSection(int position) {
+    private void headerSection(int position, VerticalViewHolder viewHolder) {
         CharSequence titleText;
         titleText = settingsItemList.get(position).title;
-        if(null != name && null != value && null != description && null != number && null != on_off && null != arrow) {
-            name.setText(titleText);
-            value.setVisibility(View.GONE);
-            description.setVisibility(View.GONE);
-            number.setVisibility(View.GONE);
-            on_off.setVisibility(View.GONE);
-            arrow.setVisibility(View.INVISIBLE);
+        if (null != viewHolder.name && null != viewHolder.value && null != viewHolder.description && null != viewHolder.number && null != viewHolder.on_off && null != viewHolder.arrow) {
+            viewHolder.name.setText(titleText);
+            viewHolder.value.setVisibility(View.GONE);
+            viewHolder.description.setVisibility(View.GONE);
+            viewHolder.number.setVisibility(View.GONE);
+            viewHolder.on_off.setVisibility(View.GONE);
+            viewHolder.arrow.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -267,7 +277,7 @@ public class SettingsAdapter extends BaseAdapter{
                                 userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
                                     @Override
                                     public void onLogoutSuccess() {
-                                    //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                                        //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                                         progressDialog.cancel();
                                         fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                                     }
@@ -275,7 +285,7 @@ public class SettingsAdapter extends BaseAdapter{
                                     @Override
                                     public void onLogoutFailure(final int i, final String s) {
                                         progressDialog.cancel();
-                                    Toast.makeText(activityContext,getString(R.string.logout_failed),Toast.LENGTH_LONG).show();
+                                        Toast.makeText(activityContext, getString(R.string.logout_failed), Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
