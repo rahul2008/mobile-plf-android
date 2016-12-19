@@ -47,14 +47,23 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/component_bottom_spacing"
         android:inputType="textPassword"
-        android:text="Hello"/>
+        android:text="Text password"/>
 
-    <android.support.design.widget.TextInputEditText
+    <com.philips.platform.uid.view.widget.TextEditBox
+        android:id="@+id/password_number"
         android:layout_width="@dimen/texteditbox_width"
         android:layout_height="wrap_content"
-        style="@style/UIDTextEditBox"
-        android:inputType="textPassword"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:inputType="numberPassword"
+        android:text="Number password"/>
+
+    <android.support.design.widget.TextInputEditText
+        style="@style/UIDTextEditBox"
+        android:layout_width="@dimen/texteditbox_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="textPassword"
         android:text="input layout"/>
 
 </LinearLayout>
