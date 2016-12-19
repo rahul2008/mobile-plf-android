@@ -77,4 +77,6 @@
     <string name="label_item_text">Item text</string>
     <string name="label_label_left">Label left</string>
     <string name="label_label_right">Label right</string>
+    <string name="title">Title</string>
+    <string name="cancel">Cancel</string>
 </resources>

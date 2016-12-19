@@ -11,10 +11,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
@@ -28,7 +26,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
 import static com.philips.platform.uid.test.R.color.GroupBlue55;
-import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class QuietButtonTest {
 
@@ -51,11 +48,10 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietButtonHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.button_height);
 
         getQuietButton()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
+                .check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
@@ -81,22 +77,19 @@ public class QuietButtonTest {
      *********************************************/
     @Test
     public void verifyQuietIconOnlyButtonWidth() {
-        waitFor(testResources, 750);
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.iconbutton_width);
         getQuietIconOnlyButton()
-                .check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedWidth)));
+                .check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
     public void verifyQuietButtonIconHeight() {
-        waitFor(testResources, 750);
         int expectedIconHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.icon_height);
         getQuietIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
     public void verifyQuietButtonIconWidth() {
-        waitFor(testResources, 750);
         int expectedIconWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.icon_width);
         getQuietIconOnlyButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
@@ -115,7 +108,6 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextandIconButtonCompoundPadding() {
-        waitFor(testResources, 750);
         int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.iconandtextbutton_compoundpadding);
         getQuietIconandTextButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }

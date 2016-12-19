@@ -6,6 +6,11 @@ package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 
@@ -32,5 +37,48 @@ public class UIDHelper {
             themeConfiguration.controlType.injectPrimaryControlColors(theme);
         }
         themeConfiguration.navigationColor.injectNavigationColor(theme);
+    }
+
+    /**
+     * This API will setup toolbar
+     * Be-aware that this API will override the title from toolbar to make title center aligned, <br>Make sure to include uid_toolbar_layout in your activity.
+     * <br> If you have used your own toobar then you can setup toolbar on your own using activity.setSupportActionBar(toolbar);
+     *
+     * @param activity Reference of activity you want to setup toolbar
+     */
+    public static void setupToolbar(@NonNull final AppCompatActivity activity) {
+        final View toolbarView = activity.findViewById(com.philips.platform.uid.R.id.uid_toolbar);
+        if (toolbarView instanceof Toolbar) {
+            Toolbar toolbar = (Toolbar) toolbarView;
+            activity.setSupportActionBar(toolbar);
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+            return;
+        }
+        throw new RuntimeException("Please include a uid_toolbar_layout in your main activity layout xml");
+    }
+
+    /**
+     * This API will help you to set title of your page on toolbar
+     *
+     * @param activity        Reference of activity
+     * @param titleResourceId String resourceId for title
+     */
+    public static void setTitle(AppCompatActivity activity, @StringRes int titleResourceId) {
+        setTitle(activity, activity.getString(titleResourceId));
+    }
+
+    /**
+     * This API will help you to set title of your page on toolbar
+     *
+     * @param activity Reference of activity
+     * @param title    String which you would like to set as title
+     */
+    public static void setTitle(AppCompatActivity activity, String title) {
+        final View titleView = activity.findViewById(com.philips.platform.uid.R.id.uid_toolbar_title);
+        if (titleView instanceof TextView) {
+            ((TextView) activity.findViewById(R.id.uid_toolbar_title)).setText(title);
+            return;
+        }
+        throw new RuntimeException("Please include a uid_toolbar_layout in your main activity layout xml");
     }
 }

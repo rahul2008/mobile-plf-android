@@ -78,7 +78,7 @@
         <item name="uidContentSecondary">?attr/uidColorLevel05</item>
         <item name="uidNavigationPrimaryColor">@color/uidColorWhite</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
-        <item name="uidNavigationTextColor">@color/uid_gray_level_75</item>
+        <item name="uidNavigationTextColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidTextPrimaryColor">@color/uid_gray_level_75</item>
 
         <item name="uidApplicationBackground">?attr/uidColorLevel05</item>
@@ -120,7 +120,7 @@
         <item name="uidContentSecondary">?attr/uidColorLevel15</item>
         <item name="uidNavigationPrimaryColor">@color/uidColorWhite</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
-        <item name="uidNavigationTextColor">?attr/uidColorLevel75</item>
+        <item name="uidNavigationTextColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidTextPrimaryColor">?attr/uidColorLevel75</item>
 
         <item name="uidApplicationBackground">?attr/uidColorLevel25</item>

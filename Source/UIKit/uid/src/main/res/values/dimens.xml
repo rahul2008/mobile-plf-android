@@ -82,14 +82,15 @@
     <!-- Navigation bar properties-->
     <dimen name="uid_navigation_bar_padding_left">16dp</dimen>
     <dimen name="uid_navigation_bar_padding_right">16dp</dimen>
-    <dimen name="uid_navigation_bar_icon_title_margin">32dp</dimen>
-    <dimen name="uid_navigation_bar_icon_spacing">12dp</dimen>
+    <dimen name="uid_navigation_bar_menu_icon_text_spacing_left_right">12dp</dimen>
     <dimen name="uid_navigation_bar_icon_size">24dp</dimen>
     <dimen name="uid_navigation_bar_icon_maxsize">48dp</dimen>
     <dimen name="uid_navigation_bar_height">?attr/actionBarSize</dimen>
     <dimen name="uid_navigation_bar_title_margin_left_right">24dp</dimen>
     <dimen name="uid_navigation_bar_text_size">20sp</dimen>
-    <dimen name="uid_navigation_bar_text_line_spacing">4dp</dimen>
+    <dimen name="uid_navigation_bar_text_line_spacing_extra">24dp</dimen>
+    <integer name="uid_navigation_bar_text_line_spacing_multiplier">0</integer>
+    <dimen name="uid_navigation_menu_text_margin">4dp</dimen>
 
     <!-- ProgressBar -->
     <dimen name="uid_progress_bar_min_width">96dp</dimen>

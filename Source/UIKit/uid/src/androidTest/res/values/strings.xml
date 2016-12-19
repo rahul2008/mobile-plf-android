@@ -10,4 +10,5 @@
 
     <!--TextBox-->
     <string name="textbox_dummy_string">TextBox</string>
+    <string name="navigation_content_desc">Navigation content description</string>
 </resources>
