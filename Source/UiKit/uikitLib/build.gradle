@@ -117,15 +117,18 @@ dependencies {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = libVersionNumber
+//version = libVersionNumber
+version = objcdp.getVersion()
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
         repository {
-            repoKey = 'libs-release-local'
-            username = 'admin'
-            password = 'password'
+            //repoKey = 'libs-release-local'
+            //username = 'admin'
+           //password = 'password'
+		   repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
             publishPom = true
             publishIvy = false
             publishBuildInfo = false
