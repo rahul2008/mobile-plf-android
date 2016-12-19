@@ -41,6 +41,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class TextBoxTest {
 
+    public static final int COMPOUND_DRAWABLE_INDEX = 2;
     private Resources testResources;
     private Context activityContext;
     private Context instrumentationContext;
@@ -188,8 +189,42 @@ public class TextBoxTest {
     }
 
     @Test
-    public void verifyTextBoxTextMasked() throws Exception {
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isPasswordType()));
+    public void verifyPasswordTextBoxTextMasked() throws Exception {
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+    }
+
+    @Test
+    public void verifyNonPasswordTextHasNoMasking() throws Exception {
+        getTextBox().check(matches(TextViewPropertiesMatchers.hasNoTransformationMethod()));
+    }
+
+    @Ignore
+    @Test
+    public void verifyPasswordRightDrawableIsSetForPassword() throws Exception {
+
+        final int expectedColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryEnabledColor);
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(COMPOUND_DRAWABLE_INDEX, android.R.attr.state_enabled, expectedColor)));
+    }
+
+    @Test
+    public void verifyPasswordRightDrawablePadding() throws Exception {
+
+        final int padding = activityContext.getResources().getDimensionPixelOffset(R.dimen.uid_texteditbox_password_right_drawable_left_padding);
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(padding)));
+    }
+
+    @Test
+    public void verifyPasswordRightDrawableWidth() throws Exception {
+
+        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.texteditbox_compound_drawble_width);
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
+    }
+
+    @Test
+    public void verifyPasswordRightDrawableHeight() throws Exception {
+
+        final int height = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.texteditbox_compound_drawble_width);
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(COMPOUND_DRAWABLE_INDEX, height)));
     }
 
     private ViewInteraction getTextBox() {

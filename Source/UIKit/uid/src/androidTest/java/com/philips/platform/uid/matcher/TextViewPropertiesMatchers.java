@@ -152,4 +152,30 @@ public class TextViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<? super View> hasTransformationMethod() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getTransformationMethod(), null);
+                    return actual != null;
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasNoTransformationMethod() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getTransformationMethod(), null);
+                    return actual == null;
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
 }

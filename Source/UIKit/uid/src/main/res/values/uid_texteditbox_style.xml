@@ -9,6 +9,7 @@
         <item name="android:paddingRight">@dimen/uid_texteditbox_text_padding</item>
         <item name="android:paddingBottom">@dimen/uid_texteditbox_vertical_padding</item>
         <item name="android:paddingTop">@dimen/uid_texteditbox_vertical_padding</item>
+        <item name="android:drawablePadding">20dp</item>
         <item name="android:lineSpacingExtra">@dimen/uid_texteditbox_line_spacing</item>
         <item name="android:lineSpacingMultiplier">
             @integer/uid_texteditbox_font_spacing_multiplier

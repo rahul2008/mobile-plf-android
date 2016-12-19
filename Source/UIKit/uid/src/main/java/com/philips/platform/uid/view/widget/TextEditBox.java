@@ -66,7 +66,7 @@ public class TextEditBox extends AppCompatEditText {
 
     private void processPasswordInputType(final Resources.Theme theme) {
         if (isPasswordInputType()) {
-            setCompoundDrawablesWithIntrinsicBounds(null, null, getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_show_icon), null);
+            setPasswordDrawables(theme);
             setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(final View view, final MotionEvent event) {
@@ -76,7 +76,7 @@ public class TextEditBox extends AppCompatEditText {
                     if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null) {
                         boolean touchedDrawable = isShowPasswordIconTouched(view, event);
                         if (touchedDrawable) {
-                            setCompoundDrawablesWithIntrinsicBounds(null, null, getShowHidePasswordDrawable(theme), null);
+                            setPasswordDrawables(theme);
                             setTransformationMethod(getPasswordTransaformationMethod());
                             return true;
                         }
@@ -84,6 +84,19 @@ public class TextEditBox extends AppCompatEditText {
                     return false;
                 }
             });
+        }
+    }
+
+    private void setPasswordDrawables(final Resources.Theme theme) {
+        Drawable[] drawables = getDrawablesBasedOnLayoutSpec(theme);
+        setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], drawables[2], drawables[3]);
+    }
+
+    private Drawable[] getDrawablesBasedOnLayoutSpec(final Resources.Theme theme) {
+        if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
+            return new Drawable[]{getShowHidePasswordDrawable(theme), null, null, null};
+        } else {
+            return new Drawable[]{null, null, getShowHidePasswordDrawable(theme), null};
         }
     }
 
