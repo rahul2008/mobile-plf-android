@@ -39,7 +39,7 @@ echo "COMPONENT_NAME: ${COMPONENT_NAME}"
 if [ "$COMPONENT_NAME" == "" ] ; then
     exit 0
 fi
-CURRENT_TAG=`git tag -l --points-at HEAD`
+CURRENT_TAG=`cat VERSION_hsdp`
 echo "Current tag: ${CURRENT_TAG}"
 if [ "$CURRENT_TAG" == "" ] ; then
     exit 0
@@ -56,7 +56,7 @@ echo "COMPONENT_NAME: ${COMPONENT_NAME}"
 if [ "$COMPONENT_NAME" == "" ] ; then
     exit 0
 fi
-CURRENT_TAG=`git tag -l --points-at HEAD`
+CURRENT_TAG=`cat VERSION_JUMP`
 echo "Current tag: ${CURRENT_TAG}"
 if [ "$CURRENT_TAG" == "" ] ; then
     exit 0
@@ -73,7 +73,7 @@ echo "COMPONENT_NAME: ${COMPONENT_NAME}"
 if [ "$COMPONENT_NAME" == "" ] ; then
     exit 0
 fi
-CURRENT_TAG=`git tag -l --points-at HEAD`
+CURRENT_TAG=`cat VERSION_coppa`
 echo "Current tag: ${CURRENT_TAG}"
 if [ "$CURRENT_TAG" == "" ] ; then
     exit 0
