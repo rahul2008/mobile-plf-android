@@ -17,11 +17,11 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * The type Appliance manager.
+ * The type ApplianceManager.
  * <p>
  * Acts as a facade between an application and multiple {@link DiscoveryStrategy}s.
- * The application using this type is notified of events such as when an appliance is found or updated,
- * or whenever an error occurs while performing discovery.
+ * Any observer subscribed to an instance of this type is notified of events such as
+ * when an appliance is found or updated, or whenever an error occurs while performing discovery.
  * <p>
  * The application should subscribe to notifications using the {@link ApplianceManagerListener} interface.
  * It's also possible to just obtain the set of available appliances using {@link #getAvailableAppliances()}
@@ -29,7 +29,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class ApplianceManager {
 
     /**
-     * The interface Appliance manager listener.
+     * The interface ApplianceManagerListener.
      */
     interface ApplianceManagerListener {
         /**
@@ -67,7 +67,7 @@ public class ApplianceManager {
     private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
         @Override
         public void onDiscoveryStarted() {
-            // TODO notify (?)
+            // TODO notify observers (?)
         }
 
         @Override
@@ -107,12 +107,12 @@ public class ApplianceManager {
 
         @Override
         public void onDiscoveryStopped() {
-            // TODO notify (?)
+            // TODO notify observers (?)
         }
     };
 
     /**
-     * Instantiates a new Appliance manager.
+     * Instantiates a new ApplianceManager.
      *
      * @param context             the context
      * @param deviceTypes         the device types to support as defined via {@link DICommAppliance#getDeviceType()}
@@ -141,14 +141,14 @@ public class ApplianceManager {
      * the subscribed {@link ApplianceManagerListener}s are notified of this
      * via {@link ApplianceManagerListener#onDiscoveryFailure(Throwable)}
      */
-    public void start() {
+    public void startDiscovery() {
         loadAppliancesFromPersistentStorage();
 
-        for (DiscoveryStrategy strategy : this.discoveryStrategies) {
-            strategy.addDiscoveryListener(this.discoveryListener);
+        for (DiscoveryStrategy strategy : discoveryStrategies) {
+            strategy.addDiscoveryListener(discoveryListener);
 
             try {
-                strategy.start(this.context, this.deviceTypes);
+                strategy.start(context, deviceTypes);
             } catch (MissingPermissionException e) {
                 notifyDiscoveryFailure(e);
             }
@@ -161,7 +161,7 @@ public class ApplianceManager {
      * @return The currently available appliances
      */
     public Set<? extends DICommAppliance> getAvailableAppliances() {
-        return this.availableAppliances;
+        return availableAppliances;
     }
 
     /**
@@ -181,7 +181,7 @@ public class ApplianceManager {
      * @return true, if the listener didn't exist yet and was therefore added
      */
     public boolean addApplianceManagerListener(@NonNull ApplianceManagerListener applianceManagerListener) {
-        return this.applianceManagerListeners.add(applianceManagerListener);
+        return applianceManagerListeners.add(applianceManagerListener);
     }
 
     /**
@@ -191,7 +191,7 @@ public class ApplianceManager {
      * @return true, if the listener was present and therefore removed
      */
     public boolean removeApplianceListenerListener(@NonNull ApplianceManagerListener applianceManagerListener) {
-        return this.applianceManagerListeners.remove(applianceManagerListener);
+        return applianceManagerListeners.remove(applianceManagerListener);
     }
 
     private void loadAppliancesFromPersistentStorage() {
@@ -199,7 +199,7 @@ public class ApplianceManager {
     }
 
     private DICommAppliance createOrMergeAppliance(NetworkNode networkNode) {
-        for (DICommApplianceFactory factory : this.applianceFactories) {
+        for (DICommApplianceFactory factory : applianceFactories) {
             if (factory.canCreateApplianceForNode(networkNode)) {
                 DICommAppliance appliance = (DICommAppliance) factory.createApplianceForNode(networkNode);
 
@@ -215,19 +215,19 @@ public class ApplianceManager {
     }
 
     private void notifyDiscoveryFailure(@NonNull Throwable reason) {
-        for (ApplianceManagerListener listener : this.applianceManagerListeners) {
+        for (ApplianceManagerListener listener : applianceManagerListeners) {
             listener.onDiscoveryFailure(reason);
         }
     }
 
     private <A extends DICommAppliance> void notifyApplianceFound(@NonNull A appliance) {
-        for (ApplianceManagerListener listener : this.applianceManagerListeners) {
+        for (ApplianceManagerListener listener : applianceManagerListeners) {
             listener.onApplianceFound(appliance);
         }
     }
 
     private <A extends DICommAppliance> void notifyApplianceUpdated(@NonNull A appliance) {
-        for (ApplianceManagerListener listener : this.applianceManagerListeners) {
+        for (ApplianceManagerListener listener : applianceManagerListeners) {
             listener.onApplianceUpdated(appliance);
         }
     }
