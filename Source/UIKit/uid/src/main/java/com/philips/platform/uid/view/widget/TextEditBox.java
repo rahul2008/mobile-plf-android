@@ -11,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -33,6 +34,10 @@ public class TextEditBox extends AppCompatEditText {
 
     private ColorStateList strokeColorStateList;
     private ColorStateList fillColorStateList;
+
+    private Drawable showPasswordDrawable;
+    private Drawable hidePasswordDrawable;
+    boolean saveInstance = false;
 
     public TextEditBox(final Context context) {
         this(context, null);
@@ -60,31 +65,45 @@ public class TextEditBox extends AppCompatEditText {
         setHintTextColors(typedArray, theme);
         setTextColors(typedArray, theme);
         restorePadding(paddingRect);
-        processPasswordInputType(theme);
+
         typedArray.recycle();
     }
 
-    private void processPasswordInputType(final Resources.Theme theme) {
-        if (isPasswordInputType()) {
-            setPasswordDrawables(theme);
-            setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(final View view, final MotionEvent event) {
-                    final Drawable[] compoundDrawables = getCompoundDrawables();
+    @Override
+    public boolean onTouchEvent(final MotionEvent event) {
+        return processOnTouch(this, event, getContext().getTheme());
+    }
 
-                    final Drawable drawable = compoundDrawables[2];
-                    if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null) {
-                        boolean touchedDrawable = isShowPasswordIconTouched(view, event);
-                        if (touchedDrawable) {
-                            setPasswordDrawables(theme);
-                            setTransformationMethod(getPasswordTransaformationMethod());
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            });
+    @Override
+    protected void onTextChanged(final CharSequence source, final int start, final int lengthBefore, final int lengthAfter) {
+        super.onTextChanged(source, start, lengthBefore, lengthAfter);
+
+        if (source != null && source.length() > 0) {
+            if (isPasswordInputType()) {
+                setPasswordDrawables(getContext().getTheme());
+            }
         }
+    }
+
+    private boolean processOnTouch(final View view, final MotionEvent event, final Resources.Theme theme) {
+        final Drawable[] compoundDrawables = getCompoundDrawables();
+
+        final boolean isRtl = (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
+        final Drawable drawable = compoundDrawables[2];
+        if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null) {
+            boolean touchedDrawable = isShowPasswordIconTouched(view, event);
+            if (touchedDrawable) {
+                if (isPasswordInputType()) {
+                    setPasswordDrawables(theme);
+                    final int selectionStart = getSelectionStart();
+                    final int selectionEnd = getSelectionEnd();
+                    setTransformationMethod(getPasswordTransaformationMethod());
+                    setSelection(selectionStart, selectionEnd);
+                }
+                return true;
+            }
+        }
+        return super.onTouchEvent(event);
     }
 
     private void setPasswordDrawables(final Resources.Theme theme) {
@@ -93,25 +112,25 @@ public class TextEditBox extends AppCompatEditText {
     }
 
     private Drawable[] getDrawablesBasedOnLayoutSpec(final Resources.Theme theme) {
-        if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
-            return new Drawable[]{getShowHidePasswordDrawable(theme), null, null, null};
-        } else {
-            return new Drawable[]{null, null, getShowHidePasswordDrawable(theme), null};
-        }
+        return new Drawable[]{null, null, getShowHidePasswordDrawable(theme), null};
     }
 
     @Nullable
     private PasswordTransformationMethod getPasswordTransaformationMethod() {
-        return isPasswordHidden() ? PasswordTransformationMethod.getInstance() : null;
+        return isPasswordMasked() ? PasswordTransformationMethod.getInstance() : null;
     }
 
-    private VectorDrawableCompat getShowHidePasswordDrawable(final Resources.Theme theme) {
-        return isPasswordHidden() ?
-                getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_show_icon) :
-                getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_hide_icon);
+    private Drawable getShowHidePasswordDrawable(final Resources.Theme theme) {
+        if (showPasswordDrawable == null) {
+            showPasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_show_icon);
+        }
+        if (hidePasswordDrawable == null) {
+            hidePasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_hide_icon);
+        }
+        return isPasswordMasked() ? showPasswordDrawable : hidePasswordDrawable;
     }
 
-    private boolean isPasswordHidden() {
+    private boolean isPasswordMasked() {
         return getTransformationMethod() == null;
     }
 
@@ -203,5 +222,16 @@ public class TextEditBox extends AppCompatEditText {
             }
         }
         return fillDrawable;
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        final Parcelable parcelable = super.onSaveInstanceState();
+        return parcelable;
+    }
+
+    @Override
+    public void onRestoreInstanceState(final Parcelable state) {
+        super.onRestoreInstanceState(state);
     }
 }
