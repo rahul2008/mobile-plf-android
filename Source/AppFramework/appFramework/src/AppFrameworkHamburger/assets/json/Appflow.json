@@ -1,29 +1,7 @@
 {
   "appflow": {
+    "firstState": "splash",
     "states": [
-      {
-        "state": "firstState",
-        "events": [
-          {
-            "eventId": "onAppLaunch",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "splash"
-              }
-            ]
-          },
-          {
-            "eventId": "onBackPressed",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "home"
-              }
-            ]
-          }
-        ]
-      },
       {
         "state": "splash",
         "events": [
@@ -35,7 +13,7 @@
                 "condition": [
                   "conditionAppLaunch"
                 ],
-                "nextState": "splash_registration"
+                "nextState": "onBoarding_registration"
               },
               {
                 "condition": [
@@ -54,9 +32,23 @@
                 "nextState": "welcome"
               }
             ]
+          }
+        ]
+      },
+      {
+        "state": "onBoarding_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
           },
           {
-            "eventId": "splash_home",
+            "eventId": "back",
             "nextStates": [
               {
                 "condition": [],
@@ -74,7 +66,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "welcome_registration"
+                "nextState": "onBoarding_registration"
               }
             ]
           },
@@ -83,25 +75,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "welcome_registration"
-              }
-            ]
-          },
-          {
-            "eventId": "welcome_home",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "home"
-              }
-            ]
-          },
-          {
-            "eventId": "welcome_registration",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "registration"
+                "nextState": "onBoarding_registration"
               }
             ]
           }
@@ -185,6 +159,29 @@
         ]
       },
       {
+        "state": "settings_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "support",
         "events": [
           {
@@ -225,15 +222,6 @@
               {
                 "condition": [],
                 "nextState": "settings_registration"
-              }
-            ]
-          },
-          {
-            "eventId": "settings_registration",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "home"
               }
             ]
           }

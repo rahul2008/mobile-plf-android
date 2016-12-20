@@ -20,14 +20,12 @@ import com.philips.platform.baseapp.screens.dataservices.DataSyncScreenState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivityState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSplashState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationWelcomeState;
 import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 
 import java.util.Map;
@@ -39,10 +37,8 @@ public class FlowManager extends BaseFlowManager {
     }
 
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
-        uiStateMap.put(AppStates.FIRST_STATE,new LaunchActivityState());
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
-        uiStateMap.put(AppStates.SPLASH_REGISTRATION, new UserRegistrationSplashState());
-        uiStateMap.put(AppStates.WELCOME_REGISTRATION, new UserRegistrationWelcomeState());
+        uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
         uiStateMap.put(AppStates.SETTINGS_REGISTRATION, new UserRegistrationSettingsState());
         uiStateMap.put(AppStates.HOME_FRAGMENT, new HomeFragmentState());
         uiStateMap.put(AppStates.HAMBURGER_HOME, new HamburgerActivityState());
