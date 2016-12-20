@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
@@ -83,7 +84,7 @@ public class TabbedActivityPresenterTest extends TestCase {
         assertEquals(true, tabbedActivityPresenter.setStateData(-1) instanceof UIStateData);
     }
 
-    public void testOnClick() {
+    public void testOnClick() throws NoEventFoundException {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
@@ -121,7 +122,7 @@ public class TabbedActivityPresenterTest extends TestCase {
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
-    public void testDataServicesLaunch() {
+    public void testDataServicesLaunch() throws NoEventFoundException {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final DataSyncScreenState dataSyncStateMock = mock(DataSyncScreenState.class);

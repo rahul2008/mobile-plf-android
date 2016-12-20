@@ -21,6 +21,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIStateListener;
@@ -35,14 +36,12 @@ import java.util.Arrays;
  * This class contains all initialization & Launching details of Consumer Care
  */
 public class SupportFragmentState extends BaseState implements CcListener {
+    final String SUPPORT_PR = "pr";
     private Context activityContext;
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
-    final String SUPPORT_PR = "pr";
-
-
     private String[] ctnList;
     public SupportFragmentState() {
         super(AppStates.SUPPORT);
@@ -125,8 +124,12 @@ public class SupportFragmentState extends BaseState implements CcListener {
     public boolean onMainMenuItemClicked(String s) {
         if (s.equalsIgnoreCase("product_registration")) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SUPPORT), SUPPORT_PR);
-            this.baseState.navigate(new FragmentLauncher(getFragmentActivity(),((AppFrameworkBaseActivity)getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
+            try {
+                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SUPPORT_PR);
+            } catch (NoEventFoundException e) {
+                e.printStackTrace();
+            }
+            baseState.navigate(new FragmentLauncher(getFragmentActivity(), ((AppFrameworkBaseActivity) getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
             return true;
         }
         return false;

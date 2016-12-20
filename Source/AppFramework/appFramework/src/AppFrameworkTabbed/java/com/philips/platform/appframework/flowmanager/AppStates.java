@@ -9,13 +9,10 @@ public class AppStates {
     /**
      * Each state has a string value defined.
      */
-    public static final String FIRST_STATE = "firstState";
     public static final String WELCOME = "welcome";
     public static final String SUPPORT = "support";
     public static final String SPLASH = "splash";
-    public static final String REGISTRATION = "registration";
-    public static final String SPLASH_REGISTRATION = "splash_registration";
-    public static final String WELCOME_REGISTRATION = "welcome_registration";
+    public static final String ON_BOARDING_REGISTRATION = "onBoarding_registration";
     public static final String SETTINGS_REGISTRATION = "settings_registration";
     public static final String HOME_FRAGMENT = "home_fragment";
     public static final String ABOUT = "about";

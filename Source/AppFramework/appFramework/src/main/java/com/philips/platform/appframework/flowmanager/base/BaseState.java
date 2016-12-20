@@ -88,4 +88,13 @@ abstract public class BaseState {
     }
 
     public abstract void updateDataModel();
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof BaseState) {
+            BaseState baseState = (BaseState) obj;
+            return baseState.stateID.equals(stateID);
+        }
+        return super.equals(obj);
+    }
 }
