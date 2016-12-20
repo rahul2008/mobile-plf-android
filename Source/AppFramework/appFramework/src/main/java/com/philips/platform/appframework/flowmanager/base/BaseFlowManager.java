@@ -78,6 +78,7 @@ public abstract class BaseFlowManager {
     public void setCurrentState(BaseState currentState) {
         this.currentState = currentState;
     }
+
     /**
      * Method to get object of next BaseState based on the current state of the App.
      *
@@ -107,17 +108,19 @@ public abstract class BaseFlowManager {
     @Nullable
     private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException {
         String appFlowEventId;
-        for (final AppFlowEvent appFlowEvent : appFlowEvents) {
-            appFlowEventId = appFlowEvent.getEventId();
-            if (appFlowEvent.getEventId() != null && appFlowEventId.equals(eventId)) {
-                final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
-                return getUiState(appFlowNextStates);
+        if (appFlowEvents != null && appFlowEvents.size() != 0) {
+            for (final AppFlowEvent appFlowEvent : appFlowEvents) {
+                appFlowEventId = appFlowEvent.getEventId();
+                if (appFlowEvent.getEventId() != null && appFlowEventId.equals(eventId)) {
+                    final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
+                    return getUiState(appFlowNextStates);
+                }
             }
+        } else {
+            if (!isBack)
+                throw new NoEventFoundException();
         }
-        if (!isBack)
-            throw new NoEventFoundException();
-        else
-            return null;
+        return null;
     }
 
     public BaseState getBackState(BaseState currentState) throws NoStateException {
@@ -130,20 +133,23 @@ public abstract class BaseFlowManager {
             } catch (NoEventFoundException e) {
                 e.printStackTrace();
             }
-            if (nextState != null && flowManagerStack.contains(nextState)) {
-                BaseState baseState = flowManagerStack.pop(nextState);
+            if (nextState != null) {
+                if (flowManagerStack.contains(nextState)) {
+                    BaseState baseState = flowManagerStack.pop(nextState);
+                    setCurrentState(baseState);
+                    return baseState;
+                } else {
+                    setCurrentState(nextState);
+                    flowManagerStack.push(nextState);
+                    return nextState;
+                }
+            } else {
+                BaseState baseState = flowManagerStack.pop();
                 setCurrentState(baseState);
                 return baseState;
-            } else {
-                setCurrentState(nextState);
-                flowManagerStack.push(nextState);
-                return nextState;
             }
-        } else {
-            BaseState baseState = flowManagerStack.pop();
-            setCurrentState(baseState);
-            return baseState;
         }
+        throw new NoStateException();
     }
 
     public void clearStates() {
