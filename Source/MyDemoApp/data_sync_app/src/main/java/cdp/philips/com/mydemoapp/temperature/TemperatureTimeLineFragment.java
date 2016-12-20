@@ -59,7 +59,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
-    UserRegistrationInterfaceImpl errorHandler;
+    UserRegistrationInterfaceImpl userRegistrationInterface;
     User mUser;
     Utility mUtility;
 
@@ -69,7 +69,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         super.onCreate(savedInstanceState);
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
-        errorHandler = new UserRegistrationInterfaceImpl(mContext, mUser);
+        userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
@@ -121,7 +121,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
 
         if(!isSameEmail()){
-            errorHandler.clearUserData();
+            userRegistrationInterface.clearUserData();
         }
         storeLastEmail();
     }
@@ -160,7 +160,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     /*private void init() {
         Stetho.initializeWithDefaults(getActivity().getApplicationContext());
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        mDataServicesManager.initialize(mContext, creator, errorHandler);
+        mDataServicesManager.initialize(mContext, creator, userRegistrationInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(mContext,null, null);
     }*/

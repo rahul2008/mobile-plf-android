@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -90,7 +91,9 @@ public class DataServicesManager {
 
     private static DataServicesManager sDataServicesManager;
 
-    private UserRegistrationInterface mErrorHandlerImpl;
+    private UserRegistrationInterface userRegistrationInterface;
+
+    private ErrorHandlingInterface errorHandlingInterface;
 
     private ArrayList<DataFetcher> fetchers;
     private ArrayList<DataSender> senders;
@@ -146,7 +149,7 @@ public class DataServicesManager {
 
     @NonNull
     public Consent createConsent() {
-        return mDataCreater.createConsent(mErrorHandlerImpl.getUserProfile().getGUid());
+        return mDataCreater.createConsent(userRegistrationInterface.getUserProfile().getGUid());
     }
 
     public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
@@ -262,10 +265,11 @@ public class DataServicesManager {
         this.mUpdatingInterface = updatingInterface;
     }
 
-    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade) {
+    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
         DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
-        this.mErrorHandlerImpl = facade;
+        this.userRegistrationInterface = facade;
+        this.errorHandlingInterface = errorHandlingInterface;
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
@@ -279,7 +283,9 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(mEventing,mDataCreater,mErrorHandlerImpl,mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,fetchers,senders);
+        BackendModule backendModule = new BackendModule(mEventing,mDataCreater, userRegistrationInterface,
+                mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,
+                fetchers,senders,errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
@@ -301,7 +307,7 @@ public class DataServicesManager {
     }
 
     public void releaseDataServicesInstances() {
-        mErrorHandlerImpl = null;
+        userRegistrationInterface = null;
         mBackendIdProvider = null;
         mDataCreater = null;
         mAppComponent = null;
@@ -319,7 +325,7 @@ public class DataServicesManager {
 
 
   /*  public UserRegistrationInterface getUserRegistrationImpl() {
-        return mErrorHandlerImpl;
+        return userRegistrationInterface;
     }*/
 
 

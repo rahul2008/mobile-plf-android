@@ -46,6 +46,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 /**
@@ -80,8 +81,9 @@ public class DataSyncApplication extends Application {
 
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        UserRegistrationInterface errorHandler = new UserRegistrationInterfaceImpl(this, new User(this));
-        mDataServicesManager.initialize(this, creator, errorHandler);
+        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
+        ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
+        mDataServicesManager.initialize(this, creator, userRegistrationInterface,errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this,null, null);
     }

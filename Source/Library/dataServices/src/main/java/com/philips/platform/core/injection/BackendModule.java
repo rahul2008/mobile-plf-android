@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -20,6 +21,7 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
+import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.monitors.SavingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
@@ -66,7 +68,7 @@ public class BackendModule {
     private final Eventing eventing;
 
     @NonNull
-    private final UserRegistrationInterface errorHandler;
+    private final UserRegistrationInterface userRegistrationInterface;
 
     @NonNull
     private final BaseAppDataCreator creator;
@@ -86,20 +88,24 @@ public class BackendModule {
     ArrayList<DataFetcher> fetchers;
     ArrayList<DataSender> senders;
 
+    private ErrorHandlingInterface errorHandlingInterface;
+
     public BackendModule(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator creator,
-                         @NonNull final UserRegistrationInterface errorHandler, DBDeletingInterface deletingInterface,
+                         @NonNull final UserRegistrationInterface userRegistrationInterface, DBDeletingInterface deletingInterface,
                          DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface,
                          DBUpdatingInterface updatingInterface,
-                         ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+                         ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders,
+                         ErrorHandlingInterface errorHandlingInterface) {
         this.fetchers = fetchers;
         this.senders = senders;
         this.eventing = eventing;
         this.creator = creator;
-        this.errorHandler = errorHandler;
+        this.userRegistrationInterface = userRegistrationInterface;
         this.deletingInterface = deletingInterface;
         this.fetchingInterface = fetchingInterface;
         this.savingInterface = savingInterface;
         this.updatingInterface = updatingInterface;
+        this.errorHandlingInterface = errorHandlingInterface;
     }
 
     @Provides
@@ -196,18 +202,24 @@ public class BackendModule {
 
     @Provides
     @Singleton
+    public ErrorMonitor providesErrorMonitor(){
+        return new ErrorMonitor(errorHandlingInterface);
+    }
+
+    @Provides
+    @Singleton
     public BaseAppCore providesCore(){
         return  new BaseAppCore();
     }
 
     @Provides
-    public UserRegistrationInterface providesErrorHandler(){
-        return  errorHandler;
+    public UserRegistrationInterface providesUserRegistrationInterface(){
+        return userRegistrationInterface;
     }
 
     @Provides
     public UCoreAccessProvider providesAccessProvider(){
-        return new UCoreAccessProvider(errorHandler);
+        return new UCoreAccessProvider(userRegistrationInterface);
     }
 
     @Provides

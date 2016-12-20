@@ -18,6 +18,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
+import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
@@ -45,6 +46,9 @@ public class BaseAppCore implements BaseAppDataCreator {
     Backend appBackend;
 
     @Inject
+    ErrorMonitor errorMonitor;
+
+    @Inject
     public BaseAppCore() {
         DataServicesManager.mAppComponent.injectBaseAppCore(this);
     }
@@ -53,6 +57,7 @@ public class BaseAppCore implements BaseAppDataCreator {
         try {
             dbMonitors.start(eventing);
             appBackend.start(eventing);
+            errorMonitor.start(eventing);
         } catch (NullPointerException e) {
             if (e.getMessage() != null)
                 DSLog.i("***SPO***", "e = " + e.getMessage());
@@ -62,6 +67,7 @@ public class BaseAppCore implements BaseAppDataCreator {
     public void stop() {
         appBackend.stop();
         dbMonitors.stop();
+        errorMonitor.stop();
     }
 
     @NonNull

@@ -31,40 +31,40 @@ public class UCoreAccessProvider implements BackendIdProvider {
     SharedPreferences sharedPreferences;
 
     @NonNull
-    private final UserRegistrationInterface errorHandler;
+    private final UserRegistrationInterface userRegistrationInterface;
 
     @Inject
-    public UCoreAccessProvider(@NonNull final UserRegistrationInterface errorHandler) {
+    public UCoreAccessProvider(@NonNull final UserRegistrationInterface userRegistrationInterface) {
         DataServicesManager.mAppComponent.injectAccessProvider(this);
-        this.errorHandler = errorHandler;
+        this.userRegistrationInterface = userRegistrationInterface;
     }
 
     public boolean isLoggedIn() {
-        if (errorHandler != null)
-            return errorHandler.isUserLoggedIn();
+        if (userRegistrationInterface != null)
+            return userRegistrationInterface.isUserLoggedIn();
         else
             return false;
     }
 
     public String getAccessToken() {
-        if (errorHandler != null)
-            return errorHandler.getAccessToken();
+        if (userRegistrationInterface != null)
+            return userRegistrationInterface.getAccessToken();
         else
             return null;
     }
 
     @Override
     public String getUserId() {
-        if (errorHandler != null)
-            return errorHandler.getUserProfile().getGUid();
+        if (userRegistrationInterface != null)
+            return userRegistrationInterface.getUserProfile().getGUid();
         else
             return null;
     }
 
     @Override
     public String getSubjectId() {
-        if (errorHandler != null) {
-            return errorHandler.getUserProfile().getGUid();
+        if (userRegistrationInterface != null) {
+            return userRegistrationInterface.getUserProfile().getGUid();
         } else {
             return null;
         }

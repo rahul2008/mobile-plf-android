@@ -62,13 +62,13 @@ public class UpdatingMonitor extends EventMonitor {
 
     }
 
-    public void onEventBackgroundThread(final BackendResponse error) {
+   /* public void onEventBackgroundThread(final BackendResponse error) {
         dbUpdatingInterface.postRetrofitError(error.getCallException());
-    }
+    }*/
 
-    public void onEventBackgroundThread(final BackendMomentRequestFailed momentSaveRequestFailed) {
+   /* public void onEventBackgroundThread(final BackendMomentRequestFailed momentSaveRequestFailed) {
         dbUpdatingInterface.updateFailed(momentSaveRequestFailed.getException());
-    }
+    }*/
 
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
         DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
