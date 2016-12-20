@@ -13,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -77,7 +80,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    private TextView mTvSetConsents,mTvCharacteristics;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
@@ -87,6 +89,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         init();
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
@@ -135,13 +138,32 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mTvSetConsents = (TextView) view.findViewById(R.id.tv_set_consents);
-        mTvSetConsents.setOnClickListener(this);
-
-        mTvCharacteristics=(TextView) view.findViewById(R.id.tv_set_characteristics);
-        mTvCharacteristics.setOnClickListener(this);
-
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.consent:
+                ConsentDialogFragment dFragment = new ConsentDialogFragment();
+                dFragment.show(getFragmentManager(), "Dialog");
+                return true;
+
+            case R.id.characteristics:
+                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+                characteristicsDialogFragment.show(getFragmentManager(), "Character");
+                return true;
+            default:
+                break;
+
+        }
+        return false;
     }
 
     private void init() {
@@ -233,14 +255,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         switch (v.getId()) {
             case R.id.add:
                 mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
-                break;
-            case R.id.tv_set_consents:
-                ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                dFragment.show(getFragmentManager(), "Dialog");
-                break;
-            case R.id.tv_set_characteristics:
-                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-                characteristicsDialogFragment.show(getFragmentManager(), "Character");
                 break;
         }
     }
