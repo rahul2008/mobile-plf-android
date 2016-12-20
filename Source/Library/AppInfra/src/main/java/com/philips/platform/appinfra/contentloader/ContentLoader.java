@@ -211,7 +211,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     @Override
     public STATE getStatus() {
         if(null==downloadInProgress) return STATE.NOT_INITIALIZED;
-        if (!downloadInProgress.get()) return STATE.REFRESHING;
+        if (!downloadInProgress.get()) return STATE.NOT_INITIALIZED;
         long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
         Calendar calendar = Calendar.getInstance();
         long currentTime = calendar.getTime().getTime();
@@ -222,7 +222,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 return STATE.CACHED_DATA_AVAILABLE;
             }
         } else {
-            return STATE.NOT_INITIALIZED;
+            return STATE.INITIALIZING;
         }
     }
 

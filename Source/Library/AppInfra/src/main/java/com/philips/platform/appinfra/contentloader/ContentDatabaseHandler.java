@@ -58,7 +58,6 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     private ContentDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        //db = getWritableDatabase();
     }
 
     @Override
@@ -95,12 +94,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     protected boolean addContents(List<ContentItem> serverContentItems, String serviceID, long lastUpdatedTime, long expiryDate, boolean isDownloadComplete) {
         boolean SQLitetransaction = true;
         SQLiteDatabase db = this.getWritableDatabase();
-        List<ContentItem> databaseContentItems = getContentItems(serviceID);
-        ;
+        List<ContentItem> databaseContentItems;
 
-        serverContentItems.remove(0);
         /////////////////TEST START
-
+        //serverContentItems.remove(0);
       /*  ContentItem ci = new ContentItem();
         ci.setId("AnuragID");
         ci.setTags("tag1,tag2");
@@ -120,10 +117,9 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         try {
             // db.beginTransaction();
             if (null != serverContentItems && serverContentItems.size() > 0)
-
                 for (ContentItem contentItem : serverContentItems) {
                     ContentValues values = getContentValues(contentItem);
-                    long rowId = db.insert(CONTENT_TABLE, null, values);
+                    long rowId = db.replace(CONTENT_TABLE, null, values);
                     if (rowId == -1) {
                         SQLitetransaction = false;
                         Log.e("UPDATE FAIL", CONTENT_TABLE);
@@ -131,58 +127,29 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                         Log.i("UPDATE SUC", "row id " + CONTENT_TABLE + " " + rowId);
                     }
                 }
-
             if (isDownloadComplete) { // last iteration of recursion
-
                 databaseContentItems = getContentItems(serviceID);
                 Log.v("DELEET", "DB SIZE BEFORE DELETE= " + databaseContentItems.size());
                 Date date = new Date(lastUpdatedTime);
-              /*
-                String deleteEligibleRowsQuery = "DELETE from " + CONTENT_TABLE + " where " + KEY_SERVICE_ID + " = ? AND " + KEY_LAST_UPDATED_TIME + " < " + date.getTime();
-                Log.w("deleteQuery:", deleteEligibleRowsQuery);
-                db.execSQL(deleteEligibleRowsQuery, new String[]{serviceID});*/
-
-                db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ? AND " + KEY_LAST_UPDATED_TIME + " < " + date.getTime(), new String[] { serviceID });
-
-
+                db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ? AND " + KEY_LAST_UPDATED_TIME + " != " + date.getTime(), new String[]{serviceID});
                 databaseContentItems = getContentItems(serviceID);
                 Log.v("DELETE", "DB SIZE AFTER DELETE= " + databaseContentItems.size());
             }
-            //
             if (SQLitetransaction) {
                 boolean isContentLoaderStateTableUpdated = updateContentLoaderStateTable(db, lastUpdatedTime, serviceID, expiryDate);
-                if (isContentLoaderStateTableUpdated) {
-                    //db.setTransactionSuccessful();
-                }
             }
             // db.endTransaction();
-
-
         } catch (Exception e) {
             SQLitetransaction = false;
             Log.w("insertQuery:", e);
         } finally {
             if (db != null && db.isOpen()) {
                 db.close();
-
             }
-
         }
-
         return SQLitetransaction;
     }
 
-    //Delete Query
-    private void removeContent(String serviceId) {
-        String deleteQuery = "DELETE FROM " + CONTENT_TABLE + " where " + KEY_SERVICE_ID + "= ?";
-        String deleteQuery2 = "DELETE FROM " + CONTENT_LOADER_STATES + " where " + KEY_SERVICE_ID + "= ?";
-        SQLiteDatabase db = this.getReadableDatabase();
-        db.execSQL(deleteQuery, new String[]{serviceId});
-        db.execSQL(deleteQuery2, new String[]{serviceId});
-        if (db != null && db.isOpen()) {
-            db.close();
-        }
-    }
 
     private List<ContentItem> getContentItems(String serviceId) {
         Cursor cursor = null;
@@ -190,20 +157,15 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
         try {
             String selectQuery = "SELECT  * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?";
-
             cursor = db.rawQuery(selectQuery, new String[]{serviceId});
-
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     ContentItem contentItem = getContentItemFromCursor(cursor);
                     ContentItemList.add(contentItem);
                 } while (cursor.moveToNext());
             }
-
-
         } catch (Exception e) {
-
-            Log.w("insertQuery:", e);
+            Log.w("selectQuery:", e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -269,7 +231,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
 
     protected List<ContentItem> getContentByTagId(String serviceID, String[] tagIDs, String logicalGate) {
-        Cursor cursor=null;
+        Cursor cursor = null;
         List<ContentItem> ContentItemList = new ArrayList<ContentItem>();
         SQLiteDatabase db = this.getWritableDatabase();
         String getContentByIdQuery = null;
@@ -286,7 +248,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 getContentByIdQuery = "SELECT * FROM " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ? AND (" + formattedwhereClause + " )";
             }
             cursor = db.rawQuery(getContentByIdQuery, new String[]{serviceID});
-            if (null!=cursor && cursor.moveToFirst()) {
+            if (null != cursor && cursor.moveToFirst()) {
                 do {
                     ContentItem contentItem = getContentItemFromCursor(cursor);
                     ContentItemList.add(contentItem);
@@ -324,7 +286,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?";
         Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, new String[]{serviceID});
-        if (null!=cursor && cursor.moveToFirst()) {
+        if (null != cursor && cursor.moveToFirst()) {
             expiryTime = cursor.getLong(0);
         }
         if (cursor != null && !cursor.isClosed()) {
@@ -347,11 +309,8 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
     protected void clearCacheForContentLoader(String serviceID) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-           /* db.execSQL("delete from " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?", new String[]{serviceID});
-            db.execSQL("delete from " + CONTENT_TABLE + " WHERE " + KEY_SERVICE_ID + " = ?", new String[]{serviceID});*/
-            db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ?", new String[] { serviceID });
-            db.delete(CONTENT_LOADER_STATES, KEY_SERVICE_ID + " = ?", new String[] { serviceID });
-
+            db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
+            db.delete(CONTENT_LOADER_STATES, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
             Log.d("DEL SUC", "" + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
         } catch (Exception e) {
             Log.e("DELETE FAIL", e.getMessage());
@@ -363,7 +322,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    String makePlaceholders(int len) {
+    private String makePlaceholders(int len) {
         if (len < 1) {
             // It will lead to an invalid query anyway ..
             throw new RuntimeException("No placeholders");

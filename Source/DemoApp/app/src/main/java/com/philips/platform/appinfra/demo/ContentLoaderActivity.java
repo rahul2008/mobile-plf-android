@@ -36,7 +36,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
     TextView input;
     TextView textViewResponse;
     ListView listView;
-    private final String[] APIlist = {"Refresh", "Get All Content", "Get Content by ID", "Get Content by IDs", "Get Content by TAG", "Get Content by TAGs - OR", "Get Content by TAGs - AND", "Delete All"};
+    private final String[] APIlist = {"Check Status","Refresh", "Get All Content", "Get Content by ID", "Get Content by IDs", "Get Content by TAG", "Get Content by TAGs - OR", "Get Content by TAGs - AND", "Delete All"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +64,11 @@ public class ContentLoaderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switch (APIspinner.getSelectedItem().toString().trim()) {
+                    case "Check Status":
+                        textViewResponse.setText(null);
+                        listView.setAdapter(null);
+                        textViewResponse.setText(mContentLoader.getStatus().toString());
+                        break;
                     case "Refresh":
                         textViewResponse.setText(null);
                         listView.setAdapter(null);
