@@ -58,12 +58,4 @@
         android:inputType="numberPassword"
         android:text="Number password"/>
 
-    <android.support.design.widget.TextInputEditText
-        style="@style/UIDTextEditBox"
-        android:layout_width="@dimen/texteditbox_width"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:inputType="textPassword"
-        android:text="input layout"/>
-
 </LinearLayout>
