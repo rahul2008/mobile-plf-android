@@ -222,5 +222,17 @@
                 android:layout_marginStart="24dp"
                 app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
         </LinearLayout>
+
+        <include layout="@layout/divider_layout"/>
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:text="@string/buttons_progress_indicators"/>
+
+            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"/>
     </LinearLayout>
 </ScrollView>

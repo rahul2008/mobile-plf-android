@@ -123,5 +123,6 @@
     <dimen name="uid_label_margin_start">12dp</dimen>
     <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
+    <dimen name="uid_progress_indicator_button_progress_text_padding">8dp</dimen>
 </resources>
 
