@@ -15,9 +15,9 @@ import java.util.List;
  * Created by 310243577 on 11/22/2016.
  */
 
-public class ContentArticleAdapter extends ArrayAdapter<ContentInterface> {
+public class ContentListAdapter extends ArrayAdapter<ContentInterface> {
 
-    public ContentArticleAdapter(Context context, List<ContentInterface> users) {
+    public ContentListAdapter(Context context, List<ContentInterface> users) {
         super(context, 0, users);
     }
 

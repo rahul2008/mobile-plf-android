@@ -46,7 +46,7 @@ public class ContentLoadertest extends MockitoTestCase {
         mContentLoader = new ContentLoader(context, serviceId, 1, ContentArticle.class, "articles", mAppInfra);
         assertNotNull(mContentLoader);
         downloadedContents = new ArrayList<ContentItem>();
-        contentDatabaseHandler = new ContentDatabaseHandler(context);
+        contentDatabaseHandler =  ContentDatabaseHandler.getInstance(context);
 
         String json = "{\n" +
                 "\t\"articles\": [{\n" +
@@ -227,7 +227,7 @@ public class ContentLoadertest extends MockitoTestCase {
                     Log.i("CL Ariticle", "" + articleId + "  TAGs ");
                 }
             }
-            contentDatabaseHandler.addContents(downloadedContents, mLastUpdatedTime, serviceId, expiryTimeforUserInputTime(1));
+           //TBD contentDatabaseHandler.addContents(downloadedContents, mLastUpdatedTime, serviceId, expiryTimeforUserInputTime(1));
         }
     }
 

@@ -52,7 +52,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private RestInterface mRestInterface;
     private AtomicBoolean downloadInProgress;
     //   private boolean isRefreshing = false;
-    private Date mLastUpdatedTime;
+    private long mLastUpdatedTime;
 
     /**
      * Create a content loader of type Content, loading content from the given service using the given Content class type.
@@ -74,7 +74,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mRestInterface = mAppInfra.getRestClient();
         downloadInProgress = new AtomicBoolean(false);
         downloadLimit = getDownloadLimitFromConfig();
-        mContentDatabaseHandler = new ContentDatabaseHandler(context);
+        mContentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
     }
 
 
@@ -84,7 +84,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
             STATE state = getStatus();
             if (state.equals(STATE.NOT_INITIALIZED) || state.equals(STATE.INITIALIZING) ||
                     state.equals(STATE.CACHED_DATA_OUTDATED) || state.equals(STATE.CONFIGURATION_ERROR)) {
-                mLastUpdatedTime = new Date();
+                mLastUpdatedTime = (new Date()).getTime();
                 downloadContent(refreshListener);
             } else {
                 downloadInProgress.set(false);
@@ -119,7 +119,15 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     JsonArray contentList = null;
                     if (jsonObjectTree != null) {
                         JsonElement content = jsonObjectTree.get(mContentType);
-                        if (content.isJsonArray()) {
+                        if(null==content){
+                            Log.i("CL REFRSH Error:", "" + "Content type mismatch");
+                            downloadInProgress.set(false);
+                            contentDownloadedCount = 0;
+                            downloadedContents.clear();
+                            offset = 0;
+                            refreshListener.onError(ERROR.CONFIGURATION_ERROR, "Content type mismatch");
+                            return;
+                        } else if (content.isJsonArray()) {
                             contentList = content.getAsJsonArray();
                             contentDownloadedCount = contentList.size();
                         }
@@ -136,12 +144,13 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                 contentItem.setServiceId(mServiceId);
                                 contentItem.setRawData(contentList.get(contentCount).toString());
                                 contentItem.setVersionNumber(contentInterface.getVersion());
+                                contentItem.setLastUpdatedTime(mLastUpdatedTime); // last updated time
                                 String tags = "";
 
                                 List<String> tagList = contentInterface.getTags();
                                 if (null != tagList && tagList.size() > 0) {
                                     for (String tagId : tagList) {
-                                        tags += tagId + ",";
+                                        tags += tagId + " ";
                                     }
                                 }
                                 contentItem.setTags(tags);
@@ -156,7 +165,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     if (contentDownloadedCount < downloadLimit) { // download is over
                         Log.i("CL REFRSH RESP", "download completed");
                         Log.e("DOWNLOADED CONTENTS", downloadedContents.toString());
-                        mContentDatabaseHandler.addContents(downloadedContents,mLastUpdatedTime, mServiceId, expiryTimeforUserInputTime(mMaxAgeInHours));
+                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId,mLastUpdatedTime, expiryTimeforUserInputTime(mMaxAgeInHours),true);
 
                         downloadInProgress.set(false);
                         offset = 0;
@@ -167,7 +176,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                         offset += downloadLimit;// next offset
                         //Saving contents page by page
                         //passing maxAge as 0 becasue we need to expire the contents if it is not fully downloaded.
-                        mContentDatabaseHandler.addContents(downloadedContents,mLastUpdatedTime, mServiceId, 0);
+                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId,mLastUpdatedTime, 0,false);
                         downloadContent(refreshListener); // recursive call for next download
                     }
                 }
@@ -175,11 +184,11 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("CL REFRSH Error:", "" + error);
-                    refreshListener.onError(ERROR.SERVER_ERROR, error.toString());
                     downloadInProgress.set(false);
                     contentDownloadedCount = 0;
                     downloadedContents.clear();
                     offset = 0;
+                    refreshListener.onError(ERROR.SERVER_ERROR, error.toString());
                 }
             });
             jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -320,7 +329,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     }
 
     private long expiryTimeforUserInputTime(int userInputExpiryTime) {
-        long expiryTime = 0;
+        long expiryTime = 0L;
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.add(Calendar.HOUR_OF_DAY, userInputExpiryTime);
         expiryTime = expiryDate.getTime().getTime();

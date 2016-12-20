@@ -13,6 +13,7 @@ public class ContentItem {
     String tags;
     String rawData;
     long versionNumber;
+    long lastUpdatedTime;
 
    public ContentItem(){
 
@@ -57,45 +58,11 @@ public class ContentItem {
         this.versionNumber = versionNumber;
     }
 
-     class Tag {
+    public long getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
 
-        public Boolean isVisibleOnWeb;
-        public String name;
-        public String key;
-        public String id;
-
-        public Boolean getVisibleOnWeb() {
-            return isVisibleOnWeb;
-        }
-
-        public void setVisibleOnWeb(Boolean visibleOnWeb) {
-            isVisibleOnWeb = visibleOnWeb;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-
-        public String getId() {
-            return id;
-        }
-
+    public void setLastUpdatedTime(long lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
     }
 }

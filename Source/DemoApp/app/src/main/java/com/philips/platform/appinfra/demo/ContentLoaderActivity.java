@@ -114,8 +114,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
 
                             @Override
                             public void onSuccess(List contents) {
-                                List<ContentInterface> contentArticle = contents;
-                                ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
+                                List<ContentInterface> contentList = contents;
+                                ContentListAdapter adapter = new ContentListAdapter(ContentLoaderActivity.this, contentList);
                                 listView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
                                 listView.setOnItemClickListener(null);
@@ -141,7 +141,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             public void onSuccess(List contents) {
 
                                 List<ContentInterface> contentArticle = contents;
-                                ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
+                                ContentListAdapter adapter = new ContentListAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
                                 listView.setOnItemClickListener(null);
@@ -161,7 +161,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(List contents) {
                                 final List<ContentInterface> contentArticle = contents;
-                                ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
+                                ContentListAdapter adapter = new ContentListAdapter(ContentLoaderActivity.this, contentArticle);
                                 listView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
 
@@ -205,7 +205,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                                 textViewResponse.setVisibility(View.GONE);
                                 listView.setVisibility(View.VISIBLE);
                                 //for(ContentArticle content : contentArticle) {
-                                ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
+                                ContentListAdapter adapter = new ContentListAdapter(ContentLoaderActivity.this, contentArticle);
 //                                    ArrayAdapter<ContentArticle> itemsAdapter =
 //                                            new ArrayAdapter<ContentArticle>(this, android.R.layout.simple_list_item_1, content);
                                 //  }
@@ -246,7 +246,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             public void onSuccess(List contents) {
                                 final List<ContentInterface> contentArticle = contents;
                                 //for(ContentArticle content : contentArticle) {
-                                ContentArticleAdapter adapter = new ContentArticleAdapter(ContentLoaderActivity.this, contentArticle);
+                                ContentListAdapter adapter = new ContentListAdapter(ContentLoaderActivity.this, contentArticle);
 //                                    ArrayAdapter<ContentArticle> itemsAdapter =
 //                                            new ArrayAdapter<ContentArticle>(this, android.R.layout.simple_list_item_1, content);
                                 //  }
