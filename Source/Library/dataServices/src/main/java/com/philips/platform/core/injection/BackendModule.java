@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -34,12 +35,16 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
+import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.ErrorHandler;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -79,7 +84,16 @@ public class BackendModule {
     @NonNull
     private final DBUpdatingInterface updatingInterface;
 
-    public BackendModule(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator creator, @NonNull final ErrorHandler errorHandler,DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+    ArrayList<DataFetcher> fetchers;
+    ArrayList<DataSender> senders;
+
+    public BackendModule(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator creator,
+                         @NonNull final ErrorHandler errorHandler, DBDeletingInterface deletingInterface,
+                         DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface,
+                         DBUpdatingInterface updatingInterface,
+                         ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+        this.fetchers = fetchers;
+        this.senders = senders;
         this.eventing = eventing;
         this.creator = creator;
         this.errorHandler = errorHandler;
@@ -117,16 +131,28 @@ public class BackendModule {
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,@NonNull final ExecutorService executor) {
 
-        return new DataPullSynchronise(Arrays.asList(momentsDataFetcher,consentsDataFetcher), executor);
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher);
+        if(fetchers!=null && fetchers.size()!=0){
+            for(DataFetcher fetcher : fetchers){
+                dataFetchers.add(fetcher);
+            }
+        }
+        return new DataPullSynchronise(dataFetchers, executor);
     }
 
-    //TODO: Spoorti: Can this move out so that we can support senders and fetchers from Application
     @Provides
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
             @NonNull final ConsentDataSender consentDataSender) {
-        return new DataPushSynchronise(Arrays.asList(momentsDataSender,consentDataSender),
+
+        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender);
+        if(senders!=null && senders.size()!=0){
+            for(DataSender sender : senders){
+                dataSenders.add(sender);
+            }
+        }
+        return new DataPushSynchronise(dataSenders,
                 null);
     }
 
@@ -183,5 +209,10 @@ public class BackendModule {
     @Provides
     public UCoreAccessProvider providesAccessProvider(){
         return new UCoreAccessProvider(errorHandler);
+    }
+
+    @Provides
+    public SynchronisationMonitor providesSynchronizationMonitor(){
+        return new SynchronisationMonitor();
     }
 }

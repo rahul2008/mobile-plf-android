@@ -60,9 +60,11 @@ import de.greenrobot.event.EventBus;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
-    volatile boolean isPullComplete = true;
+    public static final String TAG = DataServicesManager.class.getName();
 
-    volatile boolean isPushComplete = true;
+    private volatile boolean isPullComplete = true;
+
+    private volatile boolean isPushComplete = true;
 
     @NonNull
     private Eventing mEventing;
@@ -70,10 +72,10 @@ public class DataServicesManager {
     @NonNull
     public static AppComponent mAppComponent;
 
-    DBDeletingInterface mDeletingInterface;
-    DBFetchingInterface mFetchingInterface;
-    DBSavingInterface mSavingInterface;
-    DBUpdatingInterface mUpdatingInterface;
+    private DBDeletingInterface mDeletingInterface;
+    private DBFetchingInterface mFetchingInterface;
+    private DBSavingInterface mSavingInterface;
+    private DBUpdatingInterface mUpdatingInterface;
 
     private BaseAppDataCreator mDataCreater;
 
@@ -83,9 +85,15 @@ public class DataServicesManager {
     @Inject
     BaseAppCore mCore;
 
+    @Inject
+    SynchronisationMonitor mSynchronisationMonitor;
+
     private static DataServicesManager sDataServicesManager;
 
     private ErrorHandler mErrorHandlerImpl;
+
+    private ArrayList<DataFetcher> fetchers;
+    private ArrayList<DataSender> senders;
 
     @Singleton
     private DataServicesManager() {
@@ -214,10 +222,11 @@ public class DataServicesManager {
     }
 
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
-        DSLog.i("***SPO***", "In DataServicesManager.Synchronize");
-        SynchronisationMonitor monitor = new SynchronisationMonitor();
-        monitor.start(mEventing);
+    public void initializeSyncMonitors(Context context,ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+        DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
+        this.fetchers = fetchers;
+        this.senders = senders;
+        prepareInjectionsGraph(context);
     }
 
  /*   private void sendPushEvent() {
@@ -232,16 +241,21 @@ public class DataServicesManager {
     }*/
 
     private void sendPullDataEvent() {
-        DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
-        if (mCore != null) {
-            DSLog.i("SPO","mCore not null");
-            DSLog.i("SPO","before starting baseAppCore");
-            mCore.start();
+        synchronized(this) {
+            DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
+            if (mCore != null) {
+                DSLog.i("***SPO***", "mCore not null, hence starting");
+                mCore.start();
+            }
+            if (mSynchronisationMonitor != null) {
+                DSLog.i("***SPO***", "In DataServicesManager.mSynchronisationMonitor.start");
+                mSynchronisationMonitor.start(mEventing);
+            }
+            mEventing.post(new ReadDataFromBackendRequest(null));
         }
-        mEventing.post(new ReadDataFromBackendRequest(null));
     }
 
-    public void initializeDBMonitors(DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+    public void initializeDBMonitors(Context context,DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
         this.mDeletingInterface = deletingInterface;
         this.mFetchingInterface = fetchingInterface;
         this.mSavingInterface = savingInterface;
@@ -252,7 +266,6 @@ public class DataServicesManager {
         DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
         this.mErrorHandlerImpl = facade;
-        prepareInjectionsGraph(context);
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
@@ -266,7 +279,7 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(mEventing,mDataCreater,mErrorHandlerImpl,mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface);
+        BackendModule backendModule = new BackendModule(mEventing,mDataCreater,mErrorHandlerImpl,mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,fetchers,senders);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
@@ -275,9 +288,16 @@ public class DataServicesManager {
     }
 
     public void stopCore() {
-        if (mCore != null)
-            mCore.stop();
-        // releaseInstances();
+        synchronized (this) {
+            DSLog.i("***SPO***", "In DataServicesManager.stopCore");
+            if (mCore != null)
+                mCore.stop();
+            if (mSynchronisationMonitor != null)
+                mSynchronisationMonitor.stop();
+
+            isPullComplete = true;
+            isPushComplete = true;
+        }
     }
 
     public void releaseDataServicesInstances() {
@@ -289,6 +309,11 @@ public class DataServicesManager {
         mFetchingInterface = null;
         mSavingInterface = null;
         mUpdatingInterface = null;
+        mEventing = null;
+        mCore = null;
+        mSynchronisationMonitor = null;
+        fetchers = null;
+        senders = null;
         // mCore.stop();
     }
 

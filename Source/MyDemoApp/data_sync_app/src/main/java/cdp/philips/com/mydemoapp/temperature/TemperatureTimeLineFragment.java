@@ -122,7 +122,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         deleteUserDataIfNewUserLoggedIn();
 
-        init();
+//        init();
         mTemperaturePresenter.fetchData();
 
         setUpBackendSynchronizationLoop();
@@ -180,15 +180,15 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         return view;
     }
 
-    private void init() {
+    /*private void init() {
         Stetho.initializeWithDefaults(getActivity().getApplicationContext());
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        injectDBInterfacesToCore();
         mDataServicesManager.initialize(mContext, creator, errorHandler);
-        mDataServicesManager.initializeSyncMonitors(null, null);
-    }
+        injectDBInterfacesToCore();
+        mDataServicesManager.initializeSyncMonitors(mContext,null, null);
+    }*/
 
-    void injectDBInterfacesToCore() {
+    /*void injectDBInterfacesToCore() {
         final DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
@@ -218,12 +218,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao);
 
-            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDBMonitors(mContext,ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
             mTemperatureMomentHelper.notifyAllFailure(exception);
             throw new IllegalStateException("Can not instantiate database");
         }
-    }
+    }*/
 
     private void setUpBackendSynchronizationLoop() {
         PendingIntent dataSyncIntent = getPendingIntent();
