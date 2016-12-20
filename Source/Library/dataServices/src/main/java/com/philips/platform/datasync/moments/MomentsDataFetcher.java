@@ -42,8 +42,6 @@ public class MomentsDataFetcher extends DataFetcher {
     @Inject
     UCoreAccessProvider accessProvider;
 
-    DataServicesManager mDataServicesManager;
-
     @Inject
     public MomentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
                               @NonNull final MomentsConverter converter,
