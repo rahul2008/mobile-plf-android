@@ -57,7 +57,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
             AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getApplicationContext();
             BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
             try {
-                targetFlowManager.getBackState(null);
+                targetFlowManager.getBackState(targetFlowManager.getCurrentState());
             } catch (NoStateException e) {
                 e.printStackTrace();
             }
