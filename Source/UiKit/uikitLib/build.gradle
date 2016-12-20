@@ -132,11 +132,12 @@ artifactory {
             publishPom = true
             publishIvy = false
             publishBuildInfo = false
+            publishArtifacts = true
         }
     }
     resolve {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = 'libs-snapshot-local-android'
         }
     }
 }
