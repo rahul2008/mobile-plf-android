@@ -6,13 +6,9 @@ import com.philips.platform.core.events.BackendResponse;
 
 import retrofit.RetrofitError;
 
-/**
- * Created by 310218660 on 12/20/2016.
- */
-
 public class ErrorMonitor extends EventMonitor{
 
-    ErrorHandlingInterface mErrorHandlingInterface;
+    private ErrorHandlingInterface mErrorHandlingInterface;
     int UNKNOWN = -1;
 
     public ErrorMonitor(ErrorHandlingInterface errorHandlingInterface){

@@ -45,7 +45,6 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchMoments();
         } catch (SQLException e) {
-            //eventing.post(new ExceptionEvent("Loading timeline failed", e));
             dbInterface.postError(e);
         }
     }
@@ -54,7 +53,6 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchLastMoment(event.getType());
         } catch (SQLException e) {
-            //eventing.post(new ExceptionEvent("Loading last entry", e));
             dbInterface.postError(e);
         }
     }
@@ -66,13 +64,10 @@ public class FetchingMonitor extends EventMonitor {
             DSLog.i("***SPO***","In Fetching Monitor before putMomentsForSync");
             dataToSync = dbInterface.putMomentsForSync(dataToSync);
             DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
-
             dataToSync = dbInterface.putConsentForSync(dataToSync);
-
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
-            //eventing.post(new ExceptionEvent("Loading last entry", e));
             dbInterface.postError(e);
         }
     }
@@ -87,18 +82,14 @@ public class FetchingMonitor extends EventMonitor {
                 dbInterface.fetchMoments();
             }
         } catch (SQLException e) {
-            //eventing.post(new ExceptionEvent("Loading in graph", e));
             dbInterface.postError(e);
         }
     }
-
-
 
     public void onEventBackgroundThread(LoadConsentsRequest event) {
         try {
             dbInterface.fetchConsents();
         } catch (SQLException e) {
-            //eventing.post(new ExceptionEvent("Loading in graph", e));
             dbInterface.postError(e);
         }
     }
@@ -116,7 +107,6 @@ public class FetchingMonitor extends EventMonitor {
             }
 
         } catch (SQLException e) {
-            //eventing.post(new GetNonSynchronizedMomentsResponse(null,null));
             dbInterface.postError(e);
         }
     }
