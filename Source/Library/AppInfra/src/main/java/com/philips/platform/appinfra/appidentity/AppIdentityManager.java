@@ -52,7 +52,7 @@ public class AppIdentityManager implements AppIdentityInterface {
     }
 
 
-    private void validateAppVersion()  {
+    private void validateAppVersion() {
         PackageInfo pInfo;
         try {
             pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -63,7 +63,7 @@ public class AppIdentityManager implements AppIdentityInterface {
         if (mAppVersion != null && !mAppVersion.isEmpty()) {
             if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
                 throw new IllegalArgumentException("AppVersion should in this format " +
-                        "\" [0-9]+\\\\.[0-9]+\\\\.[0-9]+([_-].*)?]\" ");
+                        "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
             }
         } else {
             throw new IllegalArgumentException("Appversion cannot be null");
@@ -71,7 +71,7 @@ public class AppIdentityManager implements AppIdentityInterface {
     }
 
 
-    private void validateAppState()  {
+    private void validateAppState() {
 
         String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.appState", "appinfra", configError);
