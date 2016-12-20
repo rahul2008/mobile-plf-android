@@ -27,6 +27,7 @@ import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.shamanland.fonticon.FontIconView;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
@@ -39,7 +40,7 @@ import static com.janrain.android.engage.JREngage.getApplicationContext;
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  *
  */
-public class WelcomeFragment extends Fragment implements View.OnClickListener, WelcomeFragmentView {
+public class WelcomeFragment extends Fragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
 
     public static String TAG = LaunchActivity.class.getSimpleName();
 
@@ -180,4 +181,9 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
         return getActivity();
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        onBackPressed();
+        return true;
+    }
 }

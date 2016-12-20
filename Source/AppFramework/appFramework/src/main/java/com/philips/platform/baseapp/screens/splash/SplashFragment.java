@@ -23,8 +23,9 @@ import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends Fragment implements LaunchView {
+public class SplashFragment extends Fragment implements LaunchView, BackEventListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
@@ -135,4 +136,8 @@ public class SplashFragment extends Fragment implements LaunchView {
         return getActivity();
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        return true;
+    }
 }
