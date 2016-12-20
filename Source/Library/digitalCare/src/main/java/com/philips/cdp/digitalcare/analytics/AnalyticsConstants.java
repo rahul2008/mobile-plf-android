@@ -35,6 +35,8 @@ public class AnalyticsConstants {
     public static final String PAGE_VIEW_PRODUCT_DETAILS = "digitalcare:productdetails";
     public static final String PAGE_VIEW_PRODUCT_WEBSITE = "digitalcare:productdetails:website";
     public static final String PAGE_VIEW_PRODUCT_MANUAL = "digitalcare:productdetails:manual";
+
+    public static final String PAGE_SERVICE_LOCATOR = "digitalcare:findphilips:servicelocator";
         /* ACTION KEY CONSTANTS */
     /*****************
      * Page Context Data start

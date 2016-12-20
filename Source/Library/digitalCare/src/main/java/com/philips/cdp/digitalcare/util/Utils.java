@@ -19,6 +19,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+
 
 public class Utils {
 
@@ -74,5 +76,13 @@ public class Utils {
             return false;
         }
         return true;
+    }
+
+    public static boolean isCountryChina() {
+
+        if(DigitalCareConfigManager.getInstance().getLocale().getLanguage().equals("zh"))
+            return true;
+
+        return false;
     }
 }
