@@ -1,4 +1,4 @@
-package com.philips.platform.appinfra.contentloader.model;
+package com.philips.platform.appinfra.demo;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -10,16 +10,14 @@ import java.util.List;
  * Created by 310238114 on 12/13/2016.
  */
 
-public class BeardStyle implements ContentInterface {
-
-    private String uid;
-    private String icon;
-    private String title;
-
+public class Asset implements ContentInterface {
+    private String  assetType;
+    private String  assetDescription;
+    private String  assetURL;
 
     @Override
     public String getId() {
-        return uid;
+        return assetURL;
     }
 
     @Override
@@ -34,7 +32,7 @@ public class BeardStyle implements ContentInterface {
 
     @Override
     public long getVersion() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -46,9 +44,8 @@ public class BeardStyle implements ContentInterface {
     public boolean parseInput(String json) {
         System.out.println("JSONELEMENT" + "" + json);
         JsonElement response = new JsonParser().parse(json);
-        this.uid = String.valueOf(response.getAsJsonObject().get("uid"));
-        this.icon = String.valueOf(response.getAsJsonObject().get("icon"));
-        this.title = String.valueOf(response.getAsJsonObject().get("title"));
+        this.assetURL= String.valueOf(response.getAsJsonObject().get("assetURL"));
+
         return true;
     }
 }

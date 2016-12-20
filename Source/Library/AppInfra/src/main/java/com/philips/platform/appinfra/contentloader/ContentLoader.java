@@ -53,7 +53,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     private AtomicBoolean downloadInProgress;
     //   private boolean isRefreshing = false;
     private long mLastUpdatedTime;
-
+    STATE mContentLoaderState = STATE.NOT_INITIALIZED;
     /**
      * Create a content loader of type Content, loading content from the given service using the given Content class type.
      *
@@ -80,18 +80,19 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void refresh(OnRefreshListener refreshListener) {
+        updateContentLoaderState();
         if (downloadInProgress.compareAndSet(false, true)) {
             STATE state = getStatus();
-            if (state.equals(STATE.NOT_INITIALIZED) || state.equals(STATE.INITIALIZING) ||
-                    state.equals(STATE.CACHED_DATA_OUTDATED) || state.equals(STATE.CONFIGURATION_ERROR)) {
+            if (!state.equals(STATE.CACHED_DATA_AVAILABLE) ) { // if data outdated
                 mLastUpdatedTime = (new Date()).getTime();
                 downloadContent(refreshListener);
-            } else {
+            } else { // if data already cached
                 downloadInProgress.set(false);
                 refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
                 Log.i("CL REFRSH NA", "" + "content loader already uptodate");
             }
         } else {
+            mContentLoaderState=STATE.REFRESHING;
             downloadInProgress.set(false);
             Log.i("CL REFRSH ERR", "" + "download already in progress");
             refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
@@ -121,6 +122,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                         JsonElement content = jsonObjectTree.get(mContentType);
                         if(null==content){
                             Log.i("CL REFRSH Error:", "" + "Content type mismatch");
+                            mContentLoaderState=STATE.CONFIGURATION_ERROR;
                             downloadInProgress.set(false);
                             contentDownloadedCount = 0;
                             downloadedContents.clear();
@@ -166,7 +168,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                         Log.i("CL REFRSH RESP", "download completed");
                         Log.e("DOWNLOADED CONTENTS", downloadedContents.toString());
                         mContentDatabaseHandler.addContents(downloadedContents, mServiceId,mLastUpdatedTime, expiryTimeforUserInputTime(mMaxAgeInHours),true);
-
+                        mContentLoaderState=STATE.CACHED_DATA_AVAILABLE;
                         downloadInProgress.set(false);
                         offset = 0;
                         contentDownloadedCount = 0;
@@ -184,6 +186,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("CL REFRSH Error:", "" + error);
+                    mContentLoaderState=STATE.CONFIGURATION_ERROR;
                     downloadInProgress.set(false);
                     contentDownloadedCount = 0;
                     downloadedContents.clear();
@@ -210,7 +213,11 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public STATE getStatus() {
-        if(null==downloadInProgress) return STATE.NOT_INITIALIZED;
+        if(mContentLoaderState.equals(STATE.CACHED_DATA_AVAILABLE)){
+            updateContentLoaderState();
+        }
+        return mContentLoaderState;
+       /* if(null==downloadInProgress) return STATE.NOT_INITIALIZED;
         if (!downloadInProgress.get()) return STATE.NOT_INITIALIZED;
         long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
         Calendar calendar = Calendar.getInstance();
@@ -223,7 +230,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
             }
         } else {
             return STATE.INITIALIZING;
-        }
+        }*/
     }
 
     @Override
@@ -334,5 +341,18 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         expiryDate.add(Calendar.HOUR_OF_DAY, userInputExpiryTime);
         expiryTime = expiryDate.getTime().getTime();
         return expiryTime;
+    }
+
+    private void updateContentLoaderState(){
+        long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
+        Calendar calendar = Calendar.getInstance();
+        long currentTime = calendar.getTime().getTime();
+        if (contentLoaderExpiryTime != 0) {
+            if (contentLoaderExpiryTime < currentTime) { // if content loader is expired then refresh
+                mContentLoaderState=  STATE.CACHED_DATA_OUTDATED;
+            } else {
+                mContentLoaderState = STATE.CACHED_DATA_AVAILABLE;
+            }
+        }
     }
 }

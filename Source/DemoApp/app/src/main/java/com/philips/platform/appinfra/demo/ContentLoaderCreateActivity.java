@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.philips.platform.appinfra.contentloader.ContentLoader;
-import com.philips.platform.appinfra.contentloader.model.Asset;
-import com.philips.platform.appinfra.contentloader.model.BeardStyle;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 
 import java.util.ArrayList;
