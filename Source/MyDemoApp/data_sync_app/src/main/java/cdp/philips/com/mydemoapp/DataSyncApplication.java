@@ -20,7 +20,7 @@ import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.sql.SQLException;
@@ -46,7 +46,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
-import cdp.philips.com.mydemoapp.registration.ErrorHandlerImpl;
+import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -80,7 +80,7 @@ public class DataSyncApplication extends Application {
 
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        ErrorHandler errorHandler = new ErrorHandlerImpl(this, new User(this));
+        UserRegistrationInterface errorHandler = new UserRegistrationInterfaceImpl(this, new User(this));
         mDataServicesManager.initialize(this, creator, errorHandler);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this,null, null);

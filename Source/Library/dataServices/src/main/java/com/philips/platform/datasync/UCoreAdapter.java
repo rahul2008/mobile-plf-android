@@ -13,7 +13,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
@@ -40,7 +40,7 @@ public class UCoreAdapter {
     private static final int CONNECTION_TIME_OUT = 1; //1 Minute
 
     @Inject
-    ErrorHandler userRegistrationImpl;
+    UserRegistrationInterface userRegistrationImpl;
 
     @NonNull
     private final OkHttpClient okHttpClient;

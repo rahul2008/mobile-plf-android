@@ -22,7 +22,7 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     BaseAppDataCreator baseAppDataCreater;
 
     @Inject
-    ErrorHandler userRegistrationImpl;
+    UserRegistrationInterface userRegistrationImpl;
 
     @NonNull
     private final MomentGsonConverter momentGsonConverter;

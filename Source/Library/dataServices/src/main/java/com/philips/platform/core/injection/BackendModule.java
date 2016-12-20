@@ -14,7 +14,6 @@ import com.google.gson.GsonBuilder;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -40,7 +39,7 @@ import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -67,7 +66,7 @@ public class BackendModule {
     private final Eventing eventing;
 
     @NonNull
-    private final ErrorHandler errorHandler;
+    private final UserRegistrationInterface errorHandler;
 
     @NonNull
     private final BaseAppDataCreator creator;
@@ -88,7 +87,7 @@ public class BackendModule {
     ArrayList<DataSender> senders;
 
     public BackendModule(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator creator,
-                         @NonNull final ErrorHandler errorHandler, DBDeletingInterface deletingInterface,
+                         @NonNull final UserRegistrationInterface errorHandler, DBDeletingInterface deletingInterface,
                          DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface,
                          DBUpdatingInterface updatingInterface,
                          ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
@@ -202,7 +201,7 @@ public class BackendModule {
     }
 
     @Provides
-    public ErrorHandler providesErrorHandler(){
+    public UserRegistrationInterface providesErrorHandler(){
         return  errorHandler;
     }
 

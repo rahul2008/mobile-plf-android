@@ -44,7 +44,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import java.util.ArrayList;
 
@@ -90,7 +90,7 @@ public class DataServicesManager {
 
     private static DataServicesManager sDataServicesManager;
 
-    private ErrorHandler mErrorHandlerImpl;
+    private UserRegistrationInterface mErrorHandlerImpl;
 
     private ArrayList<DataFetcher> fetchers;
     private ArrayList<DataSender> senders;
@@ -262,7 +262,7 @@ public class DataServicesManager {
         this.mUpdatingInterface = updatingInterface;
     }
 
-    public void initialize(Context context, BaseAppDataCreator creator, ErrorHandler facade) {
+    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade) {
         DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
         this.mErrorHandlerImpl = facade;
@@ -318,7 +318,7 @@ public class DataServicesManager {
     }
 
 
-  /*  public ErrorHandler getUserRegistrationImpl() {
+  /*  public UserRegistrationInterface getUserRegistrationImpl() {
         return mErrorHandlerImpl;
     }*/
 

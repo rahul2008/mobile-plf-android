@@ -7,12 +7,11 @@
 package com.philips.platform.datasync;
 
 import android.content.SharedPreferences;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,10 +31,10 @@ public class UCoreAccessProvider implements BackendIdProvider {
     SharedPreferences sharedPreferences;
 
     @NonNull
-    private final ErrorHandler errorHandler;
+    private final UserRegistrationInterface errorHandler;
 
     @Inject
-    public UCoreAccessProvider(@NonNull final ErrorHandler errorHandler) {
+    public UCoreAccessProvider(@NonNull final UserRegistrationInterface errorHandler) {
         DataServicesManager.mAppComponent.injectAccessProvider(this);
         this.errorHandler = errorHandler;
     }
