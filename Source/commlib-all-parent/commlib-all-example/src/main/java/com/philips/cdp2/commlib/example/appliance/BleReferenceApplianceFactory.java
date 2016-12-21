@@ -12,7 +12,11 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.commlib.communication.BleCommunicationStrategy;
 
-public class BleReferenceApplianceFactory extends DICommApplianceFactory<BleReferenceAppliance> {
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+public class BleReferenceApplianceFactory implements DICommApplianceFactory<BleReferenceAppliance> {
     private final BleDeviceCache bleDeviceCache;
 
     public BleReferenceApplianceFactory(@NonNull BleDeviceCache bleDeviceCache) {
@@ -32,5 +36,12 @@ public class BleReferenceApplianceFactory extends DICommApplianceFactory<BleRefe
             return new BleReferenceAppliance(networkNode, communicationStrategy);
         }
         return null;
+    }
+
+    @Override
+    public Set<String> getSupportedModelNames() {
+        return Collections.unmodifiableSet(new HashSet<String>() {{
+            add(BleReferenceAppliance.MODELNAME);
+        }});
     }
 }

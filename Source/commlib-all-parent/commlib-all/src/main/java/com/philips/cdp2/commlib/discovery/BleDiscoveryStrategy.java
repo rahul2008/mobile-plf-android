@@ -16,7 +16,7 @@ import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.SHNResult;
 
-import java.util.Collection;
+import java.util.Set;
 
 public final class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
@@ -64,7 +64,7 @@ public final class BleDiscoveryStrategy extends ObservableDiscoveryStrategy impl
     }
 
     @Override
-    public void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException {
+    public void start(Context context, Set<String> deviceTypes) throws MissingPermissionException {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             throw new MissingPermissionException("Discovery over BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
         }
