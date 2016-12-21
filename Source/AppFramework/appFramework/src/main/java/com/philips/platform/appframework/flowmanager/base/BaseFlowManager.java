@@ -125,7 +125,7 @@ public abstract class BaseFlowManager {
     }
 
     public BaseState getBackState(BaseState currentState) throws NoStateException {
-        if (currentState != null) {
+        if (currentState != null && flowManagerStack.contains(currentState)) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState nextState = null;
             try {
