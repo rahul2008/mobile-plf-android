@@ -20,6 +20,7 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atMost;
@@ -438,7 +439,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         assertEquals("cppId_2", onlineCppIds.get(1));
     }
 
-    private static class TestApplianceFactory extends DICommApplianceFactory<TestAppliance> {
+    private static class TestApplianceFactory implements DICommApplianceFactory<TestAppliance> {
 
         @Override
         public boolean canCreateApplianceForNode(NetworkNode networkNode) {
@@ -448,6 +449,11 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         @Override
         public TestAppliance createApplianceForNode(NetworkNode networkNode) {
             return new TestAppliance(networkNode);
+        }
+
+        @Override
+        public Set<String> getSupportedModelNames() {
+            return null;
         }
     }
 

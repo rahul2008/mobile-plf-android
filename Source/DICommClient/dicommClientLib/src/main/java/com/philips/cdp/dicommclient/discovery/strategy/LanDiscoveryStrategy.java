@@ -28,7 +28,6 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -74,7 +73,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
     }
 
     @Override
-    public void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException {
+    public void start(Context context, Set<String> deviceTypes) throws MissingPermissionException {
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
             ssdpServiceHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");

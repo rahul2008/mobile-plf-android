@@ -24,6 +24,7 @@ import org.mockito.ArgumentCaptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -505,7 +506,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         return new TestAppliance(networkNode);
     }
 
-    private class TestApplianceFactory extends DICommApplianceFactory<TestAppliance> {
+    private class TestApplianceFactory implements DICommApplianceFactory<TestAppliance> {
 
         @Override
         public boolean canCreateApplianceForNode(NetworkNode networkNode) {
@@ -515,6 +516,11 @@ public class DiscoveryManagerTest extends RobolectricTest {
         @Override
         public TestAppliance createApplianceForNode(NetworkNode networkNode) {
             return new TestAppliance(networkNode);
+        }
+
+        @Override
+        public Set<String> getSupportedModelNames() {
+            return null;
         }
     }
 }

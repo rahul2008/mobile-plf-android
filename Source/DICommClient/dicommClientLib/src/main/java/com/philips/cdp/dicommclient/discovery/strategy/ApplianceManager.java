@@ -12,7 +12,6 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -57,7 +56,7 @@ public class ApplianceManager {
     }
 
     private final Context context;
-    private final Collection<String> deviceTypes;
+    private final Set<String> deviceTypes = new CopyOnWriteArraySet<>();
     private Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
     private Set<DICommApplianceFactory> applianceFactories = new CopyOnWriteArraySet<>();
 
@@ -115,13 +114,16 @@ public class ApplianceManager {
      * Instantiates a new ApplianceManager.
      *
      * @param context             the context
-     * @param deviceTypes         the device types to support as defined via {@link DICommAppliance#getDeviceType()}
      * @param discoveryStrategies the discovery strategies
      * @param applianceFactories  the appliance factories
      */
-    public ApplianceManager(@NonNull Context context, @NonNull Collection<String> deviceTypes, @NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull Set<DICommApplianceFactory> applianceFactories) {
+    public ApplianceManager(@NonNull Context context, @NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull Set<DICommApplianceFactory> applianceFactories) {
         this.context = context;
-        this.deviceTypes = deviceTypes;
+
+        // Setup device types
+        for (DICommApplianceFactory<?> factory : applianceFactories) {
+            this.deviceTypes.addAll(factory.getSupportedModelNames());
+        }
 
         if (discoveryStrategies.isEmpty()) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one discovery strategy.");

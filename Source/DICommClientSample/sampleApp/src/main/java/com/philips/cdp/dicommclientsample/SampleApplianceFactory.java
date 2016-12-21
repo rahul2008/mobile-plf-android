@@ -14,16 +14,15 @@ import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
 
-class SampleApplianceFactory extends DICommApplianceFactory<AirPurifier> {
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
-            // Optionally add a check for the modeltype and return a different
-            // DICommAppliance depending on the type.
-            return true;
-        }
-        return false;
+        return AirPurifier.MODELNAME.equals(networkNode.getModelName());
     }
 
     @Override
@@ -36,5 +35,12 @@ class SampleApplianceFactory extends DICommApplianceFactory<AirPurifier> {
             return new JaguarAirPurifier(networkNode, communicationStrategy);
         }
         return null;
+    }
+
+    @Override
+    public Set<String> getSupportedModelNames() {
+        return Collections.unmodifiableSet(new HashSet<String>() {{
+            add(AirPurifier.MODELNAME);
+        }});
     }
 }

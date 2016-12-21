@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-import java.util.Collection;
+import java.util.Set;
 
 public interface DiscoveryStrategy {
 
@@ -32,7 +32,7 @@ public interface DiscoveryStrategy {
 
     void start(Context context) throws MissingPermissionException;
 
-    void start(Context context, Collection<String> deviceTypes) throws MissingPermissionException;
+    void start(Context context, Set<String> deviceTypes) throws MissingPermissionException;
 
     void stop();
 
