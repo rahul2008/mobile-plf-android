@@ -371,7 +371,7 @@ public class DataServicesManager {
             chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, parent, characteristics);
         }
         characteristics.addCharacteristicsDetail(chDetail);
-        return characteristicsDetail;
+        return chDetail;
     }
 
 }

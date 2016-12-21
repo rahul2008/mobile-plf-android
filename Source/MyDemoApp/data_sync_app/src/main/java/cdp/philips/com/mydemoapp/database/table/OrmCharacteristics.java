@@ -35,6 +35,9 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     @DatabaseField(canBeNull = false)
     private DateTime dateTime = new DateTime();
 
+    @DatabaseField(canBeNull = true)
+    private boolean beSynchronized;
+
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<OrmCharacteristicsDetail> ormCharacteristicsDetails= new EmptyForeignCollection<>();
@@ -69,6 +72,16 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     @Override
     public void addCharacteristicsDetail(CharacteristicsDetail characteristicsDetail) {
         ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristicsDetail);
+    }
+
+    @Override
+    public boolean isSynchronized() {
+        return false;
+    }
+
+    @Override
+    public void setBackEndSynchronized(boolean backEndSynchronized) {
+
     }
 
     @Override

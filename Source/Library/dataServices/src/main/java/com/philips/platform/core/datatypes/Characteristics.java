@@ -16,4 +16,8 @@ public interface Characteristics extends BaseAppData, DateData, Serializable {
 
     void addCharacteristicsDetail(CharacteristicsDetail characteristicsDetail);
 
+    boolean isSynchronized();
+
+    void setBackEndSynchronized(boolean backEndSynchronized);
+
 }

@@ -112,7 +112,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        dialog.setTitle(R.string.consents);
+        dialog.setTitle(R.string.characteristics);
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -138,9 +138,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         switch (v.getId()){
 
             case R.id.btnOK:
-                System.out.println("Ok clicked");
                 // Parse and save JSON data here .
-
                 //JsonObject jsonObject=new JsonObject(sampleJsonString);
                 characteristicsDialogPresenter.createUpdateCharacteristics();
                 getDialog().dismiss();

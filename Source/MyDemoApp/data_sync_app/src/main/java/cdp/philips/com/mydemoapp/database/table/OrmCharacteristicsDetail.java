@@ -34,7 +34,7 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
     private OrmCharacteristics ormCharacteristics;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = true)
     private OrmCharacteristicsDetail ormCharacteristicsDetail;
 
 
@@ -46,7 +46,7 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
-        this.parent = parent;
+        this.parent = ormCharacteristicsDetail.getId();
         this.ormCharacteristicsDetail=ormCharacteristicsDetail;
     }
 
@@ -94,6 +94,6 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
 
     @Override
     public String toString() {
-        return "[OrmConsentDetail, id=" + id + ", type=" + type + ", value=" + value + ", OrmCharacteristics=" + ormCharacteristics + "]";
+        return "[OrmConsentDetail, id=" + id + ", type=" + type + ", value=" + value + ", OrmCharacteristics=" + ormCharacteristics + " ,ormCharacteristicsDetail=" + ormCharacteristicsDetail +"]";
     }
 }

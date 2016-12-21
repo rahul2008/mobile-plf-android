@@ -29,6 +29,8 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
+import org.w3c.dom.Text;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -85,6 +87,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ProgressDialog mProgressBar;
     Utility mUtility;
 
+    TextView mTvConsents,mTvCharacteristics;
+
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -138,27 +142,33 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
+        mTvConsents=(TextView)view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics=(TextView)view.findViewById(R.id.tv_set_characteristics);
+
+        mTvConsents.setOnClickListener(this);
+        mTvCharacteristics.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu,menu);
+       // inflater.inflate(R.menu.menu_ds,menu);
         super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.consent:
+            /*case R.id.menu_consent:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
                 dFragment.show(getFragmentManager(), "Dialog");
                 return true;
 
-            case R.id.characteristics:
+            case R.id.menu_characteristics:
                 CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
                 characteristicsDialogFragment.show(getFragmentManager(), "Character");
-                return true;
+                return true;*/
             default:
                 break;
 
@@ -255,6 +265,18 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         switch (v.getId()) {
             case R.id.add:
                 mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
+                break;
+            case R.id.tv_set_consents:
+
+                ConsentDialogFragment dFragment = new ConsentDialogFragment();
+                dFragment.show(getFragmentManager(), "Dialog");
+
+                break;
+            case R.id.tv_set_characteristics:
+
+                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+                characteristicsDialogFragment.show(getFragmentManager(), "Character");
+
                 break;
         }
     }
