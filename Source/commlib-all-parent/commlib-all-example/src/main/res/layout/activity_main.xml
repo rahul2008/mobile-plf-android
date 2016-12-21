@@ -18,43 +18,15 @@
         android:layout_centerHorizontal="true"
         android:text="@string/btnStartDiscovery" />
 
-    <Button
-        android:id="@+id/btnStopDiscovery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStartDiscovery"
-        android:layout_centerHorizontal="true"
-        android:text="@string/btnStopDiscovery" />
-
     <TextView
         android:id="@+id/txtState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnStopDiscovery"
+        android:layout_below="@+id/btnStartDiscovery"
         android:text="@string/lblResultNotApplicable"
         android:textSize="18sp"
         tools:text="Discovery state here" />
-
-    <Button
-        android:id="@+id/btnDisconnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnConnect"
-        android:layout_marginTop="12dp"
-        android:text="@string/btnDisconnect" />
-
-    <Button
-        android:id="@+id/btnConnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtState"
-        android:layout_marginTop="12dp"
-        android:text="@string/btnConnect" />
 
     <Button
         android:id="@+id/btnGetTime"
@@ -62,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnDisconnect"
+        android:layout_below="@+id/txtState"
         android:layout_marginTop="12dp"
         android:text="@string/btnGetTime" />
 

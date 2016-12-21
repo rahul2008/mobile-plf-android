@@ -20,6 +20,7 @@ import java.util.Set;
 
 public final class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
+    private final Context context;
     private final BleDeviceCache bleDeviceCache;
     private final long timeoutMillis;
     private final SHNDeviceScanner deviceScanner;
@@ -52,20 +53,21 @@ public final class BleDiscoveryStrategy extends ObservableDiscoveryStrategy impl
         }
     };
 
-    public BleDiscoveryStrategy(@NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, long timeoutMillis) {
+    public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, long timeoutMillis) {
+        this.context = context;
         this.bleDeviceCache = bleDeviceCache;
         this.timeoutMillis = timeoutMillis;
         this.deviceScanner = deviceScanner;
     }
 
     @Override
-    public void start(Context context) throws MissingPermissionException {
-        start(context, null);
+    public void start() throws MissingPermissionException {
+        start(null);
     }
 
     @Override
-    public void start(Context context, Set<String> deviceTypes) throws MissingPermissionException {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    public void start(Set<String> deviceTypes) throws MissingPermissionException {
+        if (ContextCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             throw new MissingPermissionException("Discovery over BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
         }
         deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis);

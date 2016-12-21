@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Commlib BLE Example</string>
 
-    <string name="lblStateConnected">Connected</string>
-    <string name="lblStateConnecting">Connecting…</string>
-    <string name="lblStateDisconnected">Disconnected</string>
     <string name="lblStateDiscovering">Starting discovery…</string>
     <string name="lblStateDone">Done</string>
     <string name="lblStateError">Error</string>
@@ -17,8 +14,6 @@
     <string name="lblResultPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
     <string name="lblResultPortError">Port error: (%1$s)</string>
 
-    <string name="btnConnect">Connect</string>
-    <string name="btnDisconnect">Disconnect</string>
     <string name="btnGetTime">Get Time</string>
     <string name="btnSetTime">Set Time</string>
     <string name="btnStartDiscovery">Start discovery</string>
