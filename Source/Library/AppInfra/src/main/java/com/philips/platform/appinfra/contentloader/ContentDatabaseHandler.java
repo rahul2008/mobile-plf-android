@@ -306,19 +306,23 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         return values;
     }
 
-    protected void clearCacheForContentLoader(String serviceID) {
+    protected boolean clearCacheForContentLoader(String serviceID) {
+        boolean result = true;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
             db.delete(CONTENT_LOADER_STATES, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
             Log.d("DEL SUC", "" + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
+
         } catch (Exception e) {
+            result = false;
             Log.e("DELETE FAIL", e.getMessage());
         } finally {
             if (db != null && db.isOpen()) {
                 db.close();
             }
         }
+        return result;
 
     }
 

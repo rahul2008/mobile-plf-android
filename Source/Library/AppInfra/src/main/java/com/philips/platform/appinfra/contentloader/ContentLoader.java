@@ -208,7 +208,10 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
     @Override
     public void clearCache() {
-        mContentDatabaseHandler.clearCacheForContentLoader(mServiceId);
+       boolean isDeleted = mContentDatabaseHandler.clearCacheForContentLoader(mServiceId);
+        if(isDeleted){
+            mContentLoaderState=STATE.CACHED_DATA_OUTDATED;
+        }
     }
 
     @Override
