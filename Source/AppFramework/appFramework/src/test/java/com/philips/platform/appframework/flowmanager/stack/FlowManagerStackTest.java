@@ -29,15 +29,11 @@ public class FlowManagerStackTest extends TestCase {
         BaseState iapRetailer = new IAPRetailerFlowState();
         flowManagerStack.push(aboutState);
         flowManagerStack.push(aboutState);
-        try {
-            assertEquals(null, flowManagerStack.pop());
-            flowManagerStack.push(iapRetailer);
-            flowManagerStack.pop();
-            assertEquals(flowManagerStack.size(), 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(e instanceof NoStateException);
-        }
+        assertEquals(null, flowManagerStack.pop());
+        flowManagerStack.push(iapRetailer);
+        assertEquals(flowManagerStack.size(), 1);
+        flowManagerStack.pop();
+        assertEquals(flowManagerStack.size(), 0);
     }
 
     public void testPopByState() {
