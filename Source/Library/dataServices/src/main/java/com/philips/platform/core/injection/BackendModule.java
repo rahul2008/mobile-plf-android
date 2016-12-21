@@ -223,6 +223,11 @@ public class BackendModule {
     }
 
     @Provides
+    public ErrorHandlingInterface providesErrorHandlingInterface(){
+        return errorHandlingInterface;
+    }
+
+    @Provides
     public SynchronisationMonitor providesSynchronizationMonitor(){
         return new SynchronisationMonitor();
     }

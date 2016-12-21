@@ -99,8 +99,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         deleteUserDataIfNewUserLoggedIn();
 
-//        init();
         mTemperaturePresenter.fetchData();
+
+        //Reseting the sync Flags
+        mDataServicesManager.setPullComplete(true);
+        mDataServicesManager.setPushComplete(true);
 
         setUpBackendSynchronizationLoop();
 

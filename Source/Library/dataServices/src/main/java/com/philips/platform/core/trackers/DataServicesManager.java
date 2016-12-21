@@ -67,8 +67,8 @@ public class DataServicesManager {
 
     private volatile boolean isPushComplete = true;
 
-    @NonNull
-    private Eventing mEventing;
+    @Inject
+    Eventing mEventing;
 
     @NonNull
     public static AppComponent mAppComponent;
@@ -78,7 +78,8 @@ public class DataServicesManager {
     private DBSavingInterface mSavingInterface;
     private DBUpdatingInterface mUpdatingInterface;
 
-    private BaseAppDataCreator mDataCreater;
+    @Inject
+    BaseAppDataCreator mDataCreater;
 
     @Inject
     UCoreAccessProvider mBackendIdProvider;
@@ -91,16 +92,18 @@ public class DataServicesManager {
 
     private static DataServicesManager sDataServicesManager;
 
-    private UserRegistrationInterface userRegistrationInterface;
+    @Inject
+    UserRegistrationInterface userRegistrationInterface;
 
-    private ErrorHandlingInterface errorHandlingInterface;
+    @Inject
+    ErrorHandlingInterface errorHandlingInterface;
 
     private ArrayList<DataFetcher> fetchers;
     private ArrayList<DataSender> senders;
 
     @Singleton
     private DataServicesManager() {
-        mEventing = new EventingImpl(new EventBus(), new Handler());
+
     }
 
     public static synchronized DataServicesManager getInstance() {
@@ -283,7 +286,7 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(mEventing,mDataCreater, userRegistrationInterface,
+        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()),mDataCreater, userRegistrationInterface,
                 mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,
                 fetchers,senders,errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
@@ -320,6 +323,8 @@ public class DataServicesManager {
         mSynchronisationMonitor = null;
         fetchers = null;
         senders = null;
+        userRegistrationInterface = null;
+        errorHandlingInterface =null;
         // mCore.stop();
     }
 
