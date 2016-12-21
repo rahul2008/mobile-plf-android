@@ -254,10 +254,12 @@ public class EditText extends AppCompatEditText {
     }
 
     private void handlePasswordInputVisibility() {
-        if (passwordVisible) {
-            setTransformationMethod(null);
-        } else {
-            setTransformationMethod(PasswordTransformationMethod.getInstance());
+        if (isPasswordInputType()) {
+            if (passwordVisible) {
+                setTransformationMethod(null);
+            } else {
+                setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
         }
     }
 
