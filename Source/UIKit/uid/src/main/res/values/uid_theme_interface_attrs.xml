@@ -104,4 +104,13 @@
         <attr name="uidLabelTextAlpha" format="float"/>
         <attr name="uidLabelTextSize" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDProgressIndicatorButton">
+        <attr name="uidIsIndeterminateProgressIndicator" format="reference|boolean"/>
+        <attr name="uidProgressIndicatorButtonButtonDrawable" format="reference"/>
+        <attr name="uidProgressIndicatorButtonButtonText" format="reference|string"/>
+        <attr name="uidProgressIndicatorButtonProgress" format="reference|integer"/>
+        <attr name="uidProgressIndicatorButtonProgressText" format="reference|string"/>
+        <attr name="uidProgressIndicatorButtonProgressBackground" format="reference"/>
+    </declare-styleable>
 </resources>

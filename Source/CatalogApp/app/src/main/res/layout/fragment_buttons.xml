@@ -229,10 +229,21 @@
             style="@style/ButtonsCategoryStyle"
             android:text="@string/buttons_progress_indicators"/>
 
-            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"/>
+        <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:uidIsIndeterminateProgressIndicator="true"
+            app:uidProgressIndicatorButtonButtonText="Press me"/>
+
+        <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            app:uidIsIndeterminateProgressIndicator="false"
+            app:uidProgressIndicatorButtonProgress="50"/>
     </LinearLayout>
 </ScrollView>
