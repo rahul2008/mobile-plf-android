@@ -38,6 +38,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class TextBoxTest {
 
@@ -109,7 +110,7 @@ public class TextBoxTest {
 
     @Test
     public void verifyTextEditBoxHeight() {
-        UIDTestUtils.waitFor(testResources, 750);
+        waitFor(testResources, 750);
         int expectedHeight = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_height));
         getTextBox().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uid_texteditbox_fill_drawable)));
     }
@@ -188,6 +189,8 @@ public class TextBoxTest {
                 matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
 
+    /******************************* TextBoxPassword Test Scenarios**************************************/
+
     @Test
     public void verifyPasswordTextBoxTextMasked() throws Exception {
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
@@ -233,6 +236,13 @@ public class TextBoxTest {
 
         final int height = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.texteditbox_compound_drawble_width);
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(COMPOUND_DRAWABLE_INDEX, height)));
+    }
+
+    @Test
+    public void verifyPasswordTextBoxCompoundPadding() {
+        waitFor(testResources, 750);
+        int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.passwordtextbox_compoundpadding);
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
 
     private ViewInteraction getTextBox() {
