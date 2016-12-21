@@ -82,7 +82,7 @@
                 android:layout_marginRight="@dimen/layout_margin_left_right"
                 android:orientation="vertical">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_field"
                     style="@style/UIDLabel"
                     android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                     android:hint="@string/hint_text"
                     android:inputType="text"/>
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_input_password"
                     style="@style/UIDLabel"
                     android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"/>
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_number"
                     style="@style/UIDLabel"
                     android:layout_width="match_parent"
@@ -139,7 +139,7 @@
                     android:inputType="number"
                     android:maxLines="1"/>
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_email"
                     style="@style/UIDLabel"
                     android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"/>
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/label_multiline_input"
                     style="@style/UIDLabel"
                     android:layout_width="match_parent"
