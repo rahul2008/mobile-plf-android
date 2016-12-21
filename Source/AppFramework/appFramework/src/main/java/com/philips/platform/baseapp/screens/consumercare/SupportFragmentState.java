@@ -129,7 +129,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
             } catch (NoEventFoundException e) {
                 e.printStackTrace();
             }
-            baseState.navigate(new FragmentLauncher(getFragmentActivity(), ((AppFrameworkBaseActivity) getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
+            if (baseState != null)
+                baseState.navigate(new FragmentLauncher(getFragmentActivity(), ((AppFrameworkBaseActivity) getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
             return true;
         }
         return false;

@@ -63,7 +63,8 @@ public class UserRegistrationSettingsState extends UserRegistrationState impleme
         } catch (NoEventFoundException e) {
             e.printStackTrace();
         }
-        baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
+        if (baseState != null)
+            baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
     }
 
     @Override
