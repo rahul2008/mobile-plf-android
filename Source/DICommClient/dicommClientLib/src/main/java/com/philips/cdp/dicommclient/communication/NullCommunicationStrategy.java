@@ -11,7 +11,7 @@ import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 import java.util.Map;
 
-public class NullStrategy extends CommunicationStrategy {
+public class NullCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {

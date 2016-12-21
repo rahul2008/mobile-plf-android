@@ -11,7 +11,7 @@ import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.MockitoTestCase;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.communication.NullStrategy;
+import com.philips.cdp.dicommclient.communication.NullCommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
@@ -460,7 +460,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     private static class TestAppliance extends DICommAppliance {
 
         public TestAppliance(NetworkNode networkNode) {
-            super(networkNode, new NullStrategy());
+            super(networkNode, new NullCommunicationStrategy());
         }
 
         @Override

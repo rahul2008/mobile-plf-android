@@ -8,17 +8,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
-import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
@@ -26,24 +21,21 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public final class LanDiscoveryStrategy<T extends DICommAppliance> extends ObservableDiscoveryStrategy {
+public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private static final Lock LOCK = new ReentrantLock();
 
-    private DICommApplianceDatabase<T> applianceDatabase;
-    private DICommApplianceFactory<T> applianceFactory;
-    private LinkedHashMap<String, T> allAppliancesMap;
-    private List<NetworkNode> addedAppliances;
+    //    private DICommApplianceDatabase<T> applianceDatabase;
+//    private DICommApplianceFactory<T> applianceFactory;
+//    private LinkedHashMap<String, T> allAppliancesMap;
+//    private List<NetworkNode> addedAppliances;
     private NetworkMonitor networkMonitor;
-    private NetworkNodeDatabase networkNodeDatabase;
+    //    private NetworkNodeDatabase networkNodeDatabase;
     private SsdpServiceHelper ssdpServiceHelper;
 
     private final Set<DiscoveryEventListener> discoveryEventListeners = new CopyOnWriteArraySet<>();
@@ -56,14 +48,12 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
         }
     };
 
-    public LanDiscoveryStrategy(@NonNull DICommApplianceFactory<T> applianceFactory, @NonNull DICommApplianceDatabase<T> applianceDatabase, @NonNull NetworkMonitor networkMonitor) {
-        this.applianceFactory = applianceFactory;
-        this.applianceDatabase = applianceDatabase;
+    public LanDiscoveryStrategy(@NonNull NetworkMonitor networkMonitor) {
+//        this.applianceFactory = applianceFactory;
+//        this.applianceDatabase = applianceDatabase;
         this.networkMonitor = networkMonitor;
-        this.networkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
+//        this.networkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
         this.ssdpServiceHelper = new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
-
-        initializeAppliancesMapFromDataBase();
     }
 
     @Override
@@ -92,6 +82,8 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
         if (networkNode == null) {
             return;
         }
+
+        /* FIXME move to ApplianceManager
         DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + ", modelname: " + networkNode.getModelName());
 
         if (allAppliancesMap.containsKey(networkNode.getCppId())) {
@@ -101,9 +93,16 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
             addNewAppliance(networkNode);
             notifyNetworkNodeDiscovered(networkNode);
         }
+        */
     }
 
     private void onDeviceLost(@NonNull DeviceModel deviceModel) {
+        final NetworkNode networkNode = createNetworkNode(deviceModel);
+        if (networkNode != null) {
+            notifyNetworkNodeLost(networkNode);
+        }
+
+        /* FIXME move to ApplianceManager
         if (deviceModel.getSsdpDevice() == null) {
             return;
         }
@@ -119,13 +118,10 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
                 notifyDiscoveryListenersListChanged();
             }
         }
-
-        final NetworkNode networkNode = createNetworkNode(deviceModel);
-        if (networkNode != null) {
-            notifyNetworkNodeLost(networkNode);
-        }
+        */
     }
 
+    /*
     private void initializeAppliancesMapFromDataBase() {
         DICommLog.i(DICommLog.DISCOVERY, "Initializing appliances from database");
         allAppliancesMap = new LinkedHashMap<String, T>();
@@ -171,6 +167,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
             return null;
         }
     }
+
 
     private void addNewAppliance(NetworkNode networkNode) {
         final T appliance = createApplianceFromNetworkNode(networkNode);
@@ -224,6 +221,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
             DICommLog.d(DICommLog.DISCOVERY, "Successfully updated appliance: " + existingAppliance);
         }
     }
+    */
 
     private NetworkNode createNetworkNode(@NonNull DeviceModel deviceModel) {
         SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
@@ -283,6 +281,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
         return true;
     }
 
+    /*
     private ArrayList<T> getAllDiscoveredAppliances() {
         return new ArrayList<T>(allAppliancesMap.values());
     }
@@ -304,6 +303,7 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
         }
         return rowId;
     }
+    */
 
     private boolean handleDevice(Message msg) {
         if (msg == null) {

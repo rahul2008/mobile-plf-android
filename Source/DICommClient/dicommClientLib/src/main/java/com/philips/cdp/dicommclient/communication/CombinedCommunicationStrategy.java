@@ -8,21 +8,20 @@ package com.philips.cdp.dicommclient.communication;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 import java.util.Map;
 
-public class CommunicationMarshal extends CommunicationStrategy {
+public class CombinedCommunicationStrategy extends CommunicationStrategy {
 
-    private final LocalStrategy mLocalStrategy;
-    private final RemoteStrategy mRemoteStrategy;
-    private final NullStrategy mNullStrategy;
+    private final LanCommunicationStrategy mLanCommunicationStrategy;
+    private final RemoteCommunicationStrategy mRemoteCommunicationStrategy;
+    private final NullCommunicationStrategy mNullCommunicationStrategy;
 
-    public CommunicationMarshal(DISecurity diSecurity, final NetworkNode networkNode) {
-        mLocalStrategy = new LocalStrategy(diSecurity, networkNode);
-        mRemoteStrategy = new RemoteStrategy(networkNode, DICommClientWrapper.getCloudController());
-        mNullStrategy = new NullStrategy();
+    public CombinedCommunicationStrategy(final NetworkNode networkNode) {
+        mLanCommunicationStrategy = new LanCommunicationStrategy(networkNode);
+        mRemoteCommunicationStrategy = new RemoteCommunicationStrategy(networkNode, DICommClientWrapper.getCloudController());
+        mNullCommunicationStrategy = new NullCommunicationStrategy();
     }
 
     @Override
@@ -63,12 +62,12 @@ public class CommunicationMarshal extends CommunicationStrategy {
     }
 
     private CommunicationStrategy findAvailableStrategy() {
-        if (mLocalStrategy.isAvailable()) {
-            return mLocalStrategy;
-        } else if (mRemoteStrategy.isAvailable()) {
-            return mRemoteStrategy;
+        if (mLanCommunicationStrategy.isAvailable()) {
+            return mLanCommunicationStrategy;
+        } else if (mRemoteCommunicationStrategy.isAvailable()) {
+            return mRemoteCommunicationStrategy;
         }
-        return mNullStrategy;
+        return mNullCommunicationStrategy;
     }
 
     @Override
@@ -79,8 +78,8 @@ public class CommunicationMarshal extends CommunicationStrategy {
 
     @Override
     public void disableCommunication() {
-        mLocalStrategy.disableCommunication();
-        mRemoteStrategy.disableCommunication();
-        mNullStrategy.disableCommunication();
+        mLanCommunicationStrategy.disableCommunication();
+        mRemoteCommunicationStrategy.disableCommunication();
+        mNullCommunicationStrategy.disableCommunication();
     }
 }

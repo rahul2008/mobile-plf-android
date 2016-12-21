@@ -4,7 +4,7 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
-import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.Locale;
