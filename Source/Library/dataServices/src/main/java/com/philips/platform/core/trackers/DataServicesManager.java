@@ -103,7 +103,6 @@ public class DataServicesManager {
 
     @Singleton
     private DataServicesManager() {
-
     }
 
     public static synchronized DataServicesManager getInstance() {
@@ -309,7 +308,7 @@ public class DataServicesManager {
         }
     }
 
-    public void releaseDataServicesInstances() {
+    /*public void releaseDataServicesInstances() {
         userRegistrationInterface = null;
         mBackendIdProvider = null;
         mDataCreater = null;
@@ -326,7 +325,7 @@ public class DataServicesManager {
         userRegistrationInterface = null;
         errorHandlingInterface =null;
         // mCore.stop();
-    }
+    }*/
 
 
   /*  public UserRegistrationInterface getUserRegistrationImpl() {

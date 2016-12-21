@@ -9,8 +9,10 @@ import retrofit.RetrofitError;
 public class ErrorMonitor extends EventMonitor{
 
     private ErrorHandlingInterface mErrorHandlingInterface;
-    int UNKNOWN = -1;
 
+    int UNKNOWN = -1;
+    //TODO: String to be passed instead of status codes
+    //String and int to be held in Object and object to be sent to verticals
     public ErrorMonitor(ErrorHandlingInterface errorHandlingInterface){
         mErrorHandlingInterface = errorHandlingInterface;
     }

@@ -160,6 +160,6 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         if(databaseHelper!=null && databaseHelper.isOpen()){
             databaseHelper.close();
         }
-        DataServicesManager.getInstance().releaseDataServicesInstances();
+        //DataServicesManager.getInstance().releaseDataServicesInstances();
     }
 }
