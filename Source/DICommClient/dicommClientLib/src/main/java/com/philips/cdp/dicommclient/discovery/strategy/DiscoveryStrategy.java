@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
@@ -30,9 +29,9 @@ public interface DiscoveryStrategy {
 
     void removeDiscoveryListener(@NonNull DiscoveryListener discoveryListener);
 
-    void start(Context context) throws MissingPermissionException;
+    void start() throws MissingPermissionException;
 
-    void start(Context context, Set<String> deviceTypes) throws MissingPermissionException;
+    void start(Set<String> deviceTypes) throws MissingPermissionException;
 
     void stop();
 

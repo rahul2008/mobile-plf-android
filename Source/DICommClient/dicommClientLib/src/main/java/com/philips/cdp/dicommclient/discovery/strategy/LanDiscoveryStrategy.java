@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -68,12 +67,12 @@ public final class LanDiscoveryStrategy<T extends DICommAppliance> extends Obser
     }
 
     @Override
-    public void start(Context context) throws MissingPermissionException {
-        start(context, null);
+    public void start() throws MissingPermissionException {
+        start(null);
     }
 
     @Override
-    public void start(Context context, Set<String> deviceTypes) throws MissingPermissionException {
+    public void start(Set<String> deviceTypes) throws MissingPermissionException {
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
             ssdpServiceHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");

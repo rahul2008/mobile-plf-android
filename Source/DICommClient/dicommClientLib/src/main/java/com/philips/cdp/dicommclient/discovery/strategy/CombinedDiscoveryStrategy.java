@@ -4,8 +4,6 @@
  */
 package com.philips.cdp.dicommclient.discovery.strategy;
 
-import android.content.Context;
-
 import com.philips.cdp.dicommclient.discovery.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
@@ -28,14 +26,14 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
     }
 
     @Override
-    public void start(Context context) throws MissingPermissionException {
-        start(context, null);
+    public void start() throws MissingPermissionException {
+        start(null);
     }
 
     @Override
-    public void start(Context context, Set<String> deviceTypes) throws MissingPermissionException {
+    public void start(Set<String> deviceTypes) throws MissingPermissionException {
         for (DiscoveryStrategy strategy : discoveryStrategies) {
-            strategy.start(context, deviceTypes);
+            strategy.start(deviceTypes);
         }
         this.onDiscoveryStarted();
     }
