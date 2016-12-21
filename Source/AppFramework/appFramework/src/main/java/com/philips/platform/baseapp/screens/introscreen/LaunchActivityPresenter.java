@@ -46,17 +46,19 @@ public class LaunchActivityPresenter extends UIBasePresenter{
     @Override
     public void onEvent(int componentID) {
         showActionBar();
-        String eventState = getEventState(componentID);
+        String event = getEvent(componentID);
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         try {
-            if (eventState == null)
-                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
-            else if (eventState.equals(LAUNCH_BACK_PRESSED))
+            if (event == null)
+                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), event);
+            else if (event.equals(LAUNCH_BACK_PRESSED))
                 baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
         } catch (NoEventFoundException | NoStateException e) {
             e.printStackTrace();
         }
+        // TODO: Deepthi please remove the code here and move the data within state and make sure presenter is passed via standard interface after split
+        // TODO: Deepthi what if its another state or state returned from FM is null
         if (baseState != null && !(baseState instanceof UserRegistrationState)) {
             baseState.setStateListener(this);
             baseState.setUiStateData(getUiStateData());
@@ -68,7 +70,8 @@ public class LaunchActivityPresenter extends UIBasePresenter{
         launchView.showActionBar();
     }
 
-    protected String getEventState(final int componentID) {
+    // TODO: Deepthi  can we make it abstract if its common
+    protected String getEvent(final int componentID) {
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return LAUNCH_BACK_PRESSED;
