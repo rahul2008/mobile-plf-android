@@ -92,7 +92,7 @@
                     android:text="@string/label_input_field"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
-                <com.philips.platform.uid.view.widget.TextEditBox
+                <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/texteditbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                     android:text="@string/label_password"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
-                <com.philips.platform.uid.view.widget.TextEditBox
+                <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/textboxmultiline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
                     android:text="@string/label_number"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
-                <com.philips.platform.uid.view.widget.TextEditBox
+                <com.philips.platform.uid.view.widget.EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
@@ -149,7 +149,7 @@
                     android:text="@string/label_email"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
-                <com.philips.platform.uid.view.widget.TextEditBox
+                <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/filleddisabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
                     android:text="@string/label_multiline_input_field"
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
-                <com.philips.platform.uid.view.widget.TextEditBox
+                <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

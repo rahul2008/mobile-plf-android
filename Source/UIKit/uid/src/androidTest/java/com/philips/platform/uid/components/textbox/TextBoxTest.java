@@ -26,7 +26,7 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
-import com.philips.platform.uid.view.widget.TextEditBox;
+import com.philips.platform.uid.view.widget.EditText;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -75,9 +75,9 @@ public class TextBoxTest {
     @Ignore
     @Test
     public void verifySameTextEditBoxRadiusOnDynamicCreation() {
-        TextEditBox textEditBox = new TextEditBox(mActivityTestRule.getActivity());
+        EditText editText = new EditText(mActivityTestRule.getActivity());
         float expectedRadius = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_corner_radius);
-        Drawable strokeDrawable = ((LayerDrawable) textEditBox.getBackground()).findDrawableByLayerId(R.id.uid_texteditbox_stroke_drawable);
+        Drawable strokeDrawable = ((LayerDrawable) editText.getBackground()).findDrawableByLayerId(R.id.uid_texteditbox_stroke_drawable);
         DrawableMatcher.isSameRadius(0, expectedRadius).matches(strokeDrawable);
     }
 

@@ -30,7 +30,7 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.compat.StrokeCompat;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
-public class TextEditBox extends AppCompatEditText {
+public class EditText extends AppCompatEditText {
     private final static int DRAWABLE_FILL_INDEX = 0;
     private final static int DRAWABLE_STROKE_INDEX = 1;
 
@@ -41,15 +41,15 @@ public class TextEditBox extends AppCompatEditText {
     private Drawable hidePasswordDrawable;
     private boolean passwordVisible;
 
-    public TextEditBox(final Context context) {
+    public EditText(final Context context) {
         this(context, null);
     }
 
-    public TextEditBox(final Context context, final AttributeSet attrs) {
+    public EditText(final Context context, final AttributeSet attrs) {
         this(context, attrs, android.support.v7.appcompat.R.attr.editTextStyle);
     }
 
-    public TextEditBox(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public EditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
     }
@@ -137,14 +137,14 @@ public class TextEditBox extends AppCompatEditText {
 
     private Drawable getShowPasswordDrawable(final Resources.Theme theme) {
         if (showPasswordDrawable == null) {
-            showPasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_show_icon);
+            showPasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_show_password_icon);
         }
         return showPasswordDrawable;
     }
 
     private Drawable getHidePasswordDrawable(final Resources.Theme theme) {
         if (hidePasswordDrawable == null) {
-            hidePasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_password_hide_icon);
+            hidePasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_hide_password_icon);
         }
         return hidePasswordDrawable;
     }

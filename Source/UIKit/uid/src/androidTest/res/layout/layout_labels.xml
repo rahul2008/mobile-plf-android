@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="First name*"/>
 
-    <com.philips.platform.uid.view.widget.TextEditBox
+    <com.philips.platform.uid.view.widget.EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
