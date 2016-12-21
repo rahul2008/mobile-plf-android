@@ -24,7 +24,7 @@
         android:layout_gravity="center_horizontal"
         android:ems="10"
         android:hint="Max age in hours"
-        android:inputType="numberSigned" />
+        android:inputType="number" />
 
    <!-- <EditText
         android:id="@+id/editTextContentClassType"

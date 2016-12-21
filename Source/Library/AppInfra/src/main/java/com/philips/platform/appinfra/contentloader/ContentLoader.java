@@ -186,7 +186,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("CL REFRSH Error:", "" + error);
-                    mContentLoaderState=STATE.CONFIGURATION_ERROR;
+                    mContentLoaderState=STATE.CACHED_DATA_OUTDATED; // if data download is interrupted
                     downloadInProgress.set(false);
                     contentDownloadedCount = 0;
                     downloadedContents.clear();
@@ -210,7 +210,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     public void clearCache() {
        boolean isDeleted = mContentDatabaseHandler.clearCacheForContentLoader(mServiceId);
         if(isDeleted){
-            mContentLoaderState=STATE.CACHED_DATA_OUTDATED;
+            mContentLoaderState=STATE.NOT_INITIALIZED;
         }
     }
 
