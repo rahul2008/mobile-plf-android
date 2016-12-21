@@ -6,26 +6,32 @@
 
 package com.philips.platform.baseapp.screens.settingscreen;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.philips.cdp.uikit.customviews.CircularProgressbar;
+import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
-import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
  * Fragment is used for showing the account settings that verticals provide
- *
  */
 public class SettingsFragment extends AppFrameworkBaseFragment implements SettingsView {
 
@@ -33,19 +39,34 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     private SettingsAdapter adapter = null;
     private ListView list = null;
     private UserRegistrationState userRegistrationState;
+    private Handler handler = new Handler();
+    private ArrayList<SettingListItem> settingScreenItemList;
+    private WeakReference<SettingsFragment> settingsFragmentWeakReference;
+    private ProgressBar settingsProgressBar;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        settingsFragmentWeakReference = new WeakReference<SettingsFragment>(this);
+    }
 
     private ArrayList<SettingListItem> buildSettingsScreenList() {
         ArrayList<SettingListItem> settingScreenItemList = new ArrayList<SettingListItem>();
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_main), SettingListItemType.HEADER, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_one), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_two), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_three), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_notify), SettingListItemType.NOTIFICATION, true));
-       // settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_purchases), SettingListItemType.HEADER, true));
-        //settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_order_history), SettingListItemType.CONTENT, true));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_my_acc), SettingListItemType.HEADER, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_login), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_main), SettingListItemType.HEADER, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_one), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_two), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_three), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_notify), SettingListItemType.NOTIFICATION, true));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_my_acc), SettingListItemType.HEADER, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_login), SettingListItemType.CONTENT, false));
         return settingScreenItemList;
+    }
+
+    private String getResourceString(int resId) {
+        if (isAdded() && getActivity() != null) {
+            return getActivity().getApplicationContext().getString(resId);
+        }
+        return "";
     }
 
     @Override
@@ -56,7 +77,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     @Override
     public void onResume() {
         super.onResume();
-        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Override
@@ -64,10 +85,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
         fragmentPresenter = new SettingsFragmentPresenter(this);
         list = (ListView) view.findViewById(R.id.listwithouticon);
+        settingsProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
 
-        final ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        adapter = new SettingsAdapter(getActivity(), settingScreenItemList, fragmentPresenter);
-        list.setAdapter(adapter);
         /*list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,12 +99,42 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setProgressBarVisibility(true);
+        Thread t = new Thread(new BuildModel());
+        t.start();
+    }
+
+    public class BuildModel implements Runnable {
+
+        @Override
+        public void run() {
+            if (getActivity() != null && settingsFragmentWeakReference != null && isAdded()) {
+                userRegistrationState = new UserRegistrationSettingsState();
+                final boolean isUserLoggedIn = userRegistrationState.getUserObject(getActivity()).isUserSignIn();
+                final boolean isMarketingEnabled = userRegistrationState.getUserObject(getActivity()).getReceiveMarketingEmail();
+                settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setProgressBarVisibility(false);
+                        if (getActivity() != null && settingsFragmentWeakReference != null && isAdded()) {
+                            adapter = new SettingsAdapter(getActivity(), settingScreenItemList, fragmentPresenter, userRegistrationState, isUserLoggedIn, isMarketingEnabled);
+                            list.setAdapter(adapter);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
     private ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
         userRegistrationState = new UserRegistrationSettingsState();
-        if (userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
+        if (getActivity() != null && userRegistrationState.getUserObject(getActivity()).isUserSignIn()) {
             return settingScreenItemList;
         }
-
         ArrayList<SettingListItem> newSettingScreenItemList = new ArrayList<SettingListItem>();
         for (int i = 0; i < settingScreenItemList.size(); i++) {
             if (!settingScreenItemList.get(i).userRegistrationRequired) {
@@ -93,6 +142,12 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
             }
         }
         return newSettingScreenItemList;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        settingsFragmentWeakReference = null;
     }
 
     private SettingListItem formDataSection(String settingsItem, SettingListItemType type, boolean userRegistrationRequired) {
@@ -127,5 +182,15 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     @Override
     public void finishActivityAffinity() {
         getActivity().finishAffinity();
+    }
+
+    public void setProgressBarVisibility(boolean isVisible) {
+        if (isVisible) {
+            settingsProgressBar.setVisibility(View.VISIBLE);
+            list.setVisibility(View.GONE);
+        } else {
+            settingsProgressBar.setVisibility(View.GONE);
+            list.setVisibility(View.VISIBLE);
+        }
     }
 }
