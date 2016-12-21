@@ -189,6 +189,7 @@ public class SettingsAdapter extends BaseAdapter {
                         userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
+                                isMarketingEnabled=true;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
@@ -205,6 +206,7 @@ public class SettingsAdapter extends BaseAdapter {
                         userRegistrationState.getUserObject(activityContext).updateReceiveMarketingEmail(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
+                                isMarketingEnabled=false;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
