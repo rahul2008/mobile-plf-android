@@ -31,7 +31,7 @@ public class ProgressIndicatorButton extends LinearLayout {
 
     public ProgressIndicatorButton(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        setOrientation(VERTICAL);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressIndicatorButton, defStyleAttr, 0);
