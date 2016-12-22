@@ -175,10 +175,9 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxHeight="150dp"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
-                    android:hint="@string/dialog_screen_long_content_text"/>
+                    android:hint="@string/hint_text"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
