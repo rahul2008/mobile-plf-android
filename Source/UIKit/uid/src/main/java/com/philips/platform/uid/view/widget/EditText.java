@@ -166,7 +166,7 @@ public class EditText extends AppCompatEditText {
 
     private void showIcon() {
         final Drawable[] compoundDrawables = getCompoundDrawables();
-        if (isEnabled() && getText() != null && getText().length() > 0) {
+        if (isEnabled() && getEditableText() != null && getEditableText().length() > 0) {
             if (isPasswordInputType()) {
                 setPasswordDrawables(compoundDrawables);
             } else {
@@ -221,7 +221,7 @@ public class EditText extends AppCompatEditText {
                     setPasswordDrawables(compoundDrawables);
                     final int selectionStart = getSelectionStart();
                     final int selectionEnd = getSelectionEnd();
-                    setTransformationMethod(getPasswordTransaformationMethod());
+                    setTransformationMethod(getToggledTransformationMethod());
                     setSelection(selectionStart, selectionEnd);
                 } else {
                     setText("");
@@ -250,7 +250,7 @@ public class EditText extends AppCompatEditText {
     }
 
     @Nullable
-    private TransformationMethod getPasswordTransaformationMethod() {
+    private TransformationMethod getToggledTransformationMethod() {
         return isPasswordVisible() ? PasswordTransformationMethod.getInstance() : null;
     }
 
