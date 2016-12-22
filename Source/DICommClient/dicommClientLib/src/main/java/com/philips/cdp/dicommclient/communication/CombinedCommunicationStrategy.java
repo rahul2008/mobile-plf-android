@@ -5,23 +5,26 @@
 
 package com.philips.cdp.dicommclient.communication;
 
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 public class CombinedCommunicationStrategy extends CommunicationStrategy {
 
-    private final LanCommunicationStrategy mLanCommunicationStrategy;
-    private final RemoteCommunicationStrategy mRemoteCommunicationStrategy;
-    private final NullCommunicationStrategy mNullCommunicationStrategy;
+    @NonNull
+    private final LinkedHashSet<CommunicationStrategy> communicationStrategies;
 
-    public CombinedCommunicationStrategy(final NetworkNode networkNode) {
-        mLanCommunicationStrategy = new LanCommunicationStrategy(networkNode);
-        mRemoteCommunicationStrategy = new RemoteCommunicationStrategy(networkNode, DICommClientWrapper.getCloudController());
-        mNullCommunicationStrategy = new NullCommunicationStrategy();
+    public CombinedCommunicationStrategy(@NonNull CommunicationStrategy... communicationStrategies) {
+        this.communicationStrategies = new LinkedHashSet<>(Arrays.asList(communicationStrategies));
+        if (this.communicationStrategies.isEmpty()) {
+            throw new IllegalArgumentException("CombinedCommunicationStrategy needs to be constructed with at least 1 communication strategy.");
+        }
+        this.communicationStrategies.add(new NullCommunicationStrategy());
     }
 
     @Override
@@ -61,25 +64,24 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
         return true;
     }
 
-    private CommunicationStrategy findAvailableStrategy() {
-        if (mLanCommunicationStrategy.isAvailable()) {
-            return mLanCommunicationStrategy;
-        } else if (mRemoteCommunicationStrategy.isAvailable()) {
-            return mRemoteCommunicationStrategy;
-        }
-        return mNullCommunicationStrategy;
-    }
-
     @Override
-    public void enableCommunication(
-            SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         findAvailableStrategy().enableCommunication(subscriptionEventListener);
     }
 
     @Override
     public void disableCommunication() {
-        mLanCommunicationStrategy.disableCommunication();
-        mRemoteCommunicationStrategy.disableCommunication();
-        mNullCommunicationStrategy.disableCommunication();
+        for (CommunicationStrategy strategy : communicationStrategies) {
+            strategy.disableCommunication();
+        }
+    }
+
+    private CommunicationStrategy findAvailableStrategy() {
+        for (CommunicationStrategy strategy : communicationStrategies) {
+            if (strategy.isAvailable()) {
+                return strategy;
+            }
+        }
+        throw new IllegalStateException("No strategies are available.");
     }
 }

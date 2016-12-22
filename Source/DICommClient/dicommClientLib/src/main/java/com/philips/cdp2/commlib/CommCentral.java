@@ -40,8 +40,14 @@ public final class CommCentral {
     }
 
     public void startDiscovery() throws MissingPermissionException {
-        for (DiscoveryStrategy strategy : discoveryStrategies) {
+        for (DiscoveryStrategy strategy : this.discoveryStrategies) {
             strategy.start(applianceFactory.getSupportedModelNames());
+        }
+    }
+
+    public void stopDiscovery() {
+        for (DiscoveryStrategy strategy : this.discoveryStrategies) {
+            strategy.stop();
         }
     }
 

@@ -14,11 +14,11 @@ import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
 import com.philips.cdp.dicommclient.discovery.strategy.LanDiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-public class LanContext implements TransportContext {
+public class LanTransportContext implements TransportContext {
 
     private DiscoveryStrategy discoveryStrategy;
 
-    public LanContext(@NonNull final Context context) {
+    public LanTransportContext(@NonNull final Context context) {
         final NetworkMonitor networkMonitor = new NetworkMonitor(context);
         this.discoveryStrategy = new LanDiscoveryStrategy(networkMonitor);
     }

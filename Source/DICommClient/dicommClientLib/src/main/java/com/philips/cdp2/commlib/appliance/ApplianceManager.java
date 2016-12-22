@@ -21,15 +21,15 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * Any observer subscribed to an instance of this type is notified of events such as
  * when an appliance is found or updated, or whenever an error occurs while performing discovery.
  * <p>
- * The application should subscribe to notifications using the {@link ApplianceManagerListener} interface.
+ * The application should subscribe to notifications using the {@link ApplianceListener} interface.
  * It's also possible to just obtain the set of available appliances using {@link #getAvailableAppliances()}
  */
 public class ApplianceManager implements DiscoveryStrategy.DiscoveryListener {
 
     /**
-     * The interface ApplianceManagerListener.
+     * The interface ApplianceListener.
      */
-    public interface ApplianceManagerListener {
+    public interface ApplianceListener {
         /**
          * On appliance found.
          *
@@ -41,7 +41,7 @@ public class ApplianceManager implements DiscoveryStrategy.DiscoveryListener {
 
     private final DICommApplianceFactory applianceFactory;
 
-    private final Set<ApplianceManagerListener> applianceManagerListeners = new CopyOnWriteArraySet<>();
+    private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
     private Set<DICommAppliance> availableAppliances = new CopyOnWriteArraySet<>();
 
     /**
@@ -50,7 +50,6 @@ public class ApplianceManager implements DiscoveryStrategy.DiscoveryListener {
      * @param applianceFactory the appliance factory
      */
     public ApplianceManager(@NonNull DICommApplianceFactory applianceFactory) {
-
         if (applianceFactory == null) {
             throw new IllegalArgumentException("This class needs to be constructed with a non-null appliance factory.");
         }
@@ -81,26 +80,25 @@ public class ApplianceManager implements DiscoveryStrategy.DiscoveryListener {
     /**
      * Add a listener.
      *
-     * @param applianceManagerListener the listener
+     * @param applianceListener the listener
      * @return true, if the listener didn't exist yet and was therefore added
      */
-    public boolean addApplianceManagerListener(@NonNull ApplianceManagerListener applianceManagerListener) {
-        return applianceManagerListeners.add(applianceManagerListener);
+    public boolean addApplianceManagerListener(@NonNull ApplianceListener applianceListener) {
+        return applianceListeners.add(applianceListener);
     }
 
     /**
      * Remove a listener.
      *
-     * @param applianceManagerListener the listener
+     * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public boolean removeApplianceManagerListener(@NonNull ApplianceManagerListener applianceManagerListener) {
-        return applianceManagerListeners.remove(applianceManagerListener);
+    public boolean removeApplianceManagerListener(@NonNull ApplianceListener applianceListener) {
+        return applianceListeners.remove(applianceListener);
     }
 
     @Override
     public void onDiscoveryStarted() {
-        // TODO notify observers (?)
     }
 
     @Override
@@ -112,7 +110,6 @@ public class ApplianceManager implements DiscoveryStrategy.DiscoveryListener {
         }
         availableAppliances.add(appliance);
 
-        // TODO Perform cast to actual subclass of DICommAppliance using its device type, or the discovery strategy that found it (if possible?)
         notifyApplianceFound(appliance);
     }
 
@@ -140,7 +137,6 @@ public class ApplianceManager implements DiscoveryStrategy.DiscoveryListener {
 
     @Override
     public void onDiscoveryStopped() {
-        // TODO notify observers (?)
     }
 
     private void loadAppliancesFromPersistentStorage() {
@@ -155,7 +151,7 @@ public class ApplianceManager implements DiscoveryStrategy.DiscoveryListener {
     }
 
     private <A extends DICommAppliance> void notifyApplianceFound(@NonNull A appliance) {
-        for (ApplianceManagerListener listener : applianceManagerListeners) {
+        for (ApplianceListener listener : applianceListeners) {
             listener.onApplianceFound(appliance);
         }
     }

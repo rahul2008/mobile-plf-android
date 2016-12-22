@@ -43,7 +43,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Log.class})
-public class RemoteCommunicationStrategyTest {
+public class CloudCommunicationStrategyTest {
 
     public static final int SUBSCRIPTION_TTL = 0;
     private final Map<String, Object> dataMap = new HashMap<>();
@@ -68,7 +68,7 @@ public class RemoteCommunicationStrategyTest {
     @Mock
     RemoteSubscriptionHandler remoteSubscriptionHandlerMock;
 
-    private RemoteCommunicationStrategy remoteCommunicationStrategy;
+    private CloudCommunicationStrategy cloudCommunicationStrategy;
     private ResponseHandler capturedResponseHandler;
 
     @Before
@@ -79,13 +79,13 @@ public class RemoteCommunicationStrategyTest {
 
         DICommLog.disableLogging();
 
-        remoteCommunicationStrategy = new RemoteCommunicationStrategyForTesting(networkNodeMock, CloudControllerMock);
+        cloudCommunicationStrategy = new CloudCommunicationStrategyForTesting(networkNodeMock, CloudControllerMock);
     }
 
     @Test
     public void whenPutPropsIsCalledThenDSCIsStarted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -93,7 +93,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenDSCHasStartedSuccessfullyThenPutPropsRequestIsExecuted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(startRequestArgumentCaptor.capture());
         capturedResponseHandler.onSuccess(null);
@@ -104,7 +104,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenPutPropsIsCalledWhileDSCIsStartedThenPutPropsRequestIsExecuted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STARTED);
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(StartDcsRequest.class));
         verify(requestQueueMock).addRequest(any(RemoteRequest.class));
@@ -113,8 +113,8 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenPutPropsIsCalledTwiceThenAnotherDSCStartRequestIsNotIssued() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STARTING);
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock, times(1)).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -122,12 +122,12 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenDSCISFailedToStartThenItIsStartedAgainWithNextRequest() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(startRequestArgumentCaptor.capture());
         capturedResponseHandler.onError(Error.REQUEST_FAILED, null);
 
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock, times(2)).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -135,12 +135,12 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenDSCISStoppedThenItIsRestartedAgainWithNextRequest() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(startRequestArgumentCaptor.capture());
         capturedResponseHandler.onSuccess(null);
 
-        remoteCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.putProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock, times(2)).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -148,7 +148,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenGetPropsIsCalledThenDSCIsStarted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.getProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.getProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -156,7 +156,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenAddPropsIsCalledThenDSCIsStarted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.addProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.addProperties(dataMap, PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -164,7 +164,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenDeletePropsIsCalledThenDSCIsStarted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -172,7 +172,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenSubscribeIsCalledThenDSCIsStarted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandlerMock);
+        cloudCommunicationStrategy.subscribe(PORT_NAME, PRODUCT_ID, SUBSCRIPTION_TTL, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -180,7 +180,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenUnsubscribeIsCalledThenDSCIsStarted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        cloudCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -189,7 +189,7 @@ public class RemoteCommunicationStrategyTest {
     public void whenEnableSubscriptionIsCalledThenDSCIsStarted() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
-        remoteCommunicationStrategy.enableCommunication(subscriptionEventListener);
+        cloudCommunicationStrategy.enableCommunication(subscriptionEventListener);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -198,7 +198,7 @@ public class RemoteCommunicationStrategyTest {
     public void whenEnableSubscriptionIsCalledThenEnableSubscriptionIsCalled() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
-        remoteCommunicationStrategy.enableCommunication(subscriptionEventListener);
+        cloudCommunicationStrategy.enableCommunication(subscriptionEventListener);
 
         verify(remoteSubscriptionHandlerMock).enableSubscription(networkNodeMock, subscriptionEventListener);
     }
@@ -206,7 +206,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenDisableCommunicationIsCalledThenDSCIsStopped() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.disableCommunication();
+        cloudCommunicationStrategy.disableCommunication();
 
         verify(CloudControllerMock).stopDCSService();
     }
@@ -214,7 +214,7 @@ public class RemoteCommunicationStrategyTest {
     @Test
     public void whenDisableCommunicationIsCalledThenDisableSubscriptionIsCalled() throws Exception {
         when(CloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        remoteCommunicationStrategy.disableCommunication();
+        cloudCommunicationStrategy.disableCommunication();
 
         verify(remoteSubscriptionHandlerMock).disableSubscription();
     }
@@ -223,19 +223,19 @@ public class RemoteCommunicationStrategyTest {
     public void isAvailableWhenNetworkNodeIsCONNECTED_REMOTELY() throws Exception {
         when(networkNodeMock.getConnectionState()).thenReturn(ConnectionState.CONNECTED_REMOTELY);
 
-        assertTrue(remoteCommunicationStrategy.isAvailable());
+        assertTrue(cloudCommunicationStrategy.isAvailable());
     }
 
     @Test
     public void isNotAvailableWhenNetworkNodeIsDISCONNECTED() throws Exception {
         when(networkNodeMock.getConnectionState()).thenReturn(ConnectionState.DISCONNECTED);
 
-        assertFalse(remoteCommunicationStrategy.isAvailable());
+        assertFalse(cloudCommunicationStrategy.isAvailable());
     }
 
-    class RemoteCommunicationStrategyForTesting extends RemoteCommunicationStrategy {
+    class CloudCommunicationStrategyForTesting extends CloudCommunicationStrategy {
 
-        public RemoteCommunicationStrategyForTesting(NetworkNode networkNode, CloudController cloudController) {
+        public CloudCommunicationStrategyForTesting(NetworkNode networkNode, CloudController cloudController) {
             super(networkNode, cloudController);
         }
 
@@ -246,7 +246,7 @@ public class RemoteCommunicationStrategyTest {
 
         @Override
         protected StartDcsRequest createStartDcsRequest(ResponseHandler responseHandler) {
-            RemoteCommunicationStrategyTest.this.capturedResponseHandler = responseHandler;
+            CloudCommunicationStrategyTest.this.capturedResponseHandler = responseHandler;
             return null;
         }
 

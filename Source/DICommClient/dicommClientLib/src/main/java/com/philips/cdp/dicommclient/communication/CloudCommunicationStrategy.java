@@ -19,7 +19,7 @@ import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 import java.util.Map;
 
-public class RemoteCommunicationStrategy extends CommunicationStrategy {
+public class CloudCommunicationStrategy extends CommunicationStrategy {
 
     private final RemoteSubscriptionHandler mRemoteSubscriptionHandler;
     private final NetworkNode mNetworkNode;
@@ -28,7 +28,7 @@ public class RemoteCommunicationStrategy extends CommunicationStrategy {
     private RequestQueue mRequestQueue;
     private boolean isDSCRequestOnGoing;
 
-    public RemoteCommunicationStrategy(final NetworkNode networkNode, final CloudController cloudController) {
+    public CloudCommunicationStrategy(final NetworkNode networkNode, final CloudController cloudController) {
         mNetworkNode = networkNode;
         if (cloudController == null) {
             throw new IllegalArgumentException("CloudController is null.");

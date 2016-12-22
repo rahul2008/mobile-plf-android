@@ -5,6 +5,8 @@
 
 package com.philips.cdp.dicommclientsample;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.CombinedCommunicationStrategy;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
@@ -12,12 +14,25 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
+import com.philips.cdp2.commlib.context.CloudTransportContext;
+import com.philips.cdp2.commlib.context.LanTransportContext;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
+
+    @NonNull
+    private final LanTransportContext lanTransportContext;
+
+    @NonNull
+    private final CloudTransportContext cloudTransportContext;
+
+    public SampleApplianceFactory(@NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
+        this.lanTransportContext = lanTransportContext;
+        this.cloudTransportContext = cloudTransportContext;
+    }
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
@@ -27,7 +42,10 @@ class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
         if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
-            CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(networkNode);
+            final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
+                    lanTransportContext.createCommunicationStrategyFor(networkNode),
+                    cloudTransportContext.createCommunicationStrategyFor(networkNode));
+
             if (ComfortAirPurifier.MODELNUMBER.equals(networkNode.getModelType())) {
                 return new ComfortAirPurifier(networkNode, communicationStrategy);
             }
