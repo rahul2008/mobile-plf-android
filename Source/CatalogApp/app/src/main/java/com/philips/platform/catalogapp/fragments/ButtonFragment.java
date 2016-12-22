@@ -62,8 +62,11 @@ public class ButtonFragment extends BaseFragment {
     @Bind(R.id.groupProgressButtonsExtraWide)
     ViewGroup groupProgressButtonExtraWide;
 
-    @Bind(R.id.buttonsProgressIndicatorExtraWideIndeterminate)
-    ProgressIndicatorButton indicatorButton;
+    @Bind(R.id.progressButtonsNormalDeterminate)
+    ProgressIndicatorButton progressIndicatorButtonDeterminate;
+
+    @Bind(R.id.progressButtonsNormalIndeterminate)
+    ProgressIndicatorButton progressIndicatorButtonIndeterminate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,10 +78,14 @@ public class ButtonFragment extends BaseFragment {
         //Need to create a new drawable instead of using old stored shareDrawable.
         quietIconOnly.setImageDrawable(getShareIcon());
 
-        indicatorButton.setOnClickListener(buttonOnClickListener);
-//        addOnClickListenerToChilderen(groupProgressButtonExtraWide, buttonOnClickListener);
-//        addOnClickListenerToChilderen(groupProgressButtonNormal, buttonOnClickListener);
+        setOnClickListeners();
         return root;
+    }
+
+    private void setOnClickListeners() {
+        addOnClickListenerToChilderen(groupProgressButtonExtraWide, buttonOnClickListener);
+        progressIndicatorButtonDeterminate.setOnClickListener(buttonOnClickListener);
+        progressIndicatorButtonIndeterminate.setOnClickListener(buttonOnClickListener);
     }
 
     private void restoreViews(Bundle savedInstance) {
@@ -131,7 +138,7 @@ public class ButtonFragment extends BaseFragment {
         for (int i = 0; i < buttonLayout.getChildCount(); i++) {
             View view = buttonLayout.getChildAt(i);
             if (view instanceof ProgressIndicatorButton) {
-                ((ProgressIndicatorButton) view).getButton().setOnClickListener(listener);
+                view.setOnClickListener(listener);
             }
         }
     }
@@ -172,15 +179,16 @@ public class ButtonFragment extends BaseFragment {
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
+            if (v instanceof ProgressIndicatorButton) {
+                ((ProgressIndicatorButton) v).showProgressIndicator();
 
-            ((ProgressIndicatorButton) v).showProgressIndicator();
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ((ProgressIndicatorButton) v).hideProgressIndicator();
-                }
-            }, 5000);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((ProgressIndicatorButton) v).hideProgressIndicator();
+                    }
+                }, 5000);
+            }
         }
     };
 }
