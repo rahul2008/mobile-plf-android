@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FileUtility;
@@ -42,16 +43,16 @@ public class FlowManagerTest extends TestCase {
         fileUtility = new FileUtility(appFrameworkApplication);
     }
 
-    public void testGetNextState() {
+    public void testGetNextState() throws NoEventFoundException {
         final SplashState splashState = mock(SplashState.class);
         final FlowManager flowManager = mock(FlowManager.class);
         final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
-        when(flowManager.getState(AppStates.FIRST_STATE)).thenReturn(settingsFragmentState);
-        when(flowManager.getNextState(settingsFragmentState, "onAppLaunch")).thenReturn(splashState);
+        when(flowManager.getCurrentState()).thenReturn(settingsFragmentState);
+        when(flowManager.getNextState(flowManager.getCurrentState(), "onAppLaunch")).thenReturn(splashState);
         assertTrue(splashState instanceof SplashState);
     }
 
-    public void testCurrentState() {
+    public void testCurrentState() throws NoEventFoundException {
         final HomeFragmentState homeFragmentState = mock(HomeFragmentState.class);
         final HomeTabbedActivityState homeTabbedActivityState = mock(HomeTabbedActivityState.class);
         final FlowManager flowManager = mock(FlowManager.class);

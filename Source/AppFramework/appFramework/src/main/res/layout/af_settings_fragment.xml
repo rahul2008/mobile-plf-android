@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
+    <com.philips.cdp.uikit.customviews.CircularProgressbar
+        android:id="@+id/settings_progress_bar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/listwithouticon"
         android:layout_width="match_parent"

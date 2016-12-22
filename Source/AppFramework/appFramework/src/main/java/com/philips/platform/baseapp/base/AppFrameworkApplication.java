@@ -6,7 +6,6 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.Application;
-import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -20,30 +19,21 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSplashState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
 
 /**
  * Application class is used for initialization
  */
 public class AppFrameworkApplication extends Application {
-    // TODO: Deepthi , should these be static.
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
-    UserRegistrationState userRegistrationState;
-    IAPState iapState;
-    ProductRegistrationState productRegistrationState;
-
-    /**
-     * @return instance of this class
-     */
+    private UserRegistrationState userRegistrationState;
+    private IAPState iapState;
+    private ProductRegistrationState productRegistrationState;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -58,14 +48,13 @@ public class AppFrameworkApplication extends Application {
         loggingInterface.enableConsoleLog(true);
         loggingInterface.enableFileLog(true);
         setLocale();
-        userRegistrationState = new UserRegistrationSplashState();
+        userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
     }
-
 
     public LoggingInterface getLoggingInterface() {
         return loggingInterface;
@@ -75,24 +64,9 @@ public class AppFrameworkApplication extends Application {
         return appInfra;
     }
 
-    @Nullable
-    public InputStream getInputStream(final int resId) {
-        InputStream inputStream = null;
-        try {
-            inputStream = getAssets().open(getString(resId));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return inputStream;
-    }
-
     public IAPState getIap() {
         return iapState;
     }
-
-    /**
-     * Method for initializing IAP
-     */
 
     private void setLocale() {
         String languageCode = Locale.getDefault().getLanguage();
@@ -102,37 +76,8 @@ public class AppFrameworkApplication extends Application {
         localeManager.setInputLocale(languageCode, countryCode);
     }
 
-    @SuppressWarnings("deprecation")
-    /**
-     * Initializing Product registration
-     */
-
     public BaseFlowManager getTargetFlowManager() {
         return targetFlowManager;
     }
 
-    public File createFileFromInputStream(InputStream inputStream) {
-
-        try {
-            String filename = "tempFile";
-            FileOutputStream outputStream;
-            final File file = File.createTempFile(filename, null, getCacheDir());
-            outputStream = new FileOutputStream(file);
-            byte buffer[] = new byte[1024];
-            int length;
-
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-
-            outputStream.close();
-            inputStream.close();
-
-            return file;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

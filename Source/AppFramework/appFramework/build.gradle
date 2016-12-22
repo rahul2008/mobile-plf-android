@@ -18,7 +18,7 @@ buildscript {
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9"		
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.9"
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
@@ -83,11 +83,11 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
             }
-			defaults {
-				publications ('apk')
-				publishPom = true
-				publishArtifacts = true
-			}
+            defaults {
+                publications('apk')
+                publishPom = true
+                publishArtifacts = true
+            }
         }
     }
     resolve {
@@ -133,17 +133,17 @@ publishing {
             artifactId project.archivesBaseName
 
             artifact zipDoc
-						
-            if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk").exists()) {
+
+            if (new File("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release.apk")
-            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk").exists()) {
+            } else if (new File("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${project.archivesBaseName}-release-unsigned.apk")
-            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-AppFrameworkTabbed-debug.apk").exists()) {
+            } else if (new File("$buildDir/outputs/apk/${project.archivesBaseName}-AppFrameworkTabbed-debug.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${project.archivesBaseName}-AppFrameworkTabbed-debug.apk")
-            } else if(new File("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk").exists()) {
+            } else if (new File("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk").exists()) {
                 artifact("$buildDir/outputs/apk/${project.archivesBaseName}-debug.apk")
-            } else{
-			}
+            } else {
+            }
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -233,7 +233,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled = true
+            testCoverageEnabled = false
         }
     }
 
@@ -329,11 +329,11 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-SNAPSHOT', ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
@@ -347,7 +347,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }

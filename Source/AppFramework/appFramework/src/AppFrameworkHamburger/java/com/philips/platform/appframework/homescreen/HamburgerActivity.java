@@ -29,15 +29,16 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
-import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+
 import java.util.ArrayList;
 /**
  * This is the Main activity which host the main hamburger menu
