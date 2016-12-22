@@ -9,12 +9,10 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -25,12 +23,9 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class LaunchActivityPresenter extends UIBasePresenter{
 
     public static final int APP_LAUNCH_STATE = 890;
-   // private static final int USER_REGISTRATION_STATE = 889;
     private LaunchView launchView;
-    private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
     private String LAUNCH_BACK_PRESSED = "back";
-    private String WELCOME_REGISTRATION = "welcome_registration";
     private String APP_LAUNCH = "onAppLaunch";
 
     public LaunchActivityPresenter(LaunchView launchView) {
@@ -49,21 +44,22 @@ public class LaunchActivityPresenter extends UIBasePresenter{
         String event = getEvent(componentID);
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            if (event == null)
-                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), event);
-            else if (event.equals(LAUNCH_BACK_PRESSED))
-                baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
-        } catch (NoEventFoundException | NoStateException e) {
-            e.printStackTrace();
-        }
-        // TODO: Deepthi please remove the code here and move the data within state and make sure presenter is passed via standard interface after split
-        // TODO: Deepthi what if its another state or state returned from FM is null
-        if (baseState != null && !(baseState instanceof UserRegistrationState)) {
-            baseState.setStateListener(this);
+        BaseState baseState = null;
+        if (event.equals(APP_LAUNCH))
+            baseState = targetFlowManager.getFirstState();
+        else if (event.equals(LAUNCH_BACK_PRESSED))
+            baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+        if (baseState != null && !(baseState instanceof UserRegistrationOnBoardingState)) {
             baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
         }
+        // TODO: Deepthi please remove the code here and move the data within state and make sure presenter is passed via standard interface after split
+        // TODO: Deepthi what if its another state or state returned from FM is null
+       /* if (baseState != null && !(baseState instanceof UserRegistrationState)) {
+            baseState.setStateListener(this);
+            baseState.setUiStateData(getUiStateData());
+            baseState.navigate(fragmentLauncher);
+        }*/
     }
 
     protected void showActionBar() {
@@ -75,7 +71,8 @@ public class LaunchActivityPresenter extends UIBasePresenter{
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return LAUNCH_BACK_PRESSED;
-            default:return null;
+            default:
+                return APP_LAUNCH;
         }
     }
 

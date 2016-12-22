@@ -86,24 +86,29 @@ public abstract class BaseFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException {
-        if (null != currentState && null != eventId) {
+    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException {
+        if (null == eventId)
+            throw new NoEventFoundException();
+        else if (null != currentState) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
-            if (appFlowEvents != null) {
-                BaseState appFlowNextState = getStateForEventID(false, eventId, appFlowEvents);
-                if (appFlowNextState != null) {
-                    setCurrentState(appFlowNextState);
-                    flowManagerStack.push(appFlowNextState);
-                    return appFlowNextState;
-                }
+            BaseState appFlowNextState = getStateForEventID(false, eventId, appFlowEvents);
+            if (appFlowNextState != null) {
+                setCurrentState(appFlowNextState);
+                flowManagerStack.push(appFlowNextState);
+                return appFlowNextState;
             }
-        } else {
-            BaseState baseState = stateMap.get(firstState);
-            this.currentState = baseState;
+        }
+        throw new NoStateException();
+    }
+
+    public BaseState getFirstState() throws NoStateException {
+        BaseState baseState = stateMap.get(firstState);
+        if (baseState != null) {
+            setCurrentState(baseState);
             flowManagerStack.push(baseState);
             return baseState;
         }
-        return null;
+        throw new NoStateException();
     }
 
     @Nullable
