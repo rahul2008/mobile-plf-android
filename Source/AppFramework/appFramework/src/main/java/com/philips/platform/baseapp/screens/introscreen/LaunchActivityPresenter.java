@@ -12,7 +12,6 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -49,17 +48,11 @@ public class LaunchActivityPresenter extends UIBasePresenter{
             baseState = targetFlowManager.getFirstState();
         else if (event.equals(LAUNCH_BACK_PRESSED))
             baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
-        if (baseState != null && !(baseState instanceof UserRegistrationOnBoardingState)) {
+
+        if (baseState != null) {
             baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
         }
-        // TODO: Deepthi please remove the code here and move the data within state and make sure presenter is passed via standard interface after split
-        // TODO: Deepthi what if its another state or state returned from FM is null
-       /* if (baseState != null && !(baseState instanceof UserRegistrationState)) {
-            baseState.setStateListener(this);
-            baseState.setUiStateData(getUiStateData());
-            baseState.navigate(fragmentLauncher);
-        }*/
     }
 
     protected void showActionBar() {
