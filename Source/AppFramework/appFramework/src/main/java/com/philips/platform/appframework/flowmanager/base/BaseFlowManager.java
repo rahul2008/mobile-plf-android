@@ -102,11 +102,11 @@ public abstract class BaseFlowManager {
     }
 
     public BaseState getFirstState() throws NoStateException {
-        BaseState baseState = stateMap.get(firstState);
-        if (baseState != null) {
-            setCurrentState(baseState);
-            flowManagerStack.push(baseState);
-            return baseState;
+        BaseState firstState = stateMap.get(this.firstState);
+        if (firstState != null) {
+            setCurrentState(firstState);
+            flowManagerStack.push(firstState);
+            return firstState;
         }
         throw new NoStateException();
     }
