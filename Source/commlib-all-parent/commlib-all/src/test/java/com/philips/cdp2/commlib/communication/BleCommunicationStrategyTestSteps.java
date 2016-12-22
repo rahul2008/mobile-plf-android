@@ -1,4 +1,4 @@
-/**
+/*
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
@@ -14,7 +14,6 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.BleDeviceCache;
 import com.philips.cdp2.commlib.request.BleRequest;
-import com.philips.cdp2.datatypes.DatatypeConverter;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -63,7 +62,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class BleStrategyTestSteps {
+public class BleCommunicationStrategyTestSteps {
     private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
 
     private class QueuedRequest {

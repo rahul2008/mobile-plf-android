@@ -6,6 +6,7 @@ package com.philips.cdp2.commlib.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
@@ -57,7 +58,8 @@ public final class BleTransportContext implements TransportContext {
         return shnCentral;
     }
 
-    private SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+    @VisibleForTesting
+    public SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 

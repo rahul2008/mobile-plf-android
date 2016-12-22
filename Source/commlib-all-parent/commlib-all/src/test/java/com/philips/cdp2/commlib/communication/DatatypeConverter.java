@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.cdp2.datatypes;
+package com.philips.cdp2.commlib.communication;
 
 public final class DatatypeConverter {
 
