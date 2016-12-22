@@ -5,6 +5,7 @@
  */
 package com.philips.platform.catalogapp.fragments;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentTexteditboxBinding;
@@ -56,8 +58,13 @@ public class TextEditBoxFragment extends BaseFragment {
     public void disabledEditboxes(boolean toggle) {
         disableEditBoxes.set(toggle);
         //View is null in case of rotation
-        if (!toggle && getView() != null) {
-            getView().clearFocus();
+        final View view = getView();
+        if (disableEditBoxes.get() && view != null) {
+            view.clearFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
