@@ -18,14 +18,14 @@ import com.philips.cdp2.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
-public final class BleContext implements TransportContext {
+public final class BleTransportContext implements TransportContext {
     private static final long BLE_DISCOVERY_TIMEOUT_MS = 20000L;
 
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
 
-    public BleContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) throws TransportUnavailableException {
+    public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) throws TransportUnavailableException {
         this.deviceCache = new BleDeviceCache();
         try {
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);

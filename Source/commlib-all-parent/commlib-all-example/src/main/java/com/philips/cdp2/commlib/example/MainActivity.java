@@ -23,7 +23,7 @@ import com.philips.cdp.dicommclient.port.common.FirmwarePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.CommCentral;
 import com.philips.cdp2.commlib.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.context.BleContext;
+import com.philips.cdp2.commlib.context.BleTransportContext;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
 import com.philips.cdp2.commlib.example.appliance.TimePort;
@@ -87,11 +87,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Setup CommCentral
-        final BleContext bleContext = new BleContext(this, true);
+        final BleTransportContext bleTransportContext = new BleTransportContext(this, true);
         final Set<DiscoveryStrategy> discoveryStrategies = new HashSet<DiscoveryStrategy>() {{
-            add(bleContext.getDiscoveryStrategy());
+            add(bleTransportContext.getDiscoveryStrategy());
         }};
-        this.applianceFactory = new BleReferenceApplianceFactory(bleContext);
+        this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
         this.commCentral = new CommCentral(discoveryStrategies, this.applianceFactory);
         this.commCentral.getApplianceManager().addApplianceManagerListener(this.applianceManagerListener);
 

@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.context.BleContext;
+import com.philips.cdp2.commlib.context.BleTransportContext;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,10 +17,10 @@ import java.util.Set;
 
 public final class BleReferenceApplianceFactory implements DICommApplianceFactory<BleReferenceAppliance> {
     @NonNull
-    private final BleContext bleContext;
+    private final BleTransportContext bleTransportContext;
 
-    public BleReferenceApplianceFactory(@NonNull BleContext bleContext) {
-        this.bleContext = bleContext;
+    public BleReferenceApplianceFactory(@NonNull BleTransportContext bleTransportContext) {
+        this.bleTransportContext = bleTransportContext;
     }
 
     @Override
@@ -31,7 +31,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
     @Override
     public BleReferenceAppliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
-            final CommunicationStrategy communicationStrategy = bleContext.createCommunicationStrategyFor(networkNode);
+            final CommunicationStrategy communicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
 
             return new BleReferenceAppliance(networkNode, communicationStrategy);
         }
