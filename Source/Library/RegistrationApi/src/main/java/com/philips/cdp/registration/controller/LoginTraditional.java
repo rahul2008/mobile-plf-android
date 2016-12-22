@@ -82,7 +82,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
 
             HsdpUser hsdpUser = new HsdpUser(mContext);
-            hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
@@ -201,7 +201,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         HsdpUser hsdpUser = new HsdpUser(mContext);
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
-            hsdpUser.socialLogin(mEmail, user.getAccessToken(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(mEmail, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {

@@ -20,10 +20,10 @@ public class HsdpUserRecord implements Serializable {
     private String userUUID;
     private int userIsActive;
     private AccessCredential accessCredential;
+
     private String refreshSecret;
 
     private static final long serialVersionUID = 6128016096756071380L;
-
 
     public HsdpUserRecord(Context context) {
         this.context = context;
@@ -39,6 +39,14 @@ public class HsdpUserRecord implements Serializable {
 
     public Profile getProfile() {
         return mProfile;
+    }
+
+    public void setRefreshSecret(String refreshSecret) {
+        this.refreshSecret = refreshSecret;
+    }
+
+    public String getRefreshSecret() {
+        return refreshSecret;
     }
 
     public class AccessCredential implements Serializable{

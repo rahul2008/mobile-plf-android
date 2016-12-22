@@ -4,9 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.util.Log;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -164,7 +162,7 @@ public class HsdpUser {
                         dhpAuthenticationResponse = authenticationManagementClient.
                                 refreshSecret(mHsdpUserRecord.getUserUUID(),
                                         mHsdpUserRecord.getAccessCredential().
-                                                getAccessToken(), Jump.
+                                                getAccessToken(), mHsdpUserRecord.
                                                 getRefreshSecret());
                     }
                     if (dhpAuthenticationResponse == null) {
@@ -313,8 +311,8 @@ public class HsdpUser {
         mHsdpUserRecord = null;
     }
 
-    public void socialLogin(final String email, final String accessToken, final SocialLoginHandler
-            loginHandler) {
+    public void socialLogin(final String email, final String accessToken,
+                            final String refreshSecret,final SocialLoginHandler loginHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(new Runnable() {
@@ -324,7 +322,7 @@ public class HsdpUser {
                             new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
                     final DhpAuthenticationResponse dhpAuthenticationResponse =
                             authenticationManagementClient.loginSocialProviders(email,
-                                    accessToken ,Jump.getRefreshSecret());
+                                    accessToken ,refreshSecret);
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override
@@ -342,6 +340,7 @@ public class HsdpUser {
                         final Map<String, Object> rawResponse = dhpAuthenticationResponse.rawResponse;
                         mHsdpUserRecord = new HsdpUserRecord(mContext);
                         mHsdpUserRecord = mHsdpUserRecord.parseHsdpUserInfo(rawResponse);
+                        mHsdpUserRecord.setRefreshSecret(refreshSecret);
                         saveToDisk(new UserFileWriteListener() {
 
                             @Override
@@ -431,11 +430,11 @@ public class HsdpUser {
 
     public boolean isHsdpUserSignedIn() {
         HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
-
-        if (hsdpUserRecord == null) {
-            return false;
-        }
-        return hsdpUserRecord.getUserUUID() != null && hsdpUserRecord.getAccessCredential() != null && hsdpUserRecord.getAccessCredential().getAccessToken() != null;
-
+        return hsdpUserRecord != null && ((hsdpUserRecord.getAccessCredential() != null &&
+                hsdpUserRecord.getAccessCredential().getRefreshToken() != null)
+                || hsdpUserRecord.getRefreshSecret() != null) &&
+                hsdpUserRecord.getUserUUID() != null
+                && (getHsdpUserRecord().getAccessCredential() != null &&
+                getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
     }
 }

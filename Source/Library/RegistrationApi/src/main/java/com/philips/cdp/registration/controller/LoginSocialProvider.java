@@ -44,7 +44,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
         User user = new User(mContext);
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
-            hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), Jump.getRefreshSecret(),new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
