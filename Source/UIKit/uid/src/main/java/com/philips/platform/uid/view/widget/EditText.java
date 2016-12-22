@@ -19,7 +19,6 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatEditText;
-import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
@@ -166,7 +165,7 @@ public class EditText extends AppCompatEditText {
 
     private void showIcon() {
         final Drawable[] compoundDrawables = getCompoundDrawables();
-        if (isEnabled() && !TextUtils.isEmpty(getText())) {
+        if (isEnabled() && getText() != null && getText().length() > 0) {
             if (isPasswordInputType()) {
                 setPasswordDrawables(compoundDrawables);
             } else {
