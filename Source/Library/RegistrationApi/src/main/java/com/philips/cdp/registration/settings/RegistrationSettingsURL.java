@@ -36,7 +36,9 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
 
-    public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips-cn.capture.cn.janrain.com";
+    public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips-cn.capture.cn.janrain.com"; // Viswa
+
+    //public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";//Service Disc
 
     private String LOG_TAG = "RegistrationAPI";
 
@@ -235,13 +237,15 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     public void onSuccess(URL url ) {
                         String urlLocal = url.toString();
 
-                        String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
-                        jumpConfig.captureDomain = janrainURL;
+                        String janrainURL = "https://philips-cn.capture.cn.janrain.com";
+                        //String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
+                        //jumpConfig.captureDomain = janrainURL;
+                        jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
 
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
 
-                        jumpConfig.engageAppId = getEngageId(urlLocal);
-                        jumpConfig.captureAppId = getCaptureId(urlLocal);
+                        jumpConfig.engageAppId = getEngageId(janrainURL);
+                        jumpConfig.captureAppId = getCaptureId(janrainURL);
 
 
                         if (jumpConfig.engageAppId== null || jumpConfig.captureAppId==null)
