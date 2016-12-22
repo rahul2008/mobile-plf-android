@@ -107,10 +107,12 @@
 
     <declare-styleable name="UIDProgressIndicatorButton">
         <attr name="uidIsIndeterminateProgressIndicator" format="reference|boolean"/>
-        <attr name="uidProgressIndicatorButtonButtonDrawable" format="reference"/>
-        <attr name="uidProgressIndicatorButtonButtonText" format="reference|string"/>
+        <attr name="uidProgressIndicatorButtonDrawable" format="reference"/>
+        <attr name="uidProgressIndicatorButtonText" format="reference|string"/>
         <attr name="uidProgressIndicatorButtonProgress" format="reference|integer"/>
         <attr name="uidProgressIndicatorButtonProgressText" format="reference|string"/>
         <attr name="uidProgressIndicatorButtonProgressBackground" format="reference"/>
+        <attr name="uidProgressIndicatorButtonProgressBackgroundColor" format="reference|color"/>
+        <attr name="uidProgressIndicatorButtonProgressBackgroundColorAlpha" format="reference|float"/>
     </declare-styleable>
 </resources>

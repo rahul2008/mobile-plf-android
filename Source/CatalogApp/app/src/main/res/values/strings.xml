@@ -24,7 +24,9 @@
     <string name="buttons_text_left_aligned">Text left aligned</string>
     <string name="buttons_text_primary">Primary button</string>
     <string name="buttons_text_secondary">Secondary button</string>
-    <string name="buttons_progress_indicators">Progress indicator buttons</string>
+    <string name="buttons_progress">Progress button</string>
+    <string name="buttons_determinate">Determinate</string>
+    <string name="buttons_indeterminate">Indeterminate</string>
     <string name="set_theme_settings">Set</string>
 
     <string name="page_title_theme_settings">Theme Setting</string>
@@ -78,4 +80,6 @@
     <string name="label_item_text">Item text</string>
     <string name="label_label_left">Label left</string>
     <string name="label_label_right">Label right</string>
+    <string name="button_press_me">Press me</string>
+    <string name="button_loading">Loading...</string>
 </resources>

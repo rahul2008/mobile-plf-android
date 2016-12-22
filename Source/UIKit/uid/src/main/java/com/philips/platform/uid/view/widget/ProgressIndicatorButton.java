@@ -1,10 +1,12 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -18,8 +20,8 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
 public class ProgressIndicatorButton extends LinearLayout {
 
     private Button button;
-    private ProgressBar progressIndicatorButtonProgressBar;
-    private TextView progressIndicatorButtonTextView;
+    private ProgressBar progressBar;
+    private TextView progressTextView;
 
     public ProgressIndicatorButton(final Context context) {
         this(context, null);
@@ -35,25 +37,32 @@ public class ProgressIndicatorButton extends LinearLayout {
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressIndicatorButton, defStyleAttr, 0);
-        boolean isIndeterminateProgressIndicator = typedArray.getBoolean(R.styleable.UIDProgressIndicatorButton_uidIsIndeterminateProgressIndicator, true);
-
+        boolean isIndeterminateProgressIndicator = typedArray.getBoolean(R.styleable.UIDProgressIndicatorButton_uidIsIndeterminateProgressIndicator, false);
         inflateLayout(isIndeterminateProgressIndicator);
 
-        int buttonDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonButtonDrawable, -1);
-        int progressButtonBackgroundDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressBackground, R.drawable.uid_progress_indicator_button_background);
-        int progress = typedArray.getInt(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgress, 0);
-        String buttonText = typedArray.getString(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonButtonText);
-        String progressText = typedArray.getString(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressText);
+        initializeElements(context, typedArray, theme);
+
         typedArray.recycle();
 
-        setButtonDrawable(buttonDrawableId);
-        setButtonText(buttonText);
-        button.setOnClickListener(buttonOnClickListener);
+        setClickable(true);
+    }
 
-        setProgressIndicatorButtonProgress(progress);
-        setProgressIndicatorButtonText(progressText);
+    private void initializeElements(final Context context, final TypedArray typedArray, Resources.Theme theme) {
+        int buttonDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonDrawable, -1);
+        setDrawable(buttonDrawableId);
 
-        setBackground(ContextCompat.getDrawable(context, progressButtonBackgroundDrawableId));
+        int progressButtonBackgroundDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressBackground, R.drawable.uid_progress_indicator_button_background);
+        Drawable drawable = setTintOnDrawable(ContextCompat.getDrawable(context, progressButtonBackgroundDrawableId), R.color.uid_progress_indicator_button_background_selector, theme);
+        setBackground(drawable);
+
+        int progress = typedArray.getInt(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgress, 0);
+        setProgress(progress);
+
+        String buttonText = typedArray.getString(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonText);
+        setText(buttonText);
+
+        String progressText = typedArray.getString(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressText);
+        setProgressText(progressText);
     }
 
     private void inflateLayout(final boolean isIndeterminateProgressIndicator) {
@@ -65,8 +74,8 @@ public class ProgressIndicatorButton extends LinearLayout {
         }
 
         button = (Button) layout.findViewById(R.id.uid_progress_indicator_button_button);
-        progressIndicatorButtonProgressBar = (ProgressBar) layout.findViewById(R.id.uid_progress_indicator_button_progress_bar);
-        progressIndicatorButtonTextView = (TextView) layout.findViewById(R.id.uid_progress_indicator_button_text);
+        progressBar = (ProgressBar) layout.findViewById(R.id.uid_progress_indicator_button_progress_bar);
+        progressTextView = (TextView) layout.findViewById(R.id.uid_progress_indicator_button_text);
         addView(layout);
     }
 
@@ -77,54 +86,94 @@ public class ProgressIndicatorButton extends LinearLayout {
         setMeasuredDimension(button.getMeasuredWidth(), button.getMeasuredHeight());
     }
 
-    private OnClickListener buttonOnClickListener = new OnClickListener() {
-        @Override
-        public void onClick(final View v) {
-            showProgressIndicatorButton();
-        }
-    };
+    private Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme) {
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(getResources(), theme, tintId);
+        Drawable compatDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(compatDrawable, colorStateList);
+        return compatDrawable;
+    }
 
-    public void showProgressIndicatorButton() {
-        button.setVisibility(View.GONE);
-        progressIndicatorButtonProgressBar.setVisibility(View.VISIBLE);
+    private void setVisibilityOfProgressButtonElements(boolean visible) {
+        if (visible) {
+            button.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
 
-        if (progressIndicatorButtonTextView.getText().length() > 0) {
-            progressIndicatorButtonTextView.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(progressTextView.getText())) {
+                progressTextView.setVisibility(View.VISIBLE);
+            } else {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) progressBar.getLayoutParams();
+                params.rightMargin = params.leftMargin;
+                progressBar.setLayoutParams(params);
+            }
         } else {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) progressIndicatorButtonProgressBar.getLayoutParams();
-            params.rightMargin = params.leftMargin;
-            progressIndicatorButtonProgressBar.setLayoutParams(params);
+            button.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            progressTextView.setVisibility(View.GONE);
         }
     }
 
-    public void setProgressIndicatorButtonProgress(int progress) {
+    public void showProgressIndicator() {
+        setVisibilityOfProgressButtonElements(true);
+    }
+
+    public void hideProgressIndicator() {
+        setVisibilityOfProgressButtonElements(false);
+    }
+
+    public void setProgress(int progress) {
         if (progress >= 0 && progress <= 100) {
-            progressIndicatorButtonProgressBar.setProgress(progress);
+            progressBar.setProgress(progress);
         }
     }
 
-    public void setProgressIndicatorButtonText(String text) {
+    public int getProgress() {
+        return progressBar.getProgress();
+    }
+
+    public void setProgressText(String text) {
         if (!TextUtils.isEmpty(text)) {
-            progressIndicatorButtonTextView.setText(text);
+            progressTextView.setText(text);
         }
     }
 
-    public void setButtonText(String text) {
+    public String getProgressText() {
+        return progressTextView.getText().toString();
+    }
+
+    public void setText(String text) {
         if (!TextUtils.isEmpty(text)) {
             button.setText(text);
         }
     }
 
-    public void setButtonDrawable(int drawableId) {
+    public void setEnabled(boolean enabled) {
+        button.setEnabled(enabled);
+    }
+
+    public String getText() {
+        return button.getText().toString();
+    }
+
+    public void setDrawable(int drawableId) {
         if (drawableId != -1) {
-            setButtonDrawable(ContextCompat.getDrawable(getContext(), drawableId));
+            button.setImageDrawable(ContextCompat.getDrawable(getContext(), drawableId));
         }
     }
 
-    public void setButtonDrawable(Drawable drawable) {
-        if (drawable != null) {
-            button.setImageDrawable(drawable);
-        }
+    public void setDrawable(Drawable drawable) {
+        button.setImageDrawable(drawable);
+    }
+
+    public Button getButton() {
+        return button;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public TextView getProgressTextView() {
+        return progressTextView;
     }
 }
 

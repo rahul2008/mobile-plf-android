@@ -5,7 +5,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_gravity="center"
-              android:background="@drawable/uid_progress_indicator_button_background"
               android:gravity="center"
               android:minHeight="@dimen/uid_button_min_height"
               android:minWidth="@dimen/uid_button_min_width"
@@ -15,7 +14,8 @@
         android:id="@+id/uid_progress_indicator_button_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        app:uidButtonCenter="true"/>
 
     <com.philips.platform.uid.view.widget.ProgressBar
         android:id="@+id/uid_progress_indicator_button_progress_bar"

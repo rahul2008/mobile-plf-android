@@ -227,23 +227,84 @@
 
         <TextView
             style="@style/ButtonsCategoryStyle"
-            android:text="@string/buttons_progress_indicators"/>
+            android:text="@string/buttons_progress"/>
 
-        <com.philips.platform.uid.view.widget.ProgressIndicatorButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            app:uidIsIndeterminateProgressIndicator="true"
-            app:uidProgressIndicatorButtonButtonText="Press me"/>
-
-        <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+        <LinearLayout
+            android:id="@+id/groupProgressButtonsNormal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            app:uidIsIndeterminateProgressIndicator="false"
-            app:uidProgressIndicatorButtonProgress="50"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin_left_right"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.MarginTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                android:text="@string/buttons_determinate"/>
+
+            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:uidProgressIndicatorButtonProgress="50"
+                app:uidProgressIndicatorButtonText="@string/button_press_me"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                android:layout_marginTop="@dimen/layout_margin_top"
+                android:text="@string/buttons_indeterminate"/>
+
+            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:uidIsIndeterminateProgressIndicator="true"
+                app:uidProgressIndicatorButtonText="@string/button_press_me"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/groupProgressButtonsExtraWide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin_left_right"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.MarginTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                android:text="@string/buttons_determinate"/>
+
+            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:uidProgressIndicatorButtonProgress="50"
+                app:uidProgressIndicatorButtonProgressText="@string/button_loading"
+                app:uidProgressIndicatorButtonText="@string/button_press_me"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                android:layout_marginTop="@dimen/layout_margin_top"
+                android:text="@string/buttons_indeterminate"/>
+
+            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:uidIsIndeterminateProgressIndicator="true"
+                app:uidProgressIndicatorButtonProgressText="@string/button_loading"
+                app:uidProgressIndicatorButtonText="@string/button_press_me"/>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -6,6 +6,7 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.AppCompatButton;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
+import com.philips.platform.uid.view.widget.ProgressIndicatorButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,6 +27,7 @@ import butterknife.OnCheckedChanged;
 public class ButtonFragment extends BaseFragment {
     private Drawable shareDrawable;
     private boolean showingIcons;
+    private Handler handler = new Handler();
 
     @Bind(R.id.toggleicon)
     SwitchCompat toggleIcons;
@@ -53,6 +56,15 @@ public class ButtonFragment extends BaseFragment {
     @Bind(R.id.groupLeftAlignedExtraWide)
     ViewGroup groupLeftAlignedExtraWide;
 
+    @Bind(R.id.groupProgressButtonsNormal)
+    ViewGroup groupProgressButtonNormal;
+
+    @Bind(R.id.groupProgressButtonsExtraWide)
+    ViewGroup groupProgressButtonExtraWide;
+
+    @Bind(R.id.buttonsProgressIndicatorExtraWideIndeterminate)
+    ProgressIndicatorButton indicatorButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_buttons, container, false);
@@ -63,6 +75,9 @@ public class ButtonFragment extends BaseFragment {
         //Need to create a new drawable instead of using old stored shareDrawable.
         quietIconOnly.setImageDrawable(getShareIcon());
 
+        indicatorButton.setOnClickListener(buttonOnClickListener);
+//        addOnClickListenerToChilderen(groupProgressButtonExtraWide, buttonOnClickListener);
+//        addOnClickListenerToChilderen(groupProgressButtonNormal, buttonOnClickListener);
         return root;
     }
 
@@ -93,6 +108,8 @@ public class ButtonFragment extends BaseFragment {
         setIcons(groupExtraWide, drawable);
         setIcons(groupDefault, drawable);
         setIcons(groupLeftAlignedExtraWide, drawable);
+        setIcons(groupProgressButtonNormal, drawable);
+        setIcons(groupProgressButtonExtraWide, drawable);
     }
 
     private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
@@ -104,6 +121,17 @@ public class ButtonFragment extends BaseFragment {
             }
             if (view instanceof Button) {
                 ((Button) view).setImageDrawable(mutateDrawable);
+            } else if (view instanceof ProgressIndicatorButton) {
+                ((ProgressIndicatorButton) view).setDrawable(mutateDrawable);
+            }
+        }
+    }
+
+    private void addOnClickListenerToChilderen(final ViewGroup buttonLayout, final View.OnClickListener listener) {
+        for (int i = 0; i < buttonLayout.getChildCount(); i++) {
+            View view = buttonLayout.getChildAt(i);
+            if (view instanceof ProgressIndicatorButton) {
+                ((ProgressIndicatorButton) view).getButton().setOnClickListener(listener);
             }
         }
     }
@@ -113,12 +141,14 @@ public class ButtonFragment extends BaseFragment {
         groupDefault.setVisibility(toggle ? View.GONE : View.VISIBLE);
         groupExtraWide.setVisibility(toggle ? View.VISIBLE : View.GONE);
         groupLeftAlignedExtraWide.setVisibility(toggle ? View.VISIBLE : View.GONE);
+        groupProgressButtonExtraWide.setVisibility(toggle ? View.VISIBLE : View.GONE);
+        groupProgressButtonNormal.setVisibility(toggle ? View.GONE : View.VISIBLE);
     }
 
     @OnCheckedChanged(R.id.toggleDisable)
     public void disableButtons(boolean isChecked) {
         final boolean checked = !toggleDisable.isChecked();
-        disableEnableButtons(checked, groupDefault, groupExtraWide, groupIconOnly, groupLeftAlignedExtraWide);
+        disableEnableButtons(checked, groupDefault, groupExtraWide, groupIconOnly, groupLeftAlignedExtraWide, groupProgressButtonExtraWide, groupProgressButtonNormal);
     }
 
     private void disableEnableButtons(final boolean checked, final ViewGroup... viewGroup) {
@@ -126,6 +156,8 @@ public class ButtonFragment extends BaseFragment {
             for (int j = 0; j < group.getChildCount(); j++) {
                 View view = group.getChildAt(j);
                 if (view instanceof AppCompatButton) {
+                    view.setEnabled(checked);
+                } else if (view instanceof ProgressIndicatorButton) {
                     view.setEnabled(checked);
                 }
             }
@@ -136,4 +168,19 @@ public class ButtonFragment extends BaseFragment {
     public int getPageTitle() {
         return R.string.page_title_buttons;
     }
+
+    private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+
+            ((ProgressIndicatorButton) v).showProgressIndicator();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((ProgressIndicatorButton) v).hideProgressIndicator();
+                }
+            }, 5000);
+        }
+    };
 }
