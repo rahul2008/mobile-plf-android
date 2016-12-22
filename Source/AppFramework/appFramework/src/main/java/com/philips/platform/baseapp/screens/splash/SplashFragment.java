@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -107,6 +108,12 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
     public void showActionBar() {
         final LaunchActivity launchActivity = (LaunchActivity) getActivity();
         launchActivity.showActionBar();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getFragmentActivity().getWindow().getDecorView().requestLayout();
     }
 
     @Override
