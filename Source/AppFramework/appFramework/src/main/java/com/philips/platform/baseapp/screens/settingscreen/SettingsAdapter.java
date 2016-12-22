@@ -50,6 +50,7 @@ public class SettingsAdapter extends BaseAdapter {
     private int VERTICAL_SETTING_VIEW = 1;
     private boolean isUserLoggedIn=false;
     private boolean isMarketingEnabled=false;
+    private AlertDialog logoutAlertDialog;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            UIBasePresenter fragmentPresenter,UserRegistrationState userRegistrationState,boolean isUserLoggedIn,boolean isMarketingEnabled) {
@@ -147,7 +148,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     private void loginButtonView(View vi) {
-        UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
+        final UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
         if (isUserLoggedIn) {
             btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
         } else {
@@ -157,11 +158,13 @@ public class SettingsAdapter extends BaseAdapter {
         btn_settings_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_settings_logout.setEnabled(false);
                 if (userRegistrationState.getUserObject(activityContext).isUserSignIn()) {
                     logoutAlert();
                 } else {
                     fragmentPresenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                 }
+                btn_settings_logout.setEnabled(true);
             }
         });
     }
@@ -256,7 +259,10 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     private void logoutAlert() {
-        new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
+        if(logoutAlertDialog!=null && logoutAlertDialog.isShowing()){
+            return;
+        }
+        logoutAlertDialog=new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
                 .setTitle(getString(R.string.settings_list_item_log_out))
                 .setMessage(activityContext.getResources().getString(R.string.settings_logout_alert))
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
