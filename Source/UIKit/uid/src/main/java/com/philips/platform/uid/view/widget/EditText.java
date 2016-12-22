@@ -139,7 +139,7 @@ public class EditText extends AppCompatEditText {
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-        return new SavedState(superState, passwordVisible, String.valueOf(getText()));
+        return new SavedState(superState, passwordVisible, String.valueOf(getText().toString()));
     }
 
     @Override
@@ -147,6 +147,7 @@ public class EditText extends AppCompatEditText {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         passwordVisible = savedState.isPasswordVisible();
+        setText(savedState.getSavedtext());
         handlePasswordInputVisibility();
     }
 
@@ -274,15 +275,18 @@ public class EditText extends AppCompatEditText {
     protected static class SavedState extends BaseSavedState {
 
         private final boolean mPasswordVisible;
+        private final String savedText;
 
         private SavedState(Parcelable superState, boolean showingIcon, final String text) {
             super(superState);
             this.mPasswordVisible = showingIcon;
+            savedText = text;
         }
 
         private SavedState(Parcel in) {
             super(in);
             mPasswordVisible = in.readByte() != 0;
+            this.savedText = in.readString();
         }
 
         public boolean isPasswordVisible() {
@@ -293,6 +297,7 @@ public class EditText extends AppCompatEditText {
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeByte((byte) (mPasswordVisible ? 1 : 0));
+            out.writeString(this.savedText);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
@@ -305,5 +310,9 @@ public class EditText extends AppCompatEditText {
                 return new SavedState[size];
             }
         };
+
+        public String getSavedtext() {
+            return savedText;
+        }
     }
 }
