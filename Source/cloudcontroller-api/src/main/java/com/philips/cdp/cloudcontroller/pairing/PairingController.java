@@ -82,31 +82,27 @@ public interface PairingController {
     /**
      * Add relationship.
      *
-     * @param relationshipType           the relationship type
-     * @param pairingHandlerRelationship the pairing handler relationship
-     * @param callback                   the callback
+     * @param relationship   the relationship to be added
+     * @param callback       the callback
      */
-    void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
+    void addRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback);
 
     /**
      * Add relationship.
      *
-     * @param relationshipType           the relationship type
-     * @param secretKey                  the secret key
-     * @param pairingHandlerRelationship the pairing handler relationship
-     * @param callback                   the callback
+     * @param secretKey     the secret key
+     * @param relationship  the relationship to be added
+     * @param callback      the callback
      */
-    void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback);
+    void addRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback, String secretKey);
 
     /**
      * Remove relationship.
      *
-     * @param trustor      the trustor
-     * @param trustee      the trustee
-     * @param relationType the relation type
+     * @param relationship the relationship to be removed
      * @param callback     the callback
      */
-    void removeRelationship(PairingEntityReference trustor, PairingEntityReference trustee, String relationType, @NonNull PairingCallback callback);
+    void removeRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback);
 
     /**
      * Add permission.
@@ -116,7 +112,7 @@ public interface PairingController {
      * @param trustee      the trustee
      * @param callback     the callback
      */
-    void addPermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback);
+    void addPermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback);
 
     /**
      * Remove permission.
@@ -126,7 +122,7 @@ public interface PairingController {
      * @param trustee      the trustee
      * @param callback     the callback
      */
-    void removePermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback);
+    void removePermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback);
 
     /**
      * Gets permission.
@@ -137,5 +133,5 @@ public interface PairingController {
      * @param permissionListener the permission listener
      * @param callback           the callback
      */
-    void getPermission(String relationType, String[] permission, PairingEntityReference trustee, PermissionListener permissionListener, @NonNull PairingCallback callback);
+    void getPermission(String relationType, String[] permission, PairingEntity trustee, PermissionListener permissionListener, @NonNull PairingCallback callback);
 }
