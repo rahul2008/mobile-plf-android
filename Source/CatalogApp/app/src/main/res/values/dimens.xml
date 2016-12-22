@@ -9,6 +9,7 @@
 
     <!--Base layout margins-->
     <dimen name="layout_margin_left_right">24dp</dimen>
+    <dimen name="layout_margin_top">20dp</dimen>
     <dimen name="layout_height">48dp</dimen>
 
     <!--Button test page-->

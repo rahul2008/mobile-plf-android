@@ -25,21 +25,27 @@ public class TextEditBoxFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final FragmentTexteditboxBinding texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_texteditbox, container, false);
         texteditboxBinding.setTexteditBoxfragment(this);
-
         return texteditboxBinding.getRoot();
     }
 
-    private void restoreViews(Bundle savedInstance) {
+    private void restoreStates(Bundle savedInstance) {
         if (savedInstance != null) {
             disabledEditboxes(savedInstance.getBoolean("disableEditBoxes"));
             showWithLabel(savedInstance.getBoolean("isWithLabel"));
         }
     }
+
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         outState.putBoolean("disableEditBoxes", disableEditBoxes.get());
         outState.putBoolean("isWithLabel", isWithLabel.get());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
+        restoreStates(savedInstanceState);
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override
@@ -49,6 +55,10 @@ public class TextEditBoxFragment extends BaseFragment {
 
     public void disabledEditboxes(boolean toggle) {
         disableEditBoxes.set(toggle);
+        //View is null in case of rotation
+        if (!toggle && getView() != null) {
+            getView().clearFocus();
+        }
     }
 
     public void showWithLabel(boolean isChecked) {
