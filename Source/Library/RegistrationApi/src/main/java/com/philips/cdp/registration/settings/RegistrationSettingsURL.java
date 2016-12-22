@@ -36,7 +36,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     public static final String EVAL_CAPTURE_DOMAIN_CHINA = "https://philips-cn-staging.capture.cn.janrain.com";
 
-    public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips.capture.cn.janrain.com";
+    public static final String PROD_CAPTURE_DOMAIN_CHINA = "https://philips-cn.capture.cn.janrain.com";
 
     private String LOG_TAG = "RegistrationAPI";
 
@@ -162,7 +162,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN_CHINA,"hqmhwxu7jtdcye758vvxux4ryb");
         map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"vdgkb3z57jpv93mxub34x73mqu");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"czwfzs7xh23ukmpf4fzhnksjmd");
-        map.put(PROD_CAPTURE_DOMAIN_CHINA,"59fceb32hvkycquwn7fvhs9b99");
+        map.put(PROD_CAPTURE_DOMAIN_CHINA,"zkr6yg4mdsnt7f8mvucx7qkja3");
         RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
         RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain Map : " + map.get(domain));
         return map.get(domain);
@@ -179,7 +179,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         map.put(TEST_CAPTURE_DOMAIN_CHINA,"jndphelwbhuevcmovqtn");
         map.put(TEST_CAPTURE_DOMAIN_CHINA_EU,"fhbmobeahciagddgfidm");
         map.put(EVAL_CAPTURE_DOMAIN_CHINA,"uyfpympodtnesxejzuic");
-        map.put(PROD_CAPTURE_DOMAIN_CHINA,"ddjbpmgpeifijdlibdio");
+        map.put(PROD_CAPTURE_DOMAIN_CHINA,"cfwaqwuwcwzlcozyyjpa");
         RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
         RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
 
@@ -234,9 +234,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     @Override
                     public void onSuccess(URL url ) {
                         String urlLocal = url.toString();
-                        if (urlLocal.equalsIgnoreCase("https://philips-china-staging.capture.cn.janrain.com")){
-                            urlLocal="https://philips-cn-staging.capture.cn.janrain.com";
-                        }
 
                         String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
                         jumpConfig.captureDomain = janrainURL;
