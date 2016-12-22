@@ -6,7 +6,6 @@
 package com.philips.cdp.cloudcontroller.pairing;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.CloudController;
@@ -80,12 +79,12 @@ public class DefaultPairingController implements PairingController, ICPEventList
     }
 
     @Override
-    public void addRelationship(String relationshipType, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
-        addRelationship(relationshipType, null, pairingHandlerRelationship, mPairingCallback);
+    public void addRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback) {
+        addRelationship(relationship, mPairingCallback, null);
     }
 
     @Override
-    public void addRelationship(String relationshipType, String secretKey, PairingHandlerRelationship pairingHandlerRelationship, @NonNull PairingCallback callback) {
+    public void addRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback, String secretKey) {
         if (!mCloudController.isSignOn()) {
             return;
         }
@@ -94,11 +93,11 @@ public class DefaultPairingController implements PairingController, ICPEventList
         PairingService pairingService = createPairingService(this);
         PairingInfo pairingInfo = secretKey != null ? getPairingInfo(secretKey) : null;
 
-        PairingEntitiyReference trustorInternalRepresentation = pairingHandlerRelationship.getTrustorEntity() == null ? null : convertPairingEntity(pairingHandlerRelationship.getTrustorEntity());
-        PairingEntitiyReference trusteeInternalRepresentation = pairingHandlerRelationship.getTrusteeEntity() == null ? null : convertPairingEntity(pairingHandlerRelationship.getTrusteeEntity());
+        PairingEntitiyReference trustorInternalRepresentation = relationship.getTrustorEntity() == null ? null : convertPairingEntity(relationship.getTrustorEntity());
+        PairingEntitiyReference trusteeInternalRepresentation = relationship.getTrusteeEntity() == null ? null : convertPairingEntity(relationship.getTrusteeEntity());
 
         pairingService.addRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, null,
-                getPairingRelationshipData(relationshipType, PAIRING_PERMISSIONS.toArray(new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
+                getPairingRelationshipData(relationship.getType(), PAIRING_PERMISSIONS.toArray(new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
 
         pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
         status = pairingService.executeCommand();
@@ -111,10 +110,10 @@ public class DefaultPairingController implements PairingController, ICPEventList
     /**
      * Method removeRelationship-remove an existing relationship
      *
-     * @param relationType String
+     * @param relationship PairingRelation
      */
     @Override
-    public void removeRelationship(@Nullable PairingEntityReference trustor, @Nullable PairingEntityReference trustee, String relationType, @NonNull PairingCallback callback) {
+    public void removeRelationship(@NonNull PairingRelation relationship, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
@@ -122,10 +121,10 @@ public class DefaultPairingController implements PairingController, ICPEventList
         int status;
         PairingService removeRelationship = createPairingService(this);
 
-        PairingEntitiyReference trustorInternalRepresentation = trustor == null ? null : convertPairingEntity(trustor);
-        PairingEntitiyReference trusteeInternalRepresentation = trustee == null ? null : convertPairingEntity(trustee);
+        PairingEntitiyReference trustorInternalRepresentation = relationship.getTrustorEntity() == null ? null : convertPairingEntity(relationship.getTrustorEntity());
+        PairingEntitiyReference trusteeInternalRepresentation = relationship.getTrusteeEntity() == null ? null : convertPairingEntity(relationship.getTrusteeEntity());
 
-        status = removeRelationship.removeRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, relationType);
+        status = removeRelationship.removeRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, relationship.getType());
         if (Errors.SUCCESS == status) {
             removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
             status = removeRelationship.executeCommand();
@@ -145,7 +144,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param permission   String[]
      */
     @Override
-    public void addPermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback) {
+    public void addPermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
@@ -173,8 +172,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param permission   String[]
      */
     @Override
-    public void getPermission(String relationType, String[] permission, PairingEntityReference trustee,
-                              PermissionListener permissionListener, @NonNull PairingCallback callback) {
+    public void getPermission(String relationType, String[] permission, PairingEntity trustee, PermissionListener permissionListener, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             permissionListener.onCallFailed();
             return;
@@ -207,7 +205,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * @param permission   String[]
      */
     @Override
-    public void removePermission(String relationType, String[] permission, PairingEntityReference trustee, @NonNull PairingCallback callback) {
+    public void removePermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback) {
         if (!mCloudController.isSignOn()) {
             return;
         }
@@ -264,12 +262,12 @@ public class DefaultPairingController implements PairingController, ICPEventList
         return pairingRelationshipData;
     }
 
-    public final PairingEntitiyReference convertPairingEntity(PairingEntityReference reference) {
+    public final PairingEntitiyReference convertPairingEntity(PairingEntity reference) {
         PairingEntitiyReference result = new PairingEntitiyReference();
-        result.entityRefCredentials = reference.entityRefCredentials;
-        result.entityRefId = reference.entityRefId;
-        result.entityRefProvider = reference.entityRefProvider;
-        result.entityRefType = reference.entityRefType;
+        result.entityRefCredentials = reference.credentials;
+        result.entityRefId = reference.id;
+        result.entityRefProvider = reference.provider;
+        result.entityRefType = reference.type;
 
         return result;
     }
