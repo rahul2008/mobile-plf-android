@@ -5,6 +5,8 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GestureDetectorCompat;
@@ -106,6 +108,37 @@ public class ProgressIndicatorButton extends LinearLayout {
         setMeasuredDimension(button.getMeasuredWidth(), button.getMeasuredHeight());
     }
 
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+
+        ss.buttonText = (String) button.getText();
+        ss.progressText = (String) progressTextView.getText();
+        ss.progress = progressBar.getProgress();
+        ss.buttonVisibility = button.getVisibility();
+        return ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        button.setText(ss.buttonText);
+        progressTextView.setText(ss.progressText);
+        setProgress(ss.progress);
+
+        if (ss.buttonVisibility == View.GONE) {
+            showProgressIndicator();
+        }
+    }
+
     private Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme) {
         ColorStateList colorStateList = ThemeUtils.buildColorStateList(getResources(), theme, tintId);
         Drawable compatDrawable = DrawableCompat.wrap(drawable);
@@ -205,6 +238,47 @@ public class ProgressIndicatorButton extends LinearLayout {
             }
             return super.onSingleTapConfirmed(e);
         }
+    }
+
+    public static class SavedState extends BaseSavedState {
+        String buttonText;
+        String progressText;
+        int progress;
+
+        int buttonVisibility;
+
+        SavedState(final Parcelable superState) {
+            super(superState);
+        }
+
+        SavedState(final Parcel in) {
+            super(in);
+            buttonText = in.readString();
+            progressText = in.readString();
+            progress = in.readInt();
+            buttonVisibility = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(final Parcel out, final int flags) {
+            super.writeToParcel(out, flags);
+
+            out.writeString(buttonText);
+            out.writeString(progressText);
+            out.writeInt(progress);
+            out.writeInt(buttonVisibility);
+        }
+
+        public static final Parcelable.Creator<ProgressIndicatorButton.SavedState> CREATOR
+                = new Parcelable.Creator<ProgressIndicatorButton.SavedState>() {
+            public ProgressIndicatorButton.SavedState createFromParcel(Parcel in) {
+                return new ProgressIndicatorButton.SavedState(in);
+            }
+
+            public ProgressIndicatorButton.SavedState[] newArray(int size) {
+                return new ProgressIndicatorButton.SavedState[size];
+            }
+        };
     }
 }
 
