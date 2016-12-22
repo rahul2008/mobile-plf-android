@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Runnable permissionCallback;
 
-    private final ApplianceManager.ApplianceManagerListener applianceManagerListener = new ApplianceManager.ApplianceManagerListener() {
+    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
         public <A extends DICommAppliance> void onApplianceFound(@NonNull A foundAppliance) {
             bleReferenceAppliance = (BleReferenceAppliance) foundAppliance;
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         }};
         this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
         this.commCentral = new CommCentral(discoveryStrategies, this.applianceFactory);
-        this.commCentral.getApplianceManager().addApplianceManagerListener(this.applianceManagerListener);
+        this.commCentral.getApplianceManager().addApplianceManagerListener(this.applianceListener);
 
         // Setup buttons
         findViewById(R.id.btnStartDiscovery).setOnClickListener(buttonClickListener);
