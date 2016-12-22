@@ -53,7 +53,6 @@ public class EditText extends AppCompatEditText {
     public EditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
-        showIcon();
     }
 
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
@@ -71,123 +70,7 @@ public class EditText extends AppCompatEditText {
         restorePadding(paddingRect);
 
         typedArray.recycle();
-    }
-
-    @Override
-    public void setEnabled(final boolean enabled) {
-        super.setEnabled(enabled);
         showIcon();
-    }
-
-    @Override
-    public boolean onTouchEvent(final MotionEvent event) {
-        return processOnTouch(event);
-    }
-
-    @Override
-    protected void onTextChanged(final CharSequence source, final int start, final int lengthBefore, final int lengthAfter) {
-        super.onTextChanged(source, start, lengthBefore, lengthAfter);
-
-        showIcon();
-    }
-
-    private void showIcon() {
-        final Drawable[] compoundDrawables = getCompoundDrawables();
-        if (isEnabled() && !TextUtils.isEmpty(getText())) {
-            if (isPasswordInputType()) {
-                setPasswordDrawables(compoundDrawables);
-            } else {
-//                setClearDrawable(compoundDrawables);
-            }
-        } else {
-            compoundDrawables[RIGHT_DRAWABLE_INDEX] = null;
-        }
-
-        setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[0], compoundDrawables[1], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[3]);
-    }
-
-    private void setClearDrawable(final Drawable[] compoundDrawables) {
-        compoundDrawables[RIGHT_DRAWABLE_INDEX] = VectorDrawableCompat.create(getResources(), R.drawable.uid_texteditbox_clear_icon, getContext().getTheme());
-    }
-
-    private boolean processOnTouch(final MotionEvent event) {
-        final Drawable[] compoundDrawables = getCompoundDrawables();
-
-        final boolean isRtl = (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
-        final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
-        if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null && isEnabled()) {
-            if (isShowPasswordIconTouched(event, drawable)) {
-                if (isPasswordInputType()) {
-                    setPasswordDrawables(compoundDrawables);
-                    final int selectionStart = getSelectionStart();
-                    final int selectionEnd = getSelectionEnd();
-                    setTransformationMethod(getPasswordTransaformationMethod());
-                    setSelection(selectionStart, selectionEnd);
-                } else {
-                    setText("");
-                    setHint(getHint());
-                }
-            }
-        }
-        return super.onTouchEvent(event);
-    }
-
-    private void setPasswordDrawables(final Drawable[] compoundDrawables) {
-        getDrawablesBasedOnLayoutSpec(getContext().getTheme(), compoundDrawables);
-    }
-
-    private Drawable[] getDrawablesBasedOnLayoutSpec(final Resources.Theme theme, final Drawable[] compoundDrawables) {
-        compoundDrawables[RIGHT_DRAWABLE_INDEX] = getShowHidePasswordDrawable(theme);
-        return compoundDrawables;
-    }
-
-    @Nullable
-    private TransformationMethod getPasswordTransaformationMethod() {
-        return isPasswordVisible() ? PasswordTransformationMethod.getInstance() : null;
-    }
-
-    private Drawable getShowHidePasswordDrawable(final Resources.Theme theme) {
-
-        return isPasswordVisible() ? getHidePasswordDrawable(theme) : getShowPasswordDrawable(theme);
-    }
-
-    private Drawable getShowPasswordDrawable(final Resources.Theme theme) {
-        if (showPasswordDrawable == null) {
-            showPasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_show_password_icon);
-        }
-        return showPasswordDrawable;
-    }
-
-    private Drawable getHidePasswordDrawable(final Resources.Theme theme) {
-        if (hidePasswordDrawable == null) {
-            hidePasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_hide_password_icon);
-        }
-        return hidePasswordDrawable;
-    }
-
-    private boolean isPasswordVisible() {
-        return passwordVisible = (getTransformationMethod() == null);
-    }
-
-    private VectorDrawableCompat getPasswordDrawable(final Resources.Theme theme, final int drawableResourceId) {
-        return VectorDrawableCompat.create(getResources(), drawableResourceId, theme);
-    }
-
-    //Code from TextView of android to check the input type is numberPassword or textPassword
-    private boolean isPasswordInputType() {
-        final int variation =
-                getInputType() & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
-        return variation
-                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD)
-                || variation
-                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)
-                || variation
-                == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
-    }
-
-    private boolean isShowPasswordIconTouched(final MotionEvent event, final Drawable drawable) {
-        final int passwordDrawableTouchArea = getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
-        return (event.getRawX() >= (getRight() + getPaddingRight() + drawable.getBounds().width() - (passwordDrawableTouchArea + getCompoundDrawablePadding())));
     }
 
     private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
@@ -262,11 +145,121 @@ public class EditText extends AppCompatEditText {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         passwordVisible = savedState.isPasswordVisible();
         handlePasswordInputVisibility();
+    }
+
+    @Override
+    public void setEnabled(final boolean enabled) {
+        super.setEnabled(enabled);
+        showIcon();
+    }
+
+    @Override
+    protected void onTextChanged(final CharSequence source, final int start, final int lengthBefore, final int lengthAfter) {
+        super.onTextChanged(source, start, lengthBefore, lengthAfter);
+
+        showIcon();
+    }
+
+    private void showIcon() {
+        final Drawable[] compoundDrawables = getCompoundDrawables();
+        if (isEnabled() && !TextUtils.isEmpty(getText())) {
+            if (isPasswordInputType()) {
+                setPasswordDrawables(compoundDrawables);
+            } else {
+//                setClearDrawable(compoundDrawables);
+            }
+        } else {
+            compoundDrawables[RIGHT_DRAWABLE_INDEX] = null;
+        }
+
+        setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[0], compoundDrawables[1], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[3]);
+    }
+
+    private void setPasswordDrawables(final Drawable[] compoundDrawables) {
+        compoundDrawables[RIGHT_DRAWABLE_INDEX] = getShowHidePasswordDrawable(getContext().getTheme());
+    }
+
+    private Drawable getShowHidePasswordDrawable(final Resources.Theme theme) {
+        return isPasswordVisible() ? getHidePasswordDrawable(theme) : getShowPasswordDrawable(theme);
+    }
+
+    private Drawable getShowPasswordDrawable(final Resources.Theme theme) {
+        if (showPasswordDrawable == null) {
+            showPasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_show_password_icon);
+        }
+        return showPasswordDrawable;
+    }
+
+    private Drawable getHidePasswordDrawable(final Resources.Theme theme) {
+        if (hidePasswordDrawable == null) {
+            hidePasswordDrawable = getPasswordDrawable(theme, R.drawable.uid_texteditbox_hide_password_icon);
+        }
+        return hidePasswordDrawable;
+    }
+
+    private void setClearDrawable(final Drawable[] compoundDrawables) {
+        compoundDrawables[RIGHT_DRAWABLE_INDEX] = VectorDrawableCompat.create(getResources(), R.drawable.uid_texteditbox_clear_icon, getContext().getTheme());
+    }
+
+    @Override
+    public boolean onTouchEvent(final MotionEvent event) {
+        return processOnTouch(event);
+    }
+
+    private boolean processOnTouch(final MotionEvent event) {
+        final Drawable[] compoundDrawables = getCompoundDrawables();
+
+        final boolean isRtl = (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
+        final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
+        if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null && isEnabled()) {
+            if (isShowPasswordIconTouched(event, drawable)) {
+                if (isPasswordInputType()) {
+                    setPasswordDrawables(compoundDrawables);
+                    final int selectionStart = getSelectionStart();
+                    final int selectionEnd = getSelectionEnd();
+                    setTransformationMethod(getPasswordTransaformationMethod());
+                    setSelection(selectionStart, selectionEnd);
+                } else {
+                    setText("");
+                    setHint(getHint());
+                }
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+    //Code from TextView of android to check the input type is numberPassword or textPassword
+    private boolean isPasswordInputType() {
+        final int variation =
+                getInputType() & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
+        return variation
+                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD)
+                || variation
+                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)
+                || variation
+                == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
+    }
+
+    private boolean isShowPasswordIconTouched(final MotionEvent event, final Drawable drawable) {
+        final int passwordDrawableTouchArea = getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
+        return (event.getRawX() >= (getRight() + getPaddingRight() + drawable.getBounds().width() - (passwordDrawableTouchArea + getCompoundDrawablePadding())));
+    }
+
+    @Nullable
+    private TransformationMethod getPasswordTransaformationMethod() {
+        return isPasswordVisible() ? PasswordTransformationMethod.getInstance() : null;
+    }
+
+    private boolean isPasswordVisible() {
+        return passwordVisible = (getTransformationMethod() == null);
+    }
+
+    private VectorDrawableCompat getPasswordDrawable(final Resources.Theme theme, final int drawableResourceId) {
+        return VectorDrawableCompat.create(getResources(), drawableResourceId, theme);
     }
 
     private void handlePasswordInputVisibility() {
