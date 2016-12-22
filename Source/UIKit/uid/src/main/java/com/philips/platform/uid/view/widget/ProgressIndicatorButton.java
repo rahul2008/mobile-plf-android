@@ -7,8 +7,11 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -23,6 +26,10 @@ public class ProgressIndicatorButton extends LinearLayout {
     private ProgressBar progressBar;
     private TextView progressTextView;
 
+    private boolean isProgressDisplaying;
+    private OnClickListener clickListener;
+    private GestureDetectorCompat gestureDetector;
+
     public ProgressIndicatorButton(final Context context) {
         this(context, null);
     }
@@ -34,6 +41,7 @@ public class ProgressIndicatorButton extends LinearLayout {
     public ProgressIndicatorButton(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOrientation(VERTICAL);
+        gestureDetector = new GestureDetectorCompat(context, new TapDetector());
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressIndicatorButton, defStyleAttr, 0);
@@ -45,6 +53,18 @@ public class ProgressIndicatorButton extends LinearLayout {
         typedArray.recycle();
 
         setClickable(true);
+    }
+
+    @Override
+    public void setOnClickListener(final OnClickListener l) {
+        clickListener = l;
+        super.setOnClickListener(l);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(final MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+        return isProgressDisplaying || super.onInterceptTouchEvent(event);
     }
 
     private void initializeElements(final Context context, final TypedArray typedArray, Resources.Theme theme) {
@@ -94,6 +114,7 @@ public class ProgressIndicatorButton extends LinearLayout {
     }
 
     private void setVisibilityOfProgressButtonElements(boolean visible) {
+        isProgressDisplaying = visible;
         if (visible) {
             button.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
@@ -174,6 +195,16 @@ public class ProgressIndicatorButton extends LinearLayout {
 
     public TextView getProgressTextView() {
         return progressTextView;
+    }
+
+    private class TapDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(final MotionEvent e) {
+            if (clickListener != null) {
+                clickListener.onClick(ProgressIndicatorButton.this);
+            }
+            return super.onSingleTapConfirmed(e);
+        }
     }
 }
 
