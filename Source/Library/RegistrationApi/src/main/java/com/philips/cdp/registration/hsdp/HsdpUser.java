@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
@@ -427,13 +428,14 @@ public class HsdpUser {
          *
          * @return true if hsdp user signed in else false
          */
+
     public boolean isHsdpUserSignedIn() {
         HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
-        return hsdpUserRecord != null && ((hsdpUserRecord.getAccessCredential() != null &&
-                hsdpUserRecord.getAccessCredential().getRefreshToken() != null)
-                || Jump.getRefreshSecret() != null) &&
-                hsdpUserRecord.getUserUUID() != null
-                && (getHsdpUserRecord().getAccessCredential() != null &&
-                getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
+
+        if (hsdpUserRecord == null) {
+            return false;
+        }
+        return hsdpUserRecord.getUserUUID() != null && hsdpUserRecord.getAccessCredential() != null && hsdpUserRecord.getAccessCredential().getAccessToken() != null;
+
     }
 }
