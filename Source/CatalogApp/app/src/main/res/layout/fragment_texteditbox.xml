@@ -78,9 +78,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_top"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_top"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
@@ -94,7 +94,7 @@
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
                 <com.philips.platform.uid.view.widget.EditText
-                    android:id="@+id/texteditbox"
+                    android:id="@+id/textbox_input_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
@@ -112,7 +112,7 @@
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
                 <com.philips.platform.uid.view.widget.EditText
-                    android:id="@+id/textboxmultiline"
+                    android:id="@+id/textbox_input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
@@ -132,13 +132,14 @@
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
                 <com.philips.platform.uid.view.widget.EditText
+                    android:id="@+id/textbox_input_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+                    android:freezesText="true"
                     android:hint="@string/hint_text_number"
                     android:inputType="number"
-                    android:freezesText="true"
                     android:maxLines="1"/>
 
                 <com.philips.platform.uid.view.widget.Label
@@ -152,7 +153,7 @@
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
                 <com.philips.platform.uid.view.widget.EditText
-                    android:id="@+id/filleddisabled"
+                    android:id="@+id/textbox_input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
@@ -172,12 +173,13 @@
                     android:visibility="@{texteditBoxfragment.isWithLabel ? View.VISIBLE : View.GONE}"/>
 
                 <com.philips.platform.uid.view.widget.EditText
-                    android:id="@+id/password"
+                    android:id="@+id/textbox_input_multiline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
-                    android:hint="@string/hint_text"/>
+                    android:gravity="top"
+                    android:hint="@string/dialog_screen_short_content_text"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
