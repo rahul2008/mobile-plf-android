@@ -97,7 +97,7 @@ public class EditText extends AppCompatEditText {
             if (isPasswordInputType()) {
                 setPasswordDrawables(compoundDrawables);
             } else {
-                setClearDrawable(compoundDrawables);
+//                setClearDrawable(compoundDrawables);
             }
         } else {
             compoundDrawables[RIGHT_DRAWABLE_INDEX] = null;
