@@ -156,6 +156,7 @@
                     android:id="@+id/textbox_input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:uidInputTextWithClearButton="true"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
                     android:hint="@string/hint_email"

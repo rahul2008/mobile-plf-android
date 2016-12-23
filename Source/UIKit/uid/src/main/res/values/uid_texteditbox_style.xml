@@ -26,4 +26,7 @@
         <item name="uidInputTextTextSelector">@color/uid_texteditbox_text_selector</item>
         <item name="uidInputTextHintTextSelector">@color/uid_texteditbox_hint_text_selector</item>
     </style>
+    <style name="UIDTextEditBox.ClearButton">
+        <item name="uidInputTextWithClearButton">true</item>
+    </style>
 </resources>

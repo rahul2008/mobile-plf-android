@@ -6,6 +6,7 @@ package com.philips.platform.uid.matcher;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -175,6 +176,32 @@ public class TextViewPropertiesMatchers {
                     return actual == null;
                 }
                 throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasRightCompoundDrawable() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getCompoundDrawables()[2] != null, true);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasNoText() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(TextUtils.isEmpty(((TextView) view).getText()), true);
+                    return areEqual();
+                }
+                return false;
             }
         };
     }

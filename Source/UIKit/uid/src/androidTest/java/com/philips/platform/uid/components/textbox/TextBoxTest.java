@@ -15,6 +15,10 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.GeneralClickAction;
+import android.support.test.espresso.action.GeneralLocation;
+import android.support.test.espresso.action.Press;
+import android.support.test.espresso.action.Tap;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 
@@ -189,7 +193,9 @@ public class TextBoxTest {
                 matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
 
-    /******************************* TextBoxPassword Test Scenarios**************************************/
+    /*******************************
+     * TextBoxPassword Test Scenarios
+     **************************************/
 
     @Test
     public void verifyPasswordTextBoxTextMasked() throws Exception {
@@ -199,13 +205,6 @@ public class TextBoxTest {
     @Test
     public void verifyNonPasswordTextHasNoMasking() throws Exception {
         getTextBox().check(matches(TextViewPropertiesMatchers.hasNoTransformationMethod()));
-    }
-
-    @Ignore
-    @Test
-    public void verifyPasswordRightDrawableIsSet() throws Exception {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryEnabledColor);
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(COMPOUND_DRAWABLE_INDEX, android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
@@ -231,17 +230,56 @@ public class TextBoxTest {
     }
 
     @Test
-    public void verifyPasswordTransformation() throws Exception {
+    public void verifyPasswordMasked() throws Exception {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
 
-        final int height = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.texteditbox_compound_drawble_width);
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(COMPOUND_DRAWABLE_INDEX, height)));
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+    }
+
+    @Test
+    public void verifyPasswordShownWhenClickedOnShow() throws Exception {
+        getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
+        getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
+
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasNoTransformationMethod()));
+    }
+
+    @Test
+    public void verifyPasswordMaskedWhenClickedOnShowAndThenHideAgain() throws Exception {
+        getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
+        getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
+        getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
+
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+    }
+
+    @Test
+    public void verifyPasswordMaskedWhenDoubleClicked() throws Exception {
+        getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
+        getPasswordTextbox().perform(new GeneralClickAction(Tap.DOUBLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
+
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+    }
+
+    @Test
+    public void verifyClearIconDisplayedOnEntringText() throws Exception {
+        getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
+
+        getClearTextbox().check(matches(TextViewPropertiesMatchers.hasRightCompoundDrawable()));
+    }
+
+    @Test
+    public void verifyClearIconClickClearsText() throws Exception {
+        getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
+        getClearTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
+
+        getClearTextbox().check(matches(TextViewPropertiesMatchers.hasNoText()));
     }
 
     @Test
     public void verifyPasswordTextBoxCompoundPadding() {
-        waitFor(testResources, 750);
         int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.passwordtextbox_compoundpadding);
+
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
 
@@ -259,5 +297,9 @@ public class TextBoxTest {
 
     private ViewInteraction getPasswordTextbox() {
         return onView(withId(com.philips.platform.uid.test.R.id.passwordTextBox));
+    }
+
+    private ViewInteraction getClearTextbox() {
+        return onView(withId(com.philips.platform.uid.test.R.id.clearButton));
     }
 }
