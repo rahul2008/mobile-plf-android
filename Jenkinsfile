@@ -26,11 +26,11 @@ node ('android_pipeline') {
             	stage ('callIntegrationPipeline') {
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
             	}            
-            }
+            } */
             
 		} //end try
 		
-		catch(err) {
+		/* catch(err) {
             error ("Someone just broke the build")
         } */
 
