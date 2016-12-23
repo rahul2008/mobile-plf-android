@@ -21,8 +21,6 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
-import com.philips.icpinterface.data.PairingEntitiyReference;
-import com.philips.icpinterface.data.PairingInfo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,9 +52,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({Log.class, DICommClientWrapper.class, DiscoveryManager.class})
 public class PairingHandlerTest {
 
-    private static final String DI_COMM_RELATION_TYPE = "di-comm";
     private static final String USER_PROVIDER_TYPE = "user";
-    public static final String CPP_PROVIDER_TYPE = "cpp";
+    private static final String CPP_PROVIDER_TYPE = "cpp";
     private final String APP_CPP_ID = "app-eui64";
     private final String APP_TYPE = "app-android-dev";
     private final String DEVICE_TYPE = "device-type";
@@ -87,12 +84,6 @@ public class PairingHandlerTest {
 
     @Captor
     private ArgumentCaptor<String> stringCaptor;
-
-    @Captor
-    private ArgumentCaptor<PairingInfo> pairingInfoCaptor;
-
-    @Captor
-    private ArgumentCaptor<PairingEntitiyReference> pairingEntitiyReferenceCaptor;
 
     @Captor
     private ArgumentCaptor<PairingRelation> pairingRelationshipCaptor;
@@ -412,7 +403,7 @@ public class PairingHandlerTest {
 
     class PairingHandlerForTest extends PairingHandler<DICommAppliance> {
 
-        public PairingHandlerForTest(DICommAppliance appliance, PairingListener<DICommAppliance> pairingListener) {
+        PairingHandlerForTest(DICommAppliance appliance, PairingListener<DICommAppliance> pairingListener) {
             super(appliance, pairingListener);
         }
     }
