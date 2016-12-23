@@ -1,16 +1,13 @@
-package com.philips.cdp2.commlib.request;
+package com.philips.cdp2.commlib.ble.request;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.BleDeviceCache;
-import com.philips.pins.shinelib.SHNCapability;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
-import com.philips.pins.shinelib.dicommsupport.DiCommMessage;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
-import com.philips.pins.shinelib.dicommsupport.MessageType;
 import com.philips.pins.shinelib.dicommsupport.StatusCode;
 
 import org.junit.Before;

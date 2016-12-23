@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.error;
+package com.philips.cdp2.commlib.ble.error;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.pins.shinelib.dicommsupport.StatusCode;

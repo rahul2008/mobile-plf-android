@@ -1,4 +1,4 @@
-package com.philips.cdp2.plugindefinition;
+package com.philips.cdp2.bluelib.plugindefinition;
 
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;

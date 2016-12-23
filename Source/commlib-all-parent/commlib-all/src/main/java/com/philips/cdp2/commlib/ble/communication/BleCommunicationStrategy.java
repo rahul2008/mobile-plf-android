@@ -2,16 +2,16 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.communication;
+package com.philips.cdp2.commlib.ble.communication;
 
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cdp2.commlib.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.request.BleRequest;
+import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Map;

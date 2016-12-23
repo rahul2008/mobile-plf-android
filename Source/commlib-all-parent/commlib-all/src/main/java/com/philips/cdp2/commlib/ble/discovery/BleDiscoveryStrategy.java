@@ -1,4 +1,4 @@
-package com.philips.cdp2.commlib.discovery;
+package com.philips.cdp2.commlib.ble.discovery;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.pins.shinelib.SHNDevice;

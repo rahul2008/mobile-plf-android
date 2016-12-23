@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.communication;
+package com.philips.cdp2.commlib.ble.communication;
 
 import android.support.annotation.NonNull;
 
@@ -12,8 +12,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.BleDeviceCache;
-import com.philips.cdp2.commlib.request.BleRequest;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;

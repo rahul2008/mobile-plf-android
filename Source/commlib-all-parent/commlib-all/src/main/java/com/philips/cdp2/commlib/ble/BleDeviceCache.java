@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib;
+package com.philips.cdp2.commlib.ble;
 
 import android.support.annotation.NonNull;
 

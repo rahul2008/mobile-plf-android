@@ -2,21 +2,21 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.context;
+package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.BleDeviceCache;
-import com.philips.cdp2.commlib.communication.BleCommunicationStrategy;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib.discovery.BleDiscoveryStrategy;
-import com.philips.cdp2.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
+import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
+import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 

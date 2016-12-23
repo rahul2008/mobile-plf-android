@@ -2,13 +2,13 @@
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.discovery;
+package com.philips.cdp2.commlib.ble.discovery;
 
 import android.content.Context;
 
-import com.philips.cdp2.commlib.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.appliance.MixerFactory;
-import com.philips.cdp2.commlib.context.BleTransportContext;
+import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.pins.shinelib.SHNCentral;
@@ -20,7 +20,6 @@ import org.mockito.Mockito;
 import java.util.HashSet;
 import java.util.Set;
 
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 
 import static org.mockito.Matchers.any;

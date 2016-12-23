@@ -1,4 +1,4 @@
-package com.philips.cdp2.plugindefinition;
+package com.philips.cdp2.bluelib.plugindefinition;
 
 import android.support.annotation.NonNull;
 

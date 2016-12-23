@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.request;
+package com.philips.cdp2.commlib.ble.request;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -12,9 +12,9 @@ import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.BleDeviceCache;
-import com.philips.cdp2.commlib.error.BleErrorMap;
-import com.philips.cdp2.commlib.communication.BleCommunicationStrategy;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.error.BleErrorMap;
+import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
