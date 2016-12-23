@@ -31,7 +31,7 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:23.1.0"
-    compile 'com.philips.cdp:cloudcontroller:4.0.0'
+    compile 'com.philips.cdp:cloudcontroller:5.0.0'
 
     if (findProject(':dicommClientLib')) {
         compile project(':dicommClientLib')
