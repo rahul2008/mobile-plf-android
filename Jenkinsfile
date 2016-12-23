@@ -22,7 +22,7 @@ node ('android_pipeline') {
 			}
 			
             /* next if-then + stage is mandatory for the platform CI pipeline integration */
-            if (env.triggerBy != "ppc") {
+           /* if (env.triggerBy != "ppc") {
             	stage ('callIntegrationPipeline') {
             		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
             	}            
@@ -32,7 +32,7 @@ node ('android_pipeline') {
 		
 		catch(err) {
             error ("Someone just broke the build")
-        }
+        } */
 
         stage('informing') {
         	step([$class: 'StashNotifier'])
