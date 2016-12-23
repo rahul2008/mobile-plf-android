@@ -31,6 +31,7 @@ public class ProgressIndicatorButton extends LinearLayout {
     private boolean isProgressDisplaying;
     private OnClickListener clickListener;
     private GestureDetectorCompat gestureDetector;
+    private Drawable progressBackgroundDrawable;
 
     public ProgressIndicatorButton(final Context context) {
         this(context, null);
@@ -112,8 +113,7 @@ public class ProgressIndicatorButton extends LinearLayout {
         setDrawable(buttonDrawableId);
 
         int progressButtonBackgroundDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressBackground, R.drawable.uid_progress_indicator_button_background);
-        Drawable drawable = setTintOnDrawable(ContextCompat.getDrawable(context, progressButtonBackgroundDrawableId), R.color.uid_progress_indicator_button_background_selector, theme);
-        setBackground(drawable);
+        progressBackgroundDrawable = setTintOnDrawable(ContextCompat.getDrawable(context, progressButtonBackgroundDrawableId), R.color.uid_progress_indicator_button_background_selector, theme);
 
         int progress = typedArray.getInt(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgress, 0);
         setProgress(progress);
@@ -151,6 +151,7 @@ public class ProgressIndicatorButton extends LinearLayout {
         if (visible) {
             button.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
+            setBackground(progressBackgroundDrawable);
 
             if (!TextUtils.isEmpty(progressTextView.getText())) {
                 progressTextView.setVisibility(View.VISIBLE);
@@ -163,6 +164,7 @@ public class ProgressIndicatorButton extends LinearLayout {
             button.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             progressTextView.setVisibility(View.GONE);
+            setBackground(null);
         }
     }
 
