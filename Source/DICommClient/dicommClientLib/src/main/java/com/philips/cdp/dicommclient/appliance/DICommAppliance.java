@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient.appliance;
 
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;

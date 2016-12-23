@@ -2,11 +2,11 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp.dicommclient.discovery.strategy;
+package com.philips.cdp2.commlib.core.discovery;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp2.commlib.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.Set;

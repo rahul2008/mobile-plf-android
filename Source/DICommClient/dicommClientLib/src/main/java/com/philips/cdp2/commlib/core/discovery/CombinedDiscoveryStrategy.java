@@ -2,10 +2,10 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp.dicommclient.discovery.strategy;
+package com.philips.cdp2.commlib.core.discovery;
 
-import com.philips.cdp2.commlib.exception.MissingPermissionException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 
 import java.util.Locale;
 import java.util.Set;

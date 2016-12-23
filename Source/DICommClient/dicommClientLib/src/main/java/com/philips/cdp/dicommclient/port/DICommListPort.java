@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPort<Object>{

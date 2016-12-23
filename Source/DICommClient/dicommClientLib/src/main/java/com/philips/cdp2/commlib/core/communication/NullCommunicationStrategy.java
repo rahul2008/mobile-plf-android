@@ -3,11 +3,12 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.communication;
+package com.philips.cdp2.commlib.core.communication;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Map;
 

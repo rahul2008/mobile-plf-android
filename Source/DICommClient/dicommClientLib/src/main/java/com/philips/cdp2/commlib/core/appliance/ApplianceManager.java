@@ -2,13 +2,13 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.appliance;
+package com.philips.cdp2.commlib.core.appliance;
 
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.Set;

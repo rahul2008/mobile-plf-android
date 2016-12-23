@@ -10,11 +10,11 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
-import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.CommCentral;
-import com.philips.cdp2.commlib.context.CloudTransportContext;
-import com.philips.cdp2.commlib.context.LanTransportContext;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
 import java.util.HashSet;
 import java.util.Set;

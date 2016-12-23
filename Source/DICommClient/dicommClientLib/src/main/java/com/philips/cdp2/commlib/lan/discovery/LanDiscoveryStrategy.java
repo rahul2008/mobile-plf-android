@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp.dicommclient.discovery.strategy;
+package com.philips.cdp2.commlib.lan.discovery;
 
 import android.os.Handler;
 import android.os.Message;
@@ -10,10 +10,11 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
+import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;

@@ -3,10 +3,11 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.communication;
+package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;

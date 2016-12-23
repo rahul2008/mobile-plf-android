@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.communication;
+package com.philips.cdp2.commlib.cloud.communication;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -16,6 +16,7 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Map;
 

@@ -8,7 +8,7 @@ package com.philips.cdp.dicommclient.port;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;

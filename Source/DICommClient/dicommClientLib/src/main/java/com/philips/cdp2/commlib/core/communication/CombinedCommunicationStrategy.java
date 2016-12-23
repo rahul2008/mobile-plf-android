@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.communication;
+package com.philips.cdp2.commlib.core.communication;
 
 import android.support.annotation.NonNull;
 

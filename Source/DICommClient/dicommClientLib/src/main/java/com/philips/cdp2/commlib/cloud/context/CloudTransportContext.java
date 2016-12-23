@@ -2,15 +2,16 @@
  * Copyright (c) 2016 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.commlib.context;
+package com.philips.cdp2.commlib.cloud.context;
 
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.dicommclient.communication.CloudCommunicationStrategy;
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
-import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
+import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.context.TransportContext;
 
 public class CloudTransportContext implements TransportContext {
     private CloudController cloudController;

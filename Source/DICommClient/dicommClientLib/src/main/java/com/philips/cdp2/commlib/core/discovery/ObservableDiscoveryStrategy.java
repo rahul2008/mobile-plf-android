@@ -1,4 +1,4 @@
-package com.philips.cdp.dicommclient.discovery.strategy;
+package com.philips.cdp2.commlib.core.discovery;
 
 import android.support.annotation.NonNull;
 

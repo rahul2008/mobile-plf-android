@@ -18,6 +18,7 @@ import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 
 import org.junit.Before;
 import org.junit.Test;
