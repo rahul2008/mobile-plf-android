@@ -1,7 +1,7 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version 3.0.0-SNAPSHOT
+Version epic/commlib-ble ( !!! this have to be merged with the next version as soon as the epic branch is merged into develop !!! )
 -------------
 ### API Changes
 * Added type parameter to DICommPortListener to prevent unneeded inline casting.
@@ -13,8 +13,20 @@ Version 3.0.0-SNAPSHOT
 
 ### Known issues
 
+Version 3.0.0
+-------------
+
+### New features
+* COM-24 Updated to work with new CloudController API
+* COM-24 Improved user pairing
+ 
+### Bugs fixed
+
+### Known issues
+
 Version 2.0.0
 -------------
+
 ### New features
 * COM-119 DiComm client lib can now be initialized with external CloudController.
 * COM-24 Added startUserPairing call to PairingHandler that allows to create user relationship. 
@@ -25,6 +37,7 @@ Version 2.0.0
 
 Version 1.2.2
 -------------
+
 This release is for testing the Jenkins 2 build pipeline.
 
 ### New features
@@ -34,7 +47,8 @@ This release is for testing the Jenkins 2 build pipeline.
 ### Known issues
 
 Version v1.2.1
--------------
+--------------
+
 ### New features
 * Instead of supplying NetworkNode to every method, NetworkNode parameter is added to construstors (for example see CommunicationMarshal or DISecurity).
 
@@ -43,11 +57,12 @@ Version v1.2.1
 ### Known issues
 
 Version v1.2.0
--------------
+--------------
+
 ### New features
 * DICommAppliance class signature change: 
 	disableSubscription() renamed to disableCommunication()
-	enableSubscription() renamed to enableCommunication()
+* enableSubscription() renamed to enableCommunication()
 
 ### Bugs fixed
 * DE12197 Fixed timing issues with SignOn ongoing. 
@@ -55,7 +70,8 @@ Version v1.2.0
 ### Known issues
 
 Version v1.1.3
--------------
+--------------
+
 ### New features
 * BG-294 Added impementation for getModelNumber in NetworkNode so it is possible to distinguish between appliance models in ApplianceFactory
 
@@ -66,7 +82,8 @@ Version v1.1.3
 ### Known issues
 
 Version v1.1.2
--------------
+--------------
+
 ### New features
 * Upgraded ICPClient to v7.1.0_A.1
 
@@ -77,7 +94,8 @@ Version v1.1.2
 ### Known issues
 
 Version v1.1.0
--------------
+--------------
+
 ### New features
 * The following fields on the Firmware port are now non optional: name, version and progress.
 * When an appliance is disconnected it is not subscribed anymore. As soon as it become connected, the subscription will still occur.
@@ -88,7 +106,8 @@ Version v1.1.0
 ### Known issues
 
 Version v1.0.7
--------------
+--------------
+
 ### New features
 * Remote control in sample app
 
@@ -99,7 +118,8 @@ Version v1.0.7
 ### Known issues
 
 Version v1.0.6
--------------
+--------------
+
 ### New features
 * Full 64-bit SSDP support
 * New ICP client with 64-bit ARM support (v6.1.2_A.2)
@@ -113,7 +133,8 @@ Version v1.0.6
 ### Known issues
 
 Version v1.0.5
--------------
+--------------
+
 ### New features
 
 ### Bugs fixed
@@ -122,7 +143,8 @@ Version v1.0.5
 ### Known issues
 
 Version v1.0.4
--------------
+--------------
+
 ### New features
 * Enabled remote control, by removing Airpurifier specific CPP code
 * Improved data handling recieved from remote network location
@@ -134,6 +156,7 @@ Version v1.0.4
 
 Version 1.0.3
 -------------
+
 ### New features
 * Added command property to ScheduleListPort
 * Enabled name functionality on schedules
