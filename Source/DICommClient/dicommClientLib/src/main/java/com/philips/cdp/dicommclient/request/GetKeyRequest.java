@@ -16,11 +16,9 @@ public class GetKeyRequest extends LocalRequest {
 
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
-    private static NetworkNode mNetworkNode;
 
-    public GetKeyRequest(NetworkNode networkNode, ResponseHandler responseHandler) {
-        super(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
-        mNetworkNode = networkNode;
+    public GetKeyRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, ResponseHandler responseHandler) {
+        super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
     }
 
     @Override
@@ -32,9 +30,6 @@ public class GetKeyRequest extends LocalRequest {
         try {
             json = new JSONObject(responseData);
             String key = json.getString("key");
-
-            mNetworkNode.setEncryptionKey(key);
-
             return new Response(key, null, mResponseHandler);
         } catch (JSONException e) {
             e.printStackTrace();

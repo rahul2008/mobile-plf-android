@@ -121,10 +121,11 @@ public class LocalStrategy extends CommunicationStrategy {
     }
 
     private void getKey(final NetworkNode networkNode) {
-        GetKeyRequest request = new GetKeyRequest(networkNode, new ResponseHandler() {
+        GetKeyRequest request = new GetKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), new ResponseHandler() {
 
             @Override
-            public void onSuccess(String data) {
+            public void onSuccess(String key) {
+                networkNode.setEncryptionKey(key);
                 isKeyExchangeOngoing = false;
             }
 
