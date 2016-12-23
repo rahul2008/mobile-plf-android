@@ -7,9 +7,9 @@ package com.philips.cdp2.commlib.example.appliance;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.context.BleTransportContext;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Collections;
 import java.util.HashSet;

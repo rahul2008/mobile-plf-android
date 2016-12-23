@@ -6,11 +6,11 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
-import com.philips.cdp.dicommclient.discovery.strategy.ObservableDiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.BleDeviceCache;
-import com.philips.cdp2.commlib.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
+import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;

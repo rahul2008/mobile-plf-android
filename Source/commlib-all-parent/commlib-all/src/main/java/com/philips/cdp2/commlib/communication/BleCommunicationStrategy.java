@@ -6,11 +6,11 @@ package com.philips.cdp2.commlib.communication;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.BleDeviceCache;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.request.BleRequest;
 import com.philips.pins.shinelib.SHNDevice;
 

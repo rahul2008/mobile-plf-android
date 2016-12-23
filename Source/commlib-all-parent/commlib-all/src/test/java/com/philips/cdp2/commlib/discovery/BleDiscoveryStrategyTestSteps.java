@@ -6,11 +6,11 @@ package com.philips.cdp2.commlib.discovery;
 
 import android.content.Context;
 
-import com.philips.cdp.dicommclient.discovery.strategy.DiscoveryStrategy;
 import com.philips.cdp2.commlib.BleDeviceCache;
-import com.philips.cdp2.commlib.CommCentral;
 import com.philips.cdp2.commlib.appliance.MixerFactory;
 import com.philips.cdp2.commlib.context.BleTransportContext;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
