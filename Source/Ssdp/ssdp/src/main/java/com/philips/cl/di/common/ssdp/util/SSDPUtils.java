@@ -129,7 +129,7 @@ public class SSDPUtils {
                     if (url.toString().startsWith("https://"))
                     {
                         try {
-                            InitializeSslFactory();
+                            initializeSslFactory();
                         } catch (final NoSuchAlgorithmException e) {
                             Log.e(ConnectionLibContants.LOG_TAG, "NoSuchAlgorithmException: " + e.getMessage());
                         } catch (final KeyManagementException e) {
@@ -178,7 +178,7 @@ public class SSDPUtils {
         return response;
     }
 
-    private static void InitializeSslFactory() throws NoSuchAlgorithmException, KeyManagementException {
+    private static void initializeSslFactory() throws NoSuchAlgorithmException, KeyManagementException {
         if (sslContext != null) return;
         sslContext = SSLContext.getInstance("TLS");
         // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
