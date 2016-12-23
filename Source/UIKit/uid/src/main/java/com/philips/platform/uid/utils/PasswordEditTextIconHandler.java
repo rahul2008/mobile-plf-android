@@ -18,6 +18,7 @@ public class PasswordEditTextIconHandler implements EditTextIconHandler {
 
     public PasswordEditTextIconHandler(final EditText editText) {
         this.editText = editText;
+        this.editText.setTextIsSelectable(false);
     }
 
     @Override
