@@ -85,6 +85,7 @@
         <attr name="uidControlPrimaryBufferAlpha" format="reference|float"/>
         <attr name="uidLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
+        <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDDialog">
@@ -114,5 +115,6 @@
         <attr name="uidProgressIndicatorButtonProgressBackground" format="reference"/>
         <attr name="uidProgressIndicatorButtonProgressBackgroundColor" format="reference|color"/>
         <attr name="uidProgressIndicatorButtonProgressBackgroundColorAlpha" format="reference|float"/>
+        <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
 </resources>

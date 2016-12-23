@@ -25,16 +25,20 @@
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/uid_progress_indicator_button_progress_text_padding"
         android:layout_marginStart="@dimen/uid_button_padding_left_right"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:uidProgressBarCircularEndColor="?attr/uidProgressIndicatorButtonProgressColor"
+        app:uidProgressBarCircularProgressColorList="@color/uid_progress_indicator_button_progress_selector"/>
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_button_text"
-        style="@style/UIDDefaultButtonTextAppearance"
+        style="@style/UIDLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/uid_button_padding_left_right"
         android:layout_marginStart="8dp"
         android:textAllCaps="false"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:uidLabelTextAlpha="1.0"
+        app:uidLabelTextColor="?attr/uidProgressIndicatorButtonProgressColor"/>
 </LinearLayout>

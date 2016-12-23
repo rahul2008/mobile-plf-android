@@ -26,6 +26,7 @@ public class ProgressBar extends android.widget.ProgressBar {
 
     private boolean isLinearProgressBarEnabled = false;
     private int indeterminateCircularEndColor = Color.BLACK;
+    private int determinateCircularProgressColorList = R.color.uid_progress_bar_progress_selector;
 
     public ProgressBar(final Context context) {
         this(context, null);
@@ -48,6 +49,7 @@ public class ProgressBar extends android.widget.ProgressBar {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressBar, defStyleAttr, R.style.UIDProgressBarHorizontalDeterminate);
         isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressBar_uidLinearProgressBar, false);
         indeterminateCircularEndColor = obtainStyledAttributes.getColor(R.styleable.UIDProgressBar_uidProgressBarCircularEndColor, indeterminateCircularEndColor);
+        determinateCircularProgressColorList = obtainStyledAttributes.getResourceId(R.styleable.UIDProgressBar_uidProgressBarCircularProgressColorList, determinateCircularProgressColorList);
         obtainStyledAttributes.recycle();
     }
 
@@ -92,7 +94,7 @@ public class ProgressBar extends android.widget.ProgressBar {
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
 
         final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme);
-        final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uid_progress_bar_progress_selector, theme);
+        final Drawable progressDrawable = setTintOnDrawable(progress, determinateCircularProgressColorList, theme);
 
         final LayerDrawable layer = createCircularProgressBarLayerDrawable(progressDrawable, backgroundDrawable);
 

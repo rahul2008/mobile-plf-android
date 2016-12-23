@@ -44,12 +44,12 @@ public class ProgressIndicatorButton extends LinearLayout {
         super(context, attrs, defStyleAttr);
         setOrientation(VERTICAL);
         gestureDetector = new GestureDetectorCompat(context, new TapDetector());
-        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressIndicatorButton, defStyleAttr, 0);
         boolean isIndeterminateProgressIndicator = typedArray.getBoolean(R.styleable.UIDProgressIndicatorButton_uidIsIndeterminateProgressIndicator, false);
         inflateLayout(isIndeterminateProgressIndicator);
 
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
         initializeElements(context, typedArray, theme);
 
         typedArray.recycle();
@@ -67,6 +67,44 @@ public class ProgressIndicatorButton extends LinearLayout {
     public boolean onInterceptTouchEvent(final MotionEvent event) {
         gestureDetector.onTouchEvent(event);
         return isProgressDisplaying || super.onInterceptTouchEvent(event);
+    }
+
+    @Override
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        button.measure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(button.getMeasuredWidth(), button.getMeasuredHeight());
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+
+        savedState.buttonText = (String) button.getText();
+        savedState.progressText = (String) progressTextView.getText();
+        savedState.progress = progressBar.getProgress();
+        savedState.buttonVisibility = button.getVisibility();
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+
+        button.setText(savedState.buttonText);
+        progressTextView.setText(savedState.progressText);
+        setProgress(savedState.progress);
+
+        if (savedState.buttonVisibility == View.GONE) {
+            showProgressIndicator();
+        }
     }
 
     private void initializeElements(final Context context, final TypedArray typedArray, Resources.Theme theme) {
@@ -101,44 +139,6 @@ public class ProgressIndicatorButton extends LinearLayout {
         addView(layout);
     }
 
-    @Override
-    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        button.measure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(button.getMeasuredWidth(), button.getMeasuredHeight());
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState ss = new SavedState(superState);
-
-        ss.buttonText = (String) button.getText();
-        ss.progressText = (String) progressTextView.getText();
-        ss.progress = progressBar.getProgress();
-        ss.buttonVisibility = button.getVisibility();
-        return ss;
-    }
-
-    @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
-        if (!(state instanceof SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-
-        SavedState ss = (SavedState) state;
-        super.onRestoreInstanceState(ss.getSuperState());
-
-        button.setText(ss.buttonText);
-        progressTextView.setText(ss.progressText);
-        setProgress(ss.progress);
-
-        if (ss.buttonVisibility == View.GONE) {
-            showProgressIndicator();
-        }
-    }
-
     private Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme) {
         ColorStateList colorStateList = ThemeUtils.buildColorStateList(getResources(), theme, tintId);
         Drawable compatDrawable = DrawableCompat.wrap(drawable);
@@ -163,6 +163,16 @@ public class ProgressIndicatorButton extends LinearLayout {
             button.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             progressTextView.setVisibility(View.GONE);
+        }
+    }
+
+    private class TapDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(final MotionEvent e) {
+            if (clickListener != null) {
+                clickListener.onClick(ProgressIndicatorButton.this);
+            }
+            return super.onSingleTapConfirmed(e);
         }
     }
 
@@ -228,16 +238,6 @@ public class ProgressIndicatorButton extends LinearLayout {
 
     public TextView getProgressTextView() {
         return progressTextView;
-    }
-
-    private class TapDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onSingleTapConfirmed(final MotionEvent e) {
-            if (clickListener != null) {
-                clickListener.onClick(ProgressIndicatorButton.this);
-            }
-            return super.onSingleTapConfirmed(e);
-        }
     }
 
     public static class SavedState extends BaseSavedState {
