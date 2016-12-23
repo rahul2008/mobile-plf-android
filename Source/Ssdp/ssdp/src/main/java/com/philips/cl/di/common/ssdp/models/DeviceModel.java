@@ -62,6 +62,8 @@ public class DeviceModel {
 	
 	private String mCppId = null;
 
+	private boolean mHttps = true;
+
 	/**
 	 * constructor used by TwonkyService for discovered UPNPs
 	 * 
@@ -111,13 +113,14 @@ public class DeviceModel {
 	 *            int
 	 */
 	public DeviceModel(final String pNTS, final String pUSN, final String pLOCATION, final String pIpAddress,
-	        final int pPort, final String pBootID) {
+	        final int pPort, final String pBootID, final boolean https) {
 		mNts = pNTS;
 		mUsn = pUSN;
 		mLocation = pLOCATION;
 		ipAddress = pIpAddress;
 		mPort = pPort;
 		mBootID = pBootID;
+		mHttps = https;
 	}
 
 	/**
@@ -264,6 +267,13 @@ public class DeviceModel {
 	 */
 	public String getCppId() {
 		return mCppId;
+	}
+
+	/**
+	 * @return the mHttps
+	 */
+	public boolean getHttps() {
+		return mHttps;
 	}
 
 	/**
