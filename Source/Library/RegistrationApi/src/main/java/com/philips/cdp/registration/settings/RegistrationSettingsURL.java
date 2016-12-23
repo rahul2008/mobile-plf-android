@@ -235,15 +235,19 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                     @Override
                     public void onSuccess(URL url ) {
+
                         String urlLocal = url.toString();
+                        if (urlLocal.equalsIgnoreCase("https://philips-china-staging.capture.cn.janrain.com")){
+                            urlLocal="https://philips-cn-staging.capture.cn.janrain.com";
+                        }
 
                         String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
                         jumpConfig.captureDomain = janrainURL;
 
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
 
-                        jumpConfig.engageAppId = getEngageId(janrainURL);
-                        jumpConfig.captureAppId = getCaptureId(janrainURL);
+                        jumpConfig.engageAppId = getEngageId(urlLocal);
+                        jumpConfig.captureAppId = getCaptureId(urlLocal);
 
 
                         if (jumpConfig.engageAppId== null || jumpConfig.captureAppId==null)
