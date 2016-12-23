@@ -20,7 +20,7 @@ public class ClearEditTextIconHandler implements EditTextIconHandler {
     public void show() {
         final Drawable[] compoundDrawables = editText.getCompoundDrawables();
         compoundDrawables[RIGHT_DRAWABLE_INDEX] = getClearDrawable();
-        editText.setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[0], compoundDrawables[1], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[3]);
+        editText.setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[LEFT_DRAWABLE_INDEX], compoundDrawables[TOP_DRAWABLE_INDEX], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[BOTTOM_DRAWABLE_INDEX]);
     }
 
     @Override

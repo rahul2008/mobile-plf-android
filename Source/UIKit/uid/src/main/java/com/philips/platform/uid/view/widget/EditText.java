@@ -29,10 +29,11 @@ import com.philips.platform.uid.utils.ClearEditTextIconHandler;
 import com.philips.platform.uid.utils.EditTextIconHandler;
 import com.philips.platform.uid.utils.PasswordEditTextIconHandler;
 
+import static com.philips.platform.uid.utils.EditTextIconHandler.RIGHT_DRAWABLE_INDEX;
+
 public class EditText extends AppCompatEditText {
     private final static int DRAWABLE_FILL_INDEX = 0;
     private final static int DRAWABLE_STROKE_INDEX = 1;
-    private static final int RIGHT_DRAWABLE_INDEX = 2;
 
     private ColorStateList strokeColorStateList;
     private ColorStateList fillColorStateList;
@@ -176,9 +177,9 @@ public class EditText extends AppCompatEditText {
             return;
         }
         SavedState savedState = (SavedState) state;
-        super.onRestoreInstanceState(savedState.getSuperState());
-        passwordVisible = savedState.isPasswordVisible();
+        passwordVisible = savedState.passwordVisible;
         handlePasswordInputVisibility();
+        super.onRestoreInstanceState(savedState.getSuperState());
     }
 
     public boolean isPasswordVisible() {
@@ -203,14 +204,16 @@ public class EditText extends AppCompatEditText {
     }
 
     private boolean processOnTouch(final MotionEvent event) {
-        final Drawable[] compoundDrawables = getCompoundDrawables();
+        if (editTextIconHandler != null) {
+            final Drawable[] compoundDrawables = getCompoundDrawables();
 //        final boolean isRtl = (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
-        final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
-        if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null && isEnabled()) {
-            if (isShowPasswordIconTouched(event, drawable)) {
-                if (isEnabled() && getEditableText() != null && getEditableText().length() > 0) {
-                    if (editTextIconHandler != null) {
-                        editTextIconHandler.handleTouch(getCompoundDrawables()[RIGHT_DRAWABLE_INDEX], event);
+            final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
+            if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null && isEnabled()) {
+                if (isShowPasswordIconTouched(event, drawable)) {
+                    if (isEnabled() && getEditableText() != null && getEditableText().length() > 0) {
+                        if (editTextIconHandler != null) {
+                            editTextIconHandler.handleTouch(getCompoundDrawables()[RIGHT_DRAWABLE_INDEX], event);
+                        }
                     }
                 }
             }
@@ -236,6 +239,16 @@ public class EditText extends AppCompatEditText {
 
     protected static class SavedState extends BaseSavedState {
 
+        public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         private final boolean passwordVisible;
 
         private SavedState(Parcelable superState, boolean passwordVisible) {
@@ -248,25 +261,10 @@ public class EditText extends AppCompatEditText {
             this.passwordVisible = in.readByte() != 0;
         }
 
-        public boolean isPasswordVisible() {
-            return this.passwordVisible;
-        }
-
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeByte((byte) (this.passwordVisible ? 1 : 0));
         }
-
-        public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
-
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 }
