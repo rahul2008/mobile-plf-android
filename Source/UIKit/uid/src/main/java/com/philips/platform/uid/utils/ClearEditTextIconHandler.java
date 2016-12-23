@@ -7,20 +7,14 @@ import android.view.MotionEvent;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.view.widget.EditText;
 
-public class ClearEditTextIconHandler implements EditTextIconHandler {
+public class ClearEditTextIconHandler extends EditTextIconHandler {
 
     private EditText editText;
     private Drawable drawable;
 
     public ClearEditTextIconHandler(final EditText editText) {
+        super(editText);
         this.editText = editText;
-    }
-
-    @Override
-    public void show() {
-        final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-        compoundDrawables[RIGHT_DRAWABLE_INDEX] = getClearDrawable();
-        editText.setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[LEFT_DRAWABLE_INDEX], compoundDrawables[TOP_DRAWABLE_INDEX], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[BOTTOM_DRAWABLE_INDEX]);
     }
 
     @Override
@@ -29,7 +23,8 @@ public class ClearEditTextIconHandler implements EditTextIconHandler {
         editText.setHint(editText.getHint());
     }
 
-    private Drawable getClearDrawable() {
+    @Override
+    public Drawable getIconDrawable() {
         if (drawable == null) {
             drawable = VectorDrawableCompat.create(editText.getResources(), R.drawable.uid_texteditbox_clear_icon, editText.getContext().getTheme());
         }

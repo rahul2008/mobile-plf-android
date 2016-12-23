@@ -11,30 +11,28 @@ import android.view.MotionEvent;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.view.widget.EditText;
 
-public class PasswordEditTextIconHandler implements EditTextIconHandler {
+public class PasswordEditTextIconHandler extends EditTextIconHandler {
     private EditText editText;
     private Drawable showPasswordDrawable;
     private Drawable hidePasswordDrawable;
 
     public PasswordEditTextIconHandler(final EditText editText) {
+        super(editText);
         this.editText = editText;
         this.editText.setTextIsSelectable(false);
     }
 
     @Override
-    public void show() {
-        final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-        compoundDrawables[RIGHT_DRAWABLE_INDEX] = editText.isPasswordVisible() ? getHidePasswordDrawable(editText.getContext().getTheme()) :
-                getShowPasswordDrawable();
-        editText.setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[LEFT_DRAWABLE_INDEX], compoundDrawables[TOP_DRAWABLE_INDEX], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[BOTTOM_DRAWABLE_INDEX]);
+    public void handleTouch(final Drawable drawable, final MotionEvent event) {
+        setShown(false);
+        editText.setTransformationMethod(getToggledTransformationMethod());
+        show();
     }
 
     @Override
-    public void handleTouch(final Drawable drawable, final MotionEvent event) {
-        final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-        compoundDrawables[RIGHT_DRAWABLE_INDEX] = editText.isPasswordVisible() ? getHidePasswordDrawable(editText.getContext().getTheme()) :
+    public Drawable getIconDrawable() {
+        return editText.isPasswordVisible() ? getHidePasswordDrawable(editText.getContext().getTheme()) :
                 getShowPasswordDrawable();
-        editText.setTransformationMethod(getToggledTransformationMethod());
     }
 
     @Nullable

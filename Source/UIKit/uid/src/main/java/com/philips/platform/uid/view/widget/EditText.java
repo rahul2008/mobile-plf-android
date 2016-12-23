@@ -85,11 +85,13 @@ public class EditText extends AppCompatEditText {
     }
 
     private void showIcon() {
-
-        if (editTextIconHandler != null && isEnabled() && getText() != null && getText().length() > 0) {
-            editTextIconHandler.show();
-        } else {
-            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        if (editTextIconHandler != null) {
+            if (isEnabled() && getText() != null && getText().length() > 0) {
+                editTextIconHandler.show();
+            } else {
+                editTextIconHandler.setShown(false);
+                setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }
         }
     }
 
