@@ -23,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/uid_progress_indicator_button_progress_text_padding"
         android:layout_marginStart="@dimen/uid_button_padding_left_right"
         android:visibility="gone"
         app:uidProgressBarCircularEndColor="?attr/uidProgressIndicatorButtonProgressColor"

@@ -169,7 +169,7 @@ public class ProgressIndicatorButton extends LinearLayout {
     private class TapDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(final MotionEvent e) {
-            if (clickListener != null) {
+            if (clickListener != null && button.isEnabled()) {
                 clickListener.onClick(ProgressIndicatorButton.this);
             }
             return super.onSingleTapConfirmed(e);
@@ -244,7 +244,6 @@ public class ProgressIndicatorButton extends LinearLayout {
         String buttonText;
         String progressText;
         int progress;
-
         int buttonVisibility;
 
         SavedState(final Parcelable superState) {

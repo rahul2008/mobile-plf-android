@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
                 android:layout_weight="1"
+                android:checked="true"
                 android:gravity="center_vertical|end"/>
         </LinearLayout>
 

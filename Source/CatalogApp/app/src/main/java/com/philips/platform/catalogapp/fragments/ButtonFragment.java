@@ -73,6 +73,7 @@ public class ButtonFragment extends BaseFragment {
         final View root = inflater.inflate(R.layout.fragment_buttons, container, false);
         shareDrawable = getShareIcon();
         ButterKnife.bind(this, root);
+        toggleIcons(toggleIcons.isChecked());
         restoreViews(savedInstanceState);
         imageShare.setImageDrawable(shareDrawable);
         //Need to create a new drawable instead of using old stored shareDrawable.
@@ -110,13 +111,24 @@ public class ButtonFragment extends BaseFragment {
 
     @OnCheckedChanged(R.id.toggleicon)
     public void toggleIcons(boolean isIconToggleChecked) {
+        hideAllProgressIndicators();
+
         showingIcons = isIconToggleChecked;
         Drawable drawable = isIconToggleChecked ? shareDrawable : null;
         setIcons(groupExtraWide, drawable);
         setIcons(groupDefault, drawable);
         setIcons(groupLeftAlignedExtraWide, drawable);
-        setIcons(groupProgressButtonNormal, drawable);
         setIcons(groupProgressButtonExtraWide, drawable);
+        progressIndicatorButtonDeterminate.setDrawable(drawable);
+        progressIndicatorButtonIndeterminate.setDrawable(drawable);
+    }
+
+    private void hideAllProgressIndicators() {
+        handler.removeCallbacksAndMessages(null);
+
+        hideProgressIndicatorOnButtonGroup(groupProgressButtonExtraWide);
+        progressIndicatorButtonDeterminate.hideProgressIndicator();
+        progressIndicatorButtonIndeterminate.hideProgressIndicator();
     }
 
     private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
@@ -145,6 +157,8 @@ public class ButtonFragment extends BaseFragment {
 
     @OnCheckedChanged(R.id.toggleextraWide)
     public void toggleExtraWideButtons(boolean toggle) {
+        hideAllProgressIndicators();
+
         groupDefault.setVisibility(toggle ? View.GONE : View.VISIBLE);
         groupExtraWide.setVisibility(toggle ? View.VISIBLE : View.GONE);
         groupLeftAlignedExtraWide.setVisibility(toggle ? View.VISIBLE : View.GONE);
@@ -154,8 +168,12 @@ public class ButtonFragment extends BaseFragment {
 
     @OnCheckedChanged(R.id.toggleDisable)
     public void disableButtons(boolean isChecked) {
+        hideAllProgressIndicators();
+
         final boolean checked = !toggleDisable.isChecked();
-        disableEnableButtons(checked, groupDefault, groupExtraWide, groupIconOnly, groupLeftAlignedExtraWide, groupProgressButtonExtraWide, groupProgressButtonNormal);
+        disableEnableButtons(checked, groupDefault, groupExtraWide, groupIconOnly, groupLeftAlignedExtraWide, groupProgressButtonExtraWide);
+        progressIndicatorButtonIndeterminate.setEnabled(checked);
+        progressIndicatorButtonDeterminate.setEnabled(checked);
     }
 
     private void disableEnableButtons(final boolean checked, final ViewGroup... viewGroup) {
@@ -166,6 +184,17 @@ public class ButtonFragment extends BaseFragment {
                     view.setEnabled(checked);
                 } else if (view instanceof ProgressIndicatorButton) {
                     view.setEnabled(checked);
+                }
+            }
+        }
+    }
+
+    private void hideProgressIndicatorOnButtonGroup(final ViewGroup... viewGroup) {
+        for (final ViewGroup group : viewGroup) {
+            for (int j = 0; j < group.getChildCount(); j++) {
+                View view = group.getChildAt(j);
+                if (view instanceof ProgressIndicatorButton) {
+                    ((ProgressIndicatorButton) view).hideProgressIndicator();
                 }
             }
         }
