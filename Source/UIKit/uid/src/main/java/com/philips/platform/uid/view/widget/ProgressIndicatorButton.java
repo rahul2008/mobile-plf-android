@@ -82,9 +82,9 @@ public class ProgressIndicatorButton extends LinearLayout {
         Parcelable superState = super.onSaveInstanceState();
         SavedState savedState = new SavedState(superState);
 
-        savedState.buttonText = (String) button.getText();
-        savedState.progressText = (String) progressTextView.getText();
-        savedState.progress = progressBar.getProgress();
+        savedState.buttonText = getText();
+        savedState.progressText = getProgressText();
+        savedState.progress = getProgress();
         savedState.buttonVisibility = button.getVisibility();
         return savedState;
     }
@@ -99,8 +99,8 @@ public class ProgressIndicatorButton extends LinearLayout {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
-        button.setText(savedState.buttonText);
-        progressTextView.setText(savedState.progressText);
+        setText(savedState.buttonText);
+        setProgressText(savedState.progressText);
         setProgress(savedState.progress);
 
         if (savedState.buttonVisibility == View.GONE) {
