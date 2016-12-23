@@ -33,8 +33,7 @@ public class BleDiscoveryStrategyTestSteps {
     private CommCentral commCentral;
     private MixerFactory applianceFactory;
 
-    @Before
-    public void setup() throws SHNBluetoothHardwareUnavailableException {
+    public void notsetup() throws SHNBluetoothHardwareUnavailableException {
         initMocks(this);
 
         final Context mockContext = Mockito.mock(Context.class);
