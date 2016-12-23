@@ -180,12 +180,12 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> hasRightCompoundDrawable() {
+    public static Matcher<? super View> hasCompoundDrawable(final int index) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
                 if (view instanceof TextView) {
-                    setValues(((TextView) view).getCompoundDrawables()[2] != null, true);
+                    setValues(((TextView) view).getCompoundDrawables()[index] != null, true);
                     return areEqual();
                 }
                 return false;
@@ -199,6 +199,20 @@ public class TextViewPropertiesMatchers {
             protected boolean matchesSafely(final View view) {
                 if (view instanceof TextView) {
                     setValues(TextUtils.isEmpty(((TextView) view).getText()), true);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> noCompoundDrawable(final int index) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getCompoundDrawables()[index] == null, true);
+
                     return areEqual();
                 }
                 return false;

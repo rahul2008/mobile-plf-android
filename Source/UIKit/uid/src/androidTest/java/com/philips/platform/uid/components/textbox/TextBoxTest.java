@@ -46,7 +46,8 @@ import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class TextBoxTest {
 
-    private static final int COMPOUND_DRAWABLE_INDEX = 2;
+    private static final int RIGHT_DRAWABLE_INDEX = 2;
+    private static final int COMPOUND_DRAWABLE_INDEX = RIGHT_DRAWABLE_INDEX;
     private Resources testResources;
     private Context activityContext;
     private Context instrumentationContext;
@@ -265,7 +266,7 @@ public class TextBoxTest {
     public void verifyClearIconDisplayedOnEntringText() throws Exception {
         getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
 
-        getClearTextbox().check(matches(TextViewPropertiesMatchers.hasRightCompoundDrawable()));
+        getClearTextbox().check(matches(TextViewPropertiesMatchers.hasCompoundDrawable(RIGHT_DRAWABLE_INDEX)));
     }
 
     @Test
@@ -274,6 +275,9 @@ public class TextBoxTest {
         getClearTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
 
         getClearTextbox().check(matches(TextViewPropertiesMatchers.hasNoText()));
+
+        getClearTextbox().check(matches(TextViewPropertiesMatchers.noCompoundDrawable(RIGHT_DRAWABLE_INDEX)));
+
     }
 
     @Test
