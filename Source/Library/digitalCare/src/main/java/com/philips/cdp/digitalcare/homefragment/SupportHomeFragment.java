@@ -40,6 +40,7 @@ import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
+import com.philips.cdp.digitalcare.locatephilips.fragments.ServiceLocatorFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
@@ -48,6 +49,7 @@ import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
@@ -611,12 +613,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     showFragment(new ProductDetailsFragment());
         } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
             DigiCareLogger.i(TAG, "Clicked on Locate Philips Near You Button");
-            if (isConnectionAvailable())
-                if (isProductSelected() && isSupportScreenLaunched) {
-                    disableSupportButtonClickable();
-                    launchProductSelectionComponent();
-                } else
-                    showFragment(new LocatePhilipsFragment());
+            if (isConnectionAvailable()) {
+                if(Utils.isCountryChina()) {
+                    showFragment(new ServiceLocatorFragment());
+                } else {
+                    if (isProductSelected() && isSupportScreenLaunched) {
+                        disableSupportButtonClickable();
+                        launchProductSelectionComponent();
+                    } else
+                        showFragment(new LocatePhilipsFragment());
+                }
+            }
         } else if (tag.equals(getStringKey(R.string.view_faq))) {
             DigiCareLogger.i(TAG, "Clicked on ReadFaq button");
             if (isConnectionAvailable())
@@ -816,12 +823,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             mProductChangeButton.setClickable(true);
             mProductChangeButton.setVisibility(View.GONE);
         }
-        if (mProductLocatePhilipsButton != null)
+        if (mProductLocatePhilipsButton != null && !Utils.isCountryChina())
             mProductLocatePhilipsButton.setVisibility(View.GONE);
         if (mProductFAQButton != null)
             mProductFAQButton.setVisibility(View.GONE);
         if (mProductViewProductButton != null)
             mProductViewProductButton.setVisibility(View.GONE);
+        if(!isProductReviewLinkAvailable() && Utils.isCountryChina())
+            mProductTellUsWhatYouThinkButton.setVisibility(View.GONE);
 
         if (mProductChangeButton != null) {
 
@@ -1097,6 +1106,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         super.onPause();
     }
 
+    protected boolean isProductReviewLinkAvailable(){
+        ViewProductDetailsModel productData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        if(productData.getProductInfoLink() == null)
+            return false;
+
+        return true;
+    }
     @SuppressWarnings("deprecation")
     private Drawable getDrawable(int resId) {
         return getResources().getDrawable(resId);

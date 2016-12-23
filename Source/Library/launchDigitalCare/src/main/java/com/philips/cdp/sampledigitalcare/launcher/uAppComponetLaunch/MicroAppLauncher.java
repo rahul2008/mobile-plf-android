@@ -268,7 +268,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                     ctnList[i] = mList.get(i);
                 //  if (ctnList.length != 0) {
                 HardcodedProductList productsSelection = new HardcodedProductList(ctnList);
-                productsSelection.setCatalog(Catalog.CONSUMER);
+                productsSelection.setCatalog(Catalog.CARE);
                 productsSelection.setSector(Sector.B2C);
                /*  ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                         R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);

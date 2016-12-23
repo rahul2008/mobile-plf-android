@@ -62,8 +62,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private static String mPreviousPageName = null;
     private static int mEnterAnimation = 0;
     private static int mExitAnimation = 0;
-    private static FragmentActivity mFragmentActivityContext = null;
-    private static FragmentActivity mActivityContext = null;
+    private FragmentActivity mFragmentActivityContext = null;
+    private FragmentActivity mActivityContext = null;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
@@ -141,9 +141,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
+        mLeftRightMarginPort = (int) getActivity().getResources()
                 .getDimension(R.dimen.activity_margin_port);
-        mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
+        mLeftRightMarginLand = (int) getActivity().getResources()
                 .getDimension(R.dimen.activity_margin_land);
     }
 
@@ -374,7 +374,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             }
         }
         try {
-            FragmentTransaction fragmentTransaction = mFragmentActivityContext
+            FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
             if (mEnterAnimation != 0 && mExitAnimation != 0) {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,

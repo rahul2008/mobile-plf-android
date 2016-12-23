@@ -22,15 +22,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.Utils;
 
 /*import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
 import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;*/
@@ -48,6 +51,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private String mProductReviewPage = null;
     private Button mRatePlayStoreBtn = null;
     private Button mRatePhilipsBtn = null;
+    private TextView mRatePlayStoreText = null;
     private LinearLayout mLayoutParent = null;
     private LinearLayout mProductReviewView = null;
     private ImageView mActionBarMenuIcon = null;
@@ -77,6 +81,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mRatePlayStoreText = (DigitalCareFontTextView) getActivity().findViewById(R.id.tellus_philips_submitreview_text);
         mRatePlayStoreBtn = (DigitalCareFontButton) getActivity().findViewById(
                 R.id.tellus_PlayStoreReviewButton);
         mRatePhilipsBtn = (DigitalCareFontButton) getActivity().findViewById(
@@ -107,6 +112,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         if (mProductData != null)
             onPRXProductPageReceived(mProductData);
 
+        if(Utils.isCountryChina())
+            hideAppReviewView();
 
         /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
                 getPreviousName());*/
@@ -126,6 +133,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mDividerView.setVisibility(View.VISIBLE);
     }
 
+    protected void hideAppReviewView(){
+        mRatePlayStoreText.setVisibility(View.GONE);
+        mRatePlayStoreBtn.setVisibility(View.GONE);
+        mDividerView.setVisibility(View.GONE);
+    }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
