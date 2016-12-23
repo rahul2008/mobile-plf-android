@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
@@ -23,9 +25,12 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
 
     EditText EditTextServiceId;
     EditText EditTextMaxHour;
-    EditText EditTextContentClass;
-    EditText EditTextContentType;
-
+  /*  EditText EditTextContentClass;
+    EditText EditTextContentType;*/
+    Class contentClass;
+    String ContentType;
+    Spinner spinnerModelType;
+    private final String[] modelList = {"ContentArticle","BeardStyle","Asset"};
 
     Button createCL;
     Button existingCLs;
@@ -42,9 +47,11 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
         EditTextServiceId = (EditText) findViewById(R.id.editTextServiceId);
      //   EditTextServiceId.setText("https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1"); //test
         EditTextMaxHour = (EditText) findViewById(R.id.editTextMaxAgeInHours);
-        EditTextContentClass = (EditText) findViewById(R.id.editTextContentClassType);
-        EditTextContentType = (EditText) findViewById(R.id.editTextContentType);
-        EditTextContentType.setText("articles");
+        spinnerModelType = (Spinner) findViewById(R.id.spinnerModelTypes);
+        ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, modelList);
+        spinnerModelType.setAdapter(input_adapter);
+       // EditTextContentType.setText("articles");
         createCL = (Button) findViewById(R.id.createCL);
         existingCLs = (Button) findViewById(R.id.gotoCL);
 
@@ -59,7 +66,23 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
                     showAlertDialog("Invalid Input", "Invalid Service ID ");
 
                 } else {
-                    ContentLoader  mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, ContentArticle.class, EditTextContentType.getText().toString().trim(), AppInfraApplication.gAppInfra);
+
+                    switch (spinnerModelType.getSelectedItem().toString().trim()) {
+                        case "ContentArticle":
+                            contentClass=ContentArticle.class;
+                            ContentType="articles";
+                            break;
+                        case "BeardStyle":
+                            contentClass= BeardStyle.class;
+                            ContentType="beardStyles";
+                            break;
+                        case "Asset":
+                            contentClass= Asset.class;
+                            ContentType="assets";
+                            break;
+
+                    }
+                    ContentLoader  mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AppInfraApplication.gAppInfra);
                     ContentLoaderList.add(mContentLoader);
                     Intent i = new Intent(ContentLoaderCreateActivity.this,ContentLoaderList.class);
                     startActivity(i);
