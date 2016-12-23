@@ -1,11 +1,13 @@
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -13,7 +15,6 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.Utils;
 
 /**
  * Created by 310166779 on 12/14/2016.
@@ -59,7 +60,7 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
     private void loadServiceLocatorPage() {
         mServiceLocatorWebView.getSettings().setDomStorageEnabled(true);
         mServiceLocatorWebView.getSettings().setBuiltInZoomControls(true);
-        Utils.loadWebPageContent(getServiceLocatorUrl(), mServiceLocatorWebView, mProgressBar);
+        loadWebPageContent(getServiceLocatorUrl(), mServiceLocatorWebView, mProgressBar);
     }
 
     private void initView() {
@@ -104,5 +105,33 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
         if (mServiceLocatorWebView != null) {
             mServiceLocatorWebView = null;
         }
+    }
+
+    protected String loadWebPageContent(final String webpageUrl, final WebView webView, final ProgressBar progressBar) {
+        webView.loadUrl(webpageUrl);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return false;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
+
+        });
+
+        return webView.getUrl();
     }
 }
