@@ -237,10 +237,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     public void onSuccess(URL url ) {
                         String urlLocal = url.toString();
 
-                        String janrainURL = "https://philips-cn.capture.cn.janrain.com";
-                        //String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
-                        //jumpConfig.captureDomain = janrainURL;
-                        jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
+                        String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
+                        jumpConfig.captureDomain = janrainURL;
 
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
 
