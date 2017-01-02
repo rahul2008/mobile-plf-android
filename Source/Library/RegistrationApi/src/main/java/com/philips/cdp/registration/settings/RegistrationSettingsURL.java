@@ -244,12 +244,10 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
 
                         if(RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(String.valueOf(Configuration.PRODUCTION))){
-                            RLog.d(RLog.SERVICE_DISCOVERY, " ******* IF ENVIRON : onSuccess  :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment().toString());
                             jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
                             jumpConfig.engageAppId = getEngageId(PROD_CAPTURE_DOMAIN_CHINA);
                             jumpConfig.captureAppId = getCaptureId(PROD_CAPTURE_DOMAIN_CHINA);
                         }else{
-                            RLog.d(RLog.SERVICE_DISCOVERY, " ******* ELSE ENVIRON : onSuccess  :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment().toString());
                             jumpConfig.captureDomain = janrainURL;
                             jumpConfig.engageAppId = getEngageId(urlLocal);
                             jumpConfig.captureAppId = getCaptureId(urlLocal);
