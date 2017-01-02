@@ -300,6 +300,7 @@
                 android:text="@string/buttons_determinate"/>
 
             <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                android:id="@+id/buttonsProgressIndicatorExtraWideDeterminate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

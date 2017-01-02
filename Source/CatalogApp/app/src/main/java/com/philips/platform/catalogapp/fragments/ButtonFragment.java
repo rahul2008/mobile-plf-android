@@ -103,6 +103,8 @@ public class ButtonFragment extends BaseFragment {
         outState.putBoolean("showExtraWideButtons", toggleExtrawide.isChecked());
         outState.putBoolean("isButtonsEnabled", toggleDisable.isChecked());
         super.onSaveInstanceState(outState);
+
+        hideAllProgressIndicators();
     }
 
     public Drawable getShareIcon() {

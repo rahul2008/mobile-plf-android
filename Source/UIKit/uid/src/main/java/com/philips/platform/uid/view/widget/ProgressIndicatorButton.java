@@ -86,6 +86,7 @@ public class ProgressIndicatorButton extends LinearLayout {
         savedState.progressText = getProgressText();
         savedState.progress = getProgress();
         savedState.buttonVisibility = button.getVisibility();
+
         return savedState;
     }
 
@@ -96,12 +97,18 @@ public class ProgressIndicatorButton extends LinearLayout {
             return;
         }
 
-        SavedState savedState = (SavedState) state;
+        final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
         setText(savedState.buttonText);
         setProgressText(savedState.progressText);
-        setProgress(savedState.progress);
+
+        progressBar.post(new Runnable() {
+            @Override
+            public void run() {
+                setProgress(savedState.progress);
+            }
+        });
 
         if (savedState.buttonVisibility == View.GONE) {
             showProgressIndicator();
