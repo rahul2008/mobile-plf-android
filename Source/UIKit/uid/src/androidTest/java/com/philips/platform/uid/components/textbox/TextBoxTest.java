@@ -262,6 +262,14 @@ public class TextBoxTest {
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
     }
 
+
+    @Test
+    public void verifyPasswordTextBoxCompoundPadding() {
+        int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.passwordtextbox_compoundpadding);
+
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
+    }
+
     @Test
     public void verifyClearIconDisplayedOnEntringText() throws Exception {
         getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
@@ -281,11 +289,33 @@ public class TextBoxTest {
     }
 
     @Test
-    public void verifyPasswordTextBoxCompoundPadding() {
+    public void verifyClearTextBoxLeftPadding() {
+        waitFor(testResources, 750);
         int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.passwordtextbox_compoundpadding);
-
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
+        getClearTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
+
+    @Test
+    public void verifyClearTextBoxRightPadding() {
+        waitFor(testResources, 750);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_right_padding);
+        getClearTextbox().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
+    }
+
+    @Test
+    public void verifyClearRightDrawableWidth() throws Exception {
+        getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
+        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.clearicon_dimens);
+        getClearTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
+    }
+
+    @Test
+    public void verifyClearRightDrawableHeight() throws Exception {
+        getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
+        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.clearicon_dimens);
+        getClearTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
+    }
+
 
     private ViewInteraction getTextBox() {
         return onView(withId(com.philips.platform.uid.test.R.id.textBox));

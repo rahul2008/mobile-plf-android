@@ -37,6 +37,10 @@
 
     <dimen name="passwordtextbox_compoundpadding">20dp</dimen>
 
+    <dimen name="clearicon_dimens">16dp</dimen>
+
+
+
     <!--ToggleSwitch dimens-->
     <dimen name="toggleswitch_width">48dp</dimen>
     <dimen name="toggleswitch_track_height">16dp</dimen>
