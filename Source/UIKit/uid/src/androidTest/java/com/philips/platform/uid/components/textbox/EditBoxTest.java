@@ -44,7 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
-public class TextBoxTest {
+public class EditBoxTest {
 
     private static final int RIGHT_DRAWABLE_INDEX = 2;
     private static final int COMPOUND_DRAWABLE_INDEX = RIGHT_DRAWABLE_INDEX;
@@ -120,6 +120,7 @@ public class TextBoxTest {
         getTextBox().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uid_texteditbox_fill_drawable)));
     }
 
+    @Ignore
     @Test
     public void verifyTextEditBoxStrokeWidth() {
         int expectedStrokeWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_stroke_height);
