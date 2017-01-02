@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="uid_texteditbox_line_spacing">26dp</dimen>
+    <integer name="uid_texteditbox_font_spacing_multiplier">0</integer>
+</resources>
