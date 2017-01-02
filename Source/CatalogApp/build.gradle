@@ -3,11 +3,12 @@
 buildscript {
 
     repositories {
-        maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
+        maven { url 'http://http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "https://plugins.gradle.org/m2/"
         }
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
@@ -32,13 +33,16 @@ allprojects {
         }
     }
     repositories {
-        maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
-        maven { url 'http://130.145.245.193:8081/artifactory/jitpack.io' }
+        maven { url 'http://http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url 'http://http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jitpack.io'
+        }
 
         maven {
             url "https://plugins.gradle.org/m2/"
         }
         jcenter()
+        mavenCentral()
 
     }
 
