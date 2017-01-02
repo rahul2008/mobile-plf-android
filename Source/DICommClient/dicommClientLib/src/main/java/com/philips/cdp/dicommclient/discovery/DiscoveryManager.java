@@ -13,13 +13,14 @@ import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
-import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.lan.NetworkMonitor;
+import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkChangedListener;
+import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkState;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Discovery of the appliances is managed by Discovery Manager. It is the main
@@ -88,7 +90,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
             throw new RuntimeException("DiscoveryManager can only be initialized once");
         }
 
-        NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
+        NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext, new ScheduledThreadPoolExecutor(1));
 
         DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(applianceFactory, applianceDatabase, networkMonitor);
         discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
@@ -109,7 +111,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
 
         mNetwork = networkMonitor;
 
-        mNetwork.setListener(mNetworkChangedCallback);
+        mNetwork.addListener(mNetworkChangedCallback);
         if (mDiscoveryEventListenersList == null) {
             mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
         }
@@ -204,7 +206,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         return mAllAppliancesMap.get(cppId);
     }
 
-    private NetworkChangedCallback mNetworkChangedCallback = new NetworkChangedCallback() {
+    private NetworkChangedListener mNetworkChangedCallback = new NetworkChangedListener() {
 
         @Override
         public void onNetworkChanged(NetworkState networkState, String networkSsid) {

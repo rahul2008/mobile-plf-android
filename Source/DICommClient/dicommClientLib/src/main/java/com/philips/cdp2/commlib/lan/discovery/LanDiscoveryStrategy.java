@@ -8,13 +8,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.discovery.NetworkMonitor;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
-import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.lan.NetworkMonitor;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -38,8 +38,12 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     //    private final Set<DiscoveryEventListener> discoveryEventListeners = new CopyOnWriteArraySet<>();
     //    private NetworkNodeDatabase networkNodeDatabase;
 
-    private NetworkMonitor networkMonitor;
-    private SsdpServiceHelper ssdpServiceHelper;
+    @NonNull
+    private final NetworkMonitor networkMonitor;
+
+    @NonNull
+    private final SsdpServiceHelper ssdpServiceHelper;
+
     private Map<String, NetworkNode> networkNodeCache = new HashMap<>();
 
     private final Handler.Callback ssdpCallback = new Handler.Callback() {
