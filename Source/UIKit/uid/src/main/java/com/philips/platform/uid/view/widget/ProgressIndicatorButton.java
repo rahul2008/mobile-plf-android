@@ -32,6 +32,7 @@ public class ProgressIndicatorButton extends LinearLayout {
     private OnClickListener clickListener;
     private GestureDetectorCompat gestureDetector;
     private Drawable progressBackgroundDrawable;
+    private View childLayout;
 
     public ProgressIndicatorButton(final Context context) {
         this(context, null);
@@ -75,6 +76,8 @@ public class ProgressIndicatorButton extends LinearLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         button.measure(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(button.getMeasuredWidth(), button.getMeasuredHeight());
+        childLayout.setMinimumHeight(getMeasuredHeight());
+        childLayout.setMinimumWidth(getMeasuredWidth());
     }
 
     @Override
@@ -133,17 +136,16 @@ public class ProgressIndicatorButton extends LinearLayout {
     }
 
     private void inflateLayout(final boolean isIndeterminateProgressIndicator) {
-        View layout;
         if (isIndeterminateProgressIndicator) {
-            layout = View.inflate(getContext(), R.layout.uid_progress_indicator_button_indeterminate, null);
+            childLayout = View.inflate(getContext(), R.layout.uid_progress_indicator_button_indeterminate, null);
         } else {
-            layout = View.inflate(getContext(), R.layout.uid_progress_indicator_button_determinate, null);
+            childLayout = View.inflate(getContext(), R.layout.uid_progress_indicator_button_determinate, null);
         }
 
-        button = (Button) layout.findViewById(R.id.uid_progress_indicator_button_button);
-        progressBar = (ProgressBar) layout.findViewById(R.id.uid_progress_indicator_button_progress_bar);
-        progressTextView = (TextView) layout.findViewById(R.id.uid_progress_indicator_button_text);
-        addView(layout);
+        button = (Button) childLayout.findViewById(R.id.uid_progress_indicator_button_button);
+        progressBar = (ProgressBar) childLayout.findViewById(R.id.uid_progress_indicator_button_progress_bar);
+        progressTextView = (TextView) childLayout.findViewById(R.id.uid_progress_indicator_button_text);
+        addView(childLayout);
     }
 
     private Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme) {
@@ -163,6 +165,7 @@ public class ProgressIndicatorButton extends LinearLayout {
             if (!TextUtils.isEmpty(progressTextView.getText())) {
                 progressTextView.setVisibility(View.VISIBLE);
             } else {
+                progressTextView.setVisibility(View.GONE);
                 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) progressBar.getLayoutParams();
                 params.rightMargin = params.leftMargin;
                 progressBar.setLayoutParams(params);

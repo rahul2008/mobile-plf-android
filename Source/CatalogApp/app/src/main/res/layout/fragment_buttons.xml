@@ -255,7 +255,6 @@
                     android:id="@+id/progressButtonsNormalDeterminate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     app:uidProgressIndicatorButtonProgress="50"
                     app:uidProgressIndicatorButtonText="@string/button_press_me"/>
             </LinearLayout>
@@ -279,7 +278,6 @@
                     android:id="@+id/progressButtonsNormalIndeterminate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     app:uidIsIndeterminateProgressIndicator="true"
                     app:uidProgressIndicatorButtonText="@string/button_press_me"/>
             </LinearLayout>
@@ -303,7 +301,6 @@
                 android:id="@+id/buttonsProgressIndicatorExtraWideDeterminate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 app:uidProgressIndicatorButtonProgress="50"
                 app:uidProgressIndicatorButtonProgressText="@string/button_loading"
                 app:uidProgressIndicatorButtonText="@string/button_press_me"/>
@@ -320,7 +317,6 @@
                 android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/button_loading"
                 app:uidProgressIndicatorButtonText="@string/button_press_me"/>
