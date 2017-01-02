@@ -55,7 +55,7 @@ import android.widget.Toast;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.utils.LogUtils;
-import com.philips.cdp.registration.wechat.philipsregistration.wxapi.WXEntryActivity;
+import com.janrainphilips.philipsregistration.wxapi.WXEntryActivity;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -77,7 +77,7 @@ import java.util.List;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.janrain.android.capture.Capture.CaptureApiRequestCallback;
-import static com.philips.cdp.registration.wechat.philipsregistration.wxapi.WXEntryActivity.code;
+import static com.janrainphilips.philipsregistration.wxapi.WXEntryActivity.code;
 
 //WeChat China
 

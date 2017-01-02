@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.wechat.philipsregistration.wxapi;
+package com.janrainphilips.philipsregistration.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+//This class is tightly coupled with package name .Don't modify package or refactor
+//Make sure keep this class in Progaurd
 
 /**
  * Activity with no view to handle any responses or requests from WeChat. This activity can
