@@ -154,7 +154,7 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> hasTransformationMethod() {
+    public static Matcher<? super View> hasMasking() {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
@@ -167,7 +167,7 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> hasNoTransformationMethod() {
+    public static Matcher<? super View> hasNoMasking() {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {

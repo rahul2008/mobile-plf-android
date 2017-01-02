@@ -200,13 +200,25 @@ public class EditBoxTest {
      **************************************/
 
     @Test
+    public void verifyPasswordTextBoxTextColor() {
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidInputTextTextColor);
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedTextColor)));
+    }
+
+    @Test
+    public void verifyPasswordTextBoxTextFontSize() {
+        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_fontsize);
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
+    }
+
+    @Test
     public void verifyPasswordTextBoxTextMasked() throws Exception {
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
     }
 
     @Test
     public void verifyNonPasswordTextHasNoMasking() throws Exception {
-        getTextBox().check(matches(TextViewPropertiesMatchers.hasNoTransformationMethod()));
+        getTextBox().check(matches(TextViewPropertiesMatchers.hasNoMasking()));
     }
 
     @Test
@@ -223,6 +235,7 @@ public class EditBoxTest {
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
     }
 
+    
     @Test
     public void verifyPasswordRightDrawableHeight() throws Exception {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
@@ -235,7 +248,7 @@ public class EditBoxTest {
     public void verifyPasswordMasked() throws Exception {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
 
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
     }
 
     @Test
@@ -243,7 +256,7 @@ public class EditBoxTest {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
         getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
 
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasNoTransformationMethod()));
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasNoMasking()));
     }
 
     @Test
@@ -252,7 +265,7 @@ public class EditBoxTest {
         getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
         getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
 
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
     }
 
     @Test
@@ -260,7 +273,7 @@ public class EditBoxTest {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
         getPasswordTextbox().perform(new GeneralClickAction(Tap.DOUBLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
 
-        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasTransformationMethod()));
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
     }
 
 
@@ -269,6 +282,13 @@ public class EditBoxTest {
         int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.passwordtextbox_compoundpadding);
 
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
+    }
+
+    @Test
+    public void verifyPasswordTextBoxRightPadding() {
+        waitFor(testResources, 750);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_right_padding);
+        getPasswordTextbox().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
