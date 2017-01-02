@@ -1,0 +1,396 @@
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/core/datatypes/Characteristic.java b/Source/Library/dataServices/src/main/java/com/philips/platform/core/datatypes/Characteristic.java
+new file mode 100755
+index 0000000..93a1fd5
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/core/datatypes/Characteristic.java
+@@ -0,0 +1,42 @@
++package com.philips.platform.core.datatypes;
++
++import java.io.Serializable;
++import java.util.Collection;
++import java.util.List;
++
++/**
++ * (C) Koninklijke Philips N.V., 2015.
++ * All rights reserved.
++ */
++public class Characteristic {
++    public final static String USER_CHARACTERISTIC_TYPE = "BookmarkIDs";
++
++    private List<Characteristics> characteristics;
++    private String type;
++    private String value;
++
++    public Characteristic(final String type, final String value) {
++        this.type = type;
++        this.value = value;
++    }
++
++    public void setCharacteristics(List<Characteristics> characteristics) {
++        this.characteristics = characteristics;
++    }
++
++    public String getType() {
++        return type;
++    }
++
++    public void setType(String type) {
++        this.type = type;
++    }
++
++    public String getValue() {
++        return value;
++    }
++
++    public void setValue(String value) {
++        this.value = value;
++    }
++}
+\ No newline at end of file
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/core/datatypes/Characteristics.java b/Source/Library/dataServices/src/main/java/com/philips/platform/core/datatypes/Characteristics.java
+index d4fe79b..d4048b9 100755
+--- a/Source/Library/dataServices/src/main/java/com/philips/platform/core/datatypes/Characteristics.java
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/core/datatypes/Characteristics.java
+@@ -10,6 +10,8 @@ import java.util.Collection;
+ public interface Characteristics extends BaseAppData, DateData, Serializable {
+ 
+ 
++    public final static String USER_CHARACTERISTIC_TYPE = "UserCharacteristicsIDs";
++
+     String getCreatorId();
+ 
+     Collection<? extends CharacteristicsDetail> getCharacteristicsDetails();
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/FetchUserCharacteristicsFromBackendEvent.java b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/FetchUserCharacteristicsFromBackendEvent.java
+new file mode 100644
+index 0000000..2e6a8e7
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/FetchUserCharacteristicsFromBackendEvent.java
+@@ -0,0 +1,11 @@
++package com.philips.platform.core.events;
++
++/**
++ * Created by indrajitkumar on 1/2/17.
++ */
++
++public class FetchUserCharacteristicsFromBackendEvent extends Event {
++    public FetchUserCharacteristicsFromBackendEvent() {
++
++    }
++}
+\ No newline at end of file
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/SaveUserCharacteristicsEvent.java b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/SaveUserCharacteristicsEvent.java
+new file mode 100644
+index 0000000..7ada2f6
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/SaveUserCharacteristicsEvent.java
+@@ -0,0 +1,18 @@
++package com.philips.platform.core.events;
++
++/**
++ * Created by indrajitkumar on 1/2/17.
++ */
++
++public class SaveUserCharacteristicsEvent extends Event {
++
++    private String userCharacteristicsUids;
++
++    public SaveUserCharacteristicsEvent(String userCharacteristicsUids) {
++        this.userCharacteristicsUids = userCharacteristicsUids;
++    }
++
++    public String getUserCharacteristicsUids() {
++        return userCharacteristicsUids;
++    }
++}
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/SendUserCharacteristicsToBackendResponseEvent.java b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/SendUserCharacteristicsToBackendResponseEvent.java
+new file mode 100644
+index 0000000..496db30
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/SendUserCharacteristicsToBackendResponseEvent.java
+@@ -0,0 +1,18 @@
++package com.philips.platform.core.events;
++
++/**
++ * Created by indrajitkumar on 1/2/17.
++ */
++
++public class SendUserCharacteristicsToBackendResponseEvent extends Event {
++
++    private String articleUids;
++
++    public SendUserCharacteristicsToBackendResponseEvent(String articleUids) {
++        this.articleUids = articleUids;
++    }
++
++    public String getArticleUids() {
++        return articleUids;
++    }
++}
+\ No newline at end of file
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/UserCharacteristicsToBackendEvent.java b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/UserCharacteristicsToBackendEvent.java
+new file mode 100644
+index 0000000..0501411
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/core/events/UserCharacteristicsToBackendEvent.java
+@@ -0,0 +1,20 @@
++package com.philips.platform.core.events;
++
++import java.util.List;
++
++/**
++ * Created by indrajitkumar on 1/2/17.
++ */
++
++public class UserCharacteristicsToBackendEvent extends Event {
++
++    private List<String> articleUid;
++
++    public UserCharacteristicsToBackendEvent(List<String> articleUid) {
++        this.articleUid = articleUid;
++    }
++
++    public List<String> getArticleUid() {
++        return articleUid;
++    }
++}
+\ No newline at end of file
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristics.java b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristics.java
+index 0dfca60..f11cc79 100644
+--- a/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristics.java
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristics.java
+@@ -2,7 +2,7 @@ package com.philips.platform.datasync.characteristics;
+ 
+ import android.support.annotation.NonNull;
+ 
+-import com.philips.platform.core.datatypes.Characteristics;
++import com.philips.platform.core.datatypes.Characteristic;
+ 
+ import java.util.List;
+ 
+@@ -10,13 +10,13 @@ import java.util.List;
+  * Created by indrajitkumar on 1/2/17.
+  */
+ public class UserCharacteristics {
+-    private List<Characteristics> characteristics;
++    private List<Characteristic> characteristics;
+ 
+-    public UserCharacteristics(@NonNull final List<Characteristics> characteristics) {
++    public UserCharacteristics(@NonNull final List<Characteristic> characteristics) {
+         this.characteristics = characteristics;
+     }
+ 
+-    public List<Characteristics> getCharacteristics() {
++    public List<Characteristic> getCharacteristics() {
+         return characteristics;
+     }
+ }
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsFetcher.java b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsFetcher.java
+new file mode 100644
+index 0000000..f47a8cf
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsFetcher.java
+@@ -0,0 +1,64 @@
++package com.philips.platform.datasync.characteristics;
++
++import android.support.annotation.NonNull;
++import android.support.annotation.Nullable;
++
++import com.philips.platform.core.Eventing;
++import com.philips.platform.core.datatypes.Characteristics;
++import com.philips.platform.core.events.SaveUserCharacteristicsEvent;
++import com.philips.platform.core.trackers.DataServicesManager;
++import com.philips.platform.datasync.UCoreAccessProvider;
++import com.philips.platform.datasync.UCoreAdapter;
++import com.philips.platform.datasync.moments.MomentsConverter;
++import com.philips.platform.datasync.synchronisation.DataFetcher;
++
++import org.joda.time.DateTime;
++
++import javax.inject.Inject;
++
++import retrofit.RetrofitError;
++import retrofit.converter.GsonConverter;
++
++/**
++ * Created by indrajitkumar on 1/2/17.
++ */
++
++public class UserCharacteristicsFetcher extends DataFetcher {
++    String accessToken;
++    @NonNull
++    protected final UCoreAccessProvider accessProvider;
++    private GsonConverter gsonConverter;
++    DataServicesManager mDataServicesManager;
++
++    @Inject
++    public UserCharacteristicsFetcher(@NonNull final UCoreAdapter uCoreAdapter,
++                                      @NonNull final Eventing eventing,
++                                      @NonNull final GsonConverter gsonConverter) {
++        super(uCoreAdapter, eventing);
++        this.gsonConverter = gsonConverter;
++        mDataServicesManager = DataServicesManager.getInstance();
++        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
++    }
++
++    @Nullable
++    @Override
++    public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
++        return fetchBookmarkedArticles();
++    }
++
++    @Nullable
++    private RetrofitError fetchBookmarkedArticles() {
++        try {
++            UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessToken, gsonConverter);
++            final UserCharacteristics characteristics = userCharacteristicsClient.getUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), 9);
++
++            if (characteristics.getCharacteristics().size() > 0) {
++                Characteristics userCharacteristics = characteristics.getCharacteristics().get(0);
++                eventing.post(new SaveUserCharacteristicsEvent(userCharacteristics.getValue()));
++            }
++        } catch (RetrofitError retrofitError) {
++            return retrofitError;
++        }
++        return null;
++    }
++}
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsMonitor.java b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsMonitor.java
+new file mode 100644
+index 0000000..9dedcd5
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsMonitor.java
+@@ -0,0 +1,41 @@
++package com.philips.platform.datasync.characteristics;
++
++import android.support.annotation.NonNull;
++import android.text.TextUtils;
++
++import com.philips.platform.core.datatypes.Characteristic;
++import com.philips.platform.core.datatypes.Characteristics;
++import com.philips.platform.core.events.FetchUserCharacteristicsFromBackendEvent;
++import com.philips.platform.core.events.UserCharacteristicsToBackendEvent;
++import com.philips.platform.core.monitors.EventMonitor;
++
++import java.util.Collections;
++import java.util.List;
++
++import javax.inject.Inject;
++
++/**
++ * Created by indrajitkumar on 1/2/17.
++ */
++
++public class UserCharacteristicsMonitor extends EventMonitor {
++    private UserCharacteristicsSender userCharacteristicsSender;
++    private UserCharacteristicsFetcher userCharacteristicsFetcher;
++
++    @Inject
++    public UserCharacteristicsMonitor(@NonNull final UserCharacteristicsSender bookmarkSender, final UserCharacteristicsFetcher bookmarkFetcher) {
++        this.userCharacteristicsSender = userCharacteristicsSender;
++        this.userCharacteristicsFetcher = userCharacteristicsFetcher;
++    }
++
++    public void onEventAsync(UserCharacteristicsToBackendEvent sendBookmarkToBackendEvent) {
++        List<String> articleUid = sendBookmarkToBackendEvent.getArticleUid();
++        String characteristicsValue = TextUtils.join(",", articleUid);
++
++        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(new Characteristic(Characteristic.USER_CHARACTERISTIC_TYPE, characteristicsValue)));
++    }
++
++    public void onEventAsync(FetchUserCharacteristicsFromBackendEvent fetchBookmarkFromBackendEvent) {
++        userCharacteristicsFetcher.fetchDataSince(null);
++    }
++}
+\ No newline at end of file
+diff --git a/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsSender.java b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsSender.java
+new file mode 100644
+index 0000000..3f3c788
+--- /dev/null
++++ b/Source/Library/dataServices/src/main/java/com/philips/platform/datasync/characteristics/UserCharacteristicsSender.java
+@@ -0,0 +1,86 @@
++package com.philips.platform.datasync.characteristics;
++
++import android.support.annotation.NonNull;
++
++import com.philips.platform.core.Eventing;
++import com.philips.platform.core.datatypes.Characteristic;
++import com.philips.platform.core.datatypes.Characteristics;
++import com.philips.platform.core.events.BackendResponse;
++import com.philips.platform.core.events.SendUserCharacteristicsToBackendResponseEvent;
++import com.philips.platform.core.trackers.DataServicesManager;
++import com.philips.platform.datasync.UCoreAccessProvider;
++import com.philips.platform.datasync.UCoreAdapter;
++import com.philips.platform.datasync.synchronisation.DataSender;
++
++import java.net.HttpURLConnection;
++import java.util.Collections;
++import java.util.List;
++
++import javax.inject.Inject;
++
++import retrofit.RetrofitError;
++import retrofit.client.Response;
++import retrofit.converter.GsonConverter;
++
++/**
++ * Created by indrajitkumar on 1/2/17.
++ */
++public class UserCharacteristicsSender implements DataSender<Characteristic> {
++
++    private static final int API_VERSION = 9;
++    private final UCoreAdapter uCoreAdapter;
++    private GsonConverter gsonConverter;
++    private Eventing eventing;
++    DataServicesManager mDataServicesManager;
++    @NonNull
++    private final UCoreAccessProvider accessProvider;
++
++    @Inject
++    public UserCharacteristicsSender(UCoreAdapter uCoreAdapter, GsonConverter gsonConverter, Eventing eventing) {
++        this.uCoreAdapter = uCoreAdapter;
++        this.gsonConverter = gsonConverter;
++        this.eventing = eventing;
++        mDataServicesManager = DataServicesManager.getInstance();
++        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
++    }
++
++    @Override
++    public boolean sendDataToBackend(@NonNull List<? extends Characteristic> dataToSend) {
++        if (dataToSend == null) {
++            return false;
++        }
++        try {
++            UserCharacteristicsClient uGrowClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessProvider.getAccessToken(), gsonConverter);
++            Characteristic characteristics = dataToSend.get(0);
++            UserCharacteristics bookmarkCharacteristics = new UserCharacteristics(Collections.singletonList(characteristics));
++            Response response = uGrowClient.putUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), bookmarkCharacteristics, API_VERSION);
++            if (isResponseSuccess(response)) {
++                postOk(characteristics);
++            }
++        } catch (RetrofitError retrofitError) {
++            //resetTokenOnUnAuthorizedError(retrofitError);
++            postError(retrofitError);
++        }
++
++        return false;
++    }
++
++    private void postError(final RetrofitError retrofitError) {
++        eventing.post(new BackendResponse(1, retrofitError));
++    }
++
++    private void postOk(final Characteristic characteristics) {
++        eventing.post(new SendUserCharacteristicsToBackendResponseEvent(characteristics.getValue()));
++    }
++
++    @Override
++    public Class<? extends Characteristic> getClassForSyncData() {
++        return Characteristic.class;
++    }
++
++    private boolean isResponseSuccess(final Response response) {
++        return response != null && (response.getStatus() == HttpURLConnection.HTTP_OK || response.getStatus() == HttpURLConnection.HTTP_CREATED
++                || response.getStatus() == HttpURLConnection.HTTP_NO_CONTENT);
++    }
++
++}
