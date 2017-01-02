@@ -43,15 +43,15 @@ public class EditText extends AppCompatEditText {
     private boolean shouldSupportclearButton = false;
     private EditTextIconHandler editTextIconHandler;
 
-    public EditText(final Context context) {
+    public EditText(@NonNull final Context context) {
         this(context, null);
     }
 
-    public EditText(final Context context, final AttributeSet attrs) {
+    public EditText(@NonNull final Context context, @NonNull final AttributeSet attrs) {
         this(context, attrs, android.support.v7.appcompat.R.attr.editTextStyle);
     }
 
-    public EditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public EditText(@NonNull final Context context, @NonNull final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
     }
@@ -75,39 +75,16 @@ public class EditText extends AppCompatEditText {
         initIconHandler();
     }
 
-    private void initIconHandler() {
-        if (shouldSupportclearButton) {
-            editTextIconHandler = new ClearEditTextIconHandler(this);
-        } else if (isPasswordInputType()) {
-            editTextIconHandler = new PasswordEditTextIconHandler(this);
+    private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+        Drawable fillDrawable = getFillBackgroundDrawable(typedArray, theme);
+        Drawable borderDrawable = getBorderBackground(typedArray, theme);
+        Drawable backgroundDrawable = fillDrawable;
+        if (fillDrawable != null && borderDrawable != null) {
+            backgroundDrawable = new LayerDrawable(new Drawable[]{fillDrawable, borderDrawable});
+            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_FILL_INDEX, R.id.uid_texteditbox_fill_drawable);
+            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_STROKE_INDEX, R.id.uid_texteditbox_stroke_drawable);
         }
-        showIcon();
-    }
-
-    private void showIcon() {
-        if (editTextIconHandler != null) {
-            if (isEnabled() && getText() != null && getText().length() > 0) {
-                editTextIconHandler.show();
-            } else {
-                editTextIconHandler.setShown(false);
-                setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-            }
-        }
-    }
-
-    protected boolean isPasswordInputType() {
-        final int variation = getInputType() & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
-        return variation == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD)
-                || variation == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)
-                || variation == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
-    }
-
-    private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
-        int textSelectorID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextTextSelector, -1);
-        if (textSelectorID != -1) {
-            ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, textSelectorID);
-            setTextColor(selector);
-        }
+        return backgroundDrawable;
     }
 
     private void setHintTextColors(final TypedArray typedArray, final Resources.Theme theme) {
@@ -118,21 +95,16 @@ public class EditText extends AppCompatEditText {
         }
     }
 
-    private void restorePadding(final Rect viewPaddings) {
-        setPadding(viewPaddings.left, viewPaddings.top, viewPaddings.right, viewPaddings.bottom);
+    private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
+        int textSelectorID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextTextSelector, -1);
+        if (textSelectorID != -1) {
+            ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, textSelectorID);
+            setTextColor(selector);
+        }
     }
 
-    private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray,
-                                                  final Resources.Theme theme) {
-        Drawable fillDrawable = getFillBackgroundDrawable(typedArray, theme);
-        Drawable borderDrawable = getBorderBackground(typedArray, theme);
-        Drawable backgroundDrawable = fillDrawable;
-        if (fillDrawable != null && borderDrawable != null) {
-            backgroundDrawable = new LayerDrawable(new Drawable[]{fillDrawable, borderDrawable});
-            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_FILL_INDEX, R.id.uid_texteditbox_fill_drawable);
-            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_STROKE_INDEX, R.id.uid_texteditbox_stroke_drawable);
-        }
-        return backgroundDrawable;
+    private void restorePadding(final Rect viewPaddings) {
+        setPadding(viewPaddings.left, viewPaddings.top, viewPaddings.right, viewPaddings.bottom);
     }
 
     private Drawable getBorderBackground(final @NonNull TypedArray typedArray,
@@ -173,7 +145,7 @@ public class EditText extends AppCompatEditText {
     }
 
     @Override
-    public void onRestoreInstanceState(Parcelable state) {
+    public void onRestoreInstanceState(@NonNull Parcelable state) {
         if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
@@ -182,51 +154,6 @@ public class EditText extends AppCompatEditText {
         passwordVisible = savedState.passwordVisible;
         handlePasswordInputVisibility();
         super.onRestoreInstanceState(savedState.getSuperState());
-    }
-
-    public boolean isPasswordVisible() {
-        return getTransformationMethod() == null;
-    }
-
-    @Override
-    public void setEnabled(final boolean enabled) {
-        super.setEnabled(enabled);
-        showIcon();
-    }
-
-    @Override
-    protected void onTextChanged(final CharSequence source, final int start, final int lengthBefore, final int lengthAfter) {
-        super.onTextChanged(source, start, lengthBefore, lengthAfter);
-        showIcon();
-    }
-
-    @Override
-    public boolean onTouchEvent(final MotionEvent event) {
-        return processOnTouch(event);
-    }
-
-    private boolean processOnTouch(final MotionEvent event) {
-        if (editTextIconHandler != null) {
-            final Drawable[] compoundDrawables = getCompoundDrawables();
-//        final boolean isRtl = (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
-            final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
-            if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null && isEnabled()) {
-                if (isShowPasswordIconTouched(event, drawable)) {
-                    if (isEnabled() && getEditableText() != null && getEditableText().length() > 0) {
-                        if (editTextIconHandler != null) {
-                            editTextIconHandler.handleTouch(getCompoundDrawables()[RIGHT_DRAWABLE_INDEX], event);
-                        }
-                    }
-                }
-            }
-        }
-
-        return super.onTouchEvent(event);
-    }
-
-    protected boolean isShowPasswordIconTouched(final MotionEvent event, final Drawable drawable) {
-        final int passwordDrawableTouchArea = getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
-        return (event.getRawX() >= (getRight() + getPaddingRight() + drawable.getBounds().width() - (passwordDrawableTouchArea + getCompoundDrawablePadding())));
     }
 
     private void handlePasswordInputVisibility() {
@@ -239,7 +166,77 @@ public class EditText extends AppCompatEditText {
         }
     }
 
-    protected static class SavedState extends BaseSavedState {
+    public boolean isPasswordVisible() {
+        return getTransformationMethod() == null;
+    }
+
+    private void initIconHandler() {
+        if (shouldSupportclearButton) {
+            editTextIconHandler = new ClearEditTextIconHandler(this);
+        } else if (isPasswordInputType()) {
+            editTextIconHandler = new PasswordEditTextIconHandler(this);
+        }
+        showIcon();
+    }
+
+    private void showIcon() {
+        if (hasIconClickHandler()) {
+            if (isEnabled() && getText() != null && getText().length() > 0) {
+                editTextIconHandler.show();
+            } else {
+                editTextIconHandler.setIconDisplayed(false);
+                setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }
+        }
+    }
+
+    //This is extracted as a method to avoid confusion why null check. This field will only be initialized in case icon is needs on right
+    private boolean hasIconClickHandler() {
+        return editTextIconHandler != null;
+    }
+
+    protected boolean isPasswordInputType() {
+        final int variation = getInputType() & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
+        return variation == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD)
+                || variation == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)
+                || variation == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
+    }
+
+    @Override
+    public void setEnabled(final boolean enabled) {
+        super.setEnabled(enabled);
+        showIcon();
+    }
+
+    @Override
+    protected void onTextChanged(@NonNull final CharSequence source, final int start, final int lengthBefore, final int lengthAfter) {
+        super.onTextChanged(source, start, lengthBefore, lengthAfter);
+        showIcon();
+    }
+
+    @Override
+    public boolean onTouchEvent(@NonNull final MotionEvent event) {
+        if (hasIconClickHandler()) { //editTextIconHandler will be null if there is no icon
+            final Drawable[] compoundDrawables = getCompoundDrawables();
+            final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
+            if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null && isEnabled()) {
+                if (isShowPasswordIconTouched(event, drawable)) {
+                    if (isEnabled() && getEditableText() != null && getEditableText().length() > 0) {
+                        editTextIconHandler.processIconTouch(getCompoundDrawables()[RIGHT_DRAWABLE_INDEX], event);
+                    }
+                }
+            }
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    protected boolean isShowPasswordIconTouched(@NonNull final MotionEvent event, @NonNull final Drawable drawable) {
+        final int passwordDrawableTouchArea = getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
+        return (event.getRawX() >= (getRight() + getPaddingRight() + drawable.getBounds().width() - (passwordDrawableTouchArea + getCompoundDrawablePadding())));
+    }
+
+    static class SavedState extends BaseSavedState {
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
 
