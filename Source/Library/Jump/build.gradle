@@ -131,6 +131,8 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.4.0-SNAPSHOT', ext: 'aar', changing: true)
     compile 'com.squareup.okio:okio:1.6.0'
 //    compile project(':servertime')
+    //WeChat China
+    compile files('libs/libammsdk.jar')
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
 
 }
