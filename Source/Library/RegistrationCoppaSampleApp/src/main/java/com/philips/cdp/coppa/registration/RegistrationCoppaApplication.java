@@ -50,7 +50,7 @@ public class RegistrationCoppaApplication extends Application {
         if (restoredText != null) {
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.TESTING);
+            initRegistration(Configuration.PRODUCTION);
         }
     }
 

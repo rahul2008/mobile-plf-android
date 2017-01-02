@@ -242,13 +242,20 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                         }
 
                         String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
-                        jumpConfig.captureDomain = janrainURL;
+
+                        if(RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(String.valueOf(Configuration.PRODUCTION))){
+                            RLog.d(RLog.SERVICE_DISCOVERY, " ******* IF ENVIRON : onSuccess  :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment().toString());
+                            jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
+                            jumpConfig.engageAppId = getEngageId(PROD_CAPTURE_DOMAIN_CHINA);
+                            jumpConfig.captureAppId = getCaptureId(PROD_CAPTURE_DOMAIN_CHINA);
+                        }else{
+                            RLog.d(RLog.SERVICE_DISCOVERY, " ******* ELSE ENVIRON : onSuccess  :"+RegistrationConfiguration.getInstance().getRegistrationEnvironment().toString());
+                            jumpConfig.captureDomain = janrainURL;
+                            jumpConfig.engageAppId = getEngageId(urlLocal);
+                            jumpConfig.captureAppId = getCaptureId(urlLocal);
+                        }
 
                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
-
-                        jumpConfig.engageAppId = getEngageId(urlLocal);
-                        jumpConfig.captureAppId = getCaptureId(urlLocal);
-
 
                         if (jumpConfig.engageAppId== null || jumpConfig.captureAppId==null)
                             throw new RuntimeException("Captureid or engageid is null" );
@@ -285,6 +292,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                     @Override
                                                     public void onSuccess(URL url) {
                                                         String modifiedUrl = url.toString().replaceAll("c-w", "myphilips");
+                                                        //https://philips-cn.capture.cn.janrain.com/
                                                         jumpConfig.captureRecoverUri = modifiedUrl + "&loc=" + langCode + "_" + countryCode;
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + modifiedUrl);
                                                         RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.landing.resetpass :" + jumpConfig.captureRecoverUri);
