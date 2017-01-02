@@ -33,10 +33,7 @@ public final class CommCentral {
         this.applianceFactory = applianceFactory;
 
         // Setup ApplianceManager
-        this.applianceManager = new ApplianceManager(applianceFactory);
-        for (DiscoveryStrategy strategy : discoveryStrategies) {
-            strategy.addDiscoveryListener(applianceManager);
-        }
+        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory);
     }
 
     public void startDiscovery() throws MissingPermissionException {
