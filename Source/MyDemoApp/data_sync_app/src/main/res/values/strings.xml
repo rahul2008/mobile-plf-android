@@ -22,5 +22,7 @@
     <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
     <string name="consents">Consents</string>
     <string name="characteristics">characteristics</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
 
 </resources>
