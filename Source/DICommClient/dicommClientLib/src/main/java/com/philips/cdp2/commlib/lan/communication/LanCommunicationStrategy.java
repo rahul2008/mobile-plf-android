@@ -12,8 +12,6 @@ import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ExchangeKeyRequest;
-import com.philips.cdp.dicommclient.request.LocalRequest;
-import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -43,35 +41,35 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.GET, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.PUT, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.POST, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.DELETE, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
@@ -79,7 +77,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     public void unsubscribe(String portName, int productId,
                             ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LocalRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LocalRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 

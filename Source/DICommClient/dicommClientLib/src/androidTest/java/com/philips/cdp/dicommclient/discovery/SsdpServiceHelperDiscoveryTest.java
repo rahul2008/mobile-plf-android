@@ -9,7 +9,7 @@ import android.os.Handler.Callback;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.MockitoTestCase;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -457,7 +457,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         }
     }
 
-    private static class TestAppliance extends DICommAppliance {
+    private static class TestAppliance extends Appliance {
 
         public TestAppliance(NetworkNode networkNode) {
             super(networkNode, new NullCommunicationStrategy());

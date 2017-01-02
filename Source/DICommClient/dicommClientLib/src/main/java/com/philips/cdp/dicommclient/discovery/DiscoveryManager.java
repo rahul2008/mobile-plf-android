@@ -10,7 +10,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -43,9 +43,9 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager<T extends DICommAppliance> {
+public class DiscoveryManager<T extends Appliance> {
 
-    private static DiscoveryManager<? extends DICommAppliance> mInstance;
+    private static DiscoveryManager<? extends Appliance> mInstance;
 
     private LinkedHashMap<String, T> mAllAppliancesMap;
     private List<NetworkNode> mAddedAppliances;
@@ -81,11 +81,11 @@ public class DiscoveryManager<T extends DICommAppliance> {
         }
     };
 
-    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory) {
+    static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory) {
         return createSharedInstance(applicationContext, cloudController, applianceFactory, new NullApplianceDatabase<U>());
     }
 
-    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+    static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
         if (mInstance != null) {
             throw new RuntimeException("DiscoveryManager can only be initialized once");
         }
@@ -98,7 +98,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         return discoveryManager;
     }
 
-    public static synchronized DiscoveryManager<? extends DICommAppliance> getInstance() {
+    public static synchronized DiscoveryManager<? extends Appliance> getInstance() {
         return mInstance;
     }
 
@@ -162,7 +162,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
     // TODO DIComm refactor: this method should be removed from public interface
     public void removeFromDiscoveredList(String cppId) {
         if (cppId == null || cppId.isEmpty()) return;
-        DICommAppliance appliance = mAllAppliancesMap.remove(cppId);
+        Appliance appliance = mAllAppliancesMap.remove(cppId);
         if (appliance != null) {
             appliance.getNetworkNode().setEncryptionKeyUpdatedListener(null);
         }
@@ -393,7 +393,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
 
         ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesCppId();
 
-        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+        for (Appliance appliance : mAllAppliancesMap.values()) {
             if (appliance.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
                 continue; // must be offline: not discovered
             if (isConnectedRemotely(appliance))
@@ -416,7 +416,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
     private void markOtherNetworkAppliancesRemote(String ssid) {
         DICommLog.d(DICommLog.DISCOVERY, "Marking all paired appliances REMOTE that will not appear on network: " + ssid);
         boolean statusUpdated = false;
-        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+        for (Appliance appliance : mAllAppliancesMap.values()) {
             if (!isConnectedLocally(appliance) &&
                     !isConnectedRemotely(appliance) &&
                     !isOnHomeSsid(ssid, appliance) &&
@@ -430,14 +430,14 @@ public class DiscoveryManager<T extends DICommAppliance> {
         notifyDiscoveryListener();
     }
 
-    private boolean isOnHomeSsid(final String ssid, final DICommAppliance appliance) {
+    private boolean isOnHomeSsid(final String ssid, final Appliance appliance) {
         return appliance.getNetworkNode().getHomeSsid() != null && appliance.getNetworkNode().getHomeSsid().equals(ssid);
     }
 
     private void markNonDiscoveredAppliancesRemote() {
         DICommLog.d(DICommLog.DISCOVERY, "Marking paired appliances that where not discovered locally REMOTE");
         boolean statusUpdated = false;
-        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+        for (Appliance appliance : mAllAppliancesMap.values()) {
             if (!isConnectedLocally(appliance) &&
                     !isConnectedRemotely(appliance) &&
                     isPaired(appliance)) {
@@ -450,22 +450,22 @@ public class DiscoveryManager<T extends DICommAppliance> {
         notifyDiscoveryListener();
     }
 
-    private boolean isPaired(final DICommAppliance appliance) {
+    private boolean isPaired(final Appliance appliance) {
         return appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED;
     }
 
-    private boolean isConnectedRemotely(final DICommAppliance appliance) {
+    private boolean isConnectedRemotely(final Appliance appliance) {
         return appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY;
     }
 
-    private boolean isConnectedLocally(final DICommAppliance appliance) {
+    private boolean isConnectedLocally(final Appliance appliance) {
         return appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY;
     }
 
     private void markAllAppliancesRemote() {
         DICommLog.d(DICommLog.DISCOVERY, "Marking all paired appliances REMOTE");
         boolean statusUpdated = false;
-        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+        for (Appliance appliance : mAllAppliancesMap.values()) {
             if (isPaired(appliance)) {
                 appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
                 statusUpdated = true;
@@ -483,7 +483,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
     private void markAllAppliancesOffline() {
         DICommLog.d(DICommLog.DISCOVERY, "Marking all appliances OFFLINE");
         boolean statusUpdated = false;
-        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+        for (Appliance appliance : mAllAppliancesMap.values()) {
             if (appliance.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED))
                 continue;
 
@@ -506,7 +506,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
 
         DICommLog.i(DICommLog.DISCOVERY, "List: " + cppIds);
 
-        for (DICommAppliance appliances : getAllDiscoveredAppliances()) {
+        for (Appliance appliances : getAllDiscoveredAppliances()) {
             boolean updatedState = false;
             boolean currentOnlineViaCpp = connected;
             if (cppIds.isEmpty()) {
@@ -534,7 +534,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         boolean notifyListeners = false;
 
         for (String cppIds : info.getClientIds()) {
-            DICommAppliance appliance = getApplianceByCppId(cppIds);
+            Appliance appliance = getApplianceByCppId(cppIds);
             if (appliance == null) {
                 DICommLog.v(DICommLog.DISCOVERY, "Received discover event for unknown appliance: " + cppIds);
                 continue;
@@ -552,7 +552,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         return notifyListeners;
     }
 
-    private boolean updateConnectedStateOnlineViaCpp(DICommAppliance appliance) {
+    private boolean updateConnectedStateOnlineViaCpp(Appliance appliance) {
         DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOnlineViaCpp: " + appliance.getName());
         if (appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.NOT_PAIRED)
             return false;
@@ -565,7 +565,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         return true;
     }
 
-    private boolean updateConnectedStateOfflineViaCpp(DICommAppliance appliance) {
+    private boolean updateConnectedStateOfflineViaCpp(Appliance appliance) {
         DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOfflineViaCpp: " + appliance.getName());
         if (appliance.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_REMOTELY)
             return false;
@@ -713,7 +713,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         String offline = "Offline appliances %d: ";
         String local = "Local appliances %d: ";
         String cpp = "Cpp appliances %d: ";
-        for (DICommAppliance appliances : mAllAppliancesMap.values()) {
+        for (Appliance appliances : mAllAppliancesMap.values()) {
             switch (appliances.getNetworkNode().getConnectionState()) {
                 case DISCONNECTED:
                     offline += appliances.getName() + ", ";
@@ -782,7 +782,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
     }
 
     // ********** START TEST METHODS ************
-    public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends DICommAppliance> dummyManager) {
+    public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends Appliance> dummyManager) {
         mInstance = dummyManager;
     }
 

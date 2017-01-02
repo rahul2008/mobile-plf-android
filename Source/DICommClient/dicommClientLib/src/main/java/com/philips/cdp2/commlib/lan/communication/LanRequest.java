@@ -1,9 +1,9 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.request;
+package com.philips.cdp2.commlib.lan.communication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,6 +15,10 @@ import android.os.Build;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.Request;
+import com.philips.cdp.dicommclient.request.Response;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -28,17 +32,17 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-public class LocalRequest extends Request {
+public class LanRequest extends Request {
 
     private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
     private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
     public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
     private final String mUrl;
-    private final LocalRequestType mRequestType;
+    private final LanRequestType mRequestType;
     private final DISecurity mDISecurity;
 
-    public LocalRequest(String applianceIpAddress, int protocolVersion, String portName, int productId, LocalRequestType requestType, Map<String, Object> dataMap,
-                        ResponseHandler responseHandler, DISecurity diSecurity) {
+    public LanRequest(String applianceIpAddress, int protocolVersion, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap,
+                      ResponseHandler responseHandler, DISecurity diSecurity) {
         super(dataMap, responseHandler);
         mUrl = createPortUrl(applianceIpAddress, protocolVersion, portName, productId);
         mRequestType = requestType;
@@ -74,19 +78,19 @@ public class LocalRequest extends Request {
 
         try {
             URL urlConn = new URL(mUrl);
-            conn = LocalRequest.createConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
+            conn = LanRequest.createConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
             if (conn == null) {
                 DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - no wificonnection available");
                 return new Response(null, Error.NO_TRANSPORT_AVAILABLE, mResponseHandler);
             }
 
-            if (mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
+            if (mRequestType == LanRequestType.PUT || mRequestType == LanRequestType.POST) {
                 if (mDataMap == null || mDataMap.isEmpty()) {
                     DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - no data for Put or Post");
                     return new Response(null, Error.NO_REQUEST_DATA, mResponseHandler);
                 }
                 out = appendDataToRequestIfAvailable(conn);
-            } else if (mRequestType == LocalRequestType.DELETE) {
+            } else if (mRequestType == LanRequestType.DELETE) {
                 appendDataToRequestIfAvailable(conn);
             }
             conn.connect();
@@ -179,7 +183,7 @@ public class LocalRequest extends Request {
         HttpURLConnection conn = null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Network wifiNetworkForSocket = LocalRequest.getWifiNetworkForSocket(DICommClientWrapper.getContext(), lockTimeout);
+            Network wifiNetworkForSocket = LanRequest.getWifiNetworkForSocket(DICommClientWrapper.getContext(), lockTimeout);
 
             if (wifiNetworkForSocket == null) {
                 return null;
