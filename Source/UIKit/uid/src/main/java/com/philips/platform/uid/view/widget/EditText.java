@@ -29,8 +29,6 @@ import com.philips.platform.uid.utils.ClearEditTextIconHandler;
 import com.philips.platform.uid.utils.EditTextIconHandler;
 import com.philips.platform.uid.utils.PasswordEditTextIconHandler;
 
-import static com.philips.platform.uid.utils.EditTextIconHandler.RIGHT_DRAWABLE_INDEX;
-
 public class EditText extends AppCompatEditText {
     private final static int DRAWABLE_FILL_INDEX = 0;
     private final static int DRAWABLE_STROKE_INDEX = 1;
@@ -215,25 +213,26 @@ public class EditText extends AppCompatEditText {
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull final MotionEvent event) {
-        if (hasIconClickHandler()) { //editTextIconHandler will be null if there is no icon
-            final Drawable[] compoundDrawables = getCompoundDrawables();
-            final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
-            if (event.getAction() == MotionEvent.ACTION_DOWN && drawable != null && isEnabled()) {
-                if (isShowPasswordIconTouched(event, drawable)) {
-                    if (isEnabled() && getEditableText() != null && getEditableText().length() > 0) {
-                        editTextIconHandler.processIconTouch(getCompoundDrawables()[RIGHT_DRAWABLE_INDEX], event);
-                    }
-                }
+    protected void onFocusChanged(final boolean focused, final int direction, final Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        if (!focused && isPasswordInputType() && hasIconClickHandler()) {
+            if (isPasswordVisible()) {
+                editTextIconHandler.processIconTouch();
             }
         }
-
-        return super.onTouchEvent(event);
     }
 
-    protected boolean isShowPasswordIconTouched(@NonNull final MotionEvent event, @NonNull final Drawable drawable) {
-        final int passwordDrawableTouchArea = getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
-        return (event.getRawX() >= (getRight() + getPaddingRight() + drawable.getBounds().width() - (passwordDrawableTouchArea + getCompoundDrawablePadding())));
+    @Override
+    public boolean onTouchEvent(@NonNull final MotionEvent event) {
+        boolean shouldProcessTouch = false;
+        if (hasIconClickHandler() && isEnabled()) { //editTextIconHandler will be null if there is no icon
+            shouldProcessTouch = editTextIconHandler.isTouchProcessed(event);
+            requestFocus();
+        }
+        if (!shouldProcessTouch) {
+            return super.onTouchEvent(event);
+        }
+        return shouldProcessTouch;
     }
 
     static class SavedState extends BaseSavedState {
