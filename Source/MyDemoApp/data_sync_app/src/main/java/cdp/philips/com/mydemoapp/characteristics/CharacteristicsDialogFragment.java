@@ -42,7 +42,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.dialog_characteristics, container,
+        View rootView = inflater.inflate(R.layout.dialog_user_characteristics, container,
                 false);
 
         mBtnOk=(Button)rootView.findViewById(R.id.btnOK);
