@@ -1,9 +1,9 @@
 package com.philips.cdp2.commlib.ble.request;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
@@ -60,7 +60,7 @@ public class BleRequestTest {
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(deviceCacheMock.getDeviceMap()).thenReturn(deviceMap);
 
-        request = new BleRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, LocalRequestType.GET, null, responseHandlerMock);
+        request = new BleRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, LanRequestType.GET, null, responseHandlerMock);
     }
 
     @Test

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -18,14 +19,15 @@ import com.philips.pins.shinelib.SHNResult;
 
 import java.util.Set;
 
-public final class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
+public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
     private final Context context;
     private final BleDeviceCache bleDeviceCache;
     private final long timeoutMillis;
     private final SHNDeviceScanner deviceScanner;
 
-    private SHNDevice.SHNDeviceListener deviceListener = new SHNDevice.SHNDeviceListener() {
+    @VisibleForTesting
+    SHNDevice.SHNDeviceListener deviceListener = new SHNDevice.SHNDeviceListener() {
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
 
@@ -67,11 +69,16 @@ public final class BleDiscoveryStrategy extends ObservableDiscoveryStrategy impl
 
     @Override
     public void start(Set<String> deviceTypes) throws MissingPermissionException {
-        if (ContextCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkAndroidPermission(this.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             throw new MissingPermissionException("Discovery over BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
         }
         deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis);
         notifyDiscoveryStarted();
+    }
+
+    @VisibleForTesting
+    int checkAndroidPermission(Context context, String permission) {
+        return ContextCompat.checkSelfPermission(context, permission);
     }
 
     @Override

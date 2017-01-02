@@ -8,13 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.request.LocalRequestType;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.cdp2.commlib.ble.error.BleErrorMap;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
+import com.philips.cdp2.commlib.ble.error.BleErrorMap;
+import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -52,7 +52,7 @@ public class BleRequest extends Request implements Runnable {
     private boolean mIsExecuting;
     private CountDownLatch mCountDownLatch;
     private final int mProductId;
-    private final LocalRequestType mRequestType;
+    private final LanRequestType mRequestType;
     private final Object mLock = new Object();
     private final String mPortName;
 
@@ -126,7 +126,7 @@ public class BleRequest extends Request implements Runnable {
                       @NonNull String cppId,
                       @NonNull String portName,
                       int productId,
-                      @NonNull LocalRequestType requestType,
+                      @NonNull LanRequestType requestType,
                       Map<String, Object> dataMap,
                       @NonNull ResponseHandler responseHandler) {
         super(dataMap, responseHandler);

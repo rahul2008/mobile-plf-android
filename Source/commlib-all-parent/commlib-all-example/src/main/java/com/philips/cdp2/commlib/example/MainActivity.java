@@ -15,13 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.FirmwarePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
-        public <A extends DICommAppliance> void onApplianceFound(@NonNull A foundAppliance) {
+        public <A extends Appliance> void onApplianceFound(@NonNull A foundAppliance) {
             bleReferenceAppliance = (BleReferenceAppliance) foundAppliance;
             setupAppliance(bleReferenceAppliance);
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         }};
         this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
         this.commCentral = new CommCentral(discoveryStrategies, this.applianceFactory);
-        this.commCentral.getApplianceManager().addApplianceManagerListener(this.applianceListener);
+        this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
 
         // Setup buttons
         findViewById(R.id.btnStartDiscovery).setOnClickListener(buttonClickListener);
