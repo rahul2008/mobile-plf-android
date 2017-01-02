@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -110,7 +110,7 @@ public class DetailActivity extends AppCompatActivity {
     private DICommApplianceListener diCommApplianceListener = new DICommApplianceListener() {
 
         @Override
-        public void onAppliancePortUpdate(final DICommAppliance appliance, final DICommPort<?> port) {
+        public void onAppliancePortUpdate(final Appliance appliance, final DICommPort<?> port) {
             if (port instanceof AirPort) {
                 updateLightSwitchView((AirPort) port);
             } else if (port instanceof DevicePort) {
@@ -119,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onAppliancePortError(final DICommAppliance appliance, final DICommPort<?> port, final com.philips.cdp.dicommclient.request.Error error) {
+        public void onAppliancePortError(final Appliance appliance, final DICommPort<?> port, final com.philips.cdp.dicommclient.request.Error error) {
         }
     };
 

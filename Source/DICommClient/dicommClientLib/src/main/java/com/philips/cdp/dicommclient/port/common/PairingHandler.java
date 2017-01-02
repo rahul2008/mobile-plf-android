@@ -12,7 +12,7 @@ import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.pairing.PermissionListener;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-public class PairingHandler<T extends DICommAppliance> {
+public class PairingHandler<T extends Appliance> {
 
     public static final String PAIRING_REFERENCEPROVIDER = "cpp";
     public static final String PAIRING_USER_REFERENCEPROVIDER = "cphuser";

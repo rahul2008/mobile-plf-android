@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
@@ -34,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private CommCentral commCentral;
-    private ArrayAdapter<DICommAppliance> applianceAdapter;
+    private ArrayAdapter<Appliance> applianceAdapter;
 
     private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
-        public <A extends DICommAppliance> void onApplianceFound(@NonNull A foundAppliance) {
+        public <A extends Appliance> void onApplianceFound(@NonNull A foundAppliance) {
             AirPurifier appliance = (AirPurifier) foundAppliance;
             appliance.getWifiPort().addPortListener(wifiPortListener);
 
@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        applianceAdapter = new ArrayAdapter<DICommAppliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
+        applianceAdapter = new ArrayAdapter<Appliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                DICommAppliance appliance = getItem(position);
+                Appliance appliance = getItem(position);
                 ((TextView) view.findViewById(android.R.id.text1)).setText(appliance.getName());
                 ((TextView) view.findViewById(android.R.id.text2)).setText(String.format("%s - %s", appliance.getDeviceType(), appliance.getNetworkNode().getCppId()));
                 return view;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
 
         this.commCentral = ((App) getApplication()).getCommCentral();
-        this.commCentral.getApplianceManager().addApplianceManagerListener(this.applianceListener);
+        this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
     }
 
     @Override

@@ -12,8 +12,10 @@ import org.json.JSONObject;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.lan.communication.LanRequest;
+import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
-public class ExchangeKeyRequest extends LocalRequest {
+public class ExchangeKeyRequest extends LanRequest {
 
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
@@ -21,7 +23,7 @@ public class ExchangeKeyRequest extends LocalRequest {
     private String mRandomValue;
 
     public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, ResponseHandler responseHandler) {
-        super(applianceIpAddress, protocolVersion, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
+        super(applianceIpAddress, protocolVersion, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
         String sdiffie = EncryptionUtil.generateDiffieKey(mRandomValue);
