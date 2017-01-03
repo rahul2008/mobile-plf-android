@@ -34,23 +34,30 @@ public abstract class EditTextIconHandler {
     public abstract Drawable getIconDrawable();
 
     public boolean isTouchProcessed(final MotionEvent event) {
-        final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-        final Drawable drawable = compoundDrawables[getDrawableIndexBasedOnLayoutDirection()];
-        if (drawable != null && editText.isEnabled() && isShowPasswordIconTouched(event, drawable)) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                isIconActionDownDetected = true;
-                return true;
-            }
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                isIconActionUpDetected = true;
-            }
-            if (isIconActionDownDetected && isIconActionUpDetected) {
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            isIconActionDownDetected = true;
+            return true;
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            isIconActionUpDetected = true;
+        }
+        return processTouch(event);
+    }
+
+    private boolean processTouch(final MotionEvent event) {
+        if (isIconActionDownDetected && isIconActionUpDetected) {
+            final Drawable[] compoundDrawables = editText.getCompoundDrawables();
+            final Drawable drawable = compoundDrawables[getDrawableIndexBasedOnLayoutDirection()];
+            if (drawable != null && isIconTouched(event, drawable)) {
                 final Editable editableText = editText.getEditableText();
                 if (editableText != null && editableText.length() > 0) {
                     resetIconTouch();
                     processIconTouch();
                     return true;
                 }
+            } else {
+                resetIconTouch();
             }
         } else {
             resetIconTouch();
@@ -63,7 +70,7 @@ public abstract class EditTextIconHandler {
         isIconActionUpDetected = false;
     }
 
-    private boolean isShowPasswordIconTouched(@NonNull final MotionEvent event, @NonNull final Drawable drawable) {
+    private boolean isIconTouched(@NonNull final MotionEvent event, @NonNull final Drawable drawable) {
         if (isRightToLeft()) {
             return (event.getRawX() <= (editText.getRight() - editText.getWidth() + passwordDrawableTouchArea + editText.getCompoundDrawablePadding()));
         }
