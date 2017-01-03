@@ -105,7 +105,6 @@ import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
 
 import org.json.JSONObject;
 

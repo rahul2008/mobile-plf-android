@@ -15,7 +15,7 @@ public class ServiceDiscoveryServiceTest extends MockitoTestCase {
     private Context context;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     ServiceDiscoveryManager mServiceDiscoveryManager = null;
-    ServiceDiscoveyService mServiceDiscoveyService = null;
+    ServiceDiscoveryService mServiceDiscoveyService = null;
     AppInfra mAppInfra;
 
     @Override

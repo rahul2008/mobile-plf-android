@@ -5,7 +5,7 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,20 +13,6 @@ import java.util.Map;
 
 
 public interface ServiceDiscoveryInterface {
-
-
-    /**
-     * The type Service url and locale.
-     */
-    public class ServiceUrlandLocale {
-        public final URL serviceUrl;
-        public final String serviceLocale;
-
-        public ServiceUrlandLocale(URL serviceUrl, String serviceLocale) {
-            this.serviceUrl = serviceUrl;
-            this.serviceLocale = serviceLocale;
-        }
-    }
 
     /**
      * This is the callback method Error cases.
@@ -68,7 +54,7 @@ public interface ServiceDiscoveryInterface {
      * onSuccess returns the successful response
      */
     interface OnGetServiceUrlMapListener extends OnErrorListener {
-        void onSuccess(Map<String, ServiceDiscoveyService> urlMap);
+        void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
     }
 
     /**
