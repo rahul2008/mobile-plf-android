@@ -234,7 +234,6 @@ public class EditTextTest {
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
     }
 
-
     @Test
     public void verifyPasswordRightDrawableHeight() throws Exception {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
@@ -260,6 +259,8 @@ public class EditTextTest {
 
     @Test
     public void verifyPasswordMaskedWhenClickedOnShowAndThenHideAgain() throws Exception {
+        waitFor(activityContext, 300);
+
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
         getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
         getPasswordTextbox().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
@@ -275,6 +276,16 @@ public class EditTextTest {
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
     }
 
+    @Test
+    public void verifyMaskingIncaseOfFocusChanged() throws Exception {
+        getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
+
+        getPasswordTextbox().perform(new GeneralClickAction(Tap.DOUBLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
+
+        getClearTextbox().perform(ViewActions.click());
+        getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
+    }
 
     @Test
     public void verifyPasswordTextBoxCompoundPadding() {
@@ -305,7 +316,6 @@ public class EditTextTest {
         getClearTextbox().check(matches(TextViewPropertiesMatchers.hasNoText()));
 
         getClearTextbox().check(matches(TextViewPropertiesMatchers.noCompoundDrawable(RIGHT_DRAWABLE_INDEX)));
-
     }
 
     @Test
@@ -335,7 +345,6 @@ public class EditTextTest {
         final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.edittext_clear_icon_width_height);
         getClearTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
     }
-
 
     private ViewInteraction getTextBox() {
         return onView(withId(com.philips.platform.uid.test.R.id.textBox));

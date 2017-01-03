@@ -1,6 +1,5 @@
 package com.philips.platform.uid.utils;
 
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.text.Selection;
@@ -30,7 +29,7 @@ public class PasswordEditTextIconHandler extends EditTextIconHandler {
 
     @Override
     public Drawable getIconDrawable() {
-        return editText.isPasswordVisible() ? getHidePasswordDrawable(editText.getContext().getTheme()) :
+        return editText.isPasswordVisible() ? getHidePasswordDrawable() :
                 getShowPasswordDrawable();
     }
 
@@ -41,7 +40,7 @@ public class PasswordEditTextIconHandler extends EditTextIconHandler {
         return showPasswordDrawable;
     }
 
-    private Drawable getHidePasswordDrawable(@NonNull final Resources.Theme theme) {
+    private Drawable getHidePasswordDrawable() {
         if (hidePasswordDrawable == null) {
             hidePasswordDrawable = getDrawable(R.drawable.uid_texteditbox_hide_password_icon);
         }

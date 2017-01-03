@@ -227,12 +227,12 @@ public class EditText extends AppCompatEditText {
         boolean shouldProcessTouch = false;
         if (hasIconClickHandler() && isEnabled()) { //editTextIconHandler will be null if there is no icon
             shouldProcessTouch = editTextIconHandler.isTouchProcessed(event);
-            requestFocus();
+            if (!hasFocus()) {
+                requestFocus();
+            }
         }
-        if (!shouldProcessTouch) {
-            return super.onTouchEvent(event);
-        }
-        return shouldProcessTouch;
+
+        return shouldProcessTouch || super.onTouchEvent(event);
     }
 
     static class SavedState extends BaseSavedState {
