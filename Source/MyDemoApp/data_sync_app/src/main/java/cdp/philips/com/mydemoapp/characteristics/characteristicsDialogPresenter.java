@@ -20,7 +20,7 @@ class CharacteristicsDialogPresenter {
     }
 
     void createOrUpdateCharacteristics(String userCharacteristics) {
-        UserCharacteristics mUserCharacteristics = (UserCharacteristics) parseUserCharacteristics(userCharacteristics);
+        UserCharacteristics mUserCharacteristics = parseUserCharacteristics(userCharacteristics);
         for (int i = 0; i < mUserCharacteristics.getCharacteristics().size(); i++) {
             String type = mUserCharacteristics.getCharacteristics().get(i).getType();
             String value = mUserCharacteristics.getCharacteristics().get(i).getValue();
@@ -30,7 +30,7 @@ class CharacteristicsDialogPresenter {
         mDataServicesManager.updateCharacteristics(mCharacteristics);
     }
 
-    private Object parseUserCharacteristics(String userCharacteristics) {
+    private UserCharacteristics parseUserCharacteristics(String userCharacteristics) {
         return new Gson().fromJson(userCharacteristics, UserCharacteristics.class);
     }
 
