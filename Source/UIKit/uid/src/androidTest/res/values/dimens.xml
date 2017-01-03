@@ -26,18 +26,18 @@
     <dimen name="quietbutton_right_padding">12dp</dimen>
 
     <!--TextEditBox dimens-->
-    <dimen name="texteditbox_corner_radius">2dp</dimen>
-    <dimen name="texteditbox_fill_corner_radius">4dp</dimen>
-    <dimen name="texteditbox_height">40dp</dimen>
-    <dimen name="texteditbox_fontsize">16sp</dimen>
-    <dimen name="texteditbox_left_padding">12dp</dimen>
-    <dimen name="texteditbox_right_padding">12dp</dimen>
-    <dimen name="texteditbox_stroke_height">1dp</dimen>
-    <dimen name="texteditbox_compound_drawble_width">24dp</dimen>
+    <dimen name="edittext_corner_radius">2dp</dimen>
+    <dimen name="edittext_fill_corner_radius">4dp</dimen>
+    <dimen name="edittext_height">40dp</dimen>
+    <dimen name="edittext_fontsize">16sp</dimen>
+    <dimen name="edittext_left_padding">12dp</dimen>
+    <dimen name="edittext_right_padding">12dp</dimen>
+    <dimen name="edittext_stroke_height">1dp</dimen>
+    <dimen name="edittext_compound_drawble_width">24dp</dimen>
 
-    <dimen name="passwordtextbox_compoundpadding">20dp</dimen>
+    <dimen name="edittext_passwordtextbox_compound_drawable_padding">20dp</dimen>
 
-    <dimen name="clearicon_dimens">16dp</dimen>
+    <dimen name="edittext_clear_icon_width_height">16dp</dimen>
 
 
 

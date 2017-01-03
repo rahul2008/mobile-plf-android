@@ -5,7 +5,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="texteditBoxfragment"
-                  type="com.philips.platform.catalogapp.fragments.TextEditBoxFragment"></variable>
+                  type="com.philips.platform.catalogapp.fragments.EditTextFragment"></variable>
     </data>
     <ScrollView
         android:layout_width="match_parent"

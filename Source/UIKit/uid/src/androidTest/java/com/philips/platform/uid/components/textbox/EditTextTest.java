@@ -44,7 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
-public class EditBoxTest {
+public class EditTextTest {
 
     private static final int RIGHT_DRAWABLE_INDEX = 2;
     private static final int COMPOUND_DRAWABLE_INDEX = RIGHT_DRAWABLE_INDEX;
@@ -74,21 +74,21 @@ public class EditBoxTest {
 
     @Test
     public void verifyTextBoxTextFontSize() {
-        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_fontsize);
+        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_fontsize);
         getTextBox().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
     }
 
     @Test
     public void verifySameTextEditBoxRadiusOnDynamicCreation() {
         EditText editText = new EditText(mActivityTestRule.getActivity());
-        float expectedRadius = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_corner_radius);
+        float expectedRadius = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_corner_radius);
         Drawable strokeDrawable = ((LayerDrawable) editText.getBackground()).findDrawableByLayerId(R.id.uid_texteditbox_stroke_drawable);
         DrawableMatcher.isSameRadius(0, expectedRadius).matches(strokeDrawable);
     }
 
     @Test
     public void verifyTextEditBoxStrokeBackgroundRadius() {
-        float expectedRadius = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_corner_radius));
+        float expectedRadius = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_corner_radius));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uid_texteditbox_stroke_drawable)));
     }
 
@@ -96,33 +96,33 @@ public class EditBoxTest {
     @Ignore
     @Test
     public void verifyTextEditBoxFillBackgroundRadius() {
-        float expectedRadius = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_corner_radius));
+        float expectedRadius = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_corner_radius));
         getTextBox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, expectedRadius, R.id.uid_texteditbox_fill_drawable)));
     }
 
     @Test
     public void verifyTextEditBoxLeftPadding() {
-        int expectedLeftPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_left_padding));
+        int expectedLeftPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_left_padding));
         getTextBox().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyTextEditBoxRightPadding() {
-        int expectedRightPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_right_padding));
+        int expectedRightPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_right_padding));
         getTextBox().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyTextEditBoxHeight() {
         waitFor(testResources, 750);
-        int expectedHeight = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_height));
+        int expectedHeight = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_height));
         getTextBox().check(matches(FunctionDrawableMatchers.isMinHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight, R.id.uid_texteditbox_fill_drawable)));
     }
 
     @Ignore
     @Test
     public void verifyTextEditBoxStrokeWidth() {
-        int expectedStrokeWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_stroke_height);
+        int expectedStrokeWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_stroke_height);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeWidth(TestConstants.FUNCTION_GET_BACKGROUND, expectedStrokeWidth, R.id.uid_texteditbox_stroke_drawable)));
     }
 
@@ -206,7 +206,7 @@ public class EditBoxTest {
 
     @Test
     public void verifyPasswordTextBoxTextFontSize() {
-        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_fontsize);
+        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_fontsize);
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
     }
 
@@ -222,7 +222,7 @@ public class EditBoxTest {
 
     @Test
     public void verifyPasswordRightDrawablePadding() throws Exception {
-        final int padding = (int) activityContext.getResources().getDimension(R.dimen.uid_texteditbox_password_right_drawable_left_padding);
+        final int padding = (int) activityContext.getResources().getDimension(R.dimen.uid_edittext_password_right_drawable_left_padding);
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(padding)));
     }
 
@@ -230,16 +230,16 @@ public class EditBoxTest {
     public void verifyPasswordRightDrawableWidth() throws Exception {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
 
-        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.texteditbox_compound_drawble_width);
+        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.edittext_compound_drawble_width);
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
     }
 
-    
+
     @Test
     public void verifyPasswordRightDrawableHeight() throws Exception {
         getPasswordTextbox().perform(ViewActions.typeText("Hello@123?"));
 
-        final int height = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.texteditbox_compound_drawble_width);
+        final int height = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.edittext_compound_drawble_width);
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(COMPOUND_DRAWABLE_INDEX, height)));
     }
 
@@ -278,7 +278,7 @@ public class EditBoxTest {
 
     @Test
     public void verifyPasswordTextBoxCompoundPadding() {
-        int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.passwordtextbox_compoundpadding);
+        int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_passwordtextbox_compound_drawable_padding);
 
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
@@ -286,7 +286,7 @@ public class EditBoxTest {
     @Test
     public void verifyPasswordTextBoxRightPadding() {
         waitFor(testResources, 750);
-        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_right_padding);
         getPasswordTextbox().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
@@ -311,28 +311,28 @@ public class EditBoxTest {
     @Test
     public void verifyClearTextBoxLeftPadding() {
         waitFor(testResources, 750);
-        int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.passwordtextbox_compoundpadding);
+        int expectedCompoundPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_passwordtextbox_compound_drawable_padding);
         getClearTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
 
     @Test
     public void verifyClearTextBoxRightPadding() {
         waitFor(testResources, 750);
-        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.texteditbox_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.edittext_right_padding);
         getClearTextbox().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
     @Test
     public void verifyClearRightDrawableWidth() throws Exception {
         getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
-        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.clearicon_dimens);
+        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.edittext_clear_icon_width_height);
         getClearTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
     }
 
     @Test
     public void verifyClearRightDrawableHeight() throws Exception {
         getClearTextbox().perform(ViewActions.typeText("Hello@123?"));
-        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.clearicon_dimens);
+        final int width = activityContext.getResources().getDimensionPixelOffset(com.philips.platform.uid.test.R.dimen.edittext_clear_icon_width_height);
         getClearTextbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(COMPOUND_DRAWABLE_INDEX, width)));
     }
 

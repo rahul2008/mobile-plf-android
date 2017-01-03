@@ -15,6 +15,7 @@ public abstract class EditTextIconHandler {
     static final int TOP_DRAWABLE_INDEX = 1;
     static int RIGHT_DRAWABLE_INDEX = 2;
     static final int BOTTOM_DRAWABLE_INDEX = 3;
+    private final int passwordDrawableTouchArea;
     private boolean isIconActionUpDetected;
     private boolean isIconActionDownDetected;
     private boolean isIconDisplayed;
@@ -25,6 +26,8 @@ public abstract class EditTextIconHandler {
 //        if (editText.getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
 //            RIGHT_DRAWABLE_INDEX = 0;
 //        }
+        passwordDrawableTouchArea = editText.getContext().getResources().getDimensionPixelSize(R.dimen.uid_edittext_password_drawable_touch_area);
+
     }
 
     public boolean isTouchProcessed(final MotionEvent event) {
@@ -58,7 +61,6 @@ public abstract class EditTextIconHandler {
     }
 
     private boolean isShowPasswordIconTouched(@NonNull final MotionEvent event, @NonNull final Drawable drawable) {
-        final int passwordDrawableTouchArea = editText.getContext().getResources().getDimensionPixelSize(R.dimen.uid_texteditbox_password_drawable_touch_area);
         return (event.getRawX() >= (editText.getRight() + editText.getPaddingRight() + drawable.getBounds().width() - (passwordDrawableTouchArea + editText.getCompoundDrawablePadding())));
     }
 

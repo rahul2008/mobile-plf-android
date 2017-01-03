@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="UIDTextEditBox" parent="Base.Widget.AppCompat.EditText">
+    <style name="UIDEditTextBox" parent="Base.Widget.AppCompat.EditText">
         <item name="fontPath">fonts/centralesansbook.ttf"</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:minWidth">@dimen/uid_texteditbox_min_width</item>
-        <item name="android:minHeight">@dimen/uid_texteditbox_height</item>
-        <item name="android:textSize">@dimen/uid_texteditbox_text_size</item>
-        <item name="android:paddingLeft">@dimen/uid_texteditbox_text_padding</item>
-        <item name="android:paddingRight">@dimen/uid_texteditbox_text_padding</item>
-        <item name="android:paddingBottom">@dimen/uid_texteditbox_vertical_padding</item>
-        <item name="android:paddingTop">@dimen/uid_texteditbox_vertical_padding</item>
-        <item name="android:lineSpacingExtra">@dimen/uid_texteditbox_line_spacing</item>
+        <item name="android:minWidth">@dimen/uid_edittext_min_width</item>
+        <item name="android:minHeight">@dimen/uid_edittext_height</item>
+        <item name="android:textSize">@dimen/uid_edittext_text_size</item>
+        <item name="android:paddingLeft">@dimen/uid_edittext_text_padding</item>
+        <item name="android:paddingRight">@dimen/uid_edittext_text_padding</item>
+        <item name="android:paddingBottom">@dimen/uid_edittext_vertical_padding</item>
+        <item name="android:paddingTop">@dimen/uid_edittext_vertical_padding</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_edittext_line_spacing</item>
         <item name="android:drawablePadding">
-            @dimen/uid_texteditbox_password_right_drawable_left_padding
+            @dimen/uid_edittext_password_right_drawable_left_padding
         </item>
-        <item name="android:lineSpacingMultiplier">
-            @integer/uid_texteditbox_font_spacing_multiplier
+        <item name="android:lineSpacingMultiplier">@integer/uid_edittext_font_spacing_multiplier
         </item>
         <item name="uidInputTextFillColorList">@color/uid_texteditbox_fill_selector</item>
         <item name="uidInputTextFillBackground">@drawable/uid_texteditbox_fill</item>
@@ -26,7 +25,7 @@
         <item name="uidInputTextTextSelector">@color/uid_texteditbox_text_selector</item>
         <item name="uidInputTextHintTextSelector">@color/uid_texteditbox_hint_text_selector</item>
     </style>
-    <style name="UIDTextEditBox.ClearButton">
+    <style name="UIDEditTextBox.ClearButton">
         <item name="uidInputTextWithClearButton">true</item>
     </style>
 </resources>

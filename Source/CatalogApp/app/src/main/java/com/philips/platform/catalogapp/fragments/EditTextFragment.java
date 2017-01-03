@@ -18,7 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentTexteditboxBinding;
 
-public class TextEditBoxFragment extends BaseFragment {
+public class EditTextFragment extends BaseFragment {
     public ObservableBoolean disableEditBoxes = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isWithLabel = new ObservableBoolean(Boolean.TRUE);
 
