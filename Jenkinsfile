@@ -5,8 +5,7 @@ node('Android') {
         checkout([$class: 'GitSCM', branches: [[name: 'epic/commlib-ble']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'android-shinelib']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/ehshn/android-shinelib.git']]])
     }
 
-    def workspace = pwd()
-    def Slack = load "${workspace}@script/jenkinsfile-common/Slack.groovy"
+    def Slack = load "jenkinsfile-common/Slack.groovy"
 
     Slack.notify('#conartists') {
         stage('Build BlueLib') {
@@ -29,7 +28,7 @@ node('Android') {
             sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
             sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew testLocalDev'
 
-            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.json'])
         }
     }
 }
