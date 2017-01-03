@@ -33,9 +33,9 @@ allprojects {
         }
     }
     repositories {
-        maven { url 'http://http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
-            url 'http://http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jitpack.io'
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jitpack.io'
         }
 
         maven {
