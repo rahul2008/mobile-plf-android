@@ -14,6 +14,7 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
@@ -134,7 +135,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 updateUserRecord(updatedUser, originalUserInfo);
 
             } catch (JSONException e) {
-                Log.e(LOG_TAG, "On success, Caught JSON Exception");
+                RLog.e(LOG_TAG, "On success, Caught JSON Exception");
             }
         }
 
@@ -175,7 +176,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
                 visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
                 JSONArray visitedMicroSitesArray = (JSONArray) updatedUser.get(CONSUMER_VISITED_MICROSITE_IDS);
-                Log.d(LOG_TAG, "Visited microsite ids = " + visitedMicroSitesArray);
+                RLog.d(LOG_TAG, "Visited microsite ids = " + visitedMicroSitesArray);
                 if (null == visitedMicroSitesArray) {
                     visitedMicroSitesArray = new JSONArray();
                 }
@@ -187,7 +188,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 }
                 updateUserRecord(updatedUser, originalUserInfo);
             } catch (JSONException e) {
-                Log.e(LOG_TAG, "On success, Caught JSON Exception");
+                RLog.e(LOG_TAG, "On success, Caught JSON Exception");
             }
         }
     }

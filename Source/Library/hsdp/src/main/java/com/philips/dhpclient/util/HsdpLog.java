@@ -24,7 +24,7 @@ public class HsdpLog {
 
     public static final String HSDP = "Hsdp";
 
-    private static boolean isLoggingEnabled = true;
+    private static boolean isLoggingEnabled;
 
     public static void enableLogging() {
         isLoggingEnabled = true;

@@ -139,7 +139,7 @@ public class JREngage {
      * If not set library logging is automatically controlled via the "debuggable" flag for the application
      * which is normally automatically set by the build system
      */
-    public static Boolean sLoggingEnabled;
+    public static Boolean sLoggingEnabled = Boolean.FALSE;
 
     public static String JR_FAILED_TO_UPDATE_ENGAGE_APP_ID
             = "com.janrain.android.Jump.FAILED_TO_UPDATE_ENGAGE_APP_ID";
@@ -230,7 +230,7 @@ public class JREngage {
             throw new IllegalArgumentException("context parameter cannot be null.");
         }
 
-        if (sLoggingEnabled == null) sLoggingEnabled = AndroidUtils.isApplicationDebuggable(context);
+       // if (sLoggingEnabled == null) sLoggingEnabled = AndroidUtils.isApplicationDebuggable(context);
 
         if (TextUtils.isEmpty(appId)) {
             throwDebugException(new IllegalArgumentException("appId parameter cannot be null."));

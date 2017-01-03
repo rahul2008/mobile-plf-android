@@ -3,8 +3,6 @@ package com.philips.cdp.registration.hsdp;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -150,7 +148,6 @@ public class HsdpUser {
                             mHsdpUserRecord.getAccessCredential() != null &&
                             mHsdpUserRecord.getAccessCredential().getRefreshToken() != null
                             ) {
-                        RLog.i(RLog.HSDP,"issuing refresh "+ SystemClock.elapsedRealtime());
                         dhpAuthenticationResponse = authenticationManagementClient.
                                 refresh(mHsdpUserRecord.getUserUUID(),
                                         mHsdpUserRecord.getAccessCredential().getRefreshToken());
@@ -158,7 +155,6 @@ public class HsdpUser {
                     } else if (mHsdpUserRecord != null &&
                             null != mHsdpUserRecord.getUserUUID() &&
                             null != mHsdpUserRecord.getAccessCredential()) {
-                        RLog.i(RLog.HSDP,"issuing refreshSecret "+ SystemClock.elapsedRealtime());
                         dhpAuthenticationResponse = authenticationManagementClient.
                                 refreshSecret(mHsdpUserRecord.getUserUUID(),
                                         mHsdpUserRecord.getAccessCredential().
@@ -177,7 +173,6 @@ public class HsdpUser {
                         });
                     } else if (null!= dhpAuthenticationResponse.responseCode &&
                             dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
-                        RLog.i(RLog.HSDP,"Response recvd"+ SystemClock.elapsedRealtime()+" response "+dhpAuthenticationResponse);
                         mHsdpUserRecord.getAccessCredential().setExpiresIn(
                                 dhpAuthenticationResponse.expiresIn);
                         mHsdpUserRecord.getAccessCredential().setRefreshToken
@@ -187,12 +182,10 @@ public class HsdpUser {
                         saveToDisk(new UserFileWriteListener() {
                             @Override
                             public void onFileWriteSuccess() {
-                                RLog.i(RLog.HSDP,"Writing to file successfull"+ SystemClock.elapsedRealtime());
                             }
 
                             @Override
                             public void onFileWriteFailure() {
-                                RLog.i(RLog.HSDP,"Writing to file failure"+ SystemClock.elapsedRealtime());
                             }
                         });
                         handler.post(new Runnable() {
@@ -234,7 +227,6 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            RLog.i(RLog.HSDP," onRefreshLoginSessionFailedWithError"+ SystemClock.elapsedRealtime());
             refreshHandler.onRefreshLoginSessionFailedWithError(NETWORK_ERROR_CODE +
                     RegConstants.HSDP_LOWER_ERROR_BOUND);
         }
@@ -263,20 +255,13 @@ public class HsdpUser {
 
             FileOutputStream fos = mContext.openFileOutput(HSDP_RECORD_FILE, 0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            RLog.i(RLog.HSDP,"inside SavetoDIsk converting mHsdpUserRecord to string --start "+ SystemClock.elapsedRealtime());
             String objectPlainString = SecureStorage.objectToString(mHsdpUserRecord);
-            RLog.i(RLog.HSDP,"inside SavetoDIsk converting mHsdpUserRecord to string --End "+ SystemClock.elapsedRealtime());
-            RLog.i(RLog.HSDP,"inside SavetoDIsk encrypt --start "+ SystemClock.elapsedRealtime());
             byte[] ectext = SecureStorage.encrypt(objectPlainString);
-            RLog.i(RLog.HSDP,"inside SavetoDIsk encrypt --End "+ SystemClock.elapsedRealtime());
-            RLog.i(RLog.HSDP,"inside SavetoDIsk write object of encrypted text --start "+ SystemClock.elapsedRealtime());
             oos.writeObject(ectext);
-            RLog.i(RLog.HSDP,"inside SavetoDIsk write object of encrypted text --end "+ SystemClock.elapsedRealtime());
             oos.close();
             fos.close();
             userFileWriteListener.onFileWriteSuccess();
         } catch (Exception e) {
-            RLog.i(RLog.HSDP,"inside SavetoDIsk Exception occured "+e+" "+ SystemClock.elapsedRealtime());
             userFileWriteListener.onFileWriteFailure();
         }
     }
@@ -286,19 +271,11 @@ public class HsdpUser {
             return mHsdpUserRecord;
         }
         try {
-            RLog.i(RLog.HSDP,"inside getHsdpUserRecord read object --start "+ SystemClock.elapsedRealtime());
             FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
             byte[] enctText = (byte[]) ois.readObject();
-            RLog.i(RLog.HSDP,"inside getHsdpUserRecord read object --end "+ SystemClock.elapsedRealtime());
-
-            RLog.i(RLog.HSDP,"inside getHsdpUserRecord decrypt  --start "+ SystemClock.elapsedRealtime());
             byte[] decrtext = SecureStorage.decrypt(enctText);
-            RLog.i(RLog.HSDP,"inside getHsdpUserRecord decrypt  --end "+ SystemClock.elapsedRealtime());
-
-            RLog.i(RLog.HSDP,"inside getHsdpUserRecord convert string to object  --start "+ SystemClock.elapsedRealtime());
             mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(new String(decrtext));
-            RLog.i(RLog.HSDP,"inside getHsdpUserRecord convert string to object  --end "+ SystemClock.elapsedRealtime());
         } catch (Exception e) {
             RLog.d("HSDP file operation", e.getMessage());
         }
@@ -306,7 +283,6 @@ public class HsdpUser {
     }
 
     public void deleteFromDisk() {
-        RLog.i(RLog.HSDP,"inside deleteFromDisk deleting record start"+ SystemClock.elapsedRealtime());
         mContext.deleteFile(HSDP_RECORD_FILE);
         mHsdpUserRecord = null;
     }

@@ -3,6 +3,9 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.util.Log;
 
+import com.janrain.android.engage.JREngage;
+import com.philips.dhpclient.util.HsdpLog;
+
 public class RLog {
 
     public static final String FRAGMENT_LIFECYCLE = "FragmentLifecycle";
@@ -29,14 +32,19 @@ public class RLog {
 
     public static final String HSDP = "Hsdp";
 
-    private static boolean isLoggingEnabled = true;
+    private static boolean isLoggingEnabled;
 
     public static void enableLogging() {
+        HsdpLog.enableLogging();
         isLoggingEnabled = true;
+        JREngage.sLoggingEnabled = Boolean.TRUE;
     }
 
-    public static void disableLogging() {
+    public static void disableLogging()
+    {
+        HsdpLog.disableLogging();
         isLoggingEnabled = false;
+        JREngage.sLoggingEnabled = Boolean.FALSE;
     }
 
     public static boolean isLoggingEnabled() {
