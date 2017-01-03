@@ -54,12 +54,11 @@ public class ConsentsMonitor extends EventMonitor {
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final ConsentsConverter consentsConverter,
                            @NonNull final GsonConverter gsonConverter) {
-        DataServicesManager.mAppComponent.injectConsentsMonitor(this);
+        DataServicesManager.getInstance().mAppComponent.injectConsentsMonitor(this);
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
         mDataServicesManager=DataServicesManager.getInstance();
-
     }
 
     //TODO: Commented part can you clearify with Ajay
