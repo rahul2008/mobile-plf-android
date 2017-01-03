@@ -10,4 +10,8 @@
 
     <!--TextBox-->
     <string name="textbox_dummy_string">TextBox</string>
+    <string name="progress_button">button_press_me</string>
+    <string name="progress_button_loading">button_loading</string>
+
+
 </resources>
