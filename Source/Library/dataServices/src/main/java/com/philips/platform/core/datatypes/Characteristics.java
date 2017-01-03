@@ -10,6 +10,8 @@ import java.util.Collection;
 public interface Characteristics extends BaseAppData, DateData, Serializable {
 
 
+    public final static String USER_CHARACTERISTIC_TYPE = "UserCharacteristicsIDs";
+
     String getCreatorId();
 
     Collection<? extends CharacteristicsDetail> getCharacteristicsDetails();
