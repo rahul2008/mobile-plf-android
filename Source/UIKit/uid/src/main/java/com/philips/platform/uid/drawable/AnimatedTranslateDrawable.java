@@ -18,7 +18,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     private Drawable drawable;
     private float translateValue;
 
-    private ObjectAnimator animator;
+    private Animator animator;
 
     public AnimatedTranslateDrawable(final Drawable drawable, float startX, float endX) {
         this.drawable = drawable;
@@ -26,10 +26,11 @@ public class AnimatedTranslateDrawable extends Drawable {
     }
 
     private void createDefaultAnimation(final float startX, final float endX) {
-        animator = ObjectAnimator.ofFloat(this, "translate", startX, endX);
-        setRepeatMode(ValueAnimator.RESTART);
-        setRepeatCount(ValueAnimator.INFINITE);
-        setDuration(DEFAULT_ANIMATION_DURATION);
+        ObjectAnimator anim  = ObjectAnimator.ofFloat(this, "translate", startX, endX);
+        anim.setRepeatMode(ValueAnimator.RESTART);
+        anim.setRepeatCount(ValueAnimator.INFINITE);
+        anim.setDuration(DEFAULT_ANIMATION_DURATION);
+        animator = anim;
     }
 
     @Override
@@ -86,18 +87,6 @@ public class AnimatedTranslateDrawable extends Drawable {
         if (animator != null && animator.isRunning()) {
             animator.end();
         }
-    }
-
-    public void setDuration(long duration) {
-        animator.setDuration(duration);
-    }
-
-    public void setRepeatCount(int repeatCount) {
-        animator.setRepeatCount(repeatCount);
-    }
-
-    public void setRepeatMode(int repeatMode) {
-        animator.setRepeatMode(repeatMode);
     }
 
     public Animator getAnimator() {
