@@ -71,8 +71,8 @@ public class ButtonFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_buttons, container, false);
-        shareDrawable = getShareIcon();
         ButterKnife.bind(this, root);
+        shareDrawable = getShareIcon();
         toggleIcons(toggleIcons.isChecked());
         restoreViews(savedInstanceState);
         imageShare.setImageDrawable(shareDrawable);
@@ -100,8 +100,12 @@ public class ButtonFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         outState.putBoolean("showingIcons", showingIcons);
-        outState.putBoolean("showExtraWideButtons", toggleExtrawide.isChecked());
-        outState.putBoolean("isButtonsEnabled", toggleDisable.isChecked());
+        if(toggleExtrawide != null) {
+            outState.putBoolean("showExtraWideButtons", toggleExtrawide.isChecked());
+        }
+        if (toggleDisable != null) {
+            outState.putBoolean("isButtonsEnabled", toggleDisable.isChecked());
+        }
         super.onSaveInstanceState(outState);
 
         hideAllProgressIndicators();
