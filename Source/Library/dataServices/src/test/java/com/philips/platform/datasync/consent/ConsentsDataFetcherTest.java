@@ -6,6 +6,8 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
@@ -45,10 +47,15 @@ public class ConsentsDataFetcherTest {
     @Captor
     private ArgumentCaptor<ConsentBackendGetRequest> ConsentBackendGetRequestEventCaptor;
 
+    @Mock
+    private AppComponent appComponantMock;
+
     @Before
     public void setUp() {
         initMocks(this);
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock);
+        consentDataFetcher.eventing = eventingMock;
     }
 
     @Test

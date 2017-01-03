@@ -37,7 +37,7 @@ public class ConsentsDataFetcher extends DataFetcher {
     @Inject
     public ConsentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
         super(uCoreAdapter);
-        DataServicesManager.mAppComponent.injectConsentsDataFetcher(this);
+        DataServicesManager.getInstance().mAppComponent.injectConsentsDataFetcher(this);
     }
 
     @Nullable
