@@ -1,3 +1,9 @@
+def Slack
+node {
+    def workspace = pwd()
+    Slack = load "${workspace}@script/jenkins-common/Slack.groovy"
+}
+
 node('Android') {
     stage('Checkout') {
         checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'android-commlib-all']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/com/android-commlib-all.git']]])
@@ -5,9 +11,7 @@ node('Android') {
         checkout([$class: 'GitSCM', branches: [[name: 'epic/commlib-ble']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'android-shinelib']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/ehshn/android-shinelib.git']]])
     }
 
-    def slack = load "jenkins-common/Slack.groovy"
-
-    slack.notify('#conartists') {
+    Slack.notify('#conartists') {
         stage('Build BlueLib') {
             sh 'cd android-shinelib/Source/ShineLib && ./gradlew assembleDebug'
         }
