@@ -73,7 +73,7 @@ public class MomentsDataSender implements DataSender<Moment> {
             @NonNull final MomentsConverter momentsConverter,
             @NonNull final MomentGsonConverter momentGsonConverter) {
 
-        DataServicesManager.mAppComponent.injectMomentsDataSender(this);
+        DataServicesManager.getInstance().mAppComponent.injectMomentsDataSender(this);
         this.momentsConverter = momentsConverter;
         this.momentGsonConverter = momentGsonConverter;
     }

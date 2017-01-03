@@ -1,18 +1,18 @@
 package com.philips.platform.datasync.moments;
 
-import android.content.Context;
-
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
 
@@ -24,7 +24,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +45,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * Created by indrajitkumar on 12/12/16.
  */
-@RunWith(RobolectricTestRunner.class)
 public class MomentsDataSenderTest {
 
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -58,10 +56,10 @@ public class MomentsDataSenderTest {
     private MomentsDataSender momentsDataSender;
 
     @Mock
-    private UCoreAccessProvider accessProvider;
+    private UCoreAccessProvider accessProviderMock;
 
     @Mock
-    private UCoreAdapter uCoreAdapter;
+    private UCoreAdapter uCoreAdapterMock;
 
     @Mock
     private MomentsConverter momentsConverterMock;
@@ -82,6 +80,9 @@ public class MomentsDataSenderTest {
     private Moment momentMock;
 
     @Mock
+    private UserRegistrationInterface userRegistrationInterfaceMock;
+
+    @Mock
     private SynchronisationData synchronisationDataMock;
 
     @Mock
@@ -99,35 +100,44 @@ public class MomentsDataSenderTest {
     @Mock
     private RetrofitError retrofitErrorMock;
     ErrorHandlerImplTest errorHandler;
-    Context context;
+    //Context context;
     DataServicesManager dataServicesManager;
     private OrmCreatorTest verticalDataCreater;
+
+    @Mock
+    private AppComponent appComponantMock;
 
     @Before
     public void setUp() {
         initMocks(this);
-        context = RuntimeEnvironment.application;
+       // context = RuntimeEnvironment.application;
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandler = new ErrorHandlerImplTest();
-        dataServicesManager.initialize(context, verticalDataCreater, errorHandler,null);
+        dataServicesManager.mAppComponent = appComponantMock;
+        //dataServicesManager.initialize(context, verticalDataCreater, errorHandler,null);
 
-        // when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProvider);
-        when(accessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
-        when(accessProvider.getUserId()).thenReturn(USER_ID);
-        when(accessProvider.getSubjectId()).thenReturn(BABY_ID);
-        when(uCoreAdapter.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, momentGsonConverterMock)).thenReturn(clientMock);
+        // when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
+        when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(USER_ID);
+        when(accessProviderMock.getSubjectId()).thenReturn(BABY_ID);
+        when(uCoreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, momentGsonConverterMock)).thenReturn(clientMock);
 
         momentsDataSender = new MomentsDataSender(momentsConverterMock, momentGsonConverterMock);
+        momentsDataSender.accessProvider = accessProviderMock;
+        momentsDataSender.uCoreAdapter = uCoreAdapterMock;
+        momentsDataSender.baseAppDataCreater = verticalDataCreater;
+        momentsDataSender.eventing = eventingMock;
+        momentsDataSender.userRegistrationImpl = userRegistrationInterfaceMock;
 
-        when(accessProvider.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(momentMock.getCreatorId()).thenReturn(USER_ID);
         when(momentMock.getSubjectId()).thenReturn(BABY_ID);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldNotCallSendMoments_WhenUserIsNotLoggedIn() throws Exception {
-        when(accessProvider.isLoggedIn()).thenReturn(false);
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
         boolean sendDataToBackend = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
@@ -137,8 +147,8 @@ public class MomentsDataSenderTest {
 
     @Test(expected = NullPointerException.class)
     public void ShouldNotCallSendMoments_WhenUserAccessTokenIsNull() throws Exception {
-        when(accessProvider.isLoggedIn()).thenReturn(true);
-        when(accessProvider.getAccessToken()).thenReturn(null);
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn(null);
 
         boolean sendDataToBackend = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
@@ -148,8 +158,8 @@ public class MomentsDataSenderTest {
 
     @Test(expected = NullPointerException.class)
     public void ShouldNotCallSendMoments_WhenUserAccessTokenIsEmpty() throws Exception {
-        when(accessProvider.isLoggedIn()).thenReturn(true);
-        when(accessProvider.getAccessToken()).thenReturn("");
+        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.getAccessToken()).thenReturn("");
 
         boolean sendDataToBackend = momentsDataSender.sendDataToBackend(Collections.singletonList(momentMock));
 
