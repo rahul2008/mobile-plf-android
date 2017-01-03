@@ -39,7 +39,7 @@ public class AnimatedTranslateDrawable extends Drawable {
         canvas.translate(translateValue, 0);
         drawable.draw(canvas);
         canvas.restoreToCount(saveCount);
-        start();
+//        start();
     }
 
     @Override
