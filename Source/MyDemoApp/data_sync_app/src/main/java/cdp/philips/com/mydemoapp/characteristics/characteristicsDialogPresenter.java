@@ -1,42 +1,47 @@
 package cdp.philips.com.mydemoapp.characteristics;
 
-import android.content.Context;
-
+import com.google.gson.Gson;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
-import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-import cdp.philips.com.mydemoapp.consents.ConsentDetailType;
+import java.util.List;
 
-/**
- * Created by sangamesh on 16/11/16.
- */
+import cdp.philips.com.mydemoapp.pojo.UserCharacteristics;
 
 class CharacteristicsDialogPresenter {
 
-    private final Context mContext;
+    private DataServicesManager mDataServicesManager;
+    private Characteristics mCharacteristics;
 
-    CharacteristicsDialogPresenter(Context mContext) {
-        this.mContext = mContext;
+    CharacteristicsDialogPresenter() {
+        mDataServicesManager = DataServicesManager.getInstance();
+        mCharacteristics = mDataServicesManager.createCharacteristics();
     }
 
-    protected void createUpdateCharacteristics() {
-        DataServicesManager mDataServices = DataServicesManager.getInstance();
-        Characteristics characteristics = mDataServices.createCharacteristics();
-        CharacteristicsDetail characteristicsDetails = mDataServices.createCharacteristicsDetails(characteristics, "User", "John", 0,null);
-        CharacteristicsDetail characteristicsDetails1 = mDataServices.createCharacteristicsDetails(characteristics, "Mouth", "UpperTeeth", 0,characteristicsDetails);
-        CharacteristicsDetail characteristicsDetails2 = mDataServices.createCharacteristicsDetails(characteristics, "BrokenTeeth", "1,2,3,4,5", 0,characteristicsDetails1);
-
-        CharacteristicsDetail characteristicsDetails3 = mDataServices.createCharacteristicsDetails(characteristics, "Mouth", "LowerTeeth", 0,characteristicsDetails);
-        CharacteristicsDetail characteristicsDetails4 = mDataServices.createCharacteristicsDetails(characteristics, "BrokenTeeth", "6,7,8,9", 0,characteristicsDetails3);
-
-
-       /* "type": "BrokenTeeth",
-                "value": "1,2,3,4,5",*/
-        mDataServices.updateCharacteristics(characteristics);
+    void createOrUpdateCharacteristics(String userCharacteristics) {
+        UserCharacteristics mUserCharacteristics = parseUserCharacteristics(userCharacteristics);
+        for (int i = 0; i < mUserCharacteristics.getCharacteristics().size(); i++) {
+            String type = mUserCharacteristics.getCharacteristics().get(i).getType();
+            String value = mUserCharacteristics.getCharacteristics().get(i).getValue();
+            CharacteristicsDetail characteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, 0, null);
+            saveUserCharacteristicsToLocalDBRecursively(characteristicsDetail, mUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+        }
+        mDataServicesManager.updateCharacteristics(mCharacteristics);
     }
 
+    private UserCharacteristics parseUserCharacteristics(String userCharacteristics) {
+        return new Gson().fromJson(userCharacteristics, UserCharacteristics.class);
+    }
+
+    private void saveUserCharacteristicsToLocalDBRecursively(CharacteristicsDetail parentCharacteristicsDetail, List<cdp.philips.com.mydemoapp.pojo.Characteristics> characteristicsList) {
+        if (characteristicsList.size() > 0) {
+            for (int i = 0; i < characteristicsList.size(); i++) {
+                String type = characteristicsList.get(i).getType();
+                String value = characteristicsList.get(i).getValue();
+                CharacteristicsDetail childCharacteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, 0, parentCharacteristicsDetail);
+                saveUserCharacteristicsToLocalDBRecursively(childCharacteristicsDetail, characteristicsList.get(i).getCharacteristics());
+            }
+        }
+    }
 }
