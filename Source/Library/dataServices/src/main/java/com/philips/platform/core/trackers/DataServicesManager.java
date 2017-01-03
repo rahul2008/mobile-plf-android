@@ -347,6 +347,13 @@ public class DataServicesManager {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 
+    //User Characteristics
+
+    @NonNull
+    public Characteristics createCharacteristics() {
+        return mDataCreater.createCharacteristics(mErrorHandlerImpl.getUserProfile().getGUid());
+    }
+
     public void updateCharacteristics(@NonNull final Characteristics userCharacteristics){
         mEventing.post(new DatabaseCharacteristicsUpdateRequest(userCharacteristics));
     }
@@ -355,10 +362,7 @@ public class DataServicesManager {
         mEventing.post(new LoadCharacterSicsRequest());
     }
 
-    @NonNull
-    public Characteristics createCharacteristics() {
-        return mDataCreater.createCharacteristics(mErrorHandlerImpl.getUserProfile().getGUid());
-    }
+
 
     public CharacteristicsDetail createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType,@NonNull final String detailValue,int parent,CharacteristicsDetail characteristicsDetail) {
         if (characteristics == null) {
