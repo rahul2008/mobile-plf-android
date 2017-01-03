@@ -1,7 +1,7 @@
 def Slack
 node {
     def workspace = pwd()
-    Slack = load "${workspace}@script/jenkins-common/Slack.groovy"
+    Slack = load "${workspace}@script/jenkinsfile-common/Slack.groovy"
 }
 
 node('Android') {
