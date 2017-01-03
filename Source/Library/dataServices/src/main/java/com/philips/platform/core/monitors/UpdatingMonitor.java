@@ -112,7 +112,7 @@ public class UpdatingMonitor extends EventMonitor {
 
     public void onEventAsync(final DatabaseCharacteristicsUpdateRequest databaseCharacteristicsUpdateRequest) throws SQLException {
 
-        if(databaseCharacteristicsUpdateRequest==null)return;
+        if(databaseCharacteristicsUpdateRequest.getCharacteristics()==null)return;
 
         dbUpdatingInterface.updateCharacteristics(databaseCharacteristicsUpdateRequest.getCharacteristics());
 

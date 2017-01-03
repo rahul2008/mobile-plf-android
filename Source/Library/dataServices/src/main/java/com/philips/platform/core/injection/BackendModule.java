@@ -17,7 +17,9 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
@@ -83,9 +85,10 @@ public class BackendModule {
     DataPullSynchronise providesDataSynchronise(
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,
+            @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
             @NonNull final Eventing eventing, @NonNull final ExecutorService executor) {
 
-        return new DataPullSynchronise(Arrays.asList(momentsDataFetcher,consentsDataFetcher), executor, eventing);
+        return new DataPullSynchronise(Arrays.asList(momentsDataFetcher,consentsDataFetcher,userCharacteristicsFetcher), executor, eventing);
     }
 
     //TODO: Spoorti: Can this move out so that we can support senders and fetchers from Application
@@ -94,8 +97,9 @@ public class BackendModule {
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
             @NonNull final ConsentDataSender consentDataSender,
+            @NonNull final UserCharacteristicsSender userCharacteristicsSender,
             @NonNull final Eventing eventing) {
-        return new DataPushSynchronise(Arrays.asList(momentsDataSender,consentDataSender),
+        return new DataPushSynchronise(Arrays.asList(momentsDataSender,consentDataSender,userCharacteristicsSender),
                 null, eventing);
     }
 

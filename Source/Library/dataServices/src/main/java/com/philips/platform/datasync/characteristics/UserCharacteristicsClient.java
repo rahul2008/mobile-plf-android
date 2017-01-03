@@ -1,5 +1,10 @@
 package com.philips.platform.datasync.characteristics;
 
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.datasync.consent.UCoreConsentDetail;
+
+import java.util.List;
+
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -19,6 +24,6 @@ public interface UserCharacteristicsClient {
     @PUT("/api/users/{performer_id}/characteristics")
     Response putUserCharacteristics(@Path("performer_id") String performerId,
                                     @Header("performerId") String userId,
-                                    @Body UserCharacteristics characteristicsList,
+                                    @Body List<UCoreCharacteristicsDetail> uCoreCharacteristicsDetails,
                                     @Header("api-version") int apiVersion);
 }

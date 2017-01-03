@@ -54,10 +54,10 @@ public class UserCharacteristicsSender implements DataSender<Characteristic> {
             UserCharacteristicsClient uGrowClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessProvider.getAccessToken(), gsonConverter);
             Characteristic characteristics = dataToSend.get(0);
             UserCharacteristics bookmarkCharacteristics = new UserCharacteristics(Collections.singletonList(characteristics));
-            Response response = uGrowClient.putUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), bookmarkCharacteristics, API_VERSION);
-            if (isResponseSuccess(response)) {
+           // Response response = uGrowClient.putUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), bookmarkCharacteristics, API_VERSION);
+            /*if (isResponseSuccess(response)) {
                 postOk(characteristics);
-            }
+            }*/
         } catch (RetrofitError retrofitError) {
             //resetTokenOnUnAuthorizedError(retrofitError);
             postError(retrofitError);
