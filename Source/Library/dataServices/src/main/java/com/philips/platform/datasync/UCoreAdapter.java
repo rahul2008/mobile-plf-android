@@ -59,7 +59,7 @@ public class UCoreAdapter {
             @NonNull final RestAdapter.Builder restAdapterBuilder,
             @NonNull final Context context) {
         super();
-        DataServicesManager.mAppComponent.injectUCoreAdapter(this);
+        DataServicesManager.getInstance().mAppComponent.injectUCoreAdapter(this);
         this.okHttpClient = new OkHttpClient();
         this.okHttpClient.setReadTimeout(RED_TIME_OUT, TimeUnit.MINUTES);
         this.okHttpClient.setConnectTimeout(CONNECTION_TIME_OUT, TimeUnit.MINUTES);

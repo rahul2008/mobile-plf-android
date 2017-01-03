@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.UserProfile;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.junit.Before;
@@ -43,12 +45,16 @@ public class UCoreAccessProviderTest {
     private SharedPreferences.Editor editorMock;
 
     private UCoreAccessProvider uCoreAccessProvider;
+    @Mock
+    private AppComponent appComponantMock;
 
     @Before
     public void setUp() {
         initMocks(this);
 
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         uCoreAccessProvider = new UCoreAccessProvider(userRegistrationFacadeMock);
+        uCoreAccessProvider.sharedPreferences = sharedPreferencesMock;
     }
 
     @Test

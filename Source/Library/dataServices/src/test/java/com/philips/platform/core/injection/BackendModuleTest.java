@@ -1,11 +1,9 @@
 package com.philips.platform.core.injection;
 
 import android.content.Context;
-import android.os.Handler;
 
-import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.utils.EventingImpl;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
@@ -16,8 +14,6 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
-import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
-import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalDBDeletingInterfaceImpl;
 import com.philips.platform.verticals.VerticalDBFetchingInterfaceImpl;
@@ -38,7 +34,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import de.greenrobot.event.EventBus;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -75,6 +70,9 @@ public class BackendModuleTest {
     @Mock
     Context context;
 
+    @Mock
+    private AppComponent appComponantMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -85,9 +83,10 @@ public class BackendModuleTest {
         VerticalDBSavingInterface dbSavingInterface = new VerticalDBSavingInterface();
         VerticalDBUpdatingInterfaceImpl dbUpdatingInterface = new VerticalDBUpdatingInterfaceImpl();
 
-        backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()),baseAppDataCreator, userRegistrationInterface,
+        backendModule = new BackendModule(eventingMock,baseAppDataCreator, userRegistrationInterface,
                 dbDeletingInterface,dbFetchingInterface,dbSavingInterface,dbUpdatingInterface,
                 null,null,null);
+        //backendModule = new BackendModule(eventingMock);
     }
 
     @Test
@@ -162,6 +161,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnUCoreAdapter_WhenProvidesUCoreAdapterIsCalled() throws Exception {
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         final UCoreAdapter uCoreAdapter = backendModule.providesUCoreAdapter(okClientFactory, builder, context);
         assertThat(uCoreAdapter).isNotNull();
         assertThat(uCoreAdapter).isInstanceOf(UCoreAdapter.class);
