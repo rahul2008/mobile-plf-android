@@ -73,10 +73,6 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-//    dexOptions {
-//        preDexLibraries = false
-//        javaMaxHeapSize "4g"
-//    }
 }
 
 dependencies {
