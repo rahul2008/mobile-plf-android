@@ -1,8 +1,4 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-package com.philips.platform.uid.components.Buttons;
+package com.philips.platform.uid.components.buttons;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,8 +18,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class ProgressOnButton {
-
+public class ButtonWithProgressTest {
     private Resources testResources;
     private Context instrumentationContext;
 
@@ -37,9 +32,6 @@ public class ProgressOnButton {
         instrumentationContext = getInstrumentation().getContext();
     }
 
-    /****************Test layout scenarios****************/
-
-    // TODO: 1/3/2017
     @Test
     public void verifyHeightOfSmallCircularProgressIndicator() {
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.circularprogressbar_small_heightwidth);
@@ -56,7 +48,4 @@ public class ProgressOnButton {
     private ViewInteraction getDeterminateCircularProgressBar() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_progress_bar));
     }
-
 }
-
-
