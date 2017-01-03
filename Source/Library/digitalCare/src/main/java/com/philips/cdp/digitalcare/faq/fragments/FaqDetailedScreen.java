@@ -10,6 +10,8 @@
 package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -144,7 +147,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
             mWebView.setVisibility(View.INVISIBLE);
 
-            mWebView.setWebChromeClient(new WebChromeClient());
+            //mWebView.setWebChromeClient(new WebChromeClient());
 
             mWebView.getSettings().setStandardFontFamily("file:///android_asset/digitalcarefonts/CentraleSans-Book.otf");
           /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
@@ -156,7 +159,8 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
                 mWebView.getSettings().setDomStorageEnabled(true);
             }
-            mWebView.setWebChromeClient(new WebChromeClient() {
+           mWebView.setWebChromeClient(new WebChromeClient() {
+
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
@@ -165,8 +169,16 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                         enableWebView();
                     }
                 }
+
             });
             mWebView.setWebViewClient(new WebViewClient() {
+
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    super.onPageStarted(view, url, favicon);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                }
 
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
@@ -174,6 +186,12 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     DigiCareLogger.e(TAG, "WebClient Response error : " + error);
                     mProgressBar.setVisibility(View.GONE);
                     enableWebView();
+
+                }
+
+                @Override
+                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                    handler.proceed();
                 }
 
                 @Override
