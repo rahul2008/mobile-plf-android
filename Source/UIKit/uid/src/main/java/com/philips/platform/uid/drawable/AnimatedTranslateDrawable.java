@@ -4,29 +4,38 @@
  */
 package com.philips.platform.uid.drawable;
 
-import android.animation.TimeInterpolator;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.SystemClock;
-import android.view.animation.LinearInterpolator;
 
-public class AnimatedTranslateDrawable extends Drawable implements Runnable {
+public class AnimatedTranslateDrawable extends Drawable {
+    private static final int DEFAULT_ANIMATION_DURATION = 900; //900ms
+
     private Drawable drawable;
-    private float stepIncrement = 0.01f;
-    private boolean animationRunning;
-    private TimeInterpolator linearInterpolator = new LinearInterpolator();
-    private float elapsedFraction;
-    public AnimatedTranslateDrawable(final Drawable drawable) {
+    private float translateValue;
+
+    private ObjectAnimator animator;
+
+    public AnimatedTranslateDrawable(final Drawable drawable, float startX, float endX) {
         this.drawable = drawable;
+        createDefaultAnimation(startX, endX);
+    }
+
+    private void createDefaultAnimation(final float startX, final float endX) {
+        animator = ObjectAnimator.ofFloat(this, "translate", startX, endX);
+        setRepeatMode(ValueAnimator.RESTART);
+        setRepeatCount(ValueAnimator.INFINITE);
+        setDuration(DEFAULT_ANIMATION_DURATION);
     }
 
     @Override
     public void draw(final Canvas canvas) {
         int saveCount = canvas.save();
-        stepIncrement += 10;
-        canvas.translate(stepIncrement, 0);
+        canvas.translate(translateValue, 0);
         drawable.draw(canvas);
         canvas.restoreToCount(saveCount);
         start();
@@ -47,11 +56,13 @@ public class AnimatedTranslateDrawable extends Drawable implements Runnable {
         return drawable.getOpacity();
     }
 
-    @Override
-    public void run() {
-        if (stepIncrement > 1000) stepIncrement = 0.01f;
+    public float getTranslate() {
+        return translateValue;
+    }
+
+    public void setTranslate(float translateX) {
+        translateValue = translateX;
         invalidateSelf();
-        nextFrame();
     }
 
     @Override
@@ -63,31 +74,33 @@ public class AnimatedTranslateDrawable extends Drawable implements Runnable {
      * Should be called to start the animation
      */
     public void start() {
-        if (!animationRunning) {
-            animationRunning = true;
-            elapsedFraction = linearInterpolator.getInterpolation(0);
-            nextFrame();
+        if (!animator.isRunning()) {
+            animator.start();
         }
     }
 
     /**
-     * Stops the animation (translate animation).
+     * Ends the animation (translate animation).
      */
-    public void stop() {
-        animationRunning = false;
-        unscheduleSelf(this);
+    public void end() {
+        if (animator != null && animator.isRunning()) {
+            animator.end();
+        }
     }
 
-    /**
-     * Provides information about current running information.
-     * @return Whether the animation is active.
-     */
-    public boolean isAnimationRunning() {
-        return animationRunning;
+    public void setDuration(long duration) {
+        animator.setDuration(duration);
     }
 
-    private void nextFrame() {
-        unscheduleSelf(this);
-        scheduleSelf(this, SystemClock.uptimeMillis() + (long) 2);
+    public void setRepeatCount(int repeatCount) {
+        animator.setRepeatCount(repeatCount);
+    }
+
+    public void setRepeatMode(int repeatMode) {
+        animator.setRepeatMode(repeatMode);
+    }
+
+    public Animator getAnimator() {
+        return animator;
     }
 }
