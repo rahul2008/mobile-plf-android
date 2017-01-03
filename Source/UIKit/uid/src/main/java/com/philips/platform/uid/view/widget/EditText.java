@@ -38,7 +38,7 @@ public class EditText extends AppCompatEditText {
 
     private boolean passwordVisible = false;
 
-    private boolean shouldSupportclearButton = false;
+    private boolean isClearIconSupported = false;
     private EditTextIconHandler editTextIconHandler;
 
     public EditText(@NonNull final Context context) {
@@ -64,7 +64,7 @@ public class EditText extends AppCompatEditText {
             setBackground(backgroundDrawable);
         }
 
-        shouldSupportclearButton = typedArray.getBoolean(R.styleable.UIDTextEditBox_uidInputTextWithClearButton, false);
+        isClearIconSupported = typedArray.getBoolean(R.styleable.UIDTextEditBox_uidInputTextWithClearButton, false);
         setHintTextColors(typedArray, theme);
         setTextColors(typedArray, theme);
         restorePadding(paddingRect);
@@ -169,7 +169,7 @@ public class EditText extends AppCompatEditText {
     }
 
     private void initIconHandler() {
-        if (shouldSupportclearButton) {
+        if (isClearIconSupported) {
             editTextIconHandler = new ClearEditTextIconHandler(this);
         } else if (isPasswordInputType()) {
             editTextIconHandler = new PasswordEditTextIconHandler(this);

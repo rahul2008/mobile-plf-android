@@ -9,11 +9,13 @@ import android.view.MotionEvent;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.view.widget.EditText;
 
+import static android.view.View.LAYOUT_DIRECTION_RTL;
+
 public abstract class EditTextIconHandler {
 
     static final int LEFT_DRAWABLE_INDEX = 0;
     static final int TOP_DRAWABLE_INDEX = 1;
-    static int RIGHT_DRAWABLE_INDEX = 2;
+    static final int RIGHT_DRAWABLE_INDEX = 2;
     static final int BOTTOM_DRAWABLE_INDEX = 3;
     private final int passwordDrawableTouchArea;
     private boolean isIconActionUpDetected;
@@ -23,16 +25,17 @@ public abstract class EditTextIconHandler {
 
     protected EditTextIconHandler(@NonNull final EditText editText) {
         this.editText = editText;
-//        if (editText.getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
-//            RIGHT_DRAWABLE_INDEX = 0;
-//        }
         passwordDrawableTouchArea = editText.getContext().getResources().getDimensionPixelSize(R.dimen.uid_edittext_password_drawable_touch_area);
-
     }
+
+    public abstract void processIconTouch();
+
+    @NonNull
+    public abstract Drawable getIconDrawable();
 
     public boolean isTouchProcessed(final MotionEvent event) {
         final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-        final Drawable drawable = compoundDrawables[RIGHT_DRAWABLE_INDEX];
+        final Drawable drawable = compoundDrawables[getDrawableIndexBasedOnLayoutDirection()];
         if (drawable != null && editText.isEnabled() && isShowPasswordIconTouched(event, drawable)) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 isIconActionDownDetected = true;
@@ -61,6 +64,9 @@ public abstract class EditTextIconHandler {
     }
 
     private boolean isShowPasswordIconTouched(@NonNull final MotionEvent event, @NonNull final Drawable drawable) {
+        if (isRightToLeft()) {
+            return (event.getRawX() <= (editText.getRight() - editText.getWidth() + passwordDrawableTouchArea + editText.getCompoundDrawablePadding()));
+        }
         return (event.getRawX() >= (editText.getRight() + editText.getPaddingRight() + drawable.getBounds().width() - (passwordDrawableTouchArea + editText.getCompoundDrawablePadding())));
     }
 
@@ -68,22 +74,25 @@ public abstract class EditTextIconHandler {
         if (!isIconDisplayed) {
             isIconDisplayed = true;
             final Drawable[] compoundDrawables = editText.getCompoundDrawables();
-            compoundDrawables[RIGHT_DRAWABLE_INDEX] = getIconDrawable();
+            compoundDrawables[getDrawableIndexBasedOnLayoutDirection()] = getIconDrawable();
             editText.setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[LEFT_DRAWABLE_INDEX], compoundDrawables[TOP_DRAWABLE_INDEX], compoundDrawables[RIGHT_DRAWABLE_INDEX], compoundDrawables[BOTTOM_DRAWABLE_INDEX]);
         }
     }
 
-    @NonNull
-    protected Drawable getDrawable(final int drawableResourceId) {
-        return VectorDrawableCompat.create(editText.getResources(), drawableResourceId, editText.getContext().getTheme());
+    private int getDrawableIndexBasedOnLayoutDirection() {
+        return isRightToLeft() ? LEFT_DRAWABLE_INDEX : RIGHT_DRAWABLE_INDEX;
     }
 
-    public abstract void processIconTouch();
+    private boolean isRightToLeft() {
+        return editText.getLayoutDirection() == LAYOUT_DIRECTION_RTL;
+    }
 
     public void setIconDisplayed(boolean iconDisplayed) {
         this.isIconDisplayed = iconDisplayed;
     }
 
     @NonNull
-    public abstract Drawable getIconDrawable();
+    protected Drawable getDrawable(final int drawableResourceId) {
+        return VectorDrawableCompat.create(editText.getResources(), drawableResourceId, editText.getContext().getTheme());
+    }
 }

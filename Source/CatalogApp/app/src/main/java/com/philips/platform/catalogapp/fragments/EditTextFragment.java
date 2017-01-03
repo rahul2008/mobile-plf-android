@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.databinding.FragmentTexteditboxBinding;
+import com.philips.platform.catalogapp.databinding.FragmentEdittextBinding;
 
 public class EditTextFragment extends BaseFragment {
     public ObservableBoolean disableEditBoxes = new ObservableBoolean(Boolean.FALSE);
@@ -25,7 +25,7 @@ public class EditTextFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        final FragmentTexteditboxBinding texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_texteditbox, container, false);
+        final FragmentEdittextBinding texteditboxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edittext, container, false);
         texteditboxBinding.setTexteditBoxfragment(this);
         return texteditboxBinding.getRoot();
     }

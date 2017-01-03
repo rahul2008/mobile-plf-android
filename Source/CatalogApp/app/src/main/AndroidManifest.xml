@@ -6,7 +6,7 @@
         android:name=".CatalogApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/catalog_app_name"
-        android:supportsRtl="false"
+        android:supportsRtl="true"
         android:theme="@style/Theme.Philips">
 
         <activity
