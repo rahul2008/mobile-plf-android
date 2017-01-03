@@ -12,14 +12,10 @@ import android.widget.EditText;
 
 import cdp.philips.com.mydemoapp.R;
 
-import static cdp.philips.com.mydemoapp.R.string.characteristics;
-
 public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener {
 
     private EditText mEtCharacteristics;
-
-    String sampleJsonString = null;
-    CharacteristicsDialogPresenter characteristicsDialogPresenter;
+    private CharacteristicsDialogPresenter mCharacteristicsDialogPresenter;
 
     @Nullable
     @Override
@@ -29,12 +25,14 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
         Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
+
         Button mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
-        mEtCharacteristics = (EditText) rootView.findViewById(R.id.et_characteristics);
-        characteristicsDialogPresenter = new CharacteristicsDialogPresenter();
 
-        sampleJsonString = "{\n" +
+        mEtCharacteristics = (EditText) rootView.findViewById(R.id.et_characteristics);
+        mCharacteristicsDialogPresenter = new CharacteristicsDialogPresenter();
+
+        String mSampleJsonString = "{\n" +
                 "  \"characteristics\": [\n" +
                 "    {\n" +
                 "      \"type\": \"User\",\n" +
@@ -73,7 +71,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 "  ]\n" +
                 "}";
 
-        mEtCharacteristics.setText(sampleJsonString);
+        mEtCharacteristics.setText(mSampleJsonString);
         return rootView;
     }
 
@@ -101,7 +99,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        dialog.setTitle(characteristics);
+        dialog.setTitle(getString(R.string.characteristics));
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -114,7 +112,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         switch (v.getId()) {
             case R.id.btnOK:
                 String userCharacteristics = mEtCharacteristics.getText().toString();
-                characteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
+                mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
                 getDialog().dismiss();
                 break;
             case R.id.btnCancel:
