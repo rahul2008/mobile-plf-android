@@ -30,7 +30,9 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -46,6 +48,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     private onUpdateListener mUpdateStatusListener;
 
     private RelativeLayout mRlEtEmail;
+
+    private TextView mTvCloseIcon;
 
     private FrameLayout mFlInvalidFieldAlert;
     private String mSavedEmaillError;
@@ -77,6 +81,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mEtEmail.addTextChangedListener(this);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
         mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_email_field_err);
+        mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
+        FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
     }
 
     private void checkingEmailorMobile() {
