@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -41,7 +43,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     */
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        System.out.println("***** WXEntryActivity onCreate");
 
         // Handle any communication from WeChat and then terminate activity. This class must be an activity
         // or the communication will not be received from WeChat.
@@ -59,9 +60,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      */
     @Override
     public void onReq(BaseReq req) {
-
-        System.out.println("***** onReq"+req);
-        Toast.makeText(this, "onReq", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -71,12 +69,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      */
     @Override
     public void onResp(BaseResp resp) {
-        System.out.println("***** onResp"+resp.errCode);
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 try {
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
                     WXEntryActivity.code = sendResp.code;
+                    EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH);
                 } catch(Exception e){
                     Toast.makeText(this, "Exception while parsing token", Toast.LENGTH_LONG).show();
                     Log.e(TAG,e.getStackTrace().toString());

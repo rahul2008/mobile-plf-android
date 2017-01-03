@@ -19,6 +19,7 @@ import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ForgotPassword;
+import com.philips.cdp.registration.controller.LoginSocialNativeProvider;
 import com.philips.cdp.registration.controller.LoginSocialProvider;
 import com.philips.cdp.registration.controller.LoginTraditional;
 import com.philips.cdp.registration.controller.RefreshUserSession;
@@ -214,6 +215,43 @@ public class User {
             }
         }).start();
     }
+
+
+    /**
+     * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
+     *
+     * @param activity
+     * @param providerName
+     * @param socialLoginHandler
+     * @param mergeToken
+     */
+    public void loginUserUsingSocialNativeProvider(final Activity activity,
+                                                   final String providerName,
+                                                   final String accessToken,
+                                                   final String tokenSecret,
+                                                   final SocialProviderLoginHandler
+                                                           socialLoginHandler,
+                                                   final String mergeToken) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (providerName != null && activity != null) {
+                    LoginSocialNativeProvider loginSocialResultHandler = new LoginSocialNativeProvider(
+                            socialLoginHandler, mContext, mUpdateUserRecordHandler);
+                    loginSocialResultHandler.loginSocial(activity,providerName,accessToken,
+                            tokenSecret,mergeToken);
+                } else {
+                    if (socialLoginHandler != null) {
+                        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+                        userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+                        socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    }
+                }
+
+            }
+        }).start();
+    }
+
 
     /**
      * {@code registerUserInfoForTraditional} method creates a user account.

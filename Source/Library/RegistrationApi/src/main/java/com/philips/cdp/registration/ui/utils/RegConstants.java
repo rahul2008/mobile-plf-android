@@ -152,4 +152,6 @@ public class RegConstants {
 
     public static final String IS_FROM_PARENTAL_CONSENT = "ParentalConsent";
 
+    public static final String WECHAT_AUTH = "WECHAT_AUTH";
+
 }

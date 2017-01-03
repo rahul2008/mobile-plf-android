@@ -26,7 +26,7 @@
     <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="25" />
 
     <application
-        android:name="com.philips.cdp.registration.wechat.philipsregistration.DemoApplication"
+        android:name="com.philips.cl.di.regsample.app.RegistrationApplication"
         android:icon="@drawable/search_icon"
         android:label="@string/app_name"
         android:hardwareAccelerated="true"
@@ -34,7 +34,7 @@
         >
 
         <!--android:debuggable="true" -->
-        <activity android:name="com.philips.cdp.registration.wechat.philipsregistration.MainActivity">
+        <activity android:name="com.philips.cl.di.regsample.app.RegistrationSampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

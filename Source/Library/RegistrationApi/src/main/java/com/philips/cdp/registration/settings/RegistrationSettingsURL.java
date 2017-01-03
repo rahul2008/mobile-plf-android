@@ -339,6 +339,29 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                                                                                  mPreferredCountryCode = countryCode;
                                                                                 mPreferredLangCode = langCode;
 
+
+
+                                                                               // jumpConfig.engageAppId = "";
+                                                                                jumpConfig.captureDomain = "philips-cn-staging.capture.cn.janrain.com";
+                                                                                jumpConfig.captureClientId = "pquj5nzed3hwhd6587xrsr8ejh3de8t7";
+                                                                                jumpConfig.captureLocale = "en-US";
+                                                                                jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
+                                                                                jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
+                                                                                jumpConfig.captureAppId = "czwfzs7xh23ukmpf4fzhnksjmd";
+                                                                                jumpConfig.captureFlowName = "signIn";
+                                                                                jumpConfig.captureFlowVersion="HEAD";
+                                                                                jumpConfig.captureSocialRegistrationFormName = "socialRegistrationForm";
+                                                                                jumpConfig.captureTraditionalRegistrationFormName = "createAccountForm";
+                                                                                jumpConfig.captureEditUserProfileFormName = "editProfileForm";
+                                                                                jumpConfig.captureEnableThinRegistration = false;
+                                                                                jumpConfig.captureForgotPasswordFormName="forgotPasswordForm"  ;
+                                                                                jumpConfig.captureResendEmailVerificationFormName = "resendVerificationForm";
+                                                                                jumpConfig.engageAppUrl = "philips-staging.login.cn.janrain.com";
+                                                                                jumpConfig.downloadFlowUrl = "janrain-capture-static.cn.janrain.com";
+
+
+
+
                                                                                 try {
                                                                                     RLog.d(RLog.SERVICE_DISCOVERY, "jumpConfig : " +jumpConfig);
                                                                                     Jump.reinitialize(mContext, jumpConfig);
