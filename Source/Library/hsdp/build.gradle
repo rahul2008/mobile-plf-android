@@ -31,7 +31,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = "1.0.9"
+version = "1.1.0"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -61,7 +61,7 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 21
-        versionName "1.0.9"
+        versionName "1.1.0"
         testApplicationId "com.philips.dhpclient.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 
