@@ -2,7 +2,6 @@ package com.philips.platform.catalogapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -10,34 +9,38 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 public class NavigationController {
+    protected static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
+    protected static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
     private FragmentManager supportFragmentManager;
-    private ActionBar actionBar;
     private MainActivity mainActivity;
     private MenuItem themeSetting;
     private MenuItem setTheme;
     SharedPreferences fragmentPreference;
+    private ActivityMainBinding activityMainBinding;
+    boolean hamburgerIconVisible;
+    boolean themeSettingsIconVisible;
+    private int titleResource;
+    private Toolbar toolbar;
 
-    public NavigationController(final MainActivity mainActivity, final Intent intent) {
+    public NavigationController(final MainActivity mainActivity, final Intent intent, final ActivityMainBinding activityMainBinding) {
         this.mainActivity = mainActivity;
         fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        this.activityMainBinding = activityMainBinding;
+        toolbar = (Toolbar) activityMainBinding.appBar.findViewById(R.id.uid_toolbar);
         clearLastFragmentOnFreshLaunch(intent);
     }
 
@@ -64,7 +67,7 @@ public class NavigationController {
 
     private void toggleHamburgerIcon() {
         toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_back_icon, mainActivity.getTheme()));
-        mainActivity.hamburgerIconVisible = false;
+        hamburgerIconVisible = false;
     }
 
     protected void initDemoListFragment() {
@@ -76,23 +79,23 @@ public class NavigationController {
     }
 
     private void themeSettingsIconVisible(final boolean visible) {
-        mainActivity.themeSettingsIconVisible = visible;
+        themeSettingsIconVisible = visible;
     }
 
     public void loadThemeSettingsPage() {
         final ThemeSettingsFragment themeSettingsFragment = new ThemeSettingsFragment();
         final boolean switchedFragment = switchFragment(themeSettingsFragment);
         if (switchedFragment) {
-            mainActivity.setTitle(R.string.page_title_theme_settings);
+            setTitleText(R.string.page_title_theme_settings);
 
             themeSettingsIconVisible(false);
         }
     }
 
     protected void showUiFromPreviousState(final Bundle savedInstanceState) {
-        mainActivity.initIconState(savedInstanceState);
+        initIconState(savedInstanceState);
         processBackButton();
-        if (mainActivity.hamburgerIconVisible) {
+        if (hamburgerIconVisible) {
             showHamburgerIcon();
         }
 
@@ -102,7 +105,7 @@ public class NavigationController {
 
     private void initTitle(final int titleResourceId) {
         if (titleResourceId != -1) {
-            mainActivity.setTitle(titleResourceId);
+            setTitleText(titleResourceId);
         }
     }
 
@@ -127,17 +130,14 @@ public class NavigationController {
         transaction.addToBackStack(null);
         transaction.commit();
         toggleHamburgerIcon();
-        toolbar.setTitle(fragment.getPageTitle());
         return true;
     }
 
     private void showHamburgerIcon() {
-        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_menu, mainActivity.getTheme()));
-        mainActivity.hamburgerIconVisible = true;
-        toolbar.setTitle(R.string.catalog_app_name);
-        toolbar.setTitleMarginStart(mainActivity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
-        toolbar.setTitleMarginEnd(mainActivity.getResources().getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right));
-        mainActivity.titleText = R.string.catalog_app_name;
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_hamburger_icon, mainActivity.getTheme()));
+        hamburgerIconVisible = true;
+        setTitleText(R.string.catalog_app_name);
+        titleResource = R.string.catalog_app_name;
     }
 
     protected boolean hasBackStack() {
@@ -151,6 +151,7 @@ public class NavigationController {
 
     @NonNull
     private Fragment getFragmentAtBackStackIndex(final int index) {
+
         final FragmentManager.BackStackEntry backStackEntry = supportFragmentManager.getBackStackEntryAt(index);
         final String name = backStackEntry.getName();
         return supportFragmentManager.findFragmentByTag(name);
@@ -158,12 +159,9 @@ public class NavigationController {
 
     public void init(final Bundle savedInstanceState) {
         this.supportFragmentManager = mainActivity.getSupportFragmentManager();
-        ButterKnife.bind(this, mainActivity);
-        mainActivity.setSupportActionBar(toolbar);
 
-        final Resources resources = mainActivity.getResources();
-        toolbar.setTitleMargin(resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginTop(), resources.getDimensionPixelOffset(R.dimen.uid_navigation_bar_title_margin_left_right), toolbar.getTitleMarginBottom());
-        actionBar = mainActivity.getSupportActionBar();
+        UIDHelper.setupToolbar(mainActivity);
+
         if (savedInstanceState == null) {
             initDemoListFragment();
             showHamburgerIcon();
@@ -184,7 +182,8 @@ public class NavigationController {
     }
 
     public void setTitleText(final int titleId) {
-        toolbar.setTitle(titleId);
+        titleResource = titleId;
+        UIDHelper.setTitle(mainActivity, titleId);
     }
 
     //Needed only untill we have hamburger
@@ -214,5 +213,16 @@ public class NavigationController {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void onSaveInstance(final Bundle outState) {
+        outState.putBoolean(HAMBURGER_BUTTON_DISPLAYED, hamburgerIconVisible);
+        outState.putBoolean(THEMESETTINGS_BUTTON_DISPLAYED, themeSettingsIconVisible);
+        outState.putInt(MainActivity.TITLE_TEXT, titleResource);
+    }
+
+    public void initIconState(final Bundle savedInstanceState) {
+        hamburgerIconVisible = savedInstanceState.getBoolean(HAMBURGER_BUTTON_DISPLAYED);
+        themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
     }
 }

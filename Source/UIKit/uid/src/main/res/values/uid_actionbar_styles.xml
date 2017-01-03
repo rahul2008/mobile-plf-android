@@ -3,12 +3,12 @@
 
     <style name="UIDNavigationbarUltraLight">
         <item name="uidActionBarBackground">@color/uidColorWhite</item>
-        <item name="uidNavigationTextColor">@color/uid_gray_level_75</item>
+        <item name="uidNavigationTextColor">?attr/uidColorLevel45</item>
     </style>
 
     <style name="UIDNavigationbarVeryLight">
         <item name="uidActionBarBackground">?attr/uidColorLevel10</item>
-        <item name="uidNavigationTextColor">?attr/uidColorLevel75</item>
+        <item name="uidNavigationTextColor">?attr/uidColorLevel45</item>
     </style>
 
     <style name="UIDNavigationbarLight">
@@ -30,6 +30,19 @@
         <item name="android:textColor">?attr/uidNavigationTextColor</item>
         <item name="android:textColorPrimary">?attr/uidNavigationTextColor</item>
         <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/uid_navigation_bar_text_size</item>
+        <item name="android:layout_marginStart">@dimen/uid_navigation_bar_title_margin_left_right
+        </item>
+        <item name="android:layout_marginEnd">@dimen/uid_navigation_bar_title_margin_left_right
+        </item>
+        <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing_extra
+        </item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uid_navigation_bar_text_line_spacing_multiplier
+        </item>
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 
     <style name="UIDActionBarOverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
@@ -37,21 +50,18 @@
         <!-- <item name="android:src">@drawable/uid_switch_thumb</item> &lt;!&ndash; This is for showing overflow icon with (three vertical dots) in action bar
         -->
         <item name="android:background">?attr/actionBarItemBackground</item>
+        <item name="android:selectableItemBackground">@android:color/transparent</item>
+        <item name="selectableItemBackground">@android:color/transparent</item>
         <item name="android:minWidth">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:minHeight">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:maxHeight">?attr/actionBarSize</item>
     </style>
 
     <style name="UIDToolbarNavigationButton" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:maxHeight">@dimen/uid_navigation_bar_height</item>
-        <item name="android:maxWidth">@dimen/uid_navigation_bar_height</item>
-        <item name="android:minWidth">@dimen/uid_navigation_bar_icon_size</item>
-        <item name="android:minHeight">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:scaleType">center</item>
         <item name="textAllCaps">false</item>
         <item name="android:textColor">?attr/uidNavigationTextColor</item>
-
     </style>
 
     <style name="UIDToolbar" parent="Widget.AppCompat.Toolbar">
@@ -85,12 +95,14 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="collapseContentDescription">@dimen/uid_navigation_bar_title_margin_left_right
         </item>
-        <item name="android:paddingStart">10dp</item>
         <item name="android:textColor">?attr/uidNavigationTextColor</item>
         <item name="android:textColorPrimary">?attr/uidNavigationTextColor</item>
         <item name="android:textSize">@dimen/uid_navigation_bar_text_size</item>
-        <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing</item>
-        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_navigation_bar_text_line_spacing_extra
+        </item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uid_navigation_bar_text_line_spacing_multiplier
+        </item>
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
     </style>
 

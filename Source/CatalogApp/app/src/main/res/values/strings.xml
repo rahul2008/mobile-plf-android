@@ -82,4 +82,6 @@
     <string name="label_label_right">Label right</string>
     <string name="button_press_me">Press me</string>
     <string name="button_loading">Loading...</string>
+    <string name="title">Title</string>
+    <string name="cancel">Cancel</string>
 </resources>

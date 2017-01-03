@@ -9,6 +9,7 @@ package com.philips.platform.catalogapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -17,10 +18,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
-import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.themesettings.PreviewActivity;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -35,10 +36,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
-    private static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
     protected static final String TITLE_TEXT = "TITLE_TEXT";
 
@@ -47,12 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private NavigationColor navigationColor;
     private ThemeHelper themeHelper;
     private SharedPreferences defaultSharedPreferences;
-    boolean hamburgerIconVisible;
-    boolean themeSettingsIconVisible;
-
-    int titleText;
 
     private NavigationController navigationController;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         EventBus.getDefault().register(this);
-        navigationController = new NavigationController(this, getIntent());
+        navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
     }
 
@@ -110,12 +106,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        initIconState(savedInstanceState);
-    }
-
-    protected void initIconState(final Bundle savedInstanceState) {
-        hamburgerIconVisible = savedInstanceState.getBoolean(HAMBURGER_BUTTON_DISPLAYED);
-        themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
+        navigationController.initIconState(savedInstanceState);
     }
 
     @Override
@@ -158,9 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
-        outState.putBoolean(HAMBURGER_BUTTON_DISPLAYED, hamburgerIconVisible);
-        outState.putBoolean(THEMESETTINGS_BUTTON_DISPLAYED, themeSettingsIconVisible);
-        outState.putInt(TITLE_TEXT, titleText);
+        navigationController.onSaveInstance(outState);
         super.onSaveInstanceState(outState);
     }
 
@@ -181,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void setTitle(final int titleId) {
         navigationController.setTitleText(titleId);
-        titleText = titleId;
     }
 
     @Override

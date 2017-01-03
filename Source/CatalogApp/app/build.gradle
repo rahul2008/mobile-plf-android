@@ -75,35 +75,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
         exclude module: "com.android.support"
     }
+    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
+
     compile "com.jakewharton:butterknife:${butterKnifeVer}"
     compile project(':uid')
-    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
-    compile "com.android.support:support-v4:${supportLibraryVer}"
-    compile "com.android.support:design:${supportLibraryVer}"
     testCompile "junit:junit:${jUnitVer}"
-    testCompile "com.android.support:support-v4:${supportLibraryVer}"
-    testCompile("org.robolectric:robolectric:${robolectricVer}")
-            {
-                exclude module: "com.android.support"
-            }
-    androidTestCompile("org.powermock:powermock-mockito-release-full:${powerMockitoVer}") {
-        exclude module: 'hamcrest-core'
-        exclude module: 'objenesis'
-    }
-    testCompile "org.powermock:powermock-module-junit4:${powerMockitoJunitVer}"
-    testCompile "org.powermock:powermock-api-mockito:${powerMockitoJunitVer}"
-    testCompile "org.powermock:powermock-classloading-xstream:${powerMockitoJunitVer}"
-    testCompile("org.mockito:mockito-all:${mockitoVer}")
-            {
-                exclude module: "com.android.support"
-            }
-    testCompile("com.squareup.assertj:assertj-android:${androidAssertJVer}") {
-        exclude module: "com.android.support"
-    }
+
 
     compile "org.greenrobot:eventbus:${eventbusVer}"
 }
