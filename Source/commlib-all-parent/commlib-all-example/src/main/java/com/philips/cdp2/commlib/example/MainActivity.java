@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Setup CommCentral
-        final BleTransportContext bleTransportContext = new BleTransportContext(this, true);
+        final BleTransportContext bleTransportContext = new BleTransportContext(this);
         final Set<DiscoveryStrategy> discoveryStrategies = new HashSet<DiscoveryStrategy>() {{
             add(bleTransportContext.getDiscoveryStrategy());
         }};

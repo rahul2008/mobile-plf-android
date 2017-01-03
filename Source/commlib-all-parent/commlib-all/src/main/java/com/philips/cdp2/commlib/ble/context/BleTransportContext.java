@@ -9,14 +9,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
+import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
-import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
@@ -27,6 +27,25 @@ public final class BleTransportContext implements TransportContext {
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
 
+    /**
+     * Instantiates a new BleTransportContext.
+     * <p>
+     * This constructor implicitly disables the showing of a popup when BLE is turned off.
+     * </p>
+     *
+     * @param context the context
+     */
+    public BleTransportContext(@NonNull final Context context) {
+        this(context, false);
+    }
+
+    /**
+     * Instantiates a new BleTransportContext.
+     *
+     * @param context                   the context
+     * @param showPopupIfBLEIsTurnedOff the show popup if BLE is turned off
+     * @throws TransportUnavailableException the transport unavailable exception
+     */
     public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) throws TransportUnavailableException {
         this.deviceCache = new BleDeviceCache();
         try {
