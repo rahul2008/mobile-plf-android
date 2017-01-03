@@ -89,6 +89,7 @@ abstract public class BaseState {
 
     public abstract void updateDataModel();
 
+    // TODO: Deepthi - need to document on providing StateId to validate duplicate object
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BaseState) {

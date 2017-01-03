@@ -5,7 +5,7 @@
 */
 package com.philips.platform.appframework.flowmanager.exceptions;
 
-public class NoEventFoundException extends Exception {
+public class NoEventFoundException extends RuntimeException {
 
 
     public NoEventFoundException() {

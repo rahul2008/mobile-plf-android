@@ -30,6 +30,7 @@ public abstract class BaseFlowManager {
     private Context context;
     private String firstState;
     private FlowManagerStack flowManagerStack;
+    private String BACK = "back";
 
     public BaseFlowManager(final Context context, final String jsonPath) {
         this.context = context;
@@ -85,24 +86,29 @@ public abstract class BaseFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException {
-        if (null != currentState && null != eventId) {
+    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException {
+        if (null == eventId)
+            throw new NoEventFoundException();
+        else if (null != currentState) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
-            if (appFlowEvents != null) {
-                BaseState appFlowNextState = getStateForEventID(false, eventId, appFlowEvents);
-                if (appFlowNextState != null) {
-                    setCurrentState(appFlowNextState);
-                    flowManagerStack.push(appFlowNextState);
-                    return appFlowNextState;
-                }
+            BaseState appFlowNextState = getStateForEventID(false, eventId, appFlowEvents);
+            if (appFlowNextState != null) {
+                setCurrentState(appFlowNextState);
+                flowManagerStack.push(appFlowNextState);
+                return appFlowNextState;
             }
-        } else {
-            BaseState baseState = stateMap.get(firstState);
-            this.currentState = baseState;
-            flowManagerStack.push(baseState);
-            return baseState;
         }
-        return null;
+        throw new NoStateException();
+    }
+
+    public BaseState getFirstState() throws NoStateException {
+        BaseState firstState = stateMap.get(this.firstState);
+        if (firstState != null) {
+            setCurrentState(firstState);
+            flowManagerStack.push(firstState);
+            return firstState;
+        }
+        throw new NoStateException();
     }
 
     @Nullable
@@ -124,8 +130,7 @@ public abstract class BaseFlowManager {
     }
 
     public BaseState getBackState(BaseState currentState) throws NoStateException {
-        if (currentState != null) {
-            String BACK = "back";
+        if (currentState != null && flowManagerStack.contains(currentState)) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState nextState = null;
             try {
@@ -135,23 +140,25 @@ public abstract class BaseFlowManager {
             }
             if (nextState != null) {
                 if (flowManagerStack.contains(nextState)) {
-                    BaseState baseState = flowManagerStack.pop(nextState);
-                    setCurrentState(baseState);
-                    return baseState;
+                    // TODO: Deepthi pop operations need not return state, you can return just next state
+                    flowManagerStack.pop(nextState);
+                    setCurrentState(nextState);
+                    return nextState;
                 } else {
                     setCurrentState(nextState);
                     flowManagerStack.push(nextState);
                     return nextState;
                 }
             } else {
-                BaseState baseState = flowManagerStack.pop();
-                setCurrentState(baseState);
-                return baseState;
+                setCurrentState(flowManagerStack.pop());
+                return null;
             }
         }
         throw new NoStateException();
     }
 
+    // TODO: Deepthi check if we need to standardize this exit state
+    // TODO: Deepthi check oncreate of application is called every time you press home, exit app etc.
     public void clearStates() {
         flowManagerStack.clear();
     }
