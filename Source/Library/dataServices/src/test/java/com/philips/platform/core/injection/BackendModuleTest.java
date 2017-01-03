@@ -1,8 +1,11 @@
 package com.philips.platform.core.injection;
 
 import android.content.Context;
+import android.os.Handler;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
@@ -15,6 +18,12 @@ import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.verticals.VerticalCreater;
+import com.philips.platform.verticals.VerticalDBDeletingInterfaceImpl;
+import com.philips.platform.verticals.VerticalDBFetchingInterfaceImpl;
+import com.philips.platform.verticals.VerticalDBSavingInterface;
+import com.philips.platform.verticals.VerticalDBUpdatingInterfaceImpl;
+import com.philips.platform.verticals.VerticalUserRegistrationInterfaceImpl;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
@@ -29,6 +38,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import de.greenrobot.event.EventBus;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -68,7 +78,16 @@ public class BackendModuleTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        backendModule = new BackendModule(eventingMock);
+        VerticalCreater baseAppDataCreator = new VerticalCreater();
+        VerticalUserRegistrationInterfaceImpl  userRegistrationInterface = new VerticalUserRegistrationInterfaceImpl();
+        VerticalDBDeletingInterfaceImpl dbDeletingInterface = new VerticalDBDeletingInterfaceImpl();
+        VerticalDBFetchingInterfaceImpl dbFetchingInterface = new VerticalDBFetchingInterfaceImpl();
+        VerticalDBSavingInterface dbSavingInterface = new VerticalDBSavingInterface();
+        VerticalDBUpdatingInterfaceImpl dbUpdatingInterface = new VerticalDBUpdatingInterfaceImpl();
+
+        backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()),baseAppDataCreator, userRegistrationInterface,
+                dbDeletingInterface,dbFetchingInterface,dbSavingInterface,dbUpdatingInterface,
+                null,null,null);
     }
 
     @Test

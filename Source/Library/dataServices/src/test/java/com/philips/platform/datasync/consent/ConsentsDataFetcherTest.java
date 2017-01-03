@@ -48,7 +48,7 @@ public class ConsentsDataFetcherTest {
     @Before
     public void setUp() {
         initMocks(this);
-        consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock,eventingMock);
+        consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock);
     }
 
     @Test

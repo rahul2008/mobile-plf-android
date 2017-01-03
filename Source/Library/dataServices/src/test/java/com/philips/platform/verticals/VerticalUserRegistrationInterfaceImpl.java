@@ -1,34 +1,34 @@
-package com.philips.testing.verticals;
+package com.philips.platform.verticals;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
-/**
- * Created by indrajitkumar on 13/12/16.
- */
+import org.mockito.Mock;
+import org.robolectric.RuntimeEnvironment;
 
-public class ErrorHandlerImplTest implements UserRegistrationInterface {
+public class VerticalUserRegistrationInterfaceImpl implements UserRegistrationInterface {
     @Override
     public boolean isUserLoggedIn() {
-        return true;
+        return false;
     }
 
     @NonNull
     @Override
     public String getAccessToken() {
-        return "dfsdfsd3423";
+        return "abc";
     }
 
     @NonNull
     @Override
     public UserProfile getUserProfile() {
-        return new UserProfile("jhon", "Deo", "jhon.deo@gmail.com", "GUID");
+        return null;
     }
 
     @Override
     public String getHSDHsdpUrl() {
-        return "sdfsd";
+        return "http://google.com";
     }
 }

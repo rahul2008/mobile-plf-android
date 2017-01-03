@@ -59,7 +59,7 @@ public class ConsentsConverterTest {
 
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
 
         consentsConverter = new ConsentsConverter();
     }

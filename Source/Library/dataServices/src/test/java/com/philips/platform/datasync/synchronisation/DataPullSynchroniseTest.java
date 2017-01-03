@@ -114,13 +114,12 @@ public class DataPullSynchroniseTest {
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImpl = new ErrorHandlerImplTest();
-        dataServicesManager.initialize(context, verticalDataCreater, errorHandlerImpl);
+        dataServicesManager.initialize(context, verticalDataCreater, errorHandlerImpl,null);
 
         //  when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock),
-                executorMock,
-                eventingMock);
+                executorMock);
     }
 
     @Test

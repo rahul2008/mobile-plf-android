@@ -145,7 +145,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedIn() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
 //        when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
@@ -159,7 +159,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedInDuringGetConsent() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
 
@@ -171,7 +171,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsNull() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -184,7 +184,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsNullDuringGetConsent() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -197,7 +197,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsEmpty() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -210,7 +210,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsEmptyDuringGet() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -223,7 +223,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldNotSaveConsent_WhenRequestTypeIsNotSave() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.UPDATE);
         when(consentSaveRequestMock.getConsent()).thenReturn(consentMock);
@@ -249,7 +249,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldNotSaveConsent_WhenRequestTypeIsSaveAndConsentDetailsIsEmpty() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
         when(consentSaveRequestMock.getConsent()).thenReturn(consentMock);
@@ -262,7 +262,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenBackendSaveFails() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
         final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
 
@@ -283,7 +283,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenGetRequestIsFetchedWithOutUserLogin() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
         consentsMonitor.onEventAsync(consentBackendGetRequestMock);
@@ -308,7 +308,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldSaveConsent_WhenListOfConsentIsPassed() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        dataServicesManager.initialize(context, verticalDataCreater, null,null);
         doReturn(Collections.singletonList(consentMock)).when(consentSaveListRequestMock).getConsentList();
         doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);

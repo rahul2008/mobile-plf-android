@@ -89,7 +89,7 @@ public class MomentsConverterTest {
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandler = new ErrorHandlerImplTest();
-        dataServicesManager.initialize(context, verticalDataCreater, errorHandler);
+        dataServicesManager.initialize(context, verticalDataCreater, errorHandler,null);
 
         initializeUCoreMoment();
 

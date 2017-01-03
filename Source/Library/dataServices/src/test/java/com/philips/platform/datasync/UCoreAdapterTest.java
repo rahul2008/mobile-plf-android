@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.datasync.consent.ConsentsClient;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.junit.Before;
@@ -66,7 +66,7 @@ public class UCoreAdapterTest {
     private GsonConverter gsonConverterMock;
 
     @Mock
-    ErrorHandler userRegistrationImplMock;
+    UserRegistrationInterface userRegistrationImplMock;
 
     @Mock
     BaseAppDataCreator baseAppDataCreatorMock;

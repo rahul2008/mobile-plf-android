@@ -110,7 +110,7 @@ public class MomentsDataSenderTest {
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandler = new ErrorHandlerImplTest();
-        dataServicesManager.initialize(context, verticalDataCreater, errorHandler);
+        dataServicesManager.initialize(context, verticalDataCreater, errorHandler,null);
 
         // when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProvider);
         when(accessProvider.getAccessToken()).thenReturn(ACCESS_TOKEN);
@@ -118,7 +118,7 @@ public class MomentsDataSenderTest {
         when(accessProvider.getSubjectId()).thenReturn(BABY_ID);
         when(uCoreAdapter.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, momentGsonConverterMock)).thenReturn(clientMock);
 
-        momentsDataSender = new MomentsDataSender(uCoreAdapter, momentsConverterMock, momentGsonConverterMock, eventingMock);
+        momentsDataSender = new MomentsDataSender(momentsConverterMock, momentGsonConverterMock);
 
         when(accessProvider.isLoggedIn()).thenReturn(true);
         when(momentMock.getCreatorId()).thenReturn(USER_ID);

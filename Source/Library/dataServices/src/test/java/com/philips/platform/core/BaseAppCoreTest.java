@@ -83,7 +83,7 @@ public class BaseAppCoreTest {
 
         dbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
 
-        baseAppCoreCreator = new BaseAppCore(eventing, database, appBackend, eventMonitors, dbMonitors);
+        baseAppCoreCreator = new BaseAppCore();
         baseAppCoreCreator.start();
     }
 
@@ -139,7 +139,7 @@ public class BaseAppCoreTest {
         assertThat(momentDetail.getType()).isEqualTo("NOTE");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void ShouldCreateSynchronizationData_WhenCreateSyncDataIsCalled() {
         SynchronisationData synchronisationData = baseAppCoreCreator.createSynchronisationData("TEST_GUID", false, new DateTime(), 1);
         assertThat(synchronisationData.getGuid()).isEqualTo("TEST_GUID");

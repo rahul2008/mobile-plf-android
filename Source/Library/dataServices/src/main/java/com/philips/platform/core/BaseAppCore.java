@@ -50,7 +50,7 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @Inject
     public BaseAppCore() {
-        DataServicesManager.mAppComponent.injectBaseAppCore(this);
+        DataServicesManager.getInstance().mAppComponent.injectBaseAppCore(this);
     }
 
     public void start() {

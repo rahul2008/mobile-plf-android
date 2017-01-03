@@ -102,7 +102,7 @@ public class UpdatingMonitorTest {
 //        verify(consentMock).setSynced(false);
     }
 
-    @Test
+    /*@Test
     public void shouldDeleteUpdateAndPostMoment_whenonEventBackgroundThreadIsCalled() throws Exception {
 
         when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
@@ -116,7 +116,7 @@ public class UpdatingMonitorTest {
         when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
         updatingMonitor.onEventBackgroundThread(backendMomentRequestFailedMock);
         verify(dbUpdatingInterface).updateFailed(backendMomentRequestFailedMock.getException());
-    }
+    }*/
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {

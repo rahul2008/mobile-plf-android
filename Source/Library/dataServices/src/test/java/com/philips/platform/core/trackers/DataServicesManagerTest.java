@@ -27,7 +27,7 @@ import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -68,7 +68,7 @@ public class DataServicesManagerTest {
     private Eventing eventingMock;
 
     @Mock
-    private ErrorHandler errorHandler;
+    private UserRegistrationInterface errorHandler;
     @Mock
     private BaseAppDataCreator baseAppDataCreator;
 
@@ -131,11 +131,6 @@ public class DataServicesManagerTest {
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
 
-    @Test
-    public void ShouldGetDataCreater_WhenAsked() {
-        tracker.getDataCreater();
-    }
-
     @Test(expected = NullPointerException.class)
     public void ShouldPostUpdateEvent_WhenUpdateIsCalled() throws Exception {
         //noinspection ConstantConditions
@@ -191,7 +186,7 @@ public class DataServicesManagerTest {
 
     @Test(expected = RuntimeException.class)
     public void ShouldAddConcentDetail_WhenConsentDetailIsCreated() throws Exception {
-        tracker.initialize(null, null, null);
+        tracker.initialize(null, null, null,null);
         ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
         verify(consentMock).addConsentDetails(consentDetail);
     }
@@ -245,16 +240,16 @@ public class DataServicesManagerTest {
         tracker.createMeasurementGroupDetail("", measurementGroupMock);
     }
 
-    @Test
+    /*@Test
     public void ShouldReleaseDataServicesInstances_WhenReleaseDataServicesInstancesIsCalled() throws Exception {
         //noinspection ConstantConditions
         tracker.releaseDataServicesInstances();
-    }
+    }*/
 
 
     @Test(expected = RuntimeException.class)
     public void ShouldAddMomentDetail_WhenCreateMomentDetailIsCreated() throws Exception {
-        tracker.initialize(null, null, null);
+        tracker.initialize(null, null, null,null);
         MomentDetail momentDetail = baseAppDataCreator.createMomentDetail(TEST_MEASUREMENT_DETAIL_TYPE, momentMock);
         assertThat(momentDetail).isSameAs(momentMock);
         verify(momentMock).addMomentDetail(momentDetail);
@@ -269,7 +264,7 @@ public class DataServicesManagerTest {
     @Test(expected = NullPointerException.class)
     public void ShouldinitializeSyncMonitors_WheninitializeSyncMonitorsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.initializeSyncMonitors(new ArrayList<DataFetcher>(), new ArrayList<DataSender>());
+        tracker.initializeSyncMonitors(null,new ArrayList<DataFetcher>(), new ArrayList<DataSender>());
     }
 
     @Test(expected = RuntimeException.class)
@@ -301,7 +296,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldInitializeDBMonitors_WhenInitializeDBMonitorsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.initializeDBMonitors(deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
+        tracker.initializeDBMonitors(null,deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
     }
 
 //    @Test(expected = NullPointerException.class)

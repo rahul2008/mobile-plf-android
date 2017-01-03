@@ -47,7 +47,7 @@ public class ConsentDataSenderTest {
     public void setUp() {
         initMocks(this);
 
-        consentDataSender = new ConsentDataSender(eventingMock);
+        consentDataSender = new ConsentDataSender();
     }
 
 
