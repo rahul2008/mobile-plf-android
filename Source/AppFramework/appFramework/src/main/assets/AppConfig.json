@@ -20,8 +20,10 @@
     "appidentity.micrositeId" : "11400",
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "STAGING",
-    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION"
-
+    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
+    "tagging.sensitiveData": ["bundleId, language"] ,
+    "abtest.precache":["philipsmobileappabtest1content","philipsmobileappabtest1success"] ,
+    "contentLoader.limitSize":100
   }
 }
 
