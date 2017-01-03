@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uid.view.widget;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AnimationSet;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
@@ -27,6 +29,7 @@ public class IndeterminateLinearProgressBar extends View {
 
     private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
     private AnimatedTranslateDrawable anim;
+    private AnimatedTranslateDrawable anim2;
 
     public IndeterminateLinearProgressBar(final Context context) {
         super(context, null);
@@ -45,7 +48,7 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     private void setTintedBackground(final Context context, final AttributeSet attrs) {
-        setBackground(new ColorDrawable(Color.MAGENTA));
+        setBackground(new ColorDrawable(Color.WHITE));
     }
 
     @Override
@@ -75,13 +78,24 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void createAnimationSet() {
         anim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth()+ transitionDrawableWidth);
+        anim.setCallback(this);
+        anim.setBounds(getTransitionDrawableBoundRect());
         anim.start();
+        anim2 = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionDrawableWidth);
+        anim2.setCallback(this);
+        anim2.setBounds(getTransitionDrawableBoundRect());
+
+        AnimatorSet set = new AnimatorSet();
     }
 
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
-        leadingDrawable.draw(canvas);
         anim.draw(canvas);
+    }
+
+    @Override
+    protected boolean verifyDrawable(final Drawable who) {
+        return who == anim || super.verifyDrawable(who);
     }
 }

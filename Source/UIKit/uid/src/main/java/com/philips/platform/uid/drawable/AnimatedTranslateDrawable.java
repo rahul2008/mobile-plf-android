@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class AnimatedTranslateDrawable extends Drawable {
     private static final int DEFAULT_ANIMATION_DURATION = 900; //900ms
@@ -63,12 +64,13 @@ public class AnimatedTranslateDrawable extends Drawable {
 
     public void setTranslate(float translateX) {
         translateValue = translateX;
+        Log.d("amit", "setTranslate: bound:" + getBounds());
         invalidateSelf();
     }
 
     @Override
     public void setBounds(final Rect bounds) {
-        drawable.setBounds(bounds);
+        super.setBounds(bounds);
     }
 
     /**
