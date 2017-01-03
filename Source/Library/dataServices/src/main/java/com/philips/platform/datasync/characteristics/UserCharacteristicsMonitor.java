@@ -5,6 +5,9 @@ import android.text.TextUtils;
 
 import com.philips.platform.core.datatypes.Characteristic;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
+import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.FetchUserCharacteristicsFromBackendEvent;
 import com.philips.platform.core.events.UserCharacteristicsToBackendEvent;
 import com.philips.platform.core.monitors.EventMonitor;
@@ -19,6 +22,7 @@ import javax.inject.Inject;
  */
 
 public class UserCharacteristicsMonitor extends EventMonitor {
+
     private UserCharacteristicsSender userCharacteristicsSender;
     private UserCharacteristicsFetcher userCharacteristicsFetcher;
 
@@ -28,14 +32,17 @@ public class UserCharacteristicsMonitor extends EventMonitor {
         this.userCharacteristicsFetcher = userCharacteristicsFetcher;
     }
 
-    public void onEventAsync(UserCharacteristicsToBackendEvent sendBookmarkToBackendEvent) {
-        List<String> articleUid = sendBookmarkToBackendEvent.getArticleUid();
-        String characteristicsValue = TextUtils.join(",", articleUid);
+    public void onEventAsync(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
 
-        userCharacteristicsSender.sendDataToBackend(Collections.singletonList(new Characteristic(Characteristic.USER_CHARACTERISTIC_TYPE, characteristicsValue)));
+        for(CharacteristicsDetail characteristicsDetail:characteristicsBackendSaveRequest.getCharacteristic().getCharacteristicsDetails()){
+            Characteristic characteristic = new Characteristic(characteristicsDetail.getType(), characteristicsDetail.getValue());
+           // userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristic));
+        }
+
     }
 
-    public void onEventAsync(FetchUserCharacteristicsFromBackendEvent fetchBookmarkFromBackendEvent) {
+    public void onEventAsync(CharacteristicsBackendGetRequest characteristicsBackendGetRequest) {
         userCharacteristicsFetcher.fetchDataSince(null);
     }
+
 }

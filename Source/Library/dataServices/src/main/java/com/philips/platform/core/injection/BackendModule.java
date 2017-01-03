@@ -17,6 +17,7 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
@@ -72,8 +73,9 @@ public class BackendModule {
     @Singleton
     Backend providesBackend(
             @NonNull final MomentsMonitor momentsMonitor,
-            @NonNull final ConsentsMonitor consentsMonitor) {
-        return new Backend(momentsMonitor, consentsMonitor);
+            @NonNull final ConsentsMonitor consentsMonitor,
+            @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor) {
+        return new Backend(momentsMonitor, consentsMonitor ,userCharacteristicsMonitor);
     }
 
     @Provides

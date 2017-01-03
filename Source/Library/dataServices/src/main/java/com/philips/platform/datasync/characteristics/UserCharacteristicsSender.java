@@ -6,6 +6,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristic;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
 import com.philips.platform.core.events.SendUserCharacteristicsToBackendResponseEvent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -70,7 +71,9 @@ public class UserCharacteristicsSender implements DataSender<Characteristic> {
     }
 
     private void postOk(final Characteristic characteristics) {
-        eventing.post(new SendUserCharacteristicsToBackendResponseEvent(characteristics.getValue()));
+        //eventing.post(new SendUserCharacteristicsToBackendResponseEvent(characteristics.getValue()));
+        //set characterestics as syncronized .
+        eventing.post(new DatabaseCharacteristicsUpdateRequest(null));//instead of null ,we should get characteristic here
     }
 
     @Override

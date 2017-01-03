@@ -7,6 +7,7 @@ import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
@@ -49,6 +50,8 @@ public class BackendModuleTest {
     @Mock
     ConsentsMonitor consentsMonitor;
     @Mock
+    UserCharacteristicsMonitor userCharacteristicsMonitor;
+
     ExecutorService executorService;
     @Mock
     MomentsDataFetcher momentsDataFetcher;
@@ -120,7 +123,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(momentsMonitor, consentsMonitor);
+        final Backend backend = backendModule.providesBackend(momentsMonitor, consentsMonitor,userCharacteristicsMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }

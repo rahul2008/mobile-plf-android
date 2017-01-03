@@ -5,12 +5,11 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristic;
-import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
 import com.philips.platform.core.events.SaveUserCharacteristicsEvent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
 import org.joda.time.DateTime;
@@ -44,12 +43,18 @@ public class UserCharacteristicsFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        return fetchBookmarkedArticles();
+        return fetchCharacteristics();
     }
 
     @Nullable
-    private RetrofitError fetchBookmarkedArticles() {
+    private RetrofitError fetchCharacteristics() {
         try {
+
+            //get the json here ,Parse that Json to charecteristics ,set isSyncronized as true and call saveCharacteristics
+            /* Added by pabitra */
+            eventing.post(new DatabaseCharacteristicsUpdateRequest(null));//instead of null ,we should get characteristic here
+            /* Added by pabitra end */
+
             UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessToken, gsonConverter);
             final UserCharacteristics characteristics = userCharacteristicsClient.getUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), 9);
 
