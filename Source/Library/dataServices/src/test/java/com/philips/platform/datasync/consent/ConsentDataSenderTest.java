@@ -5,6 +5,8 @@ import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.junit.Before;
@@ -42,12 +44,16 @@ public class ConsentDataSenderTest {
     @Captor
     private ArgumentCaptor<ConsentBackendListSaveRequest> consentListSaveRequestEventCaptor;
 
+    @Mock
+    private AppComponent appComponantMock;
+
 
     @Before
     public void setUp() {
         initMocks(this);
-
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         consentDataSender = new ConsentDataSender();
+        consentDataSender.eventing = eventingMock;
     }
 
 
