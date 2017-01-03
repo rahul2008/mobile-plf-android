@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 buildscript {
     repositories {
-        maven { url 'http://http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
 
         maven {
             url "https://plugins.gradle.org/m2/"
