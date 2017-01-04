@@ -154,4 +154,10 @@ public class RegConstants {
 
     public static final String WECHAT_AUTH = "WECHAT_AUTH";
 
+    public static final String WE_CHAT_AUTH = "WeChatAuth";
+
+    public static final String WECHAT_ERR_CODE = "WECHAT_ERR_CODE";
+
+    public static final String WECHAT_CODE = "WECHAT_CODE";
+
 }

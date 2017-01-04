@@ -1,12 +1,14 @@
 package com.janrainphilips.philipsregistration.wxapi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -31,11 +33,10 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
  * things simple and detached from the rest of your application.
  */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-    private static final String TAG = "WXEntryActivity";
+    private static final String TAG = "RegistrationWXEntryActivity";
     private IWXAPI api;
 
-
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -45,11 +46,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 getPropertyForKey("weChatAppId", UR,
                         configError);
 
-
-
+        Log.d("WECHAT", "WechatId from Configuartion" + weChatAppId);
         // Handle any communication from WeChat and then terminate activity. This class must be an activity
         // or the communication will not be received from WeChat.
-        api = WXAPIFactory.createWXAPI(this, weChatAppId , false);
+        api = WXAPIFactory.createWXAPI(this, weChatAppId, false);
         api.handleIntent(getIntent(), this);
 
         finish();
@@ -59,6 +59,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     /**
      * Called when WeChat is initiating a request to your application. This is not used for
      * authentication.
+     *
      * @param req
      */
     @Override
@@ -68,6 +69,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     /**
      * Called when WeChat is responding to a request this app initiated. Invoked by WeChat after
      * authorization has been given by the user.
+     *
      * @param resp
      */
     @Override
@@ -75,29 +77,34 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         //Send code back to fragment by local broadcase
         //Handle this case in Home fragment
-
-        switch (resp.errCode) {
+        int error_code = resp.errCode;
+        String weChatCode = null;
+        switch (error_code) {
             case BaseResp.ErrCode.ERR_OK:
                 try {
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
-                    sendResp.code;
-                    //Send l
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH);
-                } catch(Exception e){
-                    Toast.makeText(this, "Exception while parsing token", Toast.LENGTH_LONG).show();
-                    Log.e(TAG,e.getStackTrace().toString());
+                    weChatCode = sendResp.code;
+                } catch (Exception e) {
+                    RLog.e(TAG, e.getStackTrace().toString());
                 }
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 Toast.makeText(this, "User canceled the request", Toast.LENGTH_LONG).show();
-                Log.i(TAG, "WeChat - User canceled the request");
+              //  Log.i(TAG, "WeChat - User canceled the request");
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 Toast.makeText(this, "User denied the request", Toast.LENGTH_LONG).show();
-                Log.i(TAG, "WeChat - User denied the request");
+               // Log.i(TAG, "WeChat - User denied the request");
                 break;
         }
+        sendMessage(error_code, weChatCode);
+    }
 
+    private void sendMessage(int error_code, String weChatCode) {
+        Intent intent = new Intent(RegConstants.WE_CHAT_AUTH);
+        intent.putExtra(RegConstants.WECHAT_ERR_CODE, error_code);
+        intent.putExtra(RegConstants.WECHAT_CODE, weChatCode);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
 }

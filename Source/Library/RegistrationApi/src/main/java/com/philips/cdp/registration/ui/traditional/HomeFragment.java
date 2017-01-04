@@ -9,11 +9,15 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -41,7 +45,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -192,6 +195,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         LogUtils.logd("WeChat: App Installed: " + weChatApi.isWXAppInstalled());
         LogUtils.logd("WeChat: App Support API: " + weChatApi.isWXAppSupportAPI());
 
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
+                new IntentFilter(RegConstants.WE_CHAT_AUTH));
 
 
         return view;
@@ -228,6 +233,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     protected void handleWeChatCode(final String code) {
         RLog.i("WECHAT", String.format("WeChat Code: %s",code));
+
         String weChatData = String.format("access_token&appid=%s&secret=%s&grant_type=authorization_code&state=123456&code=%s",
                 weChatAppId,
                 weChatAppSecret,
@@ -332,10 +338,31 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 this);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.WECHAT_AUTH,
                 this);
+
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mMessageReceiver);
         RLog.i(RLog.EVENT_LISTENERS,
                 "HomeFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         super.onDestroy();
     }
+
+    String wechatCode = null;
+    // Our handler for received Intents. This will be called whenever an Intent
+// with an action named "custom-event-name" is broadcasted.
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            int message = intent.getIntExtra(RegConstants.WECHAT_ERR_CODE,0);
+            String code = intent.getStringExtra(RegConstants.WECHAT_CODE);
+            Log.d("receiver", "Got message: " + message+code);
+            wechatCode = code;
+            //Create intentservice for getting secrete and
+
+            EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH);
+
+        }
+    };
+
 
     @Override
     public void onDetach() {
@@ -501,20 +528,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             launchCreateAccountFragment();
 
         } else if (v.getId() == R.id.btn_reg_my_philips) {
-            /*RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
+            RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
-            launchSignInFragment();*/
-
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()){
-                SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "123456";
-                weChatApi.sendReq(req);
-            } else {
-                Toast.makeText(mContext, "Flow Configuration not downloaded yet",
-                        Toast.LENGTH_LONG).show();
-            }
-
+            launchSignInFragment();
         } else if (v.getId() == R.id.tv_country_displat) {
             final CountryPicker picker =new CountryPicker();
             picker.setListener(new CountryChangeListener() {
@@ -613,12 +629,25 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
+                if(providerName.equalsIgnoreCase("wechat")){
+                    //check for suport else give toast
+                    startWeChatAuthentication();
+                }else{
+                    mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
+                }
+
                 return;
             }
             mFlowId = 3;
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
+    }
+
+    private void startWeChatAuthentication() {
+        SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "123456";
+        weChatApi.sendReq(req);
     }
 
     @Override
@@ -659,7 +688,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 return;
             }
             if (mFlowId == 3) {
-                mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
+                if(mProvider.equalsIgnoreCase("wechat")){
+                    startWeChatAuthentication();
+                }else{
+                    mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
+                }
+
                 mFlowId = 0;
             }
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
@@ -669,12 +703,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }else if (RegConstants.WECHAT_AUTH.equals(event)) {
             //WeChat China
 
-            System.out.println("*******onResume"+code);
-            if(code != null){
-                String weChatCode = code;
-                handleWeChatCode(weChatCode);
-                code = null;
-            }
+           // System.out.println("*******onResume"+code);
+          //  if(code != null){
+                //String weChatCode = code;
+                handleWeChatCode(wechatCode);
+            //    code = null;
+            //}
 
 
 
