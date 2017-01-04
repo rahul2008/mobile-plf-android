@@ -1,9 +1,9 @@
 package philips.appframeworklibrary.flowmanager.exceptions;
 
-public class NoStateException extends Exception {
+public class NoStateException extends RuntimeException {
 
 
     public NoStateException() {
-        super("No State to Pop");
+        super("No State Found");
     }
 }

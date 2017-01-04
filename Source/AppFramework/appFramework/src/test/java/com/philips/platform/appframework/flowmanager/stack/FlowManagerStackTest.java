@@ -32,15 +32,11 @@ public class FlowManagerStackTest extends TestCase {
         BaseState iapRetailer = new IAPRetailerFlowState();
         flowManagerStack.push(aboutState);
         flowManagerStack.push(aboutState);
-        try {
-            assertEquals(aboutState, flowManagerStack.pop());
-            flowManagerStack.push(iapRetailer);
-            flowManagerStack.pop();
-            assertEquals(flowManagerStack.size(), 1);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(e instanceof NoStateException);
-        }
+        assertEquals(null, flowManagerStack.pop());
+        flowManagerStack.push(iapRetailer);
+        assertEquals(flowManagerStack.size(), 1);
+        flowManagerStack.pop();
+        assertEquals(flowManagerStack.size(), 0);
     }
 
     public void testPopByState() {
@@ -58,17 +54,9 @@ public class FlowManagerStackTest extends TestCase {
         flowManagerStack.push(supportState);
         flowManagerStack.push(settingsState);
         flowManagerStack.push(dataSyncState);
-        try {
-            assertTrue(flowManagerStack.pop(supportState) instanceof SupportFragmentState);
-        } catch (NoStateException e) {
-            e.printStackTrace();
-        }
+        assertTrue(flowManagerStack.pop(supportState) instanceof SupportFragmentState);
         assertEquals(flowManagerStack.size(), 5);
-        try {
-            assertTrue(flowManagerStack.pop(prState) instanceof ProductRegistrationState);
-        } catch (NoStateException e) {
-            e.printStackTrace();
-        }
+        assertTrue(flowManagerStack.pop(prState) instanceof ProductRegistrationState);
         assertEquals(flowManagerStack.size(), 2);
     }
 

@@ -15,17 +15,14 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
 import philips.appframeworklibrary.flowmanager.base.BaseState;
 import philips.appframeworklibrary.flowmanager.base.UIStateListener;
-import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 /**
  * Spalsh presenter loads the splash screen and sets the next state after splash
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
-public class SplashPresenter extends UIBasePresenter implements UIStateListener {
+public class SplashPresenter extends UIBasePresenter implements UIStateListener{
     private final LaunchView uiView;
     private String APP_START = "onSplashTimeOut";
-    private BaseState baseState;
-    private FragmentLauncher fragmentLauncher;
 
     public SplashPresenter(LaunchView uiView) {
         super(uiView);
@@ -41,11 +38,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
     @Override
     public void onEvent(int componentID) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), APP_START);
-        } catch (NoEventFoundException e) {
-            e.printStackTrace();
-        }
+        BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), APP_START);
         if (null != baseState) {
             baseState.setStateListener(this);
             if (baseState instanceof UserRegistrationState) {

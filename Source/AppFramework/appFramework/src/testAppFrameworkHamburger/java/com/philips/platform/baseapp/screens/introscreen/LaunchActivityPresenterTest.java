@@ -83,7 +83,7 @@ public class LaunchActivityPresenterTest extends TestCase {
     }
 
     public void testGetUiState() {
-        assertEquals("back", launchActivityPresenter.getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT));
+        assertEquals("back", launchActivityPresenter.getEvent(Constants.BACK_BUTTON_CLICK_CONSTANT));
     }
 
     public void testOnLoad() throws NoEventFoundException {
