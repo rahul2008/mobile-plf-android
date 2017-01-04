@@ -40,6 +40,7 @@ class CharacteristicsDialogPresenter {
                 String type = characteristicsList.get(i).getType();
                 String value = characteristicsList.get(i).getValue();
                 CharacteristicsDetail childCharacteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, 0, parentCharacteristicsDetail);
+                parentCharacteristicsDetail.setCharacteristicsDetail(childCharacteristicsDetail);
                 saveUserCharacteristicsToLocalDBRecursively(childCharacteristicsDetail, characteristicsList.get(i).getCharacteristics());
             }
         }

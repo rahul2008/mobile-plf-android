@@ -65,6 +65,17 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 "              \"characteristics\": []\n" +
                 "            }\n" +
                 "          ]\n" +
+                "        },\n" +
+                "         {\n" +
+                "          \"type\": \"skin\",\n" +
+                "          \"value\": \"fair\",\n" +
+                "          \"characteristics\": [\n" +
+                "            {\n" +
+                "              \"type\": \"color\",\n" +
+                "              \"value\": \"fair\",\n" +
+                "              \"characteristics\": []\n" +
+                "            }\n" +
+                "          ]\n" +
                 "        }\n" +
                 "      ]\n" +
                 "    }\n" +

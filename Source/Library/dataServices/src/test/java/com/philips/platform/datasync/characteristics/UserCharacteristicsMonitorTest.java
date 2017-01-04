@@ -3,8 +3,6 @@ package com.philips.platform.datasync.characteristics;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
-import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
-import com.philips.platform.core.events.FetchUserCharacteristicsFromBackendEvent;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import org.junit.Before;
@@ -15,12 +13,10 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.converter.GsonConverter;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
@@ -45,7 +41,7 @@ public class UserCharacteristicsMonitorTest {
     private UserCharacteristicsFetcher userCharacteristicsFetcher;
 
     @Mock
-    private UserCharacteristicsConvertor userCharacteristicsConvertorMock;
+    private UserCharacteristicsConverter userCharacteristicsConvertorMock;
 
     @Before
     public void setUp() throws Exception {

@@ -1,9 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
-
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
@@ -37,10 +35,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class MomentsDataSender implements DataSender<Moment> {
     @NonNull
     private final UCoreAccessProvider accessProvider;

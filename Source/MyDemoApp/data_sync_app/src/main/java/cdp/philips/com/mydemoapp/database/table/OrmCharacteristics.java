@@ -1,3 +1,8 @@
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package cdp.philips.com.mydemoapp.database.table;
 
 import android.support.annotation.NonNull;
@@ -17,10 +22,6 @@ import java.util.Collection;
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @DatabaseTable
 public class OrmCharacteristics implements Characteristics, Serializable {
 
@@ -77,11 +78,6 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     @Override
     public boolean isSynchronized() {
         return false;
-    }
-
-    @Override
-    public void setBackEndSynchronized(boolean backEndSynchronized) {
-
     }
 
     @Override

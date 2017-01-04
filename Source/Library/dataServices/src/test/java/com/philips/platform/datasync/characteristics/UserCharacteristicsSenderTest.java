@@ -2,7 +2,6 @@ package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SendUserCharacteristicsToBackendResponseEvent;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -14,7 +13,6 @@ import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Header;
@@ -123,7 +121,7 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        when(uCoreClientMock.putUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreUserCharacteristics.class), eq(9))).thenReturn(response);
+        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreUserCharacteristics.class), eq(9))).thenReturn(response);
 
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
@@ -140,7 +138,7 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        //when(uCoreClientMock.putUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), (List<UCoreUserCharacteristics>) any(Characteristics.class), eq(9))).thenThrow(retrofitErrorMock);
+        //when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), (List<UCoreUserCharacteristics>) any(Characteristics.class), eq(9))).thenThrow(retrofitErrorMock);
 
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 

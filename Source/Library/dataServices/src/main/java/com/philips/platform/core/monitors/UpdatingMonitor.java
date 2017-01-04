@@ -12,7 +12,7 @@ import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
@@ -110,7 +110,7 @@ public class UpdatingMonitor extends EventMonitor {
 
     }
 
-    public void onEventAsync(final DatabaseCharacteristicsUpdateRequest databaseCharacteristicsUpdateRequest) throws SQLException {
+    public void onEventAsync(final UserCharacteristicsSaveRequest databaseCharacteristicsUpdateRequest) throws SQLException {
 
         if(databaseCharacteristicsUpdateRequest.getCharacteristics()==null)return;
 

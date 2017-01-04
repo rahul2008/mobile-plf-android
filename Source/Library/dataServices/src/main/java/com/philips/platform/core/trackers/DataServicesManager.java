@@ -31,7 +31,7 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.LoadCharacterSicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
@@ -355,7 +355,7 @@ public class DataServicesManager {
     }
 
     public void updateCharacteristics(@NonNull final Characteristics userCharacteristics){
-        mEventing.post(new DatabaseCharacteristicsUpdateRequest(userCharacteristics));
+        mEventing.post(new UserCharacteristicsSaveRequest(userCharacteristics));
     }
 
     public void fetchUserCharacteristics(){

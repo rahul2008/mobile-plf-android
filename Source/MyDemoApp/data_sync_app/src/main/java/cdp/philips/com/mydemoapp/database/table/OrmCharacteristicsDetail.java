@@ -1,31 +1,35 @@
-package cdp.philips.com.mydemoapp.database.table;
-
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
-import com.philips.platform.core.datatypes.ConsentDetail;
-
-import java.io.Serializable;
-
-import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+package cdp.philips.com.mydemoapp.database.table;
+
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
+
+import java.io.Serializable;
+import java.util.Collection;
+
+import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
+import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
+
+
 @DatabaseTable
 public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializable {
 
     public static final long serialVersionUID = 11L;
+
+    @DatabaseField(canBeNull = false)
+    private int parent;
 
     @DatabaseField(generatedId = true)
     private int id;
 
     @DatabaseField(canBeNull = false)
     private String type;
-
-    @DatabaseField(canBeNull = false)
-    private int parent;
 
     @DatabaseField(canBeNull = true)
     private String value;
@@ -37,17 +41,19 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = true)
     private OrmCharacteristicsDetail ormCharacteristicsDetail;
 
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<OrmCharacteristicsDetail> ormCharacteristicsDetails = new EmptyForeignCollection<>();
 
     @DatabaseConstructor
     OrmCharacteristicsDetail() {
     }
 
-    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics,OrmCharacteristicsDetail ormCharacteristicsDetail) {
+    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics, OrmCharacteristicsDetail ormCharacteristicsDetail) {
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
         this.parent = ormCharacteristicsDetail.getId();
-        this.ormCharacteristicsDetail=ormCharacteristicsDetail;
+        this.ormCharacteristicsDetail = ormCharacteristicsDetail;
     }
 
     public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics) {
@@ -93,7 +99,17 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     }
 
     @Override
+    public Collection<? extends CharacteristicsDetail> getCharacteristicsDetail() {
+        return ormCharacteristicsDetails;
+    }
+
+    @Override
+    public void setCharacteristicsDetail(CharacteristicsDetail characteristicsDetail) {
+        ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristicsDetail);
+    }
+
+    @Override
     public String toString() {
-        return "[OrmConsentDetail, id=" + id + ", type=" + type + ", value=" + value + ", OrmCharacteristics=" + ormCharacteristics + " ,ormCharacteristicsDetail=" + ormCharacteristicsDetail +"]";
+        return "[OrmConsentDetail, id=" + id + ", type=" + type + ", value=" + value + ", OrmCharacteristics=" + ormCharacteristics + " ,ormCharacteristicsDetail=" + ormCharacteristicsDetail + "]";
     }
 }

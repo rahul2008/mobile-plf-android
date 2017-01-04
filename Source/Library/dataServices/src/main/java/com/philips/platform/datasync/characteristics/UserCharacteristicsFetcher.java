@@ -1,10 +1,15 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.datasync.characteristics;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -17,52 +22,44 @@ import javax.inject.Inject;
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
-/**
- * Created by indrajitkumar on 1/2/17.
- */
-
 public class UserCharacteristicsFetcher extends DataFetcher {
-    String accessToken;
     @NonNull
-    protected final UCoreAccessProvider accessProvider;
-    private GsonConverter gsonConverter;
+    protected final UCoreAccessProvider mAccessProvider;
+    private GsonConverter mGsonConverter;
     DataServicesManager mDataServicesManager;
+    UserCharacteristicsConverter mUserCharacteristicsConverter;
 
     @Inject
     public UserCharacteristicsFetcher(@NonNull final UCoreAdapter uCoreAdapter,
                                       @NonNull final Eventing eventing,
-                                      @NonNull final GsonConverter gsonConverter) {
+                                      @NonNull final GsonConverter gsonConverter,
+                                      @NonNull final UserCharacteristicsConverter userCharacteristicsConverter) {
         super(uCoreAdapter, eventing);
-        this.gsonConverter = gsonConverter;
+        this.mGsonConverter = gsonConverter;
         mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
+        this.mAccessProvider = mDataServicesManager.getUCoreAccessProvider();
+        mUserCharacteristicsConverter = userCharacteristicsConverter;
     }
 
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        return fetchCharacteristics();
+        return fetchUserCharacteristics();
     }
 
     @Nullable
-    private RetrofitError fetchCharacteristics() {
+    private RetrofitError fetchUserCharacteristics() {
         try {
+            final UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
+                    mAccessProvider.getAccessToken(), mGsonConverter);
 
-            //get the json here ,Parse that Json to charecteristics ,set isSyncronized as true and call saveCharacteristics
-            /* Added by pabitra */
-            eventing.post(new DatabaseCharacteristicsUpdateRequest(null));//instead of null ,we should get characteristic here
-            /* Added by pabitra end */
-
-//            UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessToken, gsonConverter);
-//            final UserCharacteristics characteristics = userCharacteristicsClient.getUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), 9);
-//
-//            if (characteristics.getCharacteristics().size() > 0) {
-//                Characteristic userCharacteristics = characteristics.getCharacteristics().get(0);
-//                eventing.post(new SaveUserCharacteristicsEvent(userCharacteristics.getValue()));
-//            }
-        } catch (RetrofitError retrofitError) {
-            return retrofitError;
+            if (userCharacteristicsClient != null) {
+                Characteristics characteristics = mUserCharacteristicsConverter.convertToCharacteristics();
+                eventing.post(new UserCharacteristicsSaveRequest(characteristics));
+            }
+            return null;
+        } catch (RetrofitError exception) {
+            return exception;
         }
-        return null;
     }
 }

@@ -2,8 +2,7 @@ package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
-import com.philips.platform.core.events.SaveUserCharacteristicsEvent;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -93,7 +92,7 @@ public class UserCharacteristicsFetcherTest {
 
         userCharacteristicsFetcher.fetchDataSince(null);
 
-        verify(eventingMock).post(isA(DatabaseCharacteristicsUpdateRequest.class));
+        verify(eventingMock).post(isA(UserCharacteristicsSaveRequest.class));
     }
 
     @Test

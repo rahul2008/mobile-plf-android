@@ -3,11 +3,7 @@ package com.philips.platform.datasync.characteristics;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
-import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.consent.ConsentsConverter;
-import com.philips.platform.datasync.consent.UCoreConsentDetail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -29,7 +24,7 @@ public class UserCharacteristicsConvertorTest {
 
 
     private final String TEST_CHARACTERISTICS = "TEST_CHARACTERISTICS";
-    private UserCharacteristicsConvertor userCharacteristicsConvertor;
+    private UserCharacteristicsConverter userCharacteristicsConvertor;
 
     private BaseAppDataCreator uDataCreator;
     @Mock
@@ -43,7 +38,7 @@ public class UserCharacteristicsConvertorTest {
 
         uDataCreator = dataServicesManager.getDataCreater();
 
-        userCharacteristicsConvertor = new UserCharacteristicsConvertor();
+        userCharacteristicsConvertor = new UserCharacteristicsConverter();
     }
 
 

@@ -29,8 +29,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
-import org.w3c.dom.Text;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -87,7 +85,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ProgressDialog mProgressBar;
     Utility mUtility;
 
-    TextView mTvConsents,mTvCharacteristics;
+    TextView mTvConsents, mTvCharacteristics;
 
 
     @Override
@@ -111,22 +109,22 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-        setUpBackendSynchronizationLoop();
+//        setUpBackendSynchronizationLoop();
 
-        if(!mUtility.isOnline(getContext())){
-            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
+        if (!mUtility.isOnline(getContext())) {
+            Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
+        /*if (!mSharedPreferences.getBoolean("isSynced", false)) {
             showProgressDialog();
-        }
+        }*/
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        cancelPendingIntent();
+//        cancelPendingIntent();
         mDataServicesManager.stopCore();
         dismissProgressDialog();
     }
@@ -142,8 +140,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mTvConsents=(TextView)view.findViewById(R.id.tv_set_consents);
-        mTvCharacteristics=(TextView)view.findViewById(R.id.tv_set_characteristics);
+        mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
@@ -152,7 +150,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-       // inflater.inflate(R.menu.menu_ds,menu);
+        // inflater.inflate(R.menu.menu_ds,menu);
         super.onCreateOptionsMenu(menu, inflater);
 
     }
@@ -207,8 +205,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
 
 
-            Dao<OrmCharacteristics,Integer> characteristicsesDao=databaseHelper.getCharacteristicsDao();
-            Dao<OrmCharacteristicsDetail,Integer> characteristicsDetailsDao=databaseHelper.getCharacteristicsDetailsDao();
+            Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
+            Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
                     synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, characteristicsDetailsDao);
 

@@ -13,9 +13,7 @@ public class CharacteristicsBackendSaveRequest extends Event {
 
     private RequestType requestType = RequestType.SAVE;
 
-    public enum RequestType {SAVE, UPDATE}
-
-    ;
+    public enum RequestType {SAVE, UPDATE};
 
     public CharacteristicsBackendSaveRequest(RequestType requestType, Characteristics characteristic) {
         this.requestType = requestType;
