@@ -43,6 +43,10 @@
     <dimen name="uid_imagebutton_padding">8dp</dimen>
     <dimen name="uid_image_text_button_padding_left">32dp</dimen>
 
+
+    <dimen name="uid_progress_indicator_button_progress_text_padding">8dp</dimen>
+    <item name="uid_progress_indicator_button_label_alpha" format="float" type="dimen">1.0</item>
+
     <!--TextBox-->
     <dimen name="uid_edittext_corner_radius">2dp</dimen>
     <dimen name="uid_edittext_fill_corner_radius">4dp</dimen>
@@ -126,6 +130,5 @@
     <dimen name="uid_label_margin_start">12dp</dimen>
     <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
-    <dimen name="uid_progress_indicator_button_progress_text_padding">8dp</dimen>
 </resources>
 

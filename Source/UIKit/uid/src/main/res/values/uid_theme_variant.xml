@@ -71,6 +71,9 @@
 
         <item name="uidLabelTextColor">?attr/uidTextSecondary</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_60</item>
+
+        <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel45</item>
+        <item name="uidProgressIndicatorButtonBackgroundAlpha">@dimen/uid_alpha_per_35</item>
     </style>
 
     <style name="UltraLight">
@@ -188,6 +191,7 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_25</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+        <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
     </style>
 
     <style name="Bright">
@@ -220,6 +224,7 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+        <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
     </style>
 
     <style name="VeryDark">

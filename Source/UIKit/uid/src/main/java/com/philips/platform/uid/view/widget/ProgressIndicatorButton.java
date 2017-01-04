@@ -7,6 +7,9 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GestureDetectorCompat;
@@ -34,15 +37,15 @@ public class ProgressIndicatorButton extends LinearLayout {
     private Drawable progressBackgroundDrawable;
     private View childLayout;
 
-    public ProgressIndicatorButton(final Context context) {
+    public ProgressIndicatorButton(@NonNull final Context context) {
         this(context, null);
     }
 
-    public ProgressIndicatorButton(final Context context, final AttributeSet attrs) {
+    public ProgressIndicatorButton(@NonNull final Context context, @NonNull final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ProgressIndicatorButton(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public ProgressIndicatorButton(@NonNull final Context context, @NonNull final AttributeSet attrs, @NonNull final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOrientation(VERTICAL);
         gestureDetector = new GestureDetectorCompat(context, new TapDetector());
@@ -50,6 +53,8 @@ public class ProgressIndicatorButton extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressIndicatorButton, defStyleAttr, 0);
         boolean isIndeterminateProgressIndicator = typedArray.getBoolean(R.styleable.UIDProgressIndicatorButton_uidIsIndeterminateProgressIndicator, false);
         inflateLayout(isIndeterminateProgressIndicator);
+
+        initializeViews();
 
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
         initializeElements(context, typedArray, theme);
@@ -60,13 +65,13 @@ public class ProgressIndicatorButton extends LinearLayout {
     }
 
     @Override
-    public void setOnClickListener(final OnClickListener l) {
-        clickListener = l;
-        super.setOnClickListener(l);
+    public void setOnClickListener(@NonNull final OnClickListener listener) {
+        clickListener = listener;
+        super.setOnClickListener(listener);
     }
 
     @Override
-    public boolean onInterceptTouchEvent(final MotionEvent event) {
+    public boolean onInterceptTouchEvent(@NonNull final MotionEvent event) {
         gestureDetector.onTouchEvent(event);
         return isProgressDisplaying || super.onInterceptTouchEvent(event);
     }
@@ -141,11 +146,13 @@ public class ProgressIndicatorButton extends LinearLayout {
         } else {
             childLayout = View.inflate(getContext(), R.layout.uid_progress_indicator_button_determinate, null);
         }
+        addView(childLayout);
+    }
 
+    private void initializeViews() {
         button = (Button) childLayout.findViewById(R.id.uid_progress_indicator_button_button);
         progressBar = (ProgressBar) childLayout.findViewById(R.id.uid_progress_indicator_button_progress_bar);
         progressTextView = (TextView) childLayout.findViewById(R.id.uid_progress_indicator_button_text);
-        addView(childLayout);
     }
 
     private Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme) {
@@ -188,66 +195,150 @@ public class ProgressIndicatorButton extends LinearLayout {
         }
     }
 
+    /**
+     * Show progress indicator on the button
+     */
     public void showProgressIndicator() {
         setVisibilityOfProgressButtonElements(true);
     }
 
+    /**
+     * Hide progress indicator on the button
+     */
     public void hideProgressIndicator() {
         setVisibilityOfProgressButtonElements(false);
     }
 
+    /**
+     * Set the progress of the indicator on the button
+     *
+     * @param progress value between 0 - 100
+     */
     public void setProgress(int progress) {
         if (progress >= 0 && progress <= 100) {
             progressBar.setProgress(progress);
         }
     }
 
+    /**
+     * Get the progress of the indicator on the button
+     *
+     * @return value between 0 and 100
+     */
     public int getProgress() {
         return progressBar.getProgress();
     }
 
+    /**
+     * Set the progress text of the button
+     *
+     * @param resId on the text that will be shown on the button
+     */
+    public void setProgressText(@StringRes int resId) {
+        setProgressText(getContext().getString(resId));
+    }
+
+    /**
+     * Set the progress text of the button
+     *
+     * @param text that will shown on the button
+     */
     public void setProgressText(String text) {
         if (!TextUtils.isEmpty(text)) {
             progressTextView.setText(text);
         }
     }
 
+    /**
+     * Get the progress text of the button
+     *
+     * @String progress text of the button
+     */
     public String getProgressText() {
         return progressTextView.getText().toString();
     }
 
+    /**
+     * Set the text of the button
+     *
+     * @param resId on the text that will be shown on the button
+     */
+    public void setText(@StringRes int resId) {
+        setText(getContext().getString(resId));
+    }
+
+    /**
+     * Set the text of the button
+     *
+     * @param text that will be shown on the button
+     */
     public void setText(String text) {
         if (!TextUtils.isEmpty(text)) {
             button.setText(text);
         }
     }
 
+    /**
+     * Set the button enabled state
+     *
+     * @param enabled true if it should be enabled, false otherwise
+     */
     public void setEnabled(boolean enabled) {
         button.setEnabled(enabled);
     }
 
+    /**
+     * Get the text of the button
+     *
+     * @String text of the button
+     */
     public String getText() {
         return button.getText().toString();
     }
 
-    public void setDrawable(int drawableId) {
+    /**
+     * Set the drawable on the button
+     *
+     * @param drawableId provided drawableId should be a non vector drawable resource id
+     */
+    public void setDrawable(@DrawableRes int drawableId) {
         if (drawableId != -1) {
             button.setImageDrawable(ContextCompat.getDrawable(getContext(), drawableId));
         }
     }
 
+    /**
+     * Set the drawable on the button
+     *
+     * @param drawable provided drawable will be used to set on the button
+     */
     public void setDrawable(Drawable drawable) {
         button.setImageDrawable(drawable);
     }
 
+    /**
+     * Get the Button instance
+     *
+     * @return Button instance
+     */
     public Button getButton() {
         return button;
     }
 
+    /**
+     * Get the ProgressBar instance
+     *
+     * @return ProgressBar instance
+     */
     public ProgressBar getProgressBar() {
         return progressBar;
     }
 
+    /**
+     * Get the progress TextView
+     *
+     * @return progress TextView
+     */
     public TextView getProgressTextView() {
         return progressTextView;
     }

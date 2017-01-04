@@ -47,12 +47,6 @@ public class ButtonFragment extends BaseFragment {
         return fragmentBinding.getRoot();
     }
 
-    private void setOnClickListeners() {
-//        addOnClickListenerToChilderen(groupProgressButtonExtraWide, buttonOnClickListener);
-//        progressIndicatorButtonDeterminate.setOnClickListener(buttonOnClickListener);
-//        progressIndicatorButtonIndeterminate.setOnClickListener(buttonOnClickListener);
-    }
-
     private void restoreViews(Bundle savedInstance) {
         if (savedInstance != null) {
             toggleIcons(savedInstance.getBoolean("showingIcons"));

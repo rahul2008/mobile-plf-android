@@ -279,7 +279,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:uidProgressIndicatorButtonProgress="50"
-                        app:uidProgressIndicatorButtonText="@string/button_press_me"
+                        app:uidProgressIndicatorButtonText="@string/buttons_press_me"
                         android:enabled="@{frag.isButtonsEnabled}"
                         android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"/>
                 </LinearLayout>
@@ -304,7 +304,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:uidIsIndeterminateProgressIndicator="true"
-                        app:uidProgressIndicatorButtonText="@string/button_press_me"
+                        app:uidProgressIndicatorButtonText="@string/buttons_press_me"
                         android:enabled="@{frag.isButtonsEnabled}"
                         android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"/>
                 </LinearLayout>
@@ -330,8 +330,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:uidProgressIndicatorButtonProgress="50"
-                    app:uidProgressIndicatorButtonProgressText="@string/button_loading"
-                    app:uidProgressIndicatorButtonText="@string/button_press_me"
+                    app:uidProgressIndicatorButtonProgressText="@string/buttons_loading"
+                    app:uidProgressIndicatorButtonText="@string/buttons_press_me"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"/>
 
@@ -348,8 +348,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:uidIsIndeterminateProgressIndicator="true"
-                    app:uidProgressIndicatorButtonProgressText="@string/button_loading"
-                    app:uidProgressIndicatorButtonText="@string/button_press_me"
+                    app:uidProgressIndicatorButtonProgressText="@string/buttons_loading"
+                    app:uidProgressIndicatorButtonText="@string/buttons_press_me"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"/>
             </LinearLayout>
