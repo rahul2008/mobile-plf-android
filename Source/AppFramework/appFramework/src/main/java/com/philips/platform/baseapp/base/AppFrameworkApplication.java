@@ -21,6 +21,7 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.Locale;
 
@@ -34,10 +35,19 @@ public class AppFrameworkApplication extends Application {
     private UserRegistrationState userRegistrationState;
     private IAPState iapState;
     private ProductRegistrationState productRegistrationState;
+    private static final String LEAK_CANARY_BUILD_TYPE="leakCanary";
 
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
+        if(BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
+            }
+            LeakCanary.install(this);
+        }
         MultiDex.install(this);
         super.onCreate();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
