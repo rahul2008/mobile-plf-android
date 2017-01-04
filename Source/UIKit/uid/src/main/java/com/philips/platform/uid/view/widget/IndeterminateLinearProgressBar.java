@@ -4,7 +4,6 @@
  */
 package com.philips.platform.uid.view.widget;
 
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,8 +12,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationSet;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
@@ -28,8 +27,8 @@ public class IndeterminateLinearProgressBar extends View {
     private int transitionDrawableWidth;
 
     private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
-    private AnimatedTranslateDrawable anim;
-    private AnimatedTranslateDrawable anim2;
+    private AnimatedTranslateDrawable leadingAnim;
+    private AnimatedTranslateDrawable trailingAnim;
 
     public IndeterminateLinearProgressBar(final Context context) {
         super(context, null);
@@ -77,25 +76,57 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     private void createAnimationSet() {
-        anim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth()+ transitionDrawableWidth);
-        anim.setCallback(this);
-        anim.setBounds(getTransitionDrawableBoundRect());
-        anim.start();
-        anim2 = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionDrawableWidth);
-        anim2.setCallback(this);
-        anim2.setBounds(getTransitionDrawableBoundRect());
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionDrawableWidth);
+        leadingAnim.setCallback(this);
+        leadingAnim.setBounds(getTransitionDrawableBoundRect());
 
-        AnimatorSet set = new AnimatorSet();
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, -getMeasuredWidth(), getMeasuredWidth());
+        trailingAnim.setCallback(this);
+        trailingAnim.setBounds(getTransitionDrawableBoundRect());
+
+        startAnimation();
+    }
+
+    private void startAnimation() {
+        if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
+            leadingAnim.start();
+        }
+        if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
+            trailingAnim.start();
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        startAnimation();
+    }
+
+    @Override
+    public void onWindowFocusChanged(final boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        endAnimation();
+        super.onDetachedFromWindow();
+    }
+
+    private void endAnimation() {
+        leadingAnim.end();
+        trailingAnim.end();
     }
 
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
-        anim.draw(canvas);
+        leadingAnim.draw(canvas);
+        trailingAnim.draw(canvas);
     }
 
     @Override
     protected boolean verifyDrawable(final Drawable who) {
-        return who == anim || super.verifyDrawable(who);
+        return who == leadingAnim || who == trailingAnim || super.verifyDrawable(who);
     }
 }
