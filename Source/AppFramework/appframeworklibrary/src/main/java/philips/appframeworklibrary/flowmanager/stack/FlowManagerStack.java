@@ -1,12 +1,8 @@
-package com.philips.platform.appframework.flowmanager.stack;
-
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+package philips.appframeworklibrary.flowmanager.stack;
 
 import java.util.ArrayList;
 
 import philips.appframeworklibrary.flowmanager.base.BaseState;
-import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
 
 public class FlowManagerStack extends ArrayList<BaseState> {
 
