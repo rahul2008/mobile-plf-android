@@ -7,7 +7,7 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
 ])
 
-def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 
 node_ext = "build_t"
 if (env.triggerBy == "ppc") {
