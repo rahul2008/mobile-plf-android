@@ -46,11 +46,11 @@ import java.sql.SQLException;
 /**
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
-public class DataSyncScreenState extends BaseState {
+public class DataServicesState extends BaseState {
 
     FragmentLauncher fragmentLauncher;
 
-    public DataSyncScreenState() {
+    public DataServicesState() {
         super(AppStates.DATA_SYNC);
     }
 
