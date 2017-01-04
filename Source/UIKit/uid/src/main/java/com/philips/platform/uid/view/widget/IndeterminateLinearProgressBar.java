@@ -19,6 +19,7 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
 
 public class IndeterminateLinearProgressBar extends View {
+    private String TAG = "amit";
     private int suggestedMinHeight;
 
     private Drawable leadingDrawable;
@@ -97,14 +98,33 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     @Override
+    public void setVisibility(final int visibility) {
+        if (getVisibility() != visibility) {
+            super.setVisibility(visibility);
+            if (visibility == GONE || visibility == INVISIBLE) {
+                endAnimation();
+            } else {
+                startAnimation();
+            }
+        }
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         startAnimation();
     }
 
     @Override
-    public void onWindowFocusChanged(final boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
+    protected void onWindowVisibilityChanged(final int visibility) {
+        Log.d(TAG, "onWindowVisibilityChanged: " + visibility + " isshown:" + isShown() + " iswindowvi:"+ getWindowVisibility());
+
+        if (visibility == GONE || visibility == INVISIBLE) {
+            endAnimation();
+        } else {
+            startAnimation();
+        }
+        super.onWindowVisibilityChanged(visibility);
     }
 
     @Override
@@ -120,6 +140,7 @@ public class IndeterminateLinearProgressBar extends View {
 
     @Override
     protected void onDraw(final Canvas canvas) {
+        Log.d("amit", "onDraw: ILP");
         super.onDraw(canvas);
         leadingAnim.draw(canvas);
         trailingAnim.draw(canvas);
