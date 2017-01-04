@@ -14,7 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 public class AnimatedTranslateDrawable extends Drawable {
-    private static final int DEFAULT_ANIMATION_DURATION = 900; //900ms
+    private static final long DEFAULT_ANIMATION_DURATION = (long) (2* 900); //900ms
 
     private Drawable drawable;
     private float translateValue;

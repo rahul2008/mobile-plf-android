@@ -80,11 +80,11 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     private void createAnimationSet() {
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, 2* getMeasuredWidth());
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth());
         leadingAnim.setCallback(this);
         leadingAnim.setBounds(getTransitionDrawableBoundRect());
 
-        trailingAnim = new AnimatedTranslateDrawable(trailingDrawable, -(getMeasuredWidth()+ transitionDrawableWidth), getMeasuredWidth());
+        trailingAnim = new AnimatedTranslateDrawable(trailingDrawable, -(/*getMeasuredWidth()+*/ transitionDrawableWidth), getMeasuredWidth());
         trailingAnim.setCallback(this);
         trailingAnim.setBounds(getTransitionDrawableBoundRect());
 
@@ -95,11 +95,11 @@ public class IndeterminateLinearProgressBar extends View {
         if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
             leadingAnim.start();
         }
-        drawTrailingAnim = true;
-        if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
+    /*    if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
+            drawTrailingAnim = true;
             trailingAnim.start();
-        }
-       /* postDelayed(new Runnable() {
+        }*/
+        postDelayed(new Runnable() {
             @Override
             public void run() {
                 drawTrailingAnim = true;
@@ -107,7 +107,7 @@ public class IndeterminateLinearProgressBar extends View {
                     trailingAnim.start();
                 }
             }
-        }, 100 * 50);*/
+        }, 900);
     }
 
     @Override
