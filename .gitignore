@@ -1636,3 +1636,5 @@ Source/AppFramework/appframeworklib/build/intermediates/symbols/androidTest/debu
 Source/AppFramework/appframeworklib/build/intermediates/typedefs.txt
 Source/AppFramework/appframeworklib/build/outputs/aar/appframeworklib-debug.aar
 Source/AppFramework/appframeworklib/build/outputs/aar/appframeworklib-release.aar
+Source/AppFramework/pluginreferenceboard/build/generated/source/buildConfig/androidTest/debug/com/philips/cdp/pluginreferenceboard/test/BuildConfig.java
+Source/AppFramework/pluginreferenceboard/build/
