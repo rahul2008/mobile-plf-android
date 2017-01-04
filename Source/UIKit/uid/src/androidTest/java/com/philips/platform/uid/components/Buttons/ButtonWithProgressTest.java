@@ -7,6 +7,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 
 import org.junit.Before;
@@ -17,6 +18,8 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static org.hamcrest.CoreMatchers.allOf;
 
 public class ButtonWithProgressTest {
     private Resources testResources;
@@ -27,25 +30,49 @@ public class ButtonWithProgressTest {
 
     @Before
     public void setUp() {
-        mActivityTestRule.getActivity().switchTo(com.philips.platform.uid.test.R.layout.layout_buttons);
+        final BaseTestActivity activity = mActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
+
+        activity.switchFragment(new ButtonsTestFragment());
         testResources = getInstrumentation().getContext().getResources();
         instrumentationContext = getInstrumentation().getContext();
     }
 
     @Test
-    public void verifyHeightOfSmallCircularProgressIndicator() {
+    public void verifyProgressIndicatorHeight() {
         int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.circularprogressbar_small_heightwidth);
-        getDeterminateCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedHeight)));
+
+        getButtonwithDeterminateProgressBar().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedHeight)));
     }
 
-    // TODO: 1/3/2017
     @Test
-    public void verifyWidthOfSmallCircularProgressIndicator() {
+    public void verifyProgressIndicatorWidth() {
         int expectedWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.circularprogressbar_small_heightwidth);
-        getDeterminateCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedWidth)));
+
+        getButtonwithDeterminateProgressBar().check(matches(FunctionDrawableMatchers.isSameWidth(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, expectedWidth)));
+    }
+
+    @Test
+    public void verifyMarginBetweenProgressbarAndProgressText() {
+
+        getProgressTextFromDeterminateProgressBar().check(matches(ViewPropertiesMatchers.isSameLeftMargin(28)));
+    }
+
+    private ViewInteraction getProgressTextFromDeterminateProgressBar() {
+        return onView(allOf(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_text),
+                withParent(allOf(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_layout),
+                        withParent(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalDeterminate))))));
     }
 
     private ViewInteraction getDeterminateCircularProgressBar() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_progress_bar));
+        return onView(allOf(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_progress_bar),
+                withParent(allOf(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_layout),
+                        withParent(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalDeterminate))))));
+    }
+
+    private ViewInteraction getButtonwithDeterminateProgressBar() {
+        return onView(allOf(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_progress_bar),
+                withParent(allOf(withId(com.philips.platform.uid.test.R.id.uid_progress_indicator_button_layout),
+                        withParent(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalDeterminate))))));
     }
 }
