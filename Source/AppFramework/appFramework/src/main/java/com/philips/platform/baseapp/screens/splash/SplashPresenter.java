@@ -8,7 +8,6 @@ package com.philips.platform.baseapp.screens.splash;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
@@ -16,14 +15,12 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
- * Spalsh presenter loads the splash screen and sets the next state after splash
+ * Splash presenter loads the splash screen and sets the next state after splash
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
 public class SplashPresenter extends UIBasePresenter{
     private final LaunchView uiView;
     private String APP_START = "onSplashTimeOut";
-    private BaseState baseState;
-    private FragmentLauncher fragmentLauncher;
 
     public SplashPresenter(LaunchView uiView) {
         super(uiView);
@@ -39,11 +36,7 @@ public class SplashPresenter extends UIBasePresenter{
     @Override
     public void onEvent(int componentID) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), APP_START);
-        } catch (NoEventFoundException e) {
-            e.printStackTrace();
-        }
+        BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), APP_START);
         if (null != baseState) {
             baseState.setStateListener(this);
             if (baseState instanceof UserRegistrationState) {
@@ -58,8 +51,5 @@ public class SplashPresenter extends UIBasePresenter{
     }
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
-    }
-    protected void finishActivity() {
-        uiView.finishActivityAffinity();
     }
 }
