@@ -12,7 +12,6 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -23,6 +22,8 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnB
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 
 import java.util.Locale;
+
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
 
 /**
  * Application class is used for initialization

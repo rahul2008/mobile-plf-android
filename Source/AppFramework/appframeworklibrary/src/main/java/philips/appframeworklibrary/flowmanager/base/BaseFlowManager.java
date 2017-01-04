@@ -3,23 +3,23 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.base;
+package philips.appframeworklibrary.flowmanager.base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
-import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
-import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
-import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
-import com.philips.platform.appframework.flowmanager.parser.AppFlowParser;
-import com.philips.platform.appframework.flowmanager.stack.FlowManagerStack;
-
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
+import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
+import philips.appframeworklibrary.flowmanager.models.AppFlowEvent;
+import philips.appframeworklibrary.flowmanager.models.AppFlowModel;
+import philips.appframeworklibrary.flowmanager.models.AppFlowNextState;
+import philips.appframeworklibrary.flowmanager.parser.AppFlowParser;
+import philips.appframeworklibrary.flowmanager.stack.FlowManagerStack;
 
 public abstract class BaseFlowManager {
 
@@ -163,7 +163,7 @@ public abstract class BaseFlowManager {
     @Nullable
     private BaseState getUiState(final List<AppFlowNextState> appFlowNextStates) {
         for (AppFlowNextState appFlowNextState : appFlowNextStates) {
-            List<java.lang.String> conditionsTypes = appFlowNextState.getCondition();
+            List<String> conditionsTypes = appFlowNextState.getCondition();
             boolean isConditionSatisfies = true;
             if (conditionsTypes != null && conditionsTypes.size() > 0) {
                 isConditionSatisfies = isConditionSatisfies(conditionsTypes);
@@ -176,7 +176,7 @@ public abstract class BaseFlowManager {
         return null;
     }
 
-    private boolean isConditionSatisfies(final List<java.lang.String> conditionsTypes) {
+    private boolean isConditionSatisfies(final List<String> conditionsTypes) {
         boolean isConditionSatisfies = true;
         for (final String conditionType : conditionsTypes) {
             BaseCondition condition = getCondition(conditionType);

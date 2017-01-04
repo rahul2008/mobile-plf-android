@@ -5,20 +5,21 @@
 */
 package com.philips.platform.modularui.statecontroller;
 
-import com.philips.platform.baseapp.base.UIStateData;
 
 import junit.framework.TestCase;
 
 import org.junit.Before;
 
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+
 
 public class BaseStateDataTest extends TestCase {
 
-    private UIStateData uiStateData;
+    private BaseState.UIStateData uiStateData;
 
     @Before
     public void setUp() throws Exception {
-        uiStateData = new UIStateData();
+        uiStateData = new BaseState.UIStateData();
     }
 
     public void testGetFragmentLaunchState() throws Exception {

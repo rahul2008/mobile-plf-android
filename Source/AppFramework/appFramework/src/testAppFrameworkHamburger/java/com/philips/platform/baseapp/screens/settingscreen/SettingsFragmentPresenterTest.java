@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -20,6 +19,8 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import junit.framework.TestCase;
 
 import org.junit.Before;
+
+import philips.appframeworklibrary.flowmanager.base.BaseState;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -48,7 +49,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
     public void testLogOut() throws Exception {
         HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
-        final UIStateData uiStateMock = mock(UIStateData.class);
+        final BaseState.UIStateData uiStateMock = mock(BaseState.UIStateData.class);
         final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -63,7 +64,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIStateData setStateData(final int componentID) {
+            protected BaseState.UIStateData setStateData(final int componentID) {
                 return uiStateMock;
             }
 
@@ -83,7 +84,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
     public void testLogIn() throws Exception {
         final UserRegistrationSettingsState settingsURStateMock = mock(UserRegistrationSettingsState.class);
-        final UIStateData uiStateMock = mock(UIStateData.class);
+        final BaseState.UIStateData uiStateMock = mock(BaseState.UIStateData.class);
         final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
@@ -95,7 +96,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIStateData setStateData(final int componentID) {
+            protected BaseState.UIStateData setStateData(final int componentID) {
                 return uiStateMock;
             }
 

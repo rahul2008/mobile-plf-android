@@ -1,7 +1,6 @@
 package com.philips.platform.appframework.flowmanager.stack;
 
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.dataservices.DataSyncScreenState;
@@ -11,6 +10,10 @@ import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 
 import junit.framework.TestCase;
+
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
+import philips.appframeworklibrary.flowmanager.stack.FlowManagerStack;
 
 
 public class FlowManagerStackTest extends TestCase {

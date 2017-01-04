@@ -7,22 +7,23 @@ package com.philips.platform.baseapp.screens.introscreen;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateListener;
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
+import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
 
 /**
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class LaunchActivityPresenter extends UIBasePresenter{
+public class LaunchActivityPresenter extends UIBasePresenter implements UIStateListener{
 
     public static final int APP_LAUNCH_STATE = 890;
    // private static final int USER_REGISTRATION_STATE = 889;
@@ -82,13 +83,18 @@ public class LaunchActivityPresenter extends UIBasePresenter{
     }
 
     @NonNull
-    protected UIStateData getUiStateData() {
-        UIStateData homeStateData = new UIStateData();
+    protected BaseState.UIStateData getUiStateData() {
+        BaseState.UIStateData homeStateData = new BaseState.UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
         return homeStateData;
     }
 
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) launchView.getFragmentActivity().getApplicationContext();
+    }
+
+    @Override
+    public void onStateComplete(BaseState baseState) {
+
     }
 }

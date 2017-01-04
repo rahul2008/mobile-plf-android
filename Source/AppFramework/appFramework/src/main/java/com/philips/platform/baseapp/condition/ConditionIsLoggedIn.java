@@ -10,7 +10,8 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppConditions;
-import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+
+import philips.appframeworklibrary.flowmanager.base.BaseCondition;
 
 public class ConditionIsLoggedIn extends BaseCondition {
 

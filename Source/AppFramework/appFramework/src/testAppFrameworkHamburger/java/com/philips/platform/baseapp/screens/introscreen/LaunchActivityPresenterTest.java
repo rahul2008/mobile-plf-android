@@ -10,10 +10,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -21,6 +19,9 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import junit.framework.TestCase;
 
 import org.junit.Before;
+
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -86,7 +87,7 @@ public class LaunchActivityPresenterTest extends TestCase {
     }
 
     public void testOnLoad() throws NoEventFoundException {
-        final UIStateData uiStateData = mock(UIStateData.class);
+        final BaseState.UIStateData uiStateData = mock(BaseState.UIStateData.class);
         final SplashState splashStateMock = mock(SplashState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -110,7 +111,7 @@ public class LaunchActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIStateData getUiStateData() {
+            protected BaseState.UIStateData getUiStateData() {
                 return uiStateData;
             }
         };

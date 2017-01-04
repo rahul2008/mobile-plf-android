@@ -8,14 +8,15 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 public class WelcomeFragmentPresenter extends UIBasePresenter{
 

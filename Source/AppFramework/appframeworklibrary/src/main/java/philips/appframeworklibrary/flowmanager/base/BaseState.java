@@ -3,18 +3,16 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.base;
+package philips.appframeworklibrary.flowmanager.base;
 
 import android.content.Context;
 
-import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 abstract public class BaseState {
 
     private String stateID;
-    private UIBasePresenter uiBasePresenter;
+    private UIStateListener uiStateListener;
     private UIStateData uiStateData;
 
     /**
@@ -65,8 +63,8 @@ abstract public class BaseState {
      *
      * @return
      */
-    public UIBasePresenter getPresenter() {
-        return uiBasePresenter;
+    public UIStateListener getPresenter() {
+        return uiStateListener;
     }
 
     /**
@@ -75,8 +73,8 @@ abstract public class BaseState {
      * @param uiBasePresenter
      */
 
-    public void setStateListener(UIBasePresenter uiBasePresenter) {
-        this.uiBasePresenter = uiBasePresenter;
+    public void setStateListener(UIStateListener uiBasePresenter) {
+        this.uiStateListener = uiBasePresenter;
     }
 
     public UIStateData getUiStateData() {
@@ -97,4 +95,20 @@ abstract public class BaseState {
         }
         return super.equals(obj);
     }
+
+    public static class UIStateData {
+
+        private int fragmentAddState;
+
+        public int getFragmentLaunchState() {
+            return fragmentAddState;
+        }
+
+        public void setFragmentLaunchType(int fragmentAddState) {
+            this.fragmentAddState = fragmentAddState;
+        }
+
+    }
+
+
 }

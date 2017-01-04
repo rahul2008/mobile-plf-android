@@ -10,11 +10,12 @@ import android.app.Activity;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 public class UserRegistrationOnBoardingState extends UserRegistrationState implements UserRegistrationUIEventListener {
 

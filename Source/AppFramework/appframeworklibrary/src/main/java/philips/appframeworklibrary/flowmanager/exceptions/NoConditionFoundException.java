@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.exceptions;
+package philips.appframeworklibrary.flowmanager.exceptions;
 
 public class NoConditionFoundException extends Exception {
 

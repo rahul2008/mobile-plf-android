@@ -9,18 +9,18 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 /**
  * This class id used for loading various fragments that are supported by home activity ,
@@ -82,26 +82,26 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
         return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
-    protected UIStateData setStateData(final int componentID) {
+    protected BaseState.UIStateData setStateData(final int componentID) {
         switch (componentID) {
             case MENU_OPTION_HOME:
-                UIStateData homeStateData = new UIStateData();
+                BaseState.UIStateData homeStateData = new BaseState.UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
             case MENU_OPTION_SETTINGS:
-                UIStateData settingsStateData = new UIStateData();
+                BaseState.UIStateData settingsStateData = new BaseState.UIStateData();
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return settingsStateData;
             case MENU_OPTION_SHOP:
-                UIStateData iapStateData = new UIStateData();
+                BaseState.UIStateData iapStateData = new BaseState.UIStateData();
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
-                UIStateData supportStateData = new UIStateData();
+                BaseState.UIStateData supportStateData = new BaseState.UIStateData();
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return supportStateData;
             case MENU_OPTION_ABOUT:
-                UIStateData aboutStateData = new UIStateData();
+                BaseState.UIStateData aboutStateData = new BaseState.UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
             // Commented as part of Plan A removal.
@@ -111,18 +111,18 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
             case MENU_OPTION_PR:
-                UIStateData prStateDataModel = new UIStateData();
+                BaseState.UIStateData prStateDataModel = new BaseState.UIStateData();
                 return prStateDataModel;
             case MENU_OPTION_DATA_SYNC:
-                UIStateData syncStateData = new UIStateData();
+                BaseState.UIStateData syncStateData = new BaseState.UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
             case MENU_OPTION_CONNECTIVITY:
-                UIStateData connectivityStateData = new UIStateData();
+                BaseState.UIStateData connectivityStateData = new BaseState.UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return connectivityStateData;
             default:
-                homeStateData = new UIStateData();
+                homeStateData = new BaseState.UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
         }

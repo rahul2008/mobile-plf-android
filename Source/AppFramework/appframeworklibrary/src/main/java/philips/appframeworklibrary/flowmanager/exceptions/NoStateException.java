@@ -1,4 +1,4 @@
-package com.philips.platform.appframework.flowmanager.exceptions;
+package philips.appframeworklibrary.flowmanager.exceptions;
 
 public class NoStateException extends Exception {
 

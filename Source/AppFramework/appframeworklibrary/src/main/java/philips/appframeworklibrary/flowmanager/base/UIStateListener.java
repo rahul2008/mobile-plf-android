@@ -3,9 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.base;
-
-import com.philips.platform.appframework.flowmanager.base.BaseState;
+package philips.appframeworklibrary.flowmanager.base;
 
 /**
  * Interface to have callbacks to the registered class.

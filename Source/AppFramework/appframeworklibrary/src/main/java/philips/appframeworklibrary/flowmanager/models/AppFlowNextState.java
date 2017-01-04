@@ -3,31 +3,31 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.models;
+package philips.appframeworklibrary.flowmanager.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class AppFlowEvent {
+public final class AppFlowNextState {
 
-    private String eventId;
-    private List<AppFlowNextState> nextStates = new ArrayList<AppFlowNextState>();
+    private List<String> condition = new ArrayList<String>();
+    private String nextState;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * @return The eventId
+     * @return The condition
      */
-    public String getEventId() {
-        return eventId;
+    public List<String> getCondition() {
+        return condition;
     }
 
     /**
-     * @return The nextStates
+     * @return The nextState
      */
-    public List<AppFlowNextState> getNextStates() {
-        return nextStates;
+    public String getNextState() {
+        return nextState;
     }
 
     public Map<String, Object> getAdditionalProperties() {

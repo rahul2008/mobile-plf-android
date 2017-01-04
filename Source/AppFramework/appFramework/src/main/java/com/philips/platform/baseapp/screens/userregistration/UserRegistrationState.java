@@ -17,13 +17,14 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.Locale;
+
+import philips.appframeworklibrary.flowmanager.base.BaseState;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 

@@ -19,10 +19,8 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.UIStateData;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -30,6 +28,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import philips.appframeworklibrary.flowmanager.base.BaseState;
 
 /**
  * This class contains all initialization & Launching details of Product Registration

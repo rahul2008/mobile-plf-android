@@ -359,6 +359,7 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "org.robolectric:robolectric:3.1.1"
 
+    compile project(path: ':appframeworklibrary')
 }
 
 task copyToLib(type: Copy) {

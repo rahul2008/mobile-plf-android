@@ -3,15 +3,10 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.parser;
+package philips.appframeworklibrary.flowmanager.parser;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.philips.platform.appframework.flowmanager.models.AppFlow;
-import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
-import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
-import com.philips.platform.appframework.flowmanager.models.AppFlowState;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -19,6 +14,11 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import philips.appframeworklibrary.flowmanager.models.AppFlow;
+import philips.appframeworklibrary.flowmanager.models.AppFlowEvent;
+import philips.appframeworklibrary.flowmanager.models.AppFlowModel;
+import philips.appframeworklibrary.flowmanager.models.AppFlowState;
 
 public class AppFlowParser {
 

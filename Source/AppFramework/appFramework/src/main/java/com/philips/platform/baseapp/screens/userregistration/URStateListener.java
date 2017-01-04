@@ -5,9 +5,10 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
-import com.philips.platform.baseapp.base.UIStateListener;
 
-public interface URStateListener extends UIStateListener{
+import philips.appframeworklibrary.flowmanager.base.UIStateListener;
+
+public interface URStateListener extends UIStateListener {
 
     void onLogoutSuccess();
     void onLogoutFailure();
