@@ -39,4 +39,7 @@ public class AppTaggingPages {
 
 	public static final String TWITTER = "registration:twitter";
 
+	public static final String WECHAT = "registration:wechat";
+
+
 }

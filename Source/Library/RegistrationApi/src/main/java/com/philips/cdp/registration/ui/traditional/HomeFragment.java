@@ -63,6 +63,12 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -74,9 +80,11 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -235,37 +243,34 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             new String(PARAMS[0]);
 
             try {
-                HttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost("https://api.weixin.qq.com/sns/oauth2/access_token");
+                OkHttpClient client = new OkHttpClient();
 
-                // add header
-                post.setHeader("User-Agent", "wechatLoginDemo");
-                post.setHeader("Content=Type", "application/x-www-form-urlencoded");
+                RequestBody formBody = new FormEncodingBuilder()
+                .add("appid", appId)
+                .add("secret", appSecret)
+                .add("code", code)
+                .add("state", "123456")
+                .add("grant_type", "authorization_code")
+                        .build();
 
-                List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-                urlParameters.add(new BasicNameValuePair("appid", appId));
-                urlParameters.add(new BasicNameValuePair("secret", appSecret));
-                urlParameters.add(new BasicNameValuePair("code", code));
-                urlParameters.add(new BasicNameValuePair("state", "123456"));
-                urlParameters.add(new BasicNameValuePair("grant_type", "authorization_code"));
+                Request request = new Request.Builder()
+                        .url("https://api.weixin.qq.com/sns/oauth2/access_token")
+                        .post(formBody)
+                        .header("User-Agent", "wechatLoginDemo")
+                        .header("Content=Type", "application/x-www-form-urlencoded")
+                        .build();
 
-                post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                Response response = client.newCall(request).execute();
 
-                HttpResponse response = client.execute(post);
-                BufferedReader rd = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent()));
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                StringBuilder postResult = new StringBuilder();
-                String line = "";
-                while ((line = rd.readLine()) != null) {
-                    postResult.append(line);
-                }
+                String jsonResponse = response.body().string();
 
-                RLog.i("WECHAT", postResult.toString());
-                JSONObject wechatData = new JSONObject(postResult.toString());
-                final String token = wechatData.getString("access_token");
-                final String openId = wechatData.getString("openid");
+                JSONObject jsonObj = new JSONObject(jsonResponse);
+                final String token = jsonObj.getString("access_token");
+                final String openId = jsonObj.getString("openid");
 
+                RLog.i("WECHAT body", "token " + token + " openid " + openId);
 
                 getRegistrationFragment().getParentActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -274,10 +279,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     }
                 });
 
-
-
             } catch (Exception ex) {
-                RLog.e("WECHAT", ex.getStackTrace().toString());
+                RLog.e("WECHAT", ex.toString());
             }
             return "";
 
@@ -344,8 +347,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 public void run() {
                     mLlSocialProviderBtnContainer.removeAllViews();
                     ArrayList<String> providers = new ArrayList<String>();
-                    if (!countryCode.equalsIgnoreCase("CN"))
-                        providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
+                    providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
+
+
                     if (null != providers) {
                         for (int i = 0; i < providers.size(); i++) {
                             inflateEachProviderBtn(providers.get(i));
@@ -364,11 +368,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             String providerName = "reg_" + provider;
             String providerDrawable = "reg_" + provider + "_ic";
 
+            System.out.println("provider "+providerName+" "+providerDrawable);
+
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
 
             int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
+
+            System.out.println("provider id "+resourceId+""+drawableId);
 
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
 
@@ -500,7 +508,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 Toast.makeText(mContext, "Flow Configuration not downloaded yet",
                         Toast.LENGTH_LONG).show();
             }
-
 
         } else if (v.getId() == R.id.tv_country_displat) {
             final CountryPicker picker =new CountryPicker();
@@ -1034,6 +1041,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             trackPage(AppTaggingPages.GOOGLE_PLUS);
         } else if (mProvider.equalsIgnoreCase(SocialProvider.TWITTER)) {
             trackPage(AppTaggingPages.TWITTER);
+        }
+        else if (mProvider.equalsIgnoreCase(SocialProvider.WECHAT)) {
+            trackPage(AppTaggingPages.WECHAT);
         }
     }
 

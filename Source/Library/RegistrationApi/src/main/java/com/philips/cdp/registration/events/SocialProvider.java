@@ -23,4 +23,7 @@ public interface SocialProvider {
     /* Google plus */
 	String GOOGLE_PLUS = "googleplus";
 
+    /* WeChat*/
+    String WECHAT = "wechat";
+
 }
