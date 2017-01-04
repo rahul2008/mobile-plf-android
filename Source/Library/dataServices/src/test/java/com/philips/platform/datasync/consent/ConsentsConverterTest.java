@@ -22,10 +22,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by sangamesh on 02/12/16.
- */
-@Ignore
 public class ConsentsConverterTest {
 
     private final String TEST_DEVICE_ID = "manual";

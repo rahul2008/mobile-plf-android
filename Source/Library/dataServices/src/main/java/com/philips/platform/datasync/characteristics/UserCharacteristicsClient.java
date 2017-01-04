@@ -15,12 +15,12 @@ import retrofit.http.Path;
 
 public interface UserCharacteristicsClient {
     @GET("/api/users/{performer_id}/characteristics")
-    UCoreCharacteristics getUserCharacteristics(@Path("performer_id") String performerId,
+    UCoreUserCharacteristics getUserCharacteristics(@Path("performer_id") String performerId,
                                                @Header("performerId") String userId, @Header("api-version") int apiVersion);
 
     @PUT("/api/users/{performer_id}/characteristics")
     Response putUserCharacteristics(@Path("performer_id") String performerId,
                                     @Header("performerId") String userId,
-                                    @Body List<UCoreCharacteristics> uCoreCharacteristicsDetails,
+                                    @Body UCoreUserCharacteristics uCoreCharacteristicsDetails,
                                     @Header("api-version") int apiVersion);
 }

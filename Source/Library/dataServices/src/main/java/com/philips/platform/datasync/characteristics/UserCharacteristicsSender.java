@@ -3,11 +3,9 @@ package com.philips.platform.datasync.characteristics;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Characteristic;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
-import com.philips.platform.core.events.SendUserCharacteristicsToBackendResponseEvent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -26,7 +24,7 @@ import retrofit.converter.GsonConverter;
 /**
  * Created by indrajitkumar on 1/2/17.
  */
-public class UserCharacteristicsSender implements DataSender<Characteristic> {
+public class UserCharacteristicsSender implements DataSender<Characteristics> {
 
     private static final int API_VERSION = 9;
     private final UCoreAdapter uCoreAdapter;
@@ -46,18 +44,18 @@ public class UserCharacteristicsSender implements DataSender<Characteristic> {
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull List<? extends Characteristic> dataToSend) {
+    public boolean sendDataToBackend(@NonNull List<? extends Characteristics> dataToSend) {
         if (dataToSend == null) {
             return false;
         }
         try {
-            UserCharacteristicsClient uGrowClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessProvider.getAccessToken(), gsonConverter);
-            Characteristic characteristics = dataToSend.get(0);
-            UserCharacteristics bookmarkCharacteristics = new UserCharacteristics(Collections.singletonList(characteristics));
-           // Response response = uGrowClient.putUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), bookmarkCharacteristics, API_VERSION);
-            /*if (isResponseSuccess(response)) {
-                postOk(characteristics);
-            }*/
+            UserCharacteristicsClient uClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessProvider.getAccessToken(), gsonConverter);
+            UCoreCharacteristics characteristics = (UCoreCharacteristics) dataToSend.get(0);
+            UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
+            Response response = uClient.putUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), uCoreUserCharacteristics, API_VERSION);
+            if (isResponseSuccess(response)) {
+                postOk((Characteristics) characteristics);
+            }
         } catch (RetrofitError retrofitError) {
             //resetTokenOnUnAuthorizedError(retrofitError);
             postError(retrofitError);
@@ -70,15 +68,15 @@ public class UserCharacteristicsSender implements DataSender<Characteristic> {
         eventing.post(new BackendResponse(1, retrofitError));
     }
 
-    private void postOk(final Characteristic characteristics) {
+    private void postOk(final Characteristics characteristics) {
         //eventing.post(new SendUserCharacteristicsToBackendResponseEvent(characteristics.getValue()));
         //set characterestics as syncronized .
         eventing.post(new DatabaseCharacteristicsUpdateRequest(null));//instead of null ,we should get characteristic here
     }
 
     @Override
-    public Class<? extends Characteristic> getClassForSyncData() {
-        return Characteristic.class;
+    public Class<? extends Characteristics> getClassForSyncData() {
+        return Characteristics.class;
     }
 
     private boolean isResponseSuccess(final Response response) {

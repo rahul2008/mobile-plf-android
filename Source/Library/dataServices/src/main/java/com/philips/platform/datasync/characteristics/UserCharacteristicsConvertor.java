@@ -20,19 +20,9 @@ public class UserCharacteristicsConvertor {
         this.baseAppDataCreater = manager.getDataCreater();
     }
 
-    public UCoreUserCharacteristics convertToUCoreCharacteristics(List<CharacteristicsDetail> characteristic){
+    public UCoreUserCharacteristics convertToUCoreCharacteristics(List<CharacteristicsDetail> characteristic) {
         UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
 
         return null;
-       /* public List<UCoreCharacteristicsDetail> convertToUCoreCharacteristicsDetails(@NonNull final Collection<? extends CharacteristicsDetail> characteristicsDetails) {
-            List<UCoreCharacteristicsDetail> uCoreCharacteristicsDetails = new ArrayList<>();
-            for (CharacteristicsDetail characteristicsDetail : characteristicsDetails) {
-
-                UCoreCharacteristicsDetail uCoreCharacteristicsDetail = new UCoreCharacteristicsDetail(characteristicsDetail.getType(), characteristicsDetail.getValue());
-                uCoreCharacteristicsDetails.add(uCoreCharacteristicsDetail);
-
-            }
-            return uCoreCharacteristicsDetails;
-        }*/
     }
 }

@@ -1,9 +1,7 @@
 package com.philips.platform.core.events;
 
 
-import com.philips.platform.core.datatypes.Characteristic;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Consent;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

@@ -4,9 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Characteristic;
 import com.philips.platform.core.events.DatabaseCharacteristicsUpdateRequest;
-import com.philips.platform.core.events.SaveUserCharacteristicsEvent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -55,13 +53,13 @@ public class UserCharacteristicsFetcher extends DataFetcher {
             eventing.post(new DatabaseCharacteristicsUpdateRequest(null));//instead of null ,we should get characteristic here
             /* Added by pabitra end */
 
-            UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessToken, gsonConverter);
-            final UserCharacteristics characteristics = userCharacteristicsClient.getUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), 9);
-
-            if (characteristics.getCharacteristics().size() > 0) {
-                Characteristic userCharacteristics = characteristics.getCharacteristics().get(0);
-                eventing.post(new SaveUserCharacteristicsEvent(userCharacteristics.getValue()));
-            }
+//            UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class, accessToken, gsonConverter);
+//            final UserCharacteristics characteristics = userCharacteristicsClient.getUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), 9);
+//
+//            if (characteristics.getCharacteristics().size() > 0) {
+//                Characteristic userCharacteristics = characteristics.getCharacteristics().get(0);
+//                eventing.post(new SaveUserCharacteristicsEvent(userCharacteristics.getValue()));
+//            }
         } catch (RetrofitError retrofitError) {
             return retrofitError;
         }
