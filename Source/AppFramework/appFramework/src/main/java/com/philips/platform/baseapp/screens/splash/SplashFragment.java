@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -23,8 +24,9 @@ import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends Fragment implements LaunchView {
+public class SplashFragment extends Fragment implements LaunchView, BackEventListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
@@ -109,6 +111,12 @@ public class SplashFragment extends Fragment implements LaunchView {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getFragmentActivity().getWindow().getDecorView().requestLayout();
+    }
+
+    @Override
     public void hideActionBar() {
         final LaunchActivity launchActivity = (LaunchActivity) getActivity();
         launchActivity.hideActionBar();
@@ -135,4 +143,8 @@ public class SplashFragment extends Fragment implements LaunchView {
         return getActivity();
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        return true;
+    }
 }

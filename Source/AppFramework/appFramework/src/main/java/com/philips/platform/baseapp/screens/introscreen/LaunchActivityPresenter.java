@@ -9,12 +9,9 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.base.UIStateData;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -25,12 +22,9 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class LaunchActivityPresenter extends UIBasePresenter{
 
     public static final int APP_LAUNCH_STATE = 890;
-   // private static final int USER_REGISTRATION_STATE = 889;
     private LaunchView launchView;
-    private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
     private String LAUNCH_BACK_PRESSED = "back";
-    private String WELCOME_REGISTRATION = "welcome_registration";
     private String APP_LAUNCH = "onAppLaunch";
 
     public LaunchActivityPresenter(LaunchView launchView) {
@@ -46,19 +40,16 @@ public class LaunchActivityPresenter extends UIBasePresenter{
     @Override
     public void onEvent(int componentID) {
         showActionBar();
-        String eventState = getEventState(componentID);
+        String event = getEvent(componentID);
         fragmentLauncher = getFragmentLauncher();
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            if (eventState == null)
-                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
-            else if (eventState.equals(LAUNCH_BACK_PRESSED))
-                baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
-        } catch (NoEventFoundException | NoStateException e) {
-            e.printStackTrace();
-        }
-        if (baseState != null && !(baseState instanceof UserRegistrationState)) {
-            baseState.setStateListener(this);
+        BaseState baseState = null;
+        if (event.equals(APP_LAUNCH))
+            baseState = targetFlowManager.getFirstState();
+        else if (event.equals(LAUNCH_BACK_PRESSED))
+            baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+
+        if (baseState != null) {
             baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
         }
@@ -68,11 +59,13 @@ public class LaunchActivityPresenter extends UIBasePresenter{
         launchView.showActionBar();
     }
 
-    protected String getEventState(final int componentID) {
+    // TODO: Deepthi  can we make it abstract if its common
+    protected String getEvent(final int componentID) {
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return LAUNCH_BACK_PRESSED;
-            default:return null;
+            default:
+                return APP_LAUNCH;
         }
     }
 

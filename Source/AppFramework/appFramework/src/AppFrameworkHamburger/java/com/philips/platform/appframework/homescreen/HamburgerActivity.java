@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.homescreen;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -47,8 +48,8 @@ import java.util.ArrayList;
  */
 public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HamburgerActivity.class.getSimpleName();
-    private HamburgerUtil hamburgerUtil;
     protected TextView actionBarTitle;
+    private HamburgerUtil hamburgerUtil;
     private String[] hamburgerMenuTitles;
     private ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout philipsDrawerLayout;
@@ -247,6 +248,13 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 super.onBackPressed();
             }
         }
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getFragmentActivity().getWindow().getDecorView().requestLayout();
     }
 
     @Override
