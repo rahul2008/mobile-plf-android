@@ -50,9 +50,14 @@ public class SupportModel extends ResponseData {
 
     @Override
     public ResponseData parseJsonResponseData(JSONObject response) {
-        SupportModel supportModel = new SupportModel();
-        supportModel = new Gson().fromJson(response.toString(), SupportModel.class);
-        return supportModel;
+        JSONObject supportResponse = response;
+        if (supportResponse != null) {
+            SupportModel  supportModel = new Gson().fromJson(response.toString(), SupportModel.class);
+            return supportModel;
+
+        }
+        return null;
+
     }
 }
 
