@@ -39,7 +39,6 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
 
         mProductAssetBuilder = new ProductAssetRequest("HP8632/00", null);
         //   mProductAssetBuilder.setCatalogCode("COnsumer");
-        mProductAssetBuilder.setLocaleMatchResult("nl_NL");
         mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
         mProductAssetBuilder.setSector(Sector.B2C);
         //  mProductAssetBuilder.setSectorCode("HAIR");
@@ -65,10 +64,10 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
      //   assertNotNull(mURL);
     }
 
-    public void testBuilderLocale() {
-        String locale = mProductAssetBuilder.getLocaleMatchResult();
-        assertEquals("nl_NL", locale);
-    }
+//    public void testBuilderLocale() {
+//        String locale = mProductAssetBuilder.getLocaleMatchResult();
+//        assertEquals("nl_NL", locale);
+//    }
 
 
     public void testPrxBuilderServerInfo() {

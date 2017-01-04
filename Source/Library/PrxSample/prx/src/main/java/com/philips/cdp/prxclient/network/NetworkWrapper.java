@@ -20,11 +20,7 @@ import com.philips.cdp.prxclient.request.PrxCustomJsonRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.platform.appinfra.AppInfra;
-
 import org.json.JSONObject;
-
-import java.net.URL;
 
 /**
  * Description : This is the Network Wrapper class.

@@ -122,6 +122,11 @@ dependencies {
             {
                 transitive = true
             }
+
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.176', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
     compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
     compile 'com.android.volley:volley:1.0.0'
 
