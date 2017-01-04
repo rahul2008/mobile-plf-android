@@ -215,8 +215,8 @@ public class PrxLauncherActivity extends AppCompatActivity {
                             .crossFade()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
-                    summaryTextView.setText("Des" + " " + mData.getWow() + "\t\n" + "Price:" + mData.getPrice().getFormattedDisplayPrice()
-                            + "\t\n" + " ProductTitle: " + " " + mData.getProductTitle() + " " + "\t\n" + "SubTitle " + " " + mData.getSubWOW());
+                    summaryTextView.setText("Des:" + " " + mData.getWow() + "\t\n" + "Price:" + mData.getPrice().getFormattedDisplayPrice()
+                            + "\t\n" + " ProductTitle: " + " " + mData.getProductTitle() + " " + "\t\n" + "SubTitle: " + " " + mData.getSubWOW());
                     Log.d(TAG, " SummaryModel Positive Response Data : " + mSummaryModel.isSuccess());
                     Log.d(TAG, " SummaryModel Positive Response Data Brand: " + mData.getBrand());
                     Log.d(TAG, " SummaryModel Positive Response Data CTN: " + mData.getCtn());
