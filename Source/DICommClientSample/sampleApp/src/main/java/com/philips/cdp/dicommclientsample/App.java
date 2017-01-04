@@ -10,14 +10,10 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
-import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class App extends Application {
 
@@ -34,11 +30,8 @@ public class App extends Application {
         final CloudTransportContext cloudTransportContext = new CloudTransportContext(cloudController);
 
         final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext, cloudTransportContext);
-        final Set<DiscoveryStrategy> discoveryStrategies = new HashSet<DiscoveryStrategy>() {{
-            add(lanTransportContext.getDiscoveryStrategy());
-        }};
 
-        this.commCentral = new CommCentral(discoveryStrategies, applianceFactory);
+        this.commCentral = new CommCentral(applianceFactory, lanTransportContext, cloudTransportContext);
 
         // FIXME Remove once DiscoveryManager is removed
         if (DICommClientWrapper.getContext() == null) {

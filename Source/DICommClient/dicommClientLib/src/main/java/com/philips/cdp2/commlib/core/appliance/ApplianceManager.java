@@ -25,17 +25,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class ApplianceManager {
 
-    /**
-     * The interface ApplianceListener.
-     */
-    public interface ApplianceListener {
-        /**
-         * On appliance found.
-         *
-         * @param <A>            the specific
-         * @param foundAppliance the found appliance
-         */
-        <A extends Appliance> void onApplianceFound(@NonNull A foundAppliance);
+    public interface ApplianceListener<A extends Appliance> {
+        void onApplianceFound(@NonNull A foundAppliance);
+
+        void onApplianceUpdated(@NonNull A updatedAppliance);
     }
 
     private final DICommApplianceFactory applianceFactory;

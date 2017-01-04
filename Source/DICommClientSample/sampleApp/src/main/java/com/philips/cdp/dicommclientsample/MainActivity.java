@@ -36,14 +36,18 @@ public class MainActivity extends AppCompatActivity {
     private CommCentral commCentral;
     private ArrayAdapter<Appliance> applianceAdapter;
 
-    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
+    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<AirPurifier>() {
         @Override
-        public <A extends Appliance> void onApplianceFound(@NonNull A foundAppliance) {
-            AirPurifier appliance = (AirPurifier) foundAppliance;
-            appliance.getWifiPort().addPortListener(wifiPortListener);
+        public void onApplianceFound(@NonNull AirPurifier foundAppliance) {
+            foundAppliance.getWifiPort().addPortListener(wifiPortListener);
 
             applianceAdapter.clear();
             applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
+        }
+
+        @Override
+        public void onApplianceUpdated(@NonNull AirPurifier updatedAppliance) {
+           // NOOP
         }
     };
 
