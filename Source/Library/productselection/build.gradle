@@ -84,7 +84,7 @@ dependencies {
            transitive = true
     }
 
-	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.2.0-SNAPSHOT', ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.3.0-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
     }	    
