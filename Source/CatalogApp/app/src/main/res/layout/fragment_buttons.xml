@@ -353,6 +353,16 @@
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"/>
             </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                android:id="@+id/xyz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidProgressIndicatorButtonProgress="50"
+                app:uidProgressIndicatorButtonProgressText="@string/button_loading"
+                app:uidProgressIndicatorButtonText="@string/button_press_me"
+                android:enabled="@{frag.isButtonsEnabled}"
+                android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"/>
         </LinearLayout>
     </ScrollView>
 </layout>
