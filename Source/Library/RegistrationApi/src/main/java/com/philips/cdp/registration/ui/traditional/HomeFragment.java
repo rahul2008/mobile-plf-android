@@ -21,6 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,13 +35,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.janrain.android.utils.LogUtils;
-import com.janrainphilips.philipsregistration.wxapi.WXEntryActivity;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -62,9 +63,9 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -73,24 +74,14 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import static com.janrainphilips.philipsregistration.wxapi.WXEntryActivity.code;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
@@ -130,8 +121,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private XTextView mCountryDisplayy;
 
 
-    private static final String weChatAppId = "wx855fc0d8fd1ade1d";
-    private static final String weChatAppSecret = "12158c0e8cdf0e1446914e0f913f8099";
+    private   String weChatAppId = null;
+    private   String weChatAppSecret = null;
     private IWXAPI weChatApi;
 
 
@@ -176,9 +167,24 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         //WeChat China
         // Handle any communication from WeChat and then terminate activity. This class must be an activity
         // or the communication will not be received from WeChat.
-        WXEntryActivity.API_ID = weChatAppId;
+
+        //Do this is we chat is in list of provider
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        weChatAppId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
+                getConfigInterface().
+                getPropertyForKey("weChatAppId", UR,
+                        configError);
+
+        weChatAppSecret = (String) RegistrationHelper.getInstance().getAppInfraInstance().
+                getConfigInterface().
+                getPropertyForKey("weChatAppSecret", UR,
+                        configError);
+
+        System.out.println("dddd"+weChatAppId);
+
         weChatApi = WXAPIFactory.createWXAPI(getRegistrationFragment().getParentActivity(), weChatAppId, false);
-        weChatApi.registerApp(WXEntryActivity.API_ID);
+        weChatApi.registerApp(weChatAppSecret);
         //weChatApi.handleIntent(getIntent(), this);
         boolean weChatSuccess = weChatApi.registerApp(weChatAppId);
 

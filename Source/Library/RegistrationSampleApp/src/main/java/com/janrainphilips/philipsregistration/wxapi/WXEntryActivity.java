@@ -6,13 +6,17 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 //This class is tightly coupled with package name .Don't modify package or refactor
 //Make sure keep this class in Progaurd
@@ -27,26 +31,25 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
  * things simple and detached from the rest of your application.
  */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-    public static String API_ID = "wx855fc0d8fd1ade1d";
-    public static String code;
     private static final String TAG = "WXEntryActivity";
     private IWXAPI api;
 
-    /*
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        api = WXAPIFactory.createWXAPI(context, API_ID , false);
 
-        // ½«¸Ãapp×¢²áµ½Î¢ÐÅ
-        api.registerApp(API_ID);
-    }
-    */
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        String weChatAppId = (String) RegistrationHelper.getInstance().getAppInfraInstance().
+                getConfigInterface().
+                getPropertyForKey("weChatAppId", UR,
+                        configError);
+
+
+
         // Handle any communication from WeChat and then terminate activity. This class must be an activity
         // or the communication will not be received from WeChat.
-        api = WXAPIFactory.createWXAPI(this, API_ID , false);
+        api = WXAPIFactory.createWXAPI(this, weChatAppId , false);
         api.handleIntent(getIntent(), this);
 
         finish();
@@ -69,11 +72,16 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      */
     @Override
     public void onResp(BaseResp resp) {
+
+        //Send code back to fragment by local broadcase
+        //Handle this case in Home fragment
+
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 try {
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
-                    WXEntryActivity.code = sendResp.code;
+                    sendResp.code;
+                    //Send l
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH);
                 } catch(Exception e){
                     Toast.makeText(this, "Exception while parsing token", Toast.LENGTH_LONG).show();

@@ -11,8 +11,9 @@
    "Flow.MinimumAgeLimit" : "{ \"NL\":12 ,\"GB\":16,\"default\": 16}",
     "SigninProviders.default": ["facebook","googleplus"],
     "SigninProviders.NL": ["facebook","googleplus"],
-    "SigninProviders.CN": ["wechat"]
-
+    "SigninProviders.CN": ["wechat"],
+    "weChatAppId" : "wx855fc0d8fd1ade1d",
+    "weChatAppSecret":"12158c0e8cdf0e1446914e0f913f8099"
   },
 
   "appinfra": {
