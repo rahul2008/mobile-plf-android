@@ -1,5 +1,6 @@
 package com.philips.platform.baseapp.screens.dataservices.error;
 
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -11,6 +12,6 @@ import com.philips.platform.core.utils.DSLog;
 public class ErrorHandlerInterfaceImpl implements ErrorHandlingInterface {
     @Override
     public void syncError(int error) {
-        DSLog.e(DataServicesManager.TAG,"error = " + error);
+        DSLog.e(DataServicesState.TAG,"error = " + error);
     }
 }

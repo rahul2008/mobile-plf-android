@@ -13,6 +13,7 @@ import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.listener.EventHelper;
 import com.philips.platform.baseapp.screens.dataservices.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.datatypes.UserProfile;
@@ -129,7 +130,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
         if (accessTokenRefreshInProgress) {
             return;
         }
-        DSLog.d("***SPO***", "refreshAccessTokenUsingWorkAround()");
+        DSLog.d(DataServicesState.TAG, "refreshAccessTokenUsingWorkAround()");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
         accessTokenRefreshInProgress = true;
@@ -204,7 +205,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
     @Override
     public void onFailure(final RetrofitError error) {
         if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
-            DSLog.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
+            DSLog.i(DataServicesState.TAG, "In onFailure of UserRegistration - User Not logged in");
             Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
             return;
         }

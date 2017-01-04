@@ -47,7 +47,7 @@ import java.sql.SQLException;
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
 public class DataServicesState extends BaseState {
-
+    public static final String TAG = DataServicesState.class.getSimpleName();
     FragmentLauncher fragmentLauncher;
 
     public DataServicesState() {
