@@ -70,13 +70,13 @@
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/label_text"/>
 
-            <com.philips.platform.uid.view.widget.TextEditBox
+            <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/tb1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
-                android:hint="@string/label_input_text"/>
+                android:hint="@string/label_input_field"/>
             <!--Label text top [END]-->
 
             <!--Horizontal text box [START]-->
@@ -93,11 +93,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_text"/>
 
-                <com.philips.platform.uid.view.widget.TextEditBox
+                <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/tb2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/label_input_text"
+                    android:hint="@string/label_input_field"
                     android:inputType="text"/>
             </LinearLayout>
             <!--Horizontal text box [END]-->

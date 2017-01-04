@@ -52,6 +52,7 @@
         <attr name="uidInputTextHintTextDisabledAlpha" format="reference|float"/>
         <attr name="uidInputTextTextSelector" format="reference"/>
         <attr name="uidInputTextHintTextSelector" format="reference"/>
+        <attr name="uidInputTextWithClearButton" format="reference|boolean"/>
     </declare-styleable>
 
     <declare-styleable name="UIDNavigationBar">

@@ -36,7 +36,7 @@
     <string name="page_title_settings">Settings</string>
     <string name="page_title_alertDialog">Alert</string>
 
-    <string name="hint_text">Hint text</string>
+    <string name="hint_text">Frits Philips</string>
     <string name="hamburger_menu">Hamburger</string>
     <string name="hint_text_multi_lines">Hint text multi lines</string>
     <string name="filled_text">Filled text</string>
@@ -74,7 +74,7 @@
 
     <!--Labels-->
     <string name="page_title_label">Labels</string>
-    <string name="label_input_text">Input text</string>
+    <string name="label_input_field">Input field</string>
     <string name="label_text">Label text</string>
     <string name="label_description">Description label</string>
     <string name="label_item_text">Item text</string>
@@ -84,4 +84,13 @@
     <string name="button_loading">Loading...</string>
     <string name="title">Title</string>
     <string name="cancel">Cancel</string>
+    <string name="label_password">Password</string>
+    <string name="password_hint_text">#16!(.Nac</string>
+    <string name="hint_text_number">+310334343434</string>
+    <string name="label_number">Number</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_multiline_input_field">Multiline input field</string>
+    <string name="hint_email">example@philips.com</string>
+    <string name="with_label">With label</string>
+    <string name="label_textboxes">Textboxes</string>
 </resources>
