@@ -8,7 +8,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.lan.NetworkMonitor;
@@ -36,7 +35,7 @@ public class LanTransportContext implements TransportContext {
 
     @Override
     @NonNull
-    public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
+    public LanCommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new LanCommunicationStrategy(networkNode);
     }
 
