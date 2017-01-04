@@ -2,10 +2,10 @@
 
 buildscript {
     repositories {
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
-        }
+//        jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
 
@@ -16,9 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
-        }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
         }
@@ -28,6 +26,20 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+        }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
     }
+}
+
+//allprojects {
+//    repositories {
+////        jcenter()
+//        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+//    }
+//}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

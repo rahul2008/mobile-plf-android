@@ -28,13 +28,18 @@ buildscript {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
     }
 
     apply plugin: 'com.jfrog.artifactory-upload'
@@ -68,7 +73,8 @@ artifactory {
             repoKey = 'libs-release-local'
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -79,7 +85,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
@@ -101,8 +107,8 @@ android {
     }
     buildTypes {
         release {
-         //   minifyEnabled false
-          //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //   minifyEnabled false
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
@@ -110,18 +116,22 @@ android {
         }
     }
 }
-
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 dependencies {
     compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.1.0', ext: 'aar')
     compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
     compile 'com.android.volley:volley:1.0.0'
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.176', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
 
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile "org.mockito:mockito-core:1.9.5"
 }
-
-
-
 
 /*task findbugs(type: FindBugs, dependsOn: assembleDebug) {
 

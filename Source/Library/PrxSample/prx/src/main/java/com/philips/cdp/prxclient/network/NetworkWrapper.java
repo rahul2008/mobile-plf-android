@@ -1,6 +1,7 @@
 package com.philips.cdp.prxclient.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -13,13 +14,17 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.PrxCustomJsonRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONObject;
+
+import java.net.URL;
 
 /**
  * Description : This is the Network Wrapper class.
@@ -31,9 +36,11 @@ public class NetworkWrapper {
     private static final String TAG = NetworkWrapper.class.getSimpleName();
     private Context mContext = null;
     private RequestQueue mVolleyRequest;
+    private PRXDependencies mPrxDependencies;
 
-    public NetworkWrapper(Context context) {
+    public NetworkWrapper(Context context, PRXDependencies prxDependencies) {
         mContext = context;
+        mPrxDependencies = prxDependencies;
         VolleyQueue volleyQueue = VolleyQueue.getInstance();
         mVolleyRequest = volleyQueue.getRequestQueue(mContext);
     }
@@ -42,19 +49,29 @@ public class NetworkWrapper {
         PrxLogger.d(TAG, "Custom JSON Request call..");
         final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
         final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
-        String url = prxRequest.getRequestUrl();
-        PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(), url, prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                prxRequest.getRequestTimeOut(),
-                prxRequest.getMaxRetries(),
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.setShouldCache(true);
-        if (url.startsWith("https") && (url.contains("tst.philips") || url.contains("acc.philips"))){
-            SSLCertificateManager.disableAllServerCertificateChecking();
-        }
-        mVolleyRequest.add(request);
-    }
+        //  String url = prxRequest.getRequestUrl();
+        prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
+            @Override
+            public void onSuccess(String url) {
+                PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(),
+                        url, prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
+                request.setRetryPolicy(new DefaultRetryPolicy(
+                        prxRequest.getRequestTimeOut(),
+                        prxRequest.getMaxRetries(),
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                request.setShouldCache(true);
+                if (url.startsWith("https") && (url.contains("tst.philips") || url.contains("acc.philips"))) {
+                    SSLCertificateManager.disableAllServerCertificateChecking();
+                }
+                mVolleyRequest.add(request);
+            }
 
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                System.out.println("ERRVALUE" + errorvalues.toString());
+            }
+        });
+    }
 
 
 
@@ -92,14 +109,17 @@ public class NetworkWrapper {
         return new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(final JSONObject response) {
-				ResponseData responseData = prxRequest.getResponseData(response);
-				
-				if(responseData != null){
-                listener.onResponseSuccess(responseData);
-                }else{
-					listener.onResponseError(new PrxError("Null Response", 00));
-				} 				
-        }
-     };
-	}
+                ResponseData responseData = prxRequest.getResponseData(response);
+
+                if (responseData != null) {
+                    listener.onResponseSuccess(responseData);
+                    Log.e("PRX", responseData.toString());
+                } else {
+                    listener.onResponseError(new PrxError("Null Response", 00));
+                    Log.e("PRX", "ERROR");
+
+                }
+            }
+        };
+    }
 }

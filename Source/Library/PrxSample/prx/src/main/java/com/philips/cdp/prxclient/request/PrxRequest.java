@@ -3,9 +3,13 @@ package com.philips.cdp.prxclient.request;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -45,7 +49,14 @@ public abstract class PrxRequest {
 
     public abstract ResponseData getResponseData(JSONObject jsonObject);
 
-    public abstract String getRequestUrl();
+   // public abstract String getRequestUrl();
+
+    public abstract void getRequestUrlFromAppInfra(AppInfraInterface appInfra, OnUrlReceived listener);
+
+    public interface OnUrlReceived extends ServiceDiscoveryInterface.OnErrorListener {
+        void onSuccess(String url);
+    }
+
 
     public abstract int getRequestType();
 
@@ -53,13 +64,13 @@ public abstract class PrxRequest {
 
     public abstract Map<String, String> getParams();
 
-    public String getLocaleMatchResult() {
-        return mLocaleMatchResult;
-    }
-
-    public void setLocaleMatchResult(String mLocaleMatchResult) {
-        this.mLocaleMatchResult = mLocaleMatchResult;
-    }
+//    public String getLocaleMatchResult() {
+//        return mLocaleMatchResult;
+//    }
+//
+//    public void setLocaleMatchResult(String mLocaleMatchResult) {
+//        this.mLocaleMatchResult = mLocaleMatchResult;
+//    }
 
     public int getMaxRetries() {
         return maxRetries;
