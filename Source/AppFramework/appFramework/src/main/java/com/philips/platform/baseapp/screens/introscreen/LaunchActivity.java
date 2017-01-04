@@ -23,8 +23,6 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeFragment;
-import com.philips.platform.baseapp.screens.splash.SplashFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -126,16 +124,10 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
                 .findFragmentById(R.id.welcome_frame_container);
-        if (fragment != null && fragment instanceof SplashFragment) {
-            return;
-        } else if (fragment != null && fragment instanceof BackEventListener) {
+        if (fragment != null && fragment instanceof BackEventListener) {
             isConsumed = ((BackEventListener) fragment).handleBackEvent();
         }
-
-        if(fragment != null && fragment instanceof WelcomeFragment) {
-            ((WelcomeFragment)fragment).onBackPressed();
-        }
-        else if(!isConsumed) {
+        if (!isConsumed) {
             presenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
         }
     }
