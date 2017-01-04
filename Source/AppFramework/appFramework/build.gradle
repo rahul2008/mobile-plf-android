@@ -304,7 +304,6 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    sourceSets { leakCanary { java.srcDirs = ['src/leakCanary/java', 'src/leakCanary/java/'] } }
 }
 
 repositories {
@@ -326,7 +325,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
