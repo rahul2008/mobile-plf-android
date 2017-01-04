@@ -199,7 +199,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
-    compile(group: 'com.philips.cdp', name: 'prx', version: '2.5.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'prx', version: '2.7.0-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
             }
