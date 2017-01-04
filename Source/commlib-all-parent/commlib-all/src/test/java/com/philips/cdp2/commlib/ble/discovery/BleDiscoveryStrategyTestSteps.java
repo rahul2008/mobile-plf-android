@@ -11,9 +11,9 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
+import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
@@ -49,9 +49,11 @@ public class BleDiscoveryStrategyTestSteps {
     @Mock
     SHNDeviceScanner deviceScanner;
 
+    @Mock
+    BleTransportContext bleTransportContext;
+
     private BleDiscoveryStrategy bleDiscoveryStrategy;
     private BleDeviceCache bleDeviceCache;
-    private Set<DiscoveryStrategy> discoveryStrategies;
 
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
@@ -60,15 +62,14 @@ public class BleDiscoveryStrategyTestSteps {
         final Context mockContext = mock(Context.class);
 
         bleDeviceCache = new BleDeviceCache();
-        discoveryStrategies = new HashSet<DiscoveryStrategy>() {{
-            bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner, 30000L) {
-                @Override
-                int checkAndroidPermission(Context context, String permission) {
-                    return PERMISSION_GRANTED;
-                }
-            };
-            add(bleDiscoveryStrategy);
-        }};
+
+        bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner, 30000L) {
+            @Override
+            int checkAndroidPermission(Context context, String permission) {
+                return PERMISSION_GRANTED;
+            }
+        };
+        when(bleTransportContext.getDiscoveryStrategy()).thenReturn(bleDiscoveryStrategy);
     }
 
     @Given("^a BlueLib mock$")
@@ -102,7 +103,7 @@ public class BleDiscoveryStrategyTestSteps {
                 return new HashSet<>(applianceTypes);
             }
         };
-        commCentral = new CommCentral(discoveryStrategies, testApplianceFactory);
+        commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
     }
 
     @When("^starting discovery for BLE appliances$")

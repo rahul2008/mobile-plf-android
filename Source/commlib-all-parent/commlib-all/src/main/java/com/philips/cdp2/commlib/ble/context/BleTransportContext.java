@@ -20,7 +20,7 @@ import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
-public final class BleTransportContext implements TransportContext {
+public class BleTransportContext implements TransportContext {
     private static final long BLE_DISCOVERY_TIMEOUT_MS = 20000L;
 
     private final BleDeviceCache deviceCache;

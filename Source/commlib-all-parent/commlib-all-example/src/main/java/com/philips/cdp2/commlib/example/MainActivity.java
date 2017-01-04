@@ -21,9 +21,7 @@ import com.philips.cdp.dicommclient.port.common.FirmwarePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
@@ -32,9 +30,6 @@ import com.philips.cdp2.commlib.example.appliance.TimePort;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,14 +48,19 @@ public class MainActivity extends AppCompatActivity {
 
     private Runnable permissionCallback;
 
-    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
+    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
         @Override
-        public <A extends Appliance> void onApplianceFound(@NonNull A foundAppliance) {
-            bleReferenceAppliance = (BleReferenceAppliance) foundAppliance;
+        public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
+            bleReferenceAppliance = foundAppliance;
             setupAppliance(bleReferenceAppliance);
 
             // Perform request on port
             bleReferenceAppliance.getFirmwarePort().getPortProperties();
+        }
+
+        @Override
+        public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+            // NOOP
         }
     };
 
@@ -88,11 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup CommCentral
         final BleTransportContext bleTransportContext = new BleTransportContext(this);
-        final Set<DiscoveryStrategy> discoveryStrategies = new HashSet<DiscoveryStrategy>() {{
-            add(bleTransportContext.getDiscoveryStrategy());
-        }};
         this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
-        this.commCentral = new CommCentral(discoveryStrategies, this.applianceFactory);
+
+        this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
         this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
 
         // Setup buttons
