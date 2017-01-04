@@ -13,7 +13,6 @@ import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionIn
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
@@ -63,7 +62,7 @@ public class BleTransportContext implements TransportContext {
     }
 
     @Override
-    public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
+    public BleCommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
     }
 
