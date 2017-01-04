@@ -5,7 +5,6 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -19,6 +18,7 @@ import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 public class ProgressBar extends android.widget.ProgressBar {
 
@@ -72,9 +72,9 @@ public class ProgressBar extends android.widget.ProgressBar {
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
         final Drawable secondaryProgress = progressBarDrawable.findDrawableByLayerId(android.R.id.secondaryProgress);
 
-        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme);
-        final Drawable progressDrawable = setTintOnDrawable(progress, R.color.uid_progress_bar_progress_selector, theme);
-        final Drawable secondaryProgressDrawable = setTintOnDrawable(secondaryProgress, R.color.uid_progress_bar_secondary_progress_selector, theme);
+        final Drawable backgroundDrawable = UIDUtils.setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme, getContext());
+        final Drawable progressDrawable = UIDUtils.setTintOnDrawable(progress, R.color.uid_progress_bar_progress_selector, theme, getContext());
+        final Drawable secondaryProgressDrawable = UIDUtils.setTintOnDrawable(secondaryProgress, R.color.uid_progress_bar_secondary_progress_selector, theme, getContext());
 
         final LayerDrawable layer = new LayerDrawable(new Drawable[]{backgroundDrawable, secondaryProgressDrawable, progressDrawable});
         layer.setId(0, android.R.id.background);
@@ -93,8 +93,8 @@ public class ProgressBar extends android.widget.ProgressBar {
         final Drawable background = progressBarDrawable.findDrawableByLayerId(android.R.id.background);
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
 
-        final Drawable backgroundDrawable = setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme);
-        final Drawable progressDrawable = setTintOnDrawable(progress, determinateCircularProgressColorList, theme);
+        final Drawable backgroundDrawable = UIDUtils.setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme, getContext());
+        final Drawable progressDrawable = UIDUtils.setTintOnDrawable(progress, determinateCircularProgressColorList, theme, getContext());
 
         final LayerDrawable layer = createCircularProgressBarLayerDrawable(progressDrawable, backgroundDrawable);
 
@@ -127,12 +127,5 @@ public class ProgressBar extends android.widget.ProgressBar {
         gradientDrawable.setGradientType(GradientDrawable.SWEEP_GRADIENT);
 
         gradientDrawable.setColors(new int[]{Color.TRANSPARENT, indeterminateCircularEndColor});
-    }
-
-    private Drawable setTintOnDrawable(Drawable drawable, int tintId, Theme theme) {
-        ColorStateList colorStateList = ThemeUtils.buildColorStateList(getResources(), theme, tintId);
-        Drawable compatDrawable = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTintList(compatDrawable, colorStateList);
-        return compatDrawable;
     }
 }

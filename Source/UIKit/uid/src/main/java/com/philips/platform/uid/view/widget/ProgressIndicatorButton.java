@@ -1,7 +1,6 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -11,7 +10,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -24,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 public class ProgressIndicatorButton extends LinearLayout {
 
@@ -128,7 +127,7 @@ public class ProgressIndicatorButton extends LinearLayout {
         setDrawable(buttonDrawableId);
 
         int progressButtonBackgroundDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressBackground, R.drawable.uid_progress_indicator_button_background);
-        progressBackgroundDrawable = setTintOnDrawable(ContextCompat.getDrawable(context, progressButtonBackgroundDrawableId), R.color.uid_progress_indicator_button_background_selector, theme);
+        progressBackgroundDrawable = UIDUtils.setTintOnDrawable(ContextCompat.getDrawable(context, progressButtonBackgroundDrawableId), R.color.uid_progress_indicator_button_background_selector, theme, context);
 
         int progress = typedArray.getInt(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgress, 0);
         setProgress(progress);
@@ -153,13 +152,6 @@ public class ProgressIndicatorButton extends LinearLayout {
         button = (Button) childLayout.findViewById(R.id.uid_progress_indicator_button_button);
         progressBar = (ProgressBar) childLayout.findViewById(R.id.uid_progress_indicator_button_progress_bar);
         progressTextView = (TextView) childLayout.findViewById(R.id.uid_progress_indicator_button_text);
-    }
-
-    private Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme) {
-        ColorStateList colorStateList = ThemeUtils.buildColorStateList(getResources(), theme, tintId);
-        Drawable compatDrawable = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTintList(compatDrawable, colorStateList);
-        return compatDrawable;
     }
 
     private void setVisibilityOfProgressButtonElements(boolean visible) {
