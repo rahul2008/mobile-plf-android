@@ -22,32 +22,21 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 public class UserCharacteristicsMonitor extends EventMonitor {
-    private final UserCharacteristicsConverter mUserCharacteristicsConverter;
-    private final DataServicesManager mDataServicesManager;
-    private final UCoreAccessProvider mUCoreAccessProvider;
-    private final UCoreAdapter mUCoreAdapter;
-    private final GsonConverter mGsonConverter;
-    private final Eventing mEventing;
 
     private UserCharacteristicsSender mUserCharacteristicsSender;
     private UserCharacteristicsFetcher mUserCharacteristicsFetcher;
 
     @Inject
-    public UserCharacteristicsMonitor(UCoreAdapter uCoreAdapter,
-                                      GsonConverter gsonConverter,
-                                      Eventing eventing,
-                                      UserCharacteristicsConverter userCharacteristicsConvertor,
-                                      UserCharacteristicsSender sender,
-                                      UserCharacteristicsFetcher fetcher) {
-        this.mUCoreAdapter = uCoreAdapter;
-        this.mGsonConverter = gsonConverter;
-        this.mEventing = eventing;
+    UCoreAccessProvider uCoreAccessProvider;
+
+    @Inject
+    public UserCharacteristicsMonitor(
+            UserCharacteristicsSender sender,
+            UserCharacteristicsFetcher fetcher) {
 
         mUserCharacteristicsSender = sender;
         mUserCharacteristicsFetcher = fetcher;
-        mUserCharacteristicsConverter = userCharacteristicsConvertor;
-        mDataServicesManager = DataServicesManager.getInstance();
-        this.mUCoreAccessProvider = mDataServicesManager.getUCoreAccessProvider();
+        DataServicesManager.mAppComponent.injectUserCharacteristicsMonitor(this);
     }
 
     //Save Request
@@ -69,9 +58,9 @@ public class UserCharacteristicsMonitor extends EventMonitor {
 
     }
 
-    public boolean isUserInvalid() {
-        final String accessToken = mDataServicesManager.getUCoreAccessProvider().getAccessToken();
-        return !mDataServicesManager.getUCoreAccessProvider().isLoggedIn() || accessToken == null || accessToken.isEmpty();
+    private boolean isUserInvalid() {
+        final String accessToken = uCoreAccessProvider.getAccessToken();
+        return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
     }
 
     private RetrofitError getNonLoggedInError() {
@@ -80,7 +69,7 @@ public class UserCharacteristicsMonitor extends EventMonitor {
 
     private void postError(int referenceId, final RetrofitError error) {
         DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
-        mEventing.post(new BackendResponse(referenceId, error));
+        eventing.post(new BackendResponse(referenceId, error));
     }
 
 }

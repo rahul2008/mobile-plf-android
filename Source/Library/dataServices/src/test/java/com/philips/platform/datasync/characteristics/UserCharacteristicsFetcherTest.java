@@ -49,7 +49,7 @@ public class UserCharacteristicsFetcherTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        userCharacteristicsFetcher = new UserCharacteristicsFetcher(uCoreAdapterMock, eventingMock, gsonConverterMock);
+        userCharacteristicsFetcher = new UserCharacteristicsFetcher(uCoreAdapterMock, gsonConverterMock);
     }
 
     @Test

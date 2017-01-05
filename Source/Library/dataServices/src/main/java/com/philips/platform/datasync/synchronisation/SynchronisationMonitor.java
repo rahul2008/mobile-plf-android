@@ -6,11 +6,14 @@
 
 package com.philips.platform.datasync.synchronisation;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,27 +24,36 @@ import javax.inject.Singleton;
  */
 public class SynchronisationMonitor extends EventMonitor {
 
-    @NonNull
-    private final DataPullSynchronise pullSynchronise;
+    @Inject
+    DataPullSynchronise pullSynchronise;
 
-    @NonNull
-    private final DataPushSynchronise pushSynchronise;
+    @Inject
+    DataPushSynchronise pushSynchronise;
 
     @Singleton
     @Inject
-    public SynchronisationMonitor(@NonNull final DataPullSynchronise pullSynchronise, final @NonNull DataPushSynchronise pushSynchronise) {
-        this.pullSynchronise = pullSynchronise;
-        this.pushSynchronise = pushSynchronise;
+    public SynchronisationMonitor() {
+        DataServicesManager.mAppComponent.injectSynchronizationMonitor(this);
     }
 
     public void onEventAsync(ReadDataFromBackendRequest event) {
-       // Log.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
-        pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
+        synchronized (this) {
+            if (DataServicesManager.getInstance().isPushComplete() && DataServicesManager.getInstance().isPullComplete()) {
+                DataServicesManager.getInstance().setPullComplete(false);
+                DSLog.i("***SPO***","In Synchronization Monitor onEventAsync - ReadDataFromBackenedRequest");
+                pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
+            }
+        }
     }
 
     public void onEventAsync(WriteDataToBackendRequest event) {
-        //Log.i("***SPO***","In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
-        //TODO: also should pull new data from BE
-        pushSynchronise.startSynchronise(event.getEventId());
+        synchronized (this) {
+            //TODO: also should pull new data from BE
+            if (DataServicesManager.getInstance().isPullComplete() && DataServicesManager.getInstance().isPushComplete()) {
+                DataServicesManager.getInstance().setPushComplete(false);
+                DSLog.i("***SPO***", "In Synchronization Monitor onEventAsync - WriteDataToBackendRequest");
+                pushSynchronise.startSynchronise(event.getEventId());
+            }
+        }
     }
 }

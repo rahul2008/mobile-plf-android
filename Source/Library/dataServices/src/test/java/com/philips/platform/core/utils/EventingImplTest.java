@@ -1,12 +1,16 @@
 package com.philips.platform.core.utils;
 
+import android.app.Application;
 import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.core.events.Event;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.robolectric.RuntimeEnvironment;
 
 import de.greenrobot.event.EventBus;
 
@@ -82,5 +86,14 @@ public class EventingImplTest {
     @Test
     public void ShouldremoveSticky_WhenremoveStickyIsCalled() {
         eventingImpl.removeSticky(eventMock);
+    }
+
+    // -------------
+
+    @NonNull
+    private Handler getHandler() {
+        final Application application = RuntimeEnvironment.application;
+        final Looper mainLooper = application.getMainLooper();
+        return new Handler(mainLooper);
     }
 }

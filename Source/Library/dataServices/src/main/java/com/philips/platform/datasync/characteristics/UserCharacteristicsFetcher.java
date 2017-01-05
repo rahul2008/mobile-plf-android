@@ -23,22 +23,20 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 public class UserCharacteristicsFetcher extends DataFetcher {
-    @NonNull
-    protected final UCoreAccessProvider mAccessProvider;
+    @Inject
+    UCoreAccessProvider mUCoreAccessProvider;
     private GsonConverter mGsonConverter;
-    DataServicesManager mDataServicesManager;
+    @Inject
     UserCharacteristicsConverter mUserCharacteristicsConverter;
+    @Inject
+    Eventing eventing;
 
     @Inject
     public UserCharacteristicsFetcher(@NonNull final UCoreAdapter uCoreAdapter,
-                                      @NonNull final Eventing eventing,
-                                      @NonNull final GsonConverter gsonConverter,
-                                      @NonNull final UserCharacteristicsConverter userCharacteristicsConverter) {
-        super(uCoreAdapter, eventing);
+                                      @NonNull final GsonConverter gsonConverter) {
+        super(uCoreAdapter);
         this.mGsonConverter = gsonConverter;
-        mDataServicesManager = DataServicesManager.getInstance();
-        this.mAccessProvider = mDataServicesManager.getUCoreAccessProvider();
-        mUserCharacteristicsConverter = userCharacteristicsConverter;
+        DataServicesManager.mAppComponent.injectUserCharacteristicsFetcher(this);
     }
 
     @Nullable
@@ -51,7 +49,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
     private RetrofitError fetchUserCharacteristics() {
         try {
             final UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
-                    mAccessProvider.getAccessToken(), mGsonConverter);
+                    mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
             if (userCharacteristicsClient != null) {
                 Characteristics characteristics = mUserCharacteristicsConverter.convertToCharacteristics();

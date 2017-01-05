@@ -2,15 +2,15 @@ package com.philips.platform.datasync;
 
 import android.content.SharedPreferences;
 
-import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.UserProfile;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.Null;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -33,7 +33,7 @@ public class UCoreAccessProviderTest {
     public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
     @Mock
-    private ErrorHandler userRegistrationFacadeMock;
+    private UserRegistrationInterface userRegistrationFacadeMock;
 
     @Mock
     private UserProfile userProfileMock;
@@ -45,12 +45,16 @@ public class UCoreAccessProviderTest {
     private SharedPreferences.Editor editorMock;
 
     private UCoreAccessProvider uCoreAccessProvider;
+    @Mock
+    private AppComponent appComponantMock;
 
     @Before
     public void setUp() {
         initMocks(this);
 
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         uCoreAccessProvider = new UCoreAccessProvider(userRegistrationFacadeMock);
+        uCoreAccessProvider.sharedPreferences = sharedPreferencesMock;
     }
 
     @Test
@@ -82,14 +86,14 @@ public class UCoreAccessProviderTest {
         assertThat(userId).isEqualTo(TEST_USER_ID);
     }
 
-    @Test
+    /*@Test
     public void ShouldReturnValueFromFacade_WhenInjectSaredPrefsIsCalled() {
 //        when(sharedPreferencesMock.g()).thenReturn(TEST_ACCESS_TOKEN);
 
         uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
 
         //assertThat(accessToken).isInstanceOf(SharedPreferences.class);
-    }
+    }*/
 
     @Test
     public void ShouldReturnValueFromUserProfile_WhengetSubjectIdIsCalled() {
@@ -114,7 +118,7 @@ public class UCoreAccessProviderTest {
 
     @Test
     public void ShouldReturnValue_WhenGetMomentLastSyncTimestampIsCalled() {
-        uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+       // uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY), anyString())).thenReturn(MOMENT_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getMomentLastSyncTimestamp();
@@ -124,7 +128,7 @@ public class UCoreAccessProviderTest {
 
     @Test
     public void ShouldReturnValue_WhenGetInsightLastSyncTimestampIsCalled() {
-        uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+      //  uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getInsightLastSyncTimestamp();
@@ -134,7 +138,7 @@ public class UCoreAccessProviderTest {
 
     @Test
     public void ShouldReturnValue_WhenGetInsightLastSyncTimestampForUserIsCalled() {
-        uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+     //   uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_FOR_USER_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getInsightLastSyncTimestampForUser();
@@ -144,7 +148,7 @@ public class UCoreAccessProviderTest {
 
     @Test(expected = NullPointerException.class)
     public void ShouldSaveBabyId_WhenActiveBabyIdEventReceived() {
-        uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+      //  uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.edit()).thenReturn(editorMock);
         when(editorMock.putString(anyString(), anyString())).thenReturn(editorMock);
 

@@ -3,7 +3,13 @@ package com.philips.platform.datasync.characteristics;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasync.consent.ConsentsConverter;
+import com.philips.platform.datasync.consent.UCoreConsentDetail;
+import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -25,29 +33,51 @@ public class UserCharacteristicsConvertorTest {
 
     private final String TEST_CHARACTERISTICS = "TEST_CHARACTERISTICS";
     private UserCharacteristicsConverter userCharacteristicsConvertor;
-
-    private BaseAppDataCreator uDataCreator;
+    private BaseAppDataCreator verticalDataCreater;
     @Mock
     private UCoreCharacteristics uCoreCharacteristicsMock;
+    @Mock
+    private UuidGenerator generatorMock;
+
+    private DataServicesManager dataServicesManager;
 
     @Mock
-    DataServicesManager dataServicesManager;
+    private AppComponent appComponantMock;
     @Before
     public void setUp() {
         initMocks(this);
 
-        uDataCreator = dataServicesManager.getDataCreater();
-
+        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         userCharacteristicsConvertor = new UserCharacteristicsConverter();
+        dataServicesManager.mAppComponent = appComponantMock;
+        userCharacteristicsConvertor.dataCreator = verticalDataCreater;
     }
 
+    @Test
+    public void ShouldReturnEmptyList_WhenUCoreListIsEmpty() throws Exception {
+        UCoreUserCharacteristics characteristics = userCharacteristicsConvertor.convertToUCoreUserCharacteristics(new ArrayList<Characteristics>());
+
+        assertThat(characteristics.getCharacteristics()).isNotNull();
+    }
+
+//    @Test
+//    public void ShouldReturnUCoreConsentDetailList_WhenAppConsentDetailListIsNotNull() throws Exception {
+//        ArrayList<UCoreConsentDetail> list = new ArrayList<>();
+//        list.add(0, new UCoreConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+//        list.add(1, new UCoreConsentDetail(TEMPERATURE, TEST_STATUS, TEST_VERSION, Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
+//
+//        Consent consent = consentsConverter.convertToAppConsentDetails(list, "TEST_CREATOR_ID");
+//
+//        assertThat(consent.getConsentDetails()).isNotNull();
+//        assertThat(list).isNotEmpty();
+//    }
 
     @Test
     public void ShouldReturnUCoreCharacteristicslList_WhenAppCharacteristicsIsPassed() throws Exception {
-        Characteristics characteristics = uDataCreator.createCharacteristics("TEST_CREATORID");
-        CharacteristicsDetail characteristicsDetail = uDataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics);
+        Characteristics characteristics =  userCharacteristicsConvertor.dataCreator.createCharacteristics("TEST_CREATORID");
+        CharacteristicsDetail characteristicsDetail =  userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics);
 
-        List<UCoreCharacteristics> uCoreCharacteristicsList = (List<UCoreCharacteristics>) userCharacteristicsConvertor.convertToUCoreCharacteristics(Collections.singletonList(characteristicsDetail));
+        List<UCoreCharacteristics> uCoreCharacteristicsList = (List<UCoreCharacteristics>) userCharacteristicsConvertor.convertToUCoreUserCharacteristics(Collections.singletonList(characteristics));
 
         assertThat(uCoreCharacteristicsList).isNotNull();
         assertThat(uCoreCharacteristicsList).hasSize(1);
@@ -65,7 +95,7 @@ public class UserCharacteristicsConvertorTest {
         when(uCoreCharacteristicsMock.getValue()).thenReturn("VALUE");
         when(uCoreCharacteristicsMock.getCharacteristics()).thenReturn(new ArrayList<UCoreCharacteristics>());
 
-        List<UCoreCharacteristics> uCoreCharacteristicsList = (List<UCoreCharacteristics>) userCharacteristicsConvertor.convertToUCoreCharacteristics(new ArrayList<CharacteristicsDetail>());
+        List<UCoreCharacteristics> uCoreCharacteristicsList = (List<UCoreCharacteristics>) userCharacteristicsConvertor.convertToUCoreUserCharacteristics(new ArrayList<Characteristics>());
 
         assertThat(uCoreCharacteristicsList).isNull();
     }

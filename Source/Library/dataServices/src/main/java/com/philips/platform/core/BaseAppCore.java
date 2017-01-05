@@ -20,12 +20,12 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
-import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.monitors.ErrorMonitor;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.Backend;
 
 import org.joda.time.DateTime;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,30 +35,31 @@ import javax.inject.Inject;
  * All rights reserved.
  */
 public class BaseAppCore implements BaseAppDataCreator {
-
-    private final Eventing eventing;
-    BaseAppDataCreator database;
-    private DBMonitors dbMonitors;
-    private final BaseAppBackend appBackend;
-    private List<EventMonitor> eventMonitors;
+    @Inject
+    Eventing eventing;
 
     @Inject
-    public BaseAppCore(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator database, final BaseAppBackend backend, @NonNull List<EventMonitor> eventMonitors, final DBMonitors dbMonitors) {
-        this.eventing = eventing;
-        this.database = database;
-        this.appBackend = backend;
-        this.eventMonitors = eventMonitors;
-        this.dbMonitors = dbMonitors;
+    BaseAppDataCreator database;
+
+    @Inject
+    DBMonitors dbMonitors;
+
+    @Inject
+    Backend appBackend;
+
+    @Inject
+    ErrorMonitor errorMonitor;
+
+    @Inject
+    public BaseAppCore() {
+        DataServicesManager.getInstance().mAppComponent.injectBaseAppCore(this);
     }
 
     public void start() {
         try {
             dbMonitors.start(eventing);
             appBackend.start(eventing);
-
-            for (EventMonitor eventMonitor : eventMonitors) {
-                eventMonitor.start(eventing);
-            }
+            errorMonitor.start(eventing);
         } catch (NullPointerException e) {
             if (e.getMessage() != null)
                 DSLog.i("***SPO***", "e = " + e.getMessage());
@@ -66,12 +67,9 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     public void stop() {
-        for (EventMonitor eventMonitor : eventMonitors) {
-            eventMonitor.stop();
-        }
-
         appBackend.stop();
         dbMonitors.stop();
+        errorMonitor.stop();
     }
 
     @NonNull

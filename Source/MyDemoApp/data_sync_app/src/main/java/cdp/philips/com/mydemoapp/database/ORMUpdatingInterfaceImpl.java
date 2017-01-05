@@ -20,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,14 +150,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void postRetrofitError(final Throwable error) {
-        notifyAllFailure((Exception) error);
-    }
-
-    @Override
     public boolean updateConsent(Consent consent) {
         if(consent==null){
-            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("consent null"));;
+            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));;
             return false;
         }
         OrmConsent ormConsent = null;
@@ -430,7 +426,8 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             if (integers.contains(EventHelper.UR)) {
                 final ArrayList<UserRegistrationFailureListener> dbChangeListeners =
                         EventHelper.getInstance().getURMap().get(EventHelper.UR);
-                for (final UserRegistrationFailureListener listener : dbChangeListeners) {
+                List<UserRegistrationFailureListener> objList = Collections.synchronizedList(new ArrayList(dbChangeListeners));
+                for (final UserRegistrationFailureListener listener : objList) {
                     listener.onFailure((RetrofitError) e);
                 }
             }

@@ -20,13 +20,12 @@ import javax.inject.Inject;
  */
 public class ConsentsConverter {
 
-    @NonNull
-    private final BaseAppDataCreator dataCreator;
+    @Inject
+    BaseAppDataCreator dataCreator;
 
     @Inject
     public ConsentsConverter() {
-        DataServicesManager manager = DataServicesManager.getInstance();
-        this.dataCreator = manager.getDataCreater();
+        DataServicesManager.mAppComponent.injectConsentsConverter(this);
     }
 
     @NonNull

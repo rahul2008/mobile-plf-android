@@ -32,15 +32,15 @@ import javax.inject.Inject;
  *  * All rights reserved.
  *
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentsConverter {
 
-    @NonNull
-    private BaseAppDataCreator baseAppDataCreater;
+    @Inject
+    BaseAppDataCreator baseAppDataCreater;
 
     @Inject
     public MomentsConverter() {
-        DataServicesManager manager = DataServicesManager.getInstance();
-        this.baseAppDataCreater = manager.getDataCreater();
+        DataServicesManager.mAppComponent.injectMomentsConverter(this);
     }
 
     @NonNull
@@ -353,7 +353,7 @@ public class MomentsConverter {
          return uCoreMeasurementGroupList;
      }*/
 
-    List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
+    private List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
         ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
         int size = measurementGroups.size();
         for (int i = 0, j = 0; i < size; i++) {
@@ -371,6 +371,7 @@ public class MomentsConverter {
                     uCoreMeasurementGroupses.add(uCoreMeasurementGroup1);
                     uCoreMeasurementGroupList.get(i).setMeasurementGroups(uCoreMeasurementGroupses);
 
+                    //TODO: Check the size before doing a get(i)
                     childGroupsArray = new ArrayList(childGroupsArray.get(i).getMeasurementGroups());
                     size1 = childGroupsArray.size();
                 }
@@ -379,7 +380,7 @@ public class MomentsConverter {
         return uCoreMeasurementGroupList;
     }
 
-    UCoreMeasurementGroups convertMeasurementGroupToUCoreMeasurementGroup(MeasurementGroup measurementGroup, UCoreMeasurementGroups uCoreMeasurementGroups) {
+    private UCoreMeasurementGroups convertMeasurementGroupToUCoreMeasurementGroup(MeasurementGroup measurementGroup, UCoreMeasurementGroups uCoreMeasurementGroups) {
         //Added Details
         List<UCoreMeasurementGroupDetail> measurementGroupDetails = new ArrayList<>();
         List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetails = addToUCoreMeasurementGroupDetails(measurementGroup.getMeasurementGroupDetails(), measurementGroupDetails);

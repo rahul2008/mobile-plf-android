@@ -20,7 +20,7 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -36,23 +36,26 @@ import retrofit.client.Header;
 import retrofit.client.Response;
 
 public class MomentsDataSender implements DataSender<Moment> {
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+    @Inject
+    UCoreAccessProvider accessProvider;
 
-    @NonNull
-    private final UCoreAdapter uCoreAdapter;
+    @Inject
+    UCoreAdapter uCoreAdapter;
 
     @NonNull
     private final MomentsConverter momentsConverter;
 
-    @NonNull
-    private final BaseAppDataCreator baseAppDataCreater;
+    @Inject
+    BaseAppDataCreator baseAppDataCreater;
+
+    @Inject
+    UserRegistrationInterface userRegistrationImpl;
 
     @NonNull
     private final MomentGsonConverter momentGsonConverter;
 
-    @NonNull
-    private final Eventing eventing;
+    @Inject
+    Eventing eventing;
 
     protected final Set<Integer> momentIds = new HashSet<>();
 
@@ -61,23 +64,17 @@ public class MomentsDataSender implements DataSender<Moment> {
 
     @Inject
     public MomentsDataSender(
-            @NonNull final UCoreAdapter uCoreAdapter,
             @NonNull final MomentsConverter momentsConverter,
-            @NonNull final MomentGsonConverter momentGsonConverter,
-            @NonNull final Eventing eventing) {
-        mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
-        this.uCoreAdapter = uCoreAdapter;
+            @NonNull final MomentGsonConverter momentGsonConverter) {
+
+        DataServicesManager.getInstance().mAppComponent.injectMomentsDataSender(this);
         this.momentsConverter = momentsConverter;
-        DataServicesManager manager = DataServicesManager.getInstance();
-        this.baseAppDataCreater = manager.getDataCreater();
         this.momentGsonConverter = momentGsonConverter;
-        this.eventing = eventing;
     }
 
     @Override
     public boolean sendDataToBackend(@NonNull final List<? extends Moment> dataToSend) {
-        DSLog.i("***SPO***","MomentsDataSender sendDataToBackend");
+        DSLog.i("***SPO***","sendDataToBackend MomentsDataSender sendDataToBackend data = " + dataToSend.toString());
         if (!accessProvider.isLoggedIn()) {
             return false;
         }
@@ -94,13 +91,11 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMoments(List<? extends Moment> moments) {
-        DSLog.i("***SPO***","MomentsDataSender sendMoments");
+        DSLog.i("***SPO***","MomentsDataSender sendMoments and momets = " + moments.toString());
         if(moments == null || moments.isEmpty()) {
             return true;
         }
         boolean conflictHappened = false;
-        DataServicesManager dataServicesManager = DataServicesManager.getInstance();
-        ErrorHandler userRegistrationImpl = dataServicesManager.getUserRegistrationImpl();
         String BASE = userRegistrationImpl.getHSDHsdpUrl();
 
         MomentsClient client = uCoreAdapter.getClient(MomentsClient.class, BASE,
@@ -120,7 +115,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private boolean sendMomentToBackend(MomentsClient client, final Moment moment) {
-        DSLog.i("***SPO***","MomentsDataSender sendMomentToBackend");
+        DSLog.i("***SPO***","MomentsDataSender sendMomentToBackend and moment = " + moment.toString());
         if (shouldCreateMoment(moment)) {
             return createMoment(client, moment);
         } else if(shouldDeleteMoment(moment)) {

@@ -26,13 +26,8 @@ public abstract class DataFetcher {
     @NonNull
     protected final UCoreAdapter uCoreAdapter;
 
-    @NonNull
-    protected final Eventing eventing;
-
-    public DataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
-                       @NonNull final Eventing eventing) {
+    public DataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
         this.uCoreAdapter = uCoreAdapter;
-        this.eventing = eventing;
     }
 
     @CheckResult

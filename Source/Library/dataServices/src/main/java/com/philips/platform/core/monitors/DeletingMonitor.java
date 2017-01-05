@@ -18,8 +18,7 @@ import javax.inject.Inject;
 
 public class DeletingMonitor extends EventMonitor{
 
-
-    DBDeletingInterface dbInterface;
+    private DBDeletingInterface dbInterface;
 
     @Inject
     public DeletingMonitor(DBDeletingInterface dbInterface){
@@ -41,8 +40,5 @@ public class DeletingMonitor extends EventMonitor{
     public void onEventBackgroundThread(@NonNull MomentBackendDeleteResponse backendDeleteResponse) {
         dbInterface.ormDeletingDeleteMoment(backendDeleteResponse.getMoment());
     }
-
-
-
 }
 

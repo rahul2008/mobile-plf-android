@@ -4,6 +4,7 @@
  */
 package com.philips.platform.datasync.characteristics;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
 
@@ -14,20 +15,22 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class UserCharacteristicsConverter {
-    private List<CharacteristicsDetail> mCharacteristicsDetailList;
+
+    @Inject
+    BaseAppDataCreator dataCreator;
 
     @Inject
     public UserCharacteristicsConverter() {
     }
 
-    public Characteristics convertToCharacteristics(){
+    public Characteristics convertToCharacteristics() {
         return null;
     }
 
     public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristic) {
         UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
-
+        List<CharacteristicsDetail> mCharacteristicsDetailList;
         for (int i = 0; i < characteristic.size(); i++) {
             mCharacteristicsDetailList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
             UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();

@@ -97,8 +97,8 @@ public class FetchingMonitorTest {
 
         verify(fetching).fetchMoments();
 //        verify(fetching).fetchConsent();
-  //      verify(fetching).fetchConsent();
-    //    verify(fetching).fetchNonSynchronizedMoments();
+        //      verify(fetching).fetchConsent();
+        //    verify(fetching).fetchNonSynchronizedMoments();
     }
 
     @Test
@@ -128,36 +128,50 @@ public class FetchingMonitorTest {
         verify(fetching).fetchConsents();
     }
 
+//<<<<<<< HEAD
+//    @Test
+//    public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
+//
+//        fetchingMonitor.onEventBackgroundThread(new LoadCharacterSicsRequest());
+//
+//        verify(fetching).fetchCharacteristics();
+//    }
+//
+//    /*@Test
+//=======
+
     @Test
-    public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
-
-        fetchingMonitor.onEventBackgroundThread(new LoadCharacterSicsRequest());
-
-        verify(fetching).fetchCharacteristics();
-    }
-
-    /*@Test
     public void getNonSynchronizedDataRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-        verify(fetching.putMomentsForSync(dataToSync));
-        verify(fetching.putConsentForSync(dataToSync));
+//        verify(fetching.putMomentsForSync(dataToSync));
+//        verify(fetching.putConsentForSync(dataToSync));
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
-    }*/
-
-    private GetNonSynchronizedDataResponse getNonSynchronizedDataResponse() {
-        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
-
-        verify(eventingMock).post(getNonSynchronizedDataResponseCaptor.capture());
-
-        return getNonSynchronizedDataResponseCaptor.getValue();
     }
 
-    private GetNonSynchronizedMomentsRequest getNonSynchronizedMomentsRequest() {
+    @Test
+    public void getNonSynchronizedMomentRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
-
-        verify(eventingMock).post(getNonSynchronizedMomentsResponseCaptor.capture());
-
-        return getNonSynchronizedMomentsResponseCaptor.getValue();
+        Map<Class, List<?>> dataToSync = new HashMap<>();
+//        verify(fetching.putMomentsForSync(dataToSync));
+//        verify(fetching.putConsentForSync(dataToSync));
+        eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
+
+
+//    private GetNonSynchronizedDataResponse getNonSynchronizedDataResponse() {
+//        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
+//
+//        verify(eventingMock).post(getNonSynchronizedDataResponseCaptor.capture());
+//
+//        return getNonSynchronizedDataResponseCaptor.getValue();
+//    }
+//
+//    private GetNonSynchronizedMomentsRequest getNonSynchronizedMomentsRequest() {
+//        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
+//
+//        verify(eventingMock).post(getNonSynchronizedMomentsResponseCaptor.capture());
+//
+//        return getNonSynchronizedMomentsResponseCaptor.getValue();
+//    }
 }

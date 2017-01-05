@@ -16,6 +16,7 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -36,10 +37,11 @@ import retrofit.RetrofitError;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+    @Inject
+    UCoreAccessProvider accessProvider;
 
     @Nullable
     private DateTime lastSyncDateTime;
@@ -54,8 +56,8 @@ public class DataPullSynchronise {
     @NonNull
     private final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers;
 
-    @NonNull
-    private final Eventing eventing;
+    @Inject
+    Eventing eventing;
 
     private volatile RetrofitError fetchResult;
 
@@ -66,13 +68,11 @@ public class DataPullSynchronise {
 
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
-                               @NonNull final Executor executor,
-                               @NonNull final Eventing  eventing) {
+                               @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
+        mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
-        this.eventing = eventing;
     }
 
 
@@ -109,13 +109,13 @@ public class DataPullSynchronise {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.postSticky(new GetNonSynchronizedMomentsRequest());
+            eventing.post(new GetNonSynchronizedMomentsRequest());
         }
     }
 
     public void registerEvent() {
         if (!eventing.isRegistered(this)) {
-            eventing.registerSticky(this);
+            eventing.register(this);
         }
     }
 
@@ -191,9 +191,13 @@ public class DataPullSynchronise {
     }}
 
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
-        DSLog.i("**SPO**","In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
-        final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-        fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments,response.getConsentDetails());
+        synchronized (this) {
+            DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
+            final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
+            fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, response.getConsentDetails());
+        }
+        mDataServicesManager.setPullComplete(true);
+        eventing.post(new WriteDataToBackendRequest());
        // unRegisterEvent();
     }
 }

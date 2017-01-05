@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -31,9 +32,12 @@ public class ConsentsDataFetcher extends DataFetcher {
     private List<ConsentDetail> consentDetails;
 
     @Inject
-    public ConsentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
-                               @NonNull final Eventing eventing) {
-        super(uCoreAdapter, eventing);
+    Eventing eventing;
+
+    @Inject
+    public ConsentsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
+        super(uCoreAdapter);
+        DataServicesManager.getInstance().mAppComponent.injectConsentsDataFetcher(this);
     }
 
     @Nullable

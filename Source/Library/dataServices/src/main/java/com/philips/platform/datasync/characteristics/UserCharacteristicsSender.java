@@ -11,8 +11,10 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import java.net.HttpURLConnection;
@@ -29,33 +31,29 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
 
     private static final int API_VERSION = 9;
 
-    private final UCoreAdapter mUCoreAdapter;
-
-    private GsonConverter mGsonConverter;
-    private Eventing mEventing;
-    private UserCharacteristicsConverter mUserCharacteristicsConverter;
-    private DataServicesManager mDataServicesManager;
+    @Inject
+    UCoreAdapter mUCoreAdapter;
 
     @NonNull
-    private final UCoreAccessProvider accessProvider;
+    GsonConverter mGsonConverter;
+    @Inject
+    Eventing mEventing;
+    @Inject
+    UserCharacteristicsConverter mUserCharacteristicsConverter;
 
     @Inject
-    public UserCharacteristicsSender(UCoreAdapter uCoreAdapter, GsonConverter gsonConverter, Eventing eventing, UserCharacteristicsConverter userCharacteristicsConverter) {
-        this.mUCoreAdapter = uCoreAdapter;
-        this.mGsonConverter = gsonConverter;
-        this.mEventing = eventing;
-        this.mUserCharacteristicsConverter = userCharacteristicsConverter;
+    UCoreAccessProvider mUCoreAccessProvider;
 
-        mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
+    @Inject
+    public UserCharacteristicsSender(@NonNull final UserCharacteristicsConverter userCharacteristicsConverter,
+                                     @NonNull final GsonConverter gsonConverter) {
+        DataServicesManager.mAppComponent.injectUserCharacteristicsSender(this);
+        this.mUserCharacteristicsConverter = userCharacteristicsConverter;
+        this.mGsonConverter = gsonConverter;
     }
 
     @Override
     public boolean sendDataToBackend(@NonNull List<? extends Characteristics> userCharacteristicsListToSend) {
-        if (!accessProvider.isLoggedIn() && userCharacteristicsListToSend == null
-                && userCharacteristicsListToSend.size() > 0) {
-            return false;
-        }
 
         List<Characteristics> userCharacteristicsList = new ArrayList<>();
         for (Characteristics characteristics : userCharacteristicsListToSend) {
@@ -68,10 +66,10 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
         try {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
-                            accessProvider.getAccessToken(), mGsonConverter);
+                            mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
             Response response =
-                    uClient.createOrUpdateUserCharacteristics(accessProvider.getUserId(), accessProvider.getUserId(), mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userCharacteristicsList), API_VERSION);
+                    uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(), mUCoreAccessProvider.getUserId(), mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userCharacteristicsList), API_VERSION);
 
             if (isResponseSuccess(response)) {
                 postOk();

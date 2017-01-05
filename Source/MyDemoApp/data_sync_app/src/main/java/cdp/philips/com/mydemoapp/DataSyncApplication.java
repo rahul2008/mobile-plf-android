@@ -2,10 +2,12 @@ package cdp.philips.com.mydemoapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
+import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.URDependancies;
@@ -16,14 +18,38 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.squareup.leakcanary.LeakCanary;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
+import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.ORMUpdatingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.OrmCreator;
+import cdp.philips.com.mydemoapp.database.OrmDeleting;
+import cdp.philips.com.mydemoapp.database.OrmDeletingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
+import cdp.philips.com.mydemoapp.database.OrmSaving;
+import cdp.philips.com.mydemoapp.database.OrmUpdating;
+import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
+import cdp.philips.com.mydemoapp.error.ErrorHandlerInterfaceImpl;
+import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -35,22 +61,71 @@ public class DataSyncApplication extends Application {
 
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
+    DataServicesManager mDataServicesManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-
+        mDataServicesManager = DataServicesManager.getInstance();
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-        Stetho.initializeWithDefaults(this);
+        //Stetho.initializeWithDefaults(this);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
-        databaseHelper.getWritableDatabase();
-        Stetho.initializeWithDefaults(this);
+       /* DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
+        databaseHelper.getWritableDatabase();*/
+        // Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
+        init();
+    }
+
+    private void init() {
+        OrmCreator creator = new OrmCreator(new UuidGenerator());
+        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
+        ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
+        mDataServicesManager.initialize(this, creator, userRegistrationInterface, errorHandlerInterface);
+        injectDBInterfacesToCore();
+        mDataServicesManager.initializeSyncMonitors(this, null, null);
+    }
+
+    void injectDBInterfacesToCore() {
+        final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
+        try {
+            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
+            Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
+            Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
+            Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
+            Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
+            Dao<OrmMeasurementGroup, Integer> measurementGroup = databaseHelper.getMeasurementGroupDao();
+            Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails = databaseHelper.getMeasurementGroupDetailDao();
+
+            Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
+            Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
+            Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
+            Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
+
+
+            OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
+                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, characteristicsDetailsDao);
+
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao, consentDetailsDao);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao);
+            OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao, characteristicsesDao, characteristicsDetailsDao);
+
+
+            BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
+            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
+            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
+            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao);
+
+            mDataServicesManager.initializeDBMonitors(this, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+        } catch (SQLException exception) {
+            Toast.makeText(this, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -273,7 +348,8 @@ public class DataSyncApplication extends Application {
                 "HSDPConfiguration.ApplicationName",
                 URConfigurationConstants.UR,
                 //"Datacore",
-                "uGrow",
+                //"uGrow",
+                "HealthySleepSolutions",
                 configError);
 
         gAppInfra.
@@ -294,8 +370,9 @@ public class DataSyncApplication extends Application {
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 URConfigurationConstants.UR,
-                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+                //"https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
                 //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
+                "https://healthysleep-ds-development.eu-west.philips-healthsuite.com",
                 configError);
     }
 }
