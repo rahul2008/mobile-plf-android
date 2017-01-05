@@ -37,7 +37,7 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.about_screen_title);
+        return getResources().getString(R.string.RA_AboutScreen_Title);
     }
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {

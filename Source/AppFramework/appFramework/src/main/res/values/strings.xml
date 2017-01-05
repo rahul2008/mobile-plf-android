@@ -14,7 +14,7 @@
     <string name="RA_SplashScreen_Title">Mobile &lt;b>Apps&lt;/b></string>
 
     <!-- About screen string constants-->
-    <string name="about_screen_title">About</string>
+    <string name="RA_AboutScreen_Title">About</string>
     <string name="about_screen_app_version">App Version</string>
     <string name="about_screen_description">The details for this Page is to be provided by Philips Design</string>
 
@@ -51,14 +51,20 @@
 
     <string-array name="hamburger_drawer_items">
         <item>@string/RA_HomeScreen_Title</item>
-        <item>Settings</item>
-        <item>Philips Shop</item>
-        <item>Support</item>
-        <item>About</item>
-        <item>Data Sync</item>
-        <item>Connectivity</item>
+        <item>@string/RA_Settings_Menu_Title</item>
+        <item>@string/RA_Philips_Shop_Menu_Title</item>
+        <item>@string/RA_Support_Menu_Title</item>
+        <item>@string/RA_About_Menu_Title</item>
+        <item>@string/RA_DataServices_Menu_Title</item>
+        <item>@string/RA_ConnectivityScreen_Menu_Title</item>
     </string-array>
 
+    <string name="RA_Settings_Menu_Title">Settings</string>
+    <string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
+    <string name="RA_Support_Menu_Title">Support</string>
+    <string name="RA_About_Menu_Title">About</string>
+    <string name="RA_DataServices_Menu_Title">Data Services</string>
+    <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
     <!--<array name="hamburger_drawer_icons">-->
         <!--<item>@drawable/uikit_cart</item>-->
         <!--<item>@drawable/uikit_cart</item>-->
