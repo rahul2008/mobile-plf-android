@@ -151,13 +151,13 @@ public class BleDiscoveryStrategyTestSteps {
         for (Appliance availableAppliance : availableAppliances) {
             availableApplianceNames.add(availableAppliance.getName());
         }
-        assertTrue("All created appliances should be available through the ApplianceManager.", availableApplianceNames.containsAll(appliances));
+        assertTrue("Expected appliances " + appliances + " don't match created appliances " + availableApplianceNames, availableApplianceNames.containsAll(appliances));
     }
 
     @Then("^no appliances are created$")
     public void noAppliancesAreCreated() {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
-        assertTrue("Available appliances should be an empty set.", availableAppliances.isEmpty());
+        assertTrue("Available appliances set was not empty: " + availableAppliances, availableAppliances.isEmpty());
     }
 
     @When("^(.*?) is discovered by BlueLib$")
