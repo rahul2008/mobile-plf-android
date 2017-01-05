@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.janrainphilips.philipsregistration"
+    package="com.philips.cl.di.regsample.app"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -43,7 +43,7 @@
         </activity>
 
         <activity
-            android:name="com.janrainphilips.philipsregistration.wxapi.WXEntryActivity"
+            android:name="com.philips.cdp.registration.wxapi.WXEntryActivity"
             android:exported="true">
             <!--
             <intent-filter>

@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
-import com.janrainphilips.philipsregistration.R;
+
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;

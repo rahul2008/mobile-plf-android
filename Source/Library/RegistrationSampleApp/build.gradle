@@ -37,16 +37,16 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('keystore.jks')
-            storePassword 'password'
-            keyAlias 'weChatDebug'
-            keyPassword 'password'
+            storeFile file('release-key.keystore')
+            storePassword 'Philips2011*!'
+            keyAlias 'philips_android_mktplace'
+            keyPassword 'Philips2011*!'
         }
         release {
-            storeFile file('keystore.jks')
-            storePassword 'password'
-            keyAlias 'weChatDebug'
-            keyPassword 'password'
+            storeFile file('release-key.keystore')
+            storePassword 'Philips2011*!'
+            keyAlias 'philips_android_mktplace'
+            keyPassword 'Philips2011*!'
         }
     }
 
@@ -109,7 +109,7 @@ android {
             versionName objcdp.getVersionWithHash()
         }*/
         device {
-           // applicationId 'com.janrainphilips.philipsregistration'
+            applicationId 'com.philips.cdp.registration'
             versionCode 5
             versionName objcdp.getVersionWithHash()
         }

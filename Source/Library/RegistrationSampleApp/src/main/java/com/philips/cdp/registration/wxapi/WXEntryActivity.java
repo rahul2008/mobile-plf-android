@@ -1,4 +1,4 @@
-package com.janrainphilips.philipsregistration.wxapi;
+package com.philips.cdp.registration.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;
