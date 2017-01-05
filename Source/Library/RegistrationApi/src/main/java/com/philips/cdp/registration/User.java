@@ -196,7 +196,8 @@ public class User {
      * @param mergeToken
      */
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
-                                             final SocialProviderLoginHandler socialLoginHandler, final String mergeToken) {
+                                             final SocialProviderLoginHandler socialLoginHandler,
+                                             final String mergeToken) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -206,12 +207,13 @@ public class User {
                     loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
                 } else {
                     if (socialLoginHandler != null) {
-                        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                        userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+                        UserRegistrationFailureInfo userRegistrationFailureInfo =
+                                new UserRegistrationFailureInfo();
+                        userRegistrationFailureInfo.setErrorCode(RegConstants.
+                                DI_PROFILE_NULL_ERROR_CODE);
                         socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                     }
                 }
-
             }
         }).start();
     }

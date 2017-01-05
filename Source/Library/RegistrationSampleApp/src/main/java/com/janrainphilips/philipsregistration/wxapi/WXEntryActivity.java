@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -17,6 +16,8 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import java.util.Arrays;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
@@ -45,7 +46,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 getConfigInterface().
                 getPropertyForKey("weChatAppId", UR,
                         configError);
-
         Log.d("WECHAT", "WechatId from Configuartion" + weChatAppId);
         // Handle any communication from WeChat and then terminate activity. This class must be an activity
         // or the communication will not be received from WeChat.
@@ -74,28 +74,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      */
     @Override
     public void onResp(BaseResp resp) {
-
-        //Send code back to fragment by local broadcase
-        //Handle this case in Home fragment
         int error_code = resp.errCode;
         String weChatCode = null;
-        switch (error_code) {
-            case BaseResp.ErrCode.ERR_OK:
-                try {
-                    SendAuth.Resp sendResp = (SendAuth.Resp) resp;
-                    weChatCode = sendResp.code;
-                } catch (Exception e) {
-                    RLog.e(TAG, e.getStackTrace().toString());
-                }
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                Toast.makeText(this, "User canceled the request", Toast.LENGTH_LONG).show();
-              //  Log.i(TAG, "WeChat - User canceled the request");
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                Toast.makeText(this, "User denied the request", Toast.LENGTH_LONG).show();
-               // Log.i(TAG, "WeChat - User denied the request");
-                break;
+        if (error_code == BaseResp.ErrCode.ERR_OK) {
+            try {
+                SendAuth.Resp sendResp = (SendAuth.Resp) resp;
+                weChatCode = sendResp.code;
+            } catch (Exception e) {
+                RLog.e(TAG, Arrays.toString(e.getStackTrace()));
+            }
         }
         sendMessage(error_code, weChatCode);
     }
