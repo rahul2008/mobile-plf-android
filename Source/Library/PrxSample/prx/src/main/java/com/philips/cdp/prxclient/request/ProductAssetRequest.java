@@ -45,7 +45,7 @@ public class ProductAssetRequest extends PrxRequest {
     public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
 
 
-        appInfra.getServiceDiscovery().getServiceLocaleWithCountryPreference(PRXAssetAssetServiceID,
+        appInfra.getServiceDiscovery().getServiceLocaleWithLanguagePreference(PRXAssetAssetServiceID,
                 new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
                     @Override
                     public void onSuccess(String locale) {
