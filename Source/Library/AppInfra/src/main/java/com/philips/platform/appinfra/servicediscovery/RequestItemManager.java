@@ -2,8 +2,7 @@ package com.philips.platform.appinfra.servicediscovery;
 
 
 import android.content.Context;
-import android.os.Build;
-//import android.os.LocaleList;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -26,12 +25,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+//import android.os.LocaleList;
 
 public class RequestItemManager {
     public interface RequestManagerListener {
@@ -40,6 +42,7 @@ public class RequestItemManager {
 
     //    RequestQueue mRequestQueue;
     private static final String TAG = "RequestManager";//this.class.getSimpleName();
+    static final String ServiceDiscoveryCacheFile = "SDCacheFile";
 
     private Context mContext = null;
     private RequestQueue mVolleyRequest;
@@ -63,6 +66,7 @@ public class RequestItemManager {
 
         try {
             JSONObject response = future.get(10, TimeUnit.SECONDS); // Blocks for at most 10 seconds.
+            cacheServiceDiscovery(response,url);
             return parseResponse(response);
         } catch (InterruptedException | TimeoutException e) {
             ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
@@ -272,5 +276,49 @@ public class RequestItemManager {
             e.printStackTrace();
         }
         return result;
+    }
+    private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url) {
+        SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
+        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+        prefEditor.putString("SDcache", serviceDiscovery.toString());
+        prefEditor.putString("SDurl", url);
+        Date currentDate = new Date();
+        long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
+        prefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
+        prefEditor.commit();
+    }
+
+    ServiceDiscovery getServiceDiscoveryFromCache(String url){
+        ServiceDiscovery serviceDiscovery = null;
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        if(null!=prefs && prefs.contains("SDurl")){
+            final String savedURL= prefs.getString("SDurl",null);
+            final long refreshTimeExpiry = prefs.getLong("SDrefreshTime",0);
+            Date currentDate = new Date();
+            long currentDateLong= currentDate.getTime();
+            if(savedURL.equals(url) && currentDateLong<refreshTimeExpiry){ // cache is VALID  i.e. AppIdentity and locale has not changed
+                try {
+                    JSONObject SDjSONObject = new JSONObject(prefs.getString("SDcache",null));
+                    serviceDiscovery= parseResponse(SDjSONObject);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{// cache is INVALID so clear SD Cache
+                clearCacheServiceDiscovery();
+            }
+        }
+        return serviceDiscovery;
+    }
+
+    void clearCacheServiceDiscovery(){
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        SharedPreferences.Editor prefEditor = prefs.edit();
+        prefEditor.clear();
+        prefEditor.commit();
+
+    }
+
+    SharedPreferences getServiceDiscoverySharedPreferences(){
+        return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, mContext.MODE_PRIVATE);
     }
 }

@@ -138,20 +138,23 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
      * Precondition: download lock is acquired
      */
     private ServiceDiscovery downloadServices() {
-        String urlBuild;
-        ServiceDiscovery service = new ServiceDiscovery();
+        String urlBuild = buildUrl();
 
-        if (!isOnline()) {
-            service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
-            service.setSuccess(false);
-        } else {
-            urlBuild = buildUrl();
-            if (urlBuild != null) {
-                service = mRequestItemManager.execute(urlBuild);
-                Log.i("Request Call", "Request Call");
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Request Call", "Request Call");
+        ServiceDiscovery service = new ServiceDiscovery();
+        service = mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
+        if (null == service) {
+            if (!isOnline()) {
+                service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
+                service.setSuccess(false);
             } else {
-                // TODO RayKlo ???
+                //urlBuild = buildUrl();
+                if (urlBuild != null) {
+                    service = mRequestItemManager.execute(urlBuild);
+                    Log.i("Request Call", "Request Call");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Request Call", "Request Call");
+                } else {
+                    // TODO RayKlo ???
+                }
             }
         }
         return service;
@@ -212,7 +215,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 if (countryHome != null) {
                     url += "&country=" + countryHome;
                 }
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "build URL", "" + url);
             } else {
                 // TODO RayKlo ??
             }
@@ -262,19 +265,26 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void setHomeCountry(String countryCode) {
-        this.countryCode = countryCode;
-        if (countryCode != null) {
-            countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
-            saveToSecureStore(countryCode, true);
-            saveToSecureStore(countryCodeSource.toString(), false);
-            queueResultListener(true, new DownloadItemListener() {
-                @Override
-                public void onDownloadDone(ServiceDiscovery result) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Force Refresh is done", "Force Refresh is done");
-                }
-            });
+
+        if (countryCode != null && countryCode.length()==2 ) {
+            if( !countryCode.equals(getCountry(serviceDiscovery))) { // entered country is different then existing
+                this.countryCode = countryCode;
+                countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
+                saveToSecureStore(countryCode, true);
+                saveToSecureStore(countryCodeSource.toString(), false);
+                serviceDiscovery = null;  // if there is no internet then also old SD value must be cleared.
+                mRequestItemManager.clearCacheServiceDiscovery(); // clear SD cache
+                queueResultListener(true, new DownloadItemListener() {
+                    @Override
+                    public void onDownloadDone(ServiceDiscovery result) {
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Force Refresh is done", "Force Refresh is done");
+                    }
+                });
+            }else{
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SAME COUNTRY", "Entered Country code is same as old one");
+            }
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Null not Allowed", "Null not Allowed");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Invalid COUNTRY", "Country code is INVALID");
         }
     }
 
@@ -335,7 +345,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public URL applyURLParameters(URL inputURL, Map<String, String> parameters) {
         String url = inputURL.toString();
         URL output;
-        if(parameters != null && parameters.size() > 0) {
+        if (parameters != null && parameters.size() > 0) {
             for (Map.Entry<String, String> param : parameters.entrySet()) {
                 String key = param.getKey();
                 String value = param.getValue();
@@ -619,6 +629,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void refresh(final OnRefreshListener listener, final boolean forcerefresh) {
+        mRequestItemManager.clearCacheServiceDiscovery(); // clear SD cache
         queueResultListener(forcerefresh, new DownloadItemListener() {
             @Override
             public void onDownloadDone(ServiceDiscovery result) {

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
@@ -52,7 +46,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
         arryaLsit.add("userreg.landing.emailverif");
         arryaLsit.add("userreg.landing.resetpass");
 
-        AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+       /* AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
@@ -132,7 +126,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 Log.i("SD", ""+message);
             }
         });
-
+*/
     }
 
 
