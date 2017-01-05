@@ -60,7 +60,10 @@ public class PrxLauncherActivity extends AppCompatActivity {
     AppInfraInterface mAppInfra;
     private ListView listview;
     private ImageView imageView;
-    private TextView summaryTextView;
+    private TextView descTextView;
+    private TextView priceTextView;
+    private TextView productTitleText;
+    private TextView subtitelText;
 
 
     @Override
@@ -71,7 +74,13 @@ public class PrxLauncherActivity extends AppCompatActivity {
         Button msupportButton = (Button) findViewById(R.id.support_rqst_button);
         Button mAssetButton = (Button) findViewById(R.id.assets_reqst_button);
         imageView = (ImageView) findViewById(R.id.imageView);
-        summaryTextView = (TextView) findViewById(R.id.summaryText);
+
+        descTextView = (TextView) findViewById(R.id.descText);
+        priceTextView = (TextView) findViewById(R.id.priceText);
+        productTitleText = (TextView) findViewById(R.id.productText);
+        subtitelText = (TextView) findViewById(R.id.subtitleText);
+
+
         listview = (ListView) findViewById(R.id.details);
 
         mAppInfra = new AppInfra.Builder().build(this);
@@ -208,15 +217,24 @@ public class PrxLauncherActivity extends AppCompatActivity {
                     com.philips.cdp.prxclient.datamodels.summary.Data mData = mSummaryModel.getData();
                     String url = mData.getImageURL();
                     imageView.setVisibility(View.VISIBLE);
-                    summaryTextView.setVisibility(View.VISIBLE);
+                    descTextView.setVisibility(View.VISIBLE);
+                    priceTextView.setVisibility(View.VISIBLE);
+                    productTitleText.setVisibility(View.VISIBLE);
+                    subtitelText.setVisibility(View.VISIBLE);
+
                     listview.setVisibility(View.GONE);
                     Glide.with(PrxLauncherActivity.this).load(url)
                             .thumbnail(0.5f)
                             .crossFade()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
-                    summaryTextView.setText("Des:" + " " + mData.getWow() + "\t\n" + "Price:" + mData.getPrice().getFormattedDisplayPrice()
-                            + "\t\n" + " ProductTitle: " + " " + mData.getProductTitle() + " " + "\t\n" + "SubTitle: " + " " + mData.getSubWOW());
+
+                    if(mData.getWow() != null) descTextView.setText("Desc"+" "+mData.getWow());
+                    if(mData.getPrice() != null && mData.getPrice().getFormattedDisplayPrice() != null)  priceTextView.setText("Price"+" "+mData.getPrice().getFormattedDisplayPrice());
+                    if(mData.getProductTitle() != null) productTitleText.setText("ProdcutTitle"+" "+mData.getProductTitle());
+                    if(mData.getSubWOW() != null) subtitelText.setText("SubTitle"+"  "+mData.getSubWOW());
+
+
                     Log.d(TAG, " SummaryModel Positive Response Data : " + mSummaryModel.isSuccess());
                     Log.d(TAG, " SummaryModel Positive Response Data Brand: " + mData.getBrand());
                     Log.d(TAG, " SummaryModel Positive Response Data CTN: " + mData.getCtn());
@@ -229,7 +247,11 @@ public class PrxLauncherActivity extends AppCompatActivity {
                     Assets assets = myyData.getAssets();
                     List<Asset> asset = assets.getAsset();
                     imageView.setVisibility(View.GONE);
-                    summaryTextView.setVisibility(View.GONE);
+                    descTextView.setVisibility(View.GONE);
+                    priceTextView.setVisibility(View.GONE);
+                    productTitleText.setVisibility(View.GONE);
+                    subtitelText.setVisibility(View.GONE);
+
                     listview.setVisibility(View.VISIBLE);
                     AssetModelAdapter adapter = new AssetModelAdapter(PrxLauncherActivity.this, asset);
                     listview.setAdapter(adapter);
@@ -245,7 +267,11 @@ public class PrxLauncherActivity extends AppCompatActivity {
                     RichTexts text = msupportData.getRichTexts();
                     List<RichText> listText = text.getRichText();
                     imageView.setVisibility(View.GONE);
-                    summaryTextView.setVisibility(View.GONE);
+                    descTextView.setVisibility(View.GONE);
+                    priceTextView.setVisibility(View.GONE);
+                    productTitleText.setVisibility(View.GONE);
+                    subtitelText.setVisibility(View.GONE);
+
                     listview.setVisibility(View.VISIBLE);
                     SupportModelAdapter adapter = new SupportModelAdapter(PrxLauncherActivity.this, listText);
                     listview.setAdapter(adapter);
@@ -259,10 +285,14 @@ public class PrxLauncherActivity extends AppCompatActivity {
             @Override
             public void onResponseError(PrxError prxError) {
                 Log.d(TAG, "Response Error Message PRX: " + prxError.getDescription());
-                summaryTextView.setVisibility(View.VISIBLE);
+                descTextView.setVisibility(View.VISIBLE);
+                priceTextView.setVisibility(View.GONE);
+                productTitleText.setVisibility(View.GONE);
+                subtitelText.setVisibility(View.GONE);
+
                 imageView.setVisibility(View.GONE);
                 listview.setVisibility(View.GONE);
-                summaryTextView.setText(prxError.getDescription() + " " + "Code" + " " + prxError.getStatusCode());
+                descTextView.setText(prxError.getDescription() + " " + "Code" + " " + prxError.getStatusCode());
 
             }
         });

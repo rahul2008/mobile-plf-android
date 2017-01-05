@@ -145,14 +145,47 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/summaryText"
+            android:id="@+id/descText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="18sp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/priceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/productText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/subtitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:visibility="gone"/>
 
