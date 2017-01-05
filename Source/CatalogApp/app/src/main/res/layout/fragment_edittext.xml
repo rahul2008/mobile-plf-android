@@ -113,6 +113,7 @@
 
                 <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/textbox_input_password"
+                    android:imeOptions="flagNoExtractUi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/component_bottom_spacing"
