@@ -15,6 +15,6 @@
         style="@style/Button.OutlinedDarkBlue"
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:text="@string/settings_list_item_log_out"
+        android:text="@string/RA_Settings_Logout"
         android:layout_height="wrap_content"/>
 </LinearLayout>

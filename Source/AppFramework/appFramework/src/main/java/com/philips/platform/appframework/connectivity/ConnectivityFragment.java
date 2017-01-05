@@ -67,7 +67,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.app_connectivity_title);
+        return getResources().getString(R.string.RA_ConnectivityScreen_Title);
     }
 
     @Override

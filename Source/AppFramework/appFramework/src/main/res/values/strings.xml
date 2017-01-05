@@ -22,25 +22,25 @@
     <string name="debug_screen_title">Debug and Test</string>
     <!--Settings Screen starts-->
     <string name="RA_SettingsScreen_Title">Account Settings</string>
-    <string name="settings_list_item_main">&lt;b>Settings&lt;/b></string>
-    <string name="settings_list_item_one">Vertical app setting A</string>
-    <string name="settings_list_item_two">Vertical app setting B</string>
-    <string name="settings_list_item_three">Vertical app setting C</string>
-    <string name="settings_list_item_notify">Receive Philips\'</string>
+    <string name="RA_Settings_Screen_Header_Title">&lt;b>Settings&lt;/b></string>
+    <string name="RA_Vertical_App_Setting_A">Vertical App Setting A</string>
+    <string name="RA_Vertical_App_Setting_B">Vertical App Setting B</string>
+    <string name="RA_Vertical_App_Setting_C">Vertical App Setting C</string>
+    <string name="RA_Setting_Philips_Promo_Title">Receive Philips\'</string>
     <string name="settings_list_item_four_desc">promotional communications based on my preferences and online behavior</string>
-    <string name="settings_list_item_four_term_cond">what does this mean?</string>
+    <string name="RA_Settings_Promo_Question_Text">What does this mean?</string>
 
-    <string name="settings_list_item_purchases">&lt;b>Purchases&lt;/b></string>
-    <string name="settings_list_item_order_history">Order history</string>
+    <string name="RA_Settings_Purchases">&lt;b>Purchases&lt;/b></string>
+    <string name="RA_Settings_OrderHistory">Order History</string>
 
-    <string name="settings_list_item_my_acc">&lt;b>My Account&lt;/b></string>
-    <string name="settings_list_item_login">Login</string>
-    <string name="settings_list_item_log_out">Log out</string>
+    <string name="RA_Settings_MyAccount">&lt;b>My Account&lt;/b></string>
+    <string name="RA_Settings_Login">Log In</string>
+    <string name="RA_Settings_Logout">Log Out</string>
     <string name="product_registration">Register Your Product</string>
 
     <string name="settings_update_success">Update SUCCESS</string>
     <string name="settings_update_fail">Update FAIL</string>
-    <string name="settings_logout_alert">Are you sure you want to log out</string>
+    <string name="RA_Settings_Logout_Alert">Are you sure you want to logout?</string>
 
     <string name="settings_progress_title">Please Wait!!</string>
     <string name="settings_progress_message">Wait!!</string>
@@ -114,7 +114,7 @@
 
     <!-- Data Sync related Strings-->
     <string name="data_sync">Data Sync</string>
-    <string name="data_sync_title">Data Sync</string>
+    <string name="data_sync_title">Data Services</string>
     <string name="add">Add</string>
     <string name="sync">Sync</string>
     <string name="update">Update</string>

@@ -51,13 +51,13 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
 
     private ArrayList<SettingListItem> buildSettingsScreenList() {
         ArrayList<SettingListItem> settingScreenItemList = new ArrayList<SettingListItem>();
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_main), SettingListItemType.HEADER, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_one), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_two), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_three), SettingListItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_notify), SettingListItemType.NOTIFICATION, true));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_my_acc), SettingListItemType.HEADER, false));
-        settingScreenItemList.add(formDataSection(getResourceString(R.string.settings_list_item_login), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Screen_Header_Title), SettingListItemType.HEADER, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_A), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_B), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_C), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Setting_Philips_Promo_Title), SettingListItemType.NOTIFICATION, true));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_MyAccount), SettingListItemType.HEADER, false));
+        settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Login), SettingListItemType.CONTENT, false));
         return settingScreenItemList;
     }
 

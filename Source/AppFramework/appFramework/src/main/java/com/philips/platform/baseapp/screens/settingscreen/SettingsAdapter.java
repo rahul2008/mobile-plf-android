@@ -87,8 +87,8 @@ public class SettingsAdapter extends BaseAdapter {
     @SuppressWarnings("deprecation")
     @Override
     public int getItemViewType(int position) {
-        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_login)).toString())
-                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_log_out)).toString())) {
+        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Login)).toString())
+                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Logout)).toString())) {
             return LOGIN_VIEW;
         }
         return VERTICAL_SETTING_VIEW;
@@ -150,9 +150,9 @@ public class SettingsAdapter extends BaseAdapter {
     private void loginButtonView(View vi) {
         final UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
         if (isUserLoggedIn) {
-            btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
+            btn_settings_logout.setText(getString(R.string.RA_Settings_Logout));
         } else {
-            btn_settings_logout.setText(getString(R.string.settings_list_item_login));
+            btn_settings_logout.setText(getString(R.string.RA_Settings_Login));
         }
 
         btn_settings_logout.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +226,7 @@ public class SettingsAdapter extends BaseAdapter {
             });
 
             String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
-                    getString(R.string.settings_list_item_four_term_cond);
+                    getString(R.string.RA_Settings_Promo_Question_Text);
 
             viewHolder.description.setVisibility(View.VISIBLE);
             viewHolder.description.setText(descText);
@@ -263,14 +263,14 @@ public class SettingsAdapter extends BaseAdapter {
             return;
         }
         logoutAlertDialog=new AlertDialog.Builder(activityContext, R.style.alertDialogStyle)
-                .setTitle(getString(R.string.settings_list_item_log_out))
-                .setMessage(activityContext.getResources().getString(R.string.settings_logout_alert))
+                .setTitle(getString(R.string.RA_Settings_Logout))
+                .setMessage(activityContext.getResources().getString(R.string.RA_Settings_Logout_Alert))
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton(getString(R.string.settings_list_item_log_out),
+                .setPositiveButton(getString(R.string.RA_Settings_Logout),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 progressDialog = new ProgressDialog(activityContext);
@@ -303,9 +303,9 @@ public class SettingsAdapter extends BaseAdapter {
     @SuppressWarnings("deprecation")
     @Override
     public boolean isEnabled(int position) {
-        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_main)).toString())
-                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_purchases)).toString())
-                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.settings_list_item_my_acc)).toString())) {
+        if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Screen_Header_Title)).toString())
+                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Purchases)).toString())
+                || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_MyAccount)).toString())) {
             return false;
         } else {
             return super.isEnabled(position);

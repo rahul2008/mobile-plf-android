@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_connectivity_title">Connectivity</string>
+    <string name="RA_ConnectivityScreen_Title">Connectivity</string>
 </resources>
