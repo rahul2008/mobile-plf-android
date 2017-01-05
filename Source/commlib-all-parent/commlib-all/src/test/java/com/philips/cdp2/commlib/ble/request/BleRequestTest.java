@@ -3,12 +3,10 @@ package com.philips.cdp2.commlib.ble.request;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
-import com.philips.pins.shinelib.dicommsupport.StatusCode;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +15,8 @@ import org.mockito.Mock;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.pins.shinelib.SHNDevice.State.Connected;
+import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
@@ -58,18 +58,20 @@ public class BleRequestTest {
 
         deviceMap.put(CPP_ID, mockDevice);
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
+        when(mockDevice.getState()).thenReturn(Connected);
         when(deviceCacheMock.getDeviceMap()).thenReturn(deviceMap);
 
-        request = new BleRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, LanRequestType.GET, null, responseHandlerMock);
+        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock);
     }
 
     @Test
     public void whenRequestIsCancelledAfterSuccessThenNoErrorIsReported() throws Exception {
 
-        when(mockDicommResponse.getStatus()).thenReturn(StatusCode.NoError);
+        when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
         request.execute();
         request.processDicommResponse(mockDicommResponse);
+        request.cleanup();
 
         request.cancel("timeout");
 

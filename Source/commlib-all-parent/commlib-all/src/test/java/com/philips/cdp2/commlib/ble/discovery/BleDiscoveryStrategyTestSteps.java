@@ -172,7 +172,6 @@ public class BleDiscoveryStrategyTestSteps {
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
 
         bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
-        bleDiscoveryStrategy.deviceListener.onStateUpdated(shnDeviceMock);
     }
 
     private String getApplianceTypeByName(final @NonNull String applianceName) {

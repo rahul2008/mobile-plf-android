@@ -9,9 +9,10 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.request.BleGetRequest;
+import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Map;
@@ -29,7 +30,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
      * <p>
      * This defines the default duration for a request timeout as 5000 ms.
      */
-    public static final long DICOMM_MESSAGE_TIMEOUT_MS = 5000L;
+    private static final long DICOMM_MESSAGE_TIMEOUT_MS = 5000L;
 
     @NonNull
     private final String mCppId;
@@ -52,12 +53,14 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        dispatchRequest(LanRequestType.GET, portName, productId, responseHandler);
+        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler);
+        dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        dispatchRequest(LanRequestType.PUT, dataMap, portName, productId, responseHandler);
+        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler);
+        dispatchRequest(request);
     }
 
     @Override
@@ -97,12 +100,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         }
     }
 
-    private void dispatchRequest(LanRequestType requestType, final String portName, final int productId, ResponseHandler responseHandler) {
-        dispatchRequest(requestType, null, portName, productId, responseHandler);
-    }
-
-    private void dispatchRequest(LanRequestType requestType, Map<String, Object> dataMap, final String portName, final int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BleRequest(mDeviceCache, mCppId, portName, productId, requestType, dataMap, responseHandler);
+    private void dispatchRequest(final BleRequest request) {
         addTimeoutToRequest(request);
         mExecutor.execute(request);
     }
