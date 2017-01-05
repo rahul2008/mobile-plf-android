@@ -1,17 +1,17 @@
 <resources>
-    <string name="app_home_title">Mobile App Home</string>
+    <string name="RA_HomeScreen_Title">Mobile App Home</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
 
     <!-- Introduction/Welcome screen strings -->
 
-    <string name="skip_introduction_button_text">Skip</string>
-    <string name="start_registration_button_text">Done</string>
-    <string name="introduction_screen_top_text">Title bottom aligned</string>
-    <string name="introduction_screen_one_bottom_text">First benefit text is bottom aligned</string>
-    <string name="introduction_screen_two_bottom_text">Second benefit text is bottom aligned</string>
-    <string name="introduction_screen_three_bottom_text">Third benefit text is bottom aligned</string>
-    <string name="splash_screen_title">Mobile &lt;b>Apps&lt;/b></string>
+    <string name="RA_Skip_Button_Text">Skip</string>
+    <string name="RA_Done_Button_Text">Done</string>
+    <string name="RA_WelcomeScreen_Title">Title bottom aligned</string>
+    <string name="RA_WelcomeScreen_First_Text">First benefit text is bottom aligned</string>
+    <string name="RA_WelcomeScreen_Second_Text">Second benefit text is bottom aligned</string>
+    <string name="RA_WelcomeScreen_Third_Text">Third benefit text is bottom aligned</string>
+    <string name="RA_SplashScreen_Title">Mobile &lt;b>Apps&lt;/b></string>
 
     <!-- About screen string constants-->
     <string name="about_screen_title">About</string>
@@ -21,7 +21,7 @@
     <!--Debug and Test fragment string constants-->
     <string name="debug_screen_title">Debug and Test</string>
     <!--Settings Screen starts-->
-    <string name="settings_screen_title">Account settings</string>
+    <string name="RA_SettingsScreen_Title">Account Settings</string>
     <string name="settings_list_item_main">&lt;b>Settings&lt;/b></string>
     <string name="settings_list_item_one">Vertical app setting A</string>
     <string name="settings_list_item_two">Vertical app setting B</string>
@@ -50,7 +50,7 @@
     <!--Settings Screen ends-->
 
     <string-array name="hamburger_drawer_items">
-        <item>@string/app_home_title </item>
+        <item>@string/RA_HomeScreen_Title</item>
         <item>Settings</item>
         <item>Philips Shop</item>
         <item>Support</item>
@@ -101,8 +101,8 @@
     <string name="af_iap_authentication_failure">Authentication failure</string>
     <string name="af_iap_prod_out_of_stock">Product out of stock</string>
 
-    <string name="example_title">Example Title</string>
-    <string name="example_body">Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit.</string>
+    <string name="RA_HomeScreen_Header_Text">Example Title</string>
+    <string name="RA_HomeScreen_Body_Text">Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit.</string>
     <string name="change_configuration">Change Configuration: </string>
     <string name="current_configuration">Current Configuration: </string>
 

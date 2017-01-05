@@ -42,7 +42,7 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
         ImageView logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()) );
 
-        String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
+        String splashScreenTitle = getResources().getString(R.string.RA_SplashScreen_Title);
         CharSequence titleText = Html.fromHtml(splashScreenTitle);
 
         TextView title = (TextView) view.findViewById(R.id.splash_title);
