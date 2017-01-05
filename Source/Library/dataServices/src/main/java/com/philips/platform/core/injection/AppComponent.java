@@ -11,6 +11,7 @@ import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
@@ -70,4 +71,6 @@ public interface AppComponent {
     void injectUserCharacteristicsSender(UserCharacteristicsSender userCharacteristicsSender);
 
     void injectUserCharacteristicsFetcher(UserCharacteristicsFetcher userCharacteristicsFetcher);
+
+    void injectUserCharacteristicsConverter(UserCharacteristicsConverter userCharacteristicsConverter);
 }

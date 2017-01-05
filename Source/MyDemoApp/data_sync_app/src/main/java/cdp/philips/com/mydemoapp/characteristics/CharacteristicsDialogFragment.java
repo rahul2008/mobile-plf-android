@@ -51,7 +51,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 "  \"characteristics\": [\n" +
                 "    {\n" +
                 "      \"type\": \"User\",\n" +
-                "      \"value\": \"John\",\n" +
+                "      \"value\": \"Teja\",\n" +
                 "      \"characteristics\": [\n" +
                 "        {\n" +
                 "          \"type\": \"Mouth\",\n" +

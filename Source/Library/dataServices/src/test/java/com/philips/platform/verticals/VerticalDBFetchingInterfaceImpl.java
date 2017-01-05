@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by 310218660 on 1/2/2017.
  */
 
-public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
+public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
     @Override
     public void fetchMoments() throws SQLException {
 
@@ -71,9 +71,10 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public Characteristics fetchCharacteristics() throws SQLException {
-        return null;
+    public void fetchCharacteristics() throws SQLException {
+
     }
+
 
     @Override
     public void postError(Exception e) {

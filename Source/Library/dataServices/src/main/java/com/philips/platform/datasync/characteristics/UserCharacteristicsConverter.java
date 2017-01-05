@@ -4,6 +4,7 @@
  */
 package com.philips.platform.datasync.characteristics;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -15,12 +16,17 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class UserCharacteristicsConverter {
-    private DataServicesManager mDataServicesManager;
-    private Characteristics mCharacteristics;
+
+    private final Characteristics mCharacteristics;
+    @Inject
+    BaseAppDataCreator dataCreator;
+
+    DataServicesManager mDataServicesManager;
 
     @Inject
     public UserCharacteristicsConverter() {
         mDataServicesManager = DataServicesManager.getInstance();
+        mDataServicesManager.mAppComponent.injectUserCharacteristicsConverter(this);
         mCharacteristics = mDataServicesManager.createCharacteristics();
     }
 
@@ -35,6 +41,7 @@ public class UserCharacteristicsConverter {
         }
         mDataServicesManager.updateCharacteristics(mCharacteristics);
         return mCharacteristics;
+
     }
 
     private void convertUCoreCharacteristicsToCharacteristicsDetailRecursively(CharacteristicsDetail parentCharacteristicsDetail, List<UCoreCharacteristics> characteristicsList) {
@@ -54,13 +61,15 @@ public class UserCharacteristicsConverter {
         UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
         List<CharacteristicsDetail> mCharacteristicsDetailList;
-        for (int i = 0; i < characteristic.size(); i++) {
-            mCharacteristicsDetailList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
-            UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
-            uCoreCharacteristics.setType(mCharacteristicsDetailList.get(i).getType());
-            uCoreCharacteristics.setValue(mCharacteristicsDetailList.get(i).getValue());
-            uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
-            uCoreCharacteristicsList.add(uCoreCharacteristics);
+        if (characteristic != null) {
+            for (int i = 0; i < characteristic.size(); i++) {
+                mCharacteristicsDetailList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
+                UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+                uCoreCharacteristics.setType(mCharacteristicsDetailList.get(i).getType());
+                uCoreCharacteristics.setValue(mCharacteristicsDetailList.get(i).getValue());
+                uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
+                uCoreCharacteristicsList.add(uCoreCharacteristics);
+            }
         }
         uCoreUserCharacteristics.setCharacteristics(uCoreCharacteristicsList);
         return uCoreUserCharacteristics;
@@ -88,5 +97,4 @@ public class UserCharacteristicsConverter {
         }
         return characteristicsDetailList;
     }
-
 }

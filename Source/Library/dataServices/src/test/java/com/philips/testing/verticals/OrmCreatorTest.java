@@ -20,6 +20,8 @@ import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
+import com.philips.testing.verticals.table.OrmCharacteristics;
+import com.philips.testing.verticals.table.OrmCharacteristicsDetail;
 import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmConsentDetail;
 import com.philips.testing.verticals.table.OrmMeasurement;
@@ -124,19 +126,19 @@ public class OrmCreatorTest implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String creatorId) {
-        return null;
+        return new OrmCharacteristics(creatorId);
     }
 
     @NonNull
     @Override
     public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics, @NonNull CharacteristicsDetail characteristicsDetail) {
-        return null;
+        return new OrmCharacteristicsDetail(type, value, parentID, (OrmCharacteristics) characteristics, (OrmCharacteristicsDetail) characteristicsDetail);
     }
 
     @NonNull
     @Override
     public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics) {
-        return null;
+        return new OrmCharacteristicsDetail(type, value, parentID, (OrmCharacteristics) characteristics);
     }
 
     @NonNull
@@ -145,6 +147,7 @@ public class OrmCreatorTest implements BaseAppDataCreator {
         OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
         return new OrmMomentDetail(ormMomentDetailType, moment);
     }
+
     @NonNull
     public OrmMeasurement createMeasurement(@NonNull final String type,
                                             @NonNull final OrmMeasurementGroup ormMeasurementGroup) {

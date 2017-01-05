@@ -51,7 +51,7 @@ public class ConsentDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         consentDataSender = new ConsentDataSender();
         consentDataSender.eventing = eventingMock;
     }

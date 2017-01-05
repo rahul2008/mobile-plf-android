@@ -45,15 +45,14 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     @Inject
     public UserCharacteristicsSender(@NonNull final UserCharacteristicsConverter userCharacteristicsConverter,
                                      @NonNull final GsonConverter gsonConverter) {
-        DataServicesManager.mAppComponent.injectUserCharacteristicsSender(this);
+        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsSender(this);
         this.mUserCharacteristicsConverter = userCharacteristicsConverter;
         this.mGsonConverter = gsonConverter;
     }
 
     @Override
     public boolean sendDataToBackend(@NonNull List<? extends Characteristics> userCharacteristicsListToSend) {
-        if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend == null
-                && userCharacteristicsListToSend.size() > 0) {
+        if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend.size() > 0) {
             return false;
         }
 

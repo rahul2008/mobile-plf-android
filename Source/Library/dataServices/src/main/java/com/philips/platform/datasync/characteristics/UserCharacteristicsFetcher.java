@@ -40,7 +40,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                                       @NonNull final GsonConverter gsonConverter) {
         super(uCoreAdapter);
         this.mGsonConverter = gsonConverter;
-        DataServicesManager.mAppComponent.injectUserCharacteristicsFetcher(this);
+        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsFetcher(this);
     }
 
     @Nullable
