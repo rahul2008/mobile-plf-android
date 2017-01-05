@@ -18,5 +18,5 @@
     <dimen name="savedscreen_productcontainer_marigin">15dp</dimen>
     <dimen name="savedscreen_product_imagecontainer_height">12dp</dimen>
     <dimen name="savedscreen_productcontainer_height">220dp</dimen>
-    <dimen name="savedscreen_product_text_container_height">30dp</dimen>
+    <dimen name="savedscreen_product_text_container_height">15dp</dimen>
 </resources>
