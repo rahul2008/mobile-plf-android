@@ -37,6 +37,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
 
 
     ContentLoader mContentLoader;
+    List<String> ContentLoaderServiceIdList;
     static List<ContentLoader> ContentLoaderList;
 
     @Override
@@ -44,6 +45,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_loader_create);
         ContentLoaderList= new ArrayList<ContentLoader>();
+        ContentLoaderServiceIdList= new ArrayList<String>();
         EditTextServiceId = (EditText) findViewById(R.id.editTextServiceId);
      //   EditTextServiceId.setText("https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1"); //test
         EditTextMaxHour = (EditText) findViewById(R.id.editTextMaxAgeInHours);
@@ -83,9 +85,17 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
 
                     }
                     ContentLoader  mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AppInfraApplication.gAppInfra);
-                    ContentLoaderList.add(mContentLoader);
-                    Intent i = new Intent(ContentLoaderCreateActivity.this,ContentLoaderList.class);
-                    startActivity(i);
+
+                    if(!ContentLoaderServiceIdList.isEmpty() && ContentLoaderServiceIdList.contains(EditTextServiceId.getText().toString().trim()))
+                    {
+                        showAlertDialog("Duplicate Service ID","Given Service ID already available, please use different Service ID to create Content Loader");
+                    }
+                    else {
+                        ContentLoaderServiceIdList.add(mContentLoader.getmServiceId());
+                        ContentLoaderList.add(mContentLoader);
+                        Intent i = new Intent(ContentLoaderCreateActivity.this, ContentLoaderList.class);
+                        startActivity(i);
+                    }
                 }
             }
         });
