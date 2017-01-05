@@ -224,12 +224,6 @@ android {
         jumboMode = false
     }
     buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
 
         debug {
             minifyEnabled false
@@ -237,6 +231,23 @@ android {
             debuggable true
             testCoverageEnabled = true
         }
+
+
+        leakCanary {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            signingConfig signingConfigs.debug
+            applicationIdSuffix ".leakcanary"
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+
     }
 
     /*
@@ -314,7 +325,9 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
-
+    debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -327,15 +340,15 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:4.48"
     compile "com.j256.ormlite:ormlite-android:4.48"
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.1.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.2.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.1.0-SNAPSHOT', ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.2.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.1.0-SNAPSHOT', ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive=true
     }
 
