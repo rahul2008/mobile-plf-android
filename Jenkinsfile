@@ -1,52 +1,82 @@
-#!/usr/bin/env groovy
+#!/usr/bin/env groovy                                                                                                           
 
-if (!env.CHANGE_ID) {
-    /* Only keep the 5 most recent builds. */
-    properties([[$class: 'BuildDiscarderProperty',
-                    strategy: [$class: 'LogRotator', numToKeepStr: '5']],
-                    pipelineTriggers([cron('H/30 * * * *')]),
-                    ])
-    if (env.BRANCH_NAME =~ /release\/.*/ || env.BRANCH_NAME == 'master') {
-        properties([pipelineTriggers(),])
-    }
+BranchName = env.BRANCH_NAME
+
+properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
+])
+
+def MailRecipient = 'benit.dhotekar@philips.com, DL_CDP2_Callisto@philips.com, abhishek.gadewar@philips.com, krishna.kumar.a@philips.com, ramesh.r.m@philips.com'
+
+node_ext = "build_t"
+if (env.triggerBy == "ppc") {
+  node_ext = "build_p"
 }
 
-node('Android && 23.0.3') {
-    timestamps{
-        def MailRecipient = 'benit.dhotekar@philips.com, DL_CDP2_Callisto@philips.com, abhishek.gadewar@philips.com, krishna.kumar.a@philips.com, ramesh.r.m@philips.com'
-        stage 'Checkout'
-        checkout scm
+node ('Ubuntu && 23.0.3 &&' + node_ext) {
+    timestamps {
+        stage ('Checkout') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/pi/reference_app_android.git']]])
+            step([$class: 'StashNotifier'])
+        }
 
-        step([$class: 'StashNotifier'])
         try {
-            //Build stuff starts
-            stage 'Build'
+            stage ('build') {
+                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug'
+            }
+            
             sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
 
             if(env.BRANCH_NAME == 'master') {
-                stage 'Release'
-                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                stage ('Release') {
+                    sh 'cd ./Source/AppFramework && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh referenceApp && ./gradlew zipDoc appFramework:aP'
+                }
             }
 
             if(env.BRANCH_NAME == 'develop') {
-                stage 'Release'
-                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                stage ('Release') {
+                    sh 'cd ./Source/AppFramework && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh referenceApp && ./gradlew zipDoc appFramework:aP'
+                }
             }
 
             if(env.BRANCH_NAME =~ /release\/.*/) {
-                stage 'Release'
-                sh 'cd ./Source/AppFramework && ./gradlew zipDoc appFramework:aP'
+                stage ('Release') {
+                    sh 'cd ./Source/AppFramework && chmod -R 775 ../../check_and_delete_artifact.sh && ../../check_and_delete_artifact.sh referenceApp && ./gradlew zipDoc appFramework:aP'
+                }
             }
 
-            stage 'Notify Bitbucket'
-            sh 'echo \"Check the build status in bitbucket!\"'
-            //Build stuff ends
+            currentBuild.result = 'SUCCESS'
+        }
+
+        catch(err) {
+            currentBuild.result = 'FAILURE'
+            error ("Someone just broke the build")
+        }
+
+        try {
+            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'rap'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
+                }
+            }
 
             currentBuild.result = 'SUCCESS'
-        } catch(err) {
-            currentBuild.result = 'FAILED'
+
         }
-        step([$class: 'StashNotifier'])
-        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-   }
+
+        catch(err) {
+            currentBuild.result = 'UNSTABLE'
+        }
+
+        stage('informing') {
+            step([$class: 'StashNotifier'])
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+        }
+
+    }
 }
