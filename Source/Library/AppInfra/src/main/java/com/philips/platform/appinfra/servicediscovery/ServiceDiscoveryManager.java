@@ -52,7 +52,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ServiceDiscovery serviceDiscovery = null;
     private String countryCode;
 
-    private final RequestItemManager mRequestItemManager;
+    private final RequestManager mRequestItemManager;
 
     //
     private boolean downloadInProgress;
@@ -62,7 +62,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
-        mRequestItemManager = new RequestItemManager(context, mAppInfra);
+        mRequestItemManager = new RequestManager(context, mAppInfra);
         downloadInProgress = false;
         downloadAwaiters = new ArrayDeque<>();
         downloadLock = new ReentrantLock();

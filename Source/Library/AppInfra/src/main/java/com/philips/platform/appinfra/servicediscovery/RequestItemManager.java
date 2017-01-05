@@ -34,9 +34,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class RequestItemManager {
-    public interface RequestManagerListener {
-        void onResult(ServiceDiscovery result);
-    }
 
     //    RequestQueue mRequestQueue;
     private static final String TAG = "RequestManager";//this.class.getSimpleName();
@@ -44,7 +41,6 @@ public class RequestItemManager {
     private Context mContext = null;
     private RequestQueue mVolleyRequest;
 
-    private Request<JsonObjectRequest> jsonObjRequest = null;
 
     private AppInfra mAppInfra;
 

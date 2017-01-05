@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -53,7 +55,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
@@ -67,7 +69,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
         });
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
@@ -82,7 +84,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
@@ -96,7 +98,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
         });
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());

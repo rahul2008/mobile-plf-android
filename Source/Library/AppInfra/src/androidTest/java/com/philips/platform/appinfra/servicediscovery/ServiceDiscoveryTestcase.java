@@ -105,6 +105,7 @@ import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 
@@ -690,7 +691,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 assertNotNull(urlMap);
             }
 
