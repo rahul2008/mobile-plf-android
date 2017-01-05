@@ -1,15 +1,18 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ * Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
  */
 
 package com.philips.platform.appinfra.apisigning;
 
+/*
+ * Created by 310209604 on 2016-10-26.
+ */
+
 import android.util.Base64;
 
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -20,30 +23,33 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-
-public class DhpApiSigner{
-
+public class HSDPPHSApiSigning implements ApiSigningInterface {
+    private String secretKey;
+    private String sharedKey;
     private static final String ALGORITHM_NAME = "HmacSHA256";
-    private static final String SECRET_KEY_PREFIX = "DHPWS";
     public static final Charset UTF_8_CHARSET = Charset.forName("UTF-8");
 
-    private final String secretKey;
-    private final String sharedKey;
-
-    public DhpApiSigner(String sharedKey, String secretKey) {
-        if (sharedKey == null || secretKey == null)
-            throw new IllegalArgumentException("Missing authentication signing keys");
-
+    /**
+     * Create an API signer instance according to HSDP specification
+     *
+     * @param sharedKey    Key shared with server identifying the signing key
+     * @param hexSecretKey secret API signing key formatted as a 128byte hex string
+     */
+    public HSDPPHSApiSigning(String sharedKey, String hexSecretKey) {
         this.sharedKey = sharedKey;
-        this.secretKey = secretKey;
+        this.secretKey = hexSecretKey;
     }
 
-    public String buildAuthorizationHeaderValue(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody) {
+    @Override
+    public String createSignature(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody) {
         byte[] signatureKey = hashRequest(requestMethod, queryString, requestbody, joinHeaders(headers));
         String signature = signString(signatureKey, dhpUrl);
 
         return buildAuthorizationHeaderValue(joinHeaders(headers), signature);
     }
+
+   /* public String buildAuthorizationHeaderValue(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody) {
+    }*/
 
     private String joinHeaders(Map<String, String> headers) {
         List<String> headerList = new LinkedList<String>();
@@ -82,17 +88,15 @@ public class DhpApiSigner{
         buffer.append(";");
         buffer.append("Signature:");
         buffer.append(signature);
-
         return buffer.toString();
     }
 
     private byte[] hashRequest(String requestMethod, String queryString, String requestBody, String requestHeaders) {
-        //byte[] kSecret = (SECRET_KEY_PREFIX + secretKey).getBytes(UTF_8_CHARSET);
-        //final byte[] kMethod = hash(requestMethod, kSecret);
-        byte[] key = hexStringToByteArray(secretKey);
-        byte[] requestedMethodBytes = requestMethod.getBytes();
         PshmacLib pshmacLib = new PshmacLib();
-        final byte[] kMethod = pshmacLib.createHmac(requestedMethodBytes, key);
+        byte[] key = hexStringToByteArray(secretKey);
+        byte[] kMethod = pshmacLib.createHmac(key,requestMethod.getBytes());
+        String resultBase64 = Base64.encodeToString(kMethod,Base64.DEFAULT);
+        kMethod= Base64.decode(resultBase64,Base64.DEFAULT);
         final byte[] kQueryString = hash(queryString, kMethod);
         final byte[] kBody = hash(requestBody, kQueryString);
         return hash(requestHeaders, kBody);
@@ -107,6 +111,7 @@ public class DhpApiSigner{
         try {
             Mac mac = Mac.getInstance(ALGORITHM_NAME);
             mac.init(new SecretKeySpec(key, ALGORITHM_NAME));
+            if (data== null) return mac.doFinal(null);
             return mac.doFinal(data.getBytes(UTF_8_CHARSET));
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException("Error during hash generation", e);
@@ -124,4 +129,4 @@ public class DhpApiSigner{
         }
         return data;
     }
-}
+ }
