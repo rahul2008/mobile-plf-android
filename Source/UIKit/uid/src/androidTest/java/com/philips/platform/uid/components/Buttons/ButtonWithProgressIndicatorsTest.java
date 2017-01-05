@@ -207,7 +207,7 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyIndeterminateSmallCircularPBStartColor() {
+    public void verifyIndeterminateProgressBarStartColor() {
         setUpDefaultTheme();
 
         int expectedStartColor = Color.TRANSPARENT;
@@ -216,9 +216,18 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyIndeterminateSmallCircularPBEndColor() {
+    public void verifyIndeterminateProgressBarEndColor() {
         setUpDefaultTheme();
         final int expectedEndColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidColorLevel45);
+
+        getIndeterminateProgressBar()
+                .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, android.R.id.progress, expectedEndColor, 1)));
+    }
+
+    @Test
+    public void verifyIndeterminateProgressBarEndColorInBrightColorRange() {
+        setupBrightTheme();
+        final int expectedEndColor = ContextCompat.getColor(activity, R.color.uidColorWhite);
 
         getIndeterminateProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, android.R.id.progress, expectedEndColor, 1)));
