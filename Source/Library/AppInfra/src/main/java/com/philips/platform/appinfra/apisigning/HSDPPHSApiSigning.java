@@ -7,12 +7,11 @@
 package com.philips.platform.appinfra.apisigning;
 
 /*
- * Created by 310209604 on 2016-10-26.
+ * Created by 310190722 on 2017-01-5.
  */
 
 import android.util.Base64;
 
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -47,9 +46,6 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
 
         return buildAuthorizationHeaderValue(joinHeaders(headers), signature);
     }
-
-   /* public String buildAuthorizationHeaderValue(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody) {
-    }*/
 
     private String joinHeaders(Map<String, String> headers) {
         List<String> headerList = new LinkedList<String>();

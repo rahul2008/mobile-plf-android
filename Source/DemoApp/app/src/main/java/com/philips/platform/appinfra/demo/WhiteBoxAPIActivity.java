@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;
-import com.philips.platform.appinfra.apisigning.PshmacLib;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

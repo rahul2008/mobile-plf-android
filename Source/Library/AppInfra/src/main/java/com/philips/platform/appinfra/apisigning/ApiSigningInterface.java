@@ -6,11 +6,10 @@
 
 package com.philips.platform.appinfra.apisigning;
 
-/*
- * Created by 310209604 on 2016-10-26.
+/**
+ * Created by 310190722 on 04/01/2017.
  */
 
-import java.net.URL;
 import java.util.Map;
 
 public interface ApiSigningInterface {
