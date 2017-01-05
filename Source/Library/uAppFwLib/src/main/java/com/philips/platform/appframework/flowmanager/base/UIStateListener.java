@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.flowmanager.base;
+package com.philips.platform.appframework.flowmanager.base;
 
 /**
  * Interface to have callbacks to the registered class.

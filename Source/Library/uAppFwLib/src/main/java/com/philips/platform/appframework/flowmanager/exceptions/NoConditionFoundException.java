@@ -3,15 +3,12 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
+package com.philips.platform.appframework.flowmanager.exceptions;
 
-package com.philips.platform.flowmanager.models;
-@SuppressWarnings("serial")
-public final class AppFlowModel{
+public class NoConditionFoundException extends Exception {
 
-    private AppFlow appflow;
 
-    public AppFlow getAppFlow() {
-        return this.appflow;
+    public NoConditionFoundException() {
+        super("No Condition Found");
     }
-
 }

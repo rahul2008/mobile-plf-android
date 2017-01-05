@@ -3,19 +3,19 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.flowmanager.base;
+package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.platform.flowmanager.exceptions.NoEventFoundException;
-import com.philips.platform.flowmanager.exceptions.NoStateException;
-import com.philips.platform.flowmanager.models.AppFlowEvent;
-import com.philips.platform.flowmanager.models.AppFlowModel;
-import com.philips.platform.flowmanager.models.AppFlowNextState;
-import com.philips.platform.flowmanager.parser.AppFlowParser;
-import com.philips.platform.flowmanager.stack.FlowManagerStack;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
+import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
+import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
+import com.philips.platform.appframework.flowmanager.parser.AppFlowParser;
+import com.philips.platform.appframework.flowmanager.stack.FlowManagerStack;
 
 import java.util.List;
 import java.util.Map;

@@ -4,7 +4,7 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.flowmanager.base;
+package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
 

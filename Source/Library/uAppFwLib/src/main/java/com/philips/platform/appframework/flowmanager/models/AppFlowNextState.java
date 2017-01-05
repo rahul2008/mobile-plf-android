@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.flowmanager.models;
+package com.philips.platform.appframework.flowmanager.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

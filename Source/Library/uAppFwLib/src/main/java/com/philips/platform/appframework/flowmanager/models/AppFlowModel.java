@@ -3,12 +3,15 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.flowmanager.exceptions;
 
-public class NoEventFoundException extends RuntimeException {
+package com.philips.platform.appframework.flowmanager.models;
+@SuppressWarnings("serial")
+public final class AppFlowModel{
 
+    private AppFlow appflow;
 
-    public NoEventFoundException() {
-        super("No Event Found");
+    public AppFlow getAppFlow() {
+        return this.appflow;
     }
+
 }

@@ -3,12 +3,12 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.flowmanager.exceptions;
+package com.philips.platform.appframework.flowmanager.exceptions;
 
-public class NoConditionFoundException extends Exception {
+public class NoEventFoundException extends RuntimeException {
 
 
-    public NoConditionFoundException() {
-        super("No Condition Found");
+    public NoEventFoundException() {
+        super("No Event Found");
     }
 }

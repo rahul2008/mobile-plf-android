@@ -1,6 +1,6 @@
-package com.philips.platform.flowmanager.stack;
+package com.philips.platform.appframework.flowmanager.stack;
 
-import com.philips.platform.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 
 import java.util.ArrayList;
 
