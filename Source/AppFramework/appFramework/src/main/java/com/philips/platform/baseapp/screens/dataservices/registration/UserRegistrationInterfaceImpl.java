@@ -6,20 +6,43 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
+import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.database.ORMUpdatingInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.database.OrmDeleting;
+import com.philips.platform.baseapp.screens.dataservices.database.OrmDeletingInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.database.OrmFetchingInterfaceImpl;
+import com.philips.platform.baseapp.screens.dataservices.database.OrmSaving;
+import com.philips.platform.baseapp.screens.dataservices.database.OrmUpdating;
+import com.philips.platform.baseapp.screens.dataservices.database.table.BaseAppDateTime;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroup;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroupDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetail;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.listener.EventHelper;
 import com.philips.platform.baseapp.screens.dataservices.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+
+import java.sql.SQLException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -68,6 +91,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
     };
 
     public void clearUserData() {
+        Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - clearUserData");
         DataServicesManager manager = DataServicesManager.getInstance();
         manager.deleteAll();
         clearPreferences();
