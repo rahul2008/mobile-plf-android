@@ -28,6 +28,20 @@ public class TextViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<View> isSameTextColor(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    int actual = ((TextView) view).getCurrentTextColor();
+                    setValues(actual, expectedValue);
+                    return areEqual();
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
     public static Matcher<View> isSameHintTextColor(final int stateAttr, final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override

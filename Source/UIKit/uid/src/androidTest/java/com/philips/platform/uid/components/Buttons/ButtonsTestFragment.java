@@ -18,8 +18,8 @@ public class ButtonsTestFragment extends Fragment {
         final ProgressIndicatorButton progressIndicatorButton = (ProgressIndicatorButton) view.findViewById(com.philips.platform.uid.test.R.id.progressButtonsNormalDeterminate);
         progressIndicatorButton.showProgressIndicator();
 
-        final ProgressIndicatorButton progressIndicatorIndeterminateButton = (ProgressIndicatorButton) view.findViewById(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate);
-        progressIndicatorIndeterminateButton.showProgressIndicator();
+//        final ProgressIndicatorButton progressIndicatorIndeterminateButton = (ProgressIndicatorButton) view.findViewById(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate);
+//        progressIndicatorIndeterminateButton.showProgressIndicator();
         return view;
     }
 }

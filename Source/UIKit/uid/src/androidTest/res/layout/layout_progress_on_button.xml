@@ -24,49 +24,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                app:uidProgressIndicatorButtonProgress="50"
-                app:uidProgressIndicatorButtonText="@string/progress_button"/>
+                app:uidProgressIndicatorButtonProgress="50"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/groupProgressButtonsNormalIndeterminate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+        <!-- <LinearLayout
+             android:id="@+id/groupProgressButtonsNormalIndeterminate"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:orientation="vertical">
 
 
-            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
-                android:id="@+id/progressButtonsNormalIndeterminate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonText="@string/progress_button"/>
-        </LinearLayout>
+             <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                 android:id="@+id/progressButtonsNormalIndeterminate"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:gravity="center"
+                 app:uidIsIndeterminateProgressIndicator="true"
+                 app:uidProgressIndicatorButtonText="@string/progress_button"/>
+         </LinearLayout>-->
     </LinearLayout>
 
-    <!--<LinearLayout
-        android:id="@+id/groupProgressButtonsExtraWide"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.philips.platform.uid.view.widget.ProgressIndicatorButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            app:uidProgressIndicatorButtonProgress="50"
-            app:uidProgressIndicatorButtonProgressText="@string/progress_button_loading"
-            app:uidProgressIndicatorButtonText="@string/progress_button"/>
-
-        <com.philips.platform.uid.view.widget.ProgressIndicatorButton
-            android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            app:uidIsIndeterminateProgressIndicator="true"
-            app:uidProgressIndicatorButtonProgressText="@string/progress_button_loading"
-            app:uidProgressIndicatorButtonText="@string/progress_button"/>
-    </LinearLayout>-->
 </LinearLayout>
