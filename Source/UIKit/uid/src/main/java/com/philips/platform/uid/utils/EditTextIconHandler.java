@@ -59,8 +59,6 @@ public abstract class EditTextIconHandler {
             } else {
                 resetIconTouch();
             }
-        } else {
-            resetIconTouch();
         }
         return false;
     }
