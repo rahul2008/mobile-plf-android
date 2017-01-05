@@ -183,8 +183,8 @@ public class SettingsAdapter extends BaseAdapter {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     progress = new ProgressDialog(activityContext);
-                    progress.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
-                    progress.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
+                    progress.setTitle(activityContext.getResources().getString(R.string.RA_Settings_Progress_Title));
+                    progress.setMessage(activityContext.getResources().getString(R.string.RA_Settings_Progress_Message));
                     progress.setCancelable(true);
                     progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progress.show();
@@ -195,13 +195,13 @@ public class SettingsAdapter extends BaseAdapter {
                                 isMarketingEnabled=true;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_fail), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Fail), Toast.LENGTH_LONG).show();
 
                             }
                         }, true);
@@ -212,20 +212,20 @@ public class SettingsAdapter extends BaseAdapter {
                                 isMarketingEnabled=false;
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_success), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int i) {
                                 progress.cancel();
-                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.settings_update_fail), Toast.LENGTH_LONG).show();
+                                Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Fail), Toast.LENGTH_LONG).show();
                             }
                         }, false);
                     }
                 }
             });
 
-            String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
+            String descText = getString(R.string.RA_Setting_Philips_Promo_PartTwo) + "\n" +
                     getString(R.string.RA_Settings_Promo_Question_Text);
 
             viewHolder.description.setVisibility(View.VISIBLE);
@@ -274,8 +274,8 @@ public class SettingsAdapter extends BaseAdapter {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 progressDialog = new ProgressDialog(activityContext);
-                                progressDialog.setTitle(activityContext.getResources().getString(R.string.settings_progress_title));
-                                progressDialog.setMessage(activityContext.getResources().getString(R.string.settings_progress_message));
+                                progressDialog.setTitle(activityContext.getResources().getString(R.string.RA_Settings_Progress_Title));
+                                progressDialog.setMessage(activityContext.getResources().getString(R.string.RA_Settings_Progress_Message));
                                 progressDialog.setCancelable(false);
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 progressDialog.setCancelable(false);
@@ -291,7 +291,7 @@ public class SettingsAdapter extends BaseAdapter {
                                     @Override
                                     public void onLogoutFailure(final int i, final String s) {
                                         progressDialog.cancel();
-                                        Toast.makeText(activityContext, getString(R.string.logout_failed), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }

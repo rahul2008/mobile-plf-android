@@ -83,7 +83,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         editText = (EditText) rootView.findViewById(R.id.measurement_value_editbox);
         deviceID = (EditText) rootView.findViewById(R.id. reference_device_id_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
-        dataCoreErrorText = (TextView) rootView.findViewById(R.id.datacre_error_text);
+        dataCoreErrorText = (TextView) rootView.findViewById(R.id.datacore_error_text);
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
         btnGetMoment.setOnClickListener(this);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
@@ -134,7 +134,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                 editTextValue = editText.getText().toString();
                 if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !ConnectivityUtils.isNetworkAvailable(getActivity())) {
                     dataCoreErrorText.setVisibility(View.VISIBLE);
-                    Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.RA_Connectivity_DataCore_Not_Reachable), Toast.LENGTH_SHORT).show();
                     break;
                 } else {
                     dataCoreErrorText.setVisibility(View.GONE);
@@ -203,14 +203,14 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
 
     public void processMoment(final User user, String momentValue) {
         Log.i(TAG, "Moment value" + momentValue);
-        showProgressDialog("Posting data in datacore, Please wait...");
+        showProgressDialog(getActivity().getResources().getString(R.string.RA_Connectivity_Posting_Data));
         connectivityPresenter.postMoment(user, momentValue);
     }
 
     @Override
     public void updateUIOnPostMomentSuccess(final String momentId) {
         Log.i(TAG, "Moment Id" + momentId);
-        showProgressDialog("Getting moment from datacore, Please wait...");
+        showProgressDialog(getActivity().getResources().getString(R.string.RA_Connectivity_Getting_Moment));
         connectivityPresenter.getMoment(user, momentId);
     }
 

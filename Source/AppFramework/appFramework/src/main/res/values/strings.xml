@@ -4,7 +4,6 @@
     <string name="right_arrow">&gt;</string>
 
     <!-- Introduction/Welcome screen strings -->
-
     <string name="RA_Skip_Button_Text">Skip</string>
     <string name="RA_Done_Button_Text">Done</string>
     <string name="RA_WelcomeScreen_Title">Title bottom aligned</string>
@@ -15,11 +14,12 @@
 
     <!-- About screen string constants-->
     <string name="RA_AboutScreen_Title">About</string>
-    <string name="about_screen_app_version">App Version</string>
-    <string name="about_screen_description">The details for this Page is to be provided by Philips Design</string>
+    <string name="RA_About_App_Version">Version</string>
+    <string name="RA_About_Description">The details for this Page is to be provided by Philips Design</string>
 
     <!--Debug and Test fragment string constants-->
     <string name="debug_screen_title">Debug and Test</string>
+
     <!--Settings Screen starts-->
     <string name="RA_SettingsScreen_Title">Account Settings</string>
     <string name="RA_Settings_Screen_Header_Title">&lt;b>Settings&lt;/b></string>
@@ -27,25 +27,71 @@
     <string name="RA_Vertical_App_Setting_B">Vertical App Setting B</string>
     <string name="RA_Vertical_App_Setting_C">Vertical App Setting C</string>
     <string name="RA_Setting_Philips_Promo_Title">Receive Philips\'</string>
-    <string name="settings_list_item_four_desc">promotional communications based on my preferences and online behavior</string>
+    <string name="RA_Setting_Philips_Promo_PartTwo">promotional communications based on my preferences and online behavior</string>
     <string name="RA_Settings_Promo_Question_Text">What does this mean?</string>
-
     <string name="RA_Settings_Purchases">&lt;b>Purchases&lt;/b></string>
     <string name="RA_Settings_OrderHistory">Order History</string>
-
     <string name="RA_Settings_MyAccount">&lt;b>My Account&lt;/b></string>
     <string name="RA_Settings_Login">Log In</string>
     <string name="RA_Settings_Logout">Log Out</string>
-    <string name="product_registration">Register Your Product</string>
-
-    <string name="settings_update_success">Update SUCCESS</string>
-    <string name="settings_update_fail">Update FAIL</string>
+    <string name="RA_Product_Registration_Text">Register Your Product</string>
+    <string name="RA_Settings_Update_Success">Update SUCCESS</string>
+    <string name="RA_Settings_Update_Fail">Update FAIL</string>
     <string name="RA_Settings_Logout_Alert">Are you sure you want to logout?</string>
+    <string name="RA_Settings_Progress_Title">Please Wait!!</string>
+    <string name="RA_Settings_Progress_Message">Wait!!</string>
+    <string name="RA_Logout_Failed">Logout failed. Please try again</string>
+    <string name="RA_CTN_Null">CTN is null. Please pass CTN</string>
 
-    <string name="settings_progress_title">Please Wait!!</string>
-    <string name="settings_progress_message">Wait!!</string>
-    <string name="logout_failed">Logout failed. Please try again</string>
-    <string name="ctn_null">CTN is null. Please pass CTN</string>
+    <!-- Home Fragment strings-->
+    <string name="RA_HomeScreen_Header_Text">Example Title</string>
+    <string name="RA_HomeScreen_Body_Text">Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit.</string>
+    <string name="RA_Change_Configuration">Change Configuration: </string>
+    <string name="RA_Current_Configuration">Current Configuration: </string>
+
+    <!-- Data Sync related Strings-->
+    <string name="data_sync">Data Sync</string>
+    <string name="RA_DataServicesScreen_Title">Data Services</string>
+    <string name="add">Add</string>
+    <string name="sync">Sync</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="registration">Registration</string>
+    <string name="phase">Time Of the Day</string>
+    <string name="temperature">Temperature</string>
+    <string name="temperature_hint">Temperature of the Baby</string>
+    <string name="location">Notes</string>
+    <string name="location_hint">Location Name</string>
+    <string name="save">Save</string>
+    <string name="synced">Not Synced</string>
+    <string name="ds_screen_title">Data Services</string>
+    <string name="create_moment">Create moment</string>
+    <string name="invalid_temperature">Invalid temperature entry</string>
+
+    <!-- Connectivity component -->
+    <string name="RA_Connectivity_DeviceID">Device ID</string>
+    <string name="RA_Connectivity_Measure_Value">Measurement Value</string>
+    <string name="RA_Connectivity_Moment_Value">Moment Value</string>
+    <string name="RA_Connectivity_Get_Measure_Value">Get Measurement Value from Device</string>
+    <string name="RA_Connectivity_Connection_Status_Connected">Connected</string>
+    <string name="RA_Connectivity_Connection_Status_Disconnected">Disconnected</string>
+    <string name="RA_Connectivity_Get_Moment_Value">Get Moment Value from DataCore</string>
+    <string name="RA_Connectivity_ExampleID">Example: &quot;70:5A:0F:EC:CF:35&quot;</string>
+    <string name="RA_Connectivity_DataCore_Not_Reachable">Datacore is not reachable</string>
+    <string name="RA_Connectivity_Posting_Data">Posting data in datacore, Please wait...</string>
+    <string name="RA_Connectivity_Getting_Moment">Getting moment from datacore, Please wait...</string>
+
+
+    <!-- Consumer Care related-->
+    <string-array name="productselection_ctnlist">
+        <item>HX6064/33</item>
+    </string-array>
+
+
+    <string-array name="iap_productselection_ctnlist">
+        <item>HD9240/90</item>
+    </string-array>
+    <!--ConsumerCare related end here.-->
 
     <!--Settings Screen ends-->
 
@@ -66,69 +112,12 @@
     <string name="RA_DataServices_Menu_Title">Data Services</string>
     <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
     <!--<array name="hamburger_drawer_icons">-->
-        <!--<item>@drawable/uikit_cart</item>-->
-        <!--<item>@drawable/uikit_cart</item>-->
-        <!--<item>@drawable/uikit_cart</item>-->
-        <!--<item>@drawable/uikit_cart</item>-->
-        <!--<item>@drawable/uikit_radio</item>-->
-        <!--<item>@drawable/uikit_factory</item>-->
+    <!--<item>@drawable/uikit_cart</item>-->
+    <!--<item>@drawable/uikit_cart</item>-->
+    <!--<item>@drawable/uikit_cart</item>-->
+    <!--<item>@drawable/uikit_cart</item>-->
+    <!--<item>@drawable/uikit_radio</item>-->
+    <!--<item>@drawable/uikit_factory</item>-->
     <!--</array>-->
-
-    <!-- Consumer Care related-->
-
-
-    <!-- this -->
-    <string-array name="productselection_ctnlist">
-        <item>HX6064/33</item>
-    </string-array>
-
-
-    <string-array name="iap_productselection_ctnlist">
-        <item>HD9240/90</item>
-    </string-array>
-    <!--ConsumerCare related end here.-->
-
-    <!--InAppPurchase related starts-->
-    <string name="iap_unknown_error">Unknow Error</string>
-    <!--InAppPurchase related ends-->
-
-
-    <string name="af_country">US</string>
-    <string name="af_language">en</string>
-
-    <!--Fragment tag -->
-    <string name="af_digital_care">digitalcare</string>
-    <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
-
-    <!-- IAP errors -->
-    <string name="af_iap_server_error">Server error</string>
-    <string name="af_iap_no_connection">No connection</string>
-    <string name="af_iap_connection_time_out">Connection time out</string>
-    <string name="af_iap_authentication_failure">Authentication failure</string>
-    <string name="af_iap_prod_out_of_stock">Product out of stock</string>
-
-    <string name="RA_HomeScreen_Header_Text">Example Title</string>
-    <string name="RA_HomeScreen_Body_Text">Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit.</string>
-    <string name="change_configuration">Change Configuration: </string>
-    <string name="current_configuration">Current Configuration: </string>
-
-    <!-- Data Sync related Strings-->
-    <string name="data_sync">Data Sync</string>
-    <string name="data_sync_title">Data Services</string>
-    <string name="add">Add</string>
-    <string name="sync">Sync</string>
-    <string name="update">Update</string>
-    <string name="delete">Delete</string>
-    <string name="registration">Registration</string>
-    <string name="phase">Time Of the Day</string>
-    <string name="temperature">Temperature</string>
-    <string name="temperature_hint">Temperature of the Baby</string>
-    <string name="location">Notes</string>
-    <string name="location_hint">Location Name</string>
-    <string name="save">Save</string>
-    <string name="synced">Not Synced</string>
-    <string name="ds_screen_title">Data Services</string>
-    <string name="create_moment">Create moment</string>
-    <string name="invalid_temperature">Invalid temperature entry</string>
 
 </resources>

@@ -19,7 +19,7 @@ public class IAPRetailerFlowState extends IAPState {
         try {
             setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
         } catch (RuntimeException e) {
-            Toast.makeText(getApplicationContext(), R.string.ctn_null, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.RA_CTN_Null, Toast.LENGTH_LONG).show();
         }
     }
 }
