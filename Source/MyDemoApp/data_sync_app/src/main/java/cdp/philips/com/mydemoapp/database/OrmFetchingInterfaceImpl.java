@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -92,17 +91,17 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public Characteristics fetchCharacteristics() throws SQLException {
-
+    public void fetchCharacteristics() throws SQLException {
         QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();
-        List<OrmCharacteristics> ormCharacteristicses= characteristicsDao.query(queryBuilder.prepare());
-
-        if(ormCharacteristicses.isEmpty()){
-            return null;
-        }else{
-            return ormCharacteristicses.get(0);
+        List<OrmCharacteristics> ormCharacteristicsList = characteristicsDao.query(queryBuilder.prepare());
+        ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.USERCHARACTERISTICS);
+        for (DBChangeListener listener : dbChangeListeners) {
+            if (ormCharacteristicsList.size() != 0) {
+                listener.onSuccess(ormCharacteristicsList.get(0));
+            } else {
+                listener.onSuccess(null);
+            }
         }
-        //Notify to UI Here .
     }
 
     @Override
@@ -207,7 +206,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
                 }
             }
         }
-        DSLog.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
+        DSLog.i("***SPO***", "In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) activeOrmMoments);
     }
 

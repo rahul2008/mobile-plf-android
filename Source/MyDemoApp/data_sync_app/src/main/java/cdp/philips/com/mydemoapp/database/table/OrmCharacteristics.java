@@ -1,4 +1,3 @@
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -37,7 +36,7 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     private DateTime dateTime = new DateTime();
 
     @DatabaseField(canBeNull = true)
-    private boolean beSynchronized;
+    private boolean mIsSynchronized;
 
 
     @ForeignCollectionField(eager = true)
@@ -77,12 +76,16 @@ public class OrmCharacteristics implements Characteristics, Serializable {
 
     @Override
     public boolean isSynchronized() {
-        return false;
+        return mIsSynchronized;
     }
 
     @Override
     public DateTime getDateTime() {
         return dateTime;
+    }
+
+    public void setSynchronized(boolean isSynchronized) {
+        mIsSynchronized = isSynchronized;
     }
 
     @Override

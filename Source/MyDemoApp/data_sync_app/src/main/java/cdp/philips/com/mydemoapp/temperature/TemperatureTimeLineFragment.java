@@ -117,9 +117,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             return;
         }
 
-        /*if (!mSharedPreferences.getBoolean("isSynced", false)) {
+        if (!mSharedPreferences.getBoolean("isSynced", false)) {
             showProgressDialog();
-        }*/
+        }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
@@ -143,7 +143,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
-//        cancelPendingIntent();
+        cancelPendingIntent();
         mDataServicesManager.stopCore();
         dismissProgressDialog();
     }

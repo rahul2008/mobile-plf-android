@@ -10,11 +10,11 @@ import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
-import com.philips.platform.core.events.LoadCharacterSicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -128,17 +128,13 @@ public class FetchingMonitorTest {
         verify(fetching).fetchConsents();
     }
 
-//<<<<<<< HEAD
-//    @Test
-//    public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
-//
-//        fetchingMonitor.onEventBackgroundThread(new LoadCharacterSicsRequest());
-//
-//        verify(fetching).fetchCharacteristics();
-//    }
-//
-//    /*@Test
-//=======
+    @Test
+    public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
+
+        fetchingMonitor.onEventBackgroundThread(new LoadUserCharacteristicsRequest());
+
+        verify(fetching).fetchCharacteristics();
+    }
 
     @Test
     public void getNonSynchronizedDataRequestTest() throws SQLException {

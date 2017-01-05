@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EventHelper {
-
     private static EventHelper eventHelper;
     public static final int MOMENT = 1;
     public static final int CONSENT = 2;
     public static final int UR = 1;
+    public static final int USERCHARACTERISTICS = 3;
 
     private Map<Integer, ArrayList<DBChangeListener>> eventMap;
     private Map<Integer, ArrayList<UserRegistrationFailureListener>> urMap;
@@ -29,10 +29,6 @@ public class EventHelper {
         return urMap;
     }
 
-    /*public void setEventMap(Map<Integer, ArrayList<DBChangeListener>> eventMap) {
-        this.eventMap = eventMap;
-    }*/
-
     public static EventHelper getInstance() {
         synchronized (EventHelper.class) {
             if (eventHelper == null) {
@@ -44,7 +40,7 @@ public class EventHelper {
 
     public void registerEventNotification(Integer tag, DBChangeListener observer) {
         ArrayList<DBChangeListener> dbChangeListeners = eventMap.get(tag);
-        if(dbChangeListeners==null)
+        if (dbChangeListeners == null)
             dbChangeListeners = new ArrayList<>();
 
         dbChangeListeners.add(observer);
@@ -53,7 +49,7 @@ public class EventHelper {
 
     public void registerURNotification(Integer tag, UserRegistrationFailureListener observer) {
         ArrayList<UserRegistrationFailureListener> userRegistrationFailureListeners = urMap.get(tag);
-        if(userRegistrationFailureListeners==null)
+        if (userRegistrationFailureListeners == null)
             userRegistrationFailureListeners = new ArrayList<>();
 
         userRegistrationFailureListeners.add(observer);
@@ -61,14 +57,10 @@ public class EventHelper {
     }
 
     public void unregisterEventNotification(Integer tag, DBChangeListener pObserver) {
-
-            ArrayList<DBChangeListener> listnerList = eventMap.get(tag);
-
-            if (listnerList != null) {
-                listnerList.remove(pObserver);
-                eventMap.put(tag, listnerList);
-            }
+        ArrayList<DBChangeListener> listenerList = eventMap.get(tag);
+        if (listenerList != null) {
+            listenerList.remove(pObserver);
+            eventMap.put(tag, listenerList);
+        }
     }
-
-
 }

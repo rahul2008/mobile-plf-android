@@ -11,10 +11,8 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import java.net.HttpURLConnection;
@@ -54,6 +52,10 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
 
     @Override
     public boolean sendDataToBackend(@NonNull List<? extends Characteristics> userCharacteristicsListToSend) {
+        if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend == null
+                && userCharacteristicsListToSend.size() > 0) {
+            return false;
+        }
 
         List<Characteristics> userCharacteristicsList = new ArrayList<>();
         for (Characteristics characteristics : userCharacteristicsListToSend) {

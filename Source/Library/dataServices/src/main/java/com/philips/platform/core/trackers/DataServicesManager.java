@@ -32,7 +32,7 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.LoadCharacterSicsRequest;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -342,7 +342,6 @@ public class DataServicesManager {
     }
 
     //User Characteristics
-
     @NonNull
     public Characteristics createCharacteristics() {
         return mDataCreater.createCharacteristics(userRegistrationInterface.getUserProfile().getGUid());
@@ -353,12 +352,14 @@ public class DataServicesManager {
     }
 
     public void fetchUserCharacteristics() {
-        mEventing.post(new LoadCharacterSicsRequest());
+        mEventing.post(new LoadUserCharacteristicsRequest());
     }
 
-
     public CharacteristicsDetail createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType, @NonNull final String detailValue, int parent, CharacteristicsDetail characteristicsDetail) {
-        CharacteristicsDetail chDetail = null;
+        if (characteristics == null) {
+            characteristics = createCharacteristics();
+        }
+        CharacteristicsDetail chDetail;
         if (characteristicsDetail != null) {
             chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, parent, characteristics, characteristicsDetail);
         } else {

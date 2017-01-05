@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
+import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -25,11 +25,15 @@ import retrofit.converter.GsonConverter;
 public class UserCharacteristicsFetcher extends DataFetcher {
     @Inject
     UCoreAccessProvider mUCoreAccessProvider;
+
+    private static final int API_VERSION = 9;
+
     private GsonConverter mGsonConverter;
     @Inject
     UserCharacteristicsConverter mUserCharacteristicsConverter;
     @Inject
     Eventing eventing;
+
 
     @Inject
     public UserCharacteristicsFetcher(@NonNull final UCoreAdapter uCoreAdapter,
@@ -42,22 +46,15 @@ public class UserCharacteristicsFetcher extends DataFetcher {
     @Nullable
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
-        return fetchUserCharacteristics();
-    }
+        final UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
+                mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
-    @Nullable
-    private RetrofitError fetchUserCharacteristics() {
-        try {
-            final UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
-                    mUCoreAccessProvider.getAccessToken(), mGsonConverter);
-
-            if (userCharacteristicsClient != null) {
-                Characteristics characteristics = mUserCharacteristicsConverter.convertToCharacteristics();
-                eventing.post(new UserCharacteristicsSaveRequest(characteristics));
-            }
-            return null;
-        } catch (RetrofitError exception) {
-            return exception;
+        if (userCharacteristicsClient != null) {
+            UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
+                    mUCoreAccessProvider.getUserId(), API_VERSION);
+            Characteristics characteristics = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics);
+            eventing.post(new CharacteristicsBackendGetRequest(characteristics));
         }
+        return null;
     }
 }

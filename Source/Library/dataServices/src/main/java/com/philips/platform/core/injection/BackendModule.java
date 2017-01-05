@@ -138,8 +138,10 @@ public class BackendModule {
     @Singleton
     DataPullSynchronise providesDataSynchronise(
             @NonNull final MomentsDataFetcher momentsDataFetcher,
-            @NonNull final ConsentsDataFetcher consentsDataFetcher, @NonNull final ExecutorService executor) {
-        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher);
+            @NonNull final ConsentsDataFetcher consentsDataFetcher,
+            @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
+            @NonNull final ExecutorService executor) {
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher);
         if (fetchers != null && fetchers.size() != 0) {
             for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
@@ -152,9 +154,10 @@ public class BackendModule {
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
-            @NonNull final ConsentDataSender consentDataSender) {
+            @NonNull final ConsentDataSender consentDataSender,
+            @NonNull final UserCharacteristicsSender userCharacteristicsSender) {
 
-        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender);
+        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender);
         if (senders != null && senders.size() != 0) {
             for (DataSender sender : senders) {
                 dataSenders.add(sender);

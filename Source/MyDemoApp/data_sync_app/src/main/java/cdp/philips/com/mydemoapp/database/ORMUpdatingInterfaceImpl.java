@@ -175,18 +175,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     }
 
-    @Override
-    public void updateCharacteristics(Characteristics characteristics) throws SQLException {
-        OrmCharacteristics ormCharacteristics = null;
-        try {
-            ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
-        }
-        deleting.deleteCharacteristics();
-        saving.saveCharacteristics(ormCharacteristics);
-    }
-
     private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
         DSLog.d("Creator ID MODI",ormConsent.getCreatorId());
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
@@ -441,5 +429,19 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 }
             }
         }
+    }
+
+    //User Characteristics
+    @Override
+    public void updateCharacteristics(Characteristics characteristics) throws SQLException {
+        OrmCharacteristics ormCharacteristics = null;
+        try {
+            ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+            ormCharacteristics.setSynchronized(false);
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+        }
+        deleting.deleteCharacteristics();
+        saving.saveCharacteristics(ormCharacteristics);
     }
 }

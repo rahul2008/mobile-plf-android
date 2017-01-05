@@ -11,8 +11,6 @@ import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.j256.ormlite.stmt.Where;
-import com.philips.platform.core.datatypes.MeasurementGroup;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -65,7 +63,7 @@ public class OrmDeleting {
 
 
     @NonNull
-    private final Dao<OrmCharacteristics, Integer> characteristicsesDao;
+    private final Dao<OrmCharacteristics, Integer> characteristicsDao;
 
     @NonNull
     private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
@@ -91,7 +89,7 @@ public class OrmDeleting {
         this.consentDao = constentDao;
 
         this.consentDetailDao = constentDetailsDao;
-        this.characteristicsesDao = characteristicsesDao;
+        this.characteristicsDao = characteristicsesDao;
         this.characteristicsDetailsDao = characteristicsDetailsDao;
     }
 
@@ -223,7 +221,7 @@ public class OrmDeleting {
     }
 
     public void deleteCharacteristics() throws SQLException{
-        DeleteBuilder<OrmCharacteristics, Integer> characteristicsDeleteBuilder = characteristicsesDao.deleteBuilder();
+        DeleteBuilder<OrmCharacteristics, Integer> characteristicsDeleteBuilder = characteristicsDao.deleteBuilder();
         characteristicsDeleteBuilder.delete();
         DeleteBuilder<OrmCharacteristicsDetail, Integer> characteristicsDetailsDeleteBuilder = characteristicsDetailsDao.deleteBuilder();
         characteristicsDetailsDeleteBuilder.delete();

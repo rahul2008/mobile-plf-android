@@ -9,13 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.listener.DBChangeListener;
+import cdp.philips.com.mydemoapp.listener.EventHelper;
 
-public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener {
+public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBChangeListener {
 
     private EditText mEtCharacteristics;
     private CharacteristicsDialogPresenter mCharacteristicsDialogPresenter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventHelper.getInstance().registerEventNotification(EventHelper.USERCHARACTERISTICS, this);
+    }
 
     @Nullable
     @Override
@@ -99,6 +114,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventHelper.getInstance().unregisterEventNotification(EventHelper.USERCHARACTERISTICS, this);
     }
 
     @Override
@@ -130,5 +146,36 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 getDialog().dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void onSuccess(ArrayList<? extends Object> data) {
+        //Display User characteristics from DB
+    }
+
+    @Override
+    public void onSuccess(Object data) {
+        final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
+        ormCharacteristics.setSynchronized(true);
+        if (ormCharacteristics != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>(ormCharacteristics.getCharacteristicsDetails());
+                    System.out.println("OrmCharacteristics Type : " + characteristicsDetailList.get(0).getType() + "Value : " + characteristicsDetailList.get(0).getValue());
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onFailure(final Exception exception) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

@@ -55,7 +55,6 @@ public class UserCharacteristicsMonitor extends EventMonitor {
             return;
         }
         mUserCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsBackendSaveRequest.getCharacteristic()));
-
     }
 
     private boolean isUserInvalid() {

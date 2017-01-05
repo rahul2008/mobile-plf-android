@@ -19,6 +19,6 @@ public interface UserCharacteristicsClient {
     @PUT("/api/users/{performer_id}/characteristics")
     Response createOrUpdateUserCharacteristics(@Path("performer_id") String performerId,
                                                @Header("performerId") String userId,
-                                               @Body UCoreUserCharacteristics uCoreCharacteristicsDetails,
+                                               @Body UCoreUserCharacteristics uCoreCharacteristics,
                                                @Header("api-version") int apiVersion);
 }

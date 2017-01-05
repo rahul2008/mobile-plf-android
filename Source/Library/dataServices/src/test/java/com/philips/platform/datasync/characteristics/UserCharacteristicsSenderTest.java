@@ -3,14 +3,11 @@ package com.philips.platform.datasync.characteristics;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.SendUserCharacteristicsToBackendResponseEvent;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.consent.ConsentDataSender;
-import com.philips.platform.datasync.moments.MomentsClient;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +15,6 @@ import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Header;
@@ -32,8 +28,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 

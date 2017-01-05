@@ -88,14 +88,16 @@ public class UpdatingMonitor extends EventMonitor {
         dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent());
     }
 
-    public void onEventAsync(final UserCharacteristicsSaveRequest databaseCharacteristicsUpdateRequest) throws SQLException {
+    //Synchronise User Characteristics
+    public void onEventAsync(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
+        if (userCharacteristicsSaveRequest.getCharacteristics() == null)
+            return;
 
-        if(databaseCharacteristicsUpdateRequest.getCharacteristics()==null)return;
+        dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveRequest.getCharacteristics());
 
-        dbUpdatingInterface.updateCharacteristics(databaseCharacteristicsUpdateRequest.getCharacteristics());
-
-        if(!databaseCharacteristicsUpdateRequest.getCharacteristics().isSynchronized()) {
-            eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE, databaseCharacteristicsUpdateRequest.getCharacteristics()));
+        if (!userCharacteristicsSaveRequest.getCharacteristics().isSynchronized()) {
+            eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
+                    userCharacteristicsSaveRequest.getCharacteristics()));
         }
     }
 }

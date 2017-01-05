@@ -405,12 +405,13 @@ public class OrmSaving {
         consentDetailsDao.createOrUpdate(consentDetail);
     }
 
+    //User Characteristics
     public void saveCharacteristics(OrmCharacteristics ormCharacteristics) throws SQLException {
         characteristicsesDao.createOrUpdate(ormCharacteristics);
-        assurecharacteristicDetailsAreSaved((Collection<? extends OrmCharacteristicsDetail>) ormCharacteristics.getCharacteristicsDetails());
+        assureCharacteristicDetailsAreSaved((Collection<? extends OrmCharacteristicsDetail>) ormCharacteristics.getCharacteristicsDetails());
     }
 
-    private void assurecharacteristicDetailsAreSaved(Collection<? extends OrmCharacteristicsDetail> characteristicsDetails) throws SQLException {
+    private void assureCharacteristicDetailsAreSaved(Collection<? extends OrmCharacteristicsDetail> characteristicsDetails) throws SQLException {
         for (OrmCharacteristicsDetail characteristicsDetail : characteristicsDetails) {
             saveCharacteristicsDetail(characteristicsDetail);
         }
