@@ -12,14 +12,12 @@ import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.UCoreAdapter;
 
 import java.util.Collections;
 
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
-import retrofit.converter.GsonConverter;
 
 public class UserCharacteristicsMonitor extends EventMonitor {
 
@@ -28,15 +26,17 @@ public class UserCharacteristicsMonitor extends EventMonitor {
 
     @Inject
     UCoreAccessProvider uCoreAccessProvider;
+    @Inject
+    Eventing mEventing;
 
     @Inject
     public UserCharacteristicsMonitor(
             UserCharacteristicsSender sender,
             UserCharacteristicsFetcher fetcher) {
 
+        DataServicesManager.mAppComponent.injectUserCharacteristicsMonitor(this);
         mUserCharacteristicsSender = sender;
         mUserCharacteristicsFetcher = fetcher;
-        DataServicesManager.mAppComponent.injectUserCharacteristicsMonitor(this);
     }
 
     //Save Request
@@ -69,7 +69,7 @@ public class UserCharacteristicsMonitor extends EventMonitor {
 
     private void postError(int referenceId, final RetrofitError error) {
         DSLog.i("***SPO***", "Error In ConsentsMonitor - posterror");
-        eventing.post(new BackendResponse(referenceId, error));
+        mEventing.post(new BackendResponse(referenceId, error));
     }
 
 }

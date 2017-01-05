@@ -12,6 +12,7 @@ import com.philips.platform.datasync.consent.UCoreConsentDetail;
 import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -25,9 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by indrajitkumar on 1/3/17.
- */
+@Ignore
 public class UserCharacteristicsConvertorTest {
 
 

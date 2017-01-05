@@ -5,6 +5,10 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
+import com.philips.platform.core.events.ConsentBackendSaveResponse;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import org.joda.time.DateTime;
@@ -23,6 +27,10 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -55,20 +63,34 @@ public class UserCharacteristicsMonitorTest {
 
     @Mock
     private CharacteristicsBackendSaveRequest characteristicsBackendSaveRequestMock;
+    @Mock
+    private CharacteristicsBackendGetRequest characteristicsBackendGetRequestMock;
+
+    @Mock
+    private AppComponent mAppComponentMock;
+
+    @Mock
+    private UCoreAccessProvider uCoreAccessProviderMock;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
+        DataServicesManager.getInstance().mAppComponent = mAppComponentMock;
+
         userCharacteristicsMonitor = new UserCharacteristicsMonitor(
                 userCharacteristicsSenderMock,
                 userCharacteristicsFetcherMock);
+        userCharacteristicsMonitor.mEventing = eventingMock;
+        userCharacteristicsMonitor.uCoreAccessProvider = uCoreAccessProviderMock;
     }
 
 
     @Test
     public void ShouldCallSaveUserCharacteristics_WhenSyncUserCharacteristicsIsCalled() throws Exception {
         when(characteristicsBackendSaveRequestMock.getCharacteristic()).thenReturn(characteristicsMock);
+        when(uCoreAccessProviderMock.isLoggedIn()).thenReturn(true);
+        when(uCoreAccessProviderMock.getAccessToken()).thenReturn("3423sdfs324234");
 
         userCharacteristicsMonitor.onEventAsync(characteristicsBackendSaveRequestMock);
 
@@ -77,13 +99,28 @@ public class UserCharacteristicsMonitorTest {
     }
 
     @Test
-    public void ShouldFetchMoment_WhenMomentConflictOccursDuringSend() throws Exception {
+    public void ShouldSendCharacteristics_WhenCharacteristicsSend() throws Exception {
         when(characteristicsBackendSaveRequestMock.getCharacteristic()).thenReturn(characteristicsMock);
         when(userCharacteristicsSenderMock.sendDataToBackend(Collections.singletonList((characteristicsMock)))).thenReturn(true);
 
         userCharacteristicsMonitor.onEventAsync(characteristicsBackendSaveRequestMock);
 
-        RetrofitError retrofitError = verify(userCharacteristicsFetcherMock).fetchDataSince(any(DateTime.class));
+        //verify(userCharacteristicsFetcherMock).fetchDataSince(any(DateTime.class));
+
+        verify(eventingMock, never()).post(isA(CharacteristicsBackendSaveRequest.class));
+
+    }
+
+    @Test
+    public void ShouldFetchCharacteristics_WhenCharacteristicsGetRequest() throws Exception {
+        when(characteristicsBackendGetRequestMock.getEventId()).thenReturn(anyInt());
+        //when(userCharacteristicsFetcherMock.fetchDataSince(null)).thenReturn(new UserCharacteristicsFetcher());
+
+        userCharacteristicsMonitor.onEventAsync(characteristicsBackendGetRequestMock);
+
+        //verify(userCharacteristicsFetcherMock).fetchDataSince(any(DateTime.class));
+
+        verify(eventingMock, never()).post(isA(CharacteristicsBackendGetRequest.class));
 
     }
 }

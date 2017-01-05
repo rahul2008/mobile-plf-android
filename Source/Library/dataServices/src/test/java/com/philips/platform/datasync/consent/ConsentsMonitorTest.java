@@ -256,12 +256,11 @@ public class ConsentsMonitorTest {
         final BackendResponse backendResponse = errorCaptor.getValue();
         assertThat(backendResponse.getReferenceId()).isEqualTo(REFERENCE_ID);
         assertThat(backendResponse.succeed()).isFalse();
-        // assertThat(backendResponse.getCallException()).isEqualTo(retrofitError.getSuccessType().);
+//        assertThat(backendResponse.getCallException()).isEqualTo(retrofitError.getSuccessType());
     }
 
     @Test
     public void ShouldPostError_WhenGetRequestIsFetchedWithOutUserLogin() throws Exception {
-       // dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
         consentsMonitor.onEventAsync(consentBackendGetRequestMock);
