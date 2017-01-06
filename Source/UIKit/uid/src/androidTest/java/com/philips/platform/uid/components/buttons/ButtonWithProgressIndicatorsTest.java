@@ -289,7 +289,7 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     private void simulateSetProgressText(final String progressText) {
-        getDeterminateProgressIndicatorButton().perform(new CustomViewAction(progressText));
+        getDeterminateProgressIndicatorButton().perform(new ButtonWithProgressIndicatorsTest.UpdateProgressTextViewAction(progressText));
     }
 
     private ViewInteraction getProgressText() {
@@ -326,14 +326,10 @@ public class ButtonWithProgressIndicatorsTest {
                         withParent(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate))))));
     }
 
-    private ViewInteraction getIndeterminateProgressIndicatorButton() {
-        return onView(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate));
-    }
-
-    private static class CustomViewAction implements ViewAction {
+    private static class UpdateProgressTextViewAction implements ViewAction {
         private final String progressText;
 
-        public CustomViewAction(final String progressText) {
+        public UpdateProgressTextViewAction(final String progressText) {
             this.progressText = progressText;
         }
 

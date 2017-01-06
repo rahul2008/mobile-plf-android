@@ -24,6 +24,7 @@
         </item>
         <item name="uidInputTextTextSelector">@color/uid_texteditbox_text_selector</item>
         <item name="uidInputTextHintTextSelector">@color/uid_texteditbox_hint_text_selector</item>
+        <item name="android:imeOptions">flagNoExtractUi</item>
     </style>
     <style name="UIDEditTextBox.ClearButton">
         <item name="uidInputTextWithClearButton">true</item>
