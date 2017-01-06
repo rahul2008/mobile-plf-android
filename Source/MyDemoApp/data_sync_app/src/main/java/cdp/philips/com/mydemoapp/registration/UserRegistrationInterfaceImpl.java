@@ -15,7 +15,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,7 +31,7 @@ import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
  * All rights reserved.
  */
 @Singleton
-public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureListener {
+public class UserRegistrationInterfaceImpl implements UserRegistrationInterface, UserRegistrationFailureListener {
 
     // TODO: This I do not want
     @NonNull
@@ -78,7 +78,7 @@ public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureLi
     private String email;
 
     @Inject
-    public ErrorHandlerImpl(
+    public UserRegistrationInterfaceImpl(
             @NonNull final Context context,
             @NonNull final User user) {
         this.context = context;

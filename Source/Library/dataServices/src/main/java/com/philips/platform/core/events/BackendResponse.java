@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
  */
 public class BackendResponse extends Event {
     @Nullable
-    private final Throwable throwable;
+    private final Exception throwable;
 
     //TODO: Spoorti: Can this constructor be removed - Action item on Spoorti
     public BackendResponse(final int referenceId) {
@@ -23,7 +23,7 @@ public class BackendResponse extends Event {
         throwable = null;
     }
 
-    public BackendResponse(final int referenceId, @NonNull final Throwable throwable) {
+    public BackendResponse(final int referenceId, @NonNull final Exception throwable) {
         super(referenceId);
         this.throwable = throwable;
     }
@@ -34,7 +34,7 @@ public class BackendResponse extends Event {
     }
 
     @Nullable
-    public Throwable getCallException() {
+    public Exception getCallException() {
         return throwable;
     }
 }

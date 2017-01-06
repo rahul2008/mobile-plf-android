@@ -11,7 +11,20 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.philips.platform.core.BaseAppCore;
+import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.monitors.DBMonitors;
+import com.philips.platform.core.monitors.DeletingMonitor;
+import com.philips.platform.core.monitors.ErrorMonitor;
+import com.philips.platform.core.monitors.FetchingMonitor;
+import com.philips.platform.core.monitors.SavingMonitor;
+import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
@@ -23,8 +36,12 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
+import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -50,8 +67,45 @@ public class BackendModule {
     @NonNull
     private final Eventing eventing;
 
-    public BackendModule(@NonNull final Eventing eventing) {
+    @NonNull
+    private final UserRegistrationInterface userRegistrationInterface;
+
+    @NonNull
+    private final BaseAppDataCreator creator;
+
+    @NonNull
+    private final DBDeletingInterface deletingInterface;
+
+    @NonNull
+    private final DBFetchingInterface fetchingInterface;
+
+    @NonNull
+    private final DBSavingInterface savingInterface;
+
+    @NonNull
+    private final DBUpdatingInterface updatingInterface;
+
+    ArrayList<DataFetcher> fetchers;
+    ArrayList<DataSender> senders;
+
+    private ErrorHandlingInterface errorHandlingInterface;
+
+    public BackendModule(@NonNull final Eventing eventing, @NonNull final BaseAppDataCreator creator,
+                         @NonNull final UserRegistrationInterface userRegistrationInterface, DBDeletingInterface deletingInterface,
+                         DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface,
+                         DBUpdatingInterface updatingInterface,
+                         ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders,
+                         ErrorHandlingInterface errorHandlingInterface) {
+        this.fetchers = fetchers;
+        this.senders = senders;
         this.eventing = eventing;
+        this.creator = creator;
+        this.userRegistrationInterface = userRegistrationInterface;
+        this.deletingInterface = deletingInterface;
+        this.fetchingInterface = fetchingInterface;
+        this.savingInterface = savingInterface;
+        this.updatingInterface = updatingInterface;
+        this.errorHandlingInterface = errorHandlingInterface;
     }
 
     @Provides
@@ -80,21 +134,31 @@ public class BackendModule {
     @Singleton
     DataPullSynchronise providesDataSynchronise(
             @NonNull final MomentsDataFetcher momentsDataFetcher,
-            @NonNull final ConsentsDataFetcher consentsDataFetcher,
-            @NonNull final Eventing eventing, @NonNull final ExecutorService executor) {
+            @NonNull final ConsentsDataFetcher consentsDataFetcher,@NonNull final ExecutorService executor) {
 
-        return new DataPullSynchronise(Arrays.asList(momentsDataFetcher,consentsDataFetcher), executor, eventing);
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher);
+        if(fetchers!=null && fetchers.size()!=0){
+            for(DataFetcher fetcher : fetchers){
+                dataFetchers.add(fetcher);
+            }
+        }
+        return new DataPullSynchronise(dataFetchers, executor);
     }
 
-    //TODO: Spoorti: Can this move out so that we can support senders and fetchers from Application
     @Provides
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
-            @NonNull final ConsentDataSender consentDataSender,
-            @NonNull final Eventing eventing) {
-        return new DataPushSynchronise(Arrays.asList(momentsDataSender,consentDataSender),
-                null, eventing);
+            @NonNull final ConsentDataSender consentDataSender) {
+
+        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender);
+        if(senders!=null && senders.size()!=0){
+            for(DataSender sender : senders){
+                dataSenders.add(sender);
+            }
+        }
+        return new DataPushSynchronise(dataSenders,
+                null);
     }
 
     @Provides
@@ -117,5 +181,54 @@ public class BackendModule {
     @Singleton
     public Eventing provideEventing() {
         return eventing;
+    }
+
+    @Provides
+    @Singleton
+    public BaseAppDataCreator provideCreater() {
+        return creator;
+    }
+
+    @Provides
+    @Singleton
+    public DBMonitors providesDMMonitors(){
+        SavingMonitor savingMonitor = new SavingMonitor(savingInterface);
+        FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
+        DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
+        UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
+
+        return new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
+    }
+
+    @Provides
+    @Singleton
+    public ErrorMonitor providesErrorMonitor(){
+        return new ErrorMonitor(errorHandlingInterface);
+    }
+
+    @Provides
+    @Singleton
+    public BaseAppCore providesCore(){
+        return  new BaseAppCore();
+    }
+
+    @Provides
+    public UserRegistrationInterface providesUserRegistrationInterface(){
+        return userRegistrationInterface;
+    }
+
+    @Provides
+    public UCoreAccessProvider providesAccessProvider(){
+        return new UCoreAccessProvider(userRegistrationInterface);
+    }
+
+    @Provides
+    public ErrorHandlingInterface providesErrorHandlingInterface(){
+        return errorHandlingInterface;
+    }
+
+    @Provides
+    public SynchronisationMonitor providesSynchronizationMonitor(){
+        return new SynchronisationMonitor();
     }
 }

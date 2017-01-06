@@ -11,12 +11,11 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
-import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
 
@@ -32,10 +31,7 @@ import org.robolectric.RuntimeEnvironment;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 
-import de.greenrobot.event.EventBus;
-
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -43,7 +39,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * Created by indrajitkumar on 13/12/16.
  */
-@RunWith(RobolectricTestRunner.class)
 public class DataPushSynchroniseTest {
 
     private final int TEST_REFERENCE_ID = 1;
@@ -82,10 +77,12 @@ public class DataPushSynchroniseTest {
 
     @Captor
     private ArgumentCaptor<GetNonSynchronizedDataRequest> getNonSynchronizedDataRequestArgumentCaptor;
-    private Context context;
-    private DataServicesManager dataServicesManager;
+
     private BaseAppDataCreator verticalDataCreater;
-    private ErrorHandler errorHandlerImpl;
+    private UserRegistrationInterface errorHandlerImpl;
+
+    @Mock
+    private AppComponent appComponantMock;
 
     @NonNull
     private Handler getHandler() {
@@ -97,13 +94,13 @@ public class DataPushSynchroniseTest {
     @Before
     public void setUp() {
         initMocks(this);
-        context = RuntimeEnvironment.application;
 
-        dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImpl = new ErrorHandlerImplTest();
-        dataServicesManager.initialize(context, verticalDataCreater, errorHandlerImpl);
-        dataPushSynchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock), executorMock, new EventingImpl(new EventBus(), getHandler()));
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        dataPushSynchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock), executorMock);
+        dataPushSynchronise.accessProvider = accessProviderMock;
+        dataPushSynchronise.eventing = eventingMock;
     }
 
     @Test

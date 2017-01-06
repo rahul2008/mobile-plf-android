@@ -16,6 +16,4 @@ public interface BackendIdProvider {
     String getUserId();
 
     String getSubjectId();
-
-    void injectSaredPrefs(SharedPreferences sharedPreferences);
 }

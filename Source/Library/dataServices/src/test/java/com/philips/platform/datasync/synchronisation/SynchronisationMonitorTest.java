@@ -39,7 +39,9 @@ public class SynchronisationMonitorTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        monitor = new SynchronisationMonitor(synchroniseMock, dataPushSynchroniseMock);
+        monitor = new SynchronisationMonitor(
+
+        );
         monitor.start(eventingMock);
     }
 

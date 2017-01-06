@@ -8,6 +8,7 @@ import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.monitors.EventMonitor;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
 import java.util.List;
@@ -21,15 +22,15 @@ import javax.inject.Inject;
  */
 public class ConsentDataSender extends EventMonitor implements DataSender<Consent> {
 
-    @NonNull
-    private final Eventing eventing;
+    @Inject
+    Eventing eventing;
 
     @NonNull
     protected final AtomicInteger synchronizationState = new AtomicInteger(0);
 
     @Inject
-    public ConsentDataSender(@NonNull final Eventing eventing) {
-        this.eventing = eventing;
+    public ConsentDataSender() {
+        DataServicesManager.getInstance().mAppComponent.injectConsentsSender(this);
     }
 
     @Override

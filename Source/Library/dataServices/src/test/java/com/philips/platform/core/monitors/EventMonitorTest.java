@@ -34,7 +34,7 @@ public class EventMonitorTest {
     @Test
     public void ShouldRegisterToBus_WhenStarted() throws Exception {
         eventMonitor.start(eventingMock);
-        verify(eventingMock).registerSticky(eventMonitor);
+        verify(eventingMock).register(eventMonitor);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class EventMonitorTest {
 
         eventMonitor.start(eventingMock);
 
-        verify(eventingMock).registerSticky(eventMonitor);
+        verify(eventingMock).register(eventMonitor);
     }
 
     @Test
@@ -66,6 +66,6 @@ public class EventMonitorTest {
         eventMonitor.stop();
         eventMonitor.start(eventingMock);
 
-        verify(eventingMock, times(2)).registerSticky(eventMonitor);
+        verify(eventingMock, times(2)).register(eventMonitor);
     }
 }

@@ -28,7 +28,6 @@ public class SavingMonitor extends EventMonitor {
         if (saved) {
             //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
         } else {
-            //eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
             dbInterface.postError(new Exception("Failed to insert"));
         }
     }
@@ -38,7 +37,6 @@ public class SavingMonitor extends EventMonitor {
         boolean saved = dbInterface.saveConsent(consent);
 
         if (!saved) {
-            //eventing.post(new ExceptionEvent("Failed to insert", new SQLException()));
             dbInterface.postError(new Exception("Failed to insert"));
             return;
         }
@@ -47,6 +45,4 @@ public class SavingMonitor extends EventMonitor {
         }
 
     }
-
-
 }

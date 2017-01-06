@@ -12,6 +12,7 @@ import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.Event;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -52,7 +53,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * Created by sangamesh on 28/11/16.
  */
-@RunWith(RobolectricTestRunner.class)
 public class ConsentsMonitorTest {
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String USER_ID = "TEST_GUID";
@@ -114,14 +114,17 @@ public class ConsentsMonitorTest {
     // DataServiceManager  dataServicesManager;
 
     private DataServicesManager dataServicesManager;
-    private Application context;
+   // private Application context;
     private OrmCreatorTest verticalDataCreater;
     private ErrorHandlerImplTest errorHandlerImplTest;
+
+    @Mock
+    private AppComponent appComponantMock;
 
     @Before
     public void setUp() {
         initMocks(this);
-        context = RuntimeEnvironment.application;
+    //    context = RuntimeEnvironment.application;
 
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
@@ -133,7 +136,9 @@ public class ConsentsMonitorTest {
 //        when(consentSaveRequestMock.getEventId()).thenReturn(REFERENCE_ID);
 //        when(consentBackendGetRequestMock.getEventId()).thenReturn(REFERENCE_ID);
 
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         consentsMonitor = new ConsentsMonitor(uCoreAdapterMock, consentsConverterMock, gsonConverterMock);
+        consentsMonitor.uCoreAccessProvider = accessProviderMock;
         consentsMonitor.start(eventingMock);
     }
 
@@ -145,7 +150,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedIn() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+  //      dataServicesManager.initialize(context, verticalDataCreater, null,null);
 //        when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
@@ -159,7 +164,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedInDuringGetConsent() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+     //   dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
 
@@ -171,7 +176,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsNull() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+       // dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -184,7 +189,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsNullDuringGetConsent() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+      //  dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -197,7 +202,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsEmpty() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+      //  dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -210,7 +215,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenUserAccessTokenIsEmptyDuringGet() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+        //dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
@@ -223,7 +228,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldNotSaveConsent_WhenRequestTypeIsNotSave() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+      //  dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.UPDATE);
         when(consentSaveRequestMock.getConsent()).thenReturn(consentMock);
@@ -249,7 +254,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldNotSaveConsent_WhenRequestTypeIsSaveAndConsentDetailsIsEmpty() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+       // dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(consentSaveRequestMock.getRequestType()).thenReturn(ConsentBackendSaveRequest.RequestType.SAVE);
         when(consentSaveRequestMock.getConsent()).thenReturn(consentMock);
@@ -262,7 +267,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenBackendSaveFails() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+       // dataServicesManager.initialize(context, verticalDataCreater, null,null);
         Response response = new Response("", 401, "Error", new ArrayList<Header>(), null);
         final RetrofitError retrofitError = RetrofitError.httpError("url", response, null, null);
 
@@ -283,7 +288,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldPostError_WhenGetRequestIsFetchedWithOutUserLogin() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+       // dataServicesManager.initialize(context, verticalDataCreater, null,null);
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
         consentsMonitor.onEventAsync(consentBackendGetRequestMock);
@@ -308,7 +313,7 @@ public class ConsentsMonitorTest {
 
     @Test
     public void ShouldSaveConsent_WhenListOfConsentIsPassed() throws Exception {
-        dataServicesManager.initialize(context, verticalDataCreater, null);
+       // dataServicesManager.initialize(context, verticalDataCreater, null,null);
         doReturn(Collections.singletonList(consentMock)).when(consentSaveListRequestMock).getConsentList();
         doReturn(Collections.singletonList(uCoreConsentDetailMock)).when(consentsConverterMock).convertToUCoreConsentDetails(anyListOf(ConsentDetail.class));
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);

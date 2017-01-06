@@ -10,8 +10,10 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BackendIdProvider;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -25,46 +27,44 @@ public class UCoreAccessProvider implements BackendIdProvider {
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
+    @Inject
     SharedPreferences sharedPreferences;
 
     @NonNull
-    private final ErrorHandler errorHandler;
+    private final UserRegistrationInterface userRegistrationInterface;
 
-    public UCoreAccessProvider(@NonNull final ErrorHandler errorHandler) {
-        this.errorHandler = errorHandler;
+    @Inject
+    public UCoreAccessProvider(@NonNull final UserRegistrationInterface userRegistrationInterface) {
+        DataServicesManager.getInstance().mAppComponent.injectAccessProvider(this);
+        this.userRegistrationInterface = userRegistrationInterface;
     }
 
     public boolean isLoggedIn() {
-        if (errorHandler != null)
-            return errorHandler.isUserLoggedIn();
+        if (userRegistrationInterface != null)
+            return userRegistrationInterface.isUserLoggedIn();
         else
             return false;
     }
 
     public String getAccessToken() {
-        if (errorHandler != null)
-            return errorHandler.getAccessToken();
+        if (userRegistrationInterface != null)
+            return userRegistrationInterface.getAccessToken();
         else
             return null;
     }
 
     @Override
     public String getUserId() {
-        if (errorHandler != null)
-            return errorHandler.getUserProfile().getGUid();
+        if (userRegistrationInterface != null)
+            return userRegistrationInterface.getUserProfile().getGUid();
         else
             return null;
     }
 
     @Override
-    public void injectSaredPrefs(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
-    }
-
-    @Override
     public String getSubjectId() {
-        if (errorHandler != null) {
-            return errorHandler.getUserProfile().getGUid();
+        if (userRegistrationInterface != null) {
+            return userRegistrationInterface.getUserProfile().getGUid();
         } else {
             return null;
         }

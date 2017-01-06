@@ -10,6 +10,8 @@ import com.philips.platform.core.BaseAppBackend;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.monitors.EventMonitor;
 
+import javax.inject.Inject;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -18,6 +20,7 @@ public class Backend implements BaseAppBackend {
 
     private EventMonitor[] monitors;
 
+    @Inject
     public Backend(final EventMonitor... monitors) {
         this.monitors = monitors;
     }

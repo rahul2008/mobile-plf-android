@@ -37,6 +37,9 @@ public class ConsentsMonitor extends EventMonitor {
     @NonNull
     private final UCoreAdapter uCoreAdapter;
 
+    @Inject
+    UCoreAccessProvider uCoreAccessProvider;
+
     @NonNull
     private final GsonConverter gsonConverter;
 
@@ -51,11 +54,11 @@ public class ConsentsMonitor extends EventMonitor {
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final ConsentsConverter consentsConverter,
                            @NonNull final GsonConverter gsonConverter) {
+        DataServicesManager.getInstance().mAppComponent.injectConsentsMonitor(this);
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
         mDataServicesManager=DataServicesManager.getInstance();
-
     }
 
     //TODO: Commented part can you clearify with Ajay
@@ -87,11 +90,11 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        if(event.getConsentDetails()==null || mDataServicesManager.getUCoreAccessProvider()==null){
+        if(event.getConsentDetails()==null || uCoreAccessProvider==null){
             return;
         }
 
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, mDataServicesManager.getUCoreAccessProvider().getAccessToken(), gsonConverter);
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
         try {
 
             List<ConsentDetail> consentDetails=event.getConsentDetails();
@@ -105,10 +108,10 @@ public class ConsentsMonitor extends EventMonitor {
 
             }
 
-            List<UCoreConsentDetail> consentDetailList = client.getConsent(mDataServicesManager.getUCoreAccessProvider().getUserId(), consentDetailTypes,
+            List<UCoreConsentDetail> consentDetailList = client.getConsent(uCoreAccessProvider.getUserId(), consentDetailTypes,
                     deviceIdentificationList,documentVersionList);
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
-                Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, mDataServicesManager.getUCoreAccessProvider().getUserId());
+                Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, uCoreAccessProvider.getUserId());
                 for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                     consentDetail.setBackEndSynchronized(true);
                 }
@@ -134,10 +137,10 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        if(mDataServicesManager.getUCoreAccessProvider()==null){
+        if(uCoreAccessProvider==null){
             return;
         }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, mDataServicesManager.getUCoreAccessProvider().getAccessToken(), gsonConverter);
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class,uCoreAccessProvider.getAccessToken(), gsonConverter);
 
         Consent consent = event.getConsent();
 
@@ -175,7 +178,6 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     public boolean isUserInvalid() {
-        UCoreAccessProvider uCoreAccessProvider = mDataServicesManager.getUCoreAccessProvider();
         if(uCoreAccessProvider!=null) {
             String accessToken = uCoreAccessProvider.getAccessToken();
             return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();

@@ -35,13 +35,12 @@ import javax.inject.Inject;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentsConverter {
 
-    @NonNull
-    private BaseAppDataCreator baseAppDataCreater;
+    @Inject
+    BaseAppDataCreator baseAppDataCreater;
 
     @Inject
     public MomentsConverter() {
-        DataServicesManager manager = DataServicesManager.getInstance();
-        this.baseAppDataCreater = manager.getDataCreater();
+        DataServicesManager.mAppComponent.injectMomentsConverter(this);
     }
 
     @NonNull

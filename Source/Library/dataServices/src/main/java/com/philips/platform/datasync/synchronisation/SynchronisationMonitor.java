@@ -24,17 +24,16 @@ import javax.inject.Singleton;
  */
 public class SynchronisationMonitor extends EventMonitor {
 
-    @NonNull
-    private final DataPullSynchronise pullSynchronise;
+    @Inject
+    DataPullSynchronise pullSynchronise;
 
-    @NonNull
-    private final DataPushSynchronise pushSynchronise;
+    @Inject
+    DataPushSynchronise pushSynchronise;
 
     @Singleton
     @Inject
-    public SynchronisationMonitor(@NonNull final DataPullSynchronise pullSynchronise, final @NonNull DataPushSynchronise pushSynchronise) {
-        this.pullSynchronise = pullSynchronise;
-        this.pushSynchronise = pushSynchronise;
+    public SynchronisationMonitor() {
+        DataServicesManager.mAppComponent.injectSynchronizationMonitor(this);
     }
 
     public void onEventAsync(ReadDataFromBackendRequest event) {

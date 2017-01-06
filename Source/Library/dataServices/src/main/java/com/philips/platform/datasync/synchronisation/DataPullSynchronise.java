@@ -40,8 +40,8 @@ import retrofit.RetrofitError;
 @SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
-    @NonNull
-    private final UCoreAccessProvider accessProvider;
+    @Inject
+    UCoreAccessProvider accessProvider;
 
     @Nullable
     private DateTime lastSyncDateTime;
@@ -56,8 +56,8 @@ public class DataPullSynchronise {
     @NonNull
     private final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers;
 
-    @NonNull
-    private final Eventing eventing;
+    @Inject
+    Eventing eventing;
 
     private volatile RetrofitError fetchResult;
 
@@ -68,13 +68,11 @@ public class DataPullSynchronise {
 
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
-                               @NonNull final Executor executor,
-                               @NonNull final Eventing  eventing) {
+                               @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        this.accessProvider = mDataServicesManager.getUCoreAccessProvider();
+        mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
-        this.eventing = eventing;
     }
 
 
@@ -111,13 +109,13 @@ public class DataPullSynchronise {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.postSticky(new GetNonSynchronizedMomentsRequest());
+            eventing.post(new GetNonSynchronizedMomentsRequest());
         }
     }
 
     public void registerEvent() {
         if (!eventing.isRegistered(this)) {
-            eventing.registerSticky(this);
+            eventing.register(this);
         }
     }
 

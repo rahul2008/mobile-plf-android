@@ -7,9 +7,9 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -27,18 +27,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -46,7 +41,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * Created by indrajitkumar on 13/12/16.
  */
-@RunWith(RobolectricTestRunner.class)
 public class DataPullSynchroniseTest {
     public static final DateTime DATE_TIME = DateTime.now();
     private static final int EVENT_ID = 2344;
@@ -101,26 +95,27 @@ public class DataPullSynchroniseTest {
     @Mock
     private ConsentDetail consentDetailMock;
     private Application context;
-    private DataServicesManager dataServicesManager;
     private OrmCreatorTest verticalDataCreater;
     private ErrorHandlerImplTest errorHandlerImpl;
+
+    @Mock
+    private AppComponent appComponantMock;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        context = RuntimeEnvironment.application;
-
-        dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImpl = new ErrorHandlerImplTest();
-        dataServicesManager.initialize(context, verticalDataCreater, errorHandlerImpl);
+
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
 
         //  when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock),
-                executorMock,
-                eventingMock);
+                executorMock);
+        synchronise.accessProvider = accessProviderMock;
+        synchronise.eventing = eventingMock;
     }
 
     @Test

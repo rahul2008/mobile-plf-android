@@ -5,6 +5,7 @@ import android.content.Context;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.testing.verticals.OrmCreatorTest;
@@ -51,6 +52,9 @@ public class ConsentsConverterTest {
 
     private DataServicesManager dataServicesManager;
 
+    @Mock
+    private AppComponent appComponantMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -59,9 +63,10 @@ public class ConsentsConverterTest {
 
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        dataServicesManager.initialize(context, verticalDataCreater, null);
-
+        //dataServicesManager.initialize(context, verticalDataCreater, null,null);
+        dataServicesManager.mAppComponent = appComponantMock;
         consentsConverter = new ConsentsConverter();
+        consentsConverter.dataCreator = verticalDataCreater;
     }
 
     @Test

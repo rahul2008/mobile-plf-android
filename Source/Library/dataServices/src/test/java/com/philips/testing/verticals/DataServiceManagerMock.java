@@ -21,9 +21,9 @@ public class DataServiceManagerMock {
         this.dataServicesManager = dataServicesManager;
     }
 
-    public BaseAppDataCreator getDataCreater() {
+    /*public BaseAppDataCreator getDataCreater() {
         return dataServicesManager.getDataCreater();
-    }
+    }*/
 
     public UCoreAccessProvider getUCoreAccessProvider() {
         return uCoreAccessProvider;

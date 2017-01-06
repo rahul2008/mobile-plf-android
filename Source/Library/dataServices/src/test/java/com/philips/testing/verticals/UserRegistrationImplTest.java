@@ -9,7 +9,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
  * Created by indrajitkumar on 13/12/16.
  */
 
-public class ErrorHandlerImplTest implements UserRegistrationInterface {
+public class UserRegistrationImplTest implements UserRegistrationInterface {
     @Override
     public boolean isUserLoggedIn() {
         return true;

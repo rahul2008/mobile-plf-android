@@ -7,13 +7,12 @@
 package com.philips.platform.core.trackers;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -40,28 +39,15 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
-import com.philips.platform.core.monitors.DBMonitors;
-import com.philips.platform.core.monitors.DeletingMonitor;
-import com.philips.platform.core.monitors.EventMonitor;
-import com.philips.platform.core.monitors.ExceptionMonitor;
-import com.philips.platform.core.monitors.FetchingMonitor;
-import com.philips.platform.core.monitors.LoggingMonitor;
-import com.philips.platform.core.monitors.SavingMonitor;
-import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
-import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
-import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
-import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -75,46 +61,48 @@ import de.greenrobot.event.EventBus;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
-    volatile boolean isPullComplete = true;
+    public static final String TAG = DataServicesManager.class.getName();
 
-    volatile boolean isPushComplete = true;
+    private volatile boolean isPullComplete = true;
+
+    private volatile boolean isPushComplete = true;
+
+    @Inject
+    Eventing mEventing;
 
     @NonNull
-    private Eventing mEventing;
+    public static AppComponent mAppComponent;
 
-    private BaseAppDataCreator mDataCreater;
-
-    @Inject
-    DataPullSynchronise mDataPullSynchronise;
-
-    @Inject
-    DataPushSynchronise mDataPushSynchronise;
+    private DBDeletingInterface mDeletingInterface;
+    private DBFetchingInterface mFetchingInterface;
+    private DBSavingInterface mSavingInterface;
+    private DBUpdatingInterface mUpdatingInterface;
 
     @Inject
-    SharedPreferences mSharedPreferences;
+    BaseAppDataCreator mDataCreater;
 
     @Inject
-    LoggingMonitor mLoggingMonitor;
+    UCoreAccessProvider mBackendIdProvider;
 
     @Inject
-    ExceptionMonitor mExceptionMonitor;
+    BaseAppCore mCore;
 
     @Inject
-    Backend mBackend;
-
-    private BackendIdProvider mBackendIdProvider;
-    private BaseAppCore mCore;
-
-    private DBMonitors mDbMonitors;
-    private List<EventMonitor> mMonitors = new ArrayList<>();
+    SynchronisationMonitor mSynchronisationMonitor;
 
     private static DataServicesManager sDataServicesManager;
 
-    private ErrorHandler mErrorHandlerImpl;
+    @Inject
+    UserRegistrationInterface userRegistrationInterface;
+
+    @Inject
+    ErrorHandlingInterface errorHandlingInterface;
+
+    private ArrayList<DataFetcher> fetchers;
+    private ArrayList<DataSender> senders;
 
     @Singleton
     private DataServicesManager() {
-        mEventing = new EventingImpl(new EventBus(), new Handler());
     }
 
     public static synchronized DataServicesManager getInstance() {
@@ -124,13 +112,13 @@ public class DataServicesManager {
         return sDataServicesManager;
     }
 
-    public UCoreAccessProvider getUCoreAccessProvider() {
+ /*   public UCoreAccessProvider getUCoreAccessProvider() {
         return (UCoreAccessProvider) mBackendIdProvider;
-    }
+    }*/
 
-    public BaseAppDataCreator getDataCreater() {
+  /*  public BaseAppDataCreator getDataCreater() {
         return mDataCreater;
-    }
+    }*/
 
     @NonNull
     public Moment save(@NonNull final Moment moment) {
@@ -163,7 +151,7 @@ public class DataServicesManager {
 
     @NonNull
     public Consent createConsent() {
-        return mDataCreater.createConsent(mErrorHandlerImpl.getUserProfile().getGUid());
+        return mDataCreater.createConsent(userRegistrationInterface.getUserProfile().getGUid());
     }
 
     public void createConsentDetail(@NonNull Consent consent, @NonNull final String detailType, final ConsentDetailStatusType consentDetailStatusType, final String deviceIdentificationNumber) {
@@ -239,10 +227,11 @@ public class DataServicesManager {
     }
 
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
-        DSLog.i("***SPO***", "In DataServicesManager.Synchronize");
-        SynchronisationMonitor monitor = new SynchronisationMonitor(mDataPullSynchronise, mDataPushSynchronise);
-        monitor.start(mEventing);
+    public void initializeSyncMonitors(Context context,ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+        DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
+        this.fetchers = fetchers;
+        this.senders = senders;
+        prepareInjectionsGraph(context);
     }
 
  /*   private void sendPushEvent() {
@@ -257,42 +246,32 @@ public class DataServicesManager {
     }*/
 
     private void sendPullDataEvent() {
-        DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
-        if (mCore != null) {
-            DSLog.i("SPO","mCore not null");
-            mCore.start();
-        } /*else {
-            mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
-            mCore.start();
-        }*/
-        mEventing.post(new ReadDataFromBackendRequest(null));
+        synchronized(this) {
+            DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
+            if (mCore != null) {
+                DSLog.i("***SPO***", "mCore not null, hence starting");
+                mCore.start();
+            }
+            if (mSynchronisationMonitor != null) {
+                DSLog.i("***SPO***", "In DataServicesManager.mSynchronisationMonitor.start");
+                mSynchronisationMonitor.start(mEventing);
+            }
+            mEventing.post(new ReadDataFromBackendRequest(null));
+        }
     }
 
-    public void initializeDBMonitors(DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
-        SavingMonitor savingMonitor = new SavingMonitor(savingInterface);
-        FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
-        DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
-        UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface);
-
-        mDbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
+    public void initializeDBMonitors(Context context,DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+        this.mDeletingInterface = deletingInterface;
+        this.mFetchingInterface = fetchingInterface;
+        this.mSavingInterface = savingInterface;
+        this.mUpdatingInterface = updatingInterface;
     }
 
-    public void initialize(Context context, BaseAppDataCreator creator, ErrorHandler facade) {
+    public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
         DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
-        this.mErrorHandlerImpl = facade;
-        this.mBackendIdProvider = new UCoreAccessProvider(facade);
-        prepareInjectionsGraph(context);
-
-        mBackendIdProvider.injectSaredPrefs(mSharedPreferences);
-
-        mMonitors = new ArrayList<>();
-        mMonitors.add(mLoggingMonitor);
-        mMonitors.add(mExceptionMonitor);
-
-        DSLog.i("SPO","before starting baseAppCore");
-        mCore = new BaseAppCore(mEventing, mDataCreater, mBackend, mMonitors, mDbMonitors);
-        mCore.start();
+        this.userRegistrationInterface = facade;
+        this.errorHandlingInterface = errorHandlingInterface;
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
@@ -306,38 +285,52 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(mEventing);
+        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()),mDataCreater, userRegistrationInterface,
+                mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,
+                fetchers,senders,errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
-        AppComponent appComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
-        appComponent.injectApplication(this);
+        mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
+        mAppComponent.injectApplication(this);
     }
 
     public void stopCore() {
-        if (mCore != null)
-            mCore.stop();
-        // releaseInstances();
+        synchronized (this) {
+            DSLog.i("***SPO***", "In DataServicesManager.stopCore");
+            if (mCore != null)
+                mCore.stop();
+            if (mSynchronisationMonitor != null)
+                mSynchronisationMonitor.stop();
+
+            isPullComplete = true;
+            isPushComplete = true;
+        }
     }
 
-    public void releaseDataServicesInstances() {
-        mErrorHandlerImpl = null;
+    /*public void releaseDataServicesInstances() {
+        userRegistrationInterface = null;
         mBackendIdProvider = null;
-        mBackend = null;
         mDataCreater = null;
-        mDataPullSynchronise = null;
-        mDataPushSynchronise = null;
-        mDbMonitors = null;
-        mExceptionMonitor = null;
-        mLoggingMonitor = null;
-        mSharedPreferences = null;
+        mAppComponent = null;
+        mDeletingInterface = null;
+        mFetchingInterface = null;
+        mSavingInterface = null;
+        mUpdatingInterface = null;
+        mEventing = null;
+        mCore = null;
+        mSynchronisationMonitor = null;
+        fetchers = null;
+        senders = null;
+        userRegistrationInterface = null;
+        errorHandlingInterface =null;
         // mCore.stop();
-    }
+    }*/
 
 
-    public ErrorHandler getUserRegistrationImpl() {
-        return mErrorHandlerImpl;
-    }
+  /*  public UserRegistrationInterface getUserRegistrationImpl() {
+        return userRegistrationInterface;
+    }*/
 
 
     public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {

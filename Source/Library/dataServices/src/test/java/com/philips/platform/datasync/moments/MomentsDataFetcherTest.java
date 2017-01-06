@@ -94,7 +94,7 @@ public class MomentsDataFetcherTest {
         momentsHistory.setUCoreMoments(uCoreMomentList);
         momentsHistory.setSyncurl(TEST_MOMENT_SYNC_URL);
 
-        fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, eventing, gsonConverterMock);
+        fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock);
     }
 
     @Test(expected = NullPointerException.class)

@@ -19,46 +19,23 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
-import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
-import cdp.philips.com.mydemoapp.database.DatabaseHelper;
-import cdp.philips.com.mydemoapp.database.ORMSavingInterfaceImpl;
-import cdp.philips.com.mydemoapp.database.ORMUpdatingInterfaceImpl;
-import cdp.philips.com.mydemoapp.database.OrmCreator;
-import cdp.philips.com.mydemoapp.database.OrmDeleting;
-import cdp.philips.com.mydemoapp.database.OrmDeletingInterfaceImpl;
-import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
-import cdp.philips.com.mydemoapp.database.OrmSaving;
-import cdp.philips.com.mydemoapp.database.OrmUpdating;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
-import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
-import cdp.philips.com.mydemoapp.registration.ErrorHandlerImpl;
+import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.mydemoapp.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -82,7 +59,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
-    ErrorHandlerImpl errorHandler;
+    UserRegistrationInterfaceImpl userRegistrationInterface;
     User mUser;
     Utility mUtility;
 
@@ -92,7 +69,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         super.onCreate(savedInstanceState);
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
-        errorHandler = new ErrorHandlerImpl(mContext, mUser);
+        userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
@@ -122,8 +99,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         deleteUserDataIfNewUserLoggedIn();
 
-        init();
         mTemperaturePresenter.fetchData();
+
+        //Reseting the sync Flags
+        mDataServicesManager.setPullComplete(true);
+        mDataServicesManager.setPushComplete(true);
 
         setUpBackendSynchronizationLoop();
 
@@ -144,7 +124,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
 
         if(!isSameEmail()){
-            errorHandler.clearUserData();
+            userRegistrationInterface.clearUserData();
         }
         storeLastEmail();
     }
@@ -180,15 +160,15 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         return view;
     }
 
-    private void init() {
+    /*private void init() {
         Stetho.initializeWithDefaults(getActivity().getApplicationContext());
         OrmCreator creator = new OrmCreator(new UuidGenerator());
+        mDataServicesManager.initialize(mContext, creator, userRegistrationInterface);
         injectDBInterfacesToCore();
-        mDataServicesManager.initialize(mContext, creator, errorHandler);
-        mDataServicesManager.initializeSyncMonitors(null, null);
-    }
+        mDataServicesManager.initializeSyncMonitors(mContext,null, null);
+    }*/
 
-    void injectDBInterfacesToCore() {
+    /*void injectDBInterfacesToCore() {
         final DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
@@ -218,12 +198,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao);
 
-            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDBMonitors(mContext,ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
             mTemperatureMomentHelper.notifyAllFailure(exception);
             throw new IllegalStateException("Can not instantiate database");
         }
-    }
+    }*/
 
     private void setUpBackendSynchronizationLoop() {
         PendingIntent dataSyncIntent = getPendingIntent();
@@ -251,7 +231,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onDestroy() {
         super.onDestroy();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        mDataServicesManager.releaseDataServicesInstances();
+        //mDataServicesManager.releaseDataServicesInstances();
     }
 
     @Override
