@@ -3,6 +3,7 @@ package com.philips.platform.baseapp.screens.dataservices.database;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureMomentHelper;
@@ -45,7 +46,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "exception = " + e.getMessage());
+                DSLog.i(DataServicesState.TAG, "exception = " + e.getMessage());
             }
         }
     }
@@ -75,7 +76,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "exception = " + e.getMessage());
+                DSLog.i(DataServicesState.TAG, "exception = " + e.getMessage());
             }
         }
     }
@@ -94,7 +95,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (OrmTypeChecking.OrmTypeException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "Exception = " + e.getMessage());
+                DSLog.i(DataServicesState.TAG, "Exception = " + e.getMessage());
             }
         }
         return null;
