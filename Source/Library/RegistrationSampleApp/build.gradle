@@ -34,31 +34,15 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 android {
-
     signingConfigs {
-        debug {
-            storeFile file('release-key.keystore')
-            storePassword 'Philips2011*!'
-            keyAlias 'philips_android_mktplace'
-            keyPassword 'Philips2011*!'
-        }
-        release {
-            storeFile file('release-key.keystore')
-            storePassword 'Philips2011*!'
-            keyAlias 'philips_android_mktplace'
-            keyPassword 'Philips2011*!'
-        }
-    }
-
-  /*  signingConfigs {
         release
-    }*/
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
 
 
     defaultConfig {
-        //applicationId "com.janrainphilips.philipsregistration"
+        applicationId "com.philips.cdp.registration"
         minSdkVersion 19
         targetSdkVersion 24
 
@@ -87,18 +71,16 @@ android {
 
     buildTypes {
         release {
-           // minifyEnabled true
+            minifyEnabled true
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
         }
 
         debug {
-           // minifyEnabled true
+            minifyEnabled true
             debuggable true
-            signingConfig signingConfigs.debug
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'
-
         }
     }
 
@@ -119,7 +101,24 @@ android {
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
+def Properties props = new Properties()
+def propFile = new File('signing.properties')
+if (propFile.canRead()){
+    props.load(new FileInputStream(propFile))
 
+    if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+    } else {
+        println 'signing.properties found but some entries are missing'
+        android.buildTypes.release.signingConfig = null
+    }
+}else {
+    println 'signing.properties not found'
+    android.buildTypes.release.signingConfig = null
+}
 repositories { flatDir { dirs 'libs' } }
 dependencies {
 
@@ -127,5 +126,37 @@ dependencies {
     compile project(':HockeySDK-3.0.2')
 }
 
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/device/debug/com/philips/')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd) {
+
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('RegistrationApi/src/main/java/com')
+
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
 
