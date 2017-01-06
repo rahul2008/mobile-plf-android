@@ -1,13 +1,10 @@
 package com.philips.cdp.registration.datamigration;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.controller.RegisterSocial;
-import com.philips.cdp.registration.controller.ResendVerificationEmail;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-
-import org.json.JSONArray;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,6 +24,7 @@ public class DataMigrationTest extends ActivityInstrumentationTestCase2<Registra
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

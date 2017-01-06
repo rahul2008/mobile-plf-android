@@ -1,6 +1,7 @@
 package securekey;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.securekey.SKey;
@@ -16,6 +17,7 @@ public class SKeyTest extends InstrumentationTestCase{
     Context context;
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

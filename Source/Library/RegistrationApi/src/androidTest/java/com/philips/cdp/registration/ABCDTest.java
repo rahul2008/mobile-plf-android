@@ -1,5 +1,6 @@
 package com.philips.cdp.registration;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -11,6 +12,7 @@ public class ABCDTest extends InstrumentationTestCase{
     ABCD abcd;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         abcd = abcd.getInstance();
         assertNotNull(abcd);
 

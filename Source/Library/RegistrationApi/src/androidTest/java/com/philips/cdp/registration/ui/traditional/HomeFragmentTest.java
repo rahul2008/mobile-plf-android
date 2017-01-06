@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.text.SpannableString;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ public class HomeFragmentTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         homeFragment = new HomeFragment();
     }
     @Test

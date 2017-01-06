@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 /**
@@ -11,6 +12,7 @@ public class RegConstantsTest extends InstrumentationTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

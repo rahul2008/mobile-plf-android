@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -19,6 +20,7 @@ public class RegistrationActivityTest extends InstrumentationTestCase {
     RegistrationActivity registrationActivity;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         registrationActivity= new RegistrationActivity();
     }
     @Test

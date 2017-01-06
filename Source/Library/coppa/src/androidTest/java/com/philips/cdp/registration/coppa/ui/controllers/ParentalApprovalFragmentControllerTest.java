@@ -2,6 +2,7 @@ package com.philips.cdp.registration.coppa.ui.controllers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.coppa.R;
@@ -26,6 +27,7 @@ public class ParentalApprovalFragmentControllerTest extends InstrumentationTestC
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.social;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -14,6 +15,7 @@ public class MergeSocialToSocialAccountFragmentTest extends InstrumentationTestC
     MergeSocialToSocialAccountFragment mergeSocialToSocialAccountFragment;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         mergeSocialToSocialAccountFragment= new MergeSocialToSocialAccountFragment();
     }
     @Test

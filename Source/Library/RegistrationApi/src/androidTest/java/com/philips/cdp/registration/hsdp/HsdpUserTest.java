@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -27,6 +28,7 @@ public class HsdpUserTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         // Necessary to get Mockito framework working
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);

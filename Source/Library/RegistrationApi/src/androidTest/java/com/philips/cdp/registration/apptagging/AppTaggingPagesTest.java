@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.apptagging;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -14,6 +15,7 @@ public class AppTaggingPagesTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         appTaggingPages = new AppTaggingPages();

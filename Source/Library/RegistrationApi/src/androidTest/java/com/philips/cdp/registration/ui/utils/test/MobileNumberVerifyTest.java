@@ -1,6 +1,6 @@
 package com.philips.cdp.registration.ui.utils.test;
 
-import android.app.Instrumentation;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -14,6 +14,7 @@ public class MobileNumberVerifyTest extends InstrumentationTestCase {
 
     @Before
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
     }
 

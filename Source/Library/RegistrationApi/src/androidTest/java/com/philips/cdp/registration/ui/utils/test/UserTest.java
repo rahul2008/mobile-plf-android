@@ -10,6 +10,7 @@ package com.philips.cdp.registration.ui.utils.test;
 
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.janrain.android.Jump;
@@ -35,6 +36,7 @@ public class UserTest extends InstrumentationTestCase {
     Context context;
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         context = getInstrumentation().getTargetContext();
         System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());

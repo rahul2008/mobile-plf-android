@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.utils.test;
 
+import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -27,6 +28,7 @@ public class EmailValidatorTest extends ActivityInstrumentationTestCase2<Registr
 
 	@Override
 	protected void setUp() throws Exception {
+		MultiDex.install(getInstrumentation().getTargetContext());
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());

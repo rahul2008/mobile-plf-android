@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.view.View;
 
@@ -19,6 +20,7 @@ public class CreateAccountFragmentTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         createAccountFragment = new CreateAccountFragment();
     }
     @Test

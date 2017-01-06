@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration;
 
+import android.support.multidex.MultiDex;
 import android.support.v4.util.Pair;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -43,6 +44,7 @@ public class HttpClientTest extends ActivityInstrumentationTestCase2<Registratio
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

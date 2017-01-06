@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -29,6 +30,7 @@ public class AccountActivationFragmentTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         accountActivationFragment = new AccountActivationFragment();
         mPbActivateSpinner= new ProgressBar(getInstrumentation().getContext());
     }

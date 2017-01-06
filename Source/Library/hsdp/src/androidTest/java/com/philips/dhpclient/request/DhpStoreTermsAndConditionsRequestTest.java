@@ -1,10 +1,9 @@
 package com.philips.dhpclient.request;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/24/2016.
@@ -14,6 +13,7 @@ public class DhpStoreTermsAndConditionsRequestTest extends InstrumentationTestCa
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         mDhpStoreTermsAndConditionsRequest = new DhpStoreTermsAndConditionsRequest("applicationName","documentId","documentVersion","countryCode","consentCode");

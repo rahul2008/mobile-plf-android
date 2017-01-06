@@ -46,15 +46,20 @@ android {
         minSdkVersion 19
         targetSdkVersion 24
 
+        multiDexEnabled true
         testApplicationId "com.philips.cdp.registration.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
     }
 
-
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
 
     lintOptions {
         abortOnError false
     }
+
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -121,7 +126,7 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-
+    compile 'com.android.support:multidex:1.0.1'
     compile project(':registrationApi')
     compile project(':HockeySDK-3.0.2')
 }

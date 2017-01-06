@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -14,6 +15,7 @@ public class RegPreferenceUtilityTest extends InstrumentationTestCase {
     RegPreferenceUtility regPreferenceUtility;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         regPreferenceUtility= new RegPreferenceUtility();
     }
     @Test

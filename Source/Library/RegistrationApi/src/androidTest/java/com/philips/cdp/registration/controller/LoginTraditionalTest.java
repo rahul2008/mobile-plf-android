@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -24,6 +25,7 @@ public class LoginTraditionalTest extends InstrumentationTestCase {
     LoginTraditional loginTraditional;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
         context =  getInstrumentation()

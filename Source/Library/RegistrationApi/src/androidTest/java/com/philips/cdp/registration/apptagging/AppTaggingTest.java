@@ -1,15 +1,13 @@
 package com.philips.cdp.registration.apptagging;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by 310243576 on 8/30/2016.
@@ -20,6 +18,7 @@ public class AppTaggingTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         mContext = getInstrumentation().getTargetContext();

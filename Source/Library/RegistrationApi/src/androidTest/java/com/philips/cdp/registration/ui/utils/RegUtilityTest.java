@@ -2,6 +2,7 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
@@ -39,6 +40,7 @@ public class RegUtilityTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();

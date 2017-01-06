@@ -1,31 +1,19 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.janrain.android.Jump;
-import com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
-import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/26/2016.
@@ -37,6 +25,7 @@ public class ForgotPasswordTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();

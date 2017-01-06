@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.base;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
@@ -17,6 +18,7 @@ public class CoppaEmailStausTest  extends InstrumentationTestCase {
 
     @Test
     public void testConfiguration() {
+        MultiDex.install(getInstrumentation().getTargetContext());
         assertThat(CoppaEmailStaus.valueOf("kDICOPPAConsentEmailSent"), is(notNullValue()));
         assertThat(CoppaEmailStaus.valueOf("kDICOPPAConfirmationEmailSent"), is(notNullValue()));
     }

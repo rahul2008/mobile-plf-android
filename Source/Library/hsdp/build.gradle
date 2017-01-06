@@ -71,7 +71,9 @@ android {
         targetSdkVersion 24
         versionName "1.0.5"
         testApplicationId "com.philips.dhpclient.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+
+        multiDexEnabled true
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
 
     }
 

@@ -2,15 +2,14 @@
 package com.philips.cdp.coppa.registration;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -20,10 +19,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
-import java.util.ArrayList;
 import java.util.Locale;
-
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 public class RegistrationCoppaApplication extends Application {
 
@@ -38,6 +34,12 @@ public class RegistrationCoppaApplication extends Application {
     public synchronized static RegistrationCoppaApplication getInstance() {
         return mRegistrationHelper;
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 
     @Override

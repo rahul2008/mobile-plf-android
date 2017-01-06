@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.customviews;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -14,6 +15,7 @@ public class XRegErrorTest extends InstrumentationTestCase{
     String mSigninErrMsg;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         xRegError = new XRegError(getInstrumentation().getContext());
     }
     @Test

@@ -1,21 +1,13 @@
 package com.philips.cdp.registration.settings;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.localematch.BuildConfig;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.events.NetworkStateHelper;
-import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.ui.utils.RLog;
 
 import org.junit.Before;
-
-import java.util.Locale;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/31/2016.
@@ -29,6 +21,7 @@ public class RegistrationHelperTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
         mContext =  getInstrumentation()

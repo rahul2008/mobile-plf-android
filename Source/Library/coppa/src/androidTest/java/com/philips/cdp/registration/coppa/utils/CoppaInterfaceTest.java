@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.coppa.utils;
 
 import android.support.annotation.StringRes;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.FragmentActivity;
 import android.test.InstrumentationTestCase;
 
@@ -26,6 +27,7 @@ public class CoppaInterfaceTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         coppaInterface = new CoppaInterface();
         fragmentActivity = new FragmentActivity();
         actionBarListener = new ActionBarListener() {

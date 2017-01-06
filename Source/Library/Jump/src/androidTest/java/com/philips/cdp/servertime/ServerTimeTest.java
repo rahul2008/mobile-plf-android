@@ -8,11 +8,11 @@
 
 package com.philips.cdp.servertime;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +26,7 @@ public class ServerTimeTest extends InstrumentationTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

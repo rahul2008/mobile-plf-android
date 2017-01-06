@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.base;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.json.JSONObject;
@@ -18,7 +19,7 @@ public class CoppaConfigurationTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-
+        MultiDex.install(getInstrumentation().getTargetContext());
         mCoppaConfiguration = new CoppaConfiguration();
     }
 

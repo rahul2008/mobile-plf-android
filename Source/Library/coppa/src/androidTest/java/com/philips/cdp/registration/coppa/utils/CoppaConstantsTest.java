@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.utils;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -12,6 +13,7 @@ public class CoppaConstantsTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         coppaConstants= new CoppaConstants();
     }
     public void testLanuchFragment(){

@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.utils;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.text.SpannableString;
 
@@ -17,7 +18,9 @@ public class RegCoppaUtilityTest extends InstrumentationTestCase{
 
     RegCoppaUtility regCoppaUtility;
     @Before
-    public void setUp() throws Exception {regCoppaUtility= new RegCoppaUtility();
+    public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
+        regCoppaUtility= new RegCoppaUtility();
     }
     @Test
     public void testReg(){

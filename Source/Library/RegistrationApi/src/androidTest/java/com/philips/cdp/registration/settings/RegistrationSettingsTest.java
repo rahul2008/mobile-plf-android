@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.settings;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.localematch.LocaleMatchListener;
@@ -19,6 +20,7 @@ public class RegistrationSettingsTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
         mContext =  getInstrumentation()

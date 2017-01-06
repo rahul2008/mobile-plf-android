@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -21,6 +22,7 @@ public class URInterfaceTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         urInterface = new URInterface();
     }
 

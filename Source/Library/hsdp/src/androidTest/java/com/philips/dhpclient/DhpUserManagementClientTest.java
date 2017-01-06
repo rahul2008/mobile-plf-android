@@ -1,5 +1,6 @@
 package com.philips.dhpclient;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.dhpclient.request.DhpUserIdentity;
@@ -14,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by 310243576 on 8/21/2016.
  */
@@ -25,6 +24,7 @@ public class DhpUserManagementClientTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();

@@ -1,13 +1,12 @@
 package com.philips.dhpclient.response;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/24/2016.
@@ -21,6 +20,7 @@ public class DhpUserRegistrationResponseTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         mRawResponse = new HashMap<String,Object>();

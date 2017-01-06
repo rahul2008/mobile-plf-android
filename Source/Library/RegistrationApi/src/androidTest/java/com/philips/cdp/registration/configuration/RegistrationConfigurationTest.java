@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.configuration;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -21,6 +22,7 @@ public class RegistrationConfigurationTest extends InstrumentationTestCase {
     RegistrationConfiguration registrationConfiguration;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         if( RegistrationHelper.getInstance().getAppInfraInstance()==null){

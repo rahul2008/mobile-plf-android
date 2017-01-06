@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.utils;
 
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -18,6 +19,7 @@ public class NetworkStateReceiverTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         networkStateReceiver = new NetworkStateReceiver();
     }
 

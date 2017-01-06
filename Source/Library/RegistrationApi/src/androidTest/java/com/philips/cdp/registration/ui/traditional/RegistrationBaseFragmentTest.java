@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.content.res.Configuration;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.view.View;
 
@@ -16,6 +17,7 @@ public class RegistrationBaseFragmentTest extends InstrumentationTestCase{
     RegistrationBaseFragment registrationBaseFragment;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         registrationBaseFragment= new RegistrationBaseFragment() {
             @Override
             protected void setViewParams(final Configuration config, final int width) {

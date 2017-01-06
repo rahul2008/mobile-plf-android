@@ -1,6 +1,7 @@
 package com.philips.cdp.security;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
@@ -14,6 +15,7 @@ public class SecureStorageTest extends InstrumentationTestCase{
     Context context;
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

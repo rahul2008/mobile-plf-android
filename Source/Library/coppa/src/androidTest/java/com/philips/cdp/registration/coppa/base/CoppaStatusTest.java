@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.base;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
@@ -16,6 +17,7 @@ public class CoppaStatusTest extends InstrumentationTestCase{
 
     @Test
     public void testConfiguration() {
+        MultiDex.install(getInstrumentation().getTargetContext());
         assertThat(CoppaStatus.valueOf("kDICOPPAConsentPending"), is(notNullValue()));
         assertThat(CoppaStatus.valueOf("kDICOPPAConsentNotGiven"), is(notNullValue()));
         assertThat(CoppaStatus.valueOf("kDICOPPAConsentGiven"), is(notNullValue()));

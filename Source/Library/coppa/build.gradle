@@ -86,7 +86,8 @@ android {
         versionCode 1
         versionName version
         testApplicationId "com.philips.cdp.registration.coppa.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        multiDexEnabled true
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
     }
     buildTypes {
         release {
@@ -123,4 +124,5 @@ dependencies {
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
     compile project(':registrationApi')
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:multidex:1.0.1'
 }

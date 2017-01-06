@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.coppa.base;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -22,6 +23,7 @@ public class CoppaExtensionTest extends InstrumentationTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

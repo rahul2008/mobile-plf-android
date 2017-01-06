@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.utils;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -26,7 +27,7 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
-
+        MultiDex.install(getInstrumentation().getTargetContext());
         coppaLaunchInput = new CoppaLaunchInput();
     }
 

@@ -2,7 +2,9 @@
 package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -34,6 +36,12 @@ public class RegistrationApplication extends Application {
     public synchronized static RegistrationApplication getInstance() {
         return mRegistrationHelper;
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 
     @Override

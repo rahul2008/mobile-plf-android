@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.ui.fragment;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.view.View;
 
@@ -18,6 +19,7 @@ public class ParentalAccessFragmentTest extends InstrumentationTestCase {
     ParentalConsentFragment parentalConsentFragment;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         parentalConsentFragment = new ParentalConsentFragment();
     }
     @Test

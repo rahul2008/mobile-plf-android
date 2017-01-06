@@ -1,6 +1,7 @@
 package com.philips.cdp.registration;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.dao.ProductRegistrationInfo;
@@ -22,6 +23,7 @@ public class UserWithProductTest extends InstrumentationTestCase {
     ProductRegistrationInfo productRegistrationInfo;
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         mContext= getInstrumentation().getContext();
         userWithProducts = new UserWithProduct(mContext);
         productRegistrationHandler= new ProductRegistrationHandler() {

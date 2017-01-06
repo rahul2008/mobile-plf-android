@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.settings;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -13,6 +14,7 @@ public class RegistrationEnvironmentConstantsTest extends InstrumentationTestCas
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
 registrationEnvironmentConstants = new RegistrationEnvironmentConstants();
     }
 

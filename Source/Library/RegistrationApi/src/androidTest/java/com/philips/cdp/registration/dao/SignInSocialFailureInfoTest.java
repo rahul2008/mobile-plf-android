@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.dao;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.janrain.android.Jump;
@@ -20,6 +21,7 @@ public class SignInSocialFailureInfoTest extends InstrumentationTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         signInSocialFailureInfo = new SignInSocialFailureInfo();
     }
 

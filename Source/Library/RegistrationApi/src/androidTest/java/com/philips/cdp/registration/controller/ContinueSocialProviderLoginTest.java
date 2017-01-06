@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.controller;
 
+import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -28,6 +29,7 @@ public class ContinueSocialProviderLoginTest extends ActivityInstrumentationTest
     }
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

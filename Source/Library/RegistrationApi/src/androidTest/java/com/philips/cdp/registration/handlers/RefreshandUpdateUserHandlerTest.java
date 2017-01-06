@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.handlers;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.User;
@@ -32,6 +33,7 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().
                 getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);

@@ -1,9 +1,9 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.registration.dao.SignInSocialFailureInfo;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
@@ -11,8 +11,6 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by 310243576 on 8/26/2016.
@@ -23,6 +21,7 @@ public class LoginSocialProviderTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());

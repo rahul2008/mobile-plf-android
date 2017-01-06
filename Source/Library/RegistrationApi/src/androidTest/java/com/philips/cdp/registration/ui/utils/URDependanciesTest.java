@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.utils;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -17,6 +18,7 @@ public class URDependanciesTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         mContext = getInstrumentation().getTargetContext();

@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.apptagging;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -13,7 +14,7 @@ public class AppTagingConstantsTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-
+        MultiDex.install(getInstrumentation().getTargetContext());
         appTagingConstants = new AppTagingConstants();
     }
 

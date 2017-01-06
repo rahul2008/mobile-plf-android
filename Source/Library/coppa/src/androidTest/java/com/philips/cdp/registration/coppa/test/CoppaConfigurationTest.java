@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.coppa.test;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
@@ -21,12 +22,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.UnsupportedEncodingException;
 
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
@@ -503,6 +498,7 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 
         @Override
         protected void setUp() throws Exception {
+                MultiDex.install(getInstrumentation().getTargetContext());
                 super.setUp();
 
                 context = getInstrumentation().getContext();

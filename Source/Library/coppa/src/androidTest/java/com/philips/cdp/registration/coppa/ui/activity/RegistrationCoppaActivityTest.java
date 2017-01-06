@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.coppa.ui.activity;
 
 import android.content.pm.ActivityInfo;
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -19,6 +20,7 @@ public class RegistrationCoppaActivityTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         mRegistrationCoppaActivity = new RegistrationCoppaActivity();
     }
 

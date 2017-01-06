@@ -9,12 +9,11 @@
 package com.philips.cdp.registration;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -27,8 +26,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
@@ -509,6 +506,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
         Context context;// = getActivity();
         @Override
         protected void setUp() throws Exception {
+                MultiDex.install(getInstrumentation().getTargetContext());
                 super.setUp();
                 context = getInstrumentation().getTargetContext();
                 System.setProperty("dexmaker.dexcache", context.getCacheDir().getPath());

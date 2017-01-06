@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.dao;
 
+import android.support.multidex.MultiDex;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -21,6 +22,7 @@ public class ConsumerInterestTest extends ActivityInstrumentationTestCase2<Regis
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
