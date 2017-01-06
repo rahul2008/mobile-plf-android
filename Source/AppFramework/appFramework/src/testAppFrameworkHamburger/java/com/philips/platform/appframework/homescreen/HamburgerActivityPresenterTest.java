@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 
-import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 import static org.mockito.Mockito.atLeastOnce;
@@ -77,16 +77,16 @@ public class HamburgerActivityPresenterTest extends TestCase {
         final Resources resourcesMock = mock(Resources.class);
         when(fragmentViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getResources()).thenReturn(resourcesMock);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(0) instanceof BaseState.UIStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(1) instanceof BaseState.UIStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof BaseState.UIStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof BaseState.UIStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(4) instanceof BaseState.UIStateData);
-        assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof BaseState.UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(0) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(1) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(2) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(3) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(4) instanceof UIStateData);
+        assertEquals(true, hamburgerActivityPresenter.setStateData(-1) instanceof UIStateData);
     }
 
     public void testOnClick() throws NoEventFoundException {
-        final BaseState.UIStateData uiStateData = mock(BaseState.UIStateData.class);
+        final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
         final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
@@ -100,7 +100,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected BaseState.UIStateData setStateData(final int componentID) {
+            protected UIStateData setStateData(final int componentID) {
                 return uiStateData;
             }
 
@@ -124,7 +124,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
     }
 
     public void testDataServicesLaunch() {
-        final BaseState.UIStateData uiStateData = mock(BaseState.UIStateData.class);
+        final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final DataSyncScreenState dataSyncStateMock = mock(DataSyncScreenState.class);
         final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
@@ -138,7 +138,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected BaseState.UIStateData setStateData(final int componentID) {
+            protected UIStateData setStateData(final int componentID) {
                 return uiStateData;
             }
 

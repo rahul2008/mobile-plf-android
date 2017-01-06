@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
 import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 /**
@@ -82,26 +83,26 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
         return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
-    protected BaseState.UIStateData setStateData(final int componentID) {
+    protected UIStateData setStateData(final int componentID) {
         switch (componentID) {
             case MENU_OPTION_HOME:
-                BaseState.UIStateData homeStateData = new BaseState.UIStateData();
+                UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
             case MENU_OPTION_SETTINGS:
-                BaseState.UIStateData settingsStateData = new BaseState.UIStateData();
+                UIStateData settingsStateData = new UIStateData();
                 settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return settingsStateData;
             case MENU_OPTION_SHOP:
-                BaseState.UIStateData iapStateData = new BaseState.UIStateData();
+                UIStateData iapStateData = new UIStateData();
                 iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return iapStateData;
             case MENU_OPTION_SUPPORT:
-                BaseState.UIStateData supportStateData = new BaseState.UIStateData();
+                UIStateData supportStateData = new UIStateData();
                 supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
                 return supportStateData;
             case MENU_OPTION_ABOUT:
-                BaseState.UIStateData aboutStateData = new BaseState.UIStateData();
+                UIStateData aboutStateData = new UIStateData();
                 aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return aboutStateData;
             // Commented as part of Plan A removal.
@@ -111,18 +112,18 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 uiStateDataModel.setCtnList(getCtnList());
                 return uiStateDataModel;*/
             case MENU_OPTION_PR:
-                BaseState.UIStateData prStateDataModel = new BaseState.UIStateData();
+                UIStateData prStateDataModel = new UIStateData();
                 return prStateDataModel;
             case MENU_OPTION_DATA_SYNC:
-                BaseState.UIStateData syncStateData = new BaseState.UIStateData();
+                UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
             case MENU_OPTION_CONNECTIVITY:
-                BaseState.UIStateData connectivityStateData = new BaseState.UIStateData();
+                UIStateData connectivityStateData = new UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return connectivityStateData;
             default:
-                homeStateData = new BaseState.UIStateData();
+                homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
         }

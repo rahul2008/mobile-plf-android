@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 
-import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -49,7 +49,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
     public void testLogOut() throws Exception {
         HomeFragmentState homeFragmentStateMock = mock(HomeFragmentState.class);
-        final BaseState.UIStateData uiStateMock = mock(BaseState.UIStateData.class);
+        final UIStateData uiStateMock = mock(UIStateData.class);
         final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -64,7 +64,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected BaseState.UIStateData setStateData(final int componentID) {
+            protected UIStateData setStateData(final int componentID) {
                 return uiStateMock;
             }
 
@@ -84,7 +84,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
     public void testLogIn() throws Exception {
         final UserRegistrationSettingsState settingsURStateMock = mock(UserRegistrationSettingsState.class);
-        final BaseState.UIStateData uiStateMock = mock(BaseState.UIStateData.class);
+        final UIStateData uiStateMock = mock(UIStateData.class);
         final SettingsFragmentState settingsFragmentState = mock(SettingsFragmentState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
@@ -96,7 +96,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected BaseState.UIStateData setStateData(final int componentID) {
+            protected UIStateData setStateData(final int componentID) {
                 return uiStateMock;
             }
 

@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 
-import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 import static org.mockito.Mockito.atLeastOnce;
@@ -87,7 +87,7 @@ public class LaunchActivityPresenterTest extends TestCase {
     }
 
     public void testOnLoad() throws NoEventFoundException {
-        final BaseState.UIStateData uiStateData = mock(BaseState.UIStateData.class);
+        final UIStateData uiStateData = mock(UIStateData.class);
         final SplashState splashStateMock = mock(SplashState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -111,7 +111,7 @@ public class LaunchActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected BaseState.UIStateData getUiStateData() {
+            protected UIStateData getUiStateData() {
                 return uiStateData;
             }
         };

@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 
 /**
  * This class contains all initialization & Launching details of Product Registration

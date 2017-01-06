@@ -10,16 +10,16 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 
-import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 
 
 public class BaseStateDataTest extends TestCase {
 
-    private BaseState.UIStateData uiStateData;
+    private UIStateData uiStateData;
 
     @Before
     public void setUp() throws Exception {
-        uiStateData = new BaseState.UIStateData();
+        uiStateData = new UIStateData();
     }
 
     public void testGetFragmentLaunchState() throws Exception {

@@ -97,7 +97,7 @@ abstract public class BaseState {
         return super.equals(obj);
     }
 
-    public static class UIStateData {
+    /*public static class UIStateData {
 
         private int fragmentAddState;
 
@@ -109,7 +109,7 @@ abstract public class BaseState {
             this.fragmentAddState = fragmentAddState;
         }
 
-    }
+    }*/
 
 
 }

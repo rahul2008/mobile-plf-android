@@ -13,6 +13,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
 import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 /**
@@ -47,7 +48,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
      */
     @Override
     public void onEvent(int componentID) {
-        final BaseState.UIStateData uiStateData = setStateData(componentID);
+        final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
         if (settingsView != null) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
@@ -64,10 +65,10 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
         }
     }
 
-    protected BaseState.UIStateData setStateData(final int componentID) {
+    protected UIStateData setStateData(final int componentID) {
         switch (componentID){
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
-                BaseState.UIStateData homeStateData = new BaseState.UIStateData();
+                UIStateData homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;
             // Commented the order history/purchase history code.

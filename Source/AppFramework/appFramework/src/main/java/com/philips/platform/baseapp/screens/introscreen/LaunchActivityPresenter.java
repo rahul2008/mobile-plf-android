@@ -14,6 +14,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
 import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
 import philips.appframeworklibrary.flowmanager.base.UIStateListener;
 
 /**
@@ -76,8 +77,8 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
     }
 
     @NonNull
-    protected BaseState.UIStateData getUiStateData() {
-        BaseState.UIStateData homeStateData = new BaseState.UIStateData();
+    protected UIStateData getUiStateData() {
+       UIStateData homeStateData = new UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
         return homeStateData;
     }
