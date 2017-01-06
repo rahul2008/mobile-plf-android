@@ -41,6 +41,16 @@ public class ApisigningTest extends MockitoTestCase {
         assertEquals("HmacSHA256;Credential:cafebabe-1234-dead-dead-1234567890ab;SignedHeaders:SignedDate,;Signature:UDFszoNOtDoqBsdD91S0Wl/IsT/JL9T3xNNy8JjXG1M=",result);
     }
 
+    /*
+        Testing Apisigning With Body
+     */
+    public void testApisigningWithBody(){
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("SignedDate","2016-11-09T13:31:13.492+0000");
+        String result = hsdpphsApiSigning.createSignature("POST","applicationName=uGrow",headers,"/authentication/login/social","requestbody").trim();
+        assertEquals("HmacSHA256;Credential:cafebabe-1234-dead-dead-1234567890ab;SignedHeaders:SignedDate,;Signature:7sQTaMM7dVpMiQR0Q5KMNwUbMcp5CJPoq/K2+2No+DQ=",result);
+    }
+
     private static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
