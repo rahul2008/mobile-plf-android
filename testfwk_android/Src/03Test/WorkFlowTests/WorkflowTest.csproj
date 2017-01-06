@@ -106,6 +106,11 @@
     <Compile Include="UJ05.cs" />
     <Compile Include="UJ06.cs" />
     <Compile Include="UR_Binding.cs" />
+    <Compile Include="US14054.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>US14054.feature</DependentUpon>
+    </Compile>
     <Compile Include="UserRegistration.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,6 +149,10 @@
     </None>
     <None Include="SpecRunTestProfile_2011_09.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="US14054.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>US14054.feature.cs</LastGenOutput>
     </None>
     <None Include="UserRegistration.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

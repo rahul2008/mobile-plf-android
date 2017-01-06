@@ -329,7 +329,7 @@ namespace Philips.SIG.Automation.Android.CDPP.ConsumerCareTestPlugin
         {
             string ctn = string.Empty;
             List<IMobilePageControl> elements = new List<IMobilePageControl>();
-            elements = _instance.GetElements(SearchBy.Id, "com.philips.platform.referenceapp:id/ctn_name");
+            elements = _instance.GetElements(SearchBy.Id, "com.philips.platform.hamburger:id/ctn_name");
             foreach (IMobilePageControl elem in elements)
             {
                 ctn = elem.Text;
@@ -390,7 +390,7 @@ namespace Philips.SIG.Automation.Android.CDPP.ConsumerCareTestPlugin
             
             string ctn = string.Empty;
             List<IMobilePageControl> elements = new List<IMobilePageControl>();
-            elements = _instance.GetElements(SearchBy.Id, "com.philips.platform.referenceapp:id/ctn_name");
+            elements = _instance.GetElements(SearchBy.Id, "com.philips.platform.hamburger:id/ctn_name");
             foreach (IMobilePageControl elem in elements)
             {
                 ctn = elem.Text;
@@ -416,7 +416,7 @@ namespace Philips.SIG.Automation.Android.CDPP.ConsumerCareTestPlugin
         public static List<string> VisibleCTN()
         {
             List<IMobilePageControl> elements = new List<IMobilePageControl>();
-            elements = _instance.GetElements(SearchBy.Id, "com.philips.platform.referenceapp:id/ctn_name");
+            elements = _instance.GetElements(SearchBy.Id, "com.philips.platform.hamburger:id/ctn_name");
             int count = 0;
             int CTNCount = elements.Count;
             List<string> CTN = new List<string>();
