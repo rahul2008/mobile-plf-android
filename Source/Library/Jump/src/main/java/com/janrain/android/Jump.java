@@ -203,8 +203,7 @@ public class Jump {
 
         state.context = context;
         //WeChat China
-        state.jrEngage = JREngage.initInstance(context.getApplicationContext(), jumpConfig.engageAppId,
-                jumpConfig.engageAppUrl, null, null, jumpConfig.customProviders);
+
         state.captureSocialRegistrationFormName = jumpConfig.captureSocialRegistrationFormName;
         state.captureTraditionalRegistrationFormName = jumpConfig.captureTraditionalRegistrationFormName;
         state.captureEditUserProfileFormName = jumpConfig.captureEditUserProfileFormName;
@@ -221,11 +220,15 @@ public class Jump {
         state.captureResendEmailVerificationFormName = jumpConfig.captureResendEmailVerificationFormName;
         state.downloadFlowUrl = jumpConfig.downloadFlowUrl;
         state.engageAppUrl = jumpConfig.engageAppUrl;
+        jumpConfig.engageAppUrl = (jumpConfig.engageAppUrl == null)?"rpxnow.com":jumpConfig.engageAppUrl;
+        state.engageAppUrl = jumpConfig.engageAppUrl;
         if(jumpConfig.captureRedirectUri == null){
             state.captureRedirectUri = "http://android.library";
         }else{
             state.captureRedirectUri = jumpConfig.captureRedirectUri;
         }
+        state.jrEngage = JREngage.initInstance(context.getApplicationContext(), jumpConfig.engageAppId,
+                jumpConfig.engageAppUrl, null, null, jumpConfig.customProviders);
         state.captureRecoverUri = jumpConfig.captureRecoverUri;
         state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET,new SecureStorageInterface.SecureStorageError());
 
@@ -649,7 +652,7 @@ public class Jump {
      *
      * @param newUser A JSON object (which matches the record schema) used to populate the fields of the
      *                registration form.
-     * @param socialRegistrationToken A social registration token, or null to perform a traditional
+     * @param socialRegistrationToken A social registration token, or null to perform a traditionald
      *                                registration
      * @param registrationResultHandler A handler for the registration result
      */
@@ -985,7 +988,7 @@ public class Jump {
         String flowUrlString = "";
 
         if(!state.downloadFlowUrl.isEmpty()){
-            flowUrlString = String.format("https://%s/widget_data/flows/%s/%s/%s/%s.json",
+            flowUrlString = String.format("%s/widget_data/flows/%s/%s/%s/%s.json",
                     state.downloadFlowUrl,
                     state.captureAppId, state.captureFlowName, flowVersion,
                     state.captureLocale);
