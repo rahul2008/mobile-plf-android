@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/homescreen_left_margin"
             android:layout_marginTop="15dp"
-            android:text="@string/RA_Connectivity_Get_Moment_Value"
+            android:text="@string/RA_Connectivity_Moment_Value"
             android:textColor="@color/uikit_philips_blue"
             android:textSize="18sp" />
 
