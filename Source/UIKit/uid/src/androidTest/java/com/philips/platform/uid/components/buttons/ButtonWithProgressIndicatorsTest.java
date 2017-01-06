@@ -131,6 +131,16 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
+    public void verifyProgressTextFillColor() {
+        setUpDefaultTheme();
+
+        simulateSetProgressText("Hello ");
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidColorLevel45);
+
+        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
     public void verifyProgressTextColor() {
         setUpDefaultTheme();
 
@@ -150,15 +160,7 @@ public class ButtonWithProgressIndicatorsTest {
         getProgressText().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
     }
 
-    @Test
-    public void verifyProgressTextFillColor() {
-        setUpDefaultTheme();
 
-        simulateSetProgressText("Hello ");
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidColorLevel45);
-
-        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
-    }
 
     @Test
     public void verifyButtonFillColor() {
@@ -261,7 +263,7 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     private void simulateSetProgressText(final String progressText) {
-        getDeterminateProgressIndicatorButton().perform(new CustomViewAction(progressText));
+        getDeterminateProgressIndicatorButton().perform(new UpdateProgressTextViewAction(progressText));
     }
 
     private ViewInteraction getProgressText() {
@@ -302,10 +304,10 @@ public class ButtonWithProgressIndicatorsTest {
         return onView(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate));
     }
 
-    private static class CustomViewAction implements ViewAction {
+    private static class UpdateProgressTextViewAction implements ViewAction {
         private final String progressText;
 
-        public CustomViewAction(final String progressText) {
+        public UpdateProgressTextViewAction(final String progressText) {
             this.progressText = progressText;
         }
 
