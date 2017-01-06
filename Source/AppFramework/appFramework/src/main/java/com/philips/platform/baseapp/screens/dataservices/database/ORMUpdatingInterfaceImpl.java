@@ -148,14 +148,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void postRetrofitError(final Throwable error) {
-        notifyAllFailure((Exception) error);
-    }
-
-    @Override
     public boolean updateConsent(Consent consent) {
         if(consent==null){
-            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("No consent in Datacore found"));;
+            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));;
             return false;
         }
         OrmConsent ormConsent = null;

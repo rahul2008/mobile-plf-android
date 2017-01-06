@@ -12,6 +12,7 @@ import android.util.Log;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
@@ -109,7 +110,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public void fetchMoments(@NonNull final String type) throws SQLException {
-        DSLog.i("***SPO***", "In fetchMoments - OrmFetchingInterfaceImpl");
+        DSLog.i(DataServicesState.TAG, "In fetchMoments - OrmFetchingInterfaceImpl");
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.orderBy("dateTime", true);
         getActiveMoments(momentDao.queryForEq("type_id", type));
@@ -163,11 +164,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public List<?> fetchNonSynchronizedMoments() throws SQLException {
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
+        DSLog.i(DataServicesState.TAG, "In OrmFetchingInterfaceImpl fetchNonSynchronizedMoments");
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl after query builder");
+        DSLog.i(DataServicesState.TAG, "In OrmFetchingInterfaceImpl after query builder");
         momentQueryBuilder.where().eq(SYNCED_FIELD, false);
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl after where and before query");
+        DSLog.i(DataServicesState.TAG, "In OrmFetchingInterfaceImpl after where and before query");
         return momentQueryBuilder.query();
     }
 
@@ -180,7 +181,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     public void getActiveMoments(final List<?> ormMoments) {
-        DSLog.i("***SPO***", "In getActiveMoments - OrmFetchingInterfaceImpl");
+        DSLog.i(DataServicesState.TAG, "In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
             for (OrmMoment ormMoment : (List<OrmMoment>) ormMoments) {
@@ -189,15 +190,15 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
                 }
             }
         }
-        DSLog.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
+        DSLog.i(DataServicesState.TAG,"In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
         mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) activeOrmMoments);
     }
 
     @Override
     public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException {
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
+        DSLog.i(DataServicesState.TAG, "In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
         List<? extends Moment> ormMomentList = (List<? extends Moment>) fetchNonSynchronizedMoments();
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl dataToSync.put");
+        DSLog.i(DataServicesState.TAG, "In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
     }

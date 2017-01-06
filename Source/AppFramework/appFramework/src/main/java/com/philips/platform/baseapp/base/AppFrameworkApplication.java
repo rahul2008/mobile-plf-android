@@ -16,6 +16,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
@@ -33,6 +34,7 @@ public class AppFrameworkApplication extends Application {
     protected FlowManager targetFlowManager;
     private UserRegistrationState userRegistrationState;
     private IAPState iapState;
+    private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
 
     @SuppressWarnings("deprecation")
@@ -54,6 +56,8 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState.init(this);
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
+        dataSyncScreenState = new DataServicesState();
+        dataSyncScreenState.init(this);
     }
 
     public LoggingInterface getLoggingInterface() {
