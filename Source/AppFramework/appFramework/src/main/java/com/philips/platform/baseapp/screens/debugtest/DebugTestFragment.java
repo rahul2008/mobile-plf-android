@@ -50,7 +50,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.debug_screen_title);
+        return getResources().getString(R.string.RA_DebugScreen_Title);
     }
 
     @Override

@@ -18,7 +18,7 @@
     <string name="RA_About_Description">The details for this Page is to be provided by Philips Design</string>
 
     <!--Debug and Test fragment string constants-->
-    <string name="debug_screen_title">Debug and Test</string>
+    <string name="RA_DebugScreen_Title">Debug and Test</string>
 
     <!--Settings Screen starts-->
     <string name="RA_SettingsScreen_Title">Account Settings</string>
