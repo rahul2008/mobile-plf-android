@@ -20,6 +20,7 @@ import com.philips.cdp.prxclient.request.PrxCustomJsonRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+
 import org.json.JSONObject;
 
 /**
@@ -43,32 +44,39 @@ public class NetworkWrapper {
 
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         PrxLogger.d(TAG, "Custom JSON Request call..");
-        final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
-        final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
-        //  String url = prxRequest.getRequestUrl();
-        prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
-            @Override
-            public void onSuccess(String url) {
-                PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(),
-                        url, prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
-                request.setRetryPolicy(new DefaultRetryPolicy(
-                        prxRequest.getRequestTimeOut(),
-                        prxRequest.getMaxRetries(),
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                request.setShouldCache(true);
-                if (url.startsWith("https") && (url.contains("tst.philips") || url.contains("acc.philips"))) {
-                    SSLCertificateManager.disableAllServerCertificateChecking();
-                }
-                mVolleyRequest.add(request);
-            }
+        if (listener == null) {
+            Log.e(TAG, "ResponseListener is null");
+        } else {
+            final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
+            final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
+            //  String url = prxRequest.getRequestUrl();
+            if (mPrxDependencies != null && mPrxDependencies.getAppInfra() != null) {
+                prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
+                    @Override
+                    public void onSuccess(String url) {
+                        PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(),
+                                url, prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
+                        request.setRetryPolicy(new DefaultRetryPolicy(
+                                prxRequest.getRequestTimeOut(),
+                                prxRequest.getMaxRetries(),
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                        request.setShouldCache(true);
+                        if (url.startsWith("https") && (url.contains("tst.philips") || url.contains("acc.philips"))) {
+                            SSLCertificateManager.disableAllServerCertificateChecking();
+                        }
+                        mVolleyRequest.add(request);
+                    }
 
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                System.out.println("ERRVALUE" + errorvalues.toString());
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
+                    }
+                });
+            } else {
+                listener.onResponseError(new PrxError(PrxError.PrxErrorType.INJECT_APPINFRA.getDescription(), PrxError.PrxErrorType.INJECT_APPINFRA.getId()));
             }
-        });
+        }
     }
-
 
 
     private Response.ErrorListener getVolleyErrorListener(final ResponseListener listener) {

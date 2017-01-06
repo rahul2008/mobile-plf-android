@@ -2,12 +2,6 @@ package com.philips.cdp.prxclient;
 
 import android.content.Context;
 
-import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.PILLocale;
-import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.localematch.enums.LocaleMatchError;
-import com.philips.cdp.localematch.enums.Platform;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;

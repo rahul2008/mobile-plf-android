@@ -229,10 +229,13 @@ public class PrxLauncherActivity extends AppCompatActivity {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
 
-                    if(mData.getWow() != null) descTextView.setText("Desc"+" "+mData.getWow());
-                    if(mData.getPrice() != null && mData.getPrice().getFormattedDisplayPrice() != null)  priceTextView.setText("Price"+" "+mData.getPrice().getFormattedDisplayPrice());
-                    if(mData.getProductTitle() != null) productTitleText.setText("ProdcutTitle"+" "+mData.getProductTitle());
-                    if(mData.getSubWOW() != null) subtitelText.setText("SubTitle"+"  "+mData.getSubWOW());
+                    if (mData.getWow() != null) descTextView.setText("Desc" + " " + mData.getWow());
+                    if (mData.getPrice() != null && mData.getPrice().getFormattedDisplayPrice() != null)
+                        priceTextView.setText("Price" + " " + mData.getPrice().getFormattedDisplayPrice());
+                    if (mData.getProductTitle() != null)
+                        productTitleText.setText("ProdcutTitle" + " " + mData.getProductTitle());
+                    if (mData.getSubWOW() != null)
+                        subtitelText.setText("SubTitle" + "  " + mData.getSubWOW());
 
 
                     Log.d(TAG, " SummaryModel Positive Response Data : " + mSummaryModel.isSuccess());
@@ -244,41 +247,59 @@ public class PrxLauncherActivity extends AppCompatActivity {
                     AssetModel mAssetModel = (AssetModel) responseData;
                     Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
                     com.philips.cdp.prxclient.datamodels.assets.Data myyData = mAssetModel.getData();
-                    Assets assets = myyData.getAssets();
-                    List<Asset> asset = assets.getAsset();
-                    imageView.setVisibility(View.GONE);
-                    descTextView.setVisibility(View.GONE);
-                    priceTextView.setVisibility(View.GONE);
-                    productTitleText.setVisibility(View.GONE);
-                    subtitelText.setVisibility(View.GONE);
+                    if (myyData != null) {
+                        Assets assets = myyData.getAssets();
+                        if (assets != null) {
+                            List<Asset> asset = assets.getAsset();
+                            imageView.setVisibility(View.GONE);
+                            descTextView.setVisibility(View.GONE);
+                            priceTextView.setVisibility(View.GONE);
+                            productTitleText.setVisibility(View.GONE);
+                            subtitelText.setVisibility(View.GONE);
+                            listview.setVisibility(View.VISIBLE);
+                            AssetModelAdapter adapter = new AssetModelAdapter(PrxLauncherActivity.this, asset);
+                            listview.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            listview.setOnItemClickListener(null);
+                        } else {
+                            listview.setVisibility(View.GONE);
+                            descTextView.setVisibility(View.VISIBLE);
+                            descTextView.setText("Asset is null");
+                        }
+                        Log.d(TAG, " AssetModel Positive Response Data assets : " + myyData.getAssets());
 
-                    listview.setVisibility(View.VISIBLE);
-                    AssetModelAdapter adapter = new AssetModelAdapter(PrxLauncherActivity.this, asset);
-                    listview.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    listview.setOnItemClickListener(null);
+                    }
                     Log.d(TAG, " AssetModel Positive Response Data : " + mAssetModel.isSuccess());
-                    Log.d(TAG, " AssetModel Positive Response Data assets : " + myyData.getAssets());
+
 
                 } else {
                     SupportModel mSupportModel = (SupportModel) responseData;
                     Log.d(TAG, "Support Response Data : " + mSupportModel.isSuccess());
                     com.philips.cdp.prxclient.datamodels.support.Data msupportData = mSupportModel.getData();
-                    RichTexts text = msupportData.getRichTexts();
-                    List<RichText> listText = text.getRichText();
-                    imageView.setVisibility(View.GONE);
-                    descTextView.setVisibility(View.GONE);
-                    priceTextView.setVisibility(View.GONE);
-                    productTitleText.setVisibility(View.GONE);
-                    subtitelText.setVisibility(View.GONE);
+                    if(msupportData != null) {
+                        RichTexts text = msupportData.getRichTexts();
+                        if(text != null && text.getRichText() != null ) {
+                            List<RichText> listText = text.getRichText();
+                            imageView.setVisibility(View.GONE);
+                            descTextView.setVisibility(View.GONE);
+                            priceTextView.setVisibility(View.GONE);
+                            productTitleText.setVisibility(View.GONE);
+                            subtitelText.setVisibility(View.GONE);
 
-                    listview.setVisibility(View.VISIBLE);
-                    SupportModelAdapter adapter = new SupportModelAdapter(PrxLauncherActivity.this, listText);
-                    listview.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    listview.setOnItemClickListener(null);
+                            listview.setVisibility(View.VISIBLE);
+                            SupportModelAdapter adapter = new SupportModelAdapter(PrxLauncherActivity.this, listText);
+                            listview.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            listview.setOnItemClickListener(null);
+                            Log.d(TAG, " SupportModel Positive Response Data RichText: " + msupportData.getRichTexts());
+                        } else {
+                            descTextView.setVisibility(View.VISIBLE);
+                            listview.setVisibility(View.GONE);
+                            descTextView.setText("Support data is null");
+                        }
+                    }
+
                     Log.d(TAG, " SupportModel Positive Response Data : " + mSupportModel.isSuccess());
-                    Log.d(TAG, " SupportModel Positive Response Data RichText: " + msupportData.getRichTexts());
                 }
             }
 

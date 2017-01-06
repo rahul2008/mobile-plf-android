@@ -9,7 +9,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.Map;
 
 /**
@@ -19,16 +18,15 @@ import java.util.Map;
  */
 public abstract class PrxRequest {
 
-    private String mServerInfo = "www.philips.com/prx";
+  //  private String mServerInfo = "www.philips.com/prx";
     private Sector mSector;
     private Catalog mCatalog;
-    private String mLocaleMatchResult;
     private int maxRetries = 0;
     private int requestTimeOut = 5000;
 
-    public String getServerInfo() {
-        return mServerInfo;
-    }
+//    public String getServerInfo() {
+//        return mServerInfo;
+//    }
 
 
     public Sector getSector() {

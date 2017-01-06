@@ -58,7 +58,7 @@ public class PrxCustomJsonRequest extends Request<JSONObject> {
 
             JSONObject result = null;
 
-            if (jsonString != null && jsonString.length() > 0)
+            if (jsonString.length() > 0)
                 result = new JSONObject(jsonString);
 
             return Response.success(result,
