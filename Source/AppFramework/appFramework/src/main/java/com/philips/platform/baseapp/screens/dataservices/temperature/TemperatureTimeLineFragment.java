@@ -1,5 +1,6 @@
 package com.philips.platform.baseapp.screens.dataservices.temperature;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -7,56 +8,40 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogFragment;
-import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
-import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.database.ORMUpdatingInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.database.OrmCreator;
-import com.philips.platform.baseapp.screens.dataservices.database.OrmDeleting;
-import com.philips.platform.baseapp.screens.dataservices.database.OrmDeletingInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.database.OrmFetchingInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.database.OrmSaving;
-import com.philips.platform.baseapp.screens.dataservices.database.OrmUpdating;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
-import com.philips.platform.baseapp.screens.dataservices.database.table.BaseAppDateTime;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroup;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurementGroupDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentDetail;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.listener.DBChangeListener;
 import com.philips.platform.baseapp.screens.dataservices.listener.EventHelper;
 import com.philips.platform.baseapp.screens.dataservices.reciever.BaseAppBroadcastReceiver;
-import com.philips.platform.baseapp.screens.dataservices.registration.ErrorHandlerImpl;
+import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 
-import java.sql.SQLException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -80,10 +65,12 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
-    ErrorHandlerImpl errorHandler;
+    UserRegistrationInterfaceImpl userRegistrationInterface;
     User mUser;
     Utility mUtility;
-
+    private Handler handler = new Handler();
+    private ProgressBar settingsProgressBar;
+    private WeakReference<TemperatureTimeLineFragment> temperatureTimeLineFragmentWeakReference;
    
     @Override
     public String getActionbarTitle() {
@@ -91,11 +78,24 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        temperatureTimeLineFragmentWeakReference = new WeakReference<TemperatureTimeLineFragment>(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler = null;
+        temperatureTimeLineFragmentWeakReference = null;
+    }
+
+    @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
-        errorHandler = new ErrorHandlerImpl(mContext, mUser);
+        userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
@@ -104,7 +104,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
         mProgressBar.setCancelable(false);
-
     }
 
     @Override
@@ -117,43 +116,104 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onStart() {
         super.onStart();
 
-        if(mUser!=null && !mUser.isUserSignIn()){
-            Toast.makeText(getContext(),"Please Login",Toast.LENGTH_SHORT).show();
-            mAddButton.setVisibility(View.INVISIBLE);
-            mTvSetCosents.setVisibility(View.INVISIBLE);
-            return;
+        setProgressBarVisibility(true);
+
+        Thread t = new Thread(new BuildModel());
+        t.start();
+    }
+
+    public class BuildModel implements Runnable {
+
+        @Override
+        public void run() {
+            Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment on start");
+            if (isFragmentAlive()) {
+                if (mUser != null && !mUser.isUserSignIn() && handler!=null) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isFragmentAlive()) {
+                                Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
+                                mAddButton.setVisibility(View.INVISIBLE);
+                                mTvSetCosents.setVisibility(View.INVISIBLE);
+                                setProgressBarVisibility(false);
+                                return;
+                            }
+                        }
+                    });
+                    return;
+                }
+                Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment on start - before delete check user");
+                if (isFragmentAlive())
+                    deleteUserDataIfNewUserLoggedIn();
+                Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment on start - before fetchData");
+                mTemperaturePresenter.fetchData();
+
+                //Reseting the sync Flags
+                mDataServicesManager.setPullComplete(true);
+                mDataServicesManager.setPushComplete(true);
+
+                setUpBackendSynchronizationLoop();
+
+                if (!mUtility.isOnline(getContext()) && handler!=null) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isFragmentAlive()) {
+                                Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
+                                setProgressBarVisibility(false);
+                            }
+                        }
+                    });
+                    return;
+                }
+
+                if (!mSharedPreferences.getBoolean("isSynced", false) && handler!=null) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isFragmentAlive()) {
+                                showProgressDialog();
+                            }
+                        }
+                    });
+                }
+            }
         }
+    }
 
-        deleteUserDataIfNewUserLoggedIn();
+    private boolean isFragmentAlive() {
+        return getActivity() != null && temperatureTimeLineFragmentWeakReference != null && isAdded();
+    }
 
-        init();
-
-        setUpBackendSynchronizationLoop();
-
-        if(!mUtility.isOnline(getContext())){
-            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
-            showProgressDialog();
+    public void setProgressBarVisibility(boolean isVisible) {
+        if (isVisible) {
+            settingsProgressBar.setVisibility(View.VISIBLE);
+        //    list.setVisibility(View.GONE);
+        } else {
+            settingsProgressBar.setVisibility(View.GONE);
+         //   list.setVisibility(View.VISIBLE);
         }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
+        Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - deleteUserDataIfNewUserLoggedIn");
         if(getLastStoredEmail()==null){
+            Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - getLastStoredEmail()==null");
             storeLastEmail();
             return;
         }
 
+        Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - before email same check");
         if(!isSameEmail()){
-            errorHandler.clearUserData();
+            Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - !isSameEmail() clear data called");
+            userRegistrationInterface.clearUserData();
         }
         storeLastEmail();
     }
 
     private boolean isSameEmail() {
-        if(getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+        if(getLastStoredEmail()!=null && getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
@@ -162,7 +222,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onStop() {
         super.onStop();
         cancelPendingIntent();
-        mDataServicesManager.stopCore();
+        //mDataServicesManager.stopCore();
         dismissProgressDialog();
     }
 
@@ -171,6 +231,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_data_sync_fragment, container, false);
         mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(), mData, mTemperaturePresenter);
+        settingsProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -183,18 +244,15 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         return view;
     }
 
-    private void init() {
-       // Stetho.initializeWithDefaults(getActivity().getApplicationContext());
-        DSLog.enableLogging(true);
+    /*private void init() {
+        Stetho.initializeWithDefaults(getActivity().getApplicationContext());
         OrmCreator creator = new OrmCreator(new UuidGenerator());
+        mDataServicesManager.initialize(mContext, creator, userRegistrationInterface);
         injectDBInterfacesToCore();
-        mDataServicesManager.initialize(mContext, creator, errorHandler);
-        mDataServicesManager.initializeSyncMonitors(null, null);
-        mTemperaturePresenter.fetchData();
+        mDataServicesManager.initializeSyncMonitors(mContext,null, null);
+    }*/
 
-    }
-
-    void injectDBInterfacesToCore() {
+    /*void injectDBInterfacesToCore() {
         final DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
@@ -224,12 +282,12 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao);
 
-            mDataServicesManager.initializeDBMonitors(ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDBMonitors(mContext,ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
             mTemperatureMomentHelper.notifyAllFailure(exception);
             throw new IllegalStateException("Can not instantiate database");
         }
-    }
+    }*/
 
     private void setUpBackendSynchronizationLoop() {
         PendingIntent dataSyncIntent = getPendingIntent();
@@ -257,7 +315,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void onDestroy() {
         super.onDestroy();
         EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        mDataServicesManager.releaseDataServicesInstances();
+        //mDataServicesManager.releaseDataServicesInstances();
     }
 
     @Override
@@ -287,6 +345,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
+                setProgressBarVisibility(false);
             }
         });
 
@@ -316,6 +375,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
                 dismissProgressDialog();
+                setProgressBarVisibility(false);
             }
         });
     }
@@ -334,17 +394,23 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     }
 
     String getLastStoredEmail(){
-        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
-        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        String decryptedData= ssInterface.fetchValueForKey("last_email",ssError);
+        String decryptedData = null;
+        if(getContext()!=null) {
+            AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+            SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+            SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+            decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
+        }
         return decryptedData;
     }
 
     void storeLastEmail(){
-        AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
-        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("last_email",mUser.getEmail(), ssError);
+        if(getContext()!=null) {
+            AppInfraInterface gAppInfra = ((AppFrameworkApplication) getContext().getApplicationContext()).getAppInfra();
+            SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+            SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
+            ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
+            Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - storeLastEmail = " + mUser.getEmail());
+        }
     }
 }
