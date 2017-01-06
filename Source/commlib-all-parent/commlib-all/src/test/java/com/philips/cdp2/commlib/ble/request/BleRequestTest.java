@@ -11,14 +11,18 @@ import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,6 +56,9 @@ public class BleRequestTest {
     @Mock
     private CapabilityDiComm mockCapability;
 
+    @Mock
+    CountDownLatch mockInProgressLatch;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -60,8 +67,16 @@ public class BleRequestTest {
         when(mockDevice.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(mockCapability);
         when(mockDevice.getState()).thenReturn(Connected);
         when(deviceCacheMock.getDeviceMap()).thenReturn(deviceMap);
+        doAnswer(new Answer() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                request.processDicommResponse(mockDicommResponse);
+                return null;
+            }
+        }).when(mockInProgressLatch).countDown();
 
         request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        request.inProgressLatch = mockInProgressLatch;
     }
 
     @Test
@@ -69,10 +84,7 @@ public class BleRequestTest {
 
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
-        request.execute();
-        request.processDicommResponse(mockDicommResponse);
-        request.cleanup();
-
+        request.run();
         request.cancel("timeout");
 
         verify(responseHandlerMock, times(0)).onError(any(Error.class), anyString());
