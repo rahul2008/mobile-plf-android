@@ -46,7 +46,7 @@ import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
  * dispatched in a queue are processed sequentially.
  */
 public abstract class BleRequest implements Runnable {
-    static final int MAX_PAYLOAD_LENGTH = (2 ^ 16) - 1;
+    static final int MAX_PAYLOAD_LENGTH = (int) Math.pow(2, 16) - 1;
 
     @NonNull
     private final BleDeviceCache deviceCache;
