@@ -189,10 +189,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     public void setProgressBarVisibility(boolean isVisible) {
         if (isVisible) {
             settingsProgressBar.setVisibility(View.VISIBLE);
-        //    list.setVisibility(View.GONE);
         } else {
             settingsProgressBar.setVisibility(View.GONE);
-         //   list.setVisibility(View.VISIBLE);
         }
     }
 
