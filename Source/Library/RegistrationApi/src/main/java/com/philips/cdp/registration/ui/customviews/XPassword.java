@@ -48,6 +48,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private TextView mTvMaskPassword;
 
+    private TextView mTvCloseIcon;
+
     private FrameLayout mFlInvaliFielddAlert;
 
     private boolean isValidatePassword = true;
@@ -78,6 +80,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
         mTvMaskPassword = (TextView) findViewById(R.id.tv_password_mask);
         FontLoader.getInstance().setTypeface(mTvMaskPassword, RegConstants.PUIICON_TTF);
+        mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
+        FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
         disableMaskPassoword();
     }
 

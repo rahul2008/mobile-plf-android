@@ -23,8 +23,5 @@
     "appidentity.serviceDiscoveryEnvironment"  : "Production",
     "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success"]
   }
-
 }
-
-
 

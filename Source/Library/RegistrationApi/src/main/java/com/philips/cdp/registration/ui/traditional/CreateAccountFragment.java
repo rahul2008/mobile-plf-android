@@ -367,7 +367,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void register() {
-        RLog.d("OHC","******** TESTING OHC LOGS");
         mRegAccptTermsError.setVisibility(View.GONE);
         mEtName.clearFocus();
         mEtEmail.clearFocus();

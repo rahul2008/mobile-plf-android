@@ -225,11 +225,13 @@ public class XVerifyNumber extends RelativeLayout implements TextWatcher,
 
     public void showResendSpinner(){
         mBtResend.setEnabled(false);
+        mEtVerify.setEnabled(false);
         mProgressBar.setVisibility(VISIBLE);
     }
 
     public void hideResendSpinner(){
         mProgressBar.setVisibility(GONE);
+        mEtVerify.setEnabled(true);
     }
 
     public void disableResendSpinner(){

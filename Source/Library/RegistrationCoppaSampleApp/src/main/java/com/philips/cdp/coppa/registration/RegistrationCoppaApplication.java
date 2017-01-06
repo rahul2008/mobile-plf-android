@@ -50,7 +50,7 @@ public class RegistrationCoppaApplication extends Application {
         if (restoredText != null) {
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.TESTING);
+            initRegistration(Configuration.PRODUCTION);
         }
     }
 
@@ -84,7 +84,7 @@ public class RegistrationCoppaApplication extends Application {
 
         mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
                 "appinfra",
-                "77000",
+                "81451",
                 configError);
 
     }
