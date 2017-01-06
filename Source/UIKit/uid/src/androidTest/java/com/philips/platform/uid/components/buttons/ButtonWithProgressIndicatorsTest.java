@@ -55,6 +55,8 @@ public class ButtonWithProgressIndicatorsTest {
         context = getInstrumentation().getContext();
     }
 
+
+    ///*******************Layout scenarios*************************
     @Test
     public void verifyProgressIndicatorProgressBarHeight() {
         setUpDefaultTheme();
@@ -88,7 +90,7 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyMarginsBetweenProgressbarAndProgressTextWhenThereIsProgessText() {
+    public void verifyMarginsBetweenProgressbarAndProgressTextWhenThereIsProgressText() {
         setUpDefaultTheme();
 
         final int progressIndicatorTextPadding = testResources.getDimensionPixelOffset(R.dimen.uid_progress_indicator_button_progress_text_padding);
@@ -119,7 +121,28 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyProgessTextColor() {
+    public void verifyProgressTextSize() {
+        setUpDefaultTheme();
+
+        simulateSetProgressText("Hello ");
+        final float textSize = testResources.getDimension(R.dimen.uid_label_text_size);
+
+        getProgressText().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
+    }
+
+    @Test
+    public void verifyButtonTextSize() {
+        setUpDefaultTheme();
+
+        final float textSize = testResources.getDimension(R.dimen.uid_label_text_size);
+        getButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
+    }
+
+
+    //*********************Theming scenarios**************************
+
+    @Test
+    public void verifyAttrOfTextColorInProgressState() {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
@@ -131,33 +154,33 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyProgressTextColor() {
-        setUpDefaultTheme();
-
-        simulateSetProgressText("Hello ");
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryTextColor);
-
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
-    }
-
-    @Test
-    public void verifyProgressTextSize() {
-        setUpDefaultTheme();
-
-        simulateSetProgressText("Hello ");
-        final float textSize = testResources.getDimension(R.dimen.uid_label_text_size);
-
-        getProgressText().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
-    }
-
-    @Test
-    public void verifyProgressTextFillColor() {
+    public void verifyTextColorInProgressState() {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidColorLevel45);
 
         getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyProgressTextColorInBrightTonalRange() {
+        setupBrightTheme();
+
+        simulateSetProgressText("Hello ");
+        final int color = ContextCompat.getColor(activity, R.color.uidColorWhite);
+
+        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyButtonTextColorInNormalState() {
+        setUpDefaultTheme();
+
+        simulateSetProgressText("Hello ");
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryTextColor);
+
+        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
     @Test
@@ -171,12 +194,15 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyButtonTextSize() {
-        setUpDefaultTheme();
+    public void verifyButtonFillColorinBrightTonalRange() {
+        setupBrightTheme();
 
-        final float textSize = testResources.getDimension(R.dimen.uid_label_text_size);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidColorLevel75);
+
+        getButton().check(matches(FunctionDrawableMatchers
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, color)));
     }
+
 
     @Test
     public void verifyProgressButtonFillColor() {
@@ -197,14 +223,14 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyProgressTextFillColorInBright() {
+    public void verifyProgressBarProgressColorinBrightTonalRange() {
         setupBrightTheme();
 
-        simulateSetProgressText("Hello ");
-        final int color = ContextCompat.getColor(activity, R.color.uidColorWhite);
+        final int expectedProgressBarProgressColor = ContextCompat.getColor(activity, R.color.uidColorWhite);
 
-        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+        getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, android.R.id.progress, true)));
     }
+
 
     @Test
     public void verifyIndeterminateProgressBarStartColor() {
@@ -225,7 +251,7 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyIndeterminateProgressBarEndColorInBrightColorRange() {
+    public void verifyIndeterminateProgressBarEndColorInBrightTonalRange() {
         setupBrightTheme();
         final int expectedEndColor = ContextCompat.getColor(activity, R.color.uidColorWhite);
 
@@ -234,7 +260,7 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyProgressTextFillColorForIndeterminateInBrightColorRange() {
+    public void verifyProgressTextFillColorForIndeterminateInBrightTonalRange() {
         setupBrightTheme();
 
         simulateSetProgressText("Hello ");
@@ -242,6 +268,8 @@ public class ButtonWithProgressIndicatorsTest {
 
         getIndeterminateProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
+
+//    *******************************************************************************************************
 
     private void setupBrightTheme() {
         final Intent intent = getIntent(2);
