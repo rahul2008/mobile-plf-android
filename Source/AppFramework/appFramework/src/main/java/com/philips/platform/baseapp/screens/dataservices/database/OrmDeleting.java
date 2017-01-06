@@ -8,9 +8,11 @@ package com.philips.platform.baseapp.screens.dataservices.database;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -86,6 +88,7 @@ public class OrmDeleting {
     }
 
     public void deleteAll() throws SQLException {
+        Log.i(DataServicesState.TAG,"In OrmDeleting");
         momentDao.executeRawNoArgs("DELETE FROM `ormmoment`");
         momentDetailDao.executeRawNoArgs("DELETE FROM `ormmomentdetail`");
         measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
