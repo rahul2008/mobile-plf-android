@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -13,24 +14,26 @@ import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.listener.EventHelper;
 import com.philips.platform.baseapp.screens.dataservices.listener.UserRegistrationFailureListener;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.datasync.userprofile.ErrorHandler;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import retrofit.RetrofitError;
 
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 @Singleton
-public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureListener {
+public class UserRegistrationInterfaceImpl implements UserRegistrationInterface, UserRegistrationFailureListener {
 
     // TODO: This I do not want
     @NonNull
@@ -66,6 +69,7 @@ public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureLi
     };
 
     public void clearUserData() {
+        Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - clearUserData");
         DataServicesManager manager = DataServicesManager.getInstance();
         manager.deleteAll();
         clearPreferences();
@@ -77,7 +81,7 @@ public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureLi
     private String email;
 
     @Inject
-    public ErrorHandlerImpl(
+    public UserRegistrationInterfaceImpl(
             @NonNull final Context context,
             @NonNull final User user) {
         this.context = context;
@@ -128,7 +132,7 @@ public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureLi
         if (accessTokenRefreshInProgress) {
             return;
         }
-        DSLog.d("***SPO***", "refreshAccessTokenUsingWorkAround()");
+        DSLog.d(DataServicesState.TAG, "refreshAccessTokenUsingWorkAround()");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
         accessTokenRefreshInProgress = true;
@@ -203,7 +207,7 @@ public class ErrorHandlerImpl implements ErrorHandler, UserRegistrationFailureLi
     @Override
     public void onFailure(final RetrofitError error) {
         if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
-            DSLog.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
+            DSLog.i(DataServicesState.TAG, "In onFailure of UserRegistration - User Not logged in");
             Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
             return;
         }
