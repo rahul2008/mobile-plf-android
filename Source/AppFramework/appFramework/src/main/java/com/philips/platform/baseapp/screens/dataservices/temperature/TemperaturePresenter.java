@@ -20,6 +20,7 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementGroupDetailType;
@@ -183,7 +184,7 @@ public class TemperaturePresenter {
             adapter.notifyDataSetChanged();
         } catch (ArrayIndexOutOfBoundsException e) {
             if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "e = " + e.getMessage());
+                DSLog.i(DataServicesState.TAG, "e = " + e.getMessage());
             }
         }
     }

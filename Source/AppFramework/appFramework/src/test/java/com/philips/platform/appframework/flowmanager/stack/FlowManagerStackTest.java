@@ -4,7 +4,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.dataservices.DataSyncScreenState;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
@@ -43,7 +43,7 @@ public class FlowManagerStackTest extends TestCase {
         BaseState urState = new UserRegistrationOnBoardingState();
         BaseState supportState = new SupportFragmentState();
         BaseState settingsState = new SettingsFragmentState();
-        BaseState dataSyncState = new DataSyncScreenState();
+        BaseState dataSyncState = new DataServicesState();
         flowManagerStack.push(aboutState);
         flowManagerStack.push(prState);
         flowManagerStack.push(iapRetailer);

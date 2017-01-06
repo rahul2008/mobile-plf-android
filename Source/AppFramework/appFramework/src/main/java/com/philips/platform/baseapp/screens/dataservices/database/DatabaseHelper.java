@@ -50,7 +50,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "DataService.db";
     private static final int DATABASE_VERSION = 1;
     private final UuidGenerator uuidGenerator;
-    private final String packageName;
     private Dao<OrmMoment, Integer> momentDao;
     private Dao<OrmMomentType, Integer> momentTypeDao;
     private Dao<OrmMomentDetail, Integer> momentDetailDao;
@@ -70,7 +69,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.uuidGenerator = uuidGenerator;
-        this.packageName = context.getPackageName();
         mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
