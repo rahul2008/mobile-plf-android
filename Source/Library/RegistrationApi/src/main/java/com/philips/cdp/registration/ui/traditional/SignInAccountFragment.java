@@ -55,8 +55,12 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.squareup.okhttp.RequestBody;
 import org.json.JSONObject;
+
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,12 +122,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private RegistrationSettingsURL registrationSettingsURL;
 
-    public static final String DEV_VERFICATION_CODE = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode";
+    private String verification_Sms_Code_URL;
+
+    /*public static final String DEV_VERFICATION_CODE = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode";
     public static final String EVAL_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
     public static final String PROD_VERFICATION_CODE = "https://www.philips.com.cn/api/v1/user/requestVerificationSmsCode";
     public static final String STAGE_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
     public static final String TEST_VERFICATION_CODE = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode";
-
+*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -138,6 +144,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+        serviceDiscovery();
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
@@ -802,7 +809,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private Intent createResendSMSIntent() {
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
         System.out.println("Configration : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-        String url = initializePRXLinks(RegistrationConfiguration.getInstance().getRegistrationEnvironment()) + "?provider=" +
+        String url = verification_Sms_Code_URL + "?provider=" +
                 "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mUser.getMobile();
 
         System.out.println("RESEND URL : " + url);
@@ -837,7 +844,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
     }
 
-    private String initializePRXLinks(String registrationEnv) {
+   /* private String initializePRXLinks(String registrationEnv) {
         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
             return DEV_VERFICATION_CODE;
         }
@@ -854,12 +861,33 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             return EVAL_VERFICATION_CODE;
         }
         return null;
-    }
+    }*/
 
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);
         map.put(AppTagingConstants.MOBILE_INAPPNATIFICATION, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
+    }
+    private void serviceDiscovery() {
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+
+                RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
+                verification_Sms_Code_URL = null;
+            }
+
+            @Override
+            public void onSuccess(URL url) {
+                RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.urx.verificationsmscode:" + url.toString());
+                verification_Sms_Code_URL = url.toString();
+            }
+        });
     }
 }
