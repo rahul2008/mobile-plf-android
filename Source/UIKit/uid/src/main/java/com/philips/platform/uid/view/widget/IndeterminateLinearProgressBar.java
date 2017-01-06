@@ -12,14 +12,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
 
 public class IndeterminateLinearProgressBar extends View {
-    private String TAG = IndeterminateLinearProgressBar.class.getName();
     private int suggestedMinHeight;
 
     private Drawable leadingDrawable;
@@ -64,6 +62,14 @@ public class IndeterminateLinearProgressBar extends View {
         createAnimationSet();
     }
 
+    @Override
+    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        setMeasuredDimension(getMeasuredWidthAndState(), getMeasuredHeight());
+        setTransitionDrawablesBounds();
+        createAnimationSet();
+    }
+
     private void setTransitionDrawablesBounds() {
         if (leadingDrawable != null) {
             leadingDrawable.setBounds(getTransitionDrawableBoundRect());
@@ -79,14 +85,20 @@ public class IndeterminateLinearProgressBar extends View {
         return new Rect(0, 0, width, height);
     }
 
+    private Rect getAnimationDrawableRect() {
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+        return new Rect(0, 0, width, height);
+    }
+
     private void createAnimationSet() {
         leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth());
         leadingAnim.setCallback(this);
-        leadingAnim.setBounds(getTransitionDrawableBoundRect());
+        leadingAnim.setBounds(getAnimationDrawableRect());
 
         trailingAnim = new AnimatedTranslateDrawable(trailingDrawable, -(/*getMeasuredWidth()+*/ transitionDrawableWidth), getMeasuredWidth());
         trailingAnim.setCallback(this);
-        trailingAnim.setBounds(getTransitionDrawableBoundRect());
+        trailingAnim.setBounds(getAnimationDrawableRect());
 
         startAnimation();
     }
@@ -94,20 +106,16 @@ public class IndeterminateLinearProgressBar extends View {
     private void startAnimation() {
         if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
             leadingAnim.start();
-        }
-    /*    if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
-            drawTrailingAnim = true;
-            trailingAnim.start();
-        }*/
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                drawTrailingAnim = true;
-                if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
-                    trailingAnim.start();
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    drawTrailingAnim = true;
+                    if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
+                        trailingAnim.start();
+                    }
                 }
-            }
-        }, 900);
+            }, leadingAnim.getAnimator().getDuration() / 2);
+        }
     }
 
     @Override
@@ -130,8 +138,6 @@ public class IndeterminateLinearProgressBar extends View {
 
     @Override
     protected void onWindowVisibilityChanged(final int visibility) {
-        Log.d(TAG, "onWindowVisibilityChanged: " + visibility + " isshown:" + isShown() + " iswindowvi:" + getWindowVisibility());
-
         if (visibility == GONE || visibility == INVISIBLE) {
             endAnimation();
         } else {
@@ -154,7 +160,6 @@ public class IndeterminateLinearProgressBar extends View {
 
     @Override
     protected void onDraw(final Canvas canvas) {
-        Log.d("amit", "onDraw: ILP");
         super.onDraw(canvas);
         leadingAnim.draw(canvas);
         if (drawTrailingAnim) {
