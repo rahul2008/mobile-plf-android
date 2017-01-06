@@ -91,8 +91,6 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
         PshmacLib pshmacLib = new PshmacLib();
         byte[] key = hexStringToByteArray(secretKey);
         byte[] kMethod = pshmacLib.createHmac(key,requestMethod.getBytes());
-        String resultBase64 = Base64.encodeToString(kMethod,Base64.DEFAULT);
-        kMethod= Base64.decode(resultBase64,Base64.DEFAULT);
         final byte[] kQueryString = hash(queryString, kMethod);
         final byte[] kBody = hash(requestBody, kQueryString);
         return hash(requestHeaders, kBody);
