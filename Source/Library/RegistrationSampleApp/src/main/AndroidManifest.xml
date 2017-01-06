@@ -1,72 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.cl.di.regsample.app"
-    android:versionCode="1"
-    android:versionName="1.0">
+    android:versionCode="5"
+    android:versionName="2.2.7">
 
-
-    <uses-sdk
-        android:minSdkVersion="17"
-        android:targetSdkVersion="25" />
 
     <application
         android:name="com.philips.cl.di.regsample.app.RegistrationApplication"
-        android:hardwareAccelerated="true"
-        android:icon="@drawable/search_icon"
+        android:allowBackup="true"
+        android:icon="@drawable/pr_source"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
 
-        <!--android:debuggable="true" -->
-        <activity android:name="com.philips.cl.di.regsample.app.RegistrationSampleActivity">
+
+        <activity
+            android:name="com.philips.cl.di.regsample.app.RegistrationSampleActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
             android:name="com.philips.cdp.registration.wxapi.WXEntryActivity"
             android:exported="true"></activity>
-        <!--
-        <receiver
-            android:name="com.janrainphilips.philipsregistration.AppBroadcastReceiver"
-            android:enabled="true" >
-            <intent-filter>
-                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
-                <action android:name="com.janrain.android.Jump.FAILED_TO_DOWNLOAD_FLOW"/>
-                <action android:name="com.janrain.android.Jump.DOWNLOAD_FLOW_SUCCESS" />
-            </intent-filter>
-        </receiver>
-        -->
-
-
-        <!-- The following activities are for the Janrain Engage for Android library -->
-        <!-- This activity must have a dialog theme such as Theme.Holo.Dialog, or
-            Theme.Dialog, etc.
-
-            Using android:theme="@style/Theme.Janrain.Dialog" will result in Theme.Dialog on API 4-10 and
-            Theme.Holo.DialogWhenLarge.NoActionBar on API 11+
-            -->
-        <!--   <activity
-               android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
-               android:configChanges="orientation|screenSize"
-               android:theme="@style/Theme.Janrain.Dialog.Light"
-               android:windowSoftInputMode="adjustResize|stateHidden"
-               />-->
-
-        <!-- This activity must have a normal (non-dialog) theme such as Theme, Theme.Light, Theme.Holo, etc.
-
-            Using android:theme="@style/Theme.Janrain" or "@style/Theme.Janrain.Light" will result in
-            Theme (or Theme.Light) on API 4-10 and
-            Theme.Holo (or Theme.Holo.Light) on API 11+
-            -->
-        <!--  <activity
-              android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
-              android:configChanges="orientation|screenSize"
-              android:theme="@style/Theme.Janrain"
-              android:windowSoftInputMode="adjustResize|stateHidden"
-              />-->
 
     </application>
 
