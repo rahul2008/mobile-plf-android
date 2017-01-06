@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
@@ -141,21 +140,24 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         String urlBuild = buildUrl();
 
         ServiceDiscovery service = new ServiceDiscovery();
-        service = mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
-        if (null == service) {
+        ServiceDiscovery SDcache =  mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
+        if (null == SDcache) {
             if (!isOnline()) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
                 service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
                 service.setSuccess(false);
             } else {
                 //urlBuild = buildUrl();
                 if (urlBuild != null) {
                     service = mRequestItemManager.execute(urlBuild);
-                    Log.i("Request Call", "Request Call");
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Request Call", "Request Call");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
                 } else {
                     // TODO RayKlo ???
                 }
             }
+        }else{
+            service=SDcache;
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from cache");
         }
         return service;
     }
