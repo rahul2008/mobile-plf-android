@@ -23,7 +23,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class HSDPPHSApiSigning implements ApiSigningInterface {
-    private String secretKey;
+    private byte[] secretKey;
     private String sharedKey;
     private static final String ALGORITHM_NAME = "HmacSHA256";
     public static final Charset UTF_8_CHARSET = Charset.forName("UTF-8");
@@ -36,7 +36,7 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
      */
     public HSDPPHSApiSigning(String sharedKey, String hexSecretKey) {
         this.sharedKey = sharedKey;
-        this.secretKey = hexSecretKey;
+        this.secretKey = hexStringToByteArray(hexSecretKey);
     }
 
     @Override
@@ -89,8 +89,7 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
 
     private byte[] hashRequest(String requestMethod, String queryString, String requestBody, String requestHeaders) {
         PshmacLib pshmacLib = new PshmacLib();
-        byte[] key = hexStringToByteArray(secretKey);
-        byte[] kMethod = pshmacLib.createHmac(key,requestMethod.getBytes());
+        byte[] kMethod = pshmacLib.createHmac(this.secretKey,requestMethod.getBytes());
         final byte[] kQueryString = hash(queryString, kMethod);
         final byte[] kBody = hash(requestBody, kQueryString);
         return hash(requestHeaders, kBody);
