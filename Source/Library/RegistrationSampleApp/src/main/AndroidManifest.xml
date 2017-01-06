@@ -4,59 +4,30 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <!-- China WeChat -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-    <uses-permission android:name="com.tencent.mm.plugin.permission.SEND" />
-    <uses-permission android:name="com.tencent.mm.plugin.permission.RECEIVE" />
-    <!--    <permission android:name="com.tencent.mm.plugin.permission.WRITE" android:protectionLevel="signature"/>
-        <permission android:name="com.tencent.mm.plugin.permission.READ" android:protectionLevel="signature"/>
-        <permission android:name="com.tencent.mm.permission.MM_MESSAGE" android:protectionLevel="signature"/>-->
-    <uses-permission android:name="com.tencent.mm.plugin.permission.READ"/>
-    <uses-permission android:name="com.tencent.mm.plugin.permission.WRITE"/>
-    <uses-permission android:name="com.tencent.mm.permission.MM_MESSAGE"/>
 
-
-    <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="25" />
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="25" />
 
     <application
         android:name="com.philips.cl.di.regsample.app.RegistrationApplication"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/search_icon"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
-        android:theme="@android:style/Theme.Holo.Light"
-        >
+        android:theme="@android:style/Theme.Holo.Light">
 
         <!--android:debuggable="true" -->
         <activity android:name="com.philips.cl.di.regsample.app.RegistrationSampleActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
 
         <activity
             android:name="com.philips.cdp.registration.wxapi.WXEntryActivity"
-            android:exported="true">
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-            -->
-        </activity>
+            android:exported="true"></activity>
         <!--
         <receiver
             android:name="com.janrainphilips.philipsregistration.AppBroadcastReceiver"
@@ -77,12 +48,12 @@
             Using android:theme="@style/Theme.Janrain.Dialog" will result in Theme.Dialog on API 4-10 and
             Theme.Holo.DialogWhenLarge.NoActionBar on API 11+
             -->
-     <!--   <activity
-            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />-->
+        <!--   <activity
+               android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
+               android:configChanges="orientation|screenSize"
+               android:theme="@style/Theme.Janrain.Dialog.Light"
+               android:windowSoftInputMode="adjustResize|stateHidden"
+               />-->
 
         <!-- This activity must have a normal (non-dialog) theme such as Theme, Theme.Light, Theme.Holo, etc.
 
@@ -90,12 +61,12 @@
             Theme (or Theme.Light) on API 4-10 and
             Theme.Holo (or Theme.Holo.Light) on API 11+
             -->
-      <!--  <activity
-            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.Janrain"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />-->
+        <!--  <activity
+              android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
+              android:configChanges="orientation|screenSize"
+              android:theme="@style/Theme.Janrain"
+              android:windowSoftInputMode="adjustResize|stateHidden"
+              />-->
 
     </application>
 
