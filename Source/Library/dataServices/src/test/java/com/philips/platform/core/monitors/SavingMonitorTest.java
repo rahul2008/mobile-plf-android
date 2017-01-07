@@ -9,7 +9,6 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.ExceptionEvent;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentSaveRequest;
 
@@ -68,9 +67,6 @@ public class SavingMonitorTest {
 
     @Captor
     private ArgumentCaptor<MomentChangeEvent> changeEventArgumentCaptor;
-
-    @Captor
-    private ArgumentCaptor<ExceptionEvent> exceptionEventArgumentCaptor;
 
     @Before
     public void setUp() {

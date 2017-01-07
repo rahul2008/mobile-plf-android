@@ -31,4 +31,9 @@ public class ErrorHandlerImplTest implements UserRegistrationInterface {
     public String getHSDHsdpUrl() {
         return "sdfsd";
     }
+
+    @Override
+    public void refreshAccessTokenUsingWorkAround() {
+
+    }
 }
