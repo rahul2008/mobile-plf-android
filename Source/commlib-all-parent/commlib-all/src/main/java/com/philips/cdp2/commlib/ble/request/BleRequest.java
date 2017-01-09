@@ -26,20 +26,19 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatEx
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.DISCONNECTING;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.EXECUTING;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINISHED;
 import static com.philips.cdp2.commlib.ble.request.BleRequest.State.NOT_STARTED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
 
@@ -58,6 +57,7 @@ public abstract class BleRequest implements Runnable {
     enum State {
         NOT_STARTED,
         EXECUTING,
+        DISCONNECTING,
         FINISHED
     }
 
@@ -209,6 +209,8 @@ public abstract class BleRequest implements Runnable {
         public void onStateUpdated(final SHNDevice shnDevice) {
             if (shnDevice.getState() == Connected) {
                 onConnected();
+            } else if (shnDevice.getState() == Disconnected) {
+                onDisconnected();
             }
         }
 
@@ -253,15 +255,33 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onError(Error error, String errorMessage) {
-        if (setIfStateIs(FINISHED, EXECUTING, NOT_STARTED)) {
+        if (setIfStateIs(DISCONNECTING, EXECUTING, NOT_STARTED)) {
             responseHandler.onError(error, errorMessage);
-            inProgressLatch.countDown();
+            finishRequest();
         }
     }
 
-    private void onSuccess(String data){
-        if (setIfStateIs(FINISHED, EXECUTING)) {
+    private void onSuccess(String data) {
+        if (setIfStateIs(DISCONNECTING, EXECUTING)) {
             responseHandler.onSuccess(data);
+            finishRequest();
+        }
+    }
+
+    private void finishRequest() {
+        if (bleDevice != null) {
+            if (bleDevice.getState() == Disconnected) {
+                onDisconnected();
+            } else {
+                bleDevice.disconnect();
+            }
+        } else {
+            onDisconnected();
+        }
+    }
+
+    private void onDisconnected() {
+        if (setIfStateIs(FINISHED, DISCONNECTING)) {
             inProgressLatch.countDown();
         }
     }

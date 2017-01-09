@@ -10,6 +10,7 @@ import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -25,6 +26,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -111,6 +113,19 @@ public class BleRequestTest {
         request.run();
 
         verify(responseHandlerMock, times(0)).onSuccess(anyString());
+    }
+
+    @Test
+    public void callsDisconnectAfterOnSuccess(){
+        when(mockDicommResponse.getStatus()).thenReturn(NoError);
+        when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
+
+        request.run();
+
+        InOrder inOrder = inOrder(responseHandlerMock, mockDevice);
+
+        inOrder.verify(responseHandlerMock).onSuccess(anyString());
+        inOrder.verify(mockDevice).disconnect();
     }
 
 
