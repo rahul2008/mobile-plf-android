@@ -28,7 +28,7 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String type;
 
     @DatabaseField(canBeNull = true)
