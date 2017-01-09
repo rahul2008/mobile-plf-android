@@ -1,4 +1,4 @@
-#!/usr/bin/env groovy																											
+#!/usr/bin/env groovy                                                                                                           
 
 BranchName = env.BRANCH_NAME
 
@@ -9,34 +9,51 @@ properties([
 
 def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
 
-node ('android_pipeline') {
-	timestamps {
-		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CleanBeforeCheckout']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@bitbucket.atlas.philips.com:7999/cc/productselection_android.git']]])
-			step([$class: 'StashNotifier'])
-		}
-		try {
-			stage ('build') {
-                sh 'cd ./Source/Library && chmod -R 775 ./gradlew && ./gradlew clean assembleDebug lint cC assembleRelease zipDocuments artifactoryPublish'
-			}
-			
-            /* next if-then + stage is mandatory for the platform CI pipeline integration */
-            if (env.triggerBy != "ppc") {
-            	stage ('callIntegrationPipeline') {
-            		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dcc'],[$class: 'StringParameterValue', name: 'libraryName', value: 'productselection']]
-            	}            
+node_ext = "build_t"
+if (env.triggerBy == "ppc") {
+  node_ext = "build_p"
+}
+
+node ('android_pipeline &&' + node_ext) {
+    timestamps {
+        stage ('Checkout') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://git@bitbucket.atlas.philips.com:7999/cc/productselection_android.git']]])
+            step([$class: 'StashNotifier'])
+        }
+
+        try {
+            stage ('build') {
+                sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "productselection" && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
             }
-            
-		} //end try
-		
-		catch(err) {
+            currentBuild.result = 'SUCCESS'
+        }
+
+        catch(err) {
+            currentBuild.result = 'FAILURE'
             error ("Someone just broke the build")
         }
 
-        stage('informing') {
-        	step([$class: 'StashNotifier'])
-        	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+        try {    
+            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dcc'],[$class: 'StringParameterValue', name: 'libraryName', value: 'productselection']]
+                }            
+            }
+            
+        } 
+        
+        catch(err) {
+            currentBuild.result = 'UNSTABLE'
         }
 
-	} // end timestamps
-} // end node ('android')
+        stage('informing') {
+            step([$class: 'StashNotifier'])
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+        }
+
+    } // end timestamps
+}
