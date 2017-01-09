@@ -96,6 +96,6 @@
         <item name="uidIndeterminateLinearProgressStartColor">@android:color/transparent</item>
         <item name="uidIndeterminateLinearProgressCenterColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidIndeterminateLinearProgressEndColor">@android:color/transparent</item>
-        <item name="uidIndeterminateLinearProgressAnimDuration">1800</item>
+        <item name="uidIndeterminateLinearProgressAnimDuration">@integer/uid_indeterminate_progressbar_anim_duration</item>
     </style>
 </resources>

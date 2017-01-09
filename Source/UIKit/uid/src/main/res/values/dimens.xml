@@ -124,5 +124,8 @@
     <dimen name="uid_label_margin_start">12dp</dimen>
     <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
+
+    <!--Linear indeterminate progressbar-->
+    <integer name="uid_indeterminate_progressbar_anim_duration">1800</integer>
 </resources>
 

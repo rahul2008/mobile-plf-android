@@ -35,6 +35,7 @@ public class IndeterminateLinearProgressBar extends View {
     private int transitionStartColor;
     private int transitionCenterColor;
     private int transitionEndColor;
+    private int transitionDuration;
 
     public IndeterminateLinearProgressBar(final Context context) {
         this(context, null);
@@ -54,10 +55,12 @@ public class IndeterminateLinearProgressBar extends View {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDIndeterminateLinearProgressBar, defStyleAttr, R.style.UIDIndeterminateLinearProgress);
         final int bgColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressBGColor, Color.WHITE);
         final float bgColorAlpha = obtainStyledAttributes.getFloat(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressBGAlpha, 1.0f);
+        setTintedBackground(bgColor, bgColorAlpha);
+
         transitionStartColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressStartColor, Color.WHITE);
         transitionCenterColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressCenterColor, Integer.MIN_VALUE);
         transitionEndColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressEndColor, Color.WHITE);
-        setTintedBackground(bgColor, bgColorAlpha);
+        transitionDuration = obtainStyledAttributes.getInt(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressAnimDuration, (int) AnimatedTranslateDrawable.DEFAULT_ANIMATION_DURATION);
         obtainStyledAttributes.recycle();
     }
 
@@ -81,7 +84,7 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     protected Drawable getTrailingDrawable() {
-        return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).mutate();
+        return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
     }
 
     protected Drawable getLeadingDrawable() {
@@ -125,14 +128,17 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void createAnimationSet() {
         leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth());
-        leadingAnim.setCallback(this);
-        leadingAnim.setBounds(getAnimationDrawableRect());
-
-        trailingAnim = new AnimatedTranslateDrawable(trailingDrawable, -(/*getMeasuredWidth()+*/ transitionDrawableWidth), getMeasuredWidth());
-        trailingAnim.setCallback(this);
-        trailingAnim.setBounds(getAnimationDrawableRect());
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth());
+        setAnimationProperties(leadingAnim);
+        setAnimationProperties(trailingAnim);
 
         startAnimation();
+    }
+
+    private void setAnimationProperties(final AnimatedTranslateDrawable translateDrawable) {
+        translateDrawable.setCallback(this);
+        translateDrawable.getAnimator().setDuration(transitionDuration);
+        translateDrawable.setBounds(getAnimationDrawableRect());
     }
 
     @Override
