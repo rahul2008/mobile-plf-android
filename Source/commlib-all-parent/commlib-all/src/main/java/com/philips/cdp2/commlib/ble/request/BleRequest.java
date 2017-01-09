@@ -25,12 +25,8 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminat
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
@@ -42,6 +38,7 @@ import static com.philips.cdp2.commlib.ble.request.BleRequest.State.NOT_STARTED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
+import static java.util.Arrays.asList;
 
 /**
  * The type BleRequest.
@@ -91,9 +88,9 @@ public abstract class BleRequest implements Runnable {
         }
     }
 
-    private boolean setIfStateIs(State newState, State... currentStates) {
+    private boolean setStateIfStateIs(State newState, State... currentStates) {
         synchronized (stateLock) {
-            List<State> currentStateList = Arrays.asList(currentStates);
+            List<State> currentStateList = asList(currentStates);
             if (currentStateList.contains(state)) {
                 state = newState;
                 return true;
@@ -171,7 +168,7 @@ public abstract class BleRequest implements Runnable {
 
     @Override
     public void run() {
-        if (setIfStateIs(EXECUTING, NOT_STARTED)) {
+        if (setStateIfStateIs(EXECUTING, NOT_STARTED)) {
             execute();
 
             try {
@@ -253,14 +250,14 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onError(Error error, String errorMessage) {
-        if (setIfStateIs(FINISHED, EXECUTING, NOT_STARTED)) {
+        if (setStateIfStateIs(FINISHED, EXECUTING, NOT_STARTED)) {
             responseHandler.onError(error, errorMessage);
             inProgressLatch.countDown();
         }
     }
 
     private void onSuccess(String data){
-        if (setIfStateIs(FINISHED, EXECUTING)) {
+        if (setStateIfStateIs(FINISHED, EXECUTING)) {
             responseHandler.onSuccess(data);
             inProgressLatch.countDown();
         }
