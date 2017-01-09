@@ -61,6 +61,7 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
+    private String liveChatUrl = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -406,6 +407,14 @@ public class DigitalCareConfigManager {
 
     public ProductModelSelectionType getProductModelSelectionType() {
         return mProductModelSelectionType;
+    }
+
+    public String getLiveChatUrl() {
+        return liveChatUrl;
+    }
+
+    public void setLiveChatUrl(String liveChatUrl) {
+        this.liveChatUrl = liveChatUrl;
     }
 
     /**

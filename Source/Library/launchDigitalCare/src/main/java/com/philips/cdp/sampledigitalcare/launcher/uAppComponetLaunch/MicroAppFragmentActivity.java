@@ -108,6 +108,7 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
             if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
             ccLaunchInput.setProductModelSelectionType(productsSelection);
             ccLaunchInput.setConsumerCareListener(this);
+            //ccLaunchInput.setLiveChatUrl("http://test.livecom.cn/webapp/index.html?app_openid=philips&group_id=1&token=xxxx");
             CcDependencies ccDependencies = new CcDependencies(mAppInfraInterface);
 
             ccInterface.init(ccDependencies, ccSettings);

@@ -11,6 +11,7 @@ public class CcLaunchInput extends UappLaunchInput {
 
     private ProductModelSelectionType productModelSelectionType = null;
     private CcListener consumerCareListener = null;
+    private String liveChatUrl = null;
 
     public ProductModelSelectionType getProductModelSelectionType() {
         return productModelSelectionType;
@@ -26,5 +27,13 @@ public class CcLaunchInput extends UappLaunchInput {
 
     public void setConsumerCareListener(CcListener consumerCareListener) {
         this.consumerCareListener = consumerCareListener;
+    }
+
+    public String getLiveChatUrl() {
+        return  liveChatUrl;
+    }
+
+    public void setLiveChatUrl(String liveChatUrl) {
+        this.liveChatUrl = liveChatUrl;
     }
 }
