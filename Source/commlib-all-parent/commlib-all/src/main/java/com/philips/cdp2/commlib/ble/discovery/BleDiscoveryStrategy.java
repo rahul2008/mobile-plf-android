@@ -15,7 +15,6 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
-import com.philips.pins.shinelib.SHNResult;
 
 import java.util.Set;
 
@@ -25,35 +24,6 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final BleDeviceCache bleDeviceCache;
     private final long timeoutMillis;
     private final SHNDeviceScanner deviceScanner;
-
-    @VisibleForTesting
-    SHNDevice.SHNDeviceListener deviceListener = new SHNDevice.SHNDeviceListener() {
-        @Override
-        public void onStateUpdated(SHNDevice shnDevice) {
-
-            final NetworkNode networkNode = createNetworkNode(shnDevice);
-            if (networkNode == null) {
-                return;
-            }
-
-            if (SHNDevice.State.Connected.equals(shnDevice.getState())) {
-                bleDeviceCache.addDevice(shnDevice);
-                notifyNetworkNodeDiscovered(networkNode);
-            } else if (SHNDevice.State.Disconnected.equals(shnDevice.getState())) {
-                notifyNetworkNodeLost(networkNode);
-            }
-        }
-
-        @Override
-        public void onFailedToConnect(SHNDevice shnDevice, SHNResult shnResult) {
-            // NOOP
-        }
-
-        @Override
-        public void onReadRSSI(int i) {
-            // NOOP
-        }
-    };
 
     public BleDiscoveryStrategy(@NonNull Context context, @NonNull BleDeviceCache bleDeviceCache, @NonNull SHNDeviceScanner deviceScanner, long timeoutMillis) {
         this.context = context;
@@ -90,8 +60,13 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
         final SHNDevice device = shnDeviceFoundInfo.getShnDevice();
 
-        device.registerSHNDeviceListener(deviceListener);
-        device.connect();
+        final NetworkNode networkNode = createNetworkNode(device);
+        if (networkNode == null) {
+            return;
+        }
+
+        bleDeviceCache.addDevice(device);
+        notifyNetworkNodeDiscovered(networkNode);
     }
 
     @Override

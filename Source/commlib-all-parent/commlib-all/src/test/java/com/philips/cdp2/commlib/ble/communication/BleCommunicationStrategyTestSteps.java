@@ -15,7 +15,6 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.pins.shinelib.ResultListener;
-import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
@@ -46,6 +45,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
+import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -159,7 +160,8 @@ public class BleCommunicationStrategyTestSteps {
 
         when(info.getShnDevice()).thenReturn(device);
         when(device.getAddress()).thenReturn(deviceId);
-        when(device.getCapabilityForType(SHNCapabilityType.DI_COMM)).thenReturn(capability);
+        when(device.getCapabilityForType(DI_COMM)).thenReturn(capability);
+        when(device.getState()).thenReturn(Connected);
 
         mDeviceCache.addDevice(device);
     }
@@ -397,7 +399,7 @@ public class BleCommunicationStrategyTestSteps {
 
     private CapabilityDiComm getCapabilityForDevice(String deviceId) {
         return (CapabilityDiComm) mDeviceCache
-                .getDeviceMap().get(deviceId).getCapabilityForType(SHNCapabilityType.DI_COMM);
+                .getDeviceMap().get(deviceId).getCapabilityForType(DI_COMM);
     }
 
     private Map<String, Object> getObjectMapFromLastSuccessfulResult() {
