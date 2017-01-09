@@ -24,14 +24,14 @@ import com.philips.platform.uid.utils.UIDUtils;
 public class IndeterminateLinearProgressBar extends View {
     Drawable leadingDrawable;
     Drawable trailingDrawable;
+    AnimatedTranslateDrawable leadingAnim;
+    AnimatedTranslateDrawable trailingAnim;
 
     private int transitionDrawableWidth;
     private int transitionExtraWhiteSpace;
     private boolean drawTrailingAnim;
 
     private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
-    private AnimatedTranslateDrawable leadingAnim;
-    private AnimatedTranslateDrawable trailingAnim;
 
     private int transitionStartColor;
     private int transitionCenterColor;
