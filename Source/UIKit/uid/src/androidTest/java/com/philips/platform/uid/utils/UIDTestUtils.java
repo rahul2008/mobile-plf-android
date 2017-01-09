@@ -15,6 +15,7 @@ import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.TypedValue;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -173,5 +174,11 @@ public class UIDTestUtils {
             e.printStackTrace();
         }
         return new int[]{0};
+    }
+
+    public static float getFloatValueFromDimen(final Context activity, final int dimenResource) {
+        TypedValue typedValue = new TypedValue();
+        activity.getResources().getValue(dimenResource, typedValue, true);
+        return typedValue.getFloat();
     }
 }

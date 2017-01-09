@@ -22,23 +22,27 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class BaseTestActivity extends AppCompatActivity {
+    public static final String CONTENT_COLOR_KEY = "ContentColor";
+    public static final String NAVIGATION_COLOR_KEY = "NavigationColor";
 
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         int navigationColor = NavigationColor.BRIGHT.ordinal();
+        int contentColor = 0;
         if (getIntent() != null && getIntent().getExtras() != null) {
             final Bundle extras = getIntent().getExtras();
-            navigationColor = extras.getInt("NavigationColor", 1);
+            navigationColor = extras.getInt(NAVIGATION_COLOR_KEY, 1);
+            contentColor = extras.getInt(CONTENT_COLOR_KEY, 0);
         }
         UIDHelper.injectCalligraphyFonts();
-        UIDHelper.init(getThemeConfig(navigationColor));
+        UIDHelper.init(getThemeConfig(navigationColor, contentColor));
         super.onCreate(savedInstanceState);
     }
 
-    private ThemeConfiguration getThemeConfig(final int navigationColor) {
-        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.values()[navigationColor], this);
+    private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor) {
+        return new ThemeConfiguration(ColorRange.GROUP_BLUE, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor], this);
     }
 
     public void switchTo(final int layout) {

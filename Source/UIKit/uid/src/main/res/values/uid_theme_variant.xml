@@ -71,6 +71,9 @@
 
         <item name="uidLabelTextColor">?attr/uidTextSecondary</item>
         <item name="uidLabelTextAlpha">@dimen/uid_alpha_per_60</item>
+
+        <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel45</item>
+        <item name="uidProgressIndicatorButtonBackgroundAlpha">@dimen/uid_alpha_per_35</item>
     </style>
 
     <style name="UltraLight">
@@ -113,6 +116,8 @@
 
         <item name="uidTextPrimary">@color/uid_gray_level_75</item>
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
+
+        <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
     </style>
 
     <style name="VeryLight">
@@ -149,6 +154,8 @@
 
         <item name="uidTextPrimary">?attr/uidColorLevel75</item>
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
+
+        <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
     </style>
 
     <style name="Light">
@@ -182,6 +189,9 @@
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel20</item>
         <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_25</item>
+
+        <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+        <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
     </style>
 
     <style name="Bright">
@@ -212,6 +222,9 @@
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_25</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel35</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
+
+        <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+        <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
     </style>
 
     <style name="VeryDark">
@@ -246,5 +259,7 @@
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel55</item>
         <item name="uidSwitchBorderColorAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
+
+        <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
     </style>
 </resources>

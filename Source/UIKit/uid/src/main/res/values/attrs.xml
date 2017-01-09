@@ -33,6 +33,9 @@
 
         <attr name="uidTextPrimary" format="reference|color"/>
         <attr name="uidTextSecondary" format="reference|color"/>
+
+        <attr name="uidProgressIndicatorButtonBackgroundColor" format="reference|color"/>
+        <attr name="uidProgressIndicatorButtonBackgroundAlpha" format="reference|float"/>
     </declare-styleable>
 
     <declare-styleable name="DlsColorPallet">

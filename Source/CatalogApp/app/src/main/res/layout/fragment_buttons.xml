@@ -35,8 +35,9 @@
                     android:id="@+id/toggleicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:gravity="center_vertical|end"
                     android:onCheckedChanged="@{(v, isChecked) -> frag.toggleIcons(isChecked)}"/>
             </LinearLayout>
@@ -58,7 +59,7 @@
                     android:id="@+id/toggleextraWide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:checked="true"
                     android:gravity="center_vertical|end"
@@ -82,7 +83,7 @@
                     android:id="@+id/toggleDisable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_weight="1"
                     android:checked="false"
                     android:gravity="center_vertical|end"
@@ -214,7 +215,6 @@
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_icon_only"/>
 
-
             <!--Icon only buttons-->
             <LinearLayout
                 android:id="@+id/groupIconOnly"
@@ -246,6 +246,114 @@
                     android:enabled="@{frag.isButtonsEnabled}"
                     app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
             </LinearLayout>
+
+            <include layout="@layout/divider_layout"/>
+
+            <TextView
+                style="@style/ButtonsCategoryStyle"
+                android:text="@string/buttons_progress"/>
+
+            <LinearLayout
+                android:id="@+id/groupProgressButtonsNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.GONE : View.VISIBLE}">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.MarginTop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                        android:text="@string/buttons_determinate"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                        android:id="@+id/progressButtonsNormalDeterminate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                        app:uidProgressIndicatorButtonProgress="50"
+                        app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/groupProgressButtonsNormalIndeterminate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                        android:layout_marginTop="@dimen/layout_margin_top"
+                        android:text="@string/buttons_indeterminate"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                        android:id="@+id/progressButtonsNormalIndeterminate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                        app:uidIsIndeterminateProgressIndicator="true"
+                        app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/groupProgressButtonsExtraWide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.MarginTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                    android:text="@string/buttons_determinate"/>
+
+                <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                    android:id="@+id/buttonsProgressIndicatorExtraWideDeterminate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                    app:uidProgressIndicatorButtonProgress="50"
+                    app:uidProgressIndicatorButtonProgressText="@string/buttons_loading"
+                    app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                    android:layout_marginTop="@dimen/layout_margin_top"
+                    android:text="@string/buttons_indeterminate"/>
+
+                <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                    android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                    app:uidIsIndeterminateProgressIndicator="true"
+                    app:uidProgressIndicatorButtonProgressText="@string/buttons_loading"
+                    app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </layout>
+
