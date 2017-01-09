@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -18,13 +19,10 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
 
 public class IndeterminateLinearProgressBar extends View {
-    private int suggestedMinHeight;
-
     private Drawable leadingDrawable;
     private Drawable trailingDrawable;
 
     private int transitionDrawableWidth;
-    private int transitionWhiteSpaceWidth;
     private boolean drawTrailingAnim;
 
     private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
@@ -32,12 +30,15 @@ public class IndeterminateLinearProgressBar extends View {
     private AnimatedTranslateDrawable trailingAnim;
 
     public IndeterminateLinearProgressBar(final Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public IndeterminateLinearProgressBar(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-        suggestedMinHeight = context.getResources().getDimensionPixelSize(R.dimen.uid_progress_bar_height);
+        this(context, attrs, R.attr.uidIndeterminateLinearPBStyle);
+    }
+
+    public IndeterminateLinearProgressBar(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         setTintedBackground(context, attrs);
         setAnimationDrawables();
     }
@@ -54,18 +55,8 @@ public class IndeterminateLinearProgressBar extends View {
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int height = Math.max(getMinimumWidth(), suggestedMinHeight);
+        setMeasuredDimension(ViewCompat.getMeasuredWidthAndState(this), 15);
         transitionDrawableWidth = (int) (getMeasuredWidth() * TRANSITION_DRAWABLE_WIDTH_RATIO);
-        transitionWhiteSpaceWidth = getMeasuredWidth() - transitionDrawableWidth;
-        setMeasuredDimension(getMeasuredWidthAndState(), height);
-        setTransitionDrawablesBounds();
-        createAnimationSet();
-    }
-
-    @Override
-    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        setMeasuredDimension(getMeasuredWidthAndState(), getMeasuredHeight());
         setTransitionDrawablesBounds();
         createAnimationSet();
     }
@@ -122,7 +113,7 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     @Override
-    protected void on(final int visibility) {
+    protected void onWindowVisibilityChanged(final int visibility) {
         if (visibility == GONE || visibility == INVISIBLE) {
             pauseAnimation();
         } else {
@@ -177,8 +168,13 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     private void resumeAnimation() {
-        leadingAnim.resume();
-        trailingAnim.resume();
+        if (leadingAnim != null) {
+            leadingAnim.resume();
+        }
+        if (trailingAnim != null) {
+
+            trailingAnim.resume();
+        }
     }
 
     private void endAnimation() {

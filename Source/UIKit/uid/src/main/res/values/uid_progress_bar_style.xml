@@ -89,4 +89,14 @@
             @drawable/uid_circular_progress_bar_big_indeterminate
         </item>
     </style>
+    
+    <style name="UIDIndeterminateLinearProgress">
+        <item name="android:layout_height">@dimen/uid_progress_bar_height</item>
+        <item name="uidIndeterminateLinearProgressBGColor">?attr/uidControlPrimaryTrackOff</item>
+        <item name="uidIndeterminateLinearProgressBGAlpha">?attr/uidControlPrimaryTrackOffAlpha</item>
+        <item name="uidIndeterminateLinearProgressStartColor">@android:color/transparent</item>
+        <item name="uidIndeterminateLinearProgressCenterColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidIndeterminateLinearProgressEndColor">?attr/uidControlPrimaryTrackOffAlpha</item>
+        <item name="uidIndeterminateLinearProgressAnimDuration">1800</item>
+    </style>
 </resources>

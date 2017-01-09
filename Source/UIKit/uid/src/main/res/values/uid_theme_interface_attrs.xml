@@ -104,4 +104,13 @@
         <attr name="uidLabelTextAlpha" format="float"/>
         <attr name="uidLabelTextSize" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDIndeterminateLinearProgressBar">
+        <attr name="uidIndeterminateLinearProgressBGColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressBGAlpha" format="reference|float"/>
+        <attr name="uidIndeterminateLinearProgressStartColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressCenterColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressEndColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressAnimDuration" format="reference|integer"/>
+    </declare-styleable>
 </resources>
