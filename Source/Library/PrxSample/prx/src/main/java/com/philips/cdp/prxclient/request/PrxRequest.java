@@ -1,9 +1,8 @@
 package com.philips.cdp.prxclient.request;
 
-import android.util.Log;
-
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -21,7 +20,6 @@ import java.util.Map;
  */
 public abstract class PrxRequest {
 
-    //  private String mServerInfo = "www.philips.com/prx";
     private Sector mSector;
     private Catalog mCatalog;
     private int maxRetries = 0;
@@ -33,12 +31,6 @@ public abstract class PrxRequest {
         this.mCtn = ctn;
         this.mServiceId = serviceID;
     }
-
-
-//    public String getServerInfo() {
-//        return mServerInfo;
-//    }
-
 
     public Sector getSector() {
         return mSector;
@@ -56,10 +48,7 @@ public abstract class PrxRequest {
         this.mCatalog = catalog;
     }
 
-
     public abstract ResponseData getResponseData(JSONObject jsonObject);
-
-    // public abstract String getRequestUrl();
 
     public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
         Map<String, String> replaceUrl = new HashMap<>();
@@ -71,13 +60,13 @@ public abstract class PrxRequest {
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onSuccess(URL url) {
-                        Log.i("SUCCESS ***", "" + url);
+                        PrxLogger.i("SUCCESS ***", "" + url);
                         listener.onSuccess(url.toString());
                     }
 
                     @Override
                     public void onError(ERRORVALUES error, String message) {
-                        Log.i("ERRORVALUES ***", "" + message);
+                        PrxLogger.i("ERRORVALUES ***", "" + message);
                         listener.onError(error, message);
                     }
                 }, replaceUrl);
@@ -90,25 +79,17 @@ public abstract class PrxRequest {
     }
 
 
-    public  int getRequestType(){
+    public int getRequestType() {
         return RequestType.GET.getValue();
     }
 
-    public  Map<String, String> getHeaders() {
+    public Map<String, String> getHeaders() {
         return null;
     }
 
-    public  Map<String, String> getParams(){
+    public Map<String, String> getParams() {
         return null;
     }
-
-//    public String getLocaleMatchResult() {
-//        return mLocaleMatchResult;
-//    }
-//
-//    public void setLocaleMatchResult(String mLocaleMatchResult) {
-//        this.mLocaleMatchResult = mLocaleMatchResult;
-//    }
 
     public int getMaxRetries() {
         return maxRetries;

@@ -49,7 +49,6 @@ public class NetworkWrapper {
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
-            //  String url = prxRequest.getRequestUrl();
             if (mPrxDependencies != null && mPrxDependencies.getAppInfra() != null) {
                 prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
                     @Override
