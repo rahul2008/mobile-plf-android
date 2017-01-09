@@ -173,16 +173,6 @@ public class ProgressIndicatorButton extends LinearLayout {
         progressBar.setLayoutParams(params);
     }
 
-    private class TapDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onSingleTapConfirmed(final MotionEvent e) {
-            if (clickListener != null && button.isEnabled()) {
-                clickListener.onClick(ProgressIndicatorButton.this);
-            }
-            return super.onSingleTapConfirmed(e);
-        }
-    }
-
     /**
      * Show progress indicator on the button
      */
@@ -370,6 +360,16 @@ public class ProgressIndicatorButton extends LinearLayout {
                 return new ProgressIndicatorButton.SavedState[size];
             }
         };
+    }
+
+    private class TapDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(final MotionEvent e) {
+            if (clickListener != null && button.isEnabled()) {
+                clickListener.onClick(ProgressIndicatorButton.this);
+            }
+            return super.onSingleTapConfirmed(e);
+        }
     }
 }
 
