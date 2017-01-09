@@ -69,7 +69,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {
                 final OrmMoment ormMoment = getOrmMoment(moment);
                 ormMoment.setSynced(true);
-                updateOrSaveMomentInDatabase(ormMoment);
+                updateMoment(ormMoment);
             }
         }
         mTemperatureMomentHelper.notifyAllSuccess(moments);
@@ -213,7 +213,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
-    @Override
     public int processMoment(int count, final Moment moment) {
         try {
             final OrmMoment momentInDatabase = getOrmMomentFromDatabase(moment);
@@ -251,10 +250,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateOrSaveMomentInDatabase(final Moment ormMoment) {
+    public void updateMoment(final Moment moment) {
+
+        OrmMoment ormMoment = getOrmMoment(moment);
+        if (ormMoment == null) {
+            return;
+        }
+
         try {
-            saving.saveMoment((OrmMoment) ormMoment);
-            updating.updateMoment((OrmMoment) ormMoment);
+            saving.saveMoment(ormMoment);
+            updating.updateMoment(ormMoment);
             mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
         } catch (SQLException e) {
             mTemperatureMomentHelper.notifyAllFailure(e);
@@ -269,7 +274,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
      //   OrmMoment moment = (OrmMoment) createMoment(ormMoment);
         deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment);
       //  OrmMoment moment = (OrmMoment) createMoment(ormMoment);
-        updateOrSaveMomentInDatabase(ormMoment);
+        updateMoment(ormMoment);
     }
 
     private boolean isNeverSyncedMomentDeletedLocallyDuringSync(final OrmMoment momentInDatabase) {
@@ -319,7 +324,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         }
     }
 
-    @Override
     public OrmMoment getOrmMoment(final Moment moment) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);

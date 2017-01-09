@@ -11,20 +11,11 @@ import java.util.List;
  * Created by 310218660 on 1/2/2017.
  */
 
-public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface{
-    @Override
-    public int processMoment(int updatedCount, Moment moment) {
-        return 0;
-    }
+public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
-    public void updateOrSaveMomentInDatabase(Moment ormMoment) {
+    public void updateMoment(Moment ormMoment) {
 
-    }
-
-    @Override
-    public Moment getOrmMoment(Moment moment) {
-        return null;
     }
 
     @Override

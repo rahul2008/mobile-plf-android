@@ -79,11 +79,11 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldDeleteUpdateAndPostMoment_whenMomentUpdateRequestIsCalled() throws Exception {
-        when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
+       // when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
         when(momentUpdateRequestmock.getMoment()).thenReturn(momentMock);
         updatingMonitor.onEventAsync(momentUpdateRequestmock);
         verify(momentMock).setSynced(false);
-        verify(dbUpdatingInterface).updateOrSaveMomentInDatabase(momentMock);
+        verify(dbUpdatingInterface).updateMoment(momentMock);
     }
 
     @Test

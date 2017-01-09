@@ -40,11 +40,8 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
         Moment moment = momentUpdateRequest.getMoment();
         moment.setSynced(false);
-        Moment ormMoment = dbUpdatingInterface.getOrmMoment(moment);
-        if (ormMoment == null) {
-            return;
-        }
-        dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
+
+        dbUpdatingInterface.updateMoment(moment);
         //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
