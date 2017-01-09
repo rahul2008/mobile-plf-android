@@ -25,6 +25,10 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminat
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -32,6 +36,9 @@ import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.EXECUTING;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINISHED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.NOT_STARTED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
@@ -47,6 +54,12 @@ import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
  */
 public abstract class BleRequest implements Runnable {
     static final int MAX_PAYLOAD_LENGTH = (int) Math.pow(2, 16) - 1;
+
+    enum State {
+        NOT_STARTED,
+        EXECUTING,
+        FINISHED
+    }
 
     @NonNull
     private final BleDeviceCache deviceCache;
@@ -67,7 +80,28 @@ public abstract class BleRequest implements Runnable {
     CountDownLatch inProgressLatch = new CountDownLatch(1);
 
     @NonNull
-    private AtomicBoolean isExecuting = new AtomicBoolean(false);
+    private State state = NOT_STARTED;
+
+    @NonNull
+    private final Object stateLock = new Object();
+
+    private boolean stateIs(State state) {
+        synchronized (stateLock) {
+            return state == this.state;
+        }
+    }
+
+    private boolean setIfStateIs(State newState, State... currentStates) {
+        synchronized (stateLock) {
+            List<State> currentStateList = Arrays.asList(currentStates);
+            if (currentStateList.contains(state)) {
+                state = newState;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     private final DiCommByteStreamReader.DiCommMessageListener dicommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
@@ -104,7 +138,7 @@ public abstract class BleRequest implements Runnable {
     private final ResultListener<SHNDataRaw> resultListener = new ResultListener<SHNDataRaw>() {
         @Override
         public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
-            if (isExecuting.get()) {
+            if (stateIs(EXECUTING)) {
                 if (shnResult == SHNOk) {
                     diCommByteStreamReader.onBytes(shnDataRaw.getRawData());
                 } else {
@@ -137,15 +171,17 @@ public abstract class BleRequest implements Runnable {
 
     @Override
     public void run() {
-        isExecuting.set(true);
-        execute();
+        if (setIfStateIs(EXECUTING, NOT_STARTED)) {
+            execute();
 
-        try {
-            inProgressLatch.await();
-        } catch (InterruptedException ignored) {
+            try {
+                inProgressLatch.await();
+            } catch (InterruptedException ignored) {
+                onError(UNKNOWN, "Thread interrupted");
+            }
+
+            cleanup();
         }
-        isExecuting.set(false);
-        cleanup();
     }
 
     private void execute() {
@@ -217,14 +253,14 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onError(Error error, String errorMessage) {
-        if (isExecuting.getAndSet(false)) {
+        if (setIfStateIs(FINISHED, EXECUTING, NOT_STARTED)) {
             responseHandler.onError(error, errorMessage);
             inProgressLatch.countDown();
         }
     }
 
     private void onSuccess(String data){
-        if(isExecuting.getAndSet(false)){
+        if (setIfStateIs(FINISHED, EXECUTING)) {
             responseHandler.onSuccess(data);
             inProgressLatch.countDown();
         }

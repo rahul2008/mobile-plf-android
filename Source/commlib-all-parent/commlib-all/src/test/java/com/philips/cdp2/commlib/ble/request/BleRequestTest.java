@@ -18,10 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import static com.philips.cdp.dicommclient.request.Error.TIMED_OUT;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -60,7 +62,7 @@ public class BleRequestTest {
     CountDownLatch mockInProgressLatch;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         initMocks(this);
 
         deviceMap.put(CPP_ID, mockDevice);
@@ -73,7 +75,7 @@ public class BleRequestTest {
                 request.processDicommResponse(mockDicommResponse);
                 return null;
             }
-        }).when(mockInProgressLatch).countDown();
+        }).when(mockInProgressLatch).await();
 
         request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock);
         request.inProgressLatch = mockInProgressLatch;
@@ -81,12 +83,35 @@ public class BleRequestTest {
 
     @Test
     public void whenRequestIsCancelledAfterSuccessThenNoErrorIsReported() throws Exception {
-
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
         request.run();
+
         request.cancel("timeout");
 
         verify(responseHandlerMock, times(0)).onError(any(Error.class), anyString());
     }
+
+    @Test
+    public void whenTimeoutOccursBeforeRequestIsExecutedThenErrorIsReported() throws Exception {
+        when(mockDicommResponse.getStatus()).thenReturn(NoError);
+        when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
+
+        request.cancel("timeout");
+
+        verify(responseHandlerMock).onError(eq(TIMED_OUT), anyString());
+    }
+
+    @Test
+    public void whenTimeoutOccursBeforeRequestIsExecutedThenRequestIsNeverExecuted() throws Exception {
+        when(mockDicommResponse.getStatus()).thenReturn(NoError);
+        when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
+        request.cancel("timeout");
+
+        request.run();
+
+        verify(responseHandlerMock, times(0)).onSuccess(anyString());
+    }
+
+
 }
