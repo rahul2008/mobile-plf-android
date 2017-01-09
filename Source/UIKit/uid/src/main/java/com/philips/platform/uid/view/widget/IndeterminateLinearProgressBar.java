@@ -22,8 +22,8 @@ import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class IndeterminateLinearProgressBar extends View {
-    private Drawable leadingDrawable;
-    private Drawable trailingDrawable;
+    Drawable leadingDrawable;
+    Drawable trailingDrawable;
 
     private int transitionDrawableWidth;
     private int transitionExtraWhiteSpace;
