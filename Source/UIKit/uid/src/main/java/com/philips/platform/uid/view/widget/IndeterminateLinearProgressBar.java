@@ -26,6 +26,7 @@ public class IndeterminateLinearProgressBar extends View {
     private Drawable trailingDrawable;
 
     private int transitionDrawableWidth;
+    private int transitionExtraWhiteSpace;
     private boolean drawTrailingAnim;
 
     private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
@@ -101,6 +102,7 @@ public class IndeterminateLinearProgressBar extends View {
         int height = Math.max(getMinimumHeight(), getDesiredHeight());
         setMeasuredDimension(ViewCompat.getMeasuredWidthAndState(this), height);
         transitionDrawableWidth = (int) (getMeasuredWidth() * TRANSITION_DRAWABLE_WIDTH_RATIO);
+        transitionExtraWhiteSpace = getMeasuredWidth() - transitionDrawableWidth;
         setTransitionDrawablesBounds();
         createAnimationSet();
     }
@@ -127,8 +129,8 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     private void createAnimationSet() {
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth());
-        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth());
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
         setAnimationProperties(leadingAnim);
         setAnimationProperties(trailingAnim);
 

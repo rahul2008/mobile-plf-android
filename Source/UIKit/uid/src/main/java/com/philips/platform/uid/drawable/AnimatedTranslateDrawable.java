@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.view.animation.LinearInterpolator;
 
 public class AnimatedTranslateDrawable extends Drawable {
     public static final long DEFAULT_ANIMATION_DURATION = (long) (2* 900); //900ms
@@ -30,6 +31,7 @@ public class AnimatedTranslateDrawable extends Drawable {
         anim.setRepeatMode(ValueAnimator.RESTART);
         anim.setRepeatCount(ValueAnimator.INFINITE);
         anim.setDuration(DEFAULT_ANIMATION_DURATION);
+        anim.setInterpolator(new LinearInterpolator());
         animator = anim;
     }
 
