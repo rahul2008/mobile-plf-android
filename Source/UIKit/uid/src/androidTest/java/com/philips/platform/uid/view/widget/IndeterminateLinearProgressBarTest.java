@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.BaseTypeSafteyMatcher;
@@ -67,6 +68,15 @@ public class IndeterminateLinearProgressBarTest {
     }
 
     @Test
+    public void verifyTransitionLeadingDrawableWidth() {
+        UIDTestUtils.waitFor(testResources, 750);
+        IndeterminateLinearProgressBar progressBar = (IndeterminateLinearProgressBar) mActivityTestRule.getActivity().findViewById(com.philips.platform.uid.test.R.id.progressBar);
+        int expectedWidth = (int) (progressBar.getWidth() * 0.4f);
+        BaseTypeSafteyMatcher<Drawable> dimenMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameWidth(expectedWidth);
+        assertTrue(dimenMatcher.matches(progressBar.leadingDrawable));
+    }
+
+    @Test
     public void verifyTransitionTrailingDrawableStartColor() {
         UIDTestUtils.waitFor(testResources, 750);
         IndeterminateLinearProgressBar progressBar = (IndeterminateLinearProgressBar) mActivityTestRule.getActivity().findViewById(com.philips.platform.uid.test.R.id.progressBar);
@@ -91,6 +101,15 @@ public class IndeterminateLinearProgressBarTest {
     }
 
     @Test
+    public void verifyTransitionTrailingDrawableWidth() {
+        UIDTestUtils.waitFor(testResources, 750);
+        IndeterminateLinearProgressBar progressBar = (IndeterminateLinearProgressBar) mActivityTestRule.getActivity().findViewById(com.philips.platform.uid.test.R.id.progressBar);
+        int expectedWidth = (int) (progressBar.getWidth() * 0.4f);
+        BaseTypeSafteyMatcher<Drawable> dimenMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameWidth(expectedWidth);
+        assertTrue(dimenMatcher.matches(progressBar.trailingDrawable));
+    }
+
+    @Test
     public void verifyLeadingAnimDuration() {
         UIDTestUtils.waitFor(testResources, 750);
         IndeterminateLinearProgressBar progressBar = (IndeterminateLinearProgressBar) mActivityTestRule.getActivity().findViewById(com.philips.platform.uid.test.R.id.progressBar);
@@ -104,5 +123,21 @@ public class IndeterminateLinearProgressBarTest {
         IndeterminateLinearProgressBar progressBar = (IndeterminateLinearProgressBar) mActivityTestRule.getActivity().findViewById(com.philips.platform.uid.test.R.id.progressBar);
         long duration = progressBar.trailingAnim.getAnimator().getDuration();
         assertEquals(1800, duration);
+    }
+
+    @Test
+    public void verifyScreenOffPausesLeadingAnimation() {
+        UIDTestUtils.waitFor(testResources, 750);
+        IndeterminateLinearProgressBar progressBar = (IndeterminateLinearProgressBar) mActivityTestRule.getActivity().findViewById(com.philips.platform.uid.test.R.id.progressBar);
+        progressBar.onScreenStateChanged(View.SCREEN_STATE_OFF);
+        assertEquals(true, progressBar.leadingAnim.getAnimator().isPaused());
+    }
+
+    @Test
+    public void verifyScreenOffPausesTrailingAnimation() {
+        UIDTestUtils.waitFor(testResources, 1000);
+        IndeterminateLinearProgressBar progressBar = (IndeterminateLinearProgressBar) mActivityTestRule.getActivity().findViewById(com.philips.platform.uid.test.R.id.progressBar);
+        progressBar.onScreenStateChanged(View.SCREEN_STATE_OFF);
+        assertEquals(true, progressBar.trailingAnim.getAnimator().isPaused());
     }
 }
