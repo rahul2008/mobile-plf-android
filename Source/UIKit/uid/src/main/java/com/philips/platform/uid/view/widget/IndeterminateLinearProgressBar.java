@@ -5,11 +5,13 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -17,6 +19,7 @@ import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
+import com.philips.platform.uid.utils.UIDUtils;
 
 public class IndeterminateLinearProgressBar extends View {
     private Drawable leadingDrawable;
@@ -29,6 +32,10 @@ public class IndeterminateLinearProgressBar extends View {
     private AnimatedTranslateDrawable leadingAnim;
     private AnimatedTranslateDrawable trailingAnim;
 
+    private int transitionStartColor;
+    private int transitionCenterColor;
+    private int transitionEndColor;
+
     public IndeterminateLinearProgressBar(final Context context) {
         this(context, null);
     }
@@ -39,23 +46,57 @@ public class IndeterminateLinearProgressBar extends View {
 
     public IndeterminateLinearProgressBar(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setTintedBackground(context, attrs);
-        setAnimationDrawables();
+        obtainStyleAttributes(context, attrs, defStyleAttr);
+        setTransitionDrawables();
     }
 
-    private void setAnimationDrawables() {
-        leadingDrawable = ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).mutate();
-        trailingDrawable = ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_pink).mutate();
+    private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+        final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDIndeterminateLinearProgressBar, defStyleAttr, R.style.UIDIndeterminateLinearProgress);
+        final int bgColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressBGColor, Color.WHITE);
+        final float bgColorAlpha = obtainStyledAttributes.getFloat(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressBGAlpha, 1.0f);
+        transitionStartColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressStartColor, Color.WHITE);
+        transitionCenterColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressCenterColor, Integer.MIN_VALUE);
+        transitionEndColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressEndColor, Color.WHITE);
+        setTintedBackground(bgColor, bgColorAlpha);
+        obtainStyledAttributes.recycle();
     }
 
-    private void setTintedBackground(final Context context, final AttributeSet attrs) {
-        setBackground(new ColorDrawable(Color.WHITE));
+    private void setTransitionDrawables() {
+        leadingDrawable = getLeadingDrawable();
+        trailingDrawable = getTrailingDrawable();
+        setTransitionColorGradients(leadingDrawable);
+        setTransitionColorGradients(trailingDrawable);
+    }
+
+    private void setTransitionColorGradients(Drawable drawable) {
+        if (drawable instanceof GradientDrawable) {
+            int[] colors;
+            if (transitionCenterColor != Integer.MIN_VALUE) {
+                colors = new int[]{transitionStartColor, transitionCenterColor, transitionEndColor};
+            } else {
+                colors = new int[]{transitionStartColor, transitionEndColor};
+            }
+            ((GradientDrawable) leadingDrawable).setColors(colors);
+        }
+    }
+
+    protected Drawable getTrailingDrawable() {
+        return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).mutate();
+    }
+
+    protected Drawable getLeadingDrawable() {
+        return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
+    }
+
+    private void setTintedBackground(int color, float alpha) {
+        setBackground(new ColorDrawable(UIDUtils.modulateColorAlpha(color, alpha)));
     }
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(ViewCompat.getMeasuredWidthAndState(this), 15);
+        int height = Math.max(getMinimumHeight(), getDesiredHeight());
+        setMeasuredDimension(ViewCompat.getMeasuredWidthAndState(this), height);
         transitionDrawableWidth = (int) (getMeasuredWidth() * TRANSITION_DRAWABLE_WIDTH_RATIO);
         setTransitionDrawablesBounds();
         createAnimationSet();
@@ -70,7 +111,7 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
-    private Rect getTransitionDrawableBoundRect() {
+    protected Rect getTransitionDrawableBoundRect() {
         int width = transitionDrawableWidth;
         int height = getMeasuredHeight();
         return new Rect(0, 0, width, height);
@@ -165,6 +206,10 @@ public class IndeterminateLinearProgressBar extends View {
                 }
             }, leadingAnim.getAnimator().getDuration() / 2);
         }
+    }
+
+    protected int getDesiredHeight() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.uid_progress_bar_height);
     }
 
     private void resumeAnimation() {
