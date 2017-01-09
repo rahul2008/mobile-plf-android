@@ -117,3 +117,43 @@ EHUFA-1140 - [IOS Test] - Not able see the Disabled Single Line and Multiline Te
 EHUFA-1141 - [IOS Test] - Left/Right Padding is not proper for Single/Multiline Textboxes
 EHUFA-1143 - [iOS Test] - While rotating from Portrait to Landscape for TexBox using iPhone5c, generates a small zoom display effect.
 EHUFA-1145 - Text entered disappears when the device orientation is changed
+
+
+SPRINT - PI16.4.Sprint5
+EHUFA-912 - iOS: Software Verification Specification
+EHUFA-913 - Android: Software Verification Specification
+EHUFA-973 - iOS/Android: Software Requirements Spec
+EHUFA-974 - iOS/Android: Software Verification Plan
+EHUFA-976 - Mapping between requirements and tests
+EHUFA-982 - iOS Button: Layout and basic functionality
+EHUFA-993 - iOS Button: Colors
+EHUFA-1036 - Android: SPIKE- Styling of scrollbars
+EHUFA-1037 - iOS: SPIKE Central alignment of text
+EHUFA-1039 - Android: SPIKE Automation logic to be made reusable
+EHUFA-1040 - Android: Code coverage integration spike
+EHUFA-1048 - iOS: Spike Styling of Scrollbar
+EHUFA-1055 - iOS: SPIKE-Integration of DLS toolkit in propositions
+EHUFA-1074 - [MUIKit IOS Test]Not able to view/scroll the Primary and Secondary button the DLSCatalog App
+
+
+SPRINT - PI16.4.Sprint4
+EHUFA-983 - Android Button: Layout and basic functionality
+EHUFA-996 - Android Button: Colors
+EHUFA-1032 - Secondary Button : Text color of secondary button is not as expected for GB Theme UL tone
+
+SPRINT - PI16.4.Sprint3
+EHUFA-891 - SPIKE iOS: Explore main features of chart libraries (shinobi and coreplot)
+EHUFA-910 - SPIKE iOS: Automatic generation from requirements to traceability matrix
+EHUFA-911 - SPIKE Android: Automatic generation from requirements to traceability matrix
+EHUFA-933 - As a Architect i would like to come up with the top 5 devices for Mobile UI toolkit for development and testing
+EHUFA-934 - Width of the toggle button is not as expected
+EHUFA-935 - Square border around the toggle button is visible when tapped on the toggle button
+EHUFA-936 - Corners of the toggle button are not sharp, blur observed - HDPI device
+EHUFA-942 - SPIKE Android: Investigate and document how a proposition can exlude UIKit assets from being part of the app binary
+EHUFA-944 - Replace background blur from modal alert with semi transparent uniform black background
+
+SPRINT - PI16.4.Sprint2
+EHUFA-887 - UIKIT Crash in ProductSelection Component (prio 2)
+EHUFA-888 - Vector Drawable Crash in KitKat Device (prio 2)
+EHUFA-904 - iOS: Software Requirements Specification
+EHUFA-905 - Android: Software Requirements Specification
