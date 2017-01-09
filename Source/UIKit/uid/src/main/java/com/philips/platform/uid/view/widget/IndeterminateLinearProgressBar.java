@@ -103,21 +103,6 @@ public class IndeterminateLinearProgressBar extends View {
         startAnimation();
     }
 
-    private void startAnimation() {
-        if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
-            leadingAnim.start();
-            postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawTrailingAnim = true;
-                    if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
-                        trailingAnim.start();
-                    }
-                }
-            }, leadingAnim.getAnimator().getDuration() / 2);
-        }
-    }
-
     @Override
     public void setVisibility(final int visibility) {
         if (getVisibility() != visibility) {
@@ -137,11 +122,11 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     @Override
-    protected void onWindowVisibilityChanged(final int visibility) {
+    protected void on(final int visibility) {
         if (visibility == GONE || visibility == INVISIBLE) {
-            endAnimation();
+            pauseAnimation();
         } else {
-            startAnimation();
+            resumeAnimation();
         }
         super.onWindowVisibilityChanged(visibility);
     }
@@ -150,12 +135,6 @@ public class IndeterminateLinearProgressBar extends View {
     protected void onDetachedFromWindow() {
         endAnimation();
         super.onDetachedFromWindow();
-    }
-
-    private void endAnimation() {
-        drawTrailingAnim = false;
-        leadingAnim.end();
-        trailingAnim.end();
     }
 
     @Override
@@ -168,7 +147,48 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     @Override
+    public void onScreenStateChanged(final int screenState) {
+        super.onScreenStateChanged(screenState);
+        if (screenState == SCREEN_STATE_OFF) {
+            pauseAnimation();
+        } else {
+            resumeAnimation();
+        }
+    }
+
+    @Override
     protected boolean verifyDrawable(final Drawable who) {
         return who == leadingAnim || who == trailingAnim || super.verifyDrawable(who);
+    }
+
+    private void startAnimation() {
+        if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
+            leadingAnim.start();
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    drawTrailingAnim = true;
+                    if (trailingAnim != null && !trailingAnim.getAnimator().isRunning()) {
+                        trailingAnim.start();
+                    }
+                }
+            }, leadingAnim.getAnimator().getDuration() / 2);
+        }
+    }
+
+    private void resumeAnimation() {
+        leadingAnim.resume();
+        trailingAnim.resume();
+    }
+
+    private void endAnimation() {
+        drawTrailingAnim = false;
+        leadingAnim.end();
+        trailingAnim.end();
+    }
+
+    private void pauseAnimation() {
+        leadingAnim.pause();
+        trailingAnim.pause();
     }
 }

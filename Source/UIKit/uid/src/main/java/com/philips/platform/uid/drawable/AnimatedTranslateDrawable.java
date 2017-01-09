@@ -79,11 +79,32 @@ public class AnimatedTranslateDrawable extends Drawable {
         }
     }
 
+      /**
+     * Should be called to resume the animation
+     */
+    public void resume() {
+        if (animator.isPaused()) {
+            animator.resume();
+        } else {
+            animator.start();
+        }
+    }
+
+      /**
+     * Should be called to pause the animation
+     */
+    public void pause() {
+        if (animator.isRunning()) {
+            animator.pause();
+        }
+    }
+
+
     /**
      * Ends the animation (translate animation).
      */
     public void end() {
-        if (animator != null && animator.isRunning()) {
+        if (animator != null && (animator.isRunning() || animator.isPaused())) {
             animator.end();
         }
     }
