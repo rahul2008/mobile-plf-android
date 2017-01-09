@@ -56,7 +56,6 @@ public class ButtonWithProgressIndicatorsTest {
         context = getInstrumentation().getContext();
     }
 
-
     ///*******************Layout scenarios*************************
     @Test
     public void verifyProgressIndicatorProgressBarHeight() {
@@ -160,23 +159,12 @@ public class ButtonWithProgressIndicatorsTest {
     }
 
     @Test
-    public void verifyProgressTextSize() {
-        setUpDefaultTheme();
-
-        simulateSetProgressText("Hello ");
-        final float textSize = testResources.getDimension(R.dimen.uid_label_text_size);
-
-        getProgressText().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
-    }
-
-    @Test
     public void verifyButtonTextSize() {
         setUpDefaultTheme();
 
         final float textSize = testResources.getDimension(R.dimen.uid_label_text_size);
         getButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
     }
-
 
     //*********************Theming scenarios**************************
 
@@ -232,8 +220,6 @@ public class ButtonWithProgressIndicatorsTest {
         getProgressText().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
     }
 
-
-
     @Test
     public void verifyButtonFillColor() {
         setUpDefaultTheme();
@@ -253,7 +239,6 @@ public class ButtonWithProgressIndicatorsTest {
         getButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, color)));
     }
-
 
     @Test
     public void verifyProgressButtonFillColor() {
@@ -281,7 +266,6 @@ public class ButtonWithProgressIndicatorsTest {
 
         getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, android.R.id.progress, true)));
     }
-
 
     @Test
     public void verifyIndeterminateProgressBarStartColor() {
