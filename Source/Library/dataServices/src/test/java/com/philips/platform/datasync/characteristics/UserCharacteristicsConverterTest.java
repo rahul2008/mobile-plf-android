@@ -8,6 +8,8 @@ import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.junit.Before;
@@ -18,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import retrofit.converter.GsonConverter;
+
+import static com.philips.platform.datasync.UCoreAdapter.API_VERSION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -35,6 +40,16 @@ public class UserCharacteristicsConverterTest {
 
     @Mock
     private AppComponent appComponantMock;
+    @Mock
+    private UCoreAdapter uCoreAdapterMock;
+    @Mock
+    private UCoreAccessProvider mUCoreAccessProviderMock;
+
+    @Mock
+    UserCharacteristicsClient userCharacteristicsClientMock;
+
+    @Mock
+    GsonConverter gsonConverterMock;
 
     @Before
     public void setUp() {
@@ -54,8 +69,13 @@ public class UserCharacteristicsConverterTest {
     }
 
 //    @Test
-//    public void ShouldReturnUCoreCharacteristicsDetailList_WhenAppCharacteristicsDetailListIsNotNull() throws Exception {
-//        Characteristics characteristics = userCharacteristicsConvertor.convertToCharacteristics(null);
+//    public void ShouldReturnCharacteristicsDetailList_WhenAppCharacteristicsDetailListIsNotNull() throws Exception {
+////        UserCharacteristicsClient userCharacteristicsClient = uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class,
+////                mUCoreAccessProviderMock.getAccessToken(), gsonConverterMock);
+//        //when(userCharacteristicsClientMock.getUserCharacteristics(mUCoreAccessProviderMock.getUserId(),mUCoreAccessProviderMock.getUserId(), API_VERSION)).then()
+//        UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClientMock.getUserCharacteristics(mUCoreAccessProviderMock.getUserId(),
+//                mUCoreAccessProviderMock.getUserId(), API_VERSION);
+//        Characteristics characteristics = userCharacteristicsConvertor.convertToCharacteristics(uCoreUserCharacteristics);
 //
 //        assertThat(characteristics).isNotNull();
 //    }
@@ -80,10 +100,10 @@ public class UserCharacteristicsConverterTest {
     }
 
     @Test
-    public void ShouldReturnUCoreCharacteristics_WhenAppCharacteristicsIsPassedWithType() throws Exception{
+    public void ShouldReturnUCoreCharacteristics_WhenAppCharacteristicsIsPassedWithType() throws Exception {
         Characteristics characteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TEST_CREATORID");
         CharacteristicsDetail characteristicsDetail = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics);
-        CharacteristicsDetail characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics,characteristicsDetail);
+        CharacteristicsDetail characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics, characteristicsDetail);
 
         List<Characteristics> characteristicsList = new ArrayList<>();
         characteristicsDetail.setCharacteristicsDetail(characteristicsDetail1);

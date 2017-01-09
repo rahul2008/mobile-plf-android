@@ -31,8 +31,6 @@ import retrofit.converter.GsonConverter;
  * All rights reserved.
  */
 public class ConsentsMonitor extends EventMonitor {
-   /* @NonNull
-    private final UCoreAccessProvider accessProvider;*/
 
     @NonNull
     private final UCoreAdapter uCoreAdapter;
@@ -45,9 +43,6 @@ public class ConsentsMonitor extends EventMonitor {
 
     @NonNull
     private final ConsentsConverter consentsConverter;
-
-
-    //private BaseAppDataCreator mDataCreater;
 
     @Inject
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
@@ -88,26 +83,24 @@ public class ConsentsMonitor extends EventMonitor {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        if(event.getConsentDetails()==null || uCoreAccessProvider==null){
+        if (event.getConsentDetails() == null || uCoreAccessProvider == null) {
             return;
         }
 
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
+        List<ConsentDetail> consentDetails = event.getConsentDetails();
+        ArrayList<String> consentDetailTypes = new ArrayList<>();
+        ArrayList<String> deviceIdentificationList = new ArrayList<>();
+        ArrayList<String> documentVersionList = new ArrayList<>();
+        for (ConsentDetail consentDetail : consentDetails) {
+            consentDetailTypes.add(consentDetail.getType());
+            deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
+            documentVersionList.add(consentDetail.getVersion());
+
+        }
         try {
-
-            List<ConsentDetail> consentDetails=event.getConsentDetails();
-            ArrayList<String> consentDetailTypes = new ArrayList<>();
-            ArrayList<String> deviceIdentificationList = new ArrayList<>();
-            ArrayList<String> documentVersionList = new ArrayList<>();
-            for(ConsentDetail consentDetail:consentDetails){
-                consentDetailTypes.add(consentDetail.getType());
-                deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
-                documentVersionList.add(consentDetail.getVersion());
-
-            }
-
+            ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
             List<UCoreConsentDetail> consentDetailList = client.getConsent(uCoreAccessProvider.getUserId(), consentDetailTypes,
-                    deviceIdentificationList,documentVersionList);
+                    deviceIdentificationList, documentVersionList);
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
                 Consent consent = consentsConverter.convertToAppConsentDetails(consentDetailList, uCoreAccessProvider.getUserId());
                 for (ConsentDetail consentDetail : consent.getConsentDetails()) {
@@ -121,7 +114,6 @@ public class ConsentsMonitor extends EventMonitor {
         } catch (Exception e) {
             DSLog.i("***SPO***", "ConsentsMonitor exception Error");
             eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
-            //  eventing.post(new BackendResponse(event.getEventId(), e));
         }
     }
 
@@ -131,14 +123,11 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     private void sendToBackend(ConsentBackendSaveRequest event) {
-        if (isUserInvalid()) {
+        if (isUserInvalid()|| uCoreAccessProvider==null) {
             postError(event.getEventId(), getNonLoggedInError());
             return;
         }
-        if(uCoreAccessProvider==null){
-            return;
-        }
-        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class,uCoreAccessProvider.getAccessToken(), gsonConverter);
+        ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
 
         Consent consent = event.getConsent();
 
@@ -176,7 +165,7 @@ public class ConsentsMonitor extends EventMonitor {
     }
 
     public boolean isUserInvalid() {
-        if(uCoreAccessProvider!=null) {
+        if (uCoreAccessProvider != null) {
             String accessToken = uCoreAccessProvider.getAccessToken();
             return !uCoreAccessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
         }

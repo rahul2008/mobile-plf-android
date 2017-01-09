@@ -31,6 +31,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -86,41 +87,40 @@ public class UserCharacteristicsSenderTest {
 
         boolean sendDataToBackend = userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
-        // verifyZeroInteractions(clientMock);
+        verifyZeroInteractions(clientMock);
         assertThat(sendDataToBackend).isFalse();
-        // verifyZeroInteractions(uCoreAdapterMock);
+        verifyZeroInteractions(uCoreAdapterMock);
     }
 
     @Test
     public void ShouldNotSendDataToBackend_WhenUserIdIsEmpty() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        when(accessProviderMock.getAccessToken()).thenReturn("");
         when(accessProviderMock.getUserId()).thenReturn("");
 
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
-        // verifyZeroInteractions(uCoreAdapterMock);
+        verifyZeroInteractions(uCoreAdapterMock);
     }
 
     @Test
-    public void ShouldNotSendDataToBackend_WhenUserIdIsNull() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getUserId()).thenReturn(null);
-
+    public void ShouldNotSendDataToBackend_WhenAccessTokenIsEmpty() throws Exception {
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        when(accessProviderMock.getAccessToken()).thenReturn("");
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
-        //verifyZeroInteractions(uCoreAdapterMock);
+        verifyZeroInteractions(uCoreAdapterMock);
     }
 
     @Test
-    public void ShouldNotSendDataToBackend_WhenDataToSendIsNull() throws Exception {
+    public void ShouldNotSendDataToBackend_WhenDataToSendIsEmpty() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
-        when(accessProviderMock.getUserId()).thenReturn(null);
+        when(accessProviderMock.getAccessToken()).thenReturn("");
 
-        List<Characteristics> characteristicsList = new ArrayList<>();
-        boolean isReturnFalse = userCharacteristicsSender.sendDataToBackend(characteristicsList);
-        //Assert.assertNull(characteristicsList);
+       // List<Characteristics> characteristicsList = new ArrayList<>();
+        boolean isReturnFalse = userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
         assertThat(isReturnFalse).isEqualTo(false);
-        // verifyZeroInteractions(uCoreAdapterMock);
+        verifyZeroInteractions(uCoreAdapterMock);
     }
 
     @Test
