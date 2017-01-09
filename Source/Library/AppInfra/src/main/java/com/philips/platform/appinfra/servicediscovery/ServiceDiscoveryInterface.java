@@ -22,7 +22,7 @@ public interface ServiceDiscoveryInterface {
     interface OnErrorListener {
         enum ERRORVALUES {
             NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR,
-            INVALID_RESPONSE
+            INVALID_RESPONSE , UNKNOWN_ERROR
         }
 
         void onError(ERRORVALUES error, String message);

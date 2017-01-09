@@ -136,6 +136,8 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     private Context context;
 
     RequestItemManager mRequestItemManager = null;
+    private ServiceDiscovery serviceDiscovery = null;
+
 
     @Override
     protected void setUp() throws Exception {
@@ -565,7 +567,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForNullServiceId() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(null, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -581,7 +583,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceId() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -597,13 +599,13 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProg() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, null, false, null);
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner
             () {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -619,7 +621,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceURLwithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.serviceURLwithCountryorLanguagePreferences(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -635,10 +637,10 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceswithCountryorLanguagePreferencesForNullServiceId() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(null, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 assertNotNull(urlMap);
             }
 
@@ -651,10 +653,10 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceswithCountryorLanguagePreferencesForServiceId() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 assertNotNull(urlMap);
             }
 
@@ -667,15 +669,15 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProg() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, null, false, null);
     }
 
     public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 assertNotNull(urlMap);
             }
 
@@ -688,7 +690,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceswithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServicesWithLanguageorCountryPreference(mServicesId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
@@ -704,7 +706,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceLocalewithCountryorLanguagePreferencesForServiceId() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String locale) {
@@ -720,13 +722,13 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProg() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, null, false);
     }
 
     public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgWithListner
             () {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String locale) {
@@ -742,7 +744,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     }
 
     public void testserviceLocalewithCountryorLanguagePreferencesForServiceIdDownloadProgfalse() {
-        mServiceDiscoveryManager.serviceDiscovery = loadServiceDiscoveryModel();
+        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String locale) {
@@ -814,7 +816,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                     }
 
                     @Override
-                    public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         assertNotNull(urlMap);
                     }
                 }, parameters);
@@ -835,7 +837,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                     }
 
                     @Override
-                    public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
+                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         assertNotNull(urlMap);
                     }
                 }, parameters);

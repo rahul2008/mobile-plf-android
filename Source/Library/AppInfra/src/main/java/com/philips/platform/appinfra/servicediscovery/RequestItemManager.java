@@ -2,8 +2,6 @@ package com.philips.platform.appinfra.servicediscovery;
 
 
 import android.content.Context;
-import android.os.Build;
-//import android.os.LocaleList;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -11,13 +9,12 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
@@ -33,13 +30,14 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+//import android.os.LocaleList;
+
 public class RequestItemManager {
 
     //    RequestQueue mRequestQueue;
     private static final String TAG = "RequestManager";//this.class.getSimpleName();
 
     private Context mContext = null;
-    private RequestQueue mVolleyRequest;
 
 
     private AppInfra mAppInfra;
@@ -47,14 +45,14 @@ public class RequestItemManager {
     public RequestItemManager(Context context, AppInfra appInfra) {
         this.mContext = context;
         mAppInfra = appInfra;
-        Volleyrequester volleyQueue = Volleyrequester.getInstance();
-        this.mVolleyRequest = volleyQueue.getRequestQueue(this.mContext);
     }
 
     public ServiceDiscovery execute(final String url) {
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future);
-        mVolleyRequest.add(request);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
+        request.setShouldCache(true);
+        mAppInfra.getRestClient().getRequestQueue().add(request);
+
         ServiceDiscovery result = new ServiceDiscovery();
 
         try {
@@ -66,7 +64,7 @@ public class RequestItemManager {
             result.setSuccess(false);
         } catch (ExecutionException e) {
             Throwable error = e.getCause();
-            ServiceDiscovery.Error volleyError = null;
+            ServiceDiscovery.Error volleyError;
             if (error instanceof TimeoutError) {
                 Log.i("TimeoutORNoConnection", "" + "TimeoutORNoConnection");
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
@@ -86,7 +84,8 @@ public class RequestItemManager {
                 Log.i("ParseError", "" + "ParseError");
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
             } else {
-            } // TODO RayKlo
+                volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, e.getMessage());
+            }
             result.setError(volleyError);
         }
         return result;
@@ -120,7 +119,7 @@ public class RequestItemManager {
 
                 ArrayList<String> localeList = new ArrayList<String>();
                 JSONArray configCountryJSONArray = null;
-//                LocaleList mLocaleList = mAppInfra.getInternationalization().getLocaleList();
+//               LocaleList mLocaleList = mAppInfra.getInternationalization().getLocaleList();
 
                 if (resultsJSONArray.length() > 1) {
 
@@ -131,6 +130,10 @@ public class RequestItemManager {
                 } else {
                     matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                     configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+                    if (null == configCountryJSONArray) {
+                        configCountryJSONArray = new JSONArray();
+                        configCountryJSONArray.put(resultsJSONArray.getJSONObject(0).optJSONObject("configs"));
+                    }
                 }
 
 //                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -175,32 +178,34 @@ public class RequestItemManager {
 //                }
 
 
-                for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
-                    MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
+                if (configCountryJSONArray != null) {
+                    for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
+                        MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
+                        config.setMicrositeId(configCountryJSONArray.optJSONObject(configCount).optString("micrositeId"));
+                        HashMap<String, String> urlHashMap = new HashMap<String, String>();
+                        JSONObject urlJSONObject = configCountryJSONArray.optJSONObject(configCount).optJSONObject("urls");
+                        Iterator<String> iter = urlJSONObject.keys();
+                        while (iter.hasNext()) {
+                            String key = iter.next();
+                            String value = urlJSONObject.getString(key);
+                            urlHashMap.put(key, value);
+                        }
+                        config.setUrls(urlHashMap);
 
-                    config.setMicrositeId(configCountryJSONArray.optJSONObject(configCount).optString("micrositeId"));
-                    HashMap<String, String> urlHashMap = new HashMap<String, String>();
-                    JSONObject urlJSONObject = configCountryJSONArray.optJSONObject(configCount).optJSONObject("urls");
-                    Iterator<String> iter = urlJSONObject.keys();
-                    while (iter.hasNext()) {
-                        String key = iter.next();
-                        String value = urlJSONObject.getString(key);
-                        urlHashMap.put(key, value);
+                        ArrayList<MatchByCountryOrLanguage.Config.Tag> tagArrayList = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
+                        JSONArray tagJSONArray = configCountryJSONArray.optJSONObject(configCount).optJSONArray("tags");
+                        for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
+                            MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
+                            tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
+                            tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
+                            tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
+                            tagArrayList.add(tag);
+                        }
+                        config.setTags(tagArrayList);
+                        matchByCountryConfigs.add(config);
                     }
-                    config.setUrls(urlHashMap);
-
-                    ArrayList<MatchByCountryOrLanguage.Config.Tag> tagArrayList = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
-                    JSONArray tagJSONArray = configCountryJSONArray.optJSONObject(configCount).optJSONArray("tags");
-                    for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
-                        MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
-                        tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
-                        tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
-                        tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
-                        tagArrayList.add(tag);
-                    }
-                    config.setTags(tagArrayList);
-                    matchByCountryConfigs.add(config);
                 }
+
 
                 matchByCountry.setConfigs(matchByCountryConfigs);
                 result.setMatchByCountry(matchByCountry);
@@ -248,8 +253,6 @@ public class RequestItemManager {
                     }
                     matchByLanguage.setConfigs(matchByLanguageConfigs);
                 }
-
-
                 result.setMatchByLanguage(matchByLanguage);
                 //ServiceDiscoveryManager.isDownloadInProgress = false; // TODO RayKlo don't cross scope
                 // END setting match by language

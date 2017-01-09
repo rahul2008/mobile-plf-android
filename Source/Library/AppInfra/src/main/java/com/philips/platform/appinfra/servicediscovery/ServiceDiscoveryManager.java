@@ -37,11 +37,11 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
+
     private abstract class DownloadItemListener {
         public boolean forceRefresh() {
             return false;
         }
-
         public abstract void onDownloadDone(ServiceDiscovery result);
     }
 
@@ -52,7 +52,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ServiceDiscovery serviceDiscovery = null;
     private String countryCode;
 
-    private final RequestManager mRequestItemManager;
+    private final RequestItemManager mRequestItemManager;
 
     //
     private boolean downloadInProgress;
@@ -62,7 +62,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
-        mRequestItemManager = new RequestManager(context, mAppInfra);
+        mRequestItemManager = new RequestItemManager(context, mAppInfra);
         downloadInProgress = false;
         downloadAwaiters = new ArrayDeque<>();
         downloadLock = new ReentrantLock();
@@ -151,7 +151,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 Log.i("Request Call", "Request Call");
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Request Call", "Request Call");
             } else {
-                // TODO RayKlo ???
+                service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "URL is null"));
             }
         }
         return service;
@@ -199,7 +199,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     environment = "tst.philips.com";
                 }
             } else {
-                // TODO RayKlo ??
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Build URL in SD", "" + "AppState is null");
             }
 
             String url = null;
@@ -215,7 +215,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 }
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
             } else {
-                // TODO RayKlo ??
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Build URL in SD", "" + "Appidentity values are null");
             }
             return url;
         } catch (Exception e) {
