@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -21,7 +22,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import cdp.philips.com.mydemoapp.listener.EventHelper;
-import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
 import retrofit.RetrofitError;
 
 import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
@@ -31,11 +31,14 @@ import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
  * All rights reserved.
  */
 @Singleton
-public class UserRegistrationInterfaceImpl implements UserRegistrationInterface, UserRegistrationFailureListener {
+public class UserRegistrationInterfaceImpl implements UserRegistrationInterface {
 
     // TODO: This I do not want
     @NonNull
     private final Context context;
+
+    public static final String TAG = UserRegistrationInterfaceImpl.class.getSimpleName();
+
 
     @NonNull
     private final User user;
@@ -60,7 +63,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
 
                 @Override
                 public void onRefreshLoginSessionInProgress(String s) {
-
+                    accessTokenRefreshInProgress = true;
                 }
             });
         }
@@ -83,7 +86,6 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
             @NonNull final User user) {
         this.context = context;
         this.user = user;
-        EventHelper.getInstance().registerURNotification(EventHelper.UR, this);
     }
 
     private String gethsdpaccesstoken() {
@@ -103,11 +105,20 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
     @NonNull
     @Override
     public String getAccessToken() {
-        //refreshAccessTokenUsingWorkAround();
-        if (isAccessTokenStillValid())
+        Log.i(TAG, "Inside getAccessToken");
+
+        if (accessToken != null) {
+            Log.i(TAG, "AccessToken is not null = " + accessToken);
+        }
+
+        if ((accessToken == null || accessToken.isEmpty()) && !accessTokenRefreshInProgress) {
+            Log.i(TAG, "get the token from Registration");
+
             accessToken = gethsdpaccesstoken();
-        else
-            refreshAccessTokenUsingWorkAround();
+            Log.i(TAG, "get the token from Registration access token = " + accessToken);
+        }
+        Log.i(TAG, "get the token from Registration return - " + accessToken);
+
         return accessToken;
     }
 
@@ -124,15 +135,18 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
         return userProfile;
     }
 
-    // TODO: We may have to ask the common component to take care of this
-    private synchronized void refreshAccessTokenUsingWorkAround() {
+    @Override
+    public synchronized void refreshAccessTokenUsingWorkAround() {
+        Log.i(TAG, "Inside Refresh Access Token");
+
         if (accessTokenRefreshInProgress) {
             return;
         }
         DSLog.d("***SPO***", "refreshAccessTokenUsingWorkAround()");
+        accessTokenRefreshInProgress = true;
+
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
-        accessTokenRefreshInProgress = true;
         synchronized (this) {
             try {
                 wait();
@@ -201,13 +215,13 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface,
         return propertyForKey.toString();
     }
 
-    @Override
-    public void onFailure(final RetrofitError error) {
-        if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
-            DSLog.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
-            Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        refreshAccessTokenUsingWorkAround();
-    }
+//    @Override
+//    public void onFailure(final RetrofitError error) {
+//        if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
+//            DSLog.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
+//            Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        refreshAccessTokenUsingWorkAround();
+//    }
 }

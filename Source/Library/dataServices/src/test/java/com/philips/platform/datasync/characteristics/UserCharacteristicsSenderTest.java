@@ -123,23 +123,23 @@ public class UserCharacteristicsSenderTest {
         verifyZeroInteractions(uCoreAdapterMock);
     }
 
-    @Test
-    public void ShouldSendDataToBackend_WhenUserIsValid() throws Exception {
-        response = new Response("", 200, "OK", new ArrayList<Header>(), null);
-        verifySendData();
-    }
-
-    @Test
-    public void ShouldSendDataToBackend_WhenResponseCodeIs201() throws Exception {
-        response = new Response("", 201, "OK", new ArrayList<Header>(), null);
-        verifySendData();
-    }
-
-    @Test
-    public void ShouldSendDataToBackend_WhenResponseCodeIs204() throws Exception {
-        response = new Response("", 204, "OK", new ArrayList<Header>(), null);
-        verifySendData();
-    }
+//    @Test
+//    public void ShouldSendDataToBackend_WhenUserIsValid() throws Exception {
+//        response = new Response("", 200, "OK", new ArrayList<Header>(), null);
+//        verifySendData();
+//    }
+//
+//    @Test
+//    public void ShouldSendDataToBackend_WhenResponseCodeIs201() throws Exception {
+//        response = new Response("", 201, "OK", new ArrayList<Header>(), null);
+//        verifySendData();
+//    }
+//
+//    @Test
+//    public void ShouldSendDataToBackend_WhenResponseCodeIs204() throws Exception {
+//        response = new Response("", 204, "OK", new ArrayList<Header>(), null);
+//        verifySendData();
+//    }
 
     private void verifySendData() {
         final UserCharacteristicsClient uCoreClientMock = mock(UserCharacteristicsClient.class);

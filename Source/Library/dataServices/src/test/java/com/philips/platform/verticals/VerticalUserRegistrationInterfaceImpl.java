@@ -31,4 +31,9 @@ public class VerticalUserRegistrationInterfaceImpl implements UserRegistrationIn
     public String getHSDHsdpUrl() {
         return "http://google.com";
     }
+
+    @Override
+    public void refreshAccessTokenUsingWorkAround() {
+
+    }
 }

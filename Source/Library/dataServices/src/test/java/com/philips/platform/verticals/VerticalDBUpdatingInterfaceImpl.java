@@ -12,7 +12,7 @@ import java.util.List;
  * Created by 310218660 on 1/2/2017.
  */
 
-public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface{
+public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public int processMoment(int updatedCount, Moment moment) {
         return 0;
@@ -49,8 +49,8 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface{
     }
 
     @Override
-    public void updateCharacteristics(Characteristics characteristics) throws SQLException {
-
+    public boolean updateCharacteristics(Characteristics characteristics) throws SQLException {
+        return false;
     }
 
     @Override

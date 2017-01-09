@@ -2,11 +2,17 @@ package com.philips.platform.core.injection;
 
 import android.content.Context;
 
+import com.philips.platform.core.BaseAppCore;
+import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.monitors.DBMonitors;
+import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.Backend;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
+import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
@@ -17,6 +23,12 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
+import com.philips.platform.datasync.synchronisation.DataFetcher;
+import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
+import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
+import com.philips.platform.datasync.synchronisation.DataSender;
+import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
+import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalDBDeletingInterfaceImpl;
 import com.philips.platform.verticals.VerticalDBFetchingInterfaceImpl;
@@ -81,21 +93,30 @@ public class BackendModuleTest {
 
     @Mock
     private AppComponent appComponantMock;
+    @Mock
+    ArrayList<DataFetcher> fetchers;
+
+    @Mock
+    ArrayList<DataSender> senders;
+
+    @Mock
+    ErrorHandlingInterface errorHandlingInterface;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         VerticalCreater baseAppDataCreator = new VerticalCreater();
-        VerticalUserRegistrationInterfaceImpl  userRegistrationInterface = new VerticalUserRegistrationInterfaceImpl();
+        VerticalUserRegistrationInterfaceImpl userRegistrationInterface = new VerticalUserRegistrationInterfaceImpl();
         VerticalDBDeletingInterfaceImpl dbDeletingInterface = new VerticalDBDeletingInterfaceImpl();
         VerticalDBFetchingInterfaceImpl dbFetchingInterface = new VerticalDBFetchingInterfaceImpl();
         VerticalDBSavingInterface dbSavingInterface = new VerticalDBSavingInterface();
         VerticalDBUpdatingInterfaceImpl dbUpdatingInterface = new VerticalDBUpdatingInterfaceImpl();
 
-        backendModule = new BackendModule(eventingMock,baseAppDataCreator, userRegistrationInterface,
-                dbDeletingInterface,dbFetchingInterface,dbSavingInterface,dbUpdatingInterface,
-                null,null,null);
-        //backendModule = new BackendModule(eventingMock);
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+
+        backendModule = new BackendModule(eventingMock, baseAppDataCreator, userRegistrationInterface,
+                dbDeletingInterface, dbFetchingInterface, dbSavingInterface, dbUpdatingInterface,
+                fetchers, senders, errorHandlingInterface);
     }
 
     @Test
@@ -152,21 +173,69 @@ public class BackendModuleTest {
         assertThat(backend).isInstanceOf(Backend.class);
     }
 
-    //TODO: Due to eventing being moved to Constructor
-   /* @Test
+    @Test
+    public void ShouldReturnBackend_WhenProvidesDMMonitorsIsCalled() throws Exception {
+        DBMonitors dbMonitors = backendModule.providesDMMonitors();
+        assertThat(dbMonitors).isNotNull();
+        assertThat(dbMonitors).isInstanceOf(DBMonitors.class);
+    }
+
+    @Test
+    public void ShouldReturnBackend_WhenProvidesErrorMonitorIsCalled() throws Exception {
+        ErrorMonitor errorMonitor = backendModule.providesErrorMonitor();
+        assertThat(errorMonitor).isNotNull();
+        assertThat(errorMonitor).isInstanceOf(ErrorMonitor.class);
+    }
+
+    @Test
+    public void ShouldReturnBackend_WhenProvidesCoreIsCalled() throws Exception {
+        BaseAppCore core = backendModule.providesCore();
+        assertThat(core).isNotNull();
+        assertThat(core).isInstanceOf(BaseAppCore.class);
+    }
+
+    @Test
+    public void ShouldReturnBackend_WhenProvidesUserRegistrationInterfaceIsCalled() throws Exception {
+        UserRegistrationInterface userRegistrationInterface = backendModule.providesUserRegistrationInterface();
+        assertThat(userRegistrationInterface).isNotNull();
+        assertThat(userRegistrationInterface).isInstanceOf(UserRegistrationInterface.class);
+    }
+
+    @Test
+    public void ShouldReturnBackend_WhenProvidesAccessProviderIsCalled() throws Exception {
+        UCoreAccessProvider uCoreAccessProvider = backendModule.providesAccessProvider();
+        assertThat(uCoreAccessProvider).isNotNull();
+        assertThat(uCoreAccessProvider).isInstanceOf(UCoreAccessProvider.class);
+    }
+
+    @Test
+    public void ShouldReturnBackend_WhenProvidesErrorHandlingInterfaceIsCalled() throws Exception {
+        ErrorHandlingInterface errorHandlingInterface = backendModule.providesErrorHandlingInterface();
+        assertThat(errorHandlingInterface).isNotNull();
+        assertThat(errorHandlingInterface).isInstanceOf(ErrorHandlingInterface.class);
+    }
+
+    @Test
+    public void ShouldReturnPullSynchronise_WhenProvideCreaterIsCalled() throws Exception {
+        BaseAppDataCreator baseAppDataCreator = backendModule.provideCreater();
+        assertThat(baseAppDataCreator).isNotNull();
+        assertThat(baseAppDataCreator).isInstanceOf(BaseAppDataCreator.class);
+    }
+
+    @Test
     public void ShouldReturnDataPullSynchronise_WhenProvidesDataPullSynchroniseIsCalled() throws Exception {
-        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher, eventingMock, executorService);
+        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher, executorService);
         assertThat(dataPullSynchronise).isNotNull();
         assertThat(dataPullSynchronise).isInstanceOf(DataPullSynchronise.class);
-    }*/
+    }
 
-    //TODO: Due to eventing being moved to Constructor
-    /*@Test
+    @Test
     public void ShouldReturnDataPushSynchronise_WhenProvidesDataPushSynchroniseIsCalled() throws Exception {
-        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender, eventingMock);
+        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender);
         assertThat(dataPushSynchronise).isNotNull();
         assertThat(dataPushSynchronise).isInstanceOf(DataPushSynchronise.class);
-    }*/
+    }
+
 
     @Test
     public void ShouldReturnUCoreAdapter_WhenProvidesUCoreAdapterIsCalled() throws Exception {
@@ -181,6 +250,13 @@ public class BackendModuleTest {
         final Eventing eventing = backendModule.provideEventing();
         assertThat(eventing).isNotNull();
         assertThat(eventing).isInstanceOf(Eventing.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesSynchronizationMonitorIsCalled() throws Exception {
+        SynchronisationMonitor synchronisationMonitor = backendModule.providesSynchronizationMonitor();
+        assertThat(synchronisationMonitor).isNotNull();
+        assertThat(synchronisationMonitor).isInstanceOf(SynchronisationMonitor.class);
     }
 
 }

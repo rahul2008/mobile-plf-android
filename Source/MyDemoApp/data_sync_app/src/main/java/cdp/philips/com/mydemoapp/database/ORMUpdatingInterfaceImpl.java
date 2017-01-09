@@ -16,14 +16,10 @@ import com.philips.platform.core.utils.DSLog;
 import org.joda.time.DateTime;
 
 import java.io.File;
-import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
@@ -38,9 +34,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
-import cdp.philips.com.mydemoapp.listener.UserRegistrationFailureListener;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
-import retrofit.RetrofitError;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     private static final String TAG = ORMUpdatingInterfaceImpl.class.getSimpleName();
@@ -69,7 +63,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 updatedCount = processMoment(updatedCount, moment);
             }
         }
-        new TemperatureMomentHelper().notifyAllSuccess(moments);
+        mTemperatureMomentHelper.notifyAllSuccess(moments);
         return updatedCount;
     }
 
@@ -82,7 +76,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 updateOrSaveMomentInDatabase(ormMoment);
             }
         }
-        new TemperatureMomentHelper().notifyAllSuccess(moments);
+        mTemperatureMomentHelper.notifyAllSuccess(moments);
     }
 
     public Moment createMoment(Moment old) {
@@ -146,7 +140,8 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public void updateFailed(Exception e) {
-        notifyAllFailure(e);
+        mTemperatureMomentHelper.notifyAllFailure(e);
+
     }
 
     @Override
@@ -255,7 +250,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
                 // tagRoomTemperatureAndHumidity(moment);
             }
         } catch (SQLException e) {
-            notifyAllFailure(e);
+            mTemperatureMomentHelper.notifyAllFailure(e);
         }
 
         return count;
@@ -266,9 +261,11 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             saving.saveMoment((OrmMoment) ormMoment);
             updating.updateMoment((OrmMoment) ormMoment);
-            new TemperatureMomentHelper().notifyAllSuccess(ormMoment);
+            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
+
         } catch (SQLException e) {
-            notifyAllFailure(e);
+            mTemperatureMomentHelper.notifyAllFailure(e);
+
         }
     }
 
@@ -394,43 +391,43 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
 
-    private void notifyAllFailure(Exception e) {
-        RetrofitError error = null;
-        if (e instanceof RetrofitError)
-            error = (RetrofitError) e;
-        int status = -1000;
-        if (error != null && error.getResponse() != null) {
-            status = error.getResponse().getStatus();
-        }
-
-        final Map<Integer, ArrayList<UserRegistrationFailureListener>> urMap =
-                EventHelper.getInstance().getURMap();
-        final Map<Integer, ArrayList<DBChangeListener>> eventMap =
-                EventHelper.getInstance().getEventMap();
-        Set<Integer> integers;
-
-        if (status == HttpURLConnection.HTTP_UNAUTHORIZED ||
-                status == HttpURLConnection.HTTP_FORBIDDEN) {
-            integers = urMap.keySet();
-            if (integers.contains(EventHelper.UR)) {
-                final ArrayList<UserRegistrationFailureListener> dbChangeListeners =
-                        EventHelper.getInstance().getURMap().get(EventHelper.UR);
-                List<UserRegistrationFailureListener> objList = Collections.synchronizedList(new ArrayList(dbChangeListeners));
-                for (final UserRegistrationFailureListener listener : objList) {
-                    listener.onFailure((RetrofitError) e);
-                }
-            }
-        } else {
-            integers = eventMap.keySet();
-            if (integers.contains(EventHelper.MOMENT)) {
-                final ArrayList<DBChangeListener> dbChangeListeners =
-                        EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-                for (final DBChangeListener listener : dbChangeListeners) {
-                    listener.onFailure(e);
-                }
-            }
-        }
-    }
+//    private void notifyAllFailure(Exception e) {
+//        RetrofitError error = null;
+//        if (e instanceof RetrofitError)
+//            error = (RetrofitError) e;
+//        int status = -1000;
+//        if (error != null && error.getResponse() != null) {
+//            status = error.getResponse().getStatus();
+//        }
+//
+//        final Map<Integer, ArrayList<UserRegistrationFailureListener>> urMap =
+//                EventHelper.getInstance().getURMap();
+//        final Map<Integer, ArrayList<DBChangeListener>> eventMap =
+//                EventHelper.getInstance().getEventMap();
+//        Set<Integer> integers;
+//
+//        if (status == HttpURLConnection.HTTP_UNAUTHORIZED ||
+//                status == HttpURLConnection.HTTP_FORBIDDEN) {
+//            integers = urMap.keySet();
+//            if (integers.contains(EventHelper.UR)) {
+//                final ArrayList<UserRegistrationFailureListener> dbChangeListeners =
+//                        EventHelper.getInstance().getURMap().get(EventHelper.UR);
+//                List<UserRegistrationFailureListener> objList = Collections.synchronizedList(new ArrayList(dbChangeListeners));
+//                for (final UserRegistrationFailureListener listener : objList) {
+//                    listener.onFailure((RetrofitError) e);
+//                }
+//            }
+//        } else {
+//            integers = eventMap.keySet();
+//            if (integers.contains(EventHelper.MOMENT)) {
+//                final ArrayList<DBChangeListener> dbChangeListeners =
+//                        EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
+//                for (final DBChangeListener listener : dbChangeListeners) {
+//                    listener.onFailure(e);
+//                }
+//            }
+//        }
+//    }
 
     //User Characteristics
     @Override

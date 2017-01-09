@@ -68,6 +68,11 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     }
 
     @Override
+    public void setSynchronized(boolean isSynchronized) {
+
+    }
+
+    @Override
     public DateTime getDateTime() {
         return null;
     }

@@ -31,4 +31,9 @@ public class VerticalUserRegistrationInterface implements UserRegistrationInterf
     public String getHSDHsdpUrl() {
         return "";
     }
+
+    @Override
+    public void refreshAccessTokenUsingWorkAround() {
+
+    }
 }

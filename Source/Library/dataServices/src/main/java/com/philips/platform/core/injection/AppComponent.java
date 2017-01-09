@@ -8,6 +8,7 @@ package com.philips.platform.core.injection;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.monitors.DBMonitors;
+import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -65,6 +66,8 @@ public interface AppComponent {
     void injectConsentsSender(ConsentDataSender consentDataSender);
 
     void injectSynchronizationMonitor(SynchronisationMonitor synchronisationMonitor);
+
+    void injectErrorMonitor(ErrorMonitor errorMonitor);
 
     void injectUserCharacteristicsMonitor(UserCharacteristicsMonitor userCharacteristicsMonitor);
 
