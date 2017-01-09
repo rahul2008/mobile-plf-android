@@ -78,8 +78,8 @@
     <string name="RA_Connectivity_Get_Moment_Value">Get Moment Value from DataCore</string>
     <string name="RA_Connectivity_ExampleID">Example: &quot;70:5A:0F:EC:CF:35&quot;</string>
     <string name="RA_Connectivity_DataCore_Not_Reachable">Datacore is not reachable</string>
-    <string name="RA_Connectivity_Posting_Data">Posting data in datacore, Please wait...</string>
-    <string name="RA_Connectivity_Getting_Moment">Getting moment from datacore, Please wait...</string>
+    <string name="RA_Connectivity_Posting_Data">Posting data in datacore, Please wait&#8230; </string>
+    <string name="RA_Connectivity_Getting_Moment">Getting moment from datacore, Please wait&#8230;</string>
 
 
     <!-- Consumer Care related-->
