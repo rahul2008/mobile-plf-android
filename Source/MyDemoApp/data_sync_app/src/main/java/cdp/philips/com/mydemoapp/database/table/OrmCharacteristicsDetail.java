@@ -110,6 +110,6 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
 
     @Override
     public String toString() {
-        return "[OrmConsentDetail, id=" + id + ", type=" + type + ", value=" + value + ", OrmCharacteristics=" + ormCharacteristics + " ,ormCharacteristicsDetail=" + ormCharacteristicsDetail + "]";
+        return "[OrmCharacteristicsDetail, id=" + id + ", type=" + type + ", value=" + value + ", OrmCharacteristics=" + ormCharacteristics + " ,ormCharacteristicsDetail=" + ormCharacteristicsDetail + "]";
     }
 }

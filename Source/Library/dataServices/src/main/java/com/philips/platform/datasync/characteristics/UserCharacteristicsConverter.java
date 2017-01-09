@@ -18,10 +18,11 @@ import javax.inject.Inject;
 public class UserCharacteristicsConverter {
 
     private final Characteristics mCharacteristics;
+
     @Inject
     BaseAppDataCreator dataCreator;
 
-    DataServicesManager mDataServicesManager;
+    private DataServicesManager mDataServicesManager;
 
     @Inject
     public UserCharacteristicsConverter() {
@@ -32,26 +33,26 @@ public class UserCharacteristicsConverter {
 
     //DataCore data type To Application type
     public Characteristics convertToCharacteristics(UCoreUserCharacteristics uCoreUserCharacteristics) {
+        Characteristics mCharacteristics = mDataServicesManager.createCharacteristics();
         for (int i = 0; i < uCoreUserCharacteristics.getCharacteristics().size(); i++) {
             String type = uCoreUserCharacteristics.getCharacteristics().get(i).getType();
             String value = uCoreUserCharacteristics.getCharacteristics().get(i).getValue();
             CharacteristicsDetail characteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, 0, null);
-            convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsDetail,
+            convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mCharacteristics, characteristicsDetail,
                     uCoreUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
         }
-        mDataServicesManager.updateCharacteristics(mCharacteristics);
         return mCharacteristics;
 
     }
 
-    private void convertUCoreCharacteristicsToCharacteristicsDetailRecursively(CharacteristicsDetail parentCharacteristicsDetail, List<UCoreCharacteristics> characteristicsList) {
+    private void convertUCoreCharacteristicsToCharacteristicsDetailRecursively(Characteristics mCharacteristics, CharacteristicsDetail parentCharacteristicsDetail, List<UCoreCharacteristics> characteristicsList) {
         if (characteristicsList.size() > 0) {
             for (int i = 0; i < characteristicsList.size(); i++) {
                 String type = characteristicsList.get(i).getType();
                 String value = characteristicsList.get(i).getValue();
                 CharacteristicsDetail childCharacteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, 0, parentCharacteristicsDetail);
                 parentCharacteristicsDetail.setCharacteristicsDetail(childCharacteristicsDetail);
-                convertUCoreCharacteristicsToCharacteristicsDetailRecursively(childCharacteristicsDetail, characteristicsList.get(i).getCharacteristics());
+                convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mCharacteristics, childCharacteristicsDetail, characteristicsList.get(i).getCharacteristics());
             }
         }
     }

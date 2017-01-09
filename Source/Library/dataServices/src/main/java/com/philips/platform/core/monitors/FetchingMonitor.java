@@ -1,9 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
-
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
@@ -28,10 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class FetchingMonitor extends EventMonitor {
 
@@ -49,7 +43,7 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e);
         }
     }
-    
+
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType());
@@ -59,16 +53,16 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     public void onEventBackgroundThread(GetNonSynchronizedDataRequest event) {
-        DSLog.i("***SPO***","In Fetching Monitor GetNonSynchronizedDataRequest");
+        DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
-            DSLog.i("***SPO***","In Fetching Monitor before putMomentsForSync");
+            DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
             dataToSync = dbInterface.putMomentsForSync(dataToSync);
-            DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
             dataToSync = dbInterface.putConsentForSync(dataToSync);
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
-            DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
+            DSLog.i("***SPO***", "In Fetching Monitor before GetNonSynchronizedDataRequest error");
             dbInterface.postError(e);
         }
     }
@@ -96,14 +90,14 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     public void onEventBackgroundThread(GetNonSynchronizedMomentsRequest event) {
-        DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
+        DSLog.i("**SPO**", "in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
-            List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
+            List<? extends Moment> ormMomentList = (List<? extends Moment>) dbInterface.fetchNonSynchronizedMoments();
             Consent consent = dbInterface.fetchConsent();
-            DSLog.i("**SPO**","in Fetching Monitor before sending GetNonSynchronizedMomentsResponse");
-            if(consent==null){
-                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
-            }else{
+            DSLog.i("**SPO**", "in Fetching Monitor before sending GetNonSynchronizedMomentsResponse");
+            if (consent == null) {
+                eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, null));
+            } else {
                 eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, new ArrayList(consent.getConsentDetails())));
             }
 
@@ -112,12 +106,11 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
-    public void onEventBackgroundThread(LoadUserCharacteristicsRequest request) {
+    public void onEventBackgroundThread(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
             dbInterface.fetchCharacteristics();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 }

@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
@@ -7,9 +11,8 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
+import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
@@ -19,10 +22,6 @@ import com.philips.platform.core.utils.DSLog;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBUpdatingInterface dbUpdatingInterface;
@@ -47,9 +46,7 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
-        //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
-
 
     public void onEventAsync(final DatabaseConsentUpdateRequest consentUpdateRequest) {
         consentUpdateRequest.getConsent();
@@ -65,7 +62,6 @@ public class UpdatingMonitor extends EventMonitor {
             dbUpdatingInterface.updateFailed(e);
             e.printStackTrace();
         }
-        // eventing.post(new WriteDataToBackendRequest());
     }
 
     public void onEventBackgroundThread(final BackendMomentListSaveRequest momentSaveRequest) {
@@ -89,15 +85,11 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     //Synchronise User Characteristics
-    public void onEventAsync(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
-        if (userCharacteristicsSaveRequest.getCharacteristics() == null)
+    public void onEventAsync(final CharacteristicsBackendGetRequest characteristicsBackendGetRequest) throws SQLException {
+        if (characteristicsBackendGetRequest.getCharacteristics() == null)
             return;
 
-        dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveRequest.getCharacteristics());
-
-        if (!userCharacteristicsSaveRequest.getCharacteristics().isSynchronized()) {
-            eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
-                    userCharacteristicsSaveRequest.getCharacteristics()));
-        }
+        characteristicsBackendGetRequest.getCharacteristics().setSynchronized(true);
+        dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(characteristicsBackendGetRequest.getCharacteristics());
     }
 }

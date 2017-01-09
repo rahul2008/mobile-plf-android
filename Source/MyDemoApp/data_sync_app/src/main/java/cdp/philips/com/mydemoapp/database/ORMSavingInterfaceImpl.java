@@ -5,6 +5,7 @@
 
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 
 import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
@@ -53,6 +55,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
 
     }
+
     @Override
     public boolean saveConsent(Consent consent) throws SQLException {
         OrmConsent ormConsent = null;
@@ -70,21 +73,35 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
+    public boolean saveUserCharacteristics(Characteristics characteristics) throws SQLException {
+        OrmCharacteristics ormCharacteristics;
+        try {
+            ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+            deleting.deleteCharacteristics();
+            saving.saveCharacteristics(ormCharacteristics);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public void postError(Exception e) {
         mTemperatureMomentHelper.notifyAllFailure(e);
     }
 
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-        DSLog.d("Creator ID MODI",ormConsent.getCreatorId());
+        DSLog.d("Creator ID MODI", ormConsent.getCreatorId());
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
-            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
+            for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
                 deleting.deleteConsent(ormConsentInDB);
             }
             ormConsent.setId(id);
             saving.saveConsent(ormConsent);
-        }else{
+        } else {
             saving.saveConsent(ormConsent);
         }
     }

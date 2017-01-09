@@ -1,6 +1,7 @@
 package cdp.philips.com.mydemoapp.characteristics;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,18 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.listener.DBChangeListener;
 import cdp.philips.com.mydemoapp.listener.EventHelper;
 
 public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBChangeListener {
 
+    private Context mContext;
     private EditText mEtCharacteristics;
     private CharacteristicsDialogPresenter mCharacteristicsDialogPresenter;
 
@@ -98,7 +98,14 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 "}";
 
         mEtCharacteristics.setText(mSampleJsonString);
+        DataServicesManager.getInstance().fetchUserCharacteristics();
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -139,7 +146,14 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         switch (v.getId()) {
             case R.id.btnOK:
                 String userCharacteristics = mEtCharacteristics.getText().toString();
-                mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
+                if (userCharacteristics != null && !userCharacteristics.trim().isEmpty()) {
+                    boolean isUpdated = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
+                    if (!isUpdated) {
+                        Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+                }
                 getDialog().dismiss();
                 break;
             case R.id.btnCancel:
@@ -154,18 +168,8 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     }
 
     @Override
-    public void onSuccess(Object data) {
-        final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
-        ormCharacteristics.setSynchronized(true);
-        if (ormCharacteristics != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>(ormCharacteristics.getCharacteristicsDetails());
-                    System.out.println("OrmCharacteristics Type : " + characteristicsDetailList.get(0).getType() + "Value : " + characteristicsDetailList.get(0).getValue());
-                }
-            });
-        }
+    public void onSuccess(final Object data) {
+        //Display User characteristics UI
     }
 
     @Override
@@ -176,6 +180,5 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

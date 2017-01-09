@@ -19,5 +19,6 @@ public interface DBUpdatingInterface {
     void processCreatedMoment(final List<? extends Moment> moments);
     void updateFailed(Exception e);
     boolean updateConsent(final Consent consent) throws SQLException;
-    void updateCharacteristics(final Characteristics characteristics) throws SQLException;
+    boolean updateCharacteristics(final Characteristics characteristics) throws SQLException;
+    void processCharacteristicsReceivedFromDataCore (final Characteristics characteristics) throws SQLException;
 }

@@ -15,7 +15,6 @@ import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -78,7 +77,6 @@ public class DataPushSynchronise extends EventMonitor {
         }
     }
 
-
     private void fetchNonSynchronizedData(int eventId) {
         DSLog.i("***SPO***", "DataPushSynchronize fetchNonSynchronizedData before calling GetNonSynchronizedDataRequest");
         eventing.post(new GetNonSynchronizedDataRequest(eventId));
@@ -96,9 +94,7 @@ public class DataPushSynchronise extends EventMonitor {
         DSLog.i("***SPO***", "DataPushSynchronize startAllSenders");
         for (final com.philips.platform.datasync.synchronisation.DataSender sender : senders) {
             DSLog.i("***SPO***", "DataPushSynchronize startAllSenders inside loop");
-            if (!(sender instanceof UserCharacteristicsSender)) {
-                sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-            }
+            sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
         }
     }
 }

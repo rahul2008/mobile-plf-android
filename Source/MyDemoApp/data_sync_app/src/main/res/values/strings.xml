@@ -25,4 +25,8 @@
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
 
+    <string name="set_characteristics">Set Characteristics</string>
+    <string name="view_characteristics">View Characteristics</string>
+    <string name="hide_characteristics">Hide Characteristics</string>
+
 </resources>

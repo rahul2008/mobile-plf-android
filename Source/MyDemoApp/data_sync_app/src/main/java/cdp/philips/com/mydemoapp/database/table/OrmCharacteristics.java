@@ -80,12 +80,13 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     }
 
     @Override
-    public DateTime getDateTime() {
-        return dateTime;
-    }
-
     public void setSynchronized(boolean isSynchronized) {
         mIsSynchronized = isSynchronized;
+    }
+
+    @Override
+    public DateTime getDateTime() {
+        return dateTime;
     }
 
     @Override

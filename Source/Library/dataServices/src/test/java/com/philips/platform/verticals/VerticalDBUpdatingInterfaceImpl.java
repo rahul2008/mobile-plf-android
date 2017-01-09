@@ -52,4 +52,9 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface{
     public void updateCharacteristics(Characteristics characteristics) throws SQLException {
 
     }
+
+    @Override
+    public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics) throws SQLException {
+
+    }
 }

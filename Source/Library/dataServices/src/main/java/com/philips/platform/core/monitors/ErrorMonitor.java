@@ -39,4 +39,8 @@ public class ErrorMonitor extends EventMonitor{
         Exception exception = error.getCallException();
         postError(exception);
     }
+
+   /* public void onEventFetchCharacteristicsError(final UserCharacteristicsRequestFailed requestFailed){
+        postError(requestFailed.getException());
+    }*/
 }

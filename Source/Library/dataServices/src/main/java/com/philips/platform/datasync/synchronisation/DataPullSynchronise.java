@@ -19,7 +19,6 @@ import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
@@ -166,12 +165,10 @@ public class DataPullSynchronise {
         DSLog.i("**SPO**", "In Data Pull Synchronize fetchData");
         initFetch();
         for (DataFetcher fetcher : fetchers) {
-            if (!(fetcher instanceof UserCharacteristicsFetcher)) {
-                if (fetcher instanceof ConsentsDataFetcher) {
-                    ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
-                }
-                startFetching(lastSyncDateTime, referenceId, fetcher);
+            if (fetcher instanceof ConsentsDataFetcher) {
+                ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
             }
+            startFetching(lastSyncDateTime, referenceId, fetcher);
         }
     }
 

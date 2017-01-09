@@ -6,7 +6,6 @@ package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -45,9 +44,9 @@ public class UserCharacteristicsMonitor extends EventMonitor {
     }
 
     //Fetch Request
-    public void onEventAsync(CharacteristicsBackendGetRequest characteristicsBackendGetRequest) {
+    /*public void onEventAsync(CharacteristicsBackendGetRequest characteristicsBackendGetRequest) {
         mUserCharacteristicsFetcher.fetchDataSince(null);
-    }
+    }*/
 
     public void sendToBackend(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
         if (isUserInvalid()) {
