@@ -31,6 +31,7 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -213,6 +214,14 @@ public class PRUiHelper {
 
         return null;
     }
+    private AppInfraInterface appInfraInterface;
 
+    public void setAppInfraInstance(AppInfraInterface appInfra) {
+        this.appInfraInterface = appInfra;
+    }
+
+    public AppInfraInterface getAppInfraInstance() {
+        return appInfraInterface;
+    }
 
 }

@@ -6,6 +6,7 @@
 package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
@@ -13,10 +14,15 @@ import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.Map;
 
 public class ProductSummaryRequest extends PrxRequest {
@@ -30,18 +36,34 @@ public class ProductSummaryRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        String mConfiguration = getRegistrationEnvironment();
-        if (mConfiguration.equalsIgnoreCase("Development")) {
-            mServerInfo = "https://10.128.41.113.philips.com/prx/product/";
-        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
-            mServerInfo = "https://tst.philips.com/prx/product/";
-        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
-            mServerInfo = "https://acc.philips.com/prx/product/";
-        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-            mServerInfo = "https://dev.philips.com/prx/product/";
-        } else if (mConfiguration.equalsIgnoreCase("Production")) {
-            mServerInfo = "https://www.philips.com/prx/product/";
-        }
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("prodreg.productSummaryRequest"
+                , new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        Log.d(TAG, " Response Error : " + s);
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        mServerInfo = url.toString();
+                    }
+                });
+
+//        String mConfiguration = getRegistrationEnvironment();
+//        if (mConfiguration.equalsIgnoreCase("Development")) {
+//            mServerInfo = "https://10.128.41.113.philips.com/prx/product/";
+//        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
+//            mServerInfo = "https://tst.philips.com/prx/product/";
+//        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
+//            mServerInfo = "https://acc.philips.com/prx/product/";
+//        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
+//            mServerInfo = "https://dev.philips.com/prx/product/";
+//        } else if (mConfiguration.equalsIgnoreCase("Production")) {
+//            mServerInfo = "https://www.philips.com/prx/product/";
+//        }
         return mServerInfo;
     }
 

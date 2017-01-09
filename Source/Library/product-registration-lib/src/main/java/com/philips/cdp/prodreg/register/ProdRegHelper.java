@@ -16,6 +16,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 /**
  * <b> Helper class used to process product registration backend calls</b>
@@ -104,4 +105,5 @@ public class ProdRegHelper {
             urLaunchInput.setUserRegistrationUIEventListener(getUserRegistrationListener());
         }
     }
+
 }
