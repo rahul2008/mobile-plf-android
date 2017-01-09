@@ -45,7 +45,7 @@ public class NetworkWrapper {
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         PrxLogger.d(TAG, "Custom JSON Request call..");
         if (listener == null) {
-            Log.e(TAG, "ResponseListener is null");
+            PrxLogger.e(TAG, "ResponseListener is null");
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
@@ -61,9 +61,6 @@ public class NetworkWrapper {
                                 prxRequest.getMaxRetries(),
                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         request.setShouldCache(true);
-                        if (url.startsWith("https") && (url.contains("tst.philips") || url.contains("acc.philips"))) {
-                            SSLCertificateManager.disableAllServerCertificateChecking();
-                        }
                         mVolleyRequest.add(request);
                     }
 

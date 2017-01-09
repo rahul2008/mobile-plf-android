@@ -262,8 +262,12 @@ public class PrxLauncherActivity extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                             listview.setOnItemClickListener(null);
                         } else {
-                            listview.setVisibility(View.GONE);
                             descTextView.setVisibility(View.VISIBLE);
+                            imageView.setVisibility(View.GONE);
+                            priceTextView.setVisibility(View.GONE);
+                            productTitleText.setVisibility(View.GONE);
+                            subtitelText.setVisibility(View.GONE);
+                            listview.setVisibility(View.GONE);
                             descTextView.setText("Asset is null");
                         }
                         Log.d(TAG, " AssetModel Positive Response Data assets : " + myyData.getAssets());
@@ -276,9 +280,9 @@ public class PrxLauncherActivity extends AppCompatActivity {
                     SupportModel mSupportModel = (SupportModel) responseData;
                     Log.d(TAG, "Support Response Data : " + mSupportModel.isSuccess());
                     com.philips.cdp.prxclient.datamodels.support.Data msupportData = mSupportModel.getData();
-                    if(msupportData != null) {
+                    if (msupportData != null) {
                         RichTexts text = msupportData.getRichTexts();
-                        if(text != null && text.getRichText() != null ) {
+                        if (text != null && text.getRichText() != null) {
                             List<RichText> listText = text.getRichText();
                             imageView.setVisibility(View.GONE);
                             descTextView.setVisibility(View.GONE);
@@ -294,6 +298,10 @@ public class PrxLauncherActivity extends AppCompatActivity {
                             Log.d(TAG, " SupportModel Positive Response Data RichText: " + msupportData.getRichTexts());
                         } else {
                             descTextView.setVisibility(View.VISIBLE);
+                            priceTextView.setVisibility(View.GONE);
+                            imageView.setVisibility(View.GONE);
+                            productTitleText.setVisibility(View.GONE);
+                            subtitelText.setVisibility(View.GONE);
                             listview.setVisibility(View.GONE);
                             descTextView.setText("Support data is null");
                         }

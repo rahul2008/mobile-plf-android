@@ -1,14 +1,17 @@
 package com.philips.cdp.prxclient.request;
 
+import android.util.Log;
+
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,11 +21,19 @@ import java.util.Map;
  */
 public abstract class PrxRequest {
 
-  //  private String mServerInfo = "www.philips.com/prx";
+    //  private String mServerInfo = "www.philips.com/prx";
     private Sector mSector;
     private Catalog mCatalog;
     private int maxRetries = 0;
     private int requestTimeOut = 5000;
+    public String mCtn;
+    public String mServiceId;
+
+    public void initCtn(String ctn, String serviceID) {
+        this.mCtn = ctn;
+        this.mServiceId = serviceID;
+    }
+
 
 //    public String getServerInfo() {
 //        return mServerInfo;
@@ -45,22 +56,51 @@ public abstract class PrxRequest {
         this.mCatalog = catalog;
     }
 
+
     public abstract ResponseData getResponseData(JSONObject jsonObject);
 
-   // public abstract String getRequestUrl();
+    // public abstract String getRequestUrl();
 
-    public abstract void getRequestUrlFromAppInfra(AppInfraInterface appInfra, OnUrlReceived listener);
+    public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
+        Map<String, String> replaceUrl = new HashMap<>();
+        replaceUrl.put("ctn", mCtn);
+        replaceUrl.put("sector", getSector().toString());
+        replaceUrl.put("catalog", getCatalog().toString());
+        // replaceUrl.put("locale", locale);
+        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId,
+                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onSuccess(URL url) {
+                        Log.i("SUCCESS ***", "" + url);
+                        listener.onSuccess(url.toString());
+                    }
 
-    public interface OnUrlReceived extends ServiceDiscoveryInterface.OnErrorListener {
-        void onSuccess(String url);
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        Log.i("ERRORVALUES ***", "" + message);
+                        listener.onError(error, message);
+                    }
+                }, replaceUrl);
     }
 
 
-    public abstract int getRequestType();
+    public interface OnUrlReceived extends ServiceDiscoveryInterface.OnErrorListener {
+        void onSuccess(String url);
 
-    public abstract Map<String, String> getHeaders();
+    }
 
-    public abstract Map<String, String> getParams();
+
+    public  int getRequestType(){
+        return RequestType.GET.getValue();
+    }
+
+    public  Map<String, String> getHeaders() {
+        return null;
+    }
+
+    public  Map<String, String> getParams(){
+        return null;
+    }
 
 //    public String getLocaleMatchResult() {
 //        return mLocaleMatchResult;

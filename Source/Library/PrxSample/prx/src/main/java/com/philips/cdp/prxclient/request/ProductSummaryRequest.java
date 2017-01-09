@@ -24,12 +24,12 @@ public class ProductSummaryRequest extends PrxRequest {
     //    private static final String PRX_REQUEST_URL = "https://ave.bolyartech.com:44401/https_test.html";
     // private static final String PRX_REQUEST_URL = "https://%s/product/%s/%s/%s/products/%s.summary";
     private static final String PRXSummaryDataServiceID = "prxclient.summary";
-    private String mCtn = null;
+ //   private String mCtn = null;
     private String mRequestTag = null;
 
 
     public ProductSummaryRequest(String ctn, String requestTag) {
-        this.mCtn = ctn;
+        super.initCtn(ctn,PRXSummaryDataServiceID);
         this.mRequestTag = requestTag;
     }
 
@@ -39,41 +39,41 @@ public class ProductSummaryRequest extends PrxRequest {
         return new SummaryModel().parseJsonResponseData(jsonObject);
     }
 
-    @Override
-    public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
-
-        appInfra.getServiceDiscovery().getServiceLocaleWithCountryPreference(PRXSummaryDataServiceID,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onSuccess(final String locale) {
-                        Map<String, String> parameters = new HashMap<>();
-                        parameters.put("ctn", mCtn);
-                        parameters.put("sector", getSector().toString());
-                        parameters.put("catalog", getCatalog().toString());
-                        parameters.put("locale", locale);
-
-                        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(PRXSummaryDataServiceID,
-                                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                                    @Override
-                                    public void onSuccess(URL url) {
-                                        Log.i("SUCCESS ***", "" + url);
-                                        listener.onSuccess(url.toString());
-                                    }
-
-                                    @Override
-                                    public void onError(ERRORVALUES error, String message) {
-                                        Log.i("ERRORVALUES ***", "" + message);
-                                        listener.onError(error, message);
-                                    }
-                                }, parameters);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        listener.onError(errorvalues,s);
-                    }
-                });
-    }
+//    @Override
+//    public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
+//
+//        appInfra.getServiceDiscovery().getServiceLocaleWithCountryPreference(PRXSummaryDataServiceID,
+//                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+//                    @Override
+//                    public void onSuccess(final String locale) {
+//                        Map<String, String> parameters = new HashMap<>();
+//                        parameters.put("ctn", mCtn);
+//                        parameters.put("sector", getSector().toString());
+//                        parameters.put("catalog", getCatalog().toString());
+//                        parameters.put("locale", locale);
+//
+//                        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(PRXSummaryDataServiceID,
+//                                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+//                                    @Override
+//                                    public void onSuccess(URL url) {
+//                                        Log.i("SUCCESS ***", "" + url);
+//                                        listener.onSuccess(url.toString());
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(ERRORVALUES error, String message) {
+//                                        Log.i("ERRORVALUES ***", "" + message);
+//                                        listener.onError(error, message);
+//                                    }
+//                                }, parameters);
+//                    }
+//
+//                    @Override
+//                    public void onError(ERRORVALUES errorvalues, String s) {
+//                        listener.onError(errorvalues,s);
+//                    }
+//                });
+//    }
 
 //    @Override
 //    public String getRequestUrl() {
@@ -81,18 +81,18 @@ public class ProductSummaryRequest extends PrxRequest {
 //                getCatalog(), mCtn);
 //    }
 
-    @Override
-    public int getRequestType() {
-        return RequestType.GET.getValue();
-    }
+//    @Override
+//    public int getRequestType() {
+//        return RequestType.GET.getValue();
+//    }
 
-    @Override
-    public Map<String, String> getHeaders() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> getParams() {
-        return null;
-    }
+//    @Override
+//    public Map<String, String> getHeaders() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Map<String, String> getParams() {
+//        return null;
+//    }
 }

@@ -4,6 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string-array name="ctn_list">
+        <item>HCNCTB107</item>
         <item>QT4001/15</item>
         <item>HP8100/06</item>
         <item>HD4928/01</item>

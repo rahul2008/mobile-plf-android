@@ -18,14 +18,14 @@ import java.util.Map;
  */
 public class ProductSupportRequest extends PrxRequest {
 
-    private String mCtn = null;
+    //  private String mCtn = null;
     private String mRequestTag = null;
     // private static final String PRX_SUPPORT_REQUEST_URL = "https://%s/product/%s/%s/%s/products/%s.support";
 
     private static final String PRXFAQServiceID = "prxclient.support";
 
     public ProductSupportRequest(String ctn, String requestTag) {
-        this.mCtn = ctn;
+        this.initCtn(ctn, PRXFAQServiceID);
         this.mRequestTag = requestTag;
     }
 
@@ -40,54 +40,54 @@ public class ProductSupportRequest extends PrxRequest {
 //                getCatalog(), mCtn);
 //    }
 
-    public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
+//    public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
+//
+//        appInfra.getServiceDiscovery().getServiceLocaleWithCountryPreference(PRXFAQServiceID,
+//                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+//                    @Override
+//                    public void onSuccess(String locale) {
+//                        Map<String, String> replaceUrl = new HashMap<>();
+//                        replaceUrl.put("ctn", mCtn);
+//                        replaceUrl.put("sector", getSector().toString());
+//                        replaceUrl.put("catalog", getCatalog().toString());
+//                        replaceUrl.put("locale", locale);
+//                        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(PRXFAQServiceID,
+//                                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+//                                    @Override
+//                                    public void onSuccess(URL url) {
+//                                        Log.i("SUCCESS ***", "" + url);
+//                                        listener.onSuccess(url.toString());
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(ERRORVALUES error, String message) {
+//                                        Log.i("ERRORVALUES ***", "" + message);
+//                                        listener.onError(error, message);
+//                                    }
+//                                }, replaceUrl);
+//                    }
+//
+//                    @Override
+//                    public void onError(ERRORVALUES errorvalues, String message) {
+//                        listener.onError(errorvalues, message);
+//                    }
+//                });
+//
+//
+//    }
 
-        appInfra.getServiceDiscovery().getServiceLocaleWithCountryPreference(PRXFAQServiceID,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onSuccess(String locale) {
-                        Map<String, String> replaceUrl = new HashMap<>();
-                        replaceUrl.put("ctn", mCtn);
-                        replaceUrl.put("sector", getSector().toString());
-                        replaceUrl.put("catalog", getCatalog().toString());
-                        replaceUrl.put("locale", locale);
-                        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(PRXFAQServiceID,
-                                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                                    @Override
-                                    public void onSuccess(URL url) {
-                                        Log.i("SUCCESS ***", "" + url);
-                                        listener.onSuccess(url.toString());
-                                    }
-
-                                    @Override
-                                    public void onError(ERRORVALUES error, String message) {
-                                        Log.i("ERRORVALUES ***", "" + message);
-                                        listener.onError(error, message);
-                                    }
-                                }, replaceUrl);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String message) {
-                        listener.onError(errorvalues, message);
-                    }
-                });
-
-
-    }
-
-    @Override
-    public int getRequestType() {
-        return 0;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> getParams() {
-        return null;
-    }
+//    @Override
+//    public int getRequestType() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public Map<String, String> getHeaders() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Map<String, String> getParams() {
+//        return null;
+//    }
 }
