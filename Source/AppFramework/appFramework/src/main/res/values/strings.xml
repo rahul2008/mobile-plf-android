@@ -111,6 +111,15 @@
     <string name="RA_About_Menu_Title">About</string>
     <string name="RA_DataServices_Menu_Title">Data Services</string>
     <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
+
+    <!-- IAP errors -->
+    <string name="RA_Iap_Server_Error">Server error</string>
+    <string name="RA_Iap_No_Connection">No connection</string>
+    <string name="RA_Iap_Connection_Time_Out">Connection time out</string>
+    <string name="RA_Iap_Authentication_Failure">Authentication failure</string>
+    <string name="RA_Iap_Product_Out_Of_Stock">Product out of stock</string>
+
+
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->

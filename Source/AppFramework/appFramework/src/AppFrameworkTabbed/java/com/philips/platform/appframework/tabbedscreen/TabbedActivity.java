@@ -164,15 +164,15 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
     }
 
     private void showToast(int errorCode) {
-        String errorText = getResources().getString(R.string.af_iap_server_error);
+        String errorText = getResources().getString(R.string.RA_Iap_Server_Error);
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_no_connection);
+            errorText = getResources().getString(R.string.RA_Iap_No_Connection);
         } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_connection_time_out);
+            errorText = getResources().getString(R.string.RA_Iap_Connection_Time_Out);
         } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_authentication_failure);
+            errorText = getResources().getString(R.string.RA_Iap_Authentication_Failure);
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
-            errorText = getResources().getString(R.string.af_iap_prod_out_of_stock);
+            errorText = getResources().getString(R.string.RA_Iap_Product_Out_Of_Stock);
         }
         Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
