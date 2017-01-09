@@ -25,6 +25,7 @@ import com.philips.platform.uid.view.widget.ProgressIndicatorButton;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNot;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -120,6 +121,44 @@ public class ButtonWithProgressIndicatorsTest {
                 .check(matches(ViewMatchers.isDisplayed()));
     }
 
+    @Ignore
+    @Test
+    public void verifyDisabledStateWhenInProgressToShowButton() {
+        setUpDefaultTheme();
+
+        final int progressIndicatorLeftRightMargin = testResources.getDimensionPixelOffset(R.dimen.uid_button_padding_left_right);
+        getIndeterminateProgressIndicatorButton().perform(new UpdateProgressTextViewAction("Hiasdjadkasjdfkjsj"));
+
+        getIndeterminateProgressIndicatorButton().perform(new SetViewDisabledViewAction());
+        getIndeterminateProgressIndicatorButton().check(matches(ViewMatchers.isDisplayed()));
+        getIndeterminateProgressText().check(matches(new IsNot<View>(ViewMatchers.isDisplayed())));
+    }
+
+    @Test
+    public void verifyMarginsBetweenProgressbarAndProgressTextWhenProgressTextIsSetToNotEmptyAndThenSetEmptyTextEmpty() {
+        setUpDefaultTheme();
+
+        final int progressIndicatorTextPadding = testResources.getDimensionPixelOffset(R.dimen.uid_progress_indicator_button_progress_text_padding);
+        final int progressIndicatorLeftRightMargin = testResources.getDimensionPixelOffset(R.dimen.uid_button_padding_left_right);
+        simulateSetProgressText("Hello ");
+
+        //To check progress text is displayed
+        getProgressText().check(matches(ViewPropertiesMatchers.isSameRightMargin(progressIndicatorLeftRightMargin)))
+                .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorTextPadding)))
+                .check(matches(ViewMatchers.isDisplayed()));
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(0)))
+                .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorLeftRightMargin)))
+                .check(matches(ViewMatchers.isDisplayed()));
+
+        simulateSetProgressText("");
+
+        //To check progress text is not displayed
+        getProgressText().check(matches(new IsNot(isDisplayed())));
+        getProgressBar().check(matches(ViewPropertiesMatchers.isSameRightMargin(progressIndicatorLeftRightMargin)))
+                .check(matches(ViewPropertiesMatchers.isSameLeftMargin(progressIndicatorLeftRightMargin)))
+                .check(matches(ViewMatchers.isDisplayed()));
+    }
+
     @Test
     public void verifyProgressTextSize() {
         setUpDefaultTheme();
@@ -182,6 +221,18 @@ public class ButtonWithProgressIndicatorsTest {
 
         getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
+
+    @Test
+    public void verifyProgressTextSize() {
+        setUpDefaultTheme();
+
+        simulateSetProgressText("Hello ");
+        final float textSize = testResources.getDimension(R.dimen.uid_label_text_size);
+
+        getProgressText().check(matches(TextViewPropertiesMatchers.isSameFontSize(textSize)));
+    }
+
+
 
     @Test
     public void verifyButtonFillColor() {
@@ -326,6 +377,10 @@ public class ButtonWithProgressIndicatorsTest {
                         withParent(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate))))));
     }
 
+    private ViewInteraction getIndeterminateProgressIndicatorButton() {
+        return onView(withId(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate));
+    }
+
     private static class UpdateProgressTextViewAction implements ViewAction {
         private final String progressText;
 
@@ -346,6 +401,26 @@ public class ButtonWithProgressIndicatorsTest {
         @Override
         public void perform(final UiController uiController, final View view) {
             ((ProgressIndicatorButton) view).setProgressText(progressText);
+        }
+    }
+
+    static class SetViewDisabledViewAction implements ViewAction {
+        @Override
+        public Matcher<View> getConstraints() {
+            return allOf();
+        }
+
+        @Override
+        public String getDescription() {
+            return "set progress bar enabled";
+        }
+
+        @Override
+        public void perform(final UiController uiController, final View view) {
+            if (view instanceof ProgressIndicatorButton) {
+                ProgressIndicatorButton progressBar = (ProgressIndicatorButton) view;
+                progressBar.setEnabled(false);
+            }
         }
     }
 }

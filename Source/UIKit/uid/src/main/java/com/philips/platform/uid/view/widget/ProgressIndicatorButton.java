@@ -57,7 +57,6 @@ public class ProgressIndicatorButton extends LinearLayout {
         initializeElements(context, typedArray, theme);
         typedArray.recycle();
 
-        setClickable(true);
     }
 
     @Override
@@ -222,9 +221,7 @@ public class ProgressIndicatorButton extends LinearLayout {
      * @param text that will shown on the button
      */
     public void setProgressText(String text) {
-        if (!TextUtils.isEmpty(text)) {
-            progressTextView.setText(text);
-        }
+        progressTextView.setText(text);
         setVisibilityOfProgressButtonElements(isProgressDisplaying);
     }
 
