@@ -69,8 +69,8 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:support-annotations:24.2.1'
 
-    def blueLib = 'com.philips.cdp:shinelib:2.1.0-20170110.131758-13'
-    def commLib = 'com.philips.cdp:dicommClientLib:3.0.0-20170110.131602-6'
+    def blueLib = 'com.philips.cdp:shinelib:2.2.0-20170110.161347-18'
+    def commLib = 'com.philips.cdp:dicommClientLib:3.0.0-20170110.161655-7'
 
     localDevelopmentCompile project(":bluelib")
     localDevelopmentCompile project(":commlib")
