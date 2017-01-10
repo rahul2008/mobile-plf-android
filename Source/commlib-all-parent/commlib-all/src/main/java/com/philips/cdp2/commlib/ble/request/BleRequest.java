@@ -85,30 +85,12 @@ public abstract class BleRequest implements Runnable {
     @NonNull
     private final Object stateLock = new Object();
 
-    private boolean stateIs(State state) {
-        synchronized (stateLock) {
-            return state == this.state;
-        }
-    }
-
-    private boolean setIfStateIs(State newState, State... currentStates) {
-        synchronized (stateLock) {
-            List<State> currentStateList = Arrays.asList(currentStates);
-            if (currentStateList.contains(state)) {
-                state = newState;
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
     private final DiCommByteStreamReader.DiCommMessageListener dicommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
         public void onMessage(DiCommMessage diCommMessage) {
             try {
                 final DiCommResponse res = new DiCommResponse(diCommMessage);
-                processDicommResponse(res);
+                processDiCommResponse(res);
             } catch (IllegalArgumentException | InvalidMessageTerminationException | InvalidPayloadFormatException e) {
                 BleRequest.this.onError(PROTOCOL_VIOLATION, e.getMessage());
             } catch (InvalidStatusCodeException e) {
@@ -121,17 +103,6 @@ public abstract class BleRequest implements Runnable {
             BleRequest.this.onError(Error.NO_REQUEST_DATA, message);
         }
     };
-
-    @VisibleForTesting
-    void processDicommResponse(final DiCommResponse res) {
-        final StatusCode statusCode = res.getStatus();
-
-        if (statusCode == NoError) {
-            onSuccess(res.getPropertiesAsString());
-        } else {
-            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
-        }
-    }
 
     private final DiCommByteStreamReader diCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
 
@@ -147,6 +118,17 @@ public abstract class BleRequest implements Runnable {
             }
         }
     };
+
+    @VisibleForTesting
+    void processDiCommResponse(final DiCommResponse res) {
+        final StatusCode statusCode = res.getStatus();
+
+        if (statusCode == NoError) {
+            onSuccess(res.getPropertiesAsString());
+        } else {
+            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
+        }
+    }
 
     /**
      * Instantiates a new BleRequest.
@@ -179,7 +161,6 @@ public abstract class BleRequest implements Runnable {
             } catch (InterruptedException ignored) {
                 onError(UNKNOWN, "Thread interrupted");
             }
-
             cleanup();
         }
     }
@@ -254,6 +235,24 @@ public abstract class BleRequest implements Runnable {
         onError(Error.TIMED_OUT, reason);
     }
 
+    private boolean stateIs(State state) {
+        synchronized (stateLock) {
+            return state == this.state;
+        }
+    }
+
+    private boolean setIfStateIs(State newState, State... currentStates) {
+        synchronized (stateLock) {
+            List<State> currentStateList = Arrays.asList(currentStates);
+            if (currentStateList.contains(state)) {
+                state = newState;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     private void onError(Error error, String errorMessage) {
         if (setIfStateIs(DISCONNECTING, EXECUTING, NOT_STARTED)) {
             responseHandler.onError(error, errorMessage);
@@ -290,6 +289,7 @@ public abstract class BleRequest implements Runnable {
         if (bleDevice != null) {
             bleDevice.registerSHNDeviceListener(null);
             bleDevice = null;
+
             if (capability != null) {
                 capability.removeDataListener(resultListener);
                 capability = null;

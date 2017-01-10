@@ -74,7 +74,7 @@ public class BleRequestTest {
         doAnswer(new Answer() {
             @Override
             public Void answer(final InvocationOnMock invocation) throws Throwable {
-                request.processDicommResponse(mockDicommResponse);
+                request.processDiCommResponse(mockDicommResponse);
                 return null;
             }
         }).when(mockInProgressLatch).await();

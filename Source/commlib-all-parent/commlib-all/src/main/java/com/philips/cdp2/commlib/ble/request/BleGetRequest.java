@@ -33,7 +33,7 @@ public class BleGetRequest extends BleRequest {
     }
 
     @Override
-    protected void execute(CapabilityDiComm capability) {
+    protected void execute(@NonNull final CapabilityDiComm capability) {
         DiCommMessage getPropsMessage = new DiCommRequest().getPropsRequestDataWithProduct(productId, portName);
         capability.writeData(getPropsMessage.toData());
     }
