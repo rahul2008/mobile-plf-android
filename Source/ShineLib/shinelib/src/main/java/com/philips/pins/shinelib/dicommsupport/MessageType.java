@@ -1,6 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
- enum  MessageType {
+public enum MessageType {
     InitializeRequest(1),
     PutPropsRequest(3),
     GetPropsRequest(4),

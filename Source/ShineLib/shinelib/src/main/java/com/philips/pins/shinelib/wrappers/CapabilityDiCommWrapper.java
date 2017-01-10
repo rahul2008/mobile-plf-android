@@ -13,8 +13,8 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.CapabilityDiComm;
 import com.philips.pins.shinelib.datatypes.SHNDataRaw;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 public class CapabilityDiCommWrapper implements CapabilityDiComm, ResultListener<SHNDataRaw> {
@@ -36,7 +36,7 @@ public class CapabilityDiCommWrapper implements CapabilityDiComm, ResultListener
         this.internalHandler = internalHandler;
 
         wrappedShnCapability.addDataListener(this);
-        dataRawResultListenersSet = new HashSet<>();
+        dataRawResultListenersSet = new CopyOnWriteArraySet<>();
     }
 
     @Override

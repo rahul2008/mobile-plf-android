@@ -14,8 +14,8 @@ import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class DeviceScanner {
 
@@ -33,7 +33,7 @@ public class DeviceScanner {
 
     private boolean mIsScanning;
     private SHNDeviceScanner mDeviceScanner;
-    private Set<OnDeviceScanListener> mListeners = new HashSet<>();
+    private final Set<OnDeviceScanListener> mDeviceScanListeners = new CopyOnWriteArraySet<>();
     private Handler mUIHandler;
 
     public DeviceScanner(@NonNull SHNCentral shnCentral, Handler handler) {
@@ -55,20 +55,20 @@ public class DeviceScanner {
 
     public void addOnScanListener(OnDeviceScanListener listener) {
         if (listener == null) {
-            throw new NullPointerException("OnDeviceScanListener is null.");
+            throw new IllegalArgumentException("OnDeviceScanListener is null.");
         }
-        mListeners.add(listener);
+        mDeviceScanListeners.add(listener);
     }
 
     public void removeOnScanListener(OnDeviceScanListener listener) {
-        mListeners.remove(listener);
+        mDeviceScanListeners.remove(listener);
     }
 
     private void notifyOnScanStarted() {
         mUIHandler.post(new Runnable() {
             @Override
             public void run() {
-                for (OnDeviceScanListener listener : mListeners) {
+                for (OnDeviceScanListener listener : mDeviceScanListeners) {
                     listener.onDeviceScanStarted();
                 }
             }
@@ -79,7 +79,7 @@ public class DeviceScanner {
         mUIHandler.post(new Runnable() {
             @Override
             public void run() {
-                for (OnDeviceScanListener listener : mListeners) {
+                for (OnDeviceScanListener listener : mDeviceScanListeners) {
                     listener.onDeviceFoundInfo(deviceFoundInfo);
                 }
             }
@@ -90,7 +90,7 @@ public class DeviceScanner {
         mUIHandler.post(new Runnable() {
             @Override
             public void run() {
-                for (OnDeviceScanListener listener : mListeners) {
+                for (OnDeviceScanListener listener : mDeviceScanListeners) {
                     listener.onDeviceScanFinished();
                 }
             }

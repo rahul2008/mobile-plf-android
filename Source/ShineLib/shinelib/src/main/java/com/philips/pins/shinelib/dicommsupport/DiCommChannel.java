@@ -1,20 +1,26 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
+import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-import java.nio.ByteBuffer;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener {
 
@@ -23,9 +29,24 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
     private boolean isAvailable;
 
-    private Set<DiCommPort> diCommPorts = new HashSet<>();
+    private Set<DiCommPort> diCommPorts = new CopyOnWriteArraySet<>();
     private List<RequestInfo> pendingRequests = new ArrayList<>();
-    private byte[] receiveBuffer = new byte[0];
+
+    @NonNull
+    private DiCommByteStreamReader mDiCommByteStreamReader;
+
+    private DiCommByteStreamReader.DiCommMessageListener mDiCommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
+        @Override
+        public void onMessage(DiCommMessage message) {
+            parseResponse(message);
+            executeNextRequest();
+        }
+
+        @Override
+        public void onError(String errorMessage) {
+            SHNLogger.e(TAG, errorMessage);
+        }
+    };
 
     private final Timer requestTimer;
 
@@ -44,38 +65,14 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
                 requestTimedOut();
             }
         }, timeOut);
+
+        mDiCommByteStreamReader = new DiCommByteStreamReader(mDiCommMessageListener);
     }
 
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
     @Override
     public void onDataReceived(byte[] data) {
-        appendReceivedData(data);
-        ByteBuffer byteBuffer = ByteBuffer.wrap(receiveBuffer);
-
-        try {
-            DiCommMessage diCommMessage = new DiCommMessage(byteBuffer);
-            parseResponse(diCommMessage);
-            executeNextRequest();
-
-            reduceReceivedBuffer(byteBuffer);
-        } catch (InvalidParameterException ignored) {
-            // can not detect a message
-        }
-    }
-
-    private void reduceReceivedBuffer(ByteBuffer byteBuffer) {
-        byte[] reducedBuffer = new byte[byteBuffer.remaining()];
-        byteBuffer.get(reducedBuffer);
-        receiveBuffer = reducedBuffer;
-    }
-
-    private void appendReceivedData(byte[] data) {
-        byte[] newReceivedBuffer = new byte[receiveBuffer.length + data.length];
-        ByteBuffer byteBuffer = ByteBuffer.wrap(newReceivedBuffer);
-
-        byteBuffer.put(receiveBuffer);
-        byteBuffer.put(data);
-        receiveBuffer = newReceivedBuffer;
+        mDiCommByteStreamReader.onBytes(data);
     }
 
     private void executeNextRequest() {
@@ -93,7 +90,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
             DiCommResponse diCommResponse = getDiCommResponse(diCommMessage);
             SHNLogger.d(TAG, "Response status: " + diCommResponse.getStatus() + " properties: " + diCommResponse.getProperties());
             reportToListener(diCommResponse.getProperties(), convertToSHNResult(diCommResponse.getStatus()));
-        } catch (InvalidParameterException ex) {
+        } catch (IllegalArgumentException | InvalidStatusCodeException | InvalidPayloadFormatException | InvalidMessageTerminationException ex) {
             SHNLogger.e(TAG, ex.getMessage());
             reportToListener(null, SHNResult.SHNErrorInvalidParameter);
         }
@@ -160,7 +157,8 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
                 }
                 pendingRequests.clear();
                 requestTimer.stop();
-                receiveBuffer = new byte[0];
+
+                mDiCommByteStreamReader = new DiCommByteStreamReader(mDiCommMessageListener);
             }
         }
     }
