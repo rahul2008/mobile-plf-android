@@ -141,6 +141,10 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
+    protected int getDesiredHeight() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.uid_progress_bar_height);
+    }
+
     protected Rect getTransitionDrawableBoundRect() {
         int width = transitionDrawableWidth / 2;
         int height = getMeasuredHeight();
@@ -160,6 +164,7 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     private void createAnimationSet() {
+        endAnimation();
         leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
         trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
         setAnimationProperties(leadingAnim);
@@ -227,11 +232,6 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
-    @Override
-    protected boolean verifyDrawable(final Drawable who) {
-        return who == leadingAnim || who == trailingAnim || super.verifyDrawable(who);
-    }
-
     private void startAnimation() {
         if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
             leadingAnim.start();
@@ -247,28 +247,32 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
-    protected int getDesiredHeight() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.uid_progress_bar_height);
-    }
-
     private void resumeAnimation() {
         if (leadingAnim != null) {
             leadingAnim.resume();
         }
         if (trailingAnim != null) {
-
             trailingAnim.resume();
         }
     }
 
     private void endAnimation() {
         drawTrailingAnim = false;
-        leadingAnim.end();
-        trailingAnim.end();
+        if (leadingAnim != null) {
+            leadingAnim.end();
+        }
+        if (trailingAnim != null) {
+            trailingAnim.end();
+        }
     }
 
     private void pauseAnimation() {
         leadingAnim.pause();
         trailingAnim.pause();
+    }
+
+    @Override
+    protected boolean verifyDrawable(final Drawable who) {
+        return who == leadingAnim || who == trailingAnim || super.verifyDrawable(who);
     }
 }

@@ -195,7 +195,6 @@ public class IndeterminateLinearProgressBarTest {
         assertEquals(true, progressBar.trailingAnim.getAnimator().isPaused());
     }
 
-
     @Test
     public void verifyScreenOffOnRestartsTrailingAnimation() {
         UIDTestUtils.waitFor(testResources, 1000);
@@ -208,6 +207,6 @@ public class IndeterminateLinearProgressBarTest {
             }
         });
         UIDTestUtils.waitFor(testResources, 750);
-        assertEquals(true, progressBar.trailingAnim .getAnimator().isRunning());
+        assertEquals(true, progressBar.trailingAnim.getAnimator().isRunning());
     }
 }

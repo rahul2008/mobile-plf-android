@@ -22,10 +22,6 @@ public class AnimatedTranslateDrawable extends Drawable {
 
     private Animator animator;
 
-    public AnimatedTranslateDrawable(final Drawable drawable, float startX, float endX) {
-        this(drawable, null, startX, endX);
-    }
-
     public AnimatedTranslateDrawable(final Drawable drawable, final Drawable mirrorDrawable, final float startX, final float endX) {
         this.drawable = drawable;
         this.mirrorDrawable = mirrorDrawable;
