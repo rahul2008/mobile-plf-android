@@ -17,6 +17,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -43,10 +44,11 @@ public class ContentLoadertest extends MockitoTestCase {
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mContentLoader = new ContentLoader(context, serviceId, 1, ContentArticle.class, "articles", mAppInfra);
+
+        mContentLoader = new ContentLoader(context, serviceId, 1, ContentArticle.class, "articles", mAppInfra, 0);
         assertNotNull(mContentLoader);
         downloadedContents = new ArrayList<ContentItem>();
-        contentDatabaseHandler =  ContentDatabaseHandler.getInstance(context);
+        contentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
 
         String json = "{\n" +
                 "\t\"articles\": [{\n" +
@@ -196,8 +198,9 @@ public class ContentLoadertest extends MockitoTestCase {
 
 
     public void testparseJsonandSave() {
+        ContentItem ContentItemTest=null;
         final Gson gson = new Gson();
-
+        long mLastUpdatedTime = (new Date()).getTime();
         JsonElement content = jsonObject.get("articles");
         JsonArray contentList = null;
         if (null != content) {
@@ -207,7 +210,7 @@ public class ContentLoadertest extends MockitoTestCase {
             if (null != contentList && contentList.size() > 0) {
                 for (int contentCount = 0; contentCount < contentList.size(); contentCount++) {
                     Log.i("CL Ariticle", "" + contentList.get(contentCount));
-                    ContentArticle contentArticle = gson.fromJson(contentList.get(contentCount), ContentArticle.class);
+                    /*ContentArticle contentArticle = gson.fromJson(contentList.get(contentCount), ContentArticle.class);
                     ContentItem contentItem = new ContentItem();
                     contentItem.setId(contentArticle.getId());
                     contentItem.setServiceId(serviceId);
@@ -222,12 +225,50 @@ public class ContentLoadertest extends MockitoTestCase {
                         tags = tags.substring(0, tags.length() - 1);// remove last comma
                     }
                     contentItem.setTags(tags);
-                    downloadedContents.add(contentItem);
-                    String articleId = contentItem.getId();
-                    Log.i("CL Ariticle", "" + articleId + "  TAGs ");
+                    downloadedContents.add(contentItem);*/
+                    ContentInterface contentInterface = null;
+                    try {
+                        contentInterface = ContentArticle.class.newInstance();
+
+                        contentInterface.parseInput(contentList.get(contentCount).toString());
+                        ContentItem contentItem = new ContentItem();
+                        contentItem.setId(contentInterface.getId().replace("\"", ""));
+                        contentItem.setServiceId(serviceId);
+                        contentItem.setRawData(contentList.get(contentCount).toString());
+                        contentItem.setVersionNumber(contentInterface.getVersion());
+                        contentItem.setLastUpdatedTime(mLastUpdatedTime); // last updated time
+                        String tags = "";
+
+                        List<String> tagList = contentInterface.getTags();
+                        if (null != tagList && tagList.size() > 0) {
+                            for (String tagId : tagList) {
+                                tags += tagId + " ";
+                            }
+                        }
+                        contentItem.setTags(tags);
+                        ContentItemTest = contentItem;
+                        downloadedContents.add(contentItem);
+                        String articleId = contentItem.getId();
+                        Log.i("CL Ariticle", "" + articleId + "  TAGs ");
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+                ContentDatabaseHandler mContentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
+
+                assertNotNull(mContentDatabaseHandler.addContents(downloadedContents, serviceId,mLastUpdatedTime, 1,true));
+                if(downloadedContents.size()>0){
+                    String[] str = new String[1];
+                    str[0]= ContentItemTest.getId();
+                    assertNotNull(mContentDatabaseHandler.getContentById(serviceId,str));
+                    assertNotNull(mContentDatabaseHandler.getAllContentIds(serviceId));
+                }
+
             }
-           //TBD contentDatabaseHandler.addContents(downloadedContents, mLastUpdatedTime, serviceId, expiryTimeforUserInputTime(1));
+            //TBD contentDatabaseHandler.addContents(downloadedContents, mLastUpdatedTime, serviceId, expiryTimeforUserInputTime(1));
         }
     }
 
@@ -241,7 +282,7 @@ public class ContentLoadertest extends MockitoTestCase {
             @Override
             public void onSuccess(List<String> contents) {
                 assertNotNull(contents);
-               // assertTrue(contents.size() > 0);
+                // assertTrue(contents.size() > 0);
             }
         });
     }
@@ -253,8 +294,8 @@ public class ContentLoadertest extends MockitoTestCase {
     public void testgetAllContentIds() {
         List<String> contentIds = contentDatabaseHandler.getAllContentIds(serviceId);
         assertNotNull(contentIds);
-     //   assertTrue(contentIds.size() > 0);
-     //   assertTrue(contentIds.contains("is11a"));
+        //   assertTrue(contentIds.size() > 0);
+        //   assertTrue(contentIds.contains("is11a"));
         mContentLoader.getContentById("is11b", new ContentLoaderInterface.OnResultListener() {
             @Override
             public void onError(ContentLoaderInterface.ERROR error, String message) {
