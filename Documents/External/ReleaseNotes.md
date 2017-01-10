@@ -1,24 +1,16 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version epic/commlib-ble ( !!! this have to be merged with the next version as soon as the epic branch is merged into develop !!! )
+Version 3.0.0
 -------------
+
 ### API Changes
 * Added type parameter to DICommPortListener to prevent unneeded inline casting.
 
 ### New features
-* COM-141 Expanded Errors Enum to cover all errors in DiComm spec
-
-### Bugs fixed
-
-### Known issues
-
-Version 3.0.0
--------------
-
-### New features
 * COM-24 Updated to work with new CloudController API
 * COM-24 Improved user pairing
+* COM-141 Expanded Errors Enum to cover all errors in DiComm spec
  
 ### Bugs fixed
 
