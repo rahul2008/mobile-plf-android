@@ -30,7 +30,6 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -38,6 +37,7 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Map;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -67,14 +67,19 @@ public class LanRequest extends Request {
         if (sslContext != null) return;
         sslContext = SSLContext.getInstance("TLS");
         // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
-        sslContext.init(null, new X509TrustManager[]{new X509TrustManager(){
+        sslContext.init(null, new X509TrustManager[]{new X509TrustManager() {
             public void checkClientTrusted(X509Certificate[] chain,
-                                           String authType) throws CertificateException {}
+                                           String authType) throws CertificateException {
+            }
+
             public void checkServerTrusted(X509Certificate[] chain,
-                                           String authType) throws CertificateException {}
+                                           String authType) throws CertificateException {
+            }
+
             public X509Certificate[] getAcceptedIssuers() {
                 return new X509Certificate[0];
-            }}}, new SecureRandom());
+            }
+        }}, new SecureRandom());
     }
 
     public LanRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap,
@@ -140,7 +145,6 @@ public class LanRequest extends Request {
             } catch (Exception e) {
                 responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
                 DICommLog.e(DICommLog.LOCALREQUEST, "Failed to get responsecode");
-                e.printStackTrace();
             }
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -158,7 +162,6 @@ public class LanRequest extends Request {
                 return new Response(result, Error.REQUEST_FAILED, mResponseHandler);
             }
         } catch (IOException e) {
-            e.printStackTrace();
             DICommLog.e(DICommLog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
             return new Response(null, Error.IOEXCEPTION, mResponseHandler);
         } finally {
@@ -170,7 +173,7 @@ public class LanRequest extends Request {
     private Response handleHttpOk(InputStream inputStream) throws IOException {
         String cypher = convertInputStreamToString(inputStream);
         if (cypher == null) {
-            DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - null reponse");
+            DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - null response");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
 
@@ -241,8 +244,8 @@ public class LanRequest extends Request {
                 Log.e(ConnectionLibContants.LOG_TAG, "KeyManagementException: " + e.getMessage());
             }
 
-            ((HttpsURLConnection)conn).setHostnameVerifier(hostnameVerifier);
-            ((HttpsURLConnection)conn).setSSLSocketFactory(sslContext.getSocketFactory());
+            ((HttpsURLConnection) conn).setHostnameVerifier(hostnameVerifier);
+            ((HttpsURLConnection) conn).setSSLSocketFactory(sslContext.getSocketFactory());
         }
         conn.setRequestProperty("content-type", "application/json");
         conn.setRequestMethod(requestMethod);
@@ -303,14 +306,14 @@ public class LanRequest extends Request {
                 is.close();
                 is = null;
             } catch (IOException e) {
-                e.printStackTrace();
+                // NOOP
             }
         }
         if (out != null) {
             try {
                 out.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                // NOOP
             }
             out = null;
         }

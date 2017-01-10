@@ -19,8 +19,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 
 public class NetworkMonitor {
@@ -40,7 +40,7 @@ public class NetworkMonitor {
     private ConnectivityManager connectivityManager;
 
     private final WifiManager wifiManager;
-    private final Set<NetworkChangedListener> networkChangedListeners = new HashSet<>();
+    private final Set<NetworkChangedListener> networkChangedListeners = new CopyOnWriteArraySet<>();
 
     private final BroadcastReceiver networkChangedReceiver = new BroadcastReceiver() {
         @Override
@@ -70,6 +70,10 @@ public class NetworkMonitor {
 
     public boolean addListener(NetworkChangedListener listener) {
         return networkChangedListeners.add(listener);
+    }
+
+    public boolean removeListener(NetworkChangedListener listener) {
+        return networkChangedListeners.remove(listener);
     }
 
     public void startNetworkChangedReceiver() {

@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             this.commCentral.startDiscovery();
         } catch (MissingPermissionException e) {
-            // NOOP
+            Log.e(TAG, "Missing permission for discovery: " + e.getMessage());
         }
     }
 
