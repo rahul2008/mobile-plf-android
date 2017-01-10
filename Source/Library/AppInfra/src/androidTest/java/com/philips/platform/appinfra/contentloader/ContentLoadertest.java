@@ -37,6 +37,7 @@ public class ContentLoadertest extends MockitoTestCase {
     private List downloadedContents;
     ContentDatabaseHandler contentDatabaseHandler;
 
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
