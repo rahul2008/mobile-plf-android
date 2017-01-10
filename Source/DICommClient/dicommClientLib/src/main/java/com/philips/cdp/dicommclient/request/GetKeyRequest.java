@@ -38,6 +38,6 @@ public class GetKeyRequest extends LanRequest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+        return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
     }
 }
