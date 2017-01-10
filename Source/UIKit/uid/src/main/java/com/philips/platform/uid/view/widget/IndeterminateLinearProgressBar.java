@@ -116,7 +116,7 @@ public class IndeterminateLinearProgressBar extends View {
         gradientStartColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressStartColor, Color.WHITE);
         gradientCenterColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressCenterColor, Integer.MIN_VALUE);
         gradientEndColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressEndColor, Color.WHITE);
-        gradientDuration = obtainStyledAttributes.getInt(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressAnimDuration, (int) AnimatedTranslateDrawable.DEFAULT_ANIMATION_DURATION);
+        gradientDuration = obtainStyledAttributes.getInt(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressAnimDuration, 0);
         obtainStyledAttributes.recycle();
     }
 
@@ -126,9 +126,9 @@ public class IndeterminateLinearProgressBar extends View {
         trailingDrawable = getTrailingDrawable();
         trailingMirrorDrawable = getTrailingMirrorDrawable();
         setTransitionColorGradients(leadingDrawable);
-        setTransitionColorReverseGradients(leadingMirrorDrawable);
+        setTransitionColorMirrorGradients(leadingMirrorDrawable);
         setTransitionColorGradients(trailingDrawable);
-        setTransitionColorReverseGradients(trailingMirrorDrawable);
+        setTransitionColorMirrorGradients(trailingMirrorDrawable);
     }
 
     private void setTransitionColorGradients(Drawable drawable) {
@@ -138,7 +138,7 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
-    private void setTransitionColorReverseGradients(Drawable drawable) {
+    private void setTransitionColorMirrorGradients(Drawable drawable) {
         if (drawable instanceof GradientDrawable) {
             int[] colors = new int[]{gradientCenterColor, gradientEndColor};
             ((GradientDrawable) drawable).setColors(colors);
@@ -277,7 +277,7 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void createAnimationSet() {
         endAnimation();
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, getLeadingAnimationStartOffset(), getLeadingAnimationEndOffset());
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, getLeadingAnimationStartPos(), getLeadingAnimationEndPos());
         trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, getTrailingAnimationStartOffset(), getTrailingAnimationEndOffset());
         setAnimationProperties(leadingAnim);
         setAnimationProperties(trailingAnim);
@@ -290,7 +290,7 @@ public class IndeterminateLinearProgressBar extends View {
      *
      * @return Offset to be applied as animation start point.
      */
-    protected int getLeadingAnimationStartOffset() {
+    protected int getLeadingAnimationStartPos() {
         return -transitionDrawableWidth;
     }
 
@@ -299,7 +299,7 @@ public class IndeterminateLinearProgressBar extends View {
      *
      * @return Offset to be applied as animation end point.
      */
-    protected int getLeadingAnimationEndOffset() {
+    protected int getLeadingAnimationEndPos() {
         return getMeasuredWidth() + transitionExtraWhiteSpace;
     }
 
@@ -323,7 +323,7 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void setAnimationProperties(final AnimatedTranslateDrawable translateDrawable) {
         translateDrawable.setCallback(this);
-        translateDrawable.getAnimator().setDuration(gradientDuration);
+        translateDrawable.getAnimator().setDuration(gradientDuration * getAnimationTravelRatio());
         translateDrawable.setBounds(getAnimationDrawableRect());
     }
 
@@ -395,7 +395,7 @@ public class IndeterminateLinearProgressBar extends View {
                         trailingAnim.start();
                     }
                 }
-            }, leadingAnim.getAnimator().getDuration() / 2);
+            }, gradientDuration);
         }
     }
 
@@ -431,6 +431,10 @@ public class IndeterminateLinearProgressBar extends View {
     private void pauseAnimation() {
         leadingAnim.pause();
         trailingAnim.pause();
+    }
+
+    private int getAnimationTravelRatio() {
+        return (getLeadingAnimationEndPos() - getLeadingAnimationStartPos()) / getMeasuredWidth();
     }
 
     @Override
