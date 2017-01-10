@@ -4,6 +4,7 @@
  */
 package com.philips.platform.uid.view.widget;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -24,41 +25,53 @@ import com.philips.platform.uid.utils.UIDUtils;
 /**
  * <p></p>Provides custom implementation for indeterminate linear progress bar.
  * It uses animator to animate drawables across different end points.</p>
- *
+ * <p>
+ * <p><b>Current Implementation:</b> The transition drawable is 40% of total widht of the progressBar.
+ * It uses two sets of moving blocks. Second blocks stars when the first starts moving out of the visible frame.
+ * As per DLS specs each block has gradient of 0-100-0, (start-center-end) color. It can be customized with custom attributes(Refer table below for details).
+ * Though {@link GradientDrawable} provides way to set it, but the visual effects are not the same.<br>
+ * To achieve this effect, two drawables are next to each other and other is mirror of first one(with reverse gradient) of same size.
+ * Effectively the drawable and mirror drawable are 20% each(combined 40%) of total progressBar.<br>
+ * <p>
+ * With this effect animation runs for 2 * width. Currently the default time is 900ms to cover the visible area, which effectively translates to 2* 900 ms as
+ * total distance covered is 2* width.
+ * <p>
+ * <p>
+ * </p>
  * <p>The attributes mapping follows below table.</p>
  * <table border="2" width="85%" align="center" cellpadding="5">
- *     <thead>
- *         <tr><th>ResourceID</th> <th>Configuration</th></tr>
- *     </thead>
- *
- *     <tbody>
- *     <tr>
- *         <td rowspan="1">uidIndeterminateLinearProgressBGColor</td>
- *         <td rowspan="1">Background color for the progressBar </td>
- *     </tr>
- *     <tr>
- *         <td rowspan="1">uidIndeterminateLinearProgressBGAlpha</td>
- *         <td rowspan="1">Alpha to be applied on the background color</td>
- *     </tr>
- *     <tr>
- *         <td rowspan="1">uidIndeterminateLinearProgressStartColor</td>
- *         <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the start color for drawable.</td>
- *     </tr>
- *     <tr>
- *         <td rowspan="1">uidIndeterminateLinearProgressCenterColor</td>
- *         <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the center color for drawable.</td>
- *     </tr>
- *      <tr>
- *         <td rowspan="1">uidIndeterminateLinearProgressEndColor</td>
- *         <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the end color for drawable.</td
- *     </tr>
- *     <tr>
- *         <td rowspan="1">uidIndeterminateLinearProgressAnimDuration</td>
- *         <td rowspan="1">Sets the animation duration for the transition of indeterminate progressbar.</td
- *     </tr>
- *
- *     </tbody>
- *
+ * <thead>
+ * <tr><th>ResourceID</th> <th>Configuration</th></tr>
+ * </thead>
+ * <p>
+ * <tbody>
+ * <tr>
+ * <td rowspan="1">uidIndeterminateLinearProgressBGColor</td>
+ * <td rowspan="1">Background color for the progressBar </td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidIndeterminateLinearProgressBGAlpha</td>
+ * <td rowspan="1">Alpha to be applied on the background color</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidIndeterminateLinearProgressStartColor</td>
+ * <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the start color for drawable.</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidIndeterminateLinearProgressCenterColor</td>
+ * <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the center color for drawable.</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidIndeterminateLinearProgressEndColor</td>
+ * <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the end color for drawable.</td
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidIndeterminateLinearProgressAnimDuration</td>
+ * <td rowspan="1">Sets the animation duration for the transition of indeterminate progressbar.</td
+ * </tr>
+ * <p>
+ * </tbody>
+ * <p>
  * </table>
  */
 public class IndeterminateLinearProgressBar extends View {
@@ -75,10 +88,10 @@ public class IndeterminateLinearProgressBar extends View {
 
     private static final float TRANSITION_DRAWABLE_WIDTH_RATIO = 0.4F;
 
-    private int transitionStartColor;
-    private int transitionCenterColor;
-    private int transitionEndColor;
-    private int transitionDuration;
+    private int gradientStartColor;
+    private int gradientCenterColor;
+    private int gradientEndColor;
+    private int gradientDuration;
 
     public IndeterminateLinearProgressBar(final Context context) {
         this(context, null);
@@ -100,10 +113,10 @@ public class IndeterminateLinearProgressBar extends View {
         final float bgColorAlpha = obtainStyledAttributes.getFloat(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressBGAlpha, 1.0f);
         setTintedBackground(bgColor, bgColorAlpha);
 
-        transitionStartColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressStartColor, Color.WHITE);
-        transitionCenterColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressCenterColor, Integer.MIN_VALUE);
-        transitionEndColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressEndColor, Color.WHITE);
-        transitionDuration = obtainStyledAttributes.getInt(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressAnimDuration, (int) AnimatedTranslateDrawable.DEFAULT_ANIMATION_DURATION);
+        gradientStartColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressStartColor, Color.WHITE);
+        gradientCenterColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressCenterColor, Integer.MIN_VALUE);
+        gradientEndColor = obtainStyledAttributes.getColor(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressEndColor, Color.WHITE);
+        gradientDuration = obtainStyledAttributes.getInt(R.styleable.UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressAnimDuration, (int) AnimatedTranslateDrawable.DEFAULT_ANIMATION_DURATION);
         obtainStyledAttributes.recycle();
     }
 
@@ -120,20 +133,21 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void setTransitionColorGradients(Drawable drawable) {
         if (drawable instanceof GradientDrawable) {
-            int[] colors = new int[]{transitionStartColor, transitionCenterColor};
+            int[] colors = new int[]{gradientStartColor, gradientCenterColor};
             ((GradientDrawable) drawable).setColors(colors);
         }
     }
 
     private void setTransitionColorReverseGradients(Drawable drawable) {
         if (drawable instanceof GradientDrawable) {
-            int[] colors = new int[]{transitionCenterColor, transitionEndColor};
+            int[] colors = new int[]{gradientCenterColor, gradientEndColor};
             ((GradientDrawable) drawable).setColors(colors);
         }
     }
 
     /**
-     *  Override this provide custom trailing drawable.
+     * Override this provide custom trailing drawable.
+     *
      * @return The drawable used as the trailing drawable.
      */
     protected Drawable getTrailingDrawable() {
@@ -141,7 +155,8 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     /**
-     *  Override this provide custom trailing mirror drawable.
+     * Override this provide custom trailing mirror drawable.
+     *
      * @return The drawable used as the trailing mirror drawable.
      */
     protected Drawable getTrailingMirrorDrawable() {
@@ -149,7 +164,8 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     /**
-     *  Override this provide custom leading drawable.
+     * Override this provide custom leading drawable.
+     *
      * @return The drawable used as the leading drawable.
      */
     protected Drawable getLeadingDrawable() {
@@ -157,7 +173,8 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     /**
-     *  Override this provide custom leading mirror drawable.
+     * Override this provide custom leading mirror drawable.
+     *
      * @return The drawable used as the leading mirror drawable.
      */
     protected Drawable getLeadingMirrorDrawable() {
@@ -185,7 +202,7 @@ public class IndeterminateLinearProgressBar extends View {
         }
 
         if (leadingMirrorDrawable != null) {
-            leadingMirrorDrawable.setBounds(getTransitionReverseDrawableBoundRect());
+            leadingMirrorDrawable.setBounds(getTransitionMirrorDrawableBoundRect());
         }
 
         if (trailingDrawable != null) {
@@ -193,21 +210,36 @@ public class IndeterminateLinearProgressBar extends View {
         }
 
         if (trailingMirrorDrawable != null) {
-            trailingMirrorDrawable.setBounds(getTransitionReverseDrawableBoundRect());
+            trailingMirrorDrawable.setBounds(getTransitionMirrorDrawableBoundRect());
         }
     }
 
+    /**
+     * Set the height for the progress bar.
+     *
+     * @return Height that will be set to the progressbar
+     */
     protected int getDesiredHeight() {
         return getContext().getResources().getDimensionPixelSize(R.dimen.uid_progress_bar_height);
     }
 
+    /**
+     * Sets the bounds for the progressDrawable.
+     *
+     * @return Returns {@link Rect} which will be set as bounds for transition drawable.
+     */
     protected Rect getTransitionDrawableBoundRect() {
         int width = transitionDrawableWidth / 2;
         int height = getMeasuredHeight();
         return new Rect(0, 0, width, height);
     }
 
-    protected Rect getTransitionReverseDrawableBoundRect() {
+    /**
+     * Sets the bounds for the progressDrawable. Set this to empty rect if no mirror drawable is required.
+     *
+     * @return Returns {@link Rect} which will be set as bounds for transition mirror drawable.
+     */
+    protected Rect getTransitionMirrorDrawableBoundRect() {
         int width = transitionDrawableWidth / 2;
         int height = getMeasuredHeight();
         return new Rect(width, 0, 2 * width, height);
@@ -219,19 +251,79 @@ public class IndeterminateLinearProgressBar extends View {
         return new Rect(0, 0, width, height);
     }
 
+    /**
+     * Retrieves animator associated with leading animation. Properties can be modified for animator.
+     *
+     * @return Animator linked to leadingAnim.
+     */
+    protected Animator getLeadingAnimator() {
+        if (leadingAnim != null) {
+            return leadingAnim.getAnimator();
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves animator associated with trailing animation. Properties can be modified for animator.
+     *
+     * @return Animator linked to trailingAnim.
+     */
+    protected Animator getTrailingAnimator() {
+        if (trailingAnim != null) {
+            return trailingAnim.getAnimator();
+        }
+        return null;
+    }
+
     private void createAnimationSet() {
         endAnimation();
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
-        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, getLeadingAnimationStartOffset(), getLeadingAnimationEndOffset());
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, getTrailingAnimationStartOffset(), getTrailingAnimationEndOffset());
         setAnimationProperties(leadingAnim);
         setAnimationProperties(trailingAnim);
 
         startAnimation();
     }
 
+    /**
+     * Start offset for leading animation
+     *
+     * @return Offset to be applied as animation start point.
+     */
+    protected int getLeadingAnimationStartOffset() {
+        return -transitionDrawableWidth;
+    }
+
+    /**
+     * End offset for leading animation
+     *
+     * @return Offset to be applied as animation end point.
+     */
+    protected int getLeadingAnimationEndOffset() {
+        return getMeasuredWidth() + transitionExtraWhiteSpace;
+    }
+
+    /**
+     * Start offset for trailing animation
+     *
+     * @return Offset to be applied as animation start point.
+     */
+    protected int getTrailingAnimationStartOffset() {
+        return -transitionDrawableWidth;
+    }
+
+    /**
+     * End offset for trailing animation
+     *
+     * @return Offset to be applied as animation end point.
+     */
+    protected int getTrailingAnimationEndOffset() {
+        return getMeasuredWidth() + transitionExtraWhiteSpace;
+    }
+
     private void setAnimationProperties(final AnimatedTranslateDrawable translateDrawable) {
         translateDrawable.setCallback(this);
-        translateDrawable.getAnimator().setDuration(transitionDuration);
+        translateDrawable.getAnimator().setDuration(gradientDuration);
         translateDrawable.setBounds(getAnimationDrawableRect());
     }
 
@@ -288,7 +380,11 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
-    private void startAnimation() {
+    /**
+     * Can be overriden if the animator properties are changed after animation start.
+     * Call {@link #endAnimation()} before calling {@link #startAnimation()}
+     */
+    protected void startAnimation() {
         if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
             leadingAnim.start();
             postDelayed(new Runnable() {
@@ -303,7 +399,10 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
-    private void resumeAnimation() {
+    /**
+     * Resumes the animation if its paused otherwise animation is started.
+     */
+    protected void resumeAnimation() {
         if (leadingAnim != null) {
             leadingAnim.resume();
         }
@@ -312,7 +411,11 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
-    private void endAnimation() {
+    /**
+     * Can be overriden if the animator properties are changed after animation start.
+     * Call {@link #endAnimation()} before calling {@link #startAnimation()}
+     */
+    protected void endAnimation() {
         drawTrailingAnim = false;
         if (leadingAnim != null) {
             leadingAnim.end();
@@ -322,6 +425,9 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
+    /**
+     * Pauses the animation if its running, else it has no effect.
+     */
     private void pauseAnimation() {
         leadingAnim.pause();
         trailingAnim.pause();
