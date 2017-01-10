@@ -52,6 +52,7 @@
         <attr name="uidInputTextHintTextDisabledAlpha" format="reference|float"/>
         <attr name="uidInputTextTextSelector" format="reference"/>
         <attr name="uidInputTextHintTextSelector" format="reference"/>
+        <attr name="uidInputTextWithClearButton" format="reference|boolean"/>
     </declare-styleable>
 
     <declare-styleable name="UIDNavigationBar">
@@ -85,6 +86,7 @@
         <attr name="uidControlPrimaryBufferAlpha" format="reference|float"/>
         <attr name="uidLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
+        <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDDialog">
@@ -112,5 +114,17 @@
         <attr name="uidIndeterminateLinearProgressCenterColor" format="reference|color"/>
         <attr name="uidIndeterminateLinearProgressEndColor" format="reference|color"/>
         <attr name="uidIndeterminateLinearProgressAnimDuration" format="reference|integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDProgressIndicatorButton">
+        <attr name="uidIsIndeterminateProgressIndicator" format="reference|boolean"/>
+        <attr name="uidProgressIndicatorButtonDrawable" format="reference"/>
+        <attr name="uidProgressIndicatorButtonText" format="reference|string"/>
+        <attr name="uidProgressIndicatorButtonProgress" format="reference|integer"/>
+        <attr name="uidProgressIndicatorButtonProgressText" format="reference|string"/>
+        <attr name="uidProgressIndicatorButtonProgressBackground" format="reference"/>
+        <attr name="uidProgressIndicatorButtonProgressBackgroundColor" format="reference|color"/>
+        <attr name="uidProgressIndicatorButtonProgressBackgroundColorAlpha" format="reference|float"/>
+        <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
 </resources>

@@ -52,7 +52,7 @@ public class NavigationBarTest {
     @NonNull
     private Intent getLaunchIntent(final int navigationColor) {
         final Bundle bundleExtra = new Bundle();
-        bundleExtra.putInt("NavigationColor", navigationColor);
+        bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
         final Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.putExtras(bundleExtra);
         return intent;

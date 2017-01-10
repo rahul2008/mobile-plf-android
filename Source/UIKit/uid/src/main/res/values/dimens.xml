@@ -43,22 +43,28 @@
     <dimen name="uid_imagebutton_padding">8dp</dimen>
     <dimen name="uid_image_text_button_padding_left">32dp</dimen>
 
+
+    <dimen name="uid_progress_indicator_button_progress_text_padding">8dp</dimen>
+    <item name="uid_progress_indicator_button_label_alpha" format="float" type="dimen">1.0</item>
+
     <!--TextBox-->
-    <dimen name="uid_texteditbox_corner_radius">2dp</dimen>
-    <dimen name="uid_texteditbox_fill_corner_radius">4dp</dimen>
-    <dimen name="uid_texteditbox_height">40dp</dimen>
-    <dimen name="uid_texteditbox_stroke_width">4dp</dimen>
-    <dimen name="uid_texteditbox_text_padding">12dp</dimen>
-    <dimen name="uid_texteditbox_min_width">24dp</dimen>
-    <dimen name="uid_texteditbox_text_size">16sp</dimen>
-    <dimen name="uid_texteditbox_stroke_width_ultralight">1dp</dimen>
-    <dimen name="uid_texteditbox_line_spacing">26dp</dimen>
-    <dimen name="uid_texteditbox_vertical_padding">12dp</dimen>
-    <item name="uid_texteditbox_fill_disabled_alpha" format="float" type="dimen">0.35</item>
-    <item name="uid_texteditbox_border_20_alpha" format="float" type="dimen">0.20</item>
-    <item name="uid_texteditbox_border_25_alpha" format="float" type="dimen">0.25</item>
-    <item name="uid_texteditbox_border_35_alpha" format="float" type="dimen">0.35</item>
-    <integer name="uid_texteditbox_font_spacing_multiplier">0</integer>
+    <dimen name="uid_edittext_corner_radius">2dp</dimen>
+    <dimen name="uid_edittext_fill_corner_radius">4dp</dimen>
+    <dimen name="uid_edittext_height">48dp</dimen>
+    <dimen name="uid_edittext_stroke_width">4dp</dimen>
+    <dimen name="uid_edittext_text_padding">12dp</dimen>
+    <dimen name="uid_edittext_min_width">24dp</dimen>
+    <dimen name="uid_edittext_text_size">16sp</dimen>
+    <dimen name="uid_edittext_stroke_width_ultralight">1dp</dimen>
+    <dimen name="uid_edittext_line_spacing">26dp</dimen>
+    <dimen name="uid_edittext_vertical_padding">12dp</dimen>
+    <item name="uid_edittext_fill_disabled_alpha" format="float" type="dimen">0.35</item>
+    <item name="uid_edittext_border_20_alpha" format="float" type="dimen">0.20</item>
+    <item name="uid_edittext_border_25_alpha" format="float" type="dimen">0.25</item>
+    <item name="uid_editboxtext_border_35_alpha" format="float" type="dimen">0.35</item>
+    <integer name="uid_edittext_font_spacing_multiplier">0</integer>
+    <dimen name="uid_edittext_password_drawable_touch_area">48dp</dimen>
+    <dimen name="uid_edittext_password_right_drawable_left_padding">20dp</dimen>
 
     <!-- alert dialog -->
     <dimen name="uid_alert_dialog_title_icon_padding">8dp</dimen>
