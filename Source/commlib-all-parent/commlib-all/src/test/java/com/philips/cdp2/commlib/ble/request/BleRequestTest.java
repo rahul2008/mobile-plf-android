@@ -128,7 +128,6 @@ public class BleRequestTest {
 
     @Test
     public void callsDisconnectAfterOnSuccess() {
-
         request.run();
 
         InOrder inOrder = inOrder(responseHandlerMock, mockDevice);

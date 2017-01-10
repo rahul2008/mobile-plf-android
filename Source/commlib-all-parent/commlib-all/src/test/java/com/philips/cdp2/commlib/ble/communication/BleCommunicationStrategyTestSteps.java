@@ -143,7 +143,7 @@ public class BleCommunicationStrategyTestSteps {
 
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
-        SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
+        final SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
         final SHNDevice device = mock(SHNDevice.class);
         mRawDataListeners.put(deviceId, new CopyOnWriteArraySet<ResultListener<SHNDataRaw>>());
         writtenBytes.put(deviceId, 0);
@@ -189,7 +189,7 @@ public class BleCommunicationStrategyTestSteps {
         mDeviceCache.addDevice(device);
     }
 
-    private void resetCapability(final String deviceId){
+    private void resetCapability(final String deviceId) {
         reset(capability);
 
         doAnswer(new Answer() {
@@ -299,7 +299,6 @@ public class BleCommunicationStrategyTestSteps {
 
     @Then("^no write occurred to mock device with id '(.*?)'$")
     public void noWriteOccurredToMockDeviceWithIdP(String deviceId) {
-        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
 
         verify(capability, times(0)).writeData((byte[]) any());
         resetCapability(deviceId);
@@ -417,7 +416,6 @@ public class BleCommunicationStrategyTestSteps {
     private byte[] getWrittenBytesForDevice(String deviceId) {
         ArgumentCaptor<byte[]> argCaptor = ArgumentCaptor.forClass(byte[].class);
 
-        CapabilityDiComm capability = getCapabilityForDevice(deviceId);
         verify(capability, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS)).writeData(argCaptor.capture());
 
         byte[] bytes = argCaptor.getValue();
@@ -433,14 +431,6 @@ public class BleCommunicationStrategyTestSteps {
 
         String hexData = DatatypeConverter.printHexBinary(getWrittenBytesForDevice(deviceId));
         return pattern.matcher(hexData);
-    }
-
-    private CapabilityDiComm getCapabilityForDevice(String deviceId) {
-//        final SHNDevice device = mDeviceCache.getDeviceMap().get(deviceId);
-//        assertNotNull(device);
-
-//        return (CapabilityDiComm) device.getCapabilityForType(DI_COMM);
-        return capability;
     }
 
     private Map<String, Object> getObjectMapFromLastSuccessfulResult() {

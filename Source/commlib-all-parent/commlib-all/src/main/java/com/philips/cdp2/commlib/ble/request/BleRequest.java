@@ -33,10 +33,10 @@ import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.DISCONNECTING;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.EXECUTING;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINISHED;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.NOT_STARTED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.STARTED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINALIZED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
@@ -52,13 +52,13 @@ import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
  * dispatched in a queue are processed sequentially.
  */
 public abstract class BleRequest implements Runnable {
-    static final int MAX_PAYLOAD_LENGTH = (int) Math.pow(2, 16) - 1;
+    static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
 
     enum State {
-        NOT_STARTED,
-        EXECUTING,
-        DISCONNECTING,
-        FINISHED
+        CREATED,
+        STARTED,
+        COMPLETED,
+        FINALIZED
     }
 
     @NonNull
@@ -80,7 +80,7 @@ public abstract class BleRequest implements Runnable {
     CountDownLatch inProgressLatch = new CountDownLatch(1);
 
     @NonNull
-    private State state = NOT_STARTED;
+    private State state = CREATED;
 
     @NonNull
     private final Object stateLock = new Object();
@@ -109,7 +109,7 @@ public abstract class BleRequest implements Runnable {
     private final ResultListener<SHNDataRaw> resultListener = new ResultListener<SHNDataRaw>() {
         @Override
         public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
-            if (stateIs(EXECUTING)) {
+            if (stateIs(STARTED)) {
                 if (shnResult == SHNOk) {
                     diCommByteStreamReader.onBytes(shnDataRaw.getRawData());
                 } else {
@@ -153,7 +153,7 @@ public abstract class BleRequest implements Runnable {
 
     @Override
     public void run() {
-        if (setStateIfStateIs(EXECUTING, NOT_STARTED)) {
+        if (setStateIfStateIs(STARTED, CREATED)) {
             execute();
 
             try {
@@ -212,7 +212,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onConnected() {
-        if (stateIs(EXECUTING)) {
+        if (stateIs(STARTED)) {
             capability = (CapabilityDiComm) bleDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
             if (capability == null) {
                 onError(Error.NOT_AVAILABLE, "Communication is not available");
@@ -256,14 +256,14 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onError(Error error, String errorMessage) {
-        if (setStateIfStateIs(DISCONNECTING, EXECUTING, NOT_STARTED)) {
+        if (setStateIfStateIs(COMPLETED, STARTED, CREATED)) {
             responseHandler.onError(error, errorMessage);
             finishRequest();
         }
     }
 
     private void onSuccess(String data) {
-        if (setStateIfStateIs(DISCONNECTING, EXECUTING)) {
+        if (setStateIfStateIs(COMPLETED, STARTED)) {
             responseHandler.onSuccess(data);
             finishRequest();
         }
@@ -282,7 +282,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onDisconnected() {
-        if (setStateIfStateIs(FINISHED, DISCONNECTING)) {
+        if (setStateIfStateIs(FINALIZED, COMPLETED)) {
             inProgressLatch.countDown();
         }
     }
