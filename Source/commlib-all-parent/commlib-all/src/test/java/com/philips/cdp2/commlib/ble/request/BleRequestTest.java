@@ -123,10 +123,7 @@ public class BleRequestTest {
         request.run();
 
         InOrder inOrder = inOrder(responseHandlerMock, mockDevice);
-
         inOrder.verify(responseHandlerMock).onSuccess(anyString());
         inOrder.verify(mockDevice).disconnect();
     }
-
-
 }

@@ -288,7 +288,7 @@ public abstract class BleRequest implements Runnable {
 
     private void cleanup() {
         if (bleDevice != null) {
-            bleDevice.unregisterSHNDeviceListener(bleDeviceListener);
+            bleDevice.registerSHNDeviceListener(null);
             bleDevice = null;
             if (capability != null) {
                 capability.removeDataListener(resultListener);

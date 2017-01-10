@@ -25,6 +25,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
@@ -47,6 +49,7 @@ import cucumber.api.java.en.When;
 
 import static com.philips.pins.shinelib.SHNCapabilityType.DI_COMM;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -54,6 +57,7 @@ import static junit.framework.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.timeout;
@@ -87,6 +91,8 @@ public class BleCommunicationStrategyTestSteps {
     @Captor
     private ArgumentCaptor<String> successStringCaptor;
 
+    private Map<String, SHNDevice.SHNDeviceListener> deviceListenerMap;
+
     @Before
     public void setup() {
         initMocks(this);
@@ -96,10 +102,11 @@ public class BleCommunicationStrategyTestSteps {
         mDeviceCache = new BleDeviceCache();
         mResponseQueue = new ArrayDeque<>();
         mGson = new GsonBuilder().serializeNulls().create();
+        deviceListenerMap = new HashMap<>();
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         validateMockitoUsage();
     }
 
@@ -133,7 +140,7 @@ public class BleCommunicationStrategyTestSteps {
     @Given("^a mock device is found with id '(.*?)'$")
     public void a_mock_device_is_found_with_id(final String deviceId) {
         SHNDeviceFoundInfo info = mock(SHNDeviceFoundInfo.class);
-        SHNDevice device = mock(SHNDevice.class);
+        final SHNDevice device = mock(SHNDevice.class);
         mRawDataListeners.put(deviceId, new HashSet<ResultListener<SHNDataRaw>>());
         writtenBytes.put(deviceId, 0);
 
@@ -161,7 +168,38 @@ public class BleCommunicationStrategyTestSteps {
         when(info.getShnDevice()).thenReturn(device);
         when(device.getAddress()).thenReturn(deviceId);
         when(device.getCapabilityForType(DI_COMM)).thenReturn(capability);
-        when(device.getState()).thenReturn(Connected);
+        when(device.getState()).thenReturn(Disconnected);
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(final InvocationOnMock invocation) throws Throwable {
+                SHNDevice.SHNDeviceListener listener = (SHNDevice.SHNDeviceListener) invocation.getArguments()[0];
+                deviceListenerMap.put(deviceId, listener);
+                return null;
+            }
+        }).when(device).registerSHNDeviceListener(any(SHNDevice.SHNDeviceListener.class));
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(final InvocationOnMock invocation) throws Throwable {
+                when(device.getState()).thenReturn(Connected);
+                if (deviceListenerMap.containsKey(deviceId)) {
+                    deviceListenerMap.get(deviceId).onStateUpdated(device);
+                }
+                return null;
+            }
+        }).when(device).connect();
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(final InvocationOnMock invocation) throws Throwable {
+                when(device.getState()).thenReturn(Disconnected);
+                if (deviceListenerMap.containsKey(deviceId)) {
+                    deviceListenerMap.get(deviceId).onStateUpdated(device);
+                }
+                return null;
+            }
+        }).when(device).disconnect();
 
         mDeviceCache.addDevice(device);
     }
