@@ -30,7 +30,9 @@ public enum Error {
     NO_TRANSPORT_AVAILABLE("Request cannot be performed - No transport available."),
     NOT_CONNECTED("Request cannot be performed - Not connected to an appliance."),
     TIMED_OUT("Request timed out"),
-    NOT_AVAILABLE("Communication not available");
+    NOT_AVAILABLE("Communication not available"),
+
+    REQUESTFAILED("Request failed");
 
     private final String mErrorMessage;
 

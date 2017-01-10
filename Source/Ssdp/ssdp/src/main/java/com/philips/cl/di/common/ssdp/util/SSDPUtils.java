@@ -19,12 +19,32 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * @author 310151556
  * @version $Revision: 1.0 $
  */
 public class SSDPUtils {
+    private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true; //Just accept everything
+        }
+    };
+
+    private static SSLContext sslContext;
+
     /**
      * HTTP GETs icon from selected url.
      *
@@ -100,12 +120,25 @@ public class SSDPUtils {
                 StrictMode.setThreadPolicy(policy);
             }
 
-            HttpURLConnection connection = null;
+            URLConnection connection = null;
             InputStreamReader is = null;
             BufferedReader br = null;
             try {
-                connection = (HttpURLConnection) url.openConnection();
+                connection = url.openConnection();
                 if (null != connection) {
+                    if (url.toString().startsWith("https://"))
+                    {
+                        try {
+                            initializeSslFactory();
+                        } catch (final NoSuchAlgorithmException e) {
+                            Log.e(ConnectionLibContants.LOG_TAG, "NoSuchAlgorithmException: " + e.getMessage());
+                        } catch (final KeyManagementException e) {
+                            Log.e(ConnectionLibContants.LOG_TAG, "KeyManagementException: " + e.getMessage());
+                        }
+
+                        ((HttpsURLConnection)connection).setHostnameVerifier(hostnameVerifier);
+                        ((HttpsURLConnection)connection).setSSLSocketFactory(sslContext.getSocketFactory());
+                    }
                     connection.setConnectTimeout(3000);
                     connection.connect();
                     is = new InputStreamReader(connection.getInputStream());
@@ -135,7 +168,7 @@ public class SSDPUtils {
                 }
                 if (null != connection) {
                     try {
-                        connection.disconnect();
+                        ((HttpURLConnection)connection).disconnect();
                     } catch (Exception e) {
                         Log.e(ConnectionLibContants.LOG_TAG, "IOException: " + e.getMessage());
                     }
@@ -143,5 +176,19 @@ public class SSDPUtils {
             }
         }
         return response;
+    }
+
+    private static void initializeSslFactory() throws NoSuchAlgorithmException, KeyManagementException {
+        if (sslContext != null) return;
+        sslContext = SSLContext.getInstance("TLS");
+        // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
+        sslContext.init(null, new X509TrustManager[]{new X509TrustManager(){
+            public void checkClientTrusted(X509Certificate[] chain,
+                                           String authType) throws CertificateException {}
+            public void checkServerTrusted(X509Certificate[] chain,
+                                           String authType) throws CertificateException {}
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }}}, new SecureRandom());
     }
 }

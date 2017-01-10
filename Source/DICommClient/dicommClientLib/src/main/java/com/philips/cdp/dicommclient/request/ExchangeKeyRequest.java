@@ -22,8 +22,8 @@ public class ExchangeKeyRequest extends LanRequest {
 
     private String mRandomValue;
 
-    public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, ResponseHandler responseHandler) {
-        super(applianceIpAddress, protocolVersion, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
+    public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, ResponseHandler responseHandler) {
+        super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
         String sdiffie = EncryptionUtil.generateDiffieKey(mRandomValue);

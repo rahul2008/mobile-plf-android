@@ -27,6 +27,7 @@ public class NetworkNode extends Observable implements Parcelable {
     private String mHomeSsid;
     private long mBootId;
     private String mEncryptionKey;
+    private boolean mHttps;
 
     private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
     private long mLastPairedTime;
@@ -137,6 +138,12 @@ public class NetworkNode extends Observable implements Parcelable {
         if (isKeyUpdated && encryptionKeyUpdatedListener != null) {
             encryptionKeyUpdatedListener.onKeyUpdate();
         }
+    }
+
+    public synchronized boolean getHttps() { return mHttps; }
+
+    public synchronized void setHttps(boolean mHttps) {
+        this.mHttps = mHttps;
     }
 
     public synchronized NetworkNode.PAIRED_STATUS getPairedState() {
