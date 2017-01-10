@@ -207,8 +207,8 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(List contents) {
                                 final List<ContentInterface> contentArticle = contents;
-                                textViewResponse.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
+                               /* textViewResponse.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);*/
                                 //for(ContentArticle content : contentArticle) {
                                 ContentListAdapter adapter = new ContentListAdapter(ContentLoaderActivity.this, contentArticle);
 //                                    ArrayAdapter<ContentArticle> itemsAdapter =
