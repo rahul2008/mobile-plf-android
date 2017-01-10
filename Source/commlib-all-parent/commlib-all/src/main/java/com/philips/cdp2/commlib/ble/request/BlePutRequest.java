@@ -41,8 +41,8 @@ public class BlePutRequest extends BleRequest {
     }
 
     @Override
-    protected void execute(final CapabilityDiComm capability) {
-        if(dataMap == null){
+    protected void execute(@NonNull final CapabilityDiComm capability) {
+        if (dataMap == null) {
             responseHandler.onError(Error.INVALID_PARAMETER, "Request data is null.");
             return;
         }
@@ -54,7 +54,7 @@ public class BlePutRequest extends BleRequest {
 
         final DiCommMessage putPropsMessage = new DiCommRequest().putPropsRequestDataWithProduct(productId, portName, dataMap);
 
-        if(putPropsMessage == null){
+        if (putPropsMessage == null) {
             responseHandler.onError(Error.INVALID_PARAMETER, "Payload contains null key.");
             return;
         }

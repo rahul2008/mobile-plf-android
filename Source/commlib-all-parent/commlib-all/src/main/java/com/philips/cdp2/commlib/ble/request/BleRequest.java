@@ -25,6 +25,7 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminat
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -32,13 +33,14 @@ import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
 import static com.philips.cdp.dicommclient.request.Error.UNKNOWN;
 import static com.philips.cdp2.commlib.ble.error.BleErrorMap.getErrorByStatusCode;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.EXECUTING;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINISHED;
-import static com.philips.cdp2.commlib.ble.request.BleRequest.State.NOT_STARTED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.COMPLETED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.STARTED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.FINALIZED;
+import static com.philips.cdp2.commlib.ble.request.BleRequest.State.CREATED;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
+import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 import static com.philips.pins.shinelib.SHNResult.SHNOk;
 import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
-import static java.util.Arrays.asList;
 
 /**
  * The type BleRequest.
@@ -50,12 +52,13 @@ import static java.util.Arrays.asList;
  * dispatched in a queue are processed sequentially.
  */
 public abstract class BleRequest implements Runnable {
-    static final int MAX_PAYLOAD_LENGTH = (int) Math.pow(2, 16) - 1;
+    static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
 
     enum State {
-        NOT_STARTED,
-        EXECUTING,
-        FINISHED
+        CREATED,
+        STARTED,
+        COMPLETED,
+        FINALIZED
     }
 
     @NonNull
@@ -77,35 +80,17 @@ public abstract class BleRequest implements Runnable {
     CountDownLatch inProgressLatch = new CountDownLatch(1);
 
     @NonNull
-    private State state = NOT_STARTED;
+    private State state = CREATED;
 
     @NonNull
     private final Object stateLock = new Object();
-
-    private boolean stateIs(State state) {
-        synchronized (stateLock) {
-            return state == this.state;
-        }
-    }
-
-    private boolean setStateIfStateIs(State newState, State... currentStates) {
-        synchronized (stateLock) {
-            List<State> currentStateList = asList(currentStates);
-            if (currentStateList.contains(state)) {
-                state = newState;
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
 
     private final DiCommByteStreamReader.DiCommMessageListener dicommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
         @Override
         public void onMessage(DiCommMessage diCommMessage) {
             try {
                 final DiCommResponse res = new DiCommResponse(diCommMessage);
-                processDicommResponse(res);
+                processDiCommResponse(res);
             } catch (IllegalArgumentException | InvalidMessageTerminationException | InvalidPayloadFormatException e) {
                 BleRequest.this.onError(PROTOCOL_VIOLATION, e.getMessage());
             } catch (InvalidStatusCodeException e) {
@@ -119,23 +104,12 @@ public abstract class BleRequest implements Runnable {
         }
     };
 
-    @VisibleForTesting
-    void processDicommResponse(final DiCommResponse res) {
-        final StatusCode statusCode = res.getStatus();
-
-        if (statusCode == NoError) {
-            onSuccess(res.getPropertiesAsString());
-        } else {
-            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
-        }
-    }
-
     private final DiCommByteStreamReader diCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
 
     private final ResultListener<SHNDataRaw> resultListener = new ResultListener<SHNDataRaw>() {
         @Override
         public void onActionCompleted(SHNDataRaw shnDataRaw, @NonNull SHNResult shnResult) {
-            if (stateIs(EXECUTING)) {
+            if (stateIs(STARTED)) {
                 if (shnResult == SHNOk) {
                     diCommByteStreamReader.onBytes(shnDataRaw.getRawData());
                 } else {
@@ -144,6 +118,17 @@ public abstract class BleRequest implements Runnable {
             }
         }
     };
+
+    @VisibleForTesting
+    void processDiCommResponse(final DiCommResponse res) {
+        final StatusCode statusCode = res.getStatus();
+
+        if (statusCode == NoError) {
+            onSuccess(res.getPropertiesAsString());
+        } else {
+            onError(getErrorByStatusCode(statusCode), res.getPropertiesAsString());
+        }
+    }
 
     /**
      * Instantiates a new BleRequest.
@@ -168,7 +153,7 @@ public abstract class BleRequest implements Runnable {
 
     @Override
     public void run() {
-        if (setStateIfStateIs(EXECUTING, NOT_STARTED)) {
+        if (setStateIfStateIs(STARTED, CREATED)) {
             execute();
 
             try {
@@ -176,7 +161,6 @@ public abstract class BleRequest implements Runnable {
             } catch (InterruptedException ignored) {
                 onError(UNKNOWN, "Thread interrupted");
             }
-
             cleanup();
         }
     }
@@ -194,6 +178,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
+        bleDevice.registerSHNDeviceListener(bleDeviceListener);
         if (bleDevice.getState() == Connected) {
             onConnected();
         } else {
@@ -206,6 +191,8 @@ public abstract class BleRequest implements Runnable {
         public void onStateUpdated(final SHNDevice shnDevice) {
             if (shnDevice.getState() == Connected) {
                 onConnected();
+            } else if (shnDevice.getState() == Disconnected) {
+                onDisconnected();
             }
         }
 
@@ -221,19 +208,20 @@ public abstract class BleRequest implements Runnable {
     };
 
     private void connectToDevice() {
-        bleDevice.registerSHNDeviceListener(bleDeviceListener);
         bleDevice.connect();
     }
 
     private void onConnected() {
-        capability = (CapabilityDiComm) bleDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
-        if (capability == null) {
-            onError(Error.NOT_AVAILABLE, "Communication is not available");
-            return;
-        }
+        if (stateIs(STARTED)) {
+            capability = (CapabilityDiComm) bleDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
+            if (capability == null) {
+                onError(Error.NOT_AVAILABLE, "Communication is not available");
+                return;
+            }
 
-        capability.addDataListener(resultListener);
-        execute(capability);
+            capability.addDataListener(resultListener);
+            execute(capability);
+        }
     }
 
     protected abstract void execute(CapabilityDiComm capability);
@@ -249,24 +237,61 @@ public abstract class BleRequest implements Runnable {
         onError(Error.TIMED_OUT, reason);
     }
 
-    private void onError(Error error, String errorMessage) {
-        if (setStateIfStateIs(FINISHED, EXECUTING, NOT_STARTED)) {
-            responseHandler.onError(error, errorMessage);
-            inProgressLatch.countDown();
+    private boolean stateIs(State state) {
+        synchronized (stateLock) {
+            return state == this.state;
         }
     }
 
-    private void onSuccess(String data){
-        if (setStateIfStateIs(FINISHED, EXECUTING)) {
+    private boolean setStateIfStateIs(State newState, State... currentStates) {
+        synchronized (stateLock) {
+            List<State> currentStateList = Arrays.asList(currentStates);
+            if (currentStateList.contains(state)) {
+                state = newState;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private void onError(Error error, String errorMessage) {
+        if (setStateIfStateIs(COMPLETED, STARTED, CREATED)) {
+            responseHandler.onError(error, errorMessage);
+            finishRequest();
+        }
+    }
+
+    private void onSuccess(String data) {
+        if (setStateIfStateIs(COMPLETED, STARTED)) {
             responseHandler.onSuccess(data);
+            finishRequest();
+        }
+    }
+
+    private void finishRequest() {
+        if (bleDevice != null) {
+            if (bleDevice.getState() == Disconnected) {
+                onDisconnected();
+            } else {
+                bleDevice.disconnect();
+            }
+        } else {
+            onDisconnected();
+        }
+    }
+
+    private void onDisconnected() {
+        if (setStateIfStateIs(FINALIZED, COMPLETED)) {
             inProgressLatch.countDown();
         }
     }
 
     private void cleanup() {
         if (bleDevice != null) {
-            bleDevice.unregisterSHNDeviceListener(bleDeviceListener);
+            bleDevice.registerSHNDeviceListener(null);
             bleDevice = null;
+
             if (capability != null) {
                 capability.removeDataListener(resultListener);
                 capability = null;

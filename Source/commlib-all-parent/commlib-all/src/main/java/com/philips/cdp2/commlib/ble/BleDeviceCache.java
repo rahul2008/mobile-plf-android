@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type BleDeviceCache.
@@ -20,7 +20,7 @@ import java.util.Map;
  * connection to them.
  */
 public class BleDeviceCache {
-    private final Map<String, SHNDevice> deviceMap = new HashMap<>();
+    private final Map<String, SHNDevice> deviceMap = new ConcurrentHashMap<>();
 
     /**
      * Gets the unique identifier for a device.
