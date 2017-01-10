@@ -136,7 +136,17 @@ android {
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         consumerProguardFiles 'proguard-rules.pro'
+
+        ndk{
+            moduleName "pshmac"
+        }
     }
+
+    sourceSets.main
+            {
+                jni.srcDirs = []
+                jniLibs.srcDir 'src/main/libs'
+            }
     testOptions {
 
         unitTests.returnDefaultValues = true
