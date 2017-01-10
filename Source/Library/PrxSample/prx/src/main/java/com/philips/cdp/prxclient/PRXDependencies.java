@@ -1,5 +1,7 @@
 package com.philips.cdp.prxclient;
 
+import android.content.Context;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 
 /**
@@ -8,13 +10,19 @@ import com.philips.platform.appinfra.AppInfraInterface;
 
 public class PRXDependencies {
 
-    protected AppInfraInterface mAppInfraInterface;
+    private AppInfraInterface mAppInfraInterface;
+    private Context mContext;
 
-    public PRXDependencies(AppInfraInterface appInfra) {
+    public PRXDependencies(Context context, AppInfraInterface appInfra) {
         this.mAppInfraInterface = appInfra;
+        this.mContext = context;
     }
 
     public AppInfraInterface getAppInfra() {
         return this.mAppInfraInterface;
+    }
+
+    public Context getContext() {
+        return this.mContext;
     }
 }

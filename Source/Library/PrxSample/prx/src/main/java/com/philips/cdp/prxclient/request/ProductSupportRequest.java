@@ -1,5 +1,7 @@
 package com.philips.cdp.prxclient.request;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 
@@ -13,8 +15,8 @@ public class ProductSupportRequest extends PrxRequest {
     private String mRequestTag = null;
     private static final String PRXFAQServiceID = "prxclient.support";
 
-    public ProductSupportRequest(String ctn, String requestTag) {
-        this.initCtn(ctn, PRXFAQServiceID);
+    public ProductSupportRequest(String ctn, Sector sector, Catalog catalog, String requestTag) {
+        this.init(ctn, PRXFAQServiceID, sector, catalog);
         this.mRequestTag = requestTag;
     }
 

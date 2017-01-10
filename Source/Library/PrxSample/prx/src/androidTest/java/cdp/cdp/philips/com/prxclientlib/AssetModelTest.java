@@ -47,7 +47,7 @@ public class AssetModelTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductAssetBuilder = new ProductAssetRequest("125", null);
+        mProductAssetBuilder = new ProductAssetRequest("125",null, null, null);
       //
         // mProductAssetBuilder.setLocale("nl_NL");
 

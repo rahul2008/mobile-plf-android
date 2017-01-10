@@ -31,7 +31,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductAssetBuilder = new ProductSummaryRequest("125", null);
+        mProductAssetBuilder = new ProductSummaryRequest("125",null,null, null);
       //  mProductAssetBuilder.setmCatalogCode("COnsumer");
       //  mProductAssetBuilder.setSectorCode("HAIR");
     }
@@ -67,7 +67,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
     }*/
 
     public void testPrxBuilderObjectWithQueueParameter() {
-        mProductAssetBuilder = new ProductAssetRequest("125", "TAGINFO");
+        mProductAssetBuilder = new ProductAssetRequest("125",null ,null, "TAGINFO");
         assertNotNull(mProductAssetBuilder);
     }
 

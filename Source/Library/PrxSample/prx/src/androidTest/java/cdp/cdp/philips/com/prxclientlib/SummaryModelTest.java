@@ -36,7 +36,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductSummaryBuilder = new ProductSummaryRequest("125", null);
+        mProductSummaryBuilder = new ProductSummaryRequest("125",null,null, null);
 
         // mProductSummaryBuilder.setLocale("nl_NL");
 

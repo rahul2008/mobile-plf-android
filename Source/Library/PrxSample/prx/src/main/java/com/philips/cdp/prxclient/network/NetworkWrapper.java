@@ -1,6 +1,5 @@
 package com.philips.cdp.prxclient.network;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -31,15 +30,13 @@ import org.json.JSONObject;
 public class NetworkWrapper {
 
     private static final String TAG = NetworkWrapper.class.getSimpleName();
-    private Context mContext = null;
     private RequestQueue mVolleyRequest;
     private PRXDependencies mPrxDependencies;
 
-    public NetworkWrapper(Context context, PRXDependencies prxDependencies) {
-        mContext = context;
+    public NetworkWrapper(PRXDependencies prxDependencies) {
         mPrxDependencies = prxDependencies;
         VolleyQueue volleyQueue = VolleyQueue.getInstance();
-        mVolleyRequest = volleyQueue.getRequestQueue(mContext);
+        mVolleyRequest = volleyQueue.getRequestQueue(prxDependencies.getContext());
     }
 
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {

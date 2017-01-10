@@ -84,7 +84,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.details);
 
         mAppInfra = new AppInfra.Builder().build(this);
-        prxDependencies = new PRXDependencies(mAppInfra);
+        prxDependencies = new PRXDependencies(getApplicationContext(), mAppInfra);
         // setting sector spinner
         mSector_spinner_prx = (Spinner) findViewById(R.id.prxSpinnerSector);
         mSector = getResources().getStringArray(R.array.sector_list);
@@ -182,29 +182,29 @@ public class PrxLauncherActivity extends AppCompatActivity {
     }
 
     private void productAssetRequest() {
-        ProductAssetRequest mProductAssetBuilder = new ProductAssetRequest(selectedCtn, mRequestTag);
-        mProductAssetBuilder.setSector(selectedSector);
-        mProductAssetBuilder.setCatalog(selectedCatalog);
+        ProductAssetRequest mProductAssetBuilder = new ProductAssetRequest(selectedCtn, selectedSector, selectedCatalog, mRequestTag);
+        //  mProductAssetBuilder.setSector(selectedSector);
+        //mProductAssetBuilder.setCatalog(selectedCatalog);
         onRequestManagerCalled(mProductAssetBuilder);
     }
 
     private void productSupportRequest() {
-        ProductSupportRequest mProductSupportBuilder = new ProductSupportRequest(selectedCtn, mRequestTag);
-        mProductSupportBuilder.setSector(selectedSector);
-        mProductSupportBuilder.setCatalog(selectedCatalog);
+        ProductSupportRequest mProductSupportBuilder = new ProductSupportRequest(selectedCtn, selectedSector, selectedCatalog, mRequestTag);
+        // mProductSupportBuilder.setSector(selectedSector);
+        // mProductSupportBuilder.setCatalog(selectedCatalog);
         onRequestManagerCalled(mProductSupportBuilder);
     }
 
     private void productSummaryRequest() {
-        ProductSummaryRequest mProductSummeryBuilder = new ProductSummaryRequest(selectedCtn, mRequestTag);
-        mProductSummeryBuilder.setSector(selectedSector);
-        mProductSummeryBuilder.setCatalog(selectedCatalog);
+        ProductSummaryRequest mProductSummeryBuilder = new ProductSummaryRequest(selectedCtn, selectedSector, selectedCatalog, mRequestTag);
+        //  mProductSummeryBuilder.setSector(selectedSector);
+        //mProductSummeryBuilder.setCatalog(selectedCatalog);
         onRequestManagerCalled(mProductSummeryBuilder);
     }
 
     private void onRequestManagerCalled(PrxRequest prxRequest) {
         RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(getApplicationContext(), prxDependencies);
+        mRequestManager.init(prxDependencies);
         Log.d(TAG, "Positive Request");
         mRequestManager.executeRequest(prxRequest, new ResponseListener() {
             @Override

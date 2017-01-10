@@ -24,12 +24,14 @@ public abstract class PrxRequest {
     private Catalog mCatalog;
     private int maxRetries = 0;
     private int requestTimeOut = 5000;
-    public String mCtn;
-    public String mServiceId;
+    private String mCtn;
+    private String mServiceId;
 
-    public void initCtn(String ctn, String serviceID) {
+    public void init(String ctn, String serviceID, Sector sector, Catalog catalog) {
         this.mCtn = ctn;
         this.mServiceId = serviceID;
+        this.mSector = sector;
+        this.mCatalog = catalog;
     }
 
     public Sector getSector() {

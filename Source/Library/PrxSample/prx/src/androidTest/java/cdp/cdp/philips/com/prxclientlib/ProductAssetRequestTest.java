@@ -35,9 +35,9 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getInstrumentation().getContext();
-        prxDependencies = new PRXDependencies(new AppInfra.Builder().build(mContext));
+        prxDependencies = new PRXDependencies(mContext, new AppInfra.Builder().build(mContext));
 
-        mProductAssetBuilder = new ProductAssetRequest("HP8632/00", null);
+        mProductAssetBuilder = new ProductAssetRequest("HP8632/00", null, null, null);
         //   mProductAssetBuilder.setCatalogCode("COnsumer");
         mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
         mProductAssetBuilder.setSector(Sector.B2C);
@@ -46,22 +46,22 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
 
     public void testAssetBuilderObject() {
 
-    //    String mURL = mProductAssetBuilder.getRequestUrl();
+        //    String mURL = mProductAssetBuilder.getRequestUrl();
 
         mProductAssetBuilder.getRequestUrlFromAppInfra(prxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
             @Override
             public void onSuccess(String url) {
-                Log.e("KAVYA" , url);
+                Log.e("KAVYA", url);
                 assertNotNull(url);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                Log.e("KAVYA" , errorvalues.toString());
+                Log.e("KAVYA", errorvalues.toString());
                 assertNotNull(errorvalues);
             }
         });
-     //   assertNotNull(mURL);
+        //   assertNotNull(mURL);
     }
 
 //    public void testBuilderLocale() {
@@ -72,8 +72,8 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
 
     public void testPrxBuilderServerInfo() {
 
-       // String mURL = mProductAssetBuilder.getRequestUrl();
-     //   assertNotNull("http://www.philips.com/prx/product/HAIR/nl_NL/COnsumer/products/125.assets", mURL);
+        // String mURL = mProductAssetBuilder.getRequestUrl();
+        //   assertNotNull("http://www.philips.com/prx/product/HAIR/nl_NL/COnsumer/products/125.assets", mURL);
 
     }
 
@@ -90,7 +90,7 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
     }*/
 
     public void testPrxBuilderObjectWithQueueParameter() {
-        mProductAssetBuilder = new ProductAssetRequest("125", "TAGINFO");
+        mProductAssetBuilder = new ProductAssetRequest("125", null, null, "TAGINFO");
         assertNotNull(mProductAssetBuilder);
     }
 
