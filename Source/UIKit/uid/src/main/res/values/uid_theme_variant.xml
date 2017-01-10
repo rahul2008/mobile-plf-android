@@ -118,6 +118,8 @@
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
     </style>
 
     <style name="VeryLight">
@@ -156,6 +158,8 @@
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
     </style>
 
     <style name="Light">
@@ -192,6 +196,8 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
     </style>
 
     <style name="Bright">
@@ -225,6 +231,8 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
     </style>
 
     <style name="VeryDark">
@@ -261,5 +269,7 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerBackgroundColor">?attr/uidColorLevel75</item>
+
     </style>
 </resources>

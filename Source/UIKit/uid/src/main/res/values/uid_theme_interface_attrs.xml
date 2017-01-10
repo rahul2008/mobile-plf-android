@@ -118,4 +118,8 @@
         <attr name="uidProgressIndicatorButtonProgressBackgroundColorAlpha" format="reference|float"/>
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDPickers">
+        <attr name="uidDatePickerBackgroundColor" format="reference|color"/>
+    </declare-styleable>
 </resources>

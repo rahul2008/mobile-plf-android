@@ -2,13 +2,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="UIDDatePicker" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorControlNormal">?attr/uidContentPrimary</item>
+        <item name="colorControlNormal">?attr/uidDatePickerBackgroundColor</item>
         <item name="colorControlActivated">?attr/uidControlPrimaryEnabledColor</item>
         <item name="colorControlHighlight">?attr/uidControlPrimaryEnabledColor</item>
         <item name="textColorAlertDialogListItem">?attr/uidControlPrimaryEnabledColor</item>
         <item name="colorAccent">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:textColorPrimary">?attr/uidTextPrimary</item>
-        <item name="android:windowBackground">?attr/uidContentPrimary</item>
+        <item name="android:windowBackground">?attr/uidDatePickerBackgroundColor</item>
         <item name="android:windowTitleStyle">@style/UIDPickerTitleText</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">?attr/uidTextPrimary</item>
@@ -43,7 +43,6 @@
         <item name="android:colorControlHighlight">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:layout_gravity">center</item>
-
     </style>
 
     <style name="UIDTimePickerStyle" parent="@style/UIDDatePicker" tools:targetApi="lollipop">
