@@ -10,19 +10,13 @@ public class UCoreCharacteristics{
     private String type;
     private String value;
 
-    private List<UCoreCharacteristics> characteristics;
-
-    public void setType(String type) {
+    public UCoreCharacteristics(String type, String value, List<UCoreCharacteristics> characteristics) {
         this.type = type;
-    }
-
-    public void setValue(String value) {
         this.value = value;
-    }
-
-    public void setCharacteristics(List<UCoreCharacteristics> characteristics) {
         this.characteristics = characteristics;
     }
+
+    private List<UCoreCharacteristics> characteristics;
 
     public String getType() {
         return type;

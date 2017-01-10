@@ -52,7 +52,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
                         mUCoreAccessProvider.getUserId(), API_VERSION);
 
-                Characteristics characteristics = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics);
+                Characteristics characteristics = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics, mUCoreAccessProvider.getUserId());
                 eventing.post(new CharacteristicsBackendGetRequest(characteristics));
             }
             return null;

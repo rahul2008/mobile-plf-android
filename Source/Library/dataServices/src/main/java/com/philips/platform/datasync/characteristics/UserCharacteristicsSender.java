@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -86,7 +87,7 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     }
 
     private void postOk() {
-        //Handle Synchronisation
+        mEventing.post(new UserCharacteristicsSaveRequest(null));
     }
 
     @Override
