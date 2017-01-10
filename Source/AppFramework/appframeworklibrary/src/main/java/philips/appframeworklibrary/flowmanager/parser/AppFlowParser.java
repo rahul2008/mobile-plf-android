@@ -5,6 +5,8 @@
 */
 package philips.appframeworklibrary.flowmanager.parser;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -36,15 +38,19 @@ public class AppFlowParser {
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
     public static AppFlowModel getAppFlow(String jsonPath, AppFlowJsonListener appFlowJsonListener) {
         AppFlowModel appFlow = null;
-        try {
-            InputStream is = new FileInputStream(jsonPath);
-            final InputStreamReader inputStreamReader = new InputStreamReader(is);
-            appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
-        } catch (JsonSyntaxException | FileNotFoundException e) {
-            if(e instanceof JsonSyntaxException){
-                appFlowJsonListener.onError(AppFlowEnum.JSON_PARSE_EXCEPTION);
-            }else {
-                appFlowJsonListener.onError(AppFlowEnum.FILE_NOT_FOUND);
+        if (TextUtils.isEmpty(jsonPath)) {
+            appFlowJsonListener.onError(AppFlowEnum.FILE_NOT_FOUND);
+        } else {
+            try {
+                InputStream is = new FileInputStream(jsonPath);
+                final InputStreamReader inputStreamReader = new InputStreamReader(is);
+                appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+            } catch (JsonSyntaxException | FileNotFoundException e) {
+                if (e instanceof JsonSyntaxException) {
+                    appFlowJsonListener.onError(AppFlowEnum.JSON_PARSE_EXCEPTION);
+                } else {
+                    appFlowJsonListener.onError(AppFlowEnum.FILE_NOT_FOUND);
+                }
             }
         }
         return appFlow;

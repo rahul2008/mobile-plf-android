@@ -32,7 +32,7 @@ import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application implements AppFlowJsonListener{
+public class AppFrameworkApplication extends Application implements AppFlowJsonListener {
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
@@ -40,12 +40,12 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
     private IAPState iapState;
     private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
-    private static final String LEAK_CANARY_BUILD_TYPE="leakCanary";
+    private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
 
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
-        if(BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
+        if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This process is dedicated to LeakCanary for heap analysis.
                 // You should not init your app in this process.
@@ -57,7 +57,7 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
         super.onCreate();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
-        targetFlowManager = new FlowManager(getApplicationContext(), null,this);
+        targetFlowManager = new FlowManager(getApplicationContext(), fileUtility.createFileFromInputStream(resId).getPath(), this);
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
@@ -104,6 +104,6 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
 
     @Override
     public void onError(AppFlowEnum appFlowEnum) {
-            throw new RuntimeException(appFlowEnum.getDescription());
+        throw new RuntimeException(appFlowEnum.getDescription());
     }
 }
