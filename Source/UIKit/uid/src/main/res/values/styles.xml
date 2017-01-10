@@ -12,6 +12,13 @@
 
         <item name="switchStyle">@style/UIDSwitchStyle</item>
         <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
+        <item name="alertDialogStyle">@style/UIDAlertDialog</item>
+
+        <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">
+            @style/UIDDatePicker
+        </item>
+        <item name="android:datePickerDialogTheme" tools:targetApi="lollipop">@style/UIDDatePicker
+        </item>
 
         <!-- Action bar and toolbar style-->
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
@@ -39,6 +46,7 @@
         <!-- Below lines are to set the color for options menu items text color -->
         <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
+
         <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
     </style>
 </resources>
