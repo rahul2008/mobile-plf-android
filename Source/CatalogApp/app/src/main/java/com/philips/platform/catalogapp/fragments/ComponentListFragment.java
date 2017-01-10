@@ -54,6 +54,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(3, getString(R.string.page_title_alertDialog));
         itemsMap.put(4, getString(R.string.page_title_progress_bar));
         itemsMap.put(5, getString(R.string.page_title_label));
+        itemsMap.put(6, getString(R.string.page_title_date_time_picker));
         return sortMap(itemsMap);
     }
 
@@ -96,6 +97,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 5:
                 navigationController.switchFragment(new LabelFragment());
+                break;
+            case 6:
+                navigationController.switchFragment(new PickersFragment());
                 break;
         }
     }

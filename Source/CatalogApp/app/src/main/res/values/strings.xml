@@ -93,4 +93,7 @@
     <string name="hint_email">example@philips.com</string>
     <string name="with_label">With label</string>
     <string name="label_textboxes">Textboxes</string>
+    <string name="page_title_date_time_picker">Pickers</string>
+    <string name="show_date_picker">show date picker</string>
+    <string name="show_time_picker">Show time picker</string>
 </resources>

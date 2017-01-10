@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="fragment"
+                  type="com.philips.platform.catalogapp.fragments.PickersFragment"></variable>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/uid_page_marging_left_right"
+            android:onClick="@{(v) ->fragment.showDatePicker()}"
+            android:text="@string/show_date_picker"/>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/time_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/uid_page_marging_left_right"
+            android:onClick="@{(v) ->fragment.showTimePicker()}"
+            android:text="@string/show_time_picker"/>
+    </LinearLayout>
+</layout>
