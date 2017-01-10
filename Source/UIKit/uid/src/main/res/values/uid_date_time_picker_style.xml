@@ -15,7 +15,7 @@
     </style>
 
 
-    <style name="UIDTimePickerDialogStyle" parent="@style/UIDDatePicker"
+    <style name="UIDTimePicker" parent="@style/UIDDatePicker"
            tools:targetApi="lollipop">
         <item name="colorAccent">?attr/uidNavigationPrimaryColor</item>
         <item name="android:timePickerMode">clock</item>
@@ -33,9 +33,7 @@
     <style name="UIDDatePickerStyle" parent="@style/UIDDatePicker"
            tools:targetApi="lollipop">
         <item name="android:headerBackground">?attr/uidNavigationSecondaryColor</item>
-        <!--
-                <item name="android:dayOfWeekBackground">?attr/uidNavigationSecondaryColor</item>
-        -->
+        <item name="android:dayOfWeekBackground">?attr/uidNavigationSecondaryColor</item>
         <item name="android:yearListSelectorColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:focusedMonthDateColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:calendarViewStyle">@style/UIDCalendarViewStyle</item>
