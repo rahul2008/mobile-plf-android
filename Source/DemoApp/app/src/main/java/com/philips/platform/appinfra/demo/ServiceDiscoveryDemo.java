@@ -58,7 +58,8 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             "Get Url by country with replaced url",
             "Get Url by language with replaced url",
             "Get replaced Url by country with multiple service id",
-            "Get replaced Url by Language with multiple service id"};
+            "Get replaced Url by Language with multiple service id",
+            "Refresh"};
 
     private HashMap<String, String> parameters;
     @Override
@@ -165,6 +166,23 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //                    parameters.put("sector", "B2C");
 //                    parameters.put("catalog", "shavers");
                     mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener, parameters);
+
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Refresh")) {
+
+
+                    mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
+                        @Override
+                        public void onSuccess() {
+                            resultView.setText("SD REFRESH Success");
+                            Log.i("SD REFRESH", "Success");
+                        }
+
+                        @Override
+                        public void onError(ERRORVALUES error, String message) {
+                            resultView.setText("SD REFRESH Error");
+                            Log.i("SD REFRESH", "Error");
+                        }
+                    });
 
                 }
 //                else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Replace Url")) {
