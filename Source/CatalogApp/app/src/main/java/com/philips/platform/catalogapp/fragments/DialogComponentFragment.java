@@ -1,43 +1,36 @@
 package com.philips.platform.catalogapp.fragments;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.databinding.FragmentDialogBinding;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
+import static java.lang.Boolean.TRUE;
 
 public class DialogComponentFragment extends BaseFragment implements View.OnClickListener {
 
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
-    @Bind(R.id.radio_content_size)
-    RadioGroup contentSize;
 
-    @Bind(R.id.toggle_switch_with_title)
-    SwitchCompat switchWithTitle;
-
-    @Bind(R.id.checkbox_title_with_icon)
-    CheckBox checkBoxWithIcon;
+    public ObservableBoolean withLongContent = new ObservableBoolean(TRUE);
+    public ObservableBoolean withTitle = new ObservableBoolean(TRUE);
+    public ObservableBoolean withIcon = new ObservableBoolean(TRUE);
 
     private AlertDialogFragment alertDialogFragment;
+    private FragmentDialogBinding fragmentDialogBinding;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_dialog, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        fragmentDialogBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dialog, container, false);
+        fragmentDialogBinding.setFragment(this);
+        return fragmentDialogBinding.getRoot();
     }
 
     @Override
@@ -52,14 +45,9 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
         }
     }
 
-    @OnClick(R.id.dialog_with_text)
     public void onDialogWithTextClicked() {
         showDialog(isLargeContent(), isWithTitle(), isWithIcon());
     }
-
-//    @OnClick(R.id.dialog_with_list)
-//    public void onDialogWithListClicked() {
-//    }
 
     private void showDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
@@ -82,20 +70,28 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
     }
 
     public boolean isWithTitle() {
-        return switchWithTitle.isChecked();
+        return withTitle.get();
     }
 
     public boolean isWithIcon() {
-        return checkBoxWithIcon.isChecked();
-    }
-
-    @OnCheckedChanged(R.id.toggle_switch_with_title)
-    public void onCheckedChange(CompoundButton button, boolean isChecked) {
-        checkBoxWithIcon.setEnabled(isChecked ? true : false);
+        return withIcon.get();
     }
 
     public boolean isLargeContent() {
-        return contentSize.getCheckedRadioButtonId() == R.id.long_content ? true : false;
+        return withLongContent.get() ? true : false;
+    }
+
+    public void setWithTitle(boolean withtitle) {
+        this.withTitle.set(withtitle);
+        fragmentDialogBinding.checkboxTitleWithIcon.setEnabled(withTitle.get());
+    }
+
+    public void setWithIcon(boolean withIcon) {
+        this.withIcon.set(withIcon);
+    }
+
+    public void setWithLongContent(boolean withIcon) {
+        this.withLongContent.set(withIcon);
     }
 
     @Override

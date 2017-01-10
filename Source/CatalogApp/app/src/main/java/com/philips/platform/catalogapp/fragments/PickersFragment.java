@@ -37,14 +37,14 @@ public class PickersFragment extends BaseFragment {
         final Calendar calendar = Calendar.getInstance();
         final Date date = new Date(System.currentTimeMillis());
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getActivity(), R.style.UIDDatePickerStyle, new MyOnDateSetListener(), calendar.getTime().getYear(), calendar.getTime().getMonth(), calendar.getTime().getDay());
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getActivity(), R.style.PhilipsDatePickerStyle, new MyOnDateSetListener(), calendar.getTime().getYear(), calendar.getTime().getMonth(), calendar.getTime().getDay());
         datePickerDialog.show();
     }
 
     public void showTimePicker() {
         final Date date = Calendar.getInstance().getTime();
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getActivity(), R.style.UIDTimePickerStyle, new MyOnTimeSetListener(), date.getHours(), date.getMinutes(), true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getActivity(), R.style.PhilipsDatePickerStyle, new MyOnTimeSetListener(), date.getHours(), date.getMinutes(), true);
         timePickerDialog.show();
     }
 
