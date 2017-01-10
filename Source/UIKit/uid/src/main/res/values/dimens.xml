@@ -128,4 +128,3 @@
     <!--Linear indeterminate progressbar-->
     <integer name="uid_indeterminate_progressbar_anim_duration">1800</integer>
 </resources>
-

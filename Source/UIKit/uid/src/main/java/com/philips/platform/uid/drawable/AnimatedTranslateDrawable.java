@@ -14,20 +14,26 @@ import android.graphics.drawable.Drawable;
 import android.view.animation.LinearInterpolator;
 
 public class AnimatedTranslateDrawable extends Drawable {
-    public static final long DEFAULT_ANIMATION_DURATION = (long) (2* 900); //900ms
+    public static final long DEFAULT_ANIMATION_DURATION = (long) (2 * 900); //900ms
 
     private Drawable drawable;
+    private Drawable mirrorDrawable;
     private float translateValue;
 
     private Animator animator;
 
     public AnimatedTranslateDrawable(final Drawable drawable, float startX, float endX) {
+        this(drawable, null, startX, endX);
+    }
+
+    public AnimatedTranslateDrawable(final Drawable drawable, final Drawable mirrorDrawable, final float startX, final float endX) {
         this.drawable = drawable;
+        this.mirrorDrawable = mirrorDrawable;
         createDefaultAnimation(startX, endX);
     }
 
     private void createDefaultAnimation(final float startX, final float endX) {
-        ObjectAnimator anim  = ObjectAnimator.ofFloat(this, "translate", startX, endX);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(this, "translate", startX, endX);
         anim.setRepeatMode(ValueAnimator.RESTART);
         anim.setRepeatCount(ValueAnimator.INFINITE);
         anim.setDuration(DEFAULT_ANIMATION_DURATION);
@@ -40,6 +46,9 @@ public class AnimatedTranslateDrawable extends Drawable {
         int saveCount = canvas.save();
         canvas.translate(translateValue, 0);
         drawable.draw(canvas);
+        if (mirrorDrawable != null) {
+            mirrorDrawable.draw(canvas);
+        }
         canvas.restoreToCount(saveCount);
     }
 
@@ -81,7 +90,7 @@ public class AnimatedTranslateDrawable extends Drawable {
         }
     }
 
-      /**
+    /**
      * Should be called to resume the animation
      */
     public void resume() {
@@ -92,7 +101,7 @@ public class AnimatedTranslateDrawable extends Drawable {
         }
     }
 
-      /**
+    /**
      * Should be called to pause the animation
      */
     public void pause() {
@@ -100,7 +109,6 @@ public class AnimatedTranslateDrawable extends Drawable {
             animator.pause();
         }
     }
-
 
     /**
      * Ends the animation (translate animation).

@@ -23,7 +23,9 @@ import com.philips.platform.uid.utils.UIDUtils;
 
 public class IndeterminateLinearProgressBar extends View {
     Drawable leadingDrawable;
+    Drawable leadingMirrorDrawable;
     Drawable trailingDrawable;
+    Drawable trailingMirrorDrawable;
     AnimatedTranslateDrawable leadingAnim;
     AnimatedTranslateDrawable trailingAnim;
 
@@ -67,20 +69,26 @@ public class IndeterminateLinearProgressBar extends View {
 
     private void setTransitionDrawables() {
         leadingDrawable = getLeadingDrawable();
+        leadingMirrorDrawable = getLeadingMirrorDrawable();
         trailingDrawable = getTrailingDrawable();
+        trailingMirrorDrawable = getTrailingMirrorDrawable();
         setTransitionColorGradients(leadingDrawable);
+        setTransitionColorReverseGradients(leadingMirrorDrawable);
         setTransitionColorGradients(trailingDrawable);
+        setTransitionColorReverseGradients(trailingMirrorDrawable);
     }
 
     private void setTransitionColorGradients(Drawable drawable) {
         if (drawable instanceof GradientDrawable) {
-            int[] colors;
-            if (transitionCenterColor != Integer.MIN_VALUE) {
-                colors = new int[]{transitionStartColor, transitionCenterColor, transitionEndColor};
-            } else {
-                colors = new int[]{transitionStartColor, transitionEndColor};
-            }
-            ((GradientDrawable) leadingDrawable).setColors(colors);
+            int[] colors = new int[]{transitionStartColor, transitionCenterColor};
+            ((GradientDrawable) drawable).setColors(colors);
+        }
+    }
+
+    private void setTransitionColorReverseGradients(Drawable drawable) {
+        if (drawable instanceof GradientDrawable) {
+            int[] colors = new int[]{transitionCenterColor, transitionEndColor};
+            ((GradientDrawable) drawable).setColors(colors);
         }
     }
 
@@ -88,8 +96,16 @@ public class IndeterminateLinearProgressBar extends View {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
     }
 
+    protected Drawable getTrailingMirrorDrawable() {
+        return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_mirror).getConstantState().newDrawable();
+    }
+
     protected Drawable getLeadingDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
+    }
+
+    protected Drawable getLeadingMirrorDrawable() {
+        return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_mirror).getConstantState().newDrawable();
     }
 
     private void setTintedBackground(int color, float alpha) {
@@ -111,15 +127,30 @@ public class IndeterminateLinearProgressBar extends View {
         if (leadingDrawable != null) {
             leadingDrawable.setBounds(getTransitionDrawableBoundRect());
         }
+
+        if (leadingMirrorDrawable != null) {
+            leadingMirrorDrawable.setBounds(getTransitionReverseDrawableBoundRect());
+        }
+
         if (trailingDrawable != null) {
             trailingDrawable.setBounds(getTransitionDrawableBoundRect());
+        }
+
+        if (trailingMirrorDrawable != null) {
+            trailingMirrorDrawable.setBounds(getTransitionReverseDrawableBoundRect());
         }
     }
 
     protected Rect getTransitionDrawableBoundRect() {
-        int width = transitionDrawableWidth;
+        int width = transitionDrawableWidth / 2;
         int height = getMeasuredHeight();
         return new Rect(0, 0, width, height);
+    }
+
+    protected Rect getTransitionReverseDrawableBoundRect() {
+        int width = transitionDrawableWidth / 2;
+        int height = getMeasuredHeight();
+        return new Rect(width, 0, 2 * width, height);
     }
 
     private Rect getAnimationDrawableRect() {
@@ -129,8 +160,8 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     private void createAnimationSet() {
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
-        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, -transitionDrawableWidth, getMeasuredWidth() + transitionExtraWhiteSpace);
         setAnimationProperties(leadingAnim);
         setAnimationProperties(trailingAnim);
 
