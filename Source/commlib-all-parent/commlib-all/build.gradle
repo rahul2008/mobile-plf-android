@@ -13,7 +13,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
-group = 'com.philips.cdp2'
+group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
@@ -69,8 +69,8 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:support-annotations:24.2.1'
 
-    def blueLib = 'com.philips.cdp:shinelib:2.0.3'
-    def commLib = 'com.philips.cdp:dicommClientLib:2.0.0'
+    def blueLib = 'com.philips.cdp:shinelib:2.1.0-20161128.141649-11'
+    def commLib = 'com.philips.cdp:dicommClientLib:3.0.0-20161128.141345-1'
 
     localDevelopmentCompile project(":bluelib")
     localDevelopmentCompile project(":commlib")
