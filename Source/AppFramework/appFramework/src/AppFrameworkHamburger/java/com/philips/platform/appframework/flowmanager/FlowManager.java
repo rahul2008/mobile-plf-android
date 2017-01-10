@@ -13,7 +13,7 @@ import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.dataservices.DataSyncScreenState;
+import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
@@ -50,7 +50,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.PR, new ProductRegistrationState());
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
-        uiStateMap.put(AppStates.DATA_SYNC, new DataSyncScreenState());
+        uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
         uiStateMap.put(AppStates.CONNECTIVITY,new ConnectivityFragmentState());
     }
 
