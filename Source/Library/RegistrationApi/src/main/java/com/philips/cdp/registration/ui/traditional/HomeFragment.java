@@ -321,8 +321,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onClick(View v) {
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
-                    callSocialProvider(providerName);
                     providerBtn.showProgressBar();
+                    callSocialProvider(providerName);
                 } else {
                     scrollViewAutomatically(mRegError, mSvRootLayout);
                     enableControls(false);
@@ -514,10 +514,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                if (providerName.equalsIgnoreCase(WECHAT) && isWeChatAuthenticate()) {
-                    makeProgressVisible();
-                    startWeChatAuthentication();
+         if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                if (providerName.equalsIgnoreCase(WECHAT)) {
+                    if (isWeChatAuthenticate()) {
+                        makeProgressVisible();
+                        startWeChatAuthentication();
+                    }else{
+                        hideProviderProgress();
+                    }
+                    return;
                 } else {
                     makeProgressVisible();
                     mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
@@ -533,12 +538,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private boolean isWeChatAuthenticate() {
         if (!mWeChatApi.isWXAppInstalled()) {
-            Toast.makeText(mContext, "Wechat app is not installed"
+            Toast.makeText(mContext, mContext.getText(R.string.reg_AppNotInstalled_Alert_Title)
                     , Toast.LENGTH_SHORT).show();
             return false;
         }
         if (!mWeChatApi.isWXAppSupportAPI()) {
-            Toast.makeText(mContext, "Wechat app is not supported"
+            Toast.makeText(mContext,  mContext.getText(R.string.reg_Reg_Provider_Not_Supported)
                     , Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -590,8 +595,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 return;
             }
             if (mFlowId == 3) {
-                if (mProvider.equalsIgnoreCase("wechat") && isWeChatAuthenticate()) {
-                    startWeChatAuthentication();
+                if (mProvider.equalsIgnoreCase("wechat")) {
+                    if (isWeChatAuthenticate()) {
+                        makeProgressVisible();
+                        startWeChatAuthentication();
+                    }else{
+                        hideProviderProgress();
+                    }
                 } else {
                     mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
                 }
@@ -601,6 +611,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
             makeProgressInvisible();
             hideProgressDialog();
+            hideProviderProgress();
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
             if (mWeChatCode != null) {
