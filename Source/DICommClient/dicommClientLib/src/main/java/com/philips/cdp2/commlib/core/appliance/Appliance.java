@@ -3,9 +3,9 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.appliance;
+package com.philips.cdp2.commlib.core.appliance;
 
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -21,7 +21,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DICommAppliance {
+public abstract class Appliance {
 
     protected final NetworkNode mNetworkNode;
 
@@ -35,7 +35,7 @@ public abstract class DICommAppliance {
 
     private final List<DICommPort<?>> mPortList = new ArrayList<>();
 
-    public DICommAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    public Appliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         mNetworkNode = networkNode;
         mCommunicationStrategy = communicationStrategy;
 

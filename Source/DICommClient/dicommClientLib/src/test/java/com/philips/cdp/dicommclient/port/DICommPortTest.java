@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient.port;
 
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -370,7 +370,7 @@ public class DICommPortTest extends RobolectricTest {
         DICommPortListenerImpl listener = new DICommPortListenerImpl();
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
 
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
 
         assertFalse(listener.isApplyingChangesOnCallback);
     }
@@ -394,7 +394,7 @@ public class DICommPortTest extends RobolectricTest {
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
         mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
 
         assertTrue(listener.isApplyingChangesOnCallback);
     }
@@ -679,7 +679,7 @@ public class DICommPortTest extends RobolectricTest {
         }
     }
 
-    public class DICommPortListenerImpl implements DICommPortListener {
+    public class DICommPortListenerImpl implements DICommPortListener<DICommPort<?>> {
 
         public boolean isApplyingChangesOnCallback = false;
 

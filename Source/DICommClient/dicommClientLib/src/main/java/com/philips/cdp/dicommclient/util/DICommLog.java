@@ -47,7 +47,7 @@ public class DICommLog {
     public static final String PAIRINGPORT = "PairingPort";
 	public static final String FIRMWAREPORT = "FirmwarePort";
 	public static final String SCHEDULELISTPORT = "ScheduleListPort";
-	public static final String LOCALREQUEST = "LocalRequest";
+	public static final String LOCALREQUEST = "LanRequest";
 	public static final String REMOTEREQUEST = "RemoteRequest";
 	public static final String REQUESTQUEUE = "RequestQueue";
 	public static final String LOCAL_SUBSCRIPTION = "LocalSubscription" ;

@@ -5,18 +5,22 @@
 
 package com.philips.cdp.dicommclient.appliance;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-public abstract class DICommApplianceFactory<T> {
+import java.util.Set;
+
+public interface DICommApplianceFactory<T> {
 
     /**
      * Called when {@link DiscoveryManager} finds any DiComm appliance on the network.
      *
-     * @param networkNode The network node for which the factory has to check if it can create a {link DICommAppliance} (e.g. by checking the model name and/or type).
+     * @param networkNode The network node for which the factory has to check if it can create a {link Appliance} (e.g. by checking the model name and/or type).
      * @return true if it can create, false if not
      */
-    public abstract boolean canCreateApplianceForNode(NetworkNode networkNode);
+    boolean canCreateApplianceForNode(NetworkNode networkNode);
 
-    public abstract T createApplianceForNode(NetworkNode networkNode);
+    T createApplianceForNode(NetworkNode networkNode);
+
+    Set<String> getSupportedModelNames();
 }

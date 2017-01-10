@@ -4,7 +4,7 @@
  */
 package com.philips.cdp.dicommclientsample.airpurifier;
 
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.HashMap;

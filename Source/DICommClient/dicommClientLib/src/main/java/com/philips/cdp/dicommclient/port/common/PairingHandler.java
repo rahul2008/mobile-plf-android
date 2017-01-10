@@ -12,12 +12,11 @@ import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.pairing.PermissionListener;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -26,7 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-public class PairingHandler<T extends DICommAppliance> {
+public class PairingHandler<T extends Appliance> {
 
     public static final String PAIRING_REFERENCEPROVIDER = "cpp";
     public static final String PAIRING_USER_REFERENCEPROVIDER = "cphuser";
@@ -332,20 +331,20 @@ public class PairingHandler<T extends DICommAppliance> {
         if (mAppliance == null) return;
         secretKey = generateRandomSecretKey();
 
-        PairingPort pairingPort = mAppliance.getPairingPort();
-        pairingPort.addPortListener(new DICommPortListener() {
+            PairingPort pairingPort = mAppliance.getPairingPort();
+            pairingPort.addPortListener(new DICommPortListener<PairingPort>() {
 
-            @Override
-            public void onPortUpdate(DICommPort<?> port) {
-                DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
+                @Override
+                public void onPortUpdate(PairingPort port) {
+                    DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
 
                 cloudController.getPairingController().addRelationship(pairingRelation, mPairingCallback, secretKey);
                 port.removePortListener(this);
             }
 
-            @Override
-            public void onPortError(DICommPort<?> port, Error error, String errorData) {
-                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
+                @Override
+                public void onPortError(PairingPort port, Error error, String errorData) {
+                    DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
 
                 notifyListenerFailed();
                 port.removePortListener(this);

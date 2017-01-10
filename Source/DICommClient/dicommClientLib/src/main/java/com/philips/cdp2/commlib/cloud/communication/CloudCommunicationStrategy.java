@@ -3,9 +3,7 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.communication;
-
-import java.util.Map;
+package com.philips.cdp2.commlib.cloud.communication;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -18,8 +16,11 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
-public class RemoteStrategy extends CommunicationStrategy {
+import java.util.Map;
+
+public class CloudCommunicationStrategy extends CommunicationStrategy {
 
     private final RemoteSubscriptionHandler mRemoteSubscriptionHandler;
     private final NetworkNode mNetworkNode;
@@ -28,10 +29,12 @@ public class RemoteStrategy extends CommunicationStrategy {
     private RequestQueue mRequestQueue;
     private boolean isDSCRequestOnGoing;
 
-    public RemoteStrategy(final NetworkNode networkNode, final CloudController cloudController) {
+    public CloudCommunicationStrategy(final NetworkNode networkNode, final CloudController cloudController) {
         mNetworkNode = networkNode;
+        if (cloudController == null) {
+            throw new IllegalArgumentException("CloudController is null.");
+        }
         this.cloudController = cloudController;
-
         mRequestQueue = createRequestQueue();
         mRemoteSubscriptionHandler = createRemoteSubscriptionHandler(cloudController);
     }

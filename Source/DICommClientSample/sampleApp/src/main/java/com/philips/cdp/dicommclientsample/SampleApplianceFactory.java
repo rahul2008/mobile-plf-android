@@ -5,36 +5,59 @@
 
 package com.philips.cdp.dicommclientsample;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
+import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
-class SampleApplianceFactory extends DICommApplianceFactory<AirPurifier> {
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
+
+    @NonNull
+    private final LanTransportContext lanTransportContext;
+
+    @NonNull
+    private final CloudTransportContext cloudTransportContext;
+
+    public SampleApplianceFactory(@NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
+        this.lanTransportContext = lanTransportContext;
+        this.cloudTransportContext = cloudTransportContext;
+    }
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
-            // Optionally add a check for the modeltype and return a different
-            // DICommAppliance depending on the type.
-            return true;
-        }
-        return false;
+        return AirPurifier.MODELNAME.equals(networkNode.getModelName());
     }
 
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
         if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
-            CommunicationStrategy communicationStrategy = new CommunicationMarshal(new DISecurity(networkNode), networkNode);
+            final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
+                    lanTransportContext.createCommunicationStrategyFor(networkNode),
+                    cloudTransportContext.createCommunicationStrategyFor(networkNode));
+
             if (ComfortAirPurifier.MODELNUMBER.equals(networkNode.getModelType())) {
                 return new ComfortAirPurifier(networkNode, communicationStrategy);
             }
             return new JaguarAirPurifier(networkNode, communicationStrategy);
         }
         return null;
+    }
+
+    @Override
+    public Set<String> getSupportedModelNames() {
+        return Collections.unmodifiableSet(new HashSet<String>() {{
+            add(AirPurifier.MODELNAME);
+        }});
     }
 }

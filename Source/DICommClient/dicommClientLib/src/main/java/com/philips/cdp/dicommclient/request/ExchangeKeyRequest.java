@@ -12,16 +12,18 @@ import org.json.JSONObject;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.lan.communication.LanRequest;
+import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
-public class ExchangeKeyRequest extends LocalRequest {
+public class ExchangeKeyRequest extends LanRequest {
 
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
 
     private String mRandomValue;
 
-    public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, ResponseHandler responseHandler) {
-        super(applianceIpAddress, protocolVersion, false, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
+    public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, ResponseHandler responseHandler) {
+        super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
         String sdiffie = EncryptionUtil.generateDiffieKey(mRandomValue);
@@ -49,6 +51,6 @@ public class ExchangeKeyRequest extends LocalRequest {
         } catch (Exception e) {
             DICommLog.e(DICommLog.SECURITY, "Exception during key exchange");
         }
-        return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+        return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
     }
 }

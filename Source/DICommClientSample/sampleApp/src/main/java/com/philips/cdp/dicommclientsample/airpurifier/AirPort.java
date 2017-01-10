@@ -6,7 +6,7 @@ package com.philips.cdp.dicommclientsample.airpurifier;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 

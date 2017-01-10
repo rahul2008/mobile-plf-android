@@ -3,45 +3,46 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.communication;
+package com.philips.cdp2.commlib.core.communication;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Map;
 
-public class NullStrategy extends CommunicationStrategy {
+public class NullCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName,
                               int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override
     public void unsubscribe(String portName, int productId, ResponseHandler responseHandler) {
-        responseHandler.onError(Error.NOTCONNECTED, null);
+        responseHandler.onError(Error.NOT_CONNECTED, null);
     }
 
     @Override

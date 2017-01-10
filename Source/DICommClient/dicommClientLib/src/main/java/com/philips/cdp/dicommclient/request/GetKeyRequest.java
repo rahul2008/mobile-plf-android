@@ -6,19 +6,21 @@
 package com.philips.cdp.dicommclient.request;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.lan.communication.LanRequest;
+import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class GetKeyRequest extends LocalRequest {
+public class GetKeyRequest extends LanRequest {
 
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
 
     public GetKeyRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, ResponseHandler responseHandler) {
-        super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
+        super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
     }
 
     @Override
@@ -36,6 +38,6 @@ public class GetKeyRequest extends LocalRequest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Response(null, Error.REQUESTFAILED, mResponseHandler);
+        return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
     }
 }
