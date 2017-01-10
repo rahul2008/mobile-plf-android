@@ -21,6 +21,46 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
 import com.philips.platform.uid.utils.UIDUtils;
 
+/**
+ * <p></p>Provides custom implementation for indeterminate linear progress bar.
+ * It uses animator to animate drawables across different end points.</p>
+ *
+ * <p>The attributes mapping follows below table.</p>
+ * <table border="2" width="85%" align="center" cellpadding="5">
+ *     <thead>
+ *         <tr><th>ResourceID</th> <th>Configuration</th></tr>
+ *     </thead>
+ *
+ *     <tbody>
+ *     <tr>
+ *         <td rowspan="1">uidIndeterminateLinearProgressBGColor</td>
+ *         <td rowspan="1">Background color for the progressBar </td>
+ *     </tr>
+ *     <tr>
+ *         <td rowspan="1">uidIndeterminateLinearProgressBGAlpha</td>
+ *         <td rowspan="1">Alpha to be applied on the background color</td>
+ *     </tr>
+ *     <tr>
+ *         <td rowspan="1">uidIndeterminateLinearProgressStartColor</td>
+ *         <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the start color for drawable.</td>
+ *     </tr>
+ *     <tr>
+ *         <td rowspan="1">uidIndeterminateLinearProgressCenterColor</td>
+ *         <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the center color for drawable.</td>
+ *     </tr>
+ *      <tr>
+ *         <td rowspan="1">uidIndeterminateLinearProgressEndColor</td>
+ *         <td rowspan="1">Applied if the transition drawable is GradientDrawable. Sets the end color for drawable.</td
+ *     </tr>
+ *     <tr>
+ *         <td rowspan="1">uidIndeterminateLinearProgressAnimDuration</td>
+ *         <td rowspan="1">Sets the animation duration for the transition of indeterminate progressbar.</td
+ *     </tr>
+ *
+ *     </tbody>
+ *
+ * </table>
+ */
 public class IndeterminateLinearProgressBar extends View {
     Drawable leadingDrawable;
     Drawable leadingMirrorDrawable;
@@ -92,18 +132,34 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
+    /**
+     *  Override this provide custom trailing drawable.
+     * @return The drawable used as the trailing drawable.
+     */
     protected Drawable getTrailingDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
     }
 
+    /**
+     *  Override this provide custom trailing mirror drawable.
+     * @return The drawable used as the trailing mirror drawable.
+     */
     protected Drawable getTrailingMirrorDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_mirror).getConstantState().newDrawable();
     }
 
+    /**
+     *  Override this provide custom leading drawable.
+     * @return The drawable used as the leading drawable.
+     */
     protected Drawable getLeadingDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
     }
 
+    /**
+     *  Override this provide custom leading mirror drawable.
+     * @return The drawable used as the leading mirror drawable.
+     */
     protected Drawable getLeadingMirrorDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_mirror).getConstantState().newDrawable();
     }
