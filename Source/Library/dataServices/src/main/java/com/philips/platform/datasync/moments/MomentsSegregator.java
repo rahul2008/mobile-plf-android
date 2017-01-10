@@ -80,7 +80,7 @@ public class MomentsSegregator {
     private void deleteMomentInDatabaseIfExists(final Moment momentInDatabase)
             throws SQLException {
         if (momentInDatabase != null) {
-            dbDeletingInterface.ormDeletingDeleteMoment(momentInDatabase);
+            dbDeletingInterface.deleteMoment(momentInDatabase);
         }
     }
 

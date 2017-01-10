@@ -51,7 +51,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteMoment(final Moment moment) {
+    public void markAsInActive(final Moment moment) {
         try {
             if (isMomentSyncedToBackend(moment)) {
                 prepareMomentForDeletion(moment);
@@ -68,7 +68,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void ormDeletingDeleteMoment(Moment moment) {
+    public void deleteMoment(Moment moment) {
         try {
             ormDeleting.ormDeleteMoment((OrmMoment) moment);
             //  notifyAllSuccess(moment);

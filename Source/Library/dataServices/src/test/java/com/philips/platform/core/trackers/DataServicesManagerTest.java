@@ -421,7 +421,7 @@ public class DataServicesManagerTest {
 //        //noinspection ConstantConditions
 //        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);
 //
-//        tracker.deleteMoment(momentMock);
+//        tracker.markAsInActive(momentMock);
 //
 //        verify(eventingMock).post(momentDeleteEventCaptor.capture());
 //        assertThat(momentDeleteEventCaptor.getValue().getMoment()).isSameAs(momentMock);

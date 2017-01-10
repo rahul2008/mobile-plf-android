@@ -10,8 +10,8 @@ import java.sql.SQLException;
  */
 public interface DBDeletingInterface {
     void deleteAllMoments();
+    void markAsInActive(Moment moment);
     void deleteMoment(Moment moment);
-    void ormDeletingDeleteMoment(Moment moment);
     void deleteMomentDetail(Moment moment) throws SQLException;
     void deleteMeasurementGroup(Moment moment) throws SQLException;
 }

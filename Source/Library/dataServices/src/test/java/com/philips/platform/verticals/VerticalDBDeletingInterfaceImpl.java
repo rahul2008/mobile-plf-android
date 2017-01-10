@@ -16,12 +16,12 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
     }
 
     @Override
-    public void deleteMoment(Moment moment) {
+    public void markAsInActive(Moment moment) {
 
     }
 
     @Override
-    public void ormDeletingDeleteMoment(Moment moment) {
+    public void deleteMoment(Moment moment) {
 
     }
 

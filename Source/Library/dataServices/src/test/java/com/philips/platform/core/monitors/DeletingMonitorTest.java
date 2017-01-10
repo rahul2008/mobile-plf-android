@@ -60,13 +60,13 @@ public class DeletingMonitorTest {
     @Test
     public void DeletionMomentAsked_WhenEventReceived() throws Exception {
         monitor.onEventAsync(new MomentDeleteRequest(momentMock));
-        verify(deletingMock).deleteMoment(momentMock);
+        verify(deletingMock).markAsInActive(momentMock);
     }
 
     @Test
     public void MomentBackendDeleteResponse_WhenEventReceived() throws Exception {
         monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock));
-        verify(deletingMock).ormDeletingDeleteMoment(momentMock);
+        verify(deletingMock).deleteMoment(momentMock);
     }
 
    /* @Test
@@ -129,7 +129,7 @@ public class DeletingMonitorTest {
     public void ShouldDeleteMoment_WhenBackendDeleteResponseIsReceived() throws Exception {
         monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock));
 
-        verify(deletingMock).deleteMoment(momentMock);
+        verify(deletingMock).markAsInActive(momentMock);
     }*/
 
    /* @Test
