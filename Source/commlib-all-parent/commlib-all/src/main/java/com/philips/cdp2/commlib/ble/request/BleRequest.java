@@ -178,6 +178,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
+        bleDevice.registerSHNDeviceListener(bleDeviceListener);
         if (bleDevice.getState() == Connected) {
             onConnected();
         } else {
@@ -207,19 +208,20 @@ public abstract class BleRequest implements Runnable {
     };
 
     private void connectToDevice() {
-        bleDevice.registerSHNDeviceListener(bleDeviceListener);
         bleDevice.connect();
     }
 
     private void onConnected() {
-        capability = (CapabilityDiComm) bleDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
-        if (capability == null) {
-            onError(Error.NOT_AVAILABLE, "Communication is not available");
-            return;
-        }
+        if (stateIs(EXECUTING)) {
+            capability = (CapabilityDiComm) bleDevice.getCapabilityForType(SHNCapabilityType.DI_COMM);
+            if (capability == null) {
+                onError(Error.NOT_AVAILABLE, "Communication is not available");
+                return;
+            }
 
-        capability.addDataListener(resultListener);
-        execute(capability);
+            capability.addDataListener(resultListener);
+            execute(capability);
+        }
     }
 
     protected abstract void execute(CapabilityDiComm capability);
