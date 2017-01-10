@@ -538,12 +538,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private boolean isWeChatAuthenticate() {
         if (!mWeChatApi.isWXAppInstalled()) {
-            Toast.makeText(mContext, "Wechat app is not installed"
+            Toast.makeText(mContext, mContext.getText(R.string.reg_AppNotInstalled_Alert_Title)
                     , Toast.LENGTH_SHORT).show();
             return false;
         }
         if (!mWeChatApi.isWXAppSupportAPI()) {
-            Toast.makeText(mContext, "Wechat app is not supported"
+            Toast.makeText(mContext,  mContext.getText(R.string.reg_Reg_Provider_Not_Supported)
                     , Toast.LENGTH_SHORT).show();
             return false;
         }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+
+
+
     <string name="reg_Continue_Btntxt">Continue</string>
     <string name="reg_EmptyField_ErrorMsg">Please enter a value</string>
     <string name="reg_ForgotPwdEmailResendMsg">We have sent you an email to reset your password. It may take some time for the email to arrive.</string>
@@ -70,7 +73,6 @@
     <string name="reg_VerifyEmail_ResendErrorMsg_lbltxt">Having problems?\n-  It may take some time for the verification email to arrive\n-  Look in your spam folder as well\n-  Press the \"Resend\" button below if you did not receive the verification email</string>
     <string name="reg_InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWe have sent an email. It may take some time for the email to arrive.\n\nPlease check your email to activate your account.\n\nYou can use the app in the meantime.</string>
     <string name="reg_myphilips">Philips account</string>
-    <string name="reg_wechat">WeChat</string>
     <string name="reg_facebook">Facebook</string>
     <string name="reg_twitter">Twitter</string>
     <string name="reg_googleplus">Google+</string>
@@ -99,6 +101,7 @@
     <string name="reg_vk">VK</string>
     <string name="reg_wordpress">Wordpress</string>
     <string name="reg_xing">XING</string>
+    <string name="reg_wechat">WeChat</string>
     <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">Please read our %s and %s.</string>
     <string name="reg_LegalNoticeText">Please read our %s</string>
     <string name="reg_AgeLimitText">By creating an account or signing in you certify that you are %s years or older.\n</string>
@@ -240,6 +243,12 @@
     <string name="reg_Country_US">United States</string>
     <string name="reg_Country_VN">Vietnam</string>
     <string name="reg_Country_Search_Text">Search..</string>
+    <string name="reg_AppNotInstalled_Alert_Title">App not installed</string>
+    <string name="reg_App_NotInstalled_AlertMessage">Please install %s app to avail this feature.</string>
+    <string name="reg_App_NotInstalled_InstallButton">Install</string>
+
+
+
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>
