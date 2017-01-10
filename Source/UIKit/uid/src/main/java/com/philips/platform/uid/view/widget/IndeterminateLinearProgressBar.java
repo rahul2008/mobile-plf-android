@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -27,7 +28,7 @@ import com.philips.platform.uid.utils.UIDUtils;
  * <p>Provides custom implementation for indeterminate linear progress bar.
  * It uses animator to animate drawables across different end points.</p>
  * <p><b>Current Implementation:</b> The transition drawable is 40% of total width of the progressBar.
- * It uses two sets of moving blocks. Second blocks stars when the first starts moving out of the visible frame.
+ * It uses two sets of moving blocks. Second blocks starts when the first starts moving out of the visible frame.
  * As per DLS specs each block has gradient of 0-100-0, (start-center-end) color. It can be customized with custom attributes(Refer table below for details).
  * Though {@link GradientDrawable} provides way to set it, but the visual effects are not the same.<br>
  * To achieve this effect, two drawables are next to each other and other is mirror of first one(with reverse gradient) of same size.
@@ -92,11 +93,11 @@ public class IndeterminateLinearProgressBar extends View {
         this(context, null);
     }
 
-    public IndeterminateLinearProgressBar(@NonNull final Context context, @NonNull final AttributeSet attrs) {
+    public IndeterminateLinearProgressBar(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         this(context, attrs, R.attr.uidIndeterminateLinearPBStyle);
     }
 
-    public IndeterminateLinearProgressBar(@NonNull final Context context, @NonNull final AttributeSet attrs, final int defStyleAttr) {
+    public IndeterminateLinearProgressBar(@NonNull final Context context, @Nullable final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         obtainStyleAttributes(context, attrs, defStyleAttr);
         setTransitionDrawables();
@@ -145,6 +146,7 @@ public class IndeterminateLinearProgressBar extends View {
      *
      * @return The drawable used as the trailing drawable.
      */
+    @Nullable
     protected Drawable getTrailingDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
     }
@@ -154,6 +156,7 @@ public class IndeterminateLinearProgressBar extends View {
      *
      * @return The drawable used as the trailing mirror drawable.
      */
+    @Nullable
     protected Drawable getTrailingMirrorDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_mirror).getConstantState().newDrawable();
     }
@@ -163,6 +166,7 @@ public class IndeterminateLinearProgressBar extends View {
      *
      * @return The drawable used as the leading drawable.
      */
+    @NonNull
     protected Drawable getLeadingDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
     }
@@ -172,6 +176,7 @@ public class IndeterminateLinearProgressBar extends View {
      *
      * @return The drawable used as the leading mirror drawable.
      */
+    @Nullable
     protected Drawable getLeadingMirrorDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition_mirror).getConstantState().newDrawable();
     }
@@ -189,6 +194,16 @@ public class IndeterminateLinearProgressBar extends View {
         transitionExtraWhiteSpace = getMeasuredWidth() - transitionDrawableWidth;
         setTransitionDrawablesBounds();
         createAnimationSet();
+    }
+
+    private void createAnimationSet() {
+        endAnimation();
+        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, getLeadingAnimationStartPos(), getLeadingAnimationEndPos());
+        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, getTrailingAnimationStartOffset(), getTrailingAnimationEndOffset());
+        setAnimationProperties(leadingAnim);
+        setAnimationProperties(trailingAnim);
+
+        startAnimation();
     }
 
     private void setTransitionDrawablesBounds() {
@@ -270,16 +285,6 @@ public class IndeterminateLinearProgressBar extends View {
         return null;
     }
 
-    private void createAnimationSet() {
-        endAnimation();
-        leadingAnim = new AnimatedTranslateDrawable(leadingDrawable, leadingMirrorDrawable, getLeadingAnimationStartPos(), getLeadingAnimationEndPos());
-        trailingAnim = new AnimatedTranslateDrawable(leadingDrawable, trailingMirrorDrawable, getTrailingAnimationStartOffset(), getTrailingAnimationEndOffset());
-        setAnimationProperties(leadingAnim);
-        setAnimationProperties(trailingAnim);
-
-        startAnimation();
-    }
-
     /**
      * Start offset for leading animation
      *
@@ -322,6 +327,9 @@ public class IndeterminateLinearProgressBar extends View {
         translateDrawable.setBounds(getAnimationDrawableRect());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisibility(final int visibility) {
         if (getVisibility() != visibility) {
@@ -334,12 +342,18 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         startAnimation();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onWindowVisibilityChanged(final int visibility) {
         if (visibility == GONE || visibility == INVISIBLE) {
@@ -350,12 +364,18 @@ public class IndeterminateLinearProgressBar extends View {
         super.onWindowVisibilityChanged(visibility);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDetachedFromWindow() {
         endAnimation();
         super.onDetachedFromWindow();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
@@ -365,6 +385,9 @@ public class IndeterminateLinearProgressBar extends View {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onScreenStateChanged(final int screenState) {
         super.onScreenStateChanged(screenState);
@@ -377,7 +400,7 @@ public class IndeterminateLinearProgressBar extends View {
 
     /**
      * Can be overriden if the animator properties are changed after animation start.
-     * Call {@link #endAnimation()} before calling {@link #startAnimation()}
+     * Call {@link #endAnimation()} before calling start.
      */
     protected void startAnimation() {
         if (leadingAnim != null && !leadingAnim.getAnimator().isRunning()) {
@@ -408,7 +431,7 @@ public class IndeterminateLinearProgressBar extends View {
 
     /**
      * Can be overriden if the animator properties are changed after animation start.
-     * Call {@link #endAnimation()} before calling {@link #startAnimation()}
+     * Call end before calling {@link #startAnimation()}
      */
     protected void endAnimation() {
         drawTrailingAnim = false;
@@ -423,15 +446,22 @@ public class IndeterminateLinearProgressBar extends View {
     /**
      * Pauses the animation if its running, else it has no effect.
      */
-    private void pauseAnimation() {
-        leadingAnim.pause();
-        trailingAnim.pause();
+    protected void pauseAnimation() {
+        if (leadingAnim != null) {
+            leadingAnim.pause();
+        }
+        if (trailingAnim != null) {
+            trailingAnim.pause();
+        }
     }
 
     private int getAnimationTravelRatio() {
         return (getLeadingAnimationEndPos() - getLeadingAnimationStartPos()) / getMeasuredWidth();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected boolean verifyDrawable(final Drawable who) {
         return who == leadingAnim || who == trailingAnim || super.verifyDrawable(who);

@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:gravity="center"
               android:orientation="vertical">
-    <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+    <com.philips.platform.uid.view.widget.ProgressBarButton
         android:id="@+id/progressButtonsNormalDeterminate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,7 +13,7 @@
         app:uidProgressIndicatorButtonProgress="50"/>
 
 
-    <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+    <com.philips.platform.uid.view.widget.ProgressBarButton
         android:id="@+id/progressButtonsNormalIndeterminate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
