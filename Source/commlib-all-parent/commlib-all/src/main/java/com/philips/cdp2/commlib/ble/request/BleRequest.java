@@ -153,7 +153,7 @@ public abstract class BleRequest implements Runnable {
 
     @Override
     public void run() {
-        if (setIfStateIs(EXECUTING, NOT_STARTED)) {
+        if (setStateIfStateIs(EXECUTING, NOT_STARTED)) {
             execute();
 
             try {
@@ -243,7 +243,7 @@ public abstract class BleRequest implements Runnable {
         }
     }
 
-    private boolean setIfStateIs(State newState, State... currentStates) {
+    private boolean setStateIfStateIs(State newState, State... currentStates) {
         synchronized (stateLock) {
             List<State> currentStateList = Arrays.asList(currentStates);
             if (currentStateList.contains(state)) {
@@ -256,14 +256,14 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onError(Error error, String errorMessage) {
-        if (setIfStateIs(DISCONNECTING, EXECUTING, NOT_STARTED)) {
+        if (setStateIfStateIs(DISCONNECTING, EXECUTING, NOT_STARTED)) {
             responseHandler.onError(error, errorMessage);
             finishRequest();
         }
     }
 
     private void onSuccess(String data) {
-        if (setIfStateIs(DISCONNECTING, EXECUTING)) {
+        if (setStateIfStateIs(DISCONNECTING, EXECUTING)) {
             responseHandler.onSuccess(data);
             finishRequest();
         }
@@ -282,7 +282,7 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void onDisconnected() {
-        if (setIfStateIs(FINISHED, DISCONNECTING)) {
+        if (setStateIfStateIs(FINISHED, DISCONNECTING)) {
             inProgressLatch.countDown();
         }
     }
