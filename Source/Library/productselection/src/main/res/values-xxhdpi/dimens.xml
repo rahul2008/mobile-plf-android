@@ -5,7 +5,7 @@
     <dimen name="savedscreen_divider">4dp</dimen>
     <dimen name="savedscreen_top_container_height">50dp</dimen>
     <dimen name="savedscreen_product_image_margin">15dp</dimen>
-    <dimen name="savedscreen_product_text_container_height">30dp</dimen>
+    <dimen name="savedscreen_product_text_container_height">15dp</dimen>
     <dimen name="savedscreen_product_text_linespacing">4dp</dimen>
     <dimen name="savedscreen_productcontainer_height">90dp</dimen>
     <dimen name="savedscreen_product_variant_margin_bottom">36dp</dimen>
