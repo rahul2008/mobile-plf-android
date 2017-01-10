@@ -30,11 +30,12 @@ import java.util.Map;
 import philips.appframeworklibrary.flowmanager.base.BaseCondition;
 import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
 import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 
 public class FlowManager extends BaseFlowManager {
 
-    public FlowManager(Context context, String jsonPath) {
-        super(context, jsonPath);
+    public FlowManager(Context context, String jsonPath, AppFlowJsonListener appFlowJsonListener) {
+        super(context, jsonPath, appFlowJsonListener);
     }
 
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {

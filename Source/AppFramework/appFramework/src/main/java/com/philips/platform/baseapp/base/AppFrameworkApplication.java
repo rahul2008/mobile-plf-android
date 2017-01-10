@@ -26,11 +26,13 @@ import com.squareup.leakcanary.LeakCanary;
 import java.util.Locale;
 
 import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.enums.AppFlowEnum;
+import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application {
+public class AppFrameworkApplication extends Application implements AppFlowJsonListener{
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
@@ -55,7 +57,7 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
-        targetFlowManager = new FlowManager(getApplicationContext(), fileUtility.createFileFromInputStream(resId).getPath());
+        targetFlowManager = new FlowManager(getApplicationContext(), null,this);
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
@@ -95,4 +97,13 @@ public class AppFrameworkApplication extends Application {
         return targetFlowManager;
     }
 
+    @Override
+    public void onParseSuccess() {
+
+    }
+
+    @Override
+    public void onError(AppFlowEnum appFlowEnum) {
+            throw new RuntimeException(appFlowEnum.getDescription());
+    }
 }

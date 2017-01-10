@@ -31,8 +31,8 @@ import java.util.Map;
 
 public class FlowManager extends BaseFlowManager {
 
-    public FlowManager(Context context, String jsonPath) {
-        super(context, jsonPath);
+    public FlowManager(Context context, String jsonPath, AppFlowJsonListener appFlowJsonListener) {
+        super(context, jsonPath, appFlowJsonListener);
     }
 
     @Override

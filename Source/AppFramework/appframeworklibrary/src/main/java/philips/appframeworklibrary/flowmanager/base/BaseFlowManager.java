@@ -15,6 +15,7 @@ import java.util.TreeMap;
 
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
+import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 import philips.appframeworklibrary.flowmanager.models.AppFlowEvent;
 import philips.appframeworklibrary.flowmanager.models.AppFlowModel;
 import philips.appframeworklibrary.flowmanager.models.AppFlowNextState;
@@ -32,9 +33,9 @@ public abstract class BaseFlowManager {
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
 
-    public BaseFlowManager(final Context context, final String jsonPath) {
+    public BaseFlowManager(final Context context, final String jsonPath,final AppFlowJsonListener appFlowJsonListener) {
         this.context = context;
-        mapAppFlowStates(jsonPath);
+        mapAppFlowStates(jsonPath, appFlowJsonListener);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
@@ -194,8 +195,8 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath) {
-        AppFlowModel appFlowModel = AppFlowParser.getAppFlow(jsonPath);
+    private void mapAppFlowStates(final String jsonPath,final AppFlowJsonListener appFlowJsonListener) {
+        AppFlowModel appFlowModel = AppFlowParser.getAppFlow(jsonPath, appFlowJsonListener);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             firstState = appFlowModel.getAppFlow().getFirstState();
             appFlowMap = AppFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
