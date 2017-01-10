@@ -13,6 +13,7 @@ public class ContentItem {
     String tags;
     String rawData;
     long versionNumber;
+    long lastUpdatedTime;
 
    public ContentItem(){
 
@@ -55,5 +56,13 @@ public class ContentItem {
 
     public void setVersionNumber(long versionNumber) {
         this.versionNumber = versionNumber;
+    }
+
+    public long getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(long lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
     }
 }

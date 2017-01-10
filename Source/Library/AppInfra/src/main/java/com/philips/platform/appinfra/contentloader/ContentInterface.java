@@ -6,8 +6,6 @@
 
 package com.philips.platform.appinfra.contentloader;
 
-import com.philips.platform.appinfra.contentloader.model.Tag;
-
 import java.util.List;
 
 /*
@@ -29,7 +27,7 @@ public interface ContentInterface {
     /**
      * @return array of Tags set for this article
      */
-    List<Tag> getTags();
+    List<String> getTags();
 
     /**
      * @return version number of this article

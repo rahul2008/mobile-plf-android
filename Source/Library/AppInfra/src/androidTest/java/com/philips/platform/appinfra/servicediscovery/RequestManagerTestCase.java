@@ -2,11 +2,8 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
 
-import com.google.gson.JsonObject;
-import com.philips.cdp.prxclient.RequestManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
 import org.json.JSONArray;
 import org.json.JSONException;

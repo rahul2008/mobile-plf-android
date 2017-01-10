@@ -38,6 +38,7 @@ public interface ServiceDiscoveryInterface {
             NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR,
             INVALID_RESPONSE
         }
+
         void onError(ERRORVALUES error, String message);
     }
 
@@ -48,6 +49,7 @@ public interface ServiceDiscoveryInterface {
      */
     interface OnGetHomeCountryListener extends OnErrorListener {
         enum SOURCE {STOREDPREFERENCE, SIMCARD, GEOIP}
+
         void onSuccess(String countryCode, SOURCE source);
     }
 
@@ -120,6 +122,17 @@ public interface ServiceDiscoveryInterface {
      */
     void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener);
 
+    /**
+     * Returns the URL for a specific service with a preference for the current language.
+     *
+     * @param serviceId   name of the service for which the URL is to be retrieved
+     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
+     *                    or returns onError the error code when retrieval failed.
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     */
+    void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener,
+                                             Map<String, String> replacement);
+
 
     /**
      * Returns Hashmap with  URL  mapped specific service with a preference for the current language.
@@ -132,6 +145,17 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
+     * Returns Hashmap with  URL  mapped specific service with a preference for the current language.
+     *
+     * @param serviceId   ArrayList of the service for which the URL is to be retrieved
+     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
+     *                    or returns onError the error code when retrieval failed.
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     */
+    void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener,
+                                           Map<String, String> replacement);
+
+    /**
      * Returns the URL for a specific service with a preference for the current home country.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
@@ -139,6 +163,18 @@ public interface ServiceDiscoveryInterface {
      *                  or returns onError the error code when retrieval failed.
      */
     void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener);
+
+
+    /**
+     * Returns the URL for a specific service with a preference for the current home country.
+     *
+     * @param serviceId   name of the service for which the URL is to be retrieved
+     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
+     *                    or returns onError the error code when retrieval failed.
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     */
+    void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener,
+                                            Map<String, String> replacement);
 
 
     /**
@@ -150,6 +186,19 @@ public interface ServiceDiscoveryInterface {
      *                  or returns onError the error code when retrieval failed.
      */
     void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
+
+    /**
+     * Returns Hashmap with  URL  mapped for a specific service with a
+     * preference for the current home country.
+     *
+     * @param serviceId   List of the services for which the URL is to be retrieved
+     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
+     *                    or returns onError the error code when retrieval failed.
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     */
+    void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener,
+                                          Map<String, String> replacement);
+
 
     /**
      * Returns the locale to be used for a specific service with a preference for the current language.
@@ -186,6 +235,17 @@ public interface ServiceDiscoveryInterface {
      */
 //    void getServicesWithCountryPreference(String serviceIds, OnGetServicesListener listener);
 
+
+    /**
+     * Replaces all '%key%' placeholders in the given URL, where the key is the key in the replacement table and the placeholder is replaced with the value of the entry in the replacement table
+     *
+     * @param url         url in which to search for the key strings given by replacement
+     * @param replacement mapping of placeholder string (key) to the replacement string (value)
+     * @return input url with all placeholders keys replaced with the respective value in the replacement table
+     */
+    URL applyURLParameters(URL url, Map<String, String> replacement);
+
+
     /**
      * Start negotiation with cloud service for the list of service for this application. List is based on sector, microsite, home country, and language.
      * The retrieved list is cached internally (not persistently).
@@ -196,5 +256,6 @@ public interface ServiceDiscoveryInterface {
      *                 or returns onError the error code when retrieval failed.
      */
     void refresh(OnRefreshListener listener);
+
     void refresh(OnRefreshListener listener, boolean forceRefresh);
 }

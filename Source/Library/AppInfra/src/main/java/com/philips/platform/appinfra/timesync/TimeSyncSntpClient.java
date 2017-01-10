@@ -150,15 +150,16 @@ public class TimeSyncSntpClient implements TimeInterface {
                         if (isOnline()) {
                             refreshOffset();
                         } else {
-//                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
-//                                    "Network connectivity not found");
-
-                            Log.e("TimeSyncError", "Network connectivity not found");
+//                            if (mAppInfra != null && mAppInfra.getLogging() != null) {
+//                                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+//                                        "Network connectivity not found");
+//                            }
+                            Log.e("TIMESYNC" , "Network connectivity not found");
                         }
-
                     } catch (IllegalArgumentException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
-                                e.getMessage());
+                        if (mAppInfra != null && mAppInfra.getLogging() != null)
+                            mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+                                    e.getMessage());
                     }
                 }
             }).start();

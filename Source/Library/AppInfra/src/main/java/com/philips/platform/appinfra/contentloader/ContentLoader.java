@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V. 2016
- * All rights are reserved. Reproduction or dissemination in whole or in part
- * is prohibited without the prior written consent of the copyright holder.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
-
 package com.philips.platform.appinfra.contentloader;
 
 import android.content.Context;
@@ -18,9 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
-import com.philips.platform.appinfra.contentloader.model.Tag;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
@@ -28,25 +26,34 @@ import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/*
- * Created by 310209604 on 2016-08-10.
+/**
+ * Created by 310243577 on 11/28/2016.
  */
+
 public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content> {
 
     private int offset = 0;
-    private final int downloadLimit;
+    private int downloadLimit = 0;
     private int contentDownloadedCount;
-    private List downloadedContents;
     private ContentDatabaseHandler mContentDatabaseHandler;
-    // region public methods
+    private final String mServiceId;
+    //   private URL mServiceURL;
+    private Class<Content> mClassType;
+    private String mContentType;
+    private int mMaxAgeInHours;
 
+    private AppInfraInterface mAppInfra;
+    private RestInterface mRestInterface;
+    private AtomicBoolean downloadInProgress;
+    //   private boolean isRefreshing = false;
+    private long mLastUpdatedTime;
+    STATE mContentLoaderState = STATE.NOT_INITIALIZED;
     /**
      * Create a content loader of type Content, loading content from the given service using the given Content class type.
      *
@@ -55,53 +62,47 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
      * @param contentClassType type of the content class (use Content.class)
      * @param contentType      name of the content as given in the server JSON structure
      */
-    public ContentLoader(Context context, String serviceId, int maxAgeInHours, Class<Content> contentClassType, String contentType, AppInfraInterface appInfra) {
+    public ContentLoader(Context context, String serviceId, int maxAgeInHours, Class<Content> contentClassType,
+                         String contentType, AppInfraInterface appInfra) {
         mServiceId = serviceId;
         mMaxAgeInHours = maxAgeInHours;
         mClassType = contentClassType;
         mContentType = contentType;
-        mState = STATE.NOT_INITIALIZED;
+        //  STATE mState = STATE.NOT_INITIALIZED;
+        getStatus();
         mAppInfra = appInfra;
         mRestInterface = mAppInfra.getRestClient();
-        mParams = new HashMap<String, String>();
-        mHeaders = new HashMap<String, String>();
         downloadInProgress = new AtomicBoolean(false);
         downloadLimit = getDownloadLimitFromConfig();
-        downloadedContents = new ArrayList<ContentItem>();
-        mContentDatabaseHandler = new ContentDatabaseHandler(context);
+        mContentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
     }
-    // endregion
 
-    // region ContentLoaderInterface implementation
+
     @Override
-    public void refresh(final OnRefreshListener refreshListener) {
-
-        long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
-        Calendar calendar = Calendar.getInstance();
-        long currentTime = calendar.getTime().getTime();
-        if (contentLoaderExpiryTime < currentTime)// if content loader is expired then refresh
-        {
-            if (downloadInProgress.compareAndSet(false, true)) {
-                downloadedContents.clear();
-                mState = STATE.REFRESHING;
+    public void refresh(OnRefreshListener refreshListener) {
+        updateContentLoaderState();
+        if (downloadInProgress.compareAndSet(false, true)) {
+            STATE state = getStatus();
+            if (!state.equals(STATE.CACHED_DATA_AVAILABLE) ) { // if data outdated
+                mLastUpdatedTime = (new Date()).getTime();
                 downloadContent(refreshListener);
-            } else {
-                Log.i("CL REFRSH ERR", "" + "download already in progress");
-                refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
-
+            } else { // if data already cached
+                downloadInProgress.set(false);
+                refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
+                Log.i("CL REFRSH NA", "" + "content loader already uptodate");
             }
         } else {
-            mState = STATE.CACHED_DATA_AVAILABLE;
-            //content loader already updated
-            refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
-            Log.i("CL REFRSH NA", "" + "content loader already uptodate");
+            mContentLoaderState=STATE.REFRESHING;
+            downloadInProgress.set(false);
+            Log.i("CL REFRSH ERR", "" + "download already in progress");
+            refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
         }
     }
 
     private void downloadContent(final OnRefreshListener refreshListener) {
+        final List<ContentItem> downloadedContents = new ArrayList<>();
         final Gson gson = new Gson();
         JsonObjectRequest jsonRequest = null;
-
         // to used when serviceId is ready
         try {
             jsonRequest = new JsonObjectRequest(Request.Method.GET,
@@ -110,51 +111,64 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 public void onResponse(JSONObject response) {
                     JsonObject jsonObjectTree = null;
                     Log.i("CL REFRSH RESP", "download completed for Offset: " + offset + " and Limit: " + downloadLimit);
-                    JSONObject serviceResponseJSON = (JSONObject) response; // cast object to org.json.JSONObject
-                    JsonElement serviceResponseJson = gson.fromJson(serviceResponseJSON.toString(), JsonElement.class); // cast org.json.JSONObject to gson.JsonElement
+                    JsonElement serviceResponseJson = gson.fromJson(response.toString(), JsonElement.class); // cast org.json.JSONObject to gson.JsonElement
                     Log.i("CL REFRSH RESP", "" + serviceResponseJson);
-                    if (mClassType.equals(ContentArticle.class)) { // if content is ContentArticle
-                        if (serviceResponseJson.isJsonObject()) {
-                            jsonObjectTree = serviceResponseJson.getAsJsonObject();
-                            jsonObjectTree = jsonObjectTree.getAsJsonObject("result");
-                        }
+                    if (serviceResponseJson.isJsonObject()) {
+                        jsonObjectTree = serviceResponseJson.getAsJsonObject();
+                        jsonObjectTree = jsonObjectTree.getAsJsonObject("result");
+                    }
+                    JsonArray contentList = null;
+                    if (jsonObjectTree != null) {
                         JsonElement content = jsonObjectTree.get(mContentType);
-                        JsonArray contentList = null;
-                        if (null != content) {
-                            if (content.isJsonArray()) {
-                                contentList = content.getAsJsonArray();
-                            }
+                        if(null==content){
+                            Log.i("CL REFRSH Error:", "" + "Content type mismatch");
+                            mContentLoaderState=STATE.CONFIGURATION_ERROR;
+                            downloadInProgress.set(false);
+                            contentDownloadedCount = 0;
+                            downloadedContents.clear();
+                            offset = 0;
+                            refreshListener.onError(ERROR.CONFIGURATION_ERROR, "Content type mismatch");
+                            return;
+                        } else if (content.isJsonArray()) {
+                            contentList = content.getAsJsonArray();
                             contentDownloadedCount = contentList.size();
-                            if (null != contentList && contentList.size() > 0) {
-                                for (int contentCount = 0; contentCount < contentList.size(); contentCount++) {
-                                    Log.i("CL Ariticle", "" + contentList.get(contentCount));
-                                    ContentArticle contentArticle = gson.fromJson(contentList.get(contentCount), ContentArticle.class);
-                                    ContentItem contentItem = new ContentItem();
-                                    contentItem.setId(contentArticle.getId());
-                                    contentItem.setServiceId(mServiceId);
-                                    contentItem.setRawData(contentList.get(contentCount).toString());
-                                    contentItem.setVersionNumber(contentArticle.getVersion());
-                                    List<Tag> tagList = contentArticle.getTags();
-                                    String tags = "";
-                                    if (null != tagList && tagList.size() > 0) {
-                                        for (Tag tag : tagList) {
-                                            tags += tag.getId() + ",";
-                                        }
-                                        tags = tags.substring(0, tags.length() - 1);// remove last comma
+                        }
+                    }
+
+                    if (contentList != null && contentList.size() > 0) {
+                        for (int contentCount = 0; contentCount < contentList.size(); contentCount++) {
+                            Log.i("CL Ariticle", "" + contentList.get(contentCount));
+                            try {
+                                ContentInterface contentInterface = mClassType.newInstance();
+                                contentInterface.parseInput(contentList.get(contentCount).toString());
+                                ContentItem contentItem = new ContentItem();
+                                contentItem.setId(contentInterface.getId().replace("\"", ""));
+                                contentItem.setServiceId(mServiceId);
+                                contentItem.setRawData(contentList.get(contentCount).toString());
+                                contentItem.setVersionNumber(contentInterface.getVersion());
+                                contentItem.setLastUpdatedTime(mLastUpdatedTime); // last updated time
+                                String tags = "";
+
+                                List<String> tagList = contentInterface.getTags();
+                                if (null != tagList && tagList.size() > 0) {
+                                    for (String tagId : tagList) {
+                                        tags += tagId + " ";
                                     }
-                                    contentItem.setTags(tags);
-                                    downloadedContents.add(contentItem);
-                                    String articleId = contentItem.getId();
-                                    Log.i("CL Ariticle", "" + articleId + "  TAGs ");
-                                            /* TBD push this item in DB,( id-primary key, tags, modDate, content json)*/
                                 }
+                                contentItem.setTags(tags);
+                                downloadedContents.add(contentItem);
+                                String articleId = contentItem.getId();
+                                Log.i("CL Ariticle", "" + articleId + "  TAGs ");
+                            } catch (InstantiationException | IllegalAccessException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
                     if (contentDownloadedCount < downloadLimit) { // download is over
                         Log.i("CL REFRSH RESP", "download completed");
-                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId, expiryTimeforUserInputTime(mMaxAgeInHours));
-                        clearParamsAndHeaders();// clear headerd and params from rest client
+                        Log.e("DOWNLOADED CONTENTS", downloadedContents.toString());
+                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId,mLastUpdatedTime, expiryTimeforUserInputTime(mMaxAgeInHours),true);
+                        mContentLoaderState=STATE.CACHED_DATA_AVAILABLE;
                         downloadInProgress.set(false);
                         offset = 0;
                         contentDownloadedCount = 0;
@@ -162,20 +176,22 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     } else {// download next
                         contentDownloadedCount = 0;
                         offset += downloadLimit;// next offset
+                        //Saving contents page by page
+                        //passing maxAge as 0 becasue we need to expire the contents if it is not fully downloaded.
+                        mContentDatabaseHandler.addContents(downloadedContents, mServiceId,mLastUpdatedTime, 0,false);
                         downloadContent(refreshListener); // recursive call for next download
                     }
                 }
-
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("CL REFRSH Error:", "" + error);
-                    clearParamsAndHeaders();// clear headerd and params from rest client
-                    refreshListener.onError(ERROR.SERVER_ERROR, error.toString());
+                    mContentLoaderState=STATE.CACHED_DATA_OUTDATED; // if data download is interrupted
                     downloadInProgress.set(false);
                     contentDownloadedCount = 0;
                     downloadedContents.clear();
                     offset = 0;
+                    refreshListener.onError(ERROR.SERVER_ERROR, error.toString());
                 }
             });
             jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -187,75 +203,72 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         if (null != jsonRequest) {
             mRestInterface.getRequestQueue().add(jsonRequest);
         }
-    }
 
+    }
 
     @Override
     public void clearCache() {
-        mContentDatabaseHandler.clearCacheForContentLoader(mServiceId);
+       boolean isDeleted = mContentDatabaseHandler.clearCacheForContentLoader(mServiceId);
+        if(isDeleted){
+            mContentLoaderState=STATE.NOT_INITIALIZED;
+        }
     }
 
     @Override
     public STATE getStatus() {
-        return mState;
+        if(mContentLoaderState.equals(STATE.CACHED_DATA_AVAILABLE)){
+            updateContentLoaderState();
+        }
+        return mContentLoaderState;
+       /* if(null==downloadInProgress) return STATE.NOT_INITIALIZED;
+        if (!downloadInProgress.get()) return STATE.NOT_INITIALIZED;
+        long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
+        Calendar calendar = Calendar.getInstance();
+        long currentTime = calendar.getTime().getTime();
+        if (contentLoaderExpiryTime != 0) {
+            if (contentLoaderExpiryTime < currentTime) { // if content loader is expired then refresh
+                return STATE.CACHED_DATA_OUTDATED;
+            } else {
+                return STATE.CACHED_DATA_AVAILABLE;
+            }
+        } else {
+            return STATE.INITIALIZING;
+        }*/
     }
 
     @Override
     public void getAllContent(OnResultListener<String> listener) {
         // It was concluded to fetch only content ids and not complete content
         List<String> IDs = mContentDatabaseHandler.getAllContentIds(mServiceId);
-        listener.onError(ERROR.DATABASE_ERROR, "could not fetch from DB");
-        listener.onSuccess(IDs);
-    }
-
-    @Override
-    public void getContentById(String id, OnResultListener<Content> listener) {
-        // example for how to create a Content instance
-        Gson gson = new Gson();
-        String[] IDs = new String[1];
-        IDs[0] = id;
-        List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, IDs);
-        if (null != contentItems && contentItems.size() > 0) {
-            ContentItem contentItem = contentItems.get(0);
-            List<Content> result = new ArrayList<Content>(1);
-            try {
-                Content a = mClassType.newInstance();
-                if (!a.parseInput("{\"id\":\"blaat\"}")) {
-                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
-                    return;
-                }
-                //  if (mClassType.equals(ContentArticle.class)) { // if conent is ContentArticle
-                a = gson.fromJson(contentItem.getRawData(), mClassType);
-                result.add(a);
-                listener.onSuccess(result);
-            } catch (InstantiationException | IllegalAccessException e) {
-                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
-            }
+        if (IDs != null && IDs.size() > 0) {
+            listener.onSuccess(IDs);
         } else {
-            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given ID not found in DB");
+            listener.onError(ERROR.DATABASE_ERROR, "could not fetch from DB");
         }
     }
 
     @Override
+    public void getContentById(String id, OnResultListener<Content> listener) {
+        String[] IDs = new String[1];
+        IDs[0] = id;
+        getContentBySingleOrMultipleID(IDs,listener);
+    }
+
+    @Override
     public void getContentById(String[] ids, OnResultListener<Content> listener) {
-        // example for how to create a Content instance
-        Gson gson = new Gson();
+        getContentBySingleOrMultipleID(ids,listener);
+    }
+
+    private void getContentBySingleOrMultipleID(String[] ids, OnResultListener<Content> listener){
         List<ContentItem> contentItems = mContentDatabaseHandler.getContentById(mServiceId, ids);
         if (null != contentItems && contentItems.size() > 0) {
-            ContentItem contentItem = contentItems.get(0);
-            List<Content> result = new ArrayList<Content>(1);
+            List<Content> result = new ArrayList<>();
             try {
-                Content a = mClassType.newInstance();
-                if (!a.parseInput("{\"id\":\"blaat\"}")) {
-                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
-                    return;
-                }
                 for (ContentItem ci : contentItems) {
                     Content c = mClassType.newInstance();
-                    c = gson.fromJson(ci.getRawData(), mClassType);
+                    c.parseInput(ci.getRawData());
                     result.add(c);
                 }
-
                 listener.onSuccess(result);
             } catch (InstantiationException | IllegalAccessException e) {
                 listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
@@ -269,47 +282,26 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
     public void getContentByTag(String tagID, OnResultListener<Content> listener) {
         String[] tag = new String[1];
         tag[0] = tagID;
-        Gson gson = new Gson();
-        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tag, null);
-        if (null != contentItems && contentItems.size() > 0) {
-            ContentItem contentItem = contentItems.get(0);
-            List<Content> result = new ArrayList<Content>(1);
-            try {
-                Content a = mClassType.newInstance();
-                if (!a.parseInput("{\"id\":\"blaat\"}")) {
-                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
-                    return;
-                }
-                for (ContentItem ci : contentItems) {
-                    Content c = mClassType.newInstance();
-                    c = gson.fromJson(ci.getRawData(), mClassType);
-                    result.add(c);
-                }
-                listener.onSuccess(result);
-            } catch (InstantiationException | IllegalAccessException e) {
-                listener.onError(ERROR.CONFIGURATION_ERROR, "invalid generic class type provided");
-            }
-        } else {
-            listener.onError(ERROR.NO_DATA_FOUND_IN_DB, "Given IDs not found in DB");
-        }
+        getContentBySingleOrMultipleTag(tag,null,listener);
     }
 
     @Override
     public void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener) {
-        Gson gson = new Gson();
-        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs, andOr.toString());
+        getContentBySingleOrMultipleTag(tagIDs,andOr,listener);
+    }
+
+    private void getContentBySingleOrMultipleTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener){
+        String logicalOperator=null;
+        if(null!=andOr){
+            logicalOperator=andOr.toString();
+        }
+        List<ContentItem> contentItems = mContentDatabaseHandler.getContentByTagId(mServiceId, tagIDs,logicalOperator );
         if (null != contentItems && contentItems.size() > 0) {
-            ContentItem contentItem = contentItems.get(0);
-            List<Content> result = new ArrayList<Content>(1);
+            List<Content> result = new ArrayList<>(1);
             try {
-                Content a = mClassType.newInstance();
-                if (!a.parseInput("{\"id\":\"blaat\"}")) {
-                    listener.onError(ERROR.SERVER_ERROR, "invalid data format on server");
-                    return;
-                }
                 for (ContentItem ci : contentItems) {
                     Content c = mClassType.newInstance();
-                    c = gson.fromJson(ci.getRawData(), mClassType);
+                    c.parseInput(ci.getRawData());
                     result.add(c);
                 }
                 listener.onSuccess(result);
@@ -321,43 +313,6 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         }
     }
 
-
-    // endregion
-
-    // region Private methods
-    // endregion
-
-    // region Private members
-    private AtomicBoolean downloadInProgress;
-
-    public String getmServiceId() {
-        return mServiceId;
-    }
-
-    private final String mServiceId;
-    private URL mServiceURL;
-    private Class<Content> mClassType;
-    private String mContentType;
-    private int mMaxAgeInHours;
-    private STATE mState;
-    private AppInfraInterface mAppInfra;
-    private RestInterface mRestInterface;
-    private HashMap<String, String> mParams;
-    private HashMap<String, String> mHeaders;
-    // endregion
-
-    private void clearParamsAndHeaders() {
-        mHeaders.clear();
-        mParams.clear();
-    }
-
-   private String getOffsetPath(int offset) {
-        //https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1
-        //https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1.offset.(100).limit.(100).json
-        String path = ".offset.(" + offset + ").limit.(" + downloadLimit + ").json";
-        return path;
-    }
-
     private int getDownloadLimitFromConfig() {
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         if (mAppInfra.getConfigInterface() != null) {
@@ -365,7 +320,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 Object contentLoaderLimit = mAppInfra.getConfigInterface().getPropertyForKey("contentLoader.limitSize",
                         "appinfra", configError);
                 if (contentLoaderLimit != null && contentLoaderLimit instanceof Integer)
-                        return (Integer) contentLoaderLimit;
+                    return (Integer) contentLoaderLimit;
 
             } catch (IllegalArgumentException exception) {
                 mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "ContentLoader", exception.toString());
@@ -374,19 +329,33 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         return 0;
     }
 
-//    private void updateContentDatabase() {
-//        if (null != downloadedContents && downloadedContents.size() > 0) {
-//
-//        }
-//        downloadedContents.clear();
-//    }
+    public String getmServiceId() {
+        return mServiceId;
+    }
+
+
+    private String getOffsetPath(int offset) {
+        return ".offset.(" + offset + ").limit.(" + downloadLimit + ").json";
+    }
 
     private long expiryTimeforUserInputTime(int userInputExpiryTime) {
-        long expiryTime = 0;
+        long expiryTime = 0L;
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.add(Calendar.HOUR_OF_DAY, userInputExpiryTime);
         expiryTime = expiryDate.getTime().getTime();
         return expiryTime;
     }
 
+    private void updateContentLoaderState(){
+        long contentLoaderExpiryTime = mContentDatabaseHandler.getContentLoaderServiceStateExpiry(mServiceId);
+        Calendar calendar = Calendar.getInstance();
+        long currentTime = calendar.getTime().getTime();
+        if (contentLoaderExpiryTime != 0) {
+            if (contentLoaderExpiryTime < currentTime) { // if content loader is expired then refresh
+                mContentLoaderState=  STATE.CACHED_DATA_OUTDATED;
+            } else {
+                mContentLoaderState = STATE.CACHED_DATA_AVAILABLE;
+            }
+        }
+    }
 }

@@ -24,9 +24,9 @@
         android:layout_gravity="center_horizontal"
         android:ems="10"
         android:hint="Max age in hours"
-        android:inputType="numberSigned" />
+        android:inputType="number" />
 
-    <EditText
+   <!-- <EditText
         android:id="@+id/editTextContentClassType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:hint="content type" />
+        android:hint="content type" />-->
+
+    <Spinner
+        android:id="@+id/spinnerModelTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Spinner>
+
+
     <Button
         android:id="@+id/createCL"
         android:layout_width="wrap_content"

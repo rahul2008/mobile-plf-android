@@ -12,7 +12,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
-import com.philips.platform.appinfra.contentloader.model.Tag;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.lang.reflect.Method;
@@ -47,7 +46,7 @@ public class ContentLoadertest extends MockitoTestCase {
         mContentLoader = new ContentLoader(context, serviceId, 1, ContentArticle.class, "articles", mAppInfra);
         assertNotNull(mContentLoader);
         downloadedContents = new ArrayList<ContentItem>();
-        contentDatabaseHandler = new ContentDatabaseHandler(context);
+        contentDatabaseHandler =  ContentDatabaseHandler.getInstance(context);
 
         String json = "{\n" +
                 "\t\"articles\": [{\n" +
@@ -214,11 +213,11 @@ public class ContentLoadertest extends MockitoTestCase {
                     contentItem.setServiceId(serviceId);
                     contentItem.setRawData(contentList.get(contentCount).toString());
                     contentItem.setVersionNumber(contentArticle.getVersion());
-                    List<Tag> tagList = contentArticle.getTags();
+                    List<String> tagList = contentArticle.getTags();
                     String tags = "";
                     if (null != tagList && tagList.size() > 0) {
-                        for (Tag tag : tagList) {
-                            tags += tag.getId() + ",";
+                        for (String tag : tagList) {
+                            tags += tag + ",";
                         }
                         tags = tags.substring(0, tags.length() - 1);// remove last comma
                     }
@@ -228,7 +227,7 @@ public class ContentLoadertest extends MockitoTestCase {
                     Log.i("CL Ariticle", "" + articleId + "  TAGs ");
                 }
             }
-            contentDatabaseHandler.addContents(downloadedContents, serviceId, expiryTimeforUserInputTime(1));
+           //TBD contentDatabaseHandler.addContents(downloadedContents, mLastUpdatedTime, serviceId, expiryTimeforUserInputTime(1));
         }
     }
 

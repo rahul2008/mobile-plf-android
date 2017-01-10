@@ -50,6 +50,13 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         try {
 
             ((TextView) findViewById(R.id.appVersionValue)).setText(mAppIdentityInterface.getAppVersion());
+
+        } catch (IllegalArgumentException e) {
+            Log.e("APPIDENTITY", e.getMessage());
+            Toast.makeText(this, "" + e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        try {
             if (mAppIdentityInterface.getAppState() != null) {
                 ((TextView) findViewById(R.id.appStateValue)).setText(mAppIdentityInterface.getAppState().toString());
                 Log.i("getAppState", "" + mAppIdentityInterface.getAppState());
@@ -58,8 +65,6 @@ public class AppIndentityDemoPage extends AppCompatActivity {
             Log.e("APPIDENTITY", e.getMessage());
             Toast.makeText(this, "" + e.toString(), Toast.LENGTH_LONG).show();
         }
-
-
         try {
             ((TextView) findViewById(R.id.micrositeIdValue)).setText(mAppIdentityInterface.getMicrositeId());
             Log.i("getMicrositeId", "" + mAppIdentityInterface.getMicrositeId());
