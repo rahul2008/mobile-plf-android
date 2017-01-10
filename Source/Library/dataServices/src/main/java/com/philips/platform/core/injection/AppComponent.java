@@ -9,6 +9,7 @@ package com.philips.platform.core.injection;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
+import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -17,6 +18,7 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsConverter;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
+import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
@@ -70,4 +72,8 @@ public interface AppComponent {
     void injectUpdatingMonitor(UpdatingMonitor updatingMonitor);
 
     void injectMomentsSegregator(MomentsSegregator momentsSegregator);
+
+    void injectFetchingMonitor(FetchingMonitor fetchingMonitor);
+
+    void injectConsentsSegregator(ConsentsSegregator consentsSegregator);
 }

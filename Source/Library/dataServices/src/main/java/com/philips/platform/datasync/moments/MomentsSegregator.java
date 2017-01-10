@@ -6,9 +6,11 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -155,6 +157,14 @@ public class MomentsSegregator {
                 moment.setSynced(true);
             updatingInterface.updateMoment(moment);
         }
+    }
+
+    public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException {
+        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
+        List<? extends Moment> ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
+        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl dataToSync.put");
+        dataToSync.put(Moment.class, ormMomentList);
+        return dataToSync;
     }
 
 }

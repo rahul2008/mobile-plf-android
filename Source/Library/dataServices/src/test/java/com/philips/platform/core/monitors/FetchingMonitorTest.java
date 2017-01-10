@@ -14,6 +14,9 @@ import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -72,6 +75,9 @@ public class FetchingMonitorTest {
     private Moment ormMomentMock;
 
     @Mock
+    MomentsSegregator momentsSegregatorMock;
+
+    @Mock
     private SynchronisationData synchronizationDataMock;
     @Mock
     private ConsentDetail consentDetailsMock;
@@ -81,11 +87,16 @@ public class FetchingMonitorTest {
     @Mock
     private DBFetchingInterface fetchingMock;
 
+    @Mock
+    private AppComponent appComponantMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         fetchingMonitor = new FetchingMonitor(fetching);
+        fetchingMonitor.momentsSegregator = momentsSegregatorMock;
         uGrowDateTime = new DateTime();
         fetchingMonitor.start(eventingMock);
     }
