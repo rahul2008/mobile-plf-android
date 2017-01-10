@@ -86,6 +86,7 @@ public class BaseAppCoreTest {
     public void setUp() {
         initMocks(this);
 
+        DataServicesManager.getInstance().mAppComponent = mAppComponentMock;
         savingMonitor = new SavingMonitor(savingInterface);
         fetchMonitor = new FetchingMonitor(fetchingInterface);
         deletingMonitor = new DeletingMonitor(deletingInterface);
