@@ -7,7 +7,7 @@ def getArchiveConfig() {
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
     def ARCHIVE_CONFIG = getArchiveConfig()
-    sh "echo \"The branch is ${env.BRANCH_NAME} -> Using Config ${ARCHIVE_CONFIG}\""
+    def VERSION = ""
 
     stage('Checkout') {
       checkout scm
@@ -15,11 +15,23 @@ node('Android && 25.0.0 && Ubuntu') {
     }
 
     try {
+      sh 'chmod +x git_version.sh'
+      VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
+
       stage('Build Catalog app') {
-        sh '''#!/bin/bash -l
+        sh """#!/bin/bash -l
+          echo \"Building VERSION ${VERSION} for branch ${env.BRANCH_NAME} with CONFIG ${ARCHIVE_CONFIG}\"
+
+          echo "---------------------- Printing Environment --------------------------"
+          env | sort
+          echo "----------------------- End of Environment ---------------------------"
+
+          chmod +x set_version.sh
+          ./set_version.sh ${VERSION}
+
           cd Source/CatalogApp
           ./gradlew clean assembleDebug
-        '''
+        """
       }
 
       stage('Archive Apps') {
