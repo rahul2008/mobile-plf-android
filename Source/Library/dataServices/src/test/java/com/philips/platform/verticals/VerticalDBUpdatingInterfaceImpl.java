@@ -14,18 +14,8 @@ import java.util.List;
 
 public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
-    public int processMoment(int updatedCount, Moment moment) {
-        return 0;
-    }
+    public void updateMoment(Moment ormMoment) {
 
-    @Override
-    public void updateOrSaveMomentInDatabase(Moment ormMoment) {
-
-    }
-
-    @Override
-    public Moment getOrmMoment(Moment moment) {
-        return null;
     }
 
     @Override

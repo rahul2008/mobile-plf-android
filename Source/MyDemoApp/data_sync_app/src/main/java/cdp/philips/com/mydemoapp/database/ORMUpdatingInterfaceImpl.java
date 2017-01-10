@@ -56,6 +56,23 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
+    public void updateMoment(final Moment moment) {
+
+        OrmMoment ormMoment = getOrmMoment(moment);
+        if (ormMoment == null) {
+            return;
+        }
+
+        try {
+            saving.saveMoment(ormMoment);
+            updating.updateMoment(ormMoment);
+            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
+        } catch (SQLException e) {
+            mTemperatureMomentHelper.notifyAllFailure(e);
+        }
+    }
+
+    @Override
     public int processMomentsReceivedFromBackend(final List<? extends Moment> moments) {
         int updatedCount = 0;
         for (final Moment moment : moments) {
@@ -73,7 +90,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             if (moment.getType() != MomentType.PHOTO || photoFileExistsForPhotoMoments(moment)) {
                 final OrmMoment ormMoment = getOrmMoment(moment);
                 ormMoment.setSynced(true);
-                updateOrSaveMomentInDatabase(ormMoment);
+                updateMoment(ormMoment);
             }
         }
         mTemperatureMomentHelper.notifyAllSuccess(moments);
@@ -141,20 +158,18 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public void updateFailed(Exception e) {
         mTemperatureMomentHelper.notifyAllFailure(e);
-
     }
 
     @Override
     public boolean updateConsent(Consent consent) {
-        if (consent == null) {
-            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));
-            ;
+        if(consent==null){
+            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));;
             return false;
         }
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            ormConsent = getModifiedConsent(ormConsent);
+            ormConsent=getModifiedConsent(ormConsent);
             saving.saveConsent(ormConsent);
             new ConsentHelper().notifyAllSuccess(ormConsent);
             return true;
@@ -172,30 +187,30 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
-        DSLog.d("Creator ID MODI", ormConsent.getCreatorId());
+        DSLog.d("Creator ID MODI",ormConsent.getCreatorId());
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
 
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
             final List<OrmConsentDetail> ormNonSynConsentDetails = fetching.fetchNonSynchronizedConsentDetails();
 
-            for (OrmConsentDetail ormFromBackEndConsentDetail : ormConsent.getConsentDetails()) {
+            for(OrmConsentDetail ormFromBackEndConsentDetail:ormConsent.getConsentDetails()){
 
-                for (OrmConsentDetail ormNonSynConsentDetail : ormNonSynConsentDetails) {
-                    if (ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()) {
+                for(OrmConsentDetail ormNonSynConsentDetail:ormNonSynConsentDetails){
+                    if(ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()){
                         ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
                         ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
                     }
                 }
             }
             ormConsent.setId(id);
-            for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
+            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
                 deleting.deleteConsent(ormConsentInDB);
             }
             deleting.deleteConsent(consentInDatabase);
             // updating.updateConsent(consentInDatabase);
 
-        } else {
+        }else{
             saving.saveConsent(ormConsent);
         }
         return ormConsent;
@@ -219,11 +234,10 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
-    @Override
     public int processMoment(int count, final Moment moment) {
         try {
             final OrmMoment momentInDatabase = getOrmMomentFromDatabase(moment);
-            // updating.updateMoment(momentInDatabase);
+           // updating.updateMoment(momentInDatabase);
             if (hasDifferentMomentVersion(moment, momentInDatabase)) {
                 final OrmMoment ormMoment = getOrmMoment(moment);
                 /*if(isSyncedMomentUpdatedBeforeSync(momentInDatabase)){
@@ -256,28 +270,26 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return count;
     }
 
-    @Override
-    public void updateOrSaveMomentInDatabase(final Moment ormMoment) {
-        try {
-            saving.saveMoment((OrmMoment) ormMoment);
-            updating.updateMoment((OrmMoment) ormMoment);
-            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
-
-        } catch (SQLException e) {
-            mTemperatureMomentHelper.notifyAllFailure(e);
-
-        }
-    }
+//    @Override
+//    public void updateOrSaveMomentInDatabase(final Moment ormMoment) {
+//        try {
+//            saving.saveMoment((OrmMoment) ormMoment);
+//            updating.updateMoment((OrmMoment) ormMoment);
+//            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
+//        } catch (SQLException e) {
+//            mTemperatureMomentHelper.notifyAllFailure(e);
+//        }
+//    }
 
     private void deleteAndSaveMoment(final OrmMoment momentInDatabase,
                                      final OrmMoment ormMoment) throws SQLException {
         if (momentInDatabase != null) {
             ormMoment.setId(momentInDatabase.getId());
         }
-        //   OrmMoment moment = (OrmMoment) createMoment(ormMoment);
-        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, ormMoment);
-        //  OrmMoment moment = (OrmMoment) createMoment(ormMoment);
-        updateOrSaveMomentInDatabase(ormMoment);
+     //   OrmMoment moment = (OrmMoment) createMoment(ormMoment);
+        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment);
+      //  OrmMoment moment = (OrmMoment) createMoment(ormMoment);
+        updateMoment(ormMoment);
     }
 
     private boolean isNeverSyncedMomentDeletedLocallyDuringSync(final OrmMoment momentInDatabase) {
@@ -320,14 +332,13 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return false;
     }
 
-    private void deleteMeasurementAndMomentDetailsAndSetId(final OrmMoment momentInDatabase, OrmMoment ormMoment) throws SQLException {
+    private void deleteMeasurementAndMomentDetailsAndSetId(final OrmMoment momentInDatabase,OrmMoment ormMoment) throws SQLException {
         if (momentInDatabase != null) {
             //Check Y this was commented, is it that while creating its been assigned ?
             deleting.deleteMomentAndMeasurementGroupDetails(momentInDatabase);
         }
     }
 
-    @Override
     public OrmMoment getOrmMoment(final Moment moment) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);

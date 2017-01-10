@@ -1,7 +1,3 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
@@ -41,12 +37,11 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
         Moment moment = momentUpdateRequest.getMoment();
         moment.setSynced(false);
-        Moment ormMoment = dbUpdatingInterface.getOrmMoment(moment);
-        if (ormMoment == null) {
-            return;
-        }
-        dbUpdatingInterface.updateOrSaveMomentInDatabase(ormMoment);
+
+        dbUpdatingInterface.updateMoment(moment);
+        //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
+
 
     public void onEventAsync(final DatabaseConsentUpdateRequest consentUpdateRequest) {
         consentUpdateRequest.getConsent();
@@ -82,14 +77,5 @@ public class UpdatingMonitor extends EventMonitor {
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent());
-    }
-
-    //Synchronise User Characteristics
-    public void onEventAsync(final CharacteristicsBackendGetRequest characteristicsBackendGetRequest) throws SQLException {
-        if (characteristicsBackendGetRequest.getCharacteristics() == null)
-            return;
-
-        characteristicsBackendGetRequest.getCharacteristics().setSynchronized(true);
-        dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(characteristicsBackendGetRequest.getCharacteristics());
     }
 }
