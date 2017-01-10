@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2016 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.cdp2.commlib.ble.request;
 
 import com.philips.cdp.dicommclient.request.Error;
@@ -34,10 +38,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class BleRequestTest {
     private static final String CPP_ID = "Sinterklaas";
     private static final String PORT_NAME = "PoliticallyCorrectPiet";
