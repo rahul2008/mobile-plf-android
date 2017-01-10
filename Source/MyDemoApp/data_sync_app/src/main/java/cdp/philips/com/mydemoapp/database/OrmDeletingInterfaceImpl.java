@@ -80,6 +80,16 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         }
     }
 
+    @Override
+    public void deleteMomentDetail(Moment moment) throws SQLException {
+        ormDeleting.deleteMomentDetails(moment.getId());
+    }
+
+    @Override
+    public void deleteMeasurementGroup(Moment moment) throws SQLException {
+        ormDeleting.deleteMeasurementGroups((OrmMoment) moment);
+    }
+
     private boolean isMomentSyncedToBackend(final Moment moment) {
         return moment.getSynchronisationData() != null;
     }

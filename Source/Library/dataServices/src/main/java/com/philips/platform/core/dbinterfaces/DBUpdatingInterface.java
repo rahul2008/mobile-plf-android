@@ -11,11 +11,7 @@ import java.util.List;
  * All rights reserved.
  */
 public interface DBUpdatingInterface {
-  //  int processMoment(int updatedCount, final Moment moment);
     void updateMoment(final Moment ormMoment);
-  //  Moment getOrmMoment(final Moment moment);
-    int processMomentsReceivedFromBackend(final List<? extends Moment> moments);
-    void processCreatedMoment(final List<? extends Moment> moments);
     void updateFailed(Exception e);
     boolean updateConsent(final Consent consent) throws SQLException;
 }

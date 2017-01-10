@@ -12,10 +12,14 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -31,10 +35,14 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBFetchingInterface dbFetchingInterface;
 
+    @Inject
+    MomentsSegregator momentsSegregator;
+
     public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
+        DataServicesManager.mAppComponent.injectUpdatingMonitor(this);
     }
 
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
@@ -68,7 +76,7 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
+        momentsSegregator.processMomentsReceivedFromBackend(moments);
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
@@ -76,7 +84,7 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        dbUpdatingInterface.processCreatedMoment(moments);
+        momentsSegregator.processCreatedMoment(moments);
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {

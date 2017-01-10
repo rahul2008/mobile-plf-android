@@ -36,6 +36,7 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
+import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -230,5 +231,25 @@ public class BackendModule {
     @Provides
     public SynchronisationMonitor providesSynchronizationMonitor(){
         return new SynchronisationMonitor();
+    }
+
+    @Provides
+    public MomentsSegregator providesMomentsSegregater(){
+        return new MomentsSegregator();
+    }
+
+    @Provides
+    public DBFetchingInterface providesFetchigImplementation(){
+        return fetchingInterface;
+    }
+
+    @Provides
+    public DBUpdatingInterface providesUpdatingImplementation(){
+        return updatingInterface;
+    }
+
+    @Provides
+    public DBDeletingInterface providesDeletingImplementation(){
+        return deletingInterface;
     }
 }

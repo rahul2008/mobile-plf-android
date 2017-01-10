@@ -1,0 +1,160 @@
+package com.philips.platform.datasync.moments;
+
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.trackers.DataServicesManager;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Created by 310218660 on 1/10/2017.
+ */
+
+public class MomentsSegregator {
+
+    @Inject
+    DBUpdatingInterface updatingInterface;
+    @Inject
+    DBFetchingInterface dbFetchingInterface;
+    @Inject
+    DBDeletingInterface dbDeletingInterface;
+
+    public MomentsSegregator(){
+        DataServicesManager.getInstance().mAppComponent.injectMomentsSegregator(this);
+    }
+
+    public int processMomentsReceivedFromBackend(final List<? extends Moment> moments) {
+        int updatedCount = 0;
+        for (final Moment moment : moments) {
+                updatedCount = processMoment(updatedCount, moment);
+        }
+        return updatedCount;
+    }
+
+    private Moment getOrmMomentFromDatabase(Moment moment) throws SQLException {
+        Moment momentInDatabase = null;
+        final SynchronisationData synchronisationData = moment.getSynchronisationData();
+
+        if (synchronisationData != null) {
+            momentInDatabase = (Moment) dbFetchingInterface.fetchMomentByGuid(synchronisationData.getGuid());
+            if (momentInDatabase == null) {
+                momentInDatabase = (Moment) dbFetchingInterface.fetchMomentById(moment.getId());
+            }
+        }
+        return momentInDatabase;
+    }
+
+    private int getVersionInDatabase(final Moment momentInDatabase) {
+        if (momentInDatabase != null && momentInDatabase.getSynchronisationData() != null) {
+            return momentInDatabase.getSynchronisationData().getVersion();
+        }
+        return -1;
+    }
+
+    private boolean hasDifferentMomentVersion(final Moment moment,
+                                              final Moment momentInDatabase) throws SQLException {
+        boolean isVersionDifferent = true;
+        final SynchronisationData synchronisationData = moment.getSynchronisationData();
+
+        if (synchronisationData != null) {
+            final int versionInDatabase = getVersionInDatabase(momentInDatabase);
+            if (versionInDatabase != -1) {
+                isVersionDifferent = versionInDatabase != synchronisationData.getVersion();
+            }
+        }
+        return isVersionDifferent;
+    }
+
+    private boolean isActive(final SynchronisationData synchronisationData) {
+        return synchronisationData == null || !synchronisationData.isInactive();
+    }
+
+    private void deleteMomentInDatabaseIfExists(final Moment momentInDatabase)
+            throws SQLException {
+        if (momentInDatabase != null) {
+            dbDeletingInterface.ormDeletingDeleteMoment(momentInDatabase);
+        }
+    }
+
+    private boolean isNeverSyncedMomentDeletedLocallyDuringSync(final Moment momentInDatabase) {
+        if (momentInDatabase != null) {
+            final SynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
+            if (synchronisationData != null) {
+                return synchronisationData.getGuid().
+                        equals(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
+            }
+        }
+        return false;
+    }
+
+    public int processMoment(int count, final Moment moment) {
+        try {
+            final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
+            // updating.updateMoment(momentInDatabase);
+            if (hasDifferentMomentVersion(moment, momentInDatabase)) {
+               // final OrmMoment ormMoment = getOrmMoment(moment);
+                /*if(isSyncedMomentUpdatedBeforeSync(momentInDatabase)){
+                    momentInDatabase.getSynchronisationData().setVersion(moment.getSynchronisationData().getVersion());
+                    momentInDatabase.getSynchronisationData().setGuid(moment.getSynchronisationData().getGuid());
+                }*/
+                if (!isActive(moment.getSynchronisationData())) {
+                    deleteMomentInDatabaseIfExists(momentInDatabase);
+                } else if (isNeverSyncedMomentDeletedLocallyDuringSync(momentInDatabase)) {
+                    moment.setSynced(false);
+                    moment.getSynchronisationData().setInactive(true);
+
+                    deleteAndSaveMoment(momentInDatabase, moment);
+                } else {
+                    if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
+                        moment.setSynced(true);
+                    }
+                    //This is required for deleting duplicate
+                    // measurements, measurementDetails and momentDetails
+                    deleteAndSaveMoment(momentInDatabase, moment);
+                }
+                count++;
+            } else {
+                // tagRoomTemperatureAndHumidity(moment);
+            }
+        } catch (SQLException e) {
+        }
+
+        return count;
+    }
+
+    private boolean isMomentModifiedLocallyDuringSync(final Moment momentInDatabase,
+                                                      final Moment ormMoment) {
+        return momentInDatabase != null &&
+                !ormMoment.getDateTime().equals(momentInDatabase.getDateTime());
+    }
+
+    private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase,Moment ormMoment) throws SQLException {
+        if (momentInDatabase != null) {
+            dbDeletingInterface.deleteMomentDetail(momentInDatabase);
+            dbDeletingInterface.deleteMeasurementGroup(momentInDatabase);
+        }
+    }
+
+    private void deleteAndSaveMoment(final Moment momentInDatabase,
+                                     final Moment ormMoment) throws SQLException {
+        if (momentInDatabase != null) {
+            ormMoment.setId(momentInDatabase.getId());
+        }
+        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment);
+        updatingInterface.updateMoment(ormMoment);
+    }
+
+    public void processCreatedMoment(List<? extends Moment> moments) {
+        for (final Moment moment : moments) {
+                moment.setSynced(true);
+            updatingInterface.updateMoment(moment);
+        }
+    }
+
+}
