@@ -148,11 +148,6 @@
             android:layout_marginTop="@dimen/progress_bar_margin_top"/>
 
         <com.philips.platform.uid.view.widget.ProgressBar
-            android:id="@+id/progress_bar_indeterminate"
-            style="@style/UIDProgressBarHorizontalIndeterminateWithMargins"
-            android:layout_marginTop="@dimen/progress_bar_margin_top"/>
-
-        <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progress_bar"
             style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
             android:layout_marginTop="@dimen/progress_bar_margin_top"

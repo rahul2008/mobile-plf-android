@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -87,15 +88,15 @@ public class IndeterminateLinearProgressBar extends View {
     private int gradientEndColor;
     private int gradientDuration;
 
-    public IndeterminateLinearProgressBar(final Context context) {
+    public IndeterminateLinearProgressBar(@NonNull final Context context) {
         this(context, null);
     }
 
-    public IndeterminateLinearProgressBar(final Context context, final AttributeSet attrs) {
+    public IndeterminateLinearProgressBar(@NonNull final Context context, @NonNull final AttributeSet attrs) {
         this(context, attrs, R.attr.uidIndeterminateLinearPBStyle);
     }
 
-    public IndeterminateLinearProgressBar(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public IndeterminateLinearProgressBar(@NonNull final Context context, @NonNull final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         obtainStyleAttributes(context, attrs, defStyleAttr);
         setTransitionDrawables();

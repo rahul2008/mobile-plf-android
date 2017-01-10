@@ -52,6 +52,7 @@ public class IndeterminateLinearProgressBarTest {
         assertTrue(colorMatcher.matches(progressBar.leadingDrawable));
     }
 
+    // TODO: 1/10/2017 Fix theming test once automation is in place
     @Ignore
     @Test
     public void verifyTransitionLeadingDrawableEndColor() {
@@ -70,6 +71,7 @@ public class IndeterminateLinearProgressBarTest {
         assertTrue(dimenMatcher.matches(progressBar.leadingDrawable));
     }
 
+    // TODO: 1/10/2017 Fix theming test once automation is in place
     @Ignore
     @Test
     public void verifyTransitionLeadingMirrorDrawableStartColor() {
@@ -104,6 +106,7 @@ public class IndeterminateLinearProgressBarTest {
         assertTrue(colorMatcher.matches(progressBar.trailingDrawable));
     }
 
+    // TODO: 1/10/2017 Fix theming test once automation is in place
     @Ignore
     @Test
     public void verifyTransitionTrailingDrawableEndColor() {
@@ -122,6 +125,7 @@ public class IndeterminateLinearProgressBarTest {
         assertTrue(dimenMatcher.matches(progressBar.trailingDrawable));
     }
 
+    // TODO: 1/10/2017 Fix theming test once automation is in place
     @Ignore
     @Test
     public void verifyTransitionTrailingMirrorDrawableStartColor() {
