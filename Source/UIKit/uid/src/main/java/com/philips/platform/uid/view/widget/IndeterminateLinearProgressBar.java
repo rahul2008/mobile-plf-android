@@ -23,20 +23,14 @@ import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
 import com.philips.platform.uid.utils.UIDUtils;
 
 /**
- * <p></p>Provides custom implementation for indeterminate linear progress bar.
+ * <p>Provides custom implementation for indeterminate linear progress bar.
  * It uses animator to animate drawables across different end points.</p>
- * <p>
- * <p><b>Current Implementation:</b> The transition drawable is 40% of total widht of the progressBar.
+ * <p><b>Current Implementation:</b> The transition drawable is 40% of total width of the progressBar.
  * It uses two sets of moving blocks. Second blocks stars when the first starts moving out of the visible frame.
  * As per DLS specs each block has gradient of 0-100-0, (start-center-end) color. It can be customized with custom attributes(Refer table below for details).
  * Though {@link GradientDrawable} provides way to set it, but the visual effects are not the same.<br>
  * To achieve this effect, two drawables are next to each other and other is mirror of first one(with reverse gradient) of same size.
  * Effectively the drawable and mirror drawable are 20% each(combined 40%) of total progressBar.<br>
- * <p>
- * With this effect animation runs for 2 * width. Currently the default time is 900ms to cover the visible area, which effectively translates to 2* 900 ms as
- * total distance covered is 2* width.
- * <p>
- * <p>
  * </p>
  * <p>The attributes mapping follows below table.</p>
  * <table border="2" width="85%" align="center" cellpadding="5">
@@ -155,7 +149,7 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     /**
-     * Override this provide custom trailing mirror drawable.
+     * Override this to provide custom trailing mirror drawable.
      *
      * @return The drawable used as the trailing mirror drawable.
      */
@@ -164,7 +158,7 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     /**
-     * Override this provide custom leading drawable.
+     * Override this to provide custom leading drawable.
      *
      * @return The drawable used as the leading drawable.
      */
@@ -173,7 +167,7 @@ public class IndeterminateLinearProgressBar extends View {
     }
 
     /**
-     * Override this provide custom leading mirror drawable.
+     * Override this to provide custom leading mirror drawable.
      *
      * @return The drawable used as the leading mirror drawable.
      */
