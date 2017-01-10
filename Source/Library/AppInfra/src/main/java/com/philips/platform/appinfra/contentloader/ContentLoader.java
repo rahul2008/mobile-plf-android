@@ -61,9 +61,10 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
      * @param maxAgeInHours    maximum age of the content, a refresh is recommended if cached content is older
      * @param contentClassType type of the content class (use Content.class)
      * @param contentType      name of the content as given in the server JSON structure
+     * @param downloadLimit no of pages that should be downloaded in one attempt. This will override the limit set in the app config. Pass '0' for taking the default limit from app config.
      */
     public ContentLoader(Context context, String serviceId, int maxAgeInHours, Class<Content> contentClassType,
-                         String contentType, AppInfraInterface appInfra) {
+                         String contentType, AppInfraInterface appInfra, int AdownloadLimit) {
         mServiceId = serviceId;
         mMaxAgeInHours = maxAgeInHours;
         mClassType = contentClassType;
@@ -73,7 +74,11 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mAppInfra = appInfra;
         mRestInterface = mAppInfra.getRestClient();
         downloadInProgress = new AtomicBoolean(false);
-        downloadLimit = getDownloadLimitFromConfig();
+        if(AdownloadLimit>0) { // if a positive down load limit is set
+            this.downloadLimit = AdownloadLimit;
+        }else{  // if  down load limit is set as 0 or any negative value
+            this.downloadLimit = getDownloadLimitFromConfig();
+        }
         mContentDatabaseHandler = ContentDatabaseHandler.getInstance(context);
     }
 
