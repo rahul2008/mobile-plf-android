@@ -12,6 +12,7 @@ import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -86,6 +87,8 @@ public class RegistrationApplication extends Application {
         URSettings urSettings = new URSettings(this);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
+
+        RLog.enableLogging();
 
 
        mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",

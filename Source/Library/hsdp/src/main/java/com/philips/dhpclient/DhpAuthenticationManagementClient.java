@@ -113,6 +113,7 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         Map<String, String> headers = new LinkedHashMap<String, String>();
 
         RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
+        HsdpLog.d("Hsdp old refreshToken: ", "" + refreshToken);
         DhpResponse dhpResponse = sendSignedRequest("PUT", apiEndpoint, queryParams, headers, request);
 
         if(dhpResponse == null){
@@ -125,7 +126,6 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         String newAccessToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessToken");
         String newRefreshToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.refreshToken");
         String expiresIn = MapUtils.extract(dhpResponse.rawResponse, "exchange.expiresIn");
-
         return new DhpAuthenticationResponse(newAccessToken, newRefreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
     }
 

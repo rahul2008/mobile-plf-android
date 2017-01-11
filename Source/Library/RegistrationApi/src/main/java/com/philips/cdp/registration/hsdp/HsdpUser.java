@@ -12,7 +12,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+
 import com.janrain.android.Jump;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -33,6 +35,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Map;
+
 
 /**
  * class hsdp user
@@ -75,7 +78,6 @@ public class HsdpUser {
                     if (mHsdpUserRecord == null) {
                         mHsdpUserRecord = getHsdpUserRecord();
                     }
-
                     dhpResponse = null;
                     if (null != mHsdpUserRecord && null != mHsdpUserRecord.getAccessCredential()) {
                         dhpResponse = authenticationManagementClient.
@@ -116,7 +118,6 @@ public class HsdpUser {
                                 logoutHandler.onLogoutFailure(Integer.
                                                 parseInt(dhpResponse.responseCode),
                                         dhpResponse.message);
-
                             } else {
                                 handler.post(new Runnable() {
                                     @Override
@@ -156,7 +157,6 @@ public class HsdpUser {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-
                     if (mHsdpUserRecord == null) {
                         mHsdpUserRecord = getHsdpUserRecord();
                     }
@@ -165,20 +165,20 @@ public class HsdpUser {
                     dhpAuthenticationResponse = null;
                     if (mHsdpUserRecord != null &&
                             mHsdpUserRecord.getAccessCredential() != null &&
-                            mHsdpUserRecord.getAccessCredential().getRefreshToken() == null
+                            mHsdpUserRecord.getAccessCredential().getRefreshToken() != null
                             ) {
                         dhpAuthenticationResponse = authenticationManagementClient.
-                                refreshSecret(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().
-                                                getAccessToken(), Jump.getRefreshSecret());
+                                refresh(mHsdpUserRecord.getUserUUID(),
+                                        mHsdpUserRecord.getAccessCredential().getRefreshToken());
                     } else if (mHsdpUserRecord != null &&
                             null != mHsdpUserRecord.getUserUUID() &&
                             null != mHsdpUserRecord.getAccessCredential()) {
                         dhpAuthenticationResponse = authenticationManagementClient.
-                                refresh(mHsdpUserRecord.getUserUUID(),
-                                        mHsdpUserRecord.getAccessCredential().getRefreshToken());
+                                refreshSecret(mHsdpUserRecord.getUserUUID(),
+                                        mHsdpUserRecord.getAccessCredential().
+                                                getAccessToken(), mHsdpUserRecord.
+                                                getRefreshSecret());
                     }
-
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override
@@ -200,7 +200,6 @@ public class HsdpUser {
                         saveToDisk(new UserFileWriteListener() {
                             @Override
                             public void onFileWriteSuccess() {
-
                             }
 
                             @Override
@@ -250,7 +249,6 @@ public class HsdpUser {
                     RegConstants.HSDP_LOWER_ERROR_BOUND);
         }
     }
-
     /**
      * get dhp api client configuration
      * @return DhpApiClientConfiguration object
@@ -263,10 +261,13 @@ public class HsdpUser {
         if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null !=
                 hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
-
-            RLog.i(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
-            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
-                    hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
+            if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null !=
+                    hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
+                    && null != hsdpInfo.getApplicationName()) {
+                RLog.i(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
+                dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
+                        hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
+            }
         }
         return dhpApiClientConfiguration;
     }
@@ -341,14 +342,10 @@ public class HsdpUser {
         mHsdpUserRecord = null;
     }
 
-    /**
-     * Social login
-     * @param email email
-     * @param accessToken acess token
-     * @param loginHandler login handler
-     */
+
     public void socialLogin(final String email, final String accessToken,
-                            final SocialLoginHandler loginHandler) {
+                            final String refreshSecret,final SocialLoginHandler loginHandler) {
+
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(new Runnable() {
@@ -358,7 +355,8 @@ public class HsdpUser {
                             new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
                     final DhpAuthenticationResponse dhpAuthenticationResponse =
                             authenticationManagementClient.loginSocialProviders(email,
-                                    accessToken, Jump.getRefreshSecret());
+                                    accessToken ,refreshSecret);
+
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override
@@ -367,6 +365,7 @@ public class HsdpUser {
                                                 RegConstants.HSDP_LOWER_ERROR_BOUND,
                                         mContext.getString(R.string.
                                                 reg_JanRain_Server_Connection_Failed));
+
                             }
                         });
                         return;
@@ -377,6 +376,7 @@ public class HsdpUser {
                                 rawResponse;
                         mHsdpUserRecord = new HsdpUserRecord(mContext);
                         mHsdpUserRecord = mHsdpUserRecord.parseHsdpUserInfo(rawResponse);
+                        mHsdpUserRecord.setRefreshSecret(refreshSecret);
                         saveToDisk(new UserFileWriteListener() {
 
                             @Override
@@ -398,6 +398,7 @@ public class HsdpUser {
                                 handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE +
                                                 RegConstants.HSDP_LOWER_ERROR_BOUND,
                                         mContext.getString(R.string.reg_NoNetworkConnection));
+
                             }
                         });
 
@@ -470,7 +471,8 @@ public class HsdpUser {
         HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
         return hsdpUserRecord != null && ((hsdpUserRecord.getAccessCredential() != null &&
                 hsdpUserRecord.getAccessCredential().getRefreshToken() != null)
-                || Jump.getRefreshSecret() != null) && hsdpUserRecord.getUserUUID() != null
+                || hsdpUserRecord.getRefreshSecret() != null) &&
+                hsdpUserRecord.getUserUUID() != null
                 && (getHsdpUserRecord().getAccessCredential() != null &&
                 getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
     }

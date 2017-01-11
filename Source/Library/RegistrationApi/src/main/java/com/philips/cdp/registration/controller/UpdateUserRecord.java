@@ -11,7 +11,6 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture;
@@ -22,6 +21,7 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 
@@ -133,13 +133,13 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 updateUserRecord(updatedUser, originalUserInfo);
 
             } catch (JSONException e) {
-                Log.e(LOG_TAG, "On success, Caught JSON Exception");
+                RLog.e(LOG_TAG, "On success, Caught JSON Exception");
             }
         }
     }
 
     private void updateUserRecord(CaptureRecord user, final JSONObject originalUserInfo) {
-        Log.d(LOG_TAG, "******** NEW updateUserRecord :"+user.toString());
+        RLog.d(LOG_TAG, "******** NEW updateUserRecord :"+user.toString());
         try {
             user.synchronize(new Capture.CaptureApiRequestCallback() {
 
@@ -175,7 +175,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
                 visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
                 JSONArray visitedMicroSitesArray = (JSONArray) updatedUser.get(CONSUMER_VISITED_MICROSITE_IDS);
-                Log.d(LOG_TAG, "Visited microsite ids = " + visitedMicroSitesArray);
+                RLog.d(LOG_TAG, "Visited microsite ids = " + visitedMicroSitesArray);
                 if (null == visitedMicroSitesArray) {
                     visitedMicroSitesArray = new JSONArray();
                 }
@@ -187,7 +187,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 }
                 updateUserRecord(updatedUser, originalUserInfo);
             } catch (JSONException e) {
-                Log.e(LOG_TAG, "On success, Caught JSON Exception");
+                RLog.e(LOG_TAG, "On success, Caught JSON Exception");
             }
         }
     }

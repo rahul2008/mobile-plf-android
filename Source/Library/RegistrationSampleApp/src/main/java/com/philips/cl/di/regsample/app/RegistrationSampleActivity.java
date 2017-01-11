@@ -479,7 +479,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    System.out.println("Access token : " + user.getAccessToken());
                     showToast("Success to refresh access token");
                 }
 

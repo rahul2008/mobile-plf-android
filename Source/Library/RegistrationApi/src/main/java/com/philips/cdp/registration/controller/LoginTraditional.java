@@ -95,7 +95,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             }else {
                 emailorMobile =user.getMobile();
             }
-            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
@@ -218,7 +218,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         HsdpUser hsdpUser = new HsdpUser(mContext);
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
-            hsdpUser.socialLogin(mEmail, user.getAccessToken(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(mEmail, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {

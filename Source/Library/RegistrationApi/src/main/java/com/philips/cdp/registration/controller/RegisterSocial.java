@@ -64,7 +64,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 			}else{
 				emailOrMobile=user.getMobile();
 			}
-			hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(), new SocialLoginHandler() {
+			hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
 
 				@Override
 				public void onLoginSuccess() {
@@ -260,7 +260,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 			HsdpUser hsdpUser = new HsdpUser(mContext);
 			try {
-				hsdpUser.socialLogin(captured.getString("email"), captured.getAccessToken(), new SocialLoginHandler() {
+				hsdpUser.socialLogin(captured.getString("email"), captured.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
 
 					@Override
 					public void onLoginSuccess() {

@@ -1,17 +1,11 @@
 
-/*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
- */
-
 package com.philips.cdp.registration.ui.utils;
 
 import android.util.Log;
 
+import com.janrain.android.engage.JREngage;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.dhpclient.util.HsdpLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class RLog {
@@ -40,34 +34,36 @@ public class RLog {
 
     public static final String HSDP = "Hsdp";
 
-    private static boolean isLoggingEnabled = true;
+    private static boolean isLoggingEnabled;
 
     private static LoggingInterface mLoggingInterface;
 
-    public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
+ 	public static final String SERVICE_DISCOVERY = "ServiceDiscovery";
 
     public static final String AB_TESTING= "AB Testing";
+    public static void init() {
+        mLoggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().
+                getLogging().createInstanceForComponent("Registration", "Registration");
+    }
 
     public static void enableLogging() {
+        HsdpLog.enableLogging();
         isLoggingEnabled = true;
+        JREngage.sLoggingEnabled = Boolean.TRUE;
     }
-
-    public static void init(){
-        mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().
-                getLogging().createInstanceForComponent("Registration","Registration");
-    }
-
 
     public static void disableLogging() {
+        HsdpLog.disableLogging();
         isLoggingEnabled = false;
+        JREngage.sLoggingEnabled = Boolean.FALSE;
     }
 
     public static boolean isLoggingEnabled() {
         return isLoggingEnabled;
     }
 
-    private static void validateLoggerInitialization(){
-        if(mLoggingInterface == null){
+    private static void validateLoggerInitialization() {
+        if (mLoggingInterface == null) {
             throw new RuntimeException("Please initiate AppInfra Logger by calling RLog.init()");
         }
     }
@@ -76,7 +72,7 @@ public class RLog {
         if (isLoggingEnabled) {
             Log.d(tag, message);
             validateLoggerInitialization();
-            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG,tag,message);
+            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
         }
     }
 
@@ -103,4 +99,5 @@ public class RLog {
             mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
         }
     }
+
 }
