@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
@@ -36,8 +33,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
-import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -418,7 +413,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         String  eMobileNumber;
         System.out.println("Configration : "+RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         String url = verification_Sms_Code_URL+"?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mUser.getMobile();
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mUser.getMobile());
 
         System.out.println("RESEND URL : "+url);
 

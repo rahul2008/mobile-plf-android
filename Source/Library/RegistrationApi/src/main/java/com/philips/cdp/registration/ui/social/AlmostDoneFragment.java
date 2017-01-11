@@ -44,6 +44,8 @@ import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -710,9 +712,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     private void launchAccountActivateFragment() {
-        getRegistrationFragment().addFragment(new AccountActivationFragment());
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
+        if (FieldsValidator.isValidEmail(mEmail)) {
+            getRegistrationFragment().addFragment(new AccountActivationFragment());
+        } else {
+            getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+        }
     }
+
+
 
     private void launchWelcomeFragment() {
         getRegistrationFragment().addWelcomeFragmentOnVerification();

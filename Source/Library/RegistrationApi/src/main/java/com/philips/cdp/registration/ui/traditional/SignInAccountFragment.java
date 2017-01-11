@@ -807,14 +807,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
      */
 
     private Intent createResendSMSIntent() {
-        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mUser.getMobile());
+        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER * ** : " + mUser.getMobile());
         System.out.println("Configration : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         String url = verification_Sms_Code_URL + "?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + mUser.getMobile();
+                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mUser.getMobile());
 
         System.out.println("RESEND URL : " + url);
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
+
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
         RequestBody emptyBody = RequestBody.create(null, new byte[0]);
