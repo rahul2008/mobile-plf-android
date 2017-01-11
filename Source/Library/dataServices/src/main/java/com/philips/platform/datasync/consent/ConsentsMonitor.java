@@ -11,6 +11,7 @@ import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -40,6 +41,8 @@ public class ConsentsMonitor extends EventMonitor {
     @Inject
     UCoreAccessProvider uCoreAccessProvider;
 
+    private final DBRequestListener mDbRequestListener;
+
     @NonNull
     private final GsonConverter gsonConverter;
 
@@ -59,6 +62,7 @@ public class ConsentsMonitor extends EventMonitor {
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
         mDataServicesManager=DataServicesManager.getInstance();
+        this.mDbRequestListener = mDataServicesManager.getDbRequestListener();
     }
 
     //TODO: Commented part can you clearify with Ajay
@@ -171,7 +175,7 @@ public class ConsentsMonitor extends EventMonitor {
             for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                 consentDetail.setBackEndSynchronized(true);
             }
-            eventing.post(new DatabaseConsentSaveRequest(consent, true, mDataServicesManager.getDbRequestListener()));
+            eventing.post(new DatabaseConsentSaveRequest(consent, true, mDbRequestListener));
         } catch (RetrofitError error) {
             postError(event.getEventId(), error);
         }

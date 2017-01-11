@@ -15,11 +15,19 @@ import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.testing.verticals.datatyes.MomentType;
+import com.philips.testing.verticals.table.OrmMoment;
+import com.philips.testing.verticals.table.OrmMomentType;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
@@ -69,6 +77,11 @@ public class UpdatingMonitorTest {
     BackendMomentRequestFailed backendMomentRequestFailedMock;
     @Mock
     private Eventing eventingMock;
+    @Mock
+    MomentsSegregator momentsSegregatorMock;
+
+    @Mock
+    private AppComponent appComponantMock;
 
     @Mock
     DBRequestListener dbRequestListener;
@@ -76,8 +89,9 @@ public class UpdatingMonitorTest {
     @Before
     public void setUp() {
         initMocks(this);
-
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface);
+        updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.start(eventingMock);
     }
 
@@ -130,16 +144,17 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
-        updatingMonitor.onEventBackgroundThread(backendMomentListSaveRequestMock);
-        List<? extends Moment> moments = backendMomentListSaveRequestMock.getList();
-       // verify(dbUpdatingInterface).processMomentsReceivedFromBackend(moments);
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        updatingMonitor.onEventBackgroundThread(new BackendMomentListSaveRequest(Arrays.asList(moment1)));
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1));
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
-        updatingMonitor.onEventBackgroundThread(momentDataSenderCreatedRequestMock);
-        List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
-        // verify(dbUpdatingInterface).processCreatedMoment(moments);
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1)));
+      //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
+         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1));
     }
 
 }

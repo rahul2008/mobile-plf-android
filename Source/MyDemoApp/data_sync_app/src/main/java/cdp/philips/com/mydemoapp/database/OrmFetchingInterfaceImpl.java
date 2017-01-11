@@ -182,21 +182,13 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException {
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
-        List<? extends Moment> ormMomentList = (List<? extends Moment>) fetchNonSynchronizedMoments();
-        DSLog.i("***SPO***", "In OrmFetchingInterfaceImpl dataToSync.put");
-        dataToSync.put(Moment.class, ormMomentList);
-        return dataToSync;
-    }
-
-    @Override
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
         List<? extends Consent> consentList = fetchConsentsWithNonSynchronizedConsentDetails();
         dataToSync.put(Consent.class, consentList);
         return dataToSync;
     }
 
+    //TODO: Spoorti - fetchConsentsWithNonSynchronizedConsentDetails and fetchNonSynchronizedConsentDetails - Why 2 APIs
     public List<OrmConsent> fetchConsentsWithNonSynchronizedConsentDetails() throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         final List<OrmConsent> query = consentQueryBuilder.query();

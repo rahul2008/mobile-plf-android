@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

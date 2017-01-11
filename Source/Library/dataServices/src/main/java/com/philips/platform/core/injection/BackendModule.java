@@ -19,6 +19,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.ErrorMonitor;
@@ -36,6 +37,7 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
+import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -84,6 +86,7 @@ public class BackendModule {
 
     @NonNull
     private final DBUpdatingInterface updatingInterface;
+
 
     ArrayList<DataFetcher> fetchers;
     ArrayList<DataSender> senders;
@@ -230,5 +233,25 @@ public class BackendModule {
     @Provides
     public SynchronisationMonitor providesSynchronizationMonitor(){
         return new SynchronisationMonitor();
+    }
+
+    @Provides
+    public MomentsSegregator providesMomentsSegregater(){
+        return new MomentsSegregator();
+    }
+
+    @Provides
+    public DBFetchingInterface providesFetchigImplementation(){
+        return fetchingInterface;
+    }
+
+    @Provides
+    public DBUpdatingInterface providesUpdatingImplementation(){
+        return updatingInterface;
+    }
+
+    @Provides
+    public DBDeletingInterface providesDeletingImplementation(){
+        return deletingInterface;
     }
 }

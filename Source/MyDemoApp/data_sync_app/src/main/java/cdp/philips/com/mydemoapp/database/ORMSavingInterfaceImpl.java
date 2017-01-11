@@ -40,7 +40,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         OrmMoment ormMoment = null;
         try {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
-            saving.saveMoment(ormMoment, dbRequestListener);
+            saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
             dbRequestListener.onSuccess(ormMoment);
             return true;

@@ -51,11 +51,6 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public Map<Class, List<?>> putMomentsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        return null;
-    }
-
-    @Override
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
         return null;
     }

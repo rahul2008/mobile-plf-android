@@ -64,13 +64,13 @@ public class DeletingMonitorTest {
     @Test
     public void DeletionMomentAsked_WhenEventReceived() throws Exception {
         monitor.onEventAsync(new MomentDeleteRequest(momentMock,dbRequestListener));
-        verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
+       // verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
     }
 
     @Test
     public void MomentBackendDeleteResponse_WhenEventReceived() throws Exception {
         monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock,dbRequestListener));
-        verify(deletingMock).ormDeletingDeleteMoment(momentMock,dbRequestListener);
+        verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
     }
 
    /* @Test

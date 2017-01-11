@@ -6,6 +6,7 @@
 
 package com.philips.platform.datasync.moments;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -16,6 +17,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
@@ -48,6 +50,8 @@ public class MomentsDataSender implements DataSender<Moment> {
     @Inject
     UCoreAdapter uCoreAdapter;
 
+    DBRequestListener mDbRequestListener;
+
     @NonNull
     private final MomentsConverter momentsConverter;
 
@@ -74,6 +78,7 @@ public class MomentsDataSender implements DataSender<Moment> {
             @NonNull final MomentGsonConverter momentGsonConverter) {
 
         DataServicesManager.getInstance().mAppComponent.injectMomentsDataSender(this);
+        this.mDbRequestListener = DataServicesManager.getInstance().getDbRequestListener();
         this.momentsConverter = momentsConverter;
         this.momentGsonConverter = momentGsonConverter;
     }
@@ -254,7 +259,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private void postDeletedOk(final Moment moment) {
-        eventing.post(new MomentBackendDeleteResponse(moment,mDataServicesManager.getDbRequestListener()));
+        eventing.post(new MomentBackendDeleteResponse(moment, mDbRequestListener));
     }
 
     @Override

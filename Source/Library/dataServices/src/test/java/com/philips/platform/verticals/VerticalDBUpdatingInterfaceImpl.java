@@ -20,17 +20,7 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public int processMomentsReceivedFromBackend(List<? extends Moment> moments ,DBRequestListener dbRequestListener) {
-        return 0;
-    }
-
-    @Override
-    public void processCreatedMoment(List<? extends Moment> moments,DBRequestListener dbRequestListener) {
-
-    }
-
-    @Override
-    public void updateFailed(Exception e ,DBRequestListener dbRequestListener) {
+    public void updateFailed(Exception e,DBRequestListener dbRequestListener) {
 
     }
 

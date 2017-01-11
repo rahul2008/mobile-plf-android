@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
@@ -53,7 +54,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteMoment(final Moment moment, DBRequestListener dbRequestListener) {
+    public void markAsInActive(final Moment moment, DBRequestListener dbRequestListener) {
         try {
             if (isMomentSyncedToBackend(moment)) {
                 prepareMomentForDeletion(moment,dbRequestListener);
@@ -70,7 +71,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void ormDeletingDeleteMoment(Moment moment,DBRequestListener dbRequestListener) {
+    public void deleteMoment(Moment moment,DBRequestListener dbRequestListener) {
         try {
             ormDeleting.ormDeleteMoment((OrmMoment) moment);
         } catch (SQLException e) {
@@ -83,12 +84,22 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         }
     }
 
+    @Override
+    public void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteMomentDetails(moment.getId());
+    }
+
+    @Override
+    public void deleteMeasurementGroup(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteMeasurementGroups((OrmMoment) moment);
+    }
+
     private boolean isMomentSyncedToBackend(final Moment moment) {
         return moment.getSynchronisationData() != null;
     }
 
     private void saveMoment(final Moment moment,DBRequestListener dbRequestListener) throws SQLException {
-        ormSaving.saveMoment(getOrmMoment(moment,dbRequestListener), dbRequestListener);
+        ormSaving.saveMoment(getOrmMoment(moment,dbRequestListener));
     }
 
     private OrmMoment getOrmMoment(final Moment moment,DBRequestListener dbRequestListener) {

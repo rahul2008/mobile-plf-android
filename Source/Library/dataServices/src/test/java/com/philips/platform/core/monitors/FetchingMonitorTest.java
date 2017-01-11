@@ -15,6 +15,10 @@ import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -73,6 +77,9 @@ public class FetchingMonitorTest {
     private Moment ormMomentMock;
 
     @Mock
+    MomentsSegregator momentsSegregatorMock;
+
+    @Mock
     private SynchronisationData synchronizationDataMock;
     @Mock
     private ConsentDetail consentDetailsMock;
@@ -80,7 +87,8 @@ public class FetchingMonitorTest {
     private DateTime uGrowDateTime;
 
     @Mock
-    private DBFetchingInterface fetchingMock;
+    private AppComponent appComponantMock;
+
 
     @Mock
     private DBRequestListener dbRequestListener;
@@ -89,7 +97,9 @@ public class FetchingMonitorTest {
     public void setUp() throws Exception {
         initMocks(this);
 
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         fetchingMonitor = new FetchingMonitor(fetching);
+        fetchingMonitor.momentsSegregator = momentsSegregatorMock;
         uGrowDateTime = new DateTime();
         fetchingMonitor.start(eventingMock);
     }
@@ -113,6 +123,7 @@ public class FetchingMonitorTest {
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
         fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature", dbRequestListener));
+        verify(fetching).fetchLastMoment("temperature",dbRequestListener);
     }
 
     @Test
@@ -134,10 +145,10 @@ public class FetchingMonitorTest {
 
     @Test
     public void getNonSynchronizedDataRequestTest() throws SQLException {
-        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
+        fetchingMonitor.onEventBackgroundThread(new GetNonSynchronizedDataRequest(1));
         Map<Class, List<?>> dataToSync = new HashMap<>();
-//        verify(fetching.putMomentsForSync(dataToSync));
-//        verify(fetching.putConsentForSync(dataToSync));
+        verify(momentsSegregatorMock).putMomentsForSync(dataToSync);
+        verify(fetching).putConsentForSync(dataToSync);
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 
@@ -145,8 +156,8 @@ public class FetchingMonitorTest {
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-//        verify(fetching.putMomentsForSync(dataToSync));
-//        verify(fetching.putConsentForSync(dataToSync));
+        verify(fetching).fetchConsent(getNonSynchronizedMomentsRequestMock.getDbRequestListener());
+        verify(fetching).fetchNonSynchronizedMoments();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 

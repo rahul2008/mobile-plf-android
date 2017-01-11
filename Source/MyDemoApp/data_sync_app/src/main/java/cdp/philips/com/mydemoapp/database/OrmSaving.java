@@ -81,7 +81,7 @@ public class OrmSaving {
         this.measurementGroupDetailsDao = measurementGroupDetails;
     }
 
-    public void saveMoment(OrmMoment moment, DBRequestListener dbRequestListener) throws SQLException {
+    public void saveMoment(OrmMoment moment) throws SQLException {
         assureSynchronisationDataIsSaved(moment.getSynchronisationData());
         momentDao.createOrUpdate(moment);
         assureMomentDetailsAreSaved(moment.getMomentDetails());

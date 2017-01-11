@@ -13,8 +13,6 @@ import java.util.List;
  */
 public interface DBUpdatingInterface {
     void updateMoment(final Moment ormMoment,DBRequestListener dbRequestListener);
-    int processMomentsReceivedFromBackend(final List<? extends Moment> moments,DBRequestListener dbRequestListener);
-    void processCreatedMoment(final List<? extends Moment> moments,DBRequestListener dbRequestListener);
     void updateFailed(Exception e,DBRequestListener dbRequestListener);
     boolean updateConsent(final Consent consent,DBRequestListener dbRequestListener) throws SQLException;
 }

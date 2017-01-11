@@ -17,6 +17,7 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -50,6 +51,8 @@ public class DataPullSynchronise {
     @NonNull
     MomentsDataFetcher mMomentsDataFetcher;
 
+    DBRequestListener mDbRequestListener;
+
     @NonNull
     private final Executor executor;
 
@@ -70,6 +73,7 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
+        mDbRequestListener = mDataServicesManager.getDbRequestListener();
         mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
@@ -109,7 +113,7 @@ public class DataPullSynchronise {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.post(new GetNonSynchronizedMomentsRequest(DataServicesManager.getInstance().getDbRequestListener()));
+            eventing.post(new GetNonSynchronizedMomentsRequest(mDbRequestListener));
         }
     }
 

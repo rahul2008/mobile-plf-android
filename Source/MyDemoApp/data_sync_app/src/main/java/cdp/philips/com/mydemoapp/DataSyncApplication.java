@@ -74,7 +74,7 @@ public class DataSyncApplication extends Application {
 
        /* DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();*/
-       // Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
         init();

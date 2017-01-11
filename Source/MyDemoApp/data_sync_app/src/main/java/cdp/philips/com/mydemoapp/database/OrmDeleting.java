@@ -104,7 +104,7 @@ public class OrmDeleting {
         momentDao.delete(moment);
     }
 
-    private void deleteMeasurementGroups(OrmMoment moment) throws SQLException {
+    public void deleteMeasurementGroups(OrmMoment moment) throws SQLException {
         ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(moment.getMeasurementGroups());
         for(OrmMeasurementGroup ormMeasurementGroup : measurementGroups) {
             deleteMeasurementGroupDetails(ormMeasurementGroup.getId());
