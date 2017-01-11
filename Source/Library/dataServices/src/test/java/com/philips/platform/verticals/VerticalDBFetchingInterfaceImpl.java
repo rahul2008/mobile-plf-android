@@ -61,6 +61,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
+    public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        return null;
+    }
+
+    @Override
     public void fetchConsents() throws SQLException {
 
     }

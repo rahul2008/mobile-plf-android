@@ -92,7 +92,7 @@ public class DataPushSynchronise extends EventMonitor {
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
         DSLog.i("***SPO***", "DataPushSynchronize startAllSenders");
-        for (final com.philips.platform.datasync.synchronisation.DataSender sender : senders) {
+        for (final DataSender sender : senders) {
             DSLog.i("***SPO***", "DataPushSynchronize startAllSenders inside loop");
             sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
         }

@@ -91,6 +91,6 @@ public class OrmCharacteristics implements Characteristics, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmConsent, id=" + id + ", creatorId=" + creatorId + ", dateTime=" + dateTime + "]";
+        return "[OrmCharacteristics, id=" + id + ", creatorId=" + creatorId + ", dateTime=" + dateTime + "]";
     }
 }

@@ -6,6 +6,7 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -56,10 +57,13 @@ public class FetchingMonitor extends EventMonitor {
         DSLog.i("***SPO***", "In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
-            DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync");
+            DSLog.i("***SPO***", "In Fetching Monitor before putMomentsForSync for Moment");
             dataToSync = dbInterface.putMomentsForSync(dataToSync);
-            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for Consent");
             dataToSync = dbInterface.putConsentForSync(dataToSync);
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+            dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
+
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             DSLog.i("***SPO***", "In Fetching Monitor before GetNonSynchronizedDataRequest error");

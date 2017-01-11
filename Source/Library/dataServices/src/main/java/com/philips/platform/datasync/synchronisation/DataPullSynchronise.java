@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
@@ -62,7 +63,7 @@ public class DataPullSynchronise {
     DataServicesManager mDataServicesManager;
 
     @Inject
-    public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
+    public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
@@ -176,7 +177,8 @@ public class DataPullSynchronise {
         synchronized (this) {
             DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
             final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-            fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, response.getConsentDetails());
+            final List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
+            fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, nonSynchronizedConsent);
         }
         mDataServicesManager.setPullComplete(true);
         eventing.post(new WriteDataToBackendRequest());

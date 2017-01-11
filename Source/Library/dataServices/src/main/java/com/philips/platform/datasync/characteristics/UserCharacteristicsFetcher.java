@@ -10,8 +10,11 @@ import android.support.annotation.Nullable;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
+import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.UserCharacteristicsRequestFailed;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -45,6 +48,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
         try {
+            DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher");
             final UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                     mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
@@ -52,8 +56,14 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
                         mUCoreAccessProvider.getUserId(), API_VERSION);
 
-                Characteristics characteristics = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics, mUCoreAccessProvider.getUserId());
-                eventing.post(new CharacteristicsBackendGetRequest(characteristics));
+                Characteristics characteristics =
+                        mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
+                                mUCoreAccessProvider.getUserId());
+
+                characteristics.setSynchronized(true);
+
+                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher "+characteristics.getCharacteristicsDetails());
+                eventing.post(new UserCharacteristicsSaveRequest(characteristics));
             }
             return null;
         } catch (RetrofitError exception) {

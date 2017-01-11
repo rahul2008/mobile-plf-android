@@ -13,6 +13,7 @@ import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
+import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 
@@ -49,12 +50,12 @@ public class SavingMonitor extends EventMonitor {
     }
 
     public void onEventAsync(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
+        DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest onEventAsync");
         if (userCharacteristicsSaveRequest.getCharacteristics() == null)
             return;
 
-        userCharacteristicsSaveRequest.getCharacteristics().setSynchronized(false);
         boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getCharacteristics());
-
+        DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved ="+isSaved);
         if(!isSaved){
             dbInterface.postError(new Exception("Failed to insert"));
             return;

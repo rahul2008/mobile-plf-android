@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -23,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -224,6 +227,26 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         List<? extends Consent> consentList = fetchConsentsWithNonSynchronizedConsentDetails();
         dataToSync.put(Consent.class, consentList);
         return dataToSync;
+    }
+
+    @Override
+    public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        List<? extends Characteristics> characteristicses = fetchNonSynchronizedCharacteristics();
+        dataToSync.put(Characteristics.class, characteristicses);
+        return dataToSync;
+    }
+
+    private List<? extends Characteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
+        QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
+        final List<OrmCharacteristics> query = characteristicsIntegerQueryBuilder.query();
+
+        List<OrmCharacteristics> lNonSyncUC = new ArrayList<>();
+        for (OrmCharacteristics ormCharacteristics : query) {
+            if (!ormCharacteristics.isSynchronized()) {
+                lNonSyncUC.add(ormCharacteristics);
+            }
+        }
+        return lNonSyncUC;
     }
 
     public List<OrmConsent> fetchConsentsWithNonSynchronizedConsentDetails() throws SQLException {

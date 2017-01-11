@@ -10,6 +10,7 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,23 +23,26 @@ public class UserCharacteristicsConverter {
     @Inject
     BaseAppDataCreator dataCreator;
 
-    private DataServicesManager mDataServicesManager;
-
     @Inject
     public UserCharacteristicsConverter() {
-        mDataServicesManager.mAppComponent.injectUserCharacteristicsConverter(this);
+        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsConverter(this);
     }
 
     //DataCore data type To Application type
     public Characteristics convertToCharacteristics(UCoreUserCharacteristics uCoreUserCharacteristics, @NonNull final String creatorId) {
+        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter");
         Characteristics mCharacteristics = dataCreator.createCharacteristics(creatorId);
         for (int i = 0; i < uCoreUserCharacteristics.getCharacteristics().size(); i++) {
             String type = uCoreUserCharacteristics.getCharacteristics().get(i).getType();
             String value = uCoreUserCharacteristics.getCharacteristics().get(i).getValue();
-            CharacteristicsDetail characteristicsDetail = dataCreator.createCharacteristicsDetails(type, value, 0, mCharacteristics);
+
+            CharacteristicsDetail characteristicsDetail = DataServicesManager.getInstance().createCharacteristicsDetails(mCharacteristics,type,value,0,null);//dataCreator.createCharacteristicsDetails(type, value, 0, mCharacteristics, null);
+
             convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mCharacteristics, characteristicsDetail,
                     uCoreUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
         }
+        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter Characteristics = " + mCharacteristics);
+        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter Characteristics getCharacteristicsDetails = " + mCharacteristics.getCharacteristicsDetails());
         return mCharacteristics;
 
     }
@@ -48,7 +52,7 @@ public class UserCharacteristicsConverter {
             for (int i = 0; i < characteristicsList.size(); i++) {
                 String type = characteristicsList.get(i).getType();
                 String value = characteristicsList.get(i).getValue();
-                CharacteristicsDetail childCharacteristicsDetail = dataCreator.createCharacteristicsDetails(type, value, 0, mCharacteristics,  parentCharacteristicsDetail);
+                CharacteristicsDetail childCharacteristicsDetail = DataServicesManager.getInstance().createCharacteristicsDetails(mCharacteristics,type,value,0, parentCharacteristicsDetail);//dataCreator.createCharacteristicsDetails(type, value, 0, mCharacteristics, parentCharacteristicsDetail);
                 parentCharacteristicsDetail.setCharacteristicsDetail(childCharacteristicsDetail);
                 convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mCharacteristics, childCharacteristicsDetail, characteristicsList.get(i).getCharacteristics());
             }
@@ -63,10 +67,10 @@ public class UserCharacteristicsConverter {
         if (characteristic != null) {
             for (int i = 0; i < characteristic.size(); i++) {
                 mCharacteristicsDetailList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
-                UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics(mCharacteristicsDetailList.get(i).getType(),mCharacteristicsDetailList.get(i).getValue(),convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
-//                uCoreCharacteristics.setType(mCharacteristicsDetailList.get(i).getType());
-//                uCoreCharacteristics.setValue(mCharacteristicsDetailList.get(i).getValue());
-//                uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
+                UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+                uCoreCharacteristics.setType(mCharacteristicsDetailList.get(i).getType());
+                uCoreCharacteristics.setValue(mCharacteristicsDetailList.get(i).getValue());
+                uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
                 uCoreCharacteristicsList.add(uCoreCharacteristics);
             }
         }
@@ -79,10 +83,10 @@ public class UserCharacteristicsConverter {
         if (characteristicsDetails.size() > 0) {
             for (int i = 0; i < characteristicsDetails.size(); i++) {
                 List<CharacteristicsDetail> characteristicsDetailList = convertToCharacteristicDetail(characteristicsDetails.get(i).getCharacteristicsDetail());
-                UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics(characteristicsDetails.get(i).getType(),characteristicsDetails.get(i).getType(),convertToUCoreCharacteristics(characteristicsDetailList));
-//                characteristicsDetail.setType(characteristicsDetails.get(i).getType());
-//                characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
-//                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristics(characteristicsDetailList));
+                UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
+                characteristicsDetail.setType(characteristicsDetails.get(i).getType());
+                characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
+                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristics(characteristicsDetailList));
                 uCoreCharacteristicsList.add(characteristicsDetail);
             }
         }

@@ -8,11 +8,13 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
+import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -77,5 +79,18 @@ public class UpdatingMonitor extends EventMonitor {
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent());
+    }
+
+    //Synchronise User Characteristics
+    public void onEventAsync(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
+        if (userCharacteristicsSaveRequest.getCharacteristics() == null)
+            return;
+
+        dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveRequest.getCharacteristics());
+
+        if (!userCharacteristicsSaveRequest.getCharacteristics().isSynchronized()) {
+            eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
+                    userCharacteristicsSaveRequest.getCharacteristics()));
+        }
     }
 }

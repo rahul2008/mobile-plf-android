@@ -11,6 +11,7 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -64,16 +65,20 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     }
 
     private boolean sendUserCharacteristics(List<Characteristics> userCharacteristicsList) {
+        if (userCharacteristicsList == null || userCharacteristicsList.size() == 0) return false;
         try {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                             mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
-            Response response =
-                    uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(), mUCoreAccessProvider.getUserId(), mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userCharacteristicsList), API_VERSION);
+            Response response = uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(),
+                            mUCoreAccessProvider.getUserId(),
+                            mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userCharacteristicsList),
+                            API_VERSION);
 
             if (isResponseSuccess(response)) {
-                postOk();
+                postOk(userCharacteristicsList.get(0));
+                return true;
             }
         } catch (RetrofitError retrofitError) {
             postError(retrofitError);
@@ -86,8 +91,10 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
         mEventing.post(new BackendResponse(1, retrofitError));
     }
 
-    private void postOk() {
-        mEventing.post(new UserCharacteristicsSaveRequest(null));
+    private void postOk(Characteristics characteristic) {
+        characteristic.setSynchronized(true);
+        DSLog.d(DSLog.LOG, "Inder = Inside UC Sender postOk " + characteristic.getCharacteristicsDetails());
+        mEventing.post(new UserCharacteristicsSaveRequest(characteristic));
     }
 
     @Override

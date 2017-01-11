@@ -5,8 +5,11 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -40,20 +43,28 @@ public class UserCharacteristicsMonitor extends EventMonitor {
 
     //Save Request
     public void onEventAsync(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
+        DSLog.d(DSLog.LOG, "Inder = UserCharacteristicsMonitors Send Request");
         sendToBackend(characteristicsBackendSaveRequest);
     }
 
     //Fetch Request
-    /*public void onEventAsync(CharacteristicsBackendGetRequest characteristicsBackendGetRequest) {
+    public void onEventAsync(CharacteristicsBackendGetRequest characteristicsBackendGetRequest) {
+        DSLog.d(DSLog.LOG, "Inder = UserCharacteristicsMonitors Fetch Request");
         mUserCharacteristicsFetcher.fetchDataSince(null);
-    }*/
+    }
 
     public void sendToBackend(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
         if (isUserInvalid()) {
             postError(characteristicsBackendSaveRequest.getEventId(), getNonLoggedInError());
             return;
         }
-        mUserCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsBackendSaveRequest.getCharacteristic()));
+        Characteristics characteristic = characteristicsBackendSaveRequest.getCharacteristic();
+         mUserCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristic));
+//        if(isSentToBackEnd){
+//            characteristic.setSynchronized(true);
+//            DSLog.d(DSLog.LOG, "Inder = Inside UC Monitor "+characteristic.getCharacteristicsDetails());
+//            eventing.post(new UserCharacteristicsSaveRequest(characteristic));
+//        }
     }
 
     private boolean isUserInvalid() {
