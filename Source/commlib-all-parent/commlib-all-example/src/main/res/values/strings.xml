@@ -1,12 +1,21 @@
 <resources>
     <string name="app_name">Commlib BLE Example</string>
-    <string name="notApplicable">N/A</string>
-    <string name="lblScanningForDevice">Scanning for suitable device…</string>
-    <string name="lblRegisteringDeviceDefinition">Registering device definition…</string>
-    <string name="lblHookingUpStrategy">Hooking up strategy…</string>
-    <string name="lblConnectingToDevice">Connecting to device…</string>
-    <string name="lblPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
-    <string name="lblDone">Job\'s done!</string>
-    <string name="lblGetPropsSuccess">GetProps success: (%1$s)</string>
-    <string name="lblGetPropsFailed">GetProps failed: (%1$s)</string>
+
+    <string name="lblStateDiscovering">Starting discovery…</string>
+    <string name="lblStateDone">Done</string>
+    <string name="lblStateError">Error</string>
+    <string name="lblStatePermissionError">Permission error</string>
+    <string name="lblStateScanning">Scanning…</string>
+
+    <string name="lblResultDiscoveryFailed">Discovery failed</string>
+    <string name="lblResultGetPropsFailed">GetProps failed: \'%1$s\'</string>
+    <string name="lblResultGetPropsSuccess">GetProps success: \'%1$s\'</string>
+    <string name="lblResultNotApplicable">N/A</string>
+    <string name="lblResultPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
+    <string name="lblResultPortError">Port error: (%1$s)</string>
+
+    <string name="btnGetTime">Get Time</string>
+    <string name="btnSetTime">Set Time</string>
+    <string name="btnStartDiscovery">Start discovery</string>
+    <string name="btnStopDiscovery">Stop discovery</string>
 </resources>

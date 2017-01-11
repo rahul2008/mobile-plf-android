@@ -10,7 +10,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "com.launcher.commliballexample"
+        applicationId "com.philips.cdp2.commlib.example"
         minSdkVersion _minSdkVersion
         targetSdkVersion _targetSdkVersion
         versionCode 1
@@ -40,6 +40,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.philips.cdp:cloudcontroller:4.0.0'
+    compile group: 'joda-time', name: 'joda-time', version: '2.3'
+
     localDevelopmentCompile project(path: ':commlib-all', configuration: 'localDevelopment')
     debugCompile project(path: ':commlib-all', configuration: 'debug')
     releaseCompile project(path: ':commlib-all', configuration: 'release')
