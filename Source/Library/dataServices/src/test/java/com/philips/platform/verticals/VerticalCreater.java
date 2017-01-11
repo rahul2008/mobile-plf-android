@@ -3,6 +3,8 @@ package com.philips.platform.verticals;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -114,5 +116,23 @@ public class VerticalCreater implements BaseAppDataCreator{
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
         return new ConsentDetailImpl(type,status,version,deviceIdentificationNumber,isSynchronized,consent);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristics(@NonNull String creatorId) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics, @NonNull CharacteristicsDetail characteristicsDetail) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics) {
+        return null;
     }
 }

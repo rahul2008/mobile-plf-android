@@ -33,7 +33,7 @@ public class SynchronisationMonitor extends EventMonitor {
     @Singleton
     @Inject
     public SynchronisationMonitor() {
-        DataServicesManager.mAppComponent.injectSynchronizationMonitor(this);
+        DataServicesManager.getInstance().mAppComponent.injectSynchronizationMonitor(this);
     }
 
     public void onEventAsync(ReadDataFromBackendRequest event) {

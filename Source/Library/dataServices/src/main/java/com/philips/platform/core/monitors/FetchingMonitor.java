@@ -1,15 +1,14 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
-
 package com.philips.platform.core.monitors;
 
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -17,6 +16,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -58,7 +58,7 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e,event.getDbRequestListener());
         }
     }
-    
+
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType(),event.getDbRequestListener());
@@ -75,6 +75,9 @@ public class FetchingMonitor extends EventMonitor {
             dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
             DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
             dataToSync = dbInterface.putConsentForSync(dataToSync);
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+            dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
+
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
@@ -118,6 +121,14 @@ public class FetchingMonitor extends EventMonitor {
 
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
+        }
+    }
+
+    public void onEventBackgroundThread(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
+        try {
+            dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -21,5 +21,12 @@
     <string name="create_moment">Create moment</string>
     <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
     <string name="consents">Consents</string>
+    <string name="characteristics">characteristics</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+
+    <string name="set_characteristics">Set Characteristics</string>
+    <string name="view_characteristics">View Characteristics</string>
+    <string name="hide_characteristics">Hide Characteristics</string>
 
 </resources>

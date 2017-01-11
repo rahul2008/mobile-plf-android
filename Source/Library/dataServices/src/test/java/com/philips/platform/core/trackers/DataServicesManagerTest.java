@@ -7,6 +7,7 @@ import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -15,6 +16,7 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -37,6 +39,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
+import com.philips.testing.verticals.AssertHelper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,9 +50,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -121,6 +126,9 @@ public class DataServicesManagerTest {
     Context mockContext;
     @Mock
     private ConsentDetail consentDetailMock;
+    @Mock
+    Characteristics characteristicsMock;
+
 
     UCoreAccessProvider uCoreAccessProvider;
 
@@ -245,6 +253,16 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
+        tracker.updateCharacteristics(any(Characteristics.class));
+    }
+
+    @Test
+    public void ShouldPostFetchCharacteristicsRequest_WhenFetchCharacteristicsIsCalled() throws Exception {
+        tracker.fetchUserCharacteristics();
+    }
+
+    @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
         tracker.updateConsent(consentMock,dbRequestListener);
@@ -266,7 +284,7 @@ public class DataServicesManagerTest {
         //noinspection ConstantConditions
         tracker.createMoment("jh");
 
-  //      verify(baseAppDataCreator).createMoment("fsdf", "", "jh");
+        //      verify(baseAppDataCreator).createMoment("fsdf", "", "jh");
     }
 
     @Test
@@ -292,8 +310,8 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldAddMomentDetail_WhenCreateMomentDetailIsCreated() throws Exception {
         baseAppDataCreator.createMomentDetail(TEST_MEASUREMENT_DETAIL_TYPE, momentMock);
-       // assertThat(momentDetail).isSameAs(momentMock);
-     //   verify(momentMock).addMomentDetail(momentDetail);
+        // assertThat(momentDetail).isSameAs(momentMock);
+        //   verify(momentMock).addMomentDetail(momentDetail);
     }
 
     @Test
@@ -305,7 +323,7 @@ public class DataServicesManagerTest {
     @Test(expected = RuntimeException.class)
     public void ShouldinitializeSyncMonitors_WheninitializeSyncMonitorsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.initializeSyncMonitors(null,new ArrayList<DataFetcher>(), new ArrayList<DataSender>());
+        tracker.initializeSyncMonitors(null, new ArrayList<DataFetcher>(), new ArrayList<DataSender>());
     }
 
     @Test
@@ -331,15 +349,43 @@ public class DataServicesManagerTest {
         //noinspection ConstantConditions
         tracker.createMeasurementGroup(measurementGroupMock);
 
-       // verify(baseAppDataCreator).createMeasurementGroup(measurementGroupMock);
+        // verify(baseAppDataCreator).createMeasurementGroup(measurementGroupMock);
     }
 
     @Test
     public void ShouldInitializeDBMonitors_WhenInitializeDBMonitorsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.initializeDBMonitors(null,deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
+        tracker.initializeDBMonitors(null, deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
     }
 
+    @Test
+    public void ShouldCreateCharacteristics_WhenCharacteristicsIsCalled() throws Exception {
+        tracker.createCharacteristics();
+//        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
+    }
+
+    @Test
+    public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() throws Exception {
+        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE",0, mock(CharacteristicsDetail.class));
+//        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
+    }
+
+    @Test
+    public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailIsNULL() throws Exception {
+        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE",0, null);
+//        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
+    }
+
+    @Test
+    public void ShouldIsPullComplete_IsTrue() throws Exception{
+        tracker.setPullComplete(true);
+        tracker.isPullComplete();
+    }
+    @Test
+    public void ShouldIsPushComplete_IsTrue() throws Exception{
+        tracker.setPushComplete(true);
+        tracker.isPushComplete();
+    }
 //    @Test(expected = NullPointerException.class)
 //    public void ShouldAddMeasurement_WhenCreateMeasurementIsCreated() throws Exception {
 //        tracker.initialize(mockContext, baseAppDataCreator, userRegistrationInterface);

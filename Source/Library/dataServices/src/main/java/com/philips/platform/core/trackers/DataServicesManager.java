@@ -9,12 +9,12 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -24,12 +24,15 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -236,7 +239,7 @@ public class DataServicesManager {
     }
 
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(Context context,ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
         this.fetchers = fetchers;
         this.senders = senders;
@@ -255,7 +258,7 @@ public class DataServicesManager {
     }*/
 
     private void sendPullDataEvent() {
-        synchronized(this) {
+        synchronized (this) {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
             if (mCore != null) {
                 DSLog.i("***SPO***", "mCore not null, hence starting");
@@ -269,7 +272,7 @@ public class DataServicesManager {
         }
     }
 
-    public void initializeDBMonitors(Context context,DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+    public void initializeDBMonitors(Context context, DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
         this.mDeletingInterface = deletingInterface;
         this.mFetchingInterface = fetchingInterface;
         this.mSavingInterface = savingInterface;
@@ -277,7 +280,7 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
-        DSLog.i("SPO","initialize called");
+        DSLog.i("SPO", "initialize called");
         this.mDataCreater = creator;
         this.userRegistrationInterface = facade;
         this.errorHandlingInterface = errorHandlingInterface;
@@ -294,9 +297,9 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()),mDataCreater, userRegistrationInterface,
-                mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,
-                fetchers,senders,errorHandlingInterface);
+        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
+                mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
+                fetchers, senders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
@@ -346,6 +349,34 @@ public class DataServicesManager {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 
+    //User Characteristics
+    @NonNull
+    public Characteristics createCharacteristics() {
+        return mDataCreater.createCharacteristics(userRegistrationInterface.getUserProfile().getGUid());
+    }
+
+    public void updateCharacteristics(@NonNull final Characteristics userCharacteristics,DBRequestListener dbRequestListener) {
+        mEventing.post(new UserCharacteristicsSaveRequest(userCharacteristics, dbRequestListener));
+    }
+
+    public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
+        mEventing.post(new LoadUserCharacteristicsRequest(dbRequestListener));
+    }
+
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType, @NonNull final String detailValue, CharacteristicsDetail characteristicsDetail) {
+        if (characteristics == null) {
+            characteristics = createCharacteristics();
+        }
+        CharacteristicsDetail chDetail;
+        if (characteristicsDetail != null) {
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, characteristics, characteristicsDetail);
+        } else {
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, characteristics);
+        }
+        characteristics.addCharacteristicsDetail(chDetail);
+        return chDetail;
+    }
+
     public boolean isPullComplete() {
         return isPullComplete;
     }
@@ -370,3 +401,4 @@ public class DataServicesManager {
     }
 
 }
+

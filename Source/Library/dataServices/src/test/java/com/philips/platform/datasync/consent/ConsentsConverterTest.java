@@ -25,10 +25,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 02/12/16.
- */
-@RunWith(RobolectricTestRunner.class)
 public class ConsentsConverterTest {
 
     private final String TEST_DEVICE_ID = "manual";
@@ -50,7 +46,6 @@ public class ConsentsConverterTest {
     @Mock
     private UuidGenerator generatorMock;
 
-    private DataServicesManager dataServicesManager;
 
     @Mock
     private AppComponent appComponantMock;
@@ -59,11 +54,8 @@ public class ConsentsConverterTest {
     public void setUp() {
         initMocks(this);
 
-        context = RuntimeEnvironment.application;
-
-        dataServicesManager = DataServicesManager.getInstance();
+        DataServicesManager dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        //dataServicesManager.initialize(context, verticalDataCreater, null,null);
         dataServicesManager.mAppComponent = appComponantMock;
         consentsConverter = new ConsentsConverter();
         consentsConverter.dataCreator = verticalDataCreater;

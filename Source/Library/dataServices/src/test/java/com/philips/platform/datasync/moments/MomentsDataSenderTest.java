@@ -110,14 +110,11 @@ public class MomentsDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-       // context = RuntimeEnvironment.application;
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandler = new ErrorHandlerImplTest();
         dataServicesManager.mAppComponent = appComponantMock;
-        //dataServicesManager.initialize(context, verticalDataCreater, errorHandler,null);
 
-        // when(dataServicesManager.getUCoreAccessProvider()).thenReturn(accessProviderMock);
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(USER_ID);
         when(accessProviderMock.getSubjectId()).thenReturn(BABY_ID);

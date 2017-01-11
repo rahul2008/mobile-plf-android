@@ -2,6 +2,7 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -56,6 +57,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
+    public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        return null;
+    }
+
+    @Override
     public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
 
     }
@@ -64,6 +70,12 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     public Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException {
         return null;
     }
+
+    @Override
+    public void fetchCharacteristics() throws SQLException {
+
+    }
+
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {

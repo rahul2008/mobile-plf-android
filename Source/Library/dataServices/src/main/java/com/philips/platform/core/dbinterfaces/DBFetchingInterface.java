@@ -34,9 +34,13 @@ public interface DBFetchingInterface {
     Map<Class, List<?>> putConsentForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
 
     void fetchConsents(DBRequestListener dbRequestListener) throws SQLException;
+    Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException;
+
 
     Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException;
 
     void postError(Exception e, DBRequestListener dbRequestListener);
+
+    void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
 
 }

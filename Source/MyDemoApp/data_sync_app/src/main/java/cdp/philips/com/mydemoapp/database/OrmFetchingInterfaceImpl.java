@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -46,14 +50,17 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     private final Dao<OrmConsent, Integer> consentDao;
     private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
 
+    private final Dao<OrmCharacteristics, Integer> characteristicsDao;
+
 
     private TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao) {
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
+        this.characteristicsDao = characteristicsDao;
         mTemperatureMomentHelper = new TemperatureMomentHelper();
 
         this.consentDao = consentDao;
@@ -86,6 +93,18 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+        QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();
+        List<OrmCharacteristics> ormCharacteristicsList = characteristicsDao.query(queryBuilder.prepare());
+            if (ormCharacteristicsList.size() != 0) {
+                dbRequestListener.onSuccess(ormCharacteristicsList.get(0));
+            } else {
+                dbRequestListener.onSuccess(null);
+            }
+
     }
 
     @Override
@@ -189,6 +208,26 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     //TODO: Spoorti - fetchConsentsWithNonSynchronizedConsentDetails and fetchNonSynchronizedConsentDetails - Why 2 APIs
+    @Override
+    public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        List<? extends Characteristics> characteristicses = fetchNonSynchronizedCharacteristics();
+        dataToSync.put(Characteristics.class, characteristicses);
+        return dataToSync;
+    }
+
+    private List<? extends Characteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
+        QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
+        final List<OrmCharacteristics> query = characteristicsIntegerQueryBuilder.query();
+
+        List<OrmCharacteristics> lNonSyncUC = new ArrayList<>();
+        for (OrmCharacteristics ormCharacteristics : query) {
+            if (!ormCharacteristics.isSynchronized()) {
+                lNonSyncUC.add(ormCharacteristics);
+            }
+        }
+        return lNonSyncUC;
+    }
+
     public List<OrmConsent> fetchConsentsWithNonSynchronizedConsentDetails() throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         final List<OrmConsent> query = consentQueryBuilder.query();

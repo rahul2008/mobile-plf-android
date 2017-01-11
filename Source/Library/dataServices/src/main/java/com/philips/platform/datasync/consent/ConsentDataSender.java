@@ -26,7 +26,7 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
     Eventing eventing;
 
     @NonNull
-    protected final AtomicInteger synchronizationState = new AtomicInteger(0);
+    final AtomicInteger synchronizationState = new AtomicInteger(0);
 
     @Inject
     public ConsentDataSender() {

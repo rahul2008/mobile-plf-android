@@ -13,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
@@ -54,13 +58,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    private TextView mTvSetCosents;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
     UserRegistrationInterfaceImpl userRegistrationInterface;
     User mUser;
     Utility mUtility;
+
+    TextView mTvConsents, mTvCharacteristics;
 
 
     @Override
@@ -90,10 +95,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStart() {
         super.onStart();
 
-        if(mUser!=null && !mUser.isUserSignIn()){
-            Toast.makeText(getContext(),"Please Login",Toast.LENGTH_SHORT).show();
+        if (mUser != null && !mUser.isUserSignIn()) {
+            Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
             mAddButton.setVisibility(View.INVISIBLE);
-            mTvSetCosents.setVisibility(View.INVISIBLE);
+            mTvConsents.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -107,30 +112,30 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         setUpBackendSynchronizationLoop();
 
-        if(!mUtility.isOnline(getContext())){
-            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
+        if (!mUtility.isOnline(getContext())) {
+            Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
+        if (!mSharedPreferences.getBoolean("isSynced", false)) {
             showProgressDialog();
         }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        if(getLastStoredEmail()==null){
+        if (getLastStoredEmail() == null) {
             storeLastEmail();
             return;
         }
 
-        if(!isSameEmail()){
+        if (!isSameEmail()) {
             userRegistrationInterface.clearUserData();
         }
         storeLastEmail();
     }
 
     private boolean isSameEmail() {
-        if(getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+        if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
@@ -154,56 +159,39 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
-        mTvSetCosents.setOnClickListener(this);
+        mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
 
+        mTvConsents.setOnClickListener(this);
+        mTvCharacteristics.setOnClickListener(this);
         return view;
     }
 
-    /*private void init() {
-        Stetho.initializeWithDefaults(getActivity().getApplicationContext());
-        OrmCreator creator = new OrmCreator(new UuidGenerator());
-        mDataServicesManager.initialize(mContext, creator, userRegistrationInterface);
-        injectDBInterfacesToCore();
-        mDataServicesManager.initializeSyncMonitors(mContext,null, null);
-    }*/
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // inflater.inflate(R.menu.menu_ds,menu);
+        super.onCreateOptionsMenu(menu, inflater);
 
-    /*void injectDBInterfacesToCore() {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
-        try {
-            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
-            Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
-            Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
-            Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
-            Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
-            Dao<OrmMeasurementGroup, Integer> measurementGroup = databaseHelper.getMeasurementGroupDao();
-            Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails = databaseHelper.getMeasurementGroupDetailDao();
+    }
 
-            Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
-            Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            /*case R.id.menu_consent:
+                ConsentDialogFragment dFragment = new ConsentDialogFragment();
+                dFragment.show(getFragmentManager(), "Dialog");
+                return true;
 
+            case R.id.menu_characteristics:
+                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+                characteristicsDialogFragment.show(getFragmentManager(), "Character");
+                return true;*/
+            default:
+                break;
 
-            OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails);
-
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao, consentDetailsDao);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao);
-            OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao);
-
-
-            BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
-            ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
-            OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
-            ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao);
-
-            mDataServicesManager.initializeDBMonitors(mContext,ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
-        } catch (SQLException exception) {
-            mTemperatureMomentHelper.notifyAllFailure(exception);
-            throw new IllegalStateException("Can not instantiate database");
         }
-    }*/
+        return false;
+    }
 
     private void setUpBackendSynchronizationLoop() {
         PendingIntent dataSyncIntent = getPendingIntent();
@@ -241,8 +229,16 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
                 break;
             case R.id.tv_set_consents:
+
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
                 dFragment.show(getFragmentManager(), "Dialog");
+
+                break;
+            case R.id.tv_set_characteristics:
+
+                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+                characteristicsDialogFragment.show(getFragmentManager(), "Character");
+
                 break;
         }
     }
@@ -307,18 +303,18 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
     }
 
-    String getLastStoredEmail(){
+    String getLastStoredEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        String decryptedData= ssInterface.fetchValueForKey("last_email",ssError);
+        String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
         return decryptedData;
     }
 
-    void storeLastEmail(){
+    void storeLastEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("last_email",mUser.getEmail(), ssError);
+        ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
     }
 }

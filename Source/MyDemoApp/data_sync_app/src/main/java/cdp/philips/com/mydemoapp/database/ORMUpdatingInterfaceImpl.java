@@ -1,5 +1,6 @@
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -15,9 +16,11 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
@@ -127,4 +130,27 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         }
         return null;
     }
+
+    //User Characteristics
+    @Override
+    public boolean updateCharacteristics(Characteristics characteristics,DBRequestListener dbRequestListener) throws SQLException {
+        OrmCharacteristics ormCharacteristics = null;
+        try {
+            ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+            deleting.deleteCharacteristics();
+            saving.saveCharacteristics(ormCharacteristics);
+            dbRequestListener.onSuccess(characteristics);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    @Override
+    public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
+
+    }
+
 }

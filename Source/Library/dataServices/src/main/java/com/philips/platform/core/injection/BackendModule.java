@@ -31,6 +31,9 @@ import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.OkClientFactory;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
@@ -129,19 +132,21 @@ public class BackendModule {
     @Singleton
     Backend providesBackend(
             @NonNull final MomentsMonitor momentsMonitor,
-            @NonNull final ConsentsMonitor consentsMonitor) {
-        return new Backend(momentsMonitor, consentsMonitor);
+            @NonNull final ConsentsMonitor consentsMonitor,
+            @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor) {
+        return new Backend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor);
     }
 
     @Provides
     @Singleton
     DataPullSynchronise providesDataSynchronise(
             @NonNull final MomentsDataFetcher momentsDataFetcher,
-            @NonNull final ConsentsDataFetcher consentsDataFetcher,@NonNull final ExecutorService executor) {
-
-        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher);
-        if(fetchers!=null && fetchers.size()!=0){
-            for(DataFetcher fetcher : fetchers){
+            @NonNull final ConsentsDataFetcher consentsDataFetcher,
+            @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
+            @NonNull final ExecutorService executor) {
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher);
+        if (fetchers != null && fetchers.size() != 0) {
+            for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
             }
         }
@@ -152,11 +157,12 @@ public class BackendModule {
     @Singleton
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
-            @NonNull final ConsentDataSender consentDataSender) {
+            @NonNull final ConsentDataSender consentDataSender,
+            @NonNull final UserCharacteristicsSender userCharacteristicsSender) {
 
-        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender);
-        if(senders!=null && senders.size()!=0){
-            for(DataSender sender : senders){
+        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender);
+        if (senders != null && senders.size() != 0) {
+            for (DataSender sender : senders) {
                 dataSenders.add(sender);
             }
         }
@@ -176,7 +182,8 @@ public class BackendModule {
     }
 
     @Provides
-    UCoreAdapter providesUCoreAdapter(OkClientFactory okClientFactory, RestAdapter.Builder restAdapterBuilder, Context context) {
+    UCoreAdapter providesUCoreAdapter(OkClientFactory okClientFactory, RestAdapter.Builder
+            restAdapterBuilder, Context context) {
         return new UCoreAdapter(okClientFactory, restAdapterBuilder, context);
     }
 
@@ -194,7 +201,7 @@ public class BackendModule {
 
     @Provides
     @Singleton
-    public DBMonitors providesDMMonitors(){
+    public DBMonitors providesDMMonitors() {
         SavingMonitor savingMonitor = new SavingMonitor(savingInterface);
         FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
         DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
@@ -205,33 +212,33 @@ public class BackendModule {
 
     @Provides
     @Singleton
-    public ErrorMonitor providesErrorMonitor(){
+    public ErrorMonitor providesErrorMonitor() {
         return new ErrorMonitor(errorHandlingInterface);
     }
 
     @Provides
     @Singleton
-    public BaseAppCore providesCore(){
-        return  new BaseAppCore();
+    public BaseAppCore providesCore() {
+        return new BaseAppCore();
     }
 
     @Provides
-    public UserRegistrationInterface providesUserRegistrationInterface(){
+    public UserRegistrationInterface providesUserRegistrationInterface() {
         return userRegistrationInterface;
     }
 
     @Provides
-    public UCoreAccessProvider providesAccessProvider(){
+    public UCoreAccessProvider providesAccessProvider() {
         return new UCoreAccessProvider(userRegistrationInterface);
     }
 
     @Provides
-    public ErrorHandlingInterface providesErrorHandlingInterface(){
+    public ErrorHandlingInterface providesErrorHandlingInterface() {
         return errorHandlingInterface;
     }
 
     @Provides
-    public SynchronisationMonitor providesSynchronizationMonitor(){
+    public SynchronisationMonitor providesSynchronizationMonitor() {
         return new SynchronisationMonitor();
     }
 
