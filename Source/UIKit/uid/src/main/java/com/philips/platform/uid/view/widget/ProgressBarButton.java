@@ -23,7 +23,7 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDUtils;
 
-public class ProgressIndicatorButton extends LinearLayout {
+public class ProgressBarButton extends LinearLayout {
 
     private Button button;
     private ProgressBar progressBar;
@@ -34,15 +34,15 @@ public class ProgressIndicatorButton extends LinearLayout {
     private GestureDetectorCompat gestureDetector;
     private Drawable progressBackgroundDrawable;
 
-    public ProgressIndicatorButton(@NonNull final Context context) {
+    public ProgressBarButton(@NonNull final Context context) {
         this(context, null);
     }
 
-    public ProgressIndicatorButton(@NonNull final Context context, @NonNull final AttributeSet attrs) {
+    public ProgressBarButton(@NonNull final Context context, @NonNull final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ProgressIndicatorButton(@NonNull final Context context, @NonNull final AttributeSet attrs, @NonNull final int defStyleAttr) {
+    public ProgressBarButton(@NonNull final Context context, @NonNull final AttributeSet attrs, @NonNull final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOrientation(VERTICAL);
         gestureDetector = new GestureDetectorCompat(context, new TapDetector());
@@ -347,14 +347,14 @@ public class ProgressIndicatorButton extends LinearLayout {
             out.writeInt(buttonVisibility);
         }
 
-        public static final Parcelable.Creator<ProgressIndicatorButton.SavedState> CREATOR
-                = new Parcelable.Creator<ProgressIndicatorButton.SavedState>() {
-            public ProgressIndicatorButton.SavedState createFromParcel(Parcel in) {
-                return new ProgressIndicatorButton.SavedState(in);
+        public static final Parcelable.Creator<ProgressBarButton.SavedState> CREATOR
+                = new Parcelable.Creator<ProgressBarButton.SavedState>() {
+            public ProgressBarButton.SavedState createFromParcel(Parcel in) {
+                return new ProgressBarButton.SavedState(in);
             }
 
-            public ProgressIndicatorButton.SavedState[] newArray(int size) {
-                return new ProgressIndicatorButton.SavedState[size];
+            public ProgressBarButton.SavedState[] newArray(int size) {
+                return new ProgressBarButton.SavedState[size];
             }
         };
     }
@@ -363,7 +363,7 @@ public class ProgressIndicatorButton extends LinearLayout {
         @Override
         public boolean onSingleTapConfirmed(final MotionEvent e) {
             if (clickListener != null && button.isEnabled()) {
-                clickListener.onClick(ProgressIndicatorButton.this);
+                clickListener.onClick(ProgressBarButton.this);
             }
             return super.onSingleTapConfirmed(e);
         }

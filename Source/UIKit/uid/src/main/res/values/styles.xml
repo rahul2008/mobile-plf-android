@@ -40,5 +40,7 @@
         <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
+
+        <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
     </style>
 </resources>

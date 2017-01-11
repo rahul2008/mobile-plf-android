@@ -145,7 +145,7 @@
                 android:orientation="vertical">
 
 
-                <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                <com.philips.platform.uid.view.widget.ProgressBarButton
                     android:id="@+id/progressButtonsNormalDeterminate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                 android:orientation="vertical">
 
 
-                <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                <com.philips.platform.uid.view.widget.ProgressBarButton
                     android:id="@+id/progressButtonsNormalIndeterminate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+            <com.philips.platform.uid.view.widget.ProgressBarButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -186,7 +186,7 @@
                 app:uidProgressIndicatorButtonProgressText="@string/progress_button_loading"
                 app:uidProgressIndicatorButtonText="@string/progress_button"/>
 
-            <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+            <com.philips.platform.uid.view.widget.ProgressBarButton
                 android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

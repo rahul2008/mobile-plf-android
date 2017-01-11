@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentButtonsBinding;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.ProgressIndicatorButton;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 public class ButtonFragment extends BaseFragment {
     public ObservableBoolean isButtonsEnabled = new ObservableBoolean(Boolean.TRUE);
@@ -103,8 +103,8 @@ public class ButtonFragment extends BaseFragment {
             }
             if (view instanceof Button) {
                 ((Button) view).setImageDrawable(mutateDrawable);
-            } else if (view instanceof ProgressIndicatorButton) {
-                ((ProgressIndicatorButton) view).setDrawable(mutateDrawable);
+            } else if (view instanceof ProgressBarButton) {
+                ((ProgressBarButton) view).setDrawable(mutateDrawable);
             }
         }
     }
@@ -125,15 +125,15 @@ public class ButtonFragment extends BaseFragment {
     }
 
     public void onProgressIndicatorButtonClicked(final View v) {
-        if (v instanceof ProgressIndicatorButton) {
-            ((ProgressIndicatorButton) v).showProgressIndicator();
+        if (v instanceof ProgressBarButton) {
+            ((ProgressBarButton) v).showProgressIndicator();
 
             startDeterminateProgressUpdate(v);
 
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ((ProgressIndicatorButton) v).hideProgressIndicator();
+                    ((ProgressBarButton) v).hideProgressIndicator();
                 }
             }, PROGRESS_INDICATOR_VISIBILITY_TIME);
         }
@@ -143,7 +143,7 @@ public class ButtonFragment extends BaseFragment {
         new CountDownTimer(PROGRESS_INDICATOR_VISIBILITY_TIME, PROGRESS_INDICATOR_PROGRESS_UPDATE_TIME) {
             public void onTick(long millisUntilFinished) {
                 long progress = ((PROGRESS_INDICATOR_VISIBILITY_TIME - millisUntilFinished) / 50) + PROGRESS_INDICATOR_PROGRESS_OFFSET;
-                ((ProgressIndicatorButton) view).setProgress((int) progress);
+                ((ProgressBarButton) view).setProgress((int) progress);
             }
 
             @Override
