@@ -120,11 +120,11 @@ public abstract class BaseFlowManager {
                     return getUiState(appFlowNextStates);
                 }
             }
-        } else {
-            if (!isBack)
-                throw new NoEventFoundException();
         }
-        return null;
+        if (!isBack)
+            throw new NoEventFoundException();
+        else
+            return null;
     }
 
     public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException {
