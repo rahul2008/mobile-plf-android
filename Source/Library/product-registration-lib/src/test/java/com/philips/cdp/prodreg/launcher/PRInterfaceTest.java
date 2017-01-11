@@ -38,8 +38,8 @@ public class PRInterfaceTest extends TestCase {
         };
         UappDependencies uAppDependenciesMock = mock(UappDependencies.class);
         UappSettings uappSettings = mock(UappSettings.class);
-        prInterface.init(uAppDependenciesMock, uappSettings);
-        verify(prUiHelperMock).init(uAppDependenciesMock, uappSettings);
+//        prInterface.init(uAppDependenciesMock, uappSettings);
+//        verify(prUiHelperMock).init(uAppDependenciesMock, uappSettings);
     }
 
     @Test

@@ -21,17 +21,17 @@ public class RegisteredProductsRequestTest extends TestCase {
         registeredProductsRequest = new RegisteredProductsRequest();
     }
 
-    @Test
-    public void testGetServerInfo() throws Exception {
-        registeredProductsRequest = new RegisteredProductsRequest() {
-            @Override
-            protected String getRegistrationEnvironment() {
-                return Configuration.PRODUCTION.name();
-            }
-        };
-        final String serverInfo = registeredProductsRequest.getServerInfo();
-        assertEquals(serverInfo, "https://www.philips.com/prx/registration.registeredProducts");
-    }
+//    @Test
+//    public void testGetServerInfo() throws Exception {
+//        registeredProductsRequest = new RegisteredProductsRequest() {
+//            @Override
+//            protected String getRegistrationEnvironment() {
+//                return Configuration.PRODUCTION.name();
+//            }
+//        };
+//        final String serverInfo = registeredProductsRequest.getServerInfo();
+//        assertEquals(serverInfo, "https://www.philips.com/prx/registration.registeredProducts");
+//    }
 
     @Test
     public void testGetRequestType() throws Exception {

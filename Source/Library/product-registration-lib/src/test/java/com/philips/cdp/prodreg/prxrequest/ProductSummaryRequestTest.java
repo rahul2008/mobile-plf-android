@@ -22,17 +22,17 @@ public class ProductSummaryRequestTest extends TestCase {
         productSummaryRequest = new ProductSummaryRequest(mCtn);
     }
 
-    @Test
-    public void testGetServerInfo() throws Exception {
-        productSummaryRequest = new ProductSummaryRequest(mCtn) {
-            @Override
-            protected String getRegistrationEnvironment() {
-                return Configuration.PRODUCTION.name();
-            }
-        };
-        final String serverInfo = productSummaryRequest.getServerInfo();
-        assertEquals(serverInfo, "https://www.philips.com/prx/product/");
-    }
+//    @Test
+//    public void testGetServerInfo() throws Exception {
+//        productSummaryRequest = new ProductSummaryRequest(mCtn) {
+//            @Override
+//            protected String getRegistrationEnvironment() {
+//                return Configuration.PRODUCTION.name();
+//            }
+//        };
+//        final String serverInfo = productSummaryRequest.getServerInfo();
+//        assertEquals(serverInfo, "https://www.philips.com/prx/product/");
+//    }
 
     @Test
     public void testGetRequestType() throws Exception {

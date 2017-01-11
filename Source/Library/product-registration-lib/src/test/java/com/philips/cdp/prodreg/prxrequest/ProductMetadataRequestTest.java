@@ -30,16 +30,16 @@ public class ProductMetadataRequestTest extends TestCase {
         assertEquals(RequestType.GET.getValue(), mIntType);
     }
 
-    public void testGetServerInfo() {
-        productMetadataRequest = new ProductMetadataRequest(mCtn) {
-            @Override
-            protected String getRegistrationEnvironment() {
-                return Configuration.PRODUCTION.name();
-            }
-        };
-        final String serverInfo = productMetadataRequest.getServerInfo();
-        assertEquals(serverInfo, "https://www.philips.com/prx/registration/");
-    }
+//    public void testGetServerInfo() {
+//        productMetadataRequest = new ProductMetadataRequest(mCtn) {
+//            @Override
+//            protected String getRegistrationEnvironment() {
+//                return Configuration.PRODUCTION.name();
+//            }
+//        };
+//        final String serverInfo = productMetadataRequest.getServerInfo();
+//        assertEquals(serverInfo, "https://www.philips.com/prx/registration/");
+//    }
 
     @Test
     public void testGetRequestTimeOut() throws Exception {
