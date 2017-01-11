@@ -17,8 +17,13 @@ public class ProductAssetRequest extends PrxRequest {
     private String mRequestTag = null;
     private static final String PRXAssetAssetServiceID = "prxclient.assets";
 
+    public ProductAssetRequest(String ctn, String requestTag) {
+        super(ctn, PRXAssetAssetServiceID);
+        this.mRequestTag = requestTag;
+    }
+
     public ProductAssetRequest(String ctn, Sector sector, Catalog catalog, String requestTag) {
-        super.init(ctn, PRXAssetAssetServiceID, sector, catalog);
+        super(ctn, PRXAssetAssetServiceID, sector, catalog);
         this.mRequestTag = requestTag;
     }
 

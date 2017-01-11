@@ -27,12 +27,18 @@ public abstract class PrxRequest {
     private String mCtn;
     private String mServiceId;
 
-    public void init(String ctn, String serviceID, Sector sector, Catalog catalog) {
+    PrxRequest(String ctn , String serviceId) {
+        this.mCtn = ctn;
+        this.mServiceId = serviceId;
+    }
+
+    PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog){
         this.mCtn = ctn;
         this.mServiceId = serviceID;
         this.mSector = sector;
         this.mCatalog = catalog;
     }
+
 
     public Sector getSector() {
         return mSector;

@@ -27,8 +27,12 @@ public class ProductSummaryRequest extends PrxRequest {
     private String mRequestTag = null;
 
 
+    public ProductSummaryRequest(String ctn, String requestTag) {
+        super(ctn,PRXSummaryDataServiceID);
+        this.mRequestTag = requestTag;
+    }
     public ProductSummaryRequest(String ctn, Sector sector, Catalog catalog, String requestTag) {
-        super.init(ctn,PRXSummaryDataServiceID,sector,catalog);
+        super(ctn,PRXSummaryDataServiceID,sector,catalog);
         this.mRequestTag = requestTag;
     }
 

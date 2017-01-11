@@ -15,8 +15,13 @@ public class ProductSupportRequest extends PrxRequest {
     private String mRequestTag = null;
     private static final String PRXFAQServiceID = "prxclient.support";
 
+    public ProductSupportRequest(String ctn, String requestTag) {
+        super(ctn, PRXFAQServiceID);
+        this.mRequestTag = requestTag;
+    }
+
     public ProductSupportRequest(String ctn, Sector sector, Catalog catalog, String requestTag) {
-        this.init(ctn, PRXFAQServiceID, sector, catalog);
+        super(ctn, PRXFAQServiceID, sector, catalog);
         this.mRequestTag = requestTag;
     }
 
