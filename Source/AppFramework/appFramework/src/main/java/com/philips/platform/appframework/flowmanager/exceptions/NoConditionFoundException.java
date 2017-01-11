@@ -6,7 +6,7 @@
 package com.philips.platform.appframework.flowmanager.exceptions;
 
 public class NoConditionFoundException extends Exception {
-
+    static final long serialVersionUID = 1L;
 
     public NoConditionFoundException() {
         super("No Condition Found");

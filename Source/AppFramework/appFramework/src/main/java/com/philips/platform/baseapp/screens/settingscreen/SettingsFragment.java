@@ -149,9 +149,17 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         settingsFragmentWeakReference = null;
     }
 
+    @SuppressWarnings("deprecation")
     private SettingListItem formDataSection(String settingsItem, SettingListItemType type, boolean userRegistrationRequired) {
         SettingListItem settingScreenItem = new SettingListItem();
-        settingScreenItem.title = Html.fromHtml(settingsItem);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            settingScreenItem.title = Html.fromHtml(settingsItem, Html.FROM_HTML_MODE_LEGACY);
+        }
+        else{
+            settingScreenItem.title = Html.fromHtml(settingsItem);
+        }
+
         settingScreenItem.type = type;
         settingScreenItem.userRegistrationRequired = userRegistrationRequired;
         return settingScreenItem;

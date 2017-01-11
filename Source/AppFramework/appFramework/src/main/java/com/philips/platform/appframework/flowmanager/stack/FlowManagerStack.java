@@ -5,6 +5,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import java.util.ArrayList;
 
 public class FlowManagerStack extends ArrayList<BaseState> {
+    static final long serialVersionUID = 1L;
 
     //TODO - need to revise again, document it along with development
     public void push(BaseState baseState) {

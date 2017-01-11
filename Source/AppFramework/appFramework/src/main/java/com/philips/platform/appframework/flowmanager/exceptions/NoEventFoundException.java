@@ -6,7 +6,7 @@
 package com.philips.platform.appframework.flowmanager.exceptions;
 
 public class NoEventFoundException extends RuntimeException {
-
+    static final long serialVersionUID = 1L;
 
     public NoEventFoundException() {
         super("No Event Found");

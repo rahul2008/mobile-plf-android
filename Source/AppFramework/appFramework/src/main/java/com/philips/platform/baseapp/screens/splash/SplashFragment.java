@@ -31,16 +31,23 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     private boolean isVisible = false;
 	private boolean isMultiwindowEnabled = false;
 
+    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
-        ViewGroup group = (ViewGroup) view.findViewById(R.id.splash_layout);
         ImageView logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()) );
 
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
-        CharSequence titleText = Html.fromHtml(splashScreenTitle);
+        CharSequence titleText = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            titleText = Html.fromHtml(splashScreenTitle, Html.FROM_HTML_MODE_LEGACY);
+        }
+        else{
+            titleText = Html.fromHtml(splashScreenTitle);
+        }
 
         TextView title = (TextView) view.findViewById(R.id.splash_title);
         title.setText(titleText);
