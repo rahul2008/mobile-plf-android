@@ -85,7 +85,12 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     private String getChatUrl() {
         String chatLink = null;
         DigiCareLogger.i(TAG, "Chat Url Link : " + chatLink);
-        chatLink = getResources().getString(R.string.live_chat_url);
+        if(DigitalCareConfigManager.getInstance().getLiveChatUrl() == null){
+            chatLink = getResources().getString(R.string.live_chat_url);
+        }else {
+            chatLink = DigitalCareConfigManager.getInstance().getLiveChatUrl();
+        }
+
         return chatLink;
     }
 

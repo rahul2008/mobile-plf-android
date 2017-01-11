@@ -38,6 +38,7 @@ public class CcInterface implements UappInterface {
         HardcodedProductList productList = (HardcodedProductList)
                 ccLaunchInput.getProductModelSelectionType();
         DigitalCareConfigManager.getInstance().registerCcListener(ccLaunchInput.getConsumerCareListener());
+        DigitalCareConfigManager.getInstance().setLiveChatUrl(ccLaunchInput.getLiveChatUrl());
 
         if (uiLauncher instanceof com.philips.platform.uappframework.launcher.ActivityLauncher) {
 
