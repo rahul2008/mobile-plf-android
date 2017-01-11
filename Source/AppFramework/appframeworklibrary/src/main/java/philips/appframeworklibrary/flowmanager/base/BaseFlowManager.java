@@ -115,7 +115,7 @@ public abstract class BaseFlowManager {
         if (appFlowEvents != null && appFlowEvents.size() != 0) {
             for (final AppFlowEvent appFlowEvent : appFlowEvents) {
                 appFlowEventId = appFlowEvent.getEventId();
-                if (appFlowEvent.getEventId() != null && appFlowEventId.equals(eventId)) {
+                if (appFlowEvent.getEventId() != null && appFlowEventId.equalsIgnoreCase(eventId)) {
                     final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                     return getUiState(appFlowNextStates);
                 }
