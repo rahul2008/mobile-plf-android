@@ -2,7 +2,7 @@ package philips.appframeworklibrary.flowmanager.base;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.InstrumentationTestCase;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,14 +28,10 @@ import philips.appframeworklibrary.flowmanager.states.UserRegistrationOnBoarding
 import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("deprecation")
-public class BaseFlowManagerTest extends ActivityInstrumentationTestCase2 {
+public class BaseFlowManagerTest extends InstrumentationTestCase {
 
     private FlowManagerTest flowManagerTest;
     private Context context;
-
-    public BaseFlowManagerTest() {
-        super(BaseFlowManagerTest.class);
-    }
 
     @Override
     protected void setUp() throws Exception {
