@@ -15,6 +15,7 @@ import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
@@ -87,6 +88,9 @@ public class FetchingMonitorTest {
     @Mock
     private AppComponent appComponantMock;
 
+    @Mock
+    private DBRequestListener dbRequestListener;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -100,9 +104,9 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldFetchMomentsInsightsAndBabyProfile_WhenLoadTimelineEntryRequestIsReceived() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest());
+        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest(dbRequestListener));
 
-        verify(fetching).fetchMoments();
+        verify(fetching).fetchMoments(dbRequestListener);
 //        verify(fetching).fetchConsent();
   //      verify(fetching).fetchConsent();
     //    verify(fetching).fetchNonSynchronizedMoments();
@@ -110,30 +114,30 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldThrowException_FetchingMoments() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest());
-        verify(fetching).fetchMoments();
+        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest(dbRequestListener));
+        verify(fetching).fetchMoments(dbRequestListener);
     }
 
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature"));
-        verify(fetching).fetchLastMoment("temperature");
+        fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature", dbRequestListener));
+        verify(fetching).fetchLastMoment("temperature",dbRequestListener);
     }
 
     @Test
     public void ShouldFetchMoments_WhenLoadMomentsRequestIsReceived() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadMomentsRequest());
+        fetchingMonitor.onEventBackgroundThread(new LoadMomentsRequest(dbRequestListener));
 
-        verify(fetching).fetchMoments();
+        verify(fetching).fetchMoments(dbRequestListener);
     }
 
     @Test
     public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest());
+        fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest(dbRequestListener));
 
-        verify(fetching).fetchConsents();
+        verify(fetching).fetchConsents(dbRequestListener);
     }
 
 
@@ -150,7 +154,7 @@ public class FetchingMonitorTest {
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-        verify(fetching).fetchConsent();
+        verify(fetching).fetchConsent(dbRequestListener);
         verify(fetching).fetchNonSynchronizedMoments();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }

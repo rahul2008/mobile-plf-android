@@ -1,5 +1,6 @@
 package com.philips.platform.core.monitors;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Moment;
@@ -12,6 +13,7 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -35,6 +37,8 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBFetchingInterface dbFetchingInterface;
 
+    DBRequestListener mDbRequestListener;
+
     @Inject
     MomentsSegregator momentsSegregator;
 
@@ -43,13 +47,14 @@ public class UpdatingMonitor extends EventMonitor {
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
         DataServicesManager.mAppComponent.injectUpdatingMonitor(this);
+        this.mDbRequestListener = DataServicesManager.getInstance().getDbChangeListener();
     }
 
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
         Moment moment = momentUpdateRequest.getMoment();
         moment.setSynced(false);
 
-        dbUpdatingInterface.updateMoment(moment);
+        dbUpdatingInterface.updateMoment(moment,momentUpdateRequest.getDbRequestListener());
         //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
@@ -62,10 +67,10 @@ public class UpdatingMonitor extends EventMonitor {
         DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
             DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
-            dbFetchingInterface.fetchMoments();
+            dbFetchingInterface.fetchMoments(mDbRequestListener);
         } catch (SQLException e) {
             DSLog.i("**SPO**", "In Updating Monitor report exception");
-            dbUpdatingInterface.updateFailed(e);
+            dbUpdatingInterface.updateFailed(e, mDbRequestListener);
             e.printStackTrace();
         }
         // eventing.post(new WriteDataToBackendRequest());
@@ -88,6 +93,6 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
-        dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent());
+        dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), mDbRequestListener);
     }
 }

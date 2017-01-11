@@ -28,6 +28,7 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
@@ -133,6 +134,9 @@ public class DataServicesManagerTest {
     ErrorHandlingInterface errorHandlingInterfaceMock;
 
     @Mock
+    DBRequestListener dbRequestListener;
+
+    @Mock
     private AppComponent appComponantMock;
 
     @Before
@@ -176,7 +180,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetch(new Integer(1));
+        tracker.fetch(dbRequestListener ,new Integer(1));
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -184,7 +188,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchMomentById(1);
+        tracker.fetchMomentById(1,dbRequestListener);
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
@@ -192,7 +196,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchAllDataEvent_WhenFetchAllDataIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchAllData();
+        tracker.fetchAllData(dbRequestListener);
 
         verify(eventingMock).post(any(LoadMomentsRequest.class));
     }

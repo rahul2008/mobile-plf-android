@@ -8,6 +8,7 @@ package com.philips.platform.core.monitors;
 
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
@@ -52,17 +53,17 @@ public class FetchingMonitor extends EventMonitor {
 
     public void onEventBackgroundThread(LoadTimelineEntryRequest event) {
         try {
-            dbInterface.fetchMoments();
+            dbInterface.fetchMoments(event.getDbRequestListener());
         } catch (SQLException e) {
-            dbInterface.postError(e);
+            dbInterface.postError(e,event.getDbRequestListener());
         }
     }
     
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
-            dbInterface.fetchLastMoment(event.getType());
+            dbInterface.fetchLastMoment(event.getType(),event.getDbRequestListener());
         } catch (SQLException e) {
-            dbInterface.postError(e);
+            dbInterface.postError(e, event.getDbRequestListener());
         }
     }
 
@@ -77,29 +78,30 @@ public class FetchingMonitor extends EventMonitor {
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
-            dbInterface.postError(e);
+          //  dbInterface.postError(e, event.getDbRequestListener());
         }
     }
 
     public void onEventBackgroundThread(LoadMomentsRequest event) {
         try {
+            Log.d(this.getClass().getName(),"Fetching Monitor");
             if (event.hasType()) {
-                dbInterface.fetchMoments(event.getTypes());
+                dbInterface.fetchMoments(event.getDbRequestListener(),event.getTypes());
             } else if (event.hasID()) {
-                dbInterface.fetchMomentById(event.getMomentID());
+                dbInterface.fetchMomentById(event.getMomentID(),event.getDbRequestListener());
             } else {
-                dbInterface.fetchMoments();
+                dbInterface.fetchMoments(event.getDbRequestListener());
             }
         } catch (SQLException e) {
-            dbInterface.postError(e);
+            dbInterface.postError(e, event.getDbRequestListener());
         }
     }
 
     public void onEventBackgroundThread(LoadConsentsRequest event) {
         try {
-            dbInterface.fetchConsents();
+            dbInterface.fetchConsents(event.getDbRequestListener());
         } catch (SQLException e) {
-            dbInterface.postError(e);
+            dbInterface.postError(e, event.getDbRequestListener());
         }
     }
 
@@ -107,8 +109,7 @@ public class FetchingMonitor extends EventMonitor {
         DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
             List<? extends Moment> ormMomentList = (List<? extends Moment>)dbInterface.fetchNonSynchronizedMoments();
-            Consent consent = dbInterface.fetchConsent();
-            DSLog.i("**SPO**","in Fetching Monitor before sending GetNonSynchronizedMomentsResponse");
+            Consent consent = dbInterface.fetchConsent(event.getDbRequestListener());
             if(consent==null){
                 eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList,null));
             }else{
@@ -116,7 +117,7 @@ public class FetchingMonitor extends EventMonitor {
             }
 
         } catch (SQLException e) {
-            dbInterface.postError(e);
+            dbInterface.postError(e, event.getDbRequestListener());
         }
     }
 }

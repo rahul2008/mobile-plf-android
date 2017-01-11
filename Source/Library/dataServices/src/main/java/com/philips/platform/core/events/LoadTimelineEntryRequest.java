@@ -6,6 +6,8 @@
 
 package com.philips.platform.core.events;
 
+import com.philips.platform.core.listeners.DBRequestListener;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -13,7 +15,16 @@ package com.philips.platform.core.events;
 
 public class LoadTimelineEntryRequest extends Event {
 
-    public LoadTimelineEntryRequest() {
+    DBRequestListener dbRequestListener;
+    public LoadTimelineEntryRequest(DBRequestListener dbRequestListener) {
+     this.dbRequestListener=dbRequestListener;
+    }
 
+    public DBRequestListener getDbRequestListener() {
+        return dbRequestListener;
+    }
+
+    public void setDbRequestListener(DBRequestListener dbRequestListener) {
+        this.dbRequestListener = dbRequestListener;
     }
 }

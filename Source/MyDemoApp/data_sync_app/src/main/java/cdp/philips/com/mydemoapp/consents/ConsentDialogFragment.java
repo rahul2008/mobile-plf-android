@@ -14,20 +14,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.listener.DBChangeListener;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
 
 /**
  * Created by sangamesh on 08/11/16.
  */
 
-public class ConsentDialogFragment extends DialogFragment implements DBChangeListener, View.OnClickListener {
+public class ConsentDialogFragment extends DialogFragment implements DBRequestListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -52,12 +51,12 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         mBtnCancel.setOnClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        consentDialogPresenter=new ConsentDialogPresenter(getActivity());
+        consentDialogPresenter=new ConsentDialogPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
         consentDetails=new ArrayList<>();
         lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
-        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
+        //EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
         fetchConsent();
         return rootView;
 
@@ -118,7 +117,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOK:
-                lConsentAdapter.updateConsentDetails();
+                lConsentAdapter.updateConsent();
                 dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:
@@ -137,7 +136,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStop() {
         super.onStop();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
         dismissProgressDialog();
     }
 
@@ -177,6 +175,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     public void fetchConsent() {
         showProgressDialog();
-        DataServicesManager.getInstance().fetchConsent();
+        DataServicesManager.getInstance().fetchConsent(this);
     }
 }

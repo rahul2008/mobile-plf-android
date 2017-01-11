@@ -3,12 +3,18 @@ package cdp.philips.com.mydemoapp.database;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import cdp.philips.com.mydemoapp.consents.ConsentHelper;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -34,14 +40,14 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateFailed(Exception e) {
-        mTemperatureMomentHelper.notifyAllFailure(e);
+    public void updateFailed(Exception e,DBRequestListener dbRequestListener) {
+        dbRequestListener.onFailure(e);
     }
 
     @Override
-    public boolean updateConsent(Consent consent) {
+    public boolean updateConsent(Consent consent,DBRequestListener dbRequestListener) {
         if(consent==null){
-            new ConsentHelper().notifyFailConsent(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));;
+            dbRequestListener.onFailure(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));;
             return false;
         }
         OrmConsent ormConsent = null;
@@ -49,16 +55,17 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             ormConsent=getModifiedConsent(ormConsent);
             saving.saveConsent(ormConsent);
-            new ConsentHelper().notifyAllSuccess(ormConsent);
+            dbRequestListener.onSuccess(ormConsent);
+
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            new ConsentHelper().notifyFailConsent(e);
+            dbRequestListener.onFailure(e);
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            new ConsentHelper().notifyFailConsent(e);
+            dbRequestListener.onFailure(e);
             return false;
         }
 
@@ -95,9 +102,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateMoment(final Moment moment) {
+    public void updateMoment(final Moment moment, DBRequestListener dbRequestListener) {
 
-        OrmMoment ormMoment = getOrmMoment(moment);
+        OrmMoment ormMoment = getOrmMoment(moment,dbRequestListener);
         if (ormMoment == null) {
             return;
         }
@@ -105,17 +112,17 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
-            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
+            dbRequestListener.onSuccess(ormMoment);
         } catch (SQLException e) {
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            dbRequestListener.onFailure(e);
         }
     }
 
-    public OrmMoment getOrmMoment(final Moment moment) {
+    public OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            dbRequestListener.onFailure(e);
             DSLog.e(TAG, "Eror while type checking");
         }
         return null;

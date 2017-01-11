@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 
 import org.joda.time.DateTime;
@@ -39,11 +40,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteAllMoments() {
+    public void deleteAllMoments(DBRequestListener dbRequestListener) {
         try {
             ormDeleting.deleteAll();
         } catch (SQLException e) {
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            dbRequestListener.onFailure(e);
             if (e.getMessage() != null) {
                 DSLog.i("***SPO***", "exception = " + e.getMessage());
             }
@@ -51,29 +52,30 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void markAsInActive(final Moment moment) {
+    public void markAsInActive(final Moment moment, DBRequestListener dbRequestListener) {
         try {
             if (isMomentSyncedToBackend(moment)) {
-                prepareMomentForDeletion(moment);
+                prepareMomentForDeletion(moment,dbRequestListener);
             } else {
                 moment.setSynchronisationData(
                         new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
                                 DateTime.now(), 0));
-                saveMoment(moment);
+                saveMoment(moment,dbRequestListener);
             }
             //notifyAllSuccess(moment);
         }catch (SQLException e){
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            dbRequestListener.onFailure(e);
         }
     }
 
     @Override
-    public void deleteMoment(Moment moment) {
+    public void deleteMoment(Moment moment,DBRequestListener dbRequestListener) {
         try {
             ormDeleting.ormDeleteMoment((OrmMoment) moment);
-            //  notifyAllSuccess(moment);
         } catch (SQLException e) {
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            if(dbRequestListener!=null){
+                dbRequestListener.onFailure(e);
+            }
             if (e.getMessage() != null) {
                 DSLog.i("***SPO***", "exception = " + e.getMessage());
             }
@@ -81,12 +83,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteMomentDetail(Moment moment) throws SQLException {
+    public void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteMomentDetails(moment.getId());
     }
 
     @Override
-    public void deleteMeasurementGroup(Moment moment) throws SQLException {
+    public void deleteMeasurementGroup(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteMeasurementGroups((OrmMoment) moment);
     }
 
@@ -94,15 +96,15 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return moment.getSynchronisationData() != null;
     }
 
-    private void saveMoment(final Moment moment) throws SQLException {
-        ormSaving.saveMoment(getOrmMoment(moment));
+    private void saveMoment(final Moment moment,DBRequestListener dbRequestListener) throws SQLException {
+        ormSaving.saveMoment(getOrmMoment(moment,dbRequestListener));
     }
 
-    private OrmMoment getOrmMoment(final Moment moment) {
+    private OrmMoment getOrmMoment(final Moment moment,DBRequestListener dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            dbRequestListener.onFailure(e);
             if (e.getMessage() != null) {
                 DSLog.i("***SPO***", "Exception = " + e.getMessage());
             }
@@ -110,9 +112,9 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return null;
     }
 
-    private void prepareMomentForDeletion(final Moment moment) throws SQLException {
+    private void prepareMomentForDeletion(final Moment moment,DBRequestListener dbRequestListener) throws SQLException {
         moment.setSynced(false);
         moment.getSynchronisationData().setInactive(true);
-        saveMoment(moment);
+        saveMoment(moment, dbRequestListener);
     }
 }

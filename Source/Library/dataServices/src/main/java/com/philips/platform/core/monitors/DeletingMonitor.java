@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DataClearResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 
@@ -26,18 +25,18 @@ public class DeletingMonitor extends EventMonitor{
     }
 
     public void onEventBackgroundThread(@NonNull DataClearRequest event) {
-            dbInterface.deleteAllMoments();
-            eventing.post(new DataClearResponse(event.getEventId()));
+            dbInterface.deleteAllMoments(event.getDbRequestListener());
+            //eventing.post(new DataClearResponse(event.getEventId()));
     }
 
     public void onEventAsync(@NonNull MomentDeleteRequest event) {
-            dbInterface.markAsInActive(event.getMoment());
+            dbInterface.markAsInActive(event.getMoment(),event.getDbRequestListener());
          //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
 
     }
 
     public void onEventBackgroundThread(@NonNull MomentBackendDeleteResponse backendDeleteResponse) {
-        dbInterface.deleteMoment(backendDeleteResponse.getMoment());
+        dbInterface.deleteMoment(backendDeleteResponse.getMoment(),backendDeleteResponse.getDbRequestListener());
     }
 }
 

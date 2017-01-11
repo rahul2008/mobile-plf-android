@@ -5,6 +5,7 @@ import android.content.Context;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 /**
@@ -14,9 +15,11 @@ import com.philips.platform.core.trackers.DataServicesManager;
 public class ConsentDialogPresenter {
 
     private final Context mContext;
+    private final DBRequestListener dbRequestListener;
 
-    ConsentDialogPresenter(Context mContext) {
+    ConsentDialogPresenter(Context mContext, DBRequestListener dbRequestListener) {
         this.mContext = mContext;
+        this.dbRequestListener = dbRequestListener;
     }
 
     protected boolean getConsentDetailStatus(ConsentDetail consentDetail) {
@@ -39,6 +42,10 @@ public class ConsentDialogPresenter {
         mDataServices.createConsentDetail
                 (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
                         Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
-        mDataServices.saveConsent(consent);
+        mDataServices.saveConsent(consent,dbRequestListener);
+    }
+
+    public void updateConsent(Consent mConsent) {
+        DataServicesManager.getInstance().updateConsent(mConsent,dbRequestListener);
     }
 }

@@ -9,6 +9,7 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -39,6 +40,7 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -66,6 +68,8 @@ public class DataServicesManager {
     private volatile boolean isPullComplete = true;
 
     private volatile boolean isPushComplete = true;
+
+    private DBRequestListener dbChangeListener;
 
     @Inject
     Eventing mEventing;
@@ -121,32 +125,33 @@ public class DataServicesManager {
     }*/
 
     @NonNull
-    public Moment save(@NonNull final Moment moment) {
+    public Moment save(@NonNull final Moment moment,DBRequestListener dbRequestListener) {
         DSLog.i("***SPO***", "In DataServicesManager.save for " + moment.toString());
-        mEventing.post(new MomentSaveRequest(moment));
+        mEventing.post(new MomentSaveRequest(moment,dbRequestListener));
         return moment;
     }
 
-    public Moment update(@NonNull final Moment moment) {
-        mEventing.post(new MomentUpdateRequest(moment));
+    public Moment update(@NonNull final Moment moment,DBRequestListener dbRequestListener) {
+        mEventing.post(new MomentUpdateRequest(moment,dbRequestListener));
         return moment;
     }
 
-    public void fetch(final @NonNull Integer... type) {
-        mEventing.post(new LoadMomentsRequest(type));
+    public void fetch(DBRequestListener dbRequestListener,final @NonNull Integer... type) {
+        mEventing.post(new LoadMomentsRequest(dbRequestListener,type));
     }
 
-    public void fetchMomentById(final int momentID) {
-        mEventing.post(new LoadMomentsRequest(momentID));
+    public void fetchMomentById(final int momentID,DBRequestListener dbRequestListener) {
+        mEventing.post(new LoadMomentsRequest(momentID,dbRequestListener));
     }
 
-    public void fetchAllData() {
-        mEventing.post(new LoadMomentsRequest());
+    public void fetchAllData(DBRequestListener dbRequestListener) {
+        mEventing.post(new LoadMomentsRequest(dbRequestListener));
+        Log.d(this.getClass().getName(),"Inside DataService");
     }
 
     @NonNull
-    public void fetchConsent() {
-        mEventing.post(new LoadConsentsRequest());
+    public void fetchConsent(DBRequestListener dbRequestListener) {
+        mEventing.post(new LoadConsentsRequest(dbRequestListener));
     }
 
     @NonNull
@@ -162,12 +167,12 @@ public class DataServicesManager {
         consent.addConsentDetails(consentDetail);
     }
 
-    public void saveConsent(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+    public void saveConsent(Consent consent,DBRequestListener dbRequestListener) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
-    public void updateConsent(Consent consent) {
-        mEventing.post(new DatabaseConsentSaveRequest(consent, false));
+    public void updateConsent(Consent consent,DBRequestListener dbRequestListener) {
+        mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
     @NonNull
@@ -214,12 +219,12 @@ public class DataServicesManager {
         return measurementDetail;
     }
 
-    public void deleteMoment(final Moment moment) {
-        mEventing.post(new MomentDeleteRequest(moment));
+    public void deleteMoment(final Moment moment,DBRequestListener dbRequestListener) {
+        mEventing.post(new MomentDeleteRequest(moment,dbRequestListener));
     }
 
-    public void updateMoment(Moment moment) {
-        mEventing.post((new MomentUpdateRequest(moment)));
+    public void updateMoment(Moment moment,DBRequestListener dbRequestListener) {
+        mEventing.post((new MomentUpdateRequest(moment,dbRequestListener)));
     }
 
     public void synchchronize() {
@@ -275,12 +280,12 @@ public class DataServicesManager {
     }
 
     //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
-    public void deleteAll() {
-        mEventing.post(new DataClearRequest());
+    public void deleteAll(DBRequestListener dbRequestListener) {
+        mEventing.post(new DataClearRequest(dbRequestListener));
     }
 
-    public void deleteAllMoment() {
-        mEventing.post(new DataClearRequest());
+    public void deleteAllMoment(DBRequestListener dbRequestListener) {
+        mEventing.post(new DataClearRequest(dbRequestListener));
     }
 
 
@@ -351,5 +356,16 @@ public class DataServicesManager {
 
     public void setPushComplete(boolean pushComplete) {
         isPushComplete = pushComplete;
+    }
+
+    public void registeredDBRequestListener(DBRequestListener dbRequestListener){
+    this.dbChangeListener =dbRequestListener;
+    }
+    public void unRegisteredDBRequestListener(){
+        this.dbChangeListener =null;
+    }
+
+    public DBRequestListener getDbChangeListener() {
+        return dbChangeListener;
     }
 }

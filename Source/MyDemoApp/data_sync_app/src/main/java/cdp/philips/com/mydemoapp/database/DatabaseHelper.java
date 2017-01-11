@@ -62,14 +62,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmMeasurementGroup, Integer> measurementGroup;
     private Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails;
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
-    private TemperatureMomentHelper mTemperatureMomentHelper;
     private Dao<OrmConsent, Integer> consentDao;
     private Dao<OrmConsentDetail, Integer> consentDetailDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.uuidGenerator = uuidGenerator;
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -80,7 +78,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             insertDictionaries();
         } catch (SQLException e) {
             DSLog.e(TAG, "Error Unable to create databases" + e);
-            mTemperatureMomentHelper.notifyAllFailure(e);
         }
     }
 

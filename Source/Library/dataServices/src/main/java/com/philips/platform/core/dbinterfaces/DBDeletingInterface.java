@@ -1,6 +1,7 @@
 package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 
@@ -9,9 +10,9 @@ import java.sql.SQLException;
  * All rights reserved.
  */
 public interface DBDeletingInterface {
-    void deleteAllMoments();
-    void markAsInActive(Moment moment);
-    void deleteMoment(Moment moment);
-    void deleteMomentDetail(Moment moment) throws SQLException;
-    void deleteMeasurementGroup(Moment moment) throws SQLException;
+    void deleteAllMoments(DBRequestListener dbRequestListener);
+    void markAsInActive(Moment moment,DBRequestListener dbRequestListener);
+    void deleteMoment(Moment moment,DBRequestListener dbRequestListener);
+    void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
+    void deleteMeasurementGroup(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
 }

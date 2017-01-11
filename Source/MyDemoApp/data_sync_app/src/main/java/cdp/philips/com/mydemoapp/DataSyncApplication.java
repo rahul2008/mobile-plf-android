@@ -70,7 +70,7 @@ public class DataSyncApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-        //Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
 
        /* DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();*/

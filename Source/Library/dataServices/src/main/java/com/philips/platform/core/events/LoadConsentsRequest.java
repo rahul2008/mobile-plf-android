@@ -7,12 +7,22 @@
 package com.philips.platform.core.events;
 
 
+import com.philips.platform.core.listeners.DBRequestListener;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class LoadConsentsRequest extends Event {
-    public LoadConsentsRequest() {
 
+    private final DBRequestListener dbRequestListener;
+
+    public DBRequestListener getDbRequestListener() {
+        return dbRequestListener;
+    }
+
+    public LoadConsentsRequest(DBRequestListener dbRequestListener) {
+
+        this.dbRequestListener = dbRequestListener;
     }
 }

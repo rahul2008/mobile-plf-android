@@ -8,11 +8,11 @@ package cdp.philips.com.mydemoapp.database;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 
-import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -36,42 +36,40 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     @Override
-    public boolean saveMoment(final Moment moment) throws SQLException {
+    public boolean saveMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         OrmMoment ormMoment = null;
         try {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
-
-            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
-
+            dbRequestListener.onSuccess(ormMoment);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            dbRequestListener.onFailure(e);
             return false;
         }
 
     }
     @Override
-    public boolean saveConsent(Consent consent) throws SQLException {
+    public boolean saveConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             updateConsentAndSetIdIfConsentExists(ormConsent);
-            new ConsentHelper().notifyAllSuccess(ormConsent);
+            dbRequestListener.onSuccess(ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            new ConsentHelper().notifyFailConsent(e);
+            dbRequestListener.onFailure(e);
             return false;
         }
 
     }
 
     @Override
-    public void postError(Exception e) {
-        mTemperatureMomentHelper.notifyAllFailure(e);
+    public void postError(Exception e, DBRequestListener dbRequestListener) {
+        dbRequestListener.onFailure(e);
     }
 
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {
