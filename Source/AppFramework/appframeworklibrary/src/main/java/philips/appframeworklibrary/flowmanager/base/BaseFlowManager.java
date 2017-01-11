@@ -49,8 +49,6 @@ public abstract class BaseFlowManager {
      * @param conditionId Condition ID for which the BaseCondition type object need to be created.
      * @return Object of BaseCondition type.
      */
-    // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
-    // put @nonNull for all public APIs and make sure it behaves properly when they send null values and app does not crash.
     public BaseCondition getCondition(String conditionId) {
         return conditionMap.get(conditionId);
     }
@@ -140,7 +138,6 @@ public abstract class BaseFlowManager {
             }
             if (nextState != null) {
                 if (flowManagerStack.contains(nextState)) {
-                    // TODO: Deepthi pop operations need not return state, you can return just next state
                     flowManagerStack.pop(nextState);
                     setCurrentState(nextState);
                     return nextState;
@@ -157,8 +154,6 @@ public abstract class BaseFlowManager {
         throw new NoStateException();
     }
 
-    // TODO: Deepthi check if we need to standardize this exit state
-    // TODO: Deepthi check oncreate of application is called every time you press home, exit app etc.
     public void clearStates() {
         flowManagerStack.clear();
     }
