@@ -1,2 +1,9 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('../../../../android-shinelib/Source/ShineLib/shinelib/build/outputs/aar/shinelib-debug.aar'))
+
+def bluelibAar = rootDir.absolutePath + '/../../../android-shinelib/Source/ShineLib/shinelib/build/outputs/aar/shinelib-debug.aar'
+println(bluelibAar)
+
+if (new File(bluelibAar).exists()) {
+    System.out.println(">>> adding shinelib-debug.aar to artifacts")
+    artifacts.add("default", file(bluelibAar))
+}
