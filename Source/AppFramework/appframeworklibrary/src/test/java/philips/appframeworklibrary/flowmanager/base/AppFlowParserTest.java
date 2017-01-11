@@ -56,6 +56,11 @@ public class AppFlowParserTest extends TestCase {
         assertTrue(appFlowParser.isEmpty(""));
         assertTrue(appFlowParser.isEmpty(null));
         assertFalse(appFlowParser.isEmpty("test"));
+        try {
+            assertTrue(appFlowParser.getFileInputStream("test") != null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void testAppFlowMap() throws Exception {
