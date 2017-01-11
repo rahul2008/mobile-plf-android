@@ -2,6 +2,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,11 +12,9 @@ import java.util.List;
  * All rights reserved.
  */
 public interface DBUpdatingInterface {
-  //  int processMoment(int updatedCount, final Moment moment);
-    void updateMoment(final Moment ormMoment);
-  //  Moment getOrmMoment(final Moment moment);
-    int processMomentsReceivedFromBackend(final List<? extends Moment> moments);
-    void processCreatedMoment(final List<? extends Moment> moments);
-    void updateFailed(Exception e);
-    boolean updateConsent(final Consent consent) throws SQLException;
+    void updateMoment(final Moment ormMoment,DBRequestListener dbRequestListener);
+    int processMomentsReceivedFromBackend(final List<? extends Moment> moments,DBRequestListener dbRequestListener);
+    void processCreatedMoment(final List<? extends Moment> moments,DBRequestListener dbRequestListener);
+    void updateFailed(Exception e,DBRequestListener dbRequestListener);
+    boolean updateConsent(final Consent consent,DBRequestListener dbRequestListener) throws SQLException;
 }

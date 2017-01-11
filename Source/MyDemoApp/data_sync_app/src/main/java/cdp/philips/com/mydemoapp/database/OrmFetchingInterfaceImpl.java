@@ -14,20 +14,18 @@ import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
-import cdp.philips.com.mydemoapp.listener.DBChangeListener;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 /**
@@ -63,20 +61,24 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchMoments() throws SQLException {
+    public void fetchMoments(DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
-        getActiveMoments(momentDao.query(queryBuilder.prepare()));
+        getActiveMoments(momentDao.query(queryBuilder.prepare()), dbRequestListener);
     }
 
     @Override
-    public void fetchConsents() throws SQLException {
+    public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) consentDao.query(queryBuilder.prepare());
-        notifySucessConsentChange(ormConsents);
+        if (ormConsents.size() != 0) {
+            dbRequestListener.onSuccess(ormConsents.get(0));
+        } else {
+            dbRequestListener.onSuccess(null);
+        }
     }
 
     @Override
-    public Consent fetchConsent() throws SQLException {
+    public Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) consentDao.query(queryBuilder.prepare());
         if (ormConsents != null && !ormConsents.isEmpty()) {
@@ -87,50 +89,36 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void postError(Exception e) {
-        mTemperatureMomentHelper.notifyAllFailure(e);
-    }
-
-    private void notifySucessConsentChange(ArrayList<? extends OrmConsent> ormConsents) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if (integers.contains(EventHelper.CONSENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.CONSENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                if (ormConsents.size() != 0) {
-                    listener.onSuccess(ormConsents.get(0));
-                } else {
-                    listener.onSuccess(null);
-                }
-            }
-        }
+    public void postError(Exception e, DBRequestListener dbRequestListener) {
+        dbRequestListener.onFailure(e);
     }
 
     @Override
-    public void fetchMoments(@NonNull final String type) throws SQLException {
+    public void fetchMoments(@NonNull final String type,DBRequestListener dbRequestListener) throws SQLException {
         DSLog.i("***SPO***", "In fetchMoments - OrmFetchingInterfaceImpl");
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.orderBy("dateTime", true);
-        getActiveMoments(momentDao.queryForEq("type_id", type));
+        getActiveMoments(momentDao.queryForEq("type_id", type), dbRequestListener);
     }
 
     @Override
-    public void fetchMoments(@NonNull final Object... types) throws SQLException {
+    public void fetchMoments(DBRequestListener dbRequestListener,@NonNull final Object... types) throws SQLException {
         List<OrmMoment> ormMoments = new ArrayList<OrmMoment>();
         List<Integer> ids = new ArrayList<>();
         final int i = 0;
-        for (Object momentType : types) {
-            if (momentType instanceof Integer)
-                ids.add((Integer) momentType);
+        for (Object object : types) {
+            if (object instanceof Integer) {
+                ids.add((Integer) object);
+            }
         }
         final QueryBuilder<OrmMoment, Integer> queryBuilder = momentDao.queryBuilder();
         queryBuilder.where().in("type_id", ids);
         queryBuilder.orderBy("dateTime", true);
-        getActiveMoments(momentDao.query(queryBuilder.prepare()));
+        getActiveMoments(momentDao.query(queryBuilder.prepare()), dbRequestListener);
     }
 
     @Override
-    public void fetchLastMoment(final String type) throws SQLException {
+    public void fetchLastMoment(final String type,DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
         Where<OrmMoment, Integer> where = builder.where();
         where.eq("type_id", type);
@@ -141,7 +129,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         ArrayList<OrmMoment> moments = new ArrayList<>();
         moments.add(ormMoments);
 
-        mTemperatureMomentHelper.notifySuccessToAll(moments);
+        dbRequestListener.onSuccess(ormMoments);
     }
 
     @Override
@@ -171,14 +159,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public Object fetchMomentById(final int id) throws SQLException {
+    public Object fetchMomentById(final int id, DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> momentQueryBuilder = momentDao.queryBuilder();
         momentQueryBuilder.where().eq("id", id);
 
         return momentQueryBuilder.queryForFirst();
     }
 
-    public void getActiveMoments(final List<?> ormMoments) {
+    public void getActiveMoments(final List<?> ormMoments, DBRequestListener dbRequestListener) {
         DSLog.i("***SPO***", "In getActiveMoments - OrmFetchingInterfaceImpl");
         List<OrmMoment> activeOrmMoments = new ArrayList<>();
         if (ormMoments != null) {
@@ -189,7 +177,8 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
             }
         }
         DSLog.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
-        mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) activeOrmMoments);
+        dbRequestListener.onSuccess((ArrayList<? extends Object>)ormMoments);
+       // mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) activeOrmMoments,dbRequestListener);
     }
 
     @Override

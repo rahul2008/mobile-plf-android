@@ -27,18 +27,18 @@ public class DeletingMonitor extends EventMonitor{
     }
 
     public void onEventBackgroundThread(@NonNull DataClearRequest event) {
-            dbInterface.deleteAllMoments();
-            eventing.post(new DataClearResponse(event.getEventId()));
+            dbInterface.deleteAllMoments(event.getDbRequestListener());
+            //eventing.post(new DataClearResponse(event.getEventId()));
     }
 
     public void onEventAsync(@NonNull MomentDeleteRequest event) {
-            dbInterface.deleteMoment(event.getMoment());
+            dbInterface.deleteMoment(event.getMoment(),event.getDbRequestListener());
          //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
 
     }
 
     public void onEventBackgroundThread(@NonNull MomentBackendDeleteResponse backendDeleteResponse) {
-        dbInterface.ormDeletingDeleteMoment(backendDeleteResponse.getMoment());
+        dbInterface.ormDeletingDeleteMoment(backendDeleteResponse.getMoment(),backendDeleteResponse.getDbRequestListener());
     }
 }
 

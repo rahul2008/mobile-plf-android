@@ -2,6 +2,7 @@ package com.philips.platform.verticals;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 /**
  * Created by 310218660 on 1/2/2017.
@@ -9,12 +10,12 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 
 public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
     @Override
-    public void deleteAllMoments() {
+    public void deleteAllMoments(DBRequestListener dbRequestListener) {
 
     }
 
     @Override
-    public void deleteMoment(Moment moment) {
+    public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) {
 
     }
 

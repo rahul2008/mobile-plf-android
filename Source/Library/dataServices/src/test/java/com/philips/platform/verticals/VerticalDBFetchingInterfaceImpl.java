@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -45,7 +46,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public Object fetchMomentById(int id) throws SQLException {
+    public Object fetchMomentById(int id, DBRequestListener dbRequestListener) throws SQLException {
         return null;
     }
 
@@ -70,7 +71,7 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public void postError(Exception e) {
+    public void postError(Exception e, DBRequestListener dbRequestListener) {
 
     }
 }

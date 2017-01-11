@@ -2,6 +2,7 @@ package com.philips.platform.core.dbinterfaces;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
  * All rights reserved.
  */
 public interface DBSavingInterface {
-    boolean saveMoment(final Moment moment) throws SQLException;
-    boolean saveConsent(final Consent consent) throws SQLException;
-    void postError(Exception e);
+    boolean saveMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException;
+    boolean saveConsent(final Consent consent,DBRequestListener dbRequestListener) throws SQLException;
+    void postError(Exception e, DBRequestListener dbRequestListener);
 }

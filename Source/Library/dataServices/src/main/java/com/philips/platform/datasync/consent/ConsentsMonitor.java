@@ -171,7 +171,7 @@ public class ConsentsMonitor extends EventMonitor {
             for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                 consentDetail.setBackEndSynchronized(true);
             }
-            eventing.post(new DatabaseConsentSaveRequest(consent, true));
+            eventing.post(new DatabaseConsentSaveRequest(consent, true, mDataServicesManager.getDbRequestListener()));
         } catch (RetrofitError error) {
             postError(event.getEventId(), error);
         }

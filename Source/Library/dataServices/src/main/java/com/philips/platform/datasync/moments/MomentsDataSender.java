@@ -254,7 +254,7 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private void postDeletedOk(final Moment moment) {
-        eventing.post(new MomentBackendDeleteResponse(moment));
+        eventing.post(new MomentBackendDeleteResponse(moment,mDataServicesManager.getDbRequestListener()));
     }
 
     @Override

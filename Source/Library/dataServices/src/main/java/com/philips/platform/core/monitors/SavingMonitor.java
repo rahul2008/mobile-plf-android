@@ -24,20 +24,20 @@ public class SavingMonitor extends EventMonitor {
     }
 
     public void onEventAsync(final MomentSaveRequest momentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment());
+        boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(),momentSaveRequest.getDbRequestListener());
         if (saved) {
             //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
         } else {
-            dbInterface.postError(new Exception("Failed to insert"));
+            dbInterface.postError(new Exception("Failed to insert"),momentSaveRequest.getDbRequestListener());
         }
     }
 
     public void onEventAsync(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
         Consent consent = consentSaveRequest.getConsent();
-        boolean saved = dbInterface.saveConsent(consent);
+        boolean saved = dbInterface.saveConsent(consent,consentSaveRequest.getDbRequestListener());
 
         if (!saved) {
-            dbInterface.postError(new Exception("Failed to insert"));
+            dbInterface.postError(new Exception("Failed to insert"), consentSaveRequest.getDbRequestListener());
             return;
         }
         if (!consentSaveRequest.isUpdateSyncFlag()) {

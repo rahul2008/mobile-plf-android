@@ -12,6 +12,7 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -41,7 +42,7 @@ public class UpdatingMonitor extends EventMonitor {
         Moment moment = momentUpdateRequest.getMoment();
         moment.setSynced(false);
 
-        dbUpdatingInterface.updateMoment(moment);
+        dbUpdatingInterface.updateMoment(moment,momentUpdateRequest.getDbRequestListener());
         //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
@@ -54,10 +55,10 @@ public class UpdatingMonitor extends EventMonitor {
         DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
             DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
-            dbFetchingInterface.fetchMoments();
+            dbFetchingInterface.fetchMoments(DataServicesManager.getInstance().getDbRequestListener());
         } catch (SQLException e) {
             DSLog.i("**SPO**", "In Updating Monitor report exception");
-            dbUpdatingInterface.updateFailed(e);
+            dbUpdatingInterface.updateFailed(e,DataServicesManager.getInstance().getDbRequestListener());
             e.printStackTrace();
         }
         // eventing.post(new WriteDataToBackendRequest());
@@ -68,7 +69,7 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        dbUpdatingInterface.processMomentsReceivedFromBackend(moments);
+        dbUpdatingInterface.processMomentsReceivedFromBackend(moments, DataServicesManager.getInstance().getDbRequestListener());
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
@@ -76,10 +77,10 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        dbUpdatingInterface.processCreatedMoment(moments);
+        dbUpdatingInterface.processCreatedMoment(moments,DataServicesManager.getInstance().getDbRequestListener());
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
-        dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent());
+        dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(),DataServicesManager.getInstance().getDbRequestListener());
     }
 }

@@ -24,6 +24,7 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -48,6 +49,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 
 public class TemperaturePresenter {
+    private final DBRequestListener dbRequestListener;
     private DataServicesManager mDataServices;
 
     private Measurement mMeasurement;
@@ -64,10 +66,11 @@ public class TemperaturePresenter {
     private EditText mPhase;
     private Button mDialogButton;
 
-    TemperaturePresenter(Context context, String momentType) {
+    TemperaturePresenter(Context context, String momentType,DBRequestListener dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
+        this.dbRequestListener=dbRequestListener;
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
@@ -122,15 +125,15 @@ public class TemperaturePresenter {
                 createMeasurementGroup(moment);
     }
 
-    void fetchData() {
-        mDataServices.fetchAllData();
+    void fetchData(DBRequestListener dbRequestListener) {
+        mDataServices.fetchAllData(dbRequestListener);
     }
 
     private void saveRequest(Moment moment) {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
-            mDataServices.save(moment);
+            mDataServices.save(moment,dbRequestListener);
         }
     }
 
@@ -177,7 +180,7 @@ public class TemperaturePresenter {
     private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter,
                               final List<? extends Moment> data, int adapterPosition) {
         try {
-            mDataServices.deleteMoment(data.get(adapterPosition));
+            mDataServices.deleteMoment(data.get(adapterPosition),dbRequestListener);
             data.remove(adapterPosition);
             adapter.notifyItemRemoved(adapterPosition);
             adapter.notifyDataSetChanged();
@@ -237,7 +240,7 @@ public class TemperaturePresenter {
         old.setSynced(false);
         momentDao.createOrUpdate(old);
         momentDao.refresh(old);
-        mDataServices.update(old);
+        mDataServices.update(old,dbRequestListener);
     }
 
     void addOrUpdateMoment(final int addOrUpdate, final Moment moment) {

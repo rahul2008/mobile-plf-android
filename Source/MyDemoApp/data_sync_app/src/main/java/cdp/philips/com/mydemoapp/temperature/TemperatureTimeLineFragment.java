@@ -23,6 +23,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
@@ -32,8 +33,6 @@ import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
-import cdp.philips.com.mydemoapp.listener.DBChangeListener;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.mydemoapp.utility.Utility;
@@ -45,7 +44,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBChangeListener {
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -72,8 +71,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
-        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
+        //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
+        mDataServicesManager.registeredDBRequestListener(this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -99,7 +99,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         deleteUserDataIfNewUserLoggedIn();
 
-        mTemperaturePresenter.fetchData();
+        mTemperaturePresenter.fetchData(this);
 
         //Reseting the sync Flags
         mDataServicesManager.setPullComplete(true);
@@ -230,7 +230,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+       // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
         //mDataServicesManager.releaseDataServicesInstances();
     }
 
@@ -268,7 +268,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final Object data) {
-        mTemperaturePresenter.fetchData();
+        mTemperaturePresenter.fetchData(this);
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -81,6 +82,9 @@ public class FetchingMonitorTest {
     @Mock
     private DBFetchingInterface fetchingMock;
 
+    @Mock
+    private DBRequestListener dbRequestListener;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -92,9 +96,9 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldFetchMomentsInsightsAndBabyProfile_WhenLoadTimelineEntryRequestIsReceived() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest());
+        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest(dbRequestListener));
 
-        verify(fetching).fetchMoments();
+        verify(fetching).fetchMoments(dbRequestListener);
 //        verify(fetching).fetchConsent();
   //      verify(fetching).fetchConsent();
     //    verify(fetching).fetchNonSynchronizedMoments();
@@ -102,29 +106,29 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldThrowException_FetchingMoments() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest());
-        verify(fetching).fetchMoments();
+        fetchingMonitor.onEventBackgroundThread(new LoadTimelineEntryRequest(dbRequestListener));
+        verify(fetching).fetchMoments(dbRequestListener);
     }
 
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
-        fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature"));
+        fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature", dbRequestListener));
     }
 
     @Test
     public void ShouldFetchMoments_WhenLoadMomentsRequestIsReceived() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadMomentsRequest());
+        fetchingMonitor.onEventBackgroundThread(new LoadMomentsRequest(dbRequestListener));
 
-        verify(fetching).fetchMoments();
+        verify(fetching).fetchMoments(dbRequestListener);
     }
 
     @Test
     public void ShouldFetchConsents_WhenLoadConsentsRequest() throws Exception {
 
-        fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest());
+        fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest(dbRequestListener));
 
-        verify(fetching).fetchConsents();
+        verify(fetching).fetchConsents(dbRequestListener);
     }
 
 

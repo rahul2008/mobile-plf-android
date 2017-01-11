@@ -10,6 +10,7 @@ import com.philips.platform.core.events.DataClearResponse;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,9 @@ public class DeletingMonitorTest {
     @Mock
     private SynchronisationData synchronisationMock;
 
+    @Mock
+    DBRequestListener dbRequestListener;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -53,20 +57,20 @@ public class DeletingMonitorTest {
 
     @Test
     public void DeletionAsked_WhenEventReceived() throws Exception {
-        monitor.onEventBackgroundThread(new DataClearRequest());
-        verify(deletingMock).deleteAllMoments();
+        monitor.onEventBackgroundThread(new DataClearRequest(dbRequestListener));
+        verify(deletingMock).deleteAllMoments(dbRequestListener);
     }
 
     @Test
     public void DeletionMomentAsked_WhenEventReceived() throws Exception {
-        monitor.onEventAsync(new MomentDeleteRequest(momentMock));
-        verify(deletingMock).deleteMoment(momentMock);
+        monitor.onEventAsync(new MomentDeleteRequest(momentMock,dbRequestListener));
+        verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
     }
 
     @Test
     public void MomentBackendDeleteResponse_WhenEventReceived() throws Exception {
         monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock));
-        verify(deletingMock).ormDeletingDeleteMoment(momentMock);
+        verify(deletingMock).ormDeletingDeleteMoment(momentMock,dbRequestListener);
     }
 
    /* @Test
@@ -97,7 +101,7 @@ public class DeletingMonitorTest {
 
     @Test
     public void ResponseEventRaised_WhenDeletedHappens() throws Exception {
-        DataClearRequest request = new DataClearRequest();
+        DataClearRequest request = new DataClearRequest(dbRequestListener);
         monitor.onEventBackgroundThread(request);
 
         verify(eventingMock).post(eventCaptor.capture());

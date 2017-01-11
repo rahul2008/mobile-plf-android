@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
@@ -69,7 +70,7 @@ public class DataSyncApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-        //Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
 
        /* DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();*/

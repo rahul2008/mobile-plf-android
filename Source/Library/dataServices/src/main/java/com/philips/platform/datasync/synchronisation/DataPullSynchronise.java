@@ -109,7 +109,7 @@ public class DataPullSynchronise {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.post(new GetNonSynchronizedMomentsRequest());
+            eventing.post(new GetNonSynchronizedMomentsRequest(DataServicesManager.getInstance().getDbRequestListener()));
         }
     }
 
@@ -118,12 +118,6 @@ public class DataPullSynchronise {
             eventing.register(this);
         }
     }
-
- /*   public void unRegisterEvent() {
-        if (eventing.isRegistered(this)) {
-            eventing.unregister(this);
-        }
-    }*/
 
     private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
         DSLog.i("**SPO**","In Data Pull Synchronize preformFetch");

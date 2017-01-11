@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class OrmSaving {
         this.measurementGroupDetailsDao = measurementGroupDetails;
     }
 
-    public void saveMoment(OrmMoment moment) throws SQLException {
+    public void saveMoment(OrmMoment moment, DBRequestListener dbRequestListener) throws SQLException {
         assureSynchronisationDataIsSaved(moment.getSynchronisationData());
         momentDao.createOrUpdate(moment);
         assureMomentDetailsAreSaved(moment.getMomentDetails());

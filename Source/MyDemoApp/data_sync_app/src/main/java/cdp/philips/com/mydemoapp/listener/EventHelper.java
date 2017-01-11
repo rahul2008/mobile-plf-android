@@ -1,5 +1,7 @@
 package cdp.philips.com.mydemoapp.listener;
 
+import com.philips.platform.core.listeners.DBRequestListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,7 @@ public class EventHelper {
     public static final int MOMENT = 1;
     public static final int CONSENT = 2;
 
-    private Map<Integer, ArrayList<DBChangeListener>> eventMap;
+    private Map<Integer, ArrayList<DBRequestListener>> eventMap;
 
     //Key is the unique tag for UI .
 
@@ -18,7 +20,7 @@ public class EventHelper {
         eventMap = new HashMap<>();
     }
 
-    public Map<Integer, ArrayList<DBChangeListener>> getEventMap() {
+    public Map<Integer, ArrayList<DBRequestListener>> getEventMap() {
         return eventMap;
     }
 
@@ -31,8 +33,8 @@ public class EventHelper {
         return eventHelper;
     }
 
-    public void registerEventNotification(Integer tag, DBChangeListener observer) {
-        ArrayList<DBChangeListener> dbChangeListeners = eventMap.get(tag);
+    public void registerEventNotification(Integer tag, DBRequestListener observer) {
+        ArrayList<DBRequestListener> dbChangeListeners = eventMap.get(tag);
         if(dbChangeListeners==null)
             dbChangeListeners = new ArrayList<>();
 
@@ -40,9 +42,9 @@ public class EventHelper {
         eventMap.put(tag, dbChangeListeners);
     }
 
-    public void unregisterEventNotification(Integer tag, DBChangeListener pObserver) {
+    public void unregisterEventNotification(Integer tag, DBRequestListener pObserver) {
 
-            ArrayList<DBChangeListener> listnerList = eventMap.get(tag);
+            ArrayList<DBRequestListener> listnerList = eventMap.get(tag);
 
             if (listnerList != null) {
                 listnerList.remove(pObserver);

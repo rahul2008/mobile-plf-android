@@ -100,7 +100,7 @@ public class SavingMonitorTest {
     @Test
     public void ShouldSaveConsent_WhenSaveConsentRequestIsReceived() throws Exception {
 
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true));
+        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true, dbRequestListener));
 
         verify(savingMock).saveConsent(consent);
     }
@@ -108,7 +108,7 @@ public class SavingMonitorTest {
     @Test
     public void ShouldPostSuccessEvent_WhenConsentIsProcessed() throws Exception {
 
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true));
+        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true, dbRequestListener));
 
         /*DatabaseConsentSaveResponse response = captureEvent(DatabaseConsentSaveResponse.class, eventingMock, 1);
         assertThat(response.isSaved()).isTrue();*/

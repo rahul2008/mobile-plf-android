@@ -8,6 +8,7 @@ package com.philips.platform.core.events;
 
 
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -15,6 +16,11 @@ import com.philips.platform.core.datatypes.Moment;
  */
 public abstract class MomentEvent extends Event {
     Moment moment;
+    DBRequestListener dbRequestListener;
+    public MomentEvent(final Moment moment,final DBRequestListener dbRequestListener) {
+        this.moment = moment;
+        this.dbRequestListener=dbRequestListener;
+    }
 
     public MomentEvent(final Moment moment) {
         this.moment = moment;
@@ -27,5 +33,9 @@ public abstract class MomentEvent extends Event {
 
     public Moment getMoment() {
         return moment;
+    }
+
+    public DBRequestListener getDbRequestListener() {
+        return dbRequestListener;
     }
 }
