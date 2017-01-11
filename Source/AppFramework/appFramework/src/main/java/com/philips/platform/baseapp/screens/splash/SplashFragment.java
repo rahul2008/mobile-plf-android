@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
-import com.philips.platform.baseapp.screens.introscreen.LaunchView;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends Fragment implements LaunchView, BackEventListener {
+public class SplashFragment extends OnboardingBaseFragment implements BackEventListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
@@ -103,44 +100,10 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
         isVisible = false;
     }
 
-
-    @Override
-    public void showActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.showActionBar();
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        getFragmentActivity().getWindow().getDecorView().requestLayout();
-    }
-
-    @Override
-    public void hideActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.hideActionBar();
-    }
-
-    @Override
-    public void finishActivityAffinity() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.finishAffinity();
-    }
-
-    @Override
-    public ActionBarListener getActionBarListener() {
-        return (LaunchActivity) getActivity();
-    }
-
-    @Override
-    public int getContainerId() {
-        return R.id.welcome_frame_container;
-    }
-
-    @Override
-    public FragmentActivity getFragmentActivity() {
-        return getActivity();
+        getActivity().getWindow().getDecorView().requestLayout();
     }
 
     @Override

@@ -9,8 +9,6 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +21,10 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.shamanland.fonticon.FontIconView;
 
@@ -40,7 +38,7 @@ import static com.janrain.android.engage.JREngage.getApplicationContext;
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  *
  */
-public class WelcomeFragment extends Fragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
+public class WelcomeFragment extends OnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
 
     public static String TAG = LaunchActivity.class.getSimpleName();
 
@@ -146,39 +144,6 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener, W
         if (presenter != null) {
             presenter.onEvent(v.getId());
         }
-    }
-
-    @Override
-    public void showActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.showActionBar();
-    }
-
-    @Override
-    public void hideActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.hideActionBar();
-    }
-
-    @Override
-    public void finishActivityAffinity() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.finishAffinity();
-    }
-
-    @Override
-    public ActionBarListener getActionBarListener() {
-        return (LaunchActivity) getActivity();
-    }
-
-    @Override
-    public int getContainerId() {
-        return R.id.welcome_frame_container;
-    }
-
-    @Override
-    public FragmentActivity getFragmentActivity() {
-        return getActivity();
     }
 
     @Override

@@ -5,10 +5,32 @@
 */
 package com.philips.platform.baseapp.base;
 
+import com.philips.platform.baseapp.screens.utility.Constants;
+
 /**
  * This class aims to handle events inside the states and also events when a particular state is loaded
  */
 abstract public class UIBasePresenter {
+    /*Event ID */
+    protected static final int MENU_OPTION_HOME = 0;
+    protected final int MENU_OPTION_SETTINGS = 1;
+    protected final int MENU_OPTION_SHOP = 2;
+    protected final int MENU_OPTION_SUPPORT = 3;
+    protected final int MENU_OPTION_ABOUT = 4;
+    protected final int MENU_OPTION_DATA_SYNC = 5;
+    protected final int MENU_OPTION_PR = 7;
+    protected final int MENU_OPTION_CONNECTIVITY = 6;
+
+    /* event to state map */
+    protected final String HOME_SETTINGS = "settings";
+    protected final String HOME_IAP = "iap";
+    protected final String HOME_SUPPORT = "support";
+    protected final String SHOPPING_CART = "shopping_cart";
+    protected final String HOME_ABOUT = "about";
+    protected final String HOME_FRAGMENT = "home_fragment";
+    protected final String HOME_DATA_SYNC = "data_sync";
+    protected final String SUPPORT_PR = "pr";
+    protected final String CONNECTIVITY = "connectivity";
 
     private UIView uiView;
 
@@ -29,5 +51,51 @@ abstract public class UIBasePresenter {
      */
     public void setState(String stateID){
 
+    }
+
+    protected UIStateData setStateData(final int componentID) {
+        switch (componentID) {
+            case MENU_OPTION_HOME:
+                UIStateData homeStateData = new UIStateData();
+                homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
+                return homeStateData;
+            case MENU_OPTION_SETTINGS:
+                UIStateData settingsStateData = new UIStateData();
+                settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return settingsStateData;
+            case MENU_OPTION_SHOP:
+                UIStateData iapStateData = new UIStateData();
+                iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+                return iapStateData;
+            case MENU_OPTION_SUPPORT:
+                UIStateData supportStateData = new UIStateData();
+                supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+                return supportStateData;
+            case MENU_OPTION_ABOUT:
+                UIStateData aboutStateData = new UIStateData();
+                aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return aboutStateData;
+            // Commented as part of Plan A removal.
+            /*case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
+                IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
+                uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
+                uiStateDataModel.setCtnList(getCtnList());
+                return uiStateDataModel;*/
+            case MENU_OPTION_PR:
+                UIStateData prStateDataModel = new UIStateData();
+                return prStateDataModel;
+            case MENU_OPTION_DATA_SYNC:
+                UIStateData syncStateData = new UIStateData();
+                syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return syncStateData;
+            case MENU_OPTION_CONNECTIVITY:
+                UIStateData connectivityStateData = new UIStateData();
+                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return connectivityStateData;
+            default:
+                homeStateData = new UIStateData();
+                homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
+                return homeStateData;
+        }
     }
 }
