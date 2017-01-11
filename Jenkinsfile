@@ -31,5 +31,11 @@ node('Android') {
             // step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.json'])
             // step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'build/cucumber-reports', fileIncludePattern: '*.json'])
         }
+
+        if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master"){
+            stage('Publish') {
+                sh 'cd ./Source/DICommClient && ./gradlew zipDocuments artifactoryPublish'
+            }
+        }
     }
 }
