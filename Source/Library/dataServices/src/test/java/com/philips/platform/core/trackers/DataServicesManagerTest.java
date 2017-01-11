@@ -164,7 +164,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.save(momentMock);
+        tracker.save(momentMock,dbRequestListener);
 
         verify(eventingMock).post(any(MomentSaveRequest.class));
     }
@@ -172,7 +172,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateEvent_WhenUpdateIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.update(momentMock);
+        tracker.update(momentMock,dbRequestListener);
 
         verify(eventingMock).post(any(MomentUpdateRequest.class));
     }
@@ -204,7 +204,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.fetchConsent();
+        tracker.fetchConsent(dbRequestListener);
 
         verify(eventingMock).post(any(LoadConsentsRequest.class));
     }
@@ -239,7 +239,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.saveConsent(consentMock);
+        tracker.saveConsent(consentMock,dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
@@ -247,7 +247,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.updateConsent(consentMock);
+        tracker.updateConsent(consentMock,dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
@@ -255,7 +255,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.deleteAllMoment();
+        tracker.deleteAllMoment(dbRequestListener);
 
         verify(eventingMock).post(any(DataClearRequest.class));
     }

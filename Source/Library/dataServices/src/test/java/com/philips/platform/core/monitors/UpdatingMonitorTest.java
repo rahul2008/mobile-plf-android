@@ -15,6 +15,7 @@ import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
@@ -46,6 +47,9 @@ public class UpdatingMonitorTest {
 
     @Mock
     MomentUpdateRequest momentUpdateRequestmock;
+
+    @Mock
+    DBRequestListener dbRequestListener;
 
     @Mock
     DatabaseConsentUpdateRequest consentUpdateRequestmock;
@@ -97,7 +101,7 @@ public class UpdatingMonitorTest {
         when(momentUpdateRequestmock.getMoment()).thenReturn(momentMock);
         updatingMonitor.onEventAsync(momentUpdateRequestmock);
         verify(momentMock).setSynced(false);
-        verify(dbUpdatingInterface).updateMoment(momentMock);
+        verify(dbUpdatingInterface).updateMoment(momentMock,dbRequestListener);
     }
 
     @Test
@@ -135,7 +139,7 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {
         updatingMonitor.onEventBackgroundThread(readDataFromBackendResponseMock);
-        verify(dbFetchingInterface).fetchMoments();
+        verify(dbFetchingInterface).fetchMoments(dbRequestListener);
     }
 
     @Test

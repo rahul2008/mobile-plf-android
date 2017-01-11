@@ -69,7 +69,7 @@ public class DeletingMonitorTest {
 
     @Test
     public void MomentBackendDeleteResponse_WhenEventReceived() throws Exception {
-        monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock));
+        monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock,dbRequestListener));
         verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
     }
 

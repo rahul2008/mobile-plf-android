@@ -15,23 +15,24 @@ import java.util.Map;
  */
 
 public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
+
     @Override
-    public void fetchMoments() throws SQLException {
+    public void fetchMoments(DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
     @Override
-    public void fetchMoments(@NonNull String type) throws SQLException {
+    public void fetchMoments(@NonNull String type, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
     @Override
-    public void fetchMoments(@NonNull Object... types) throws SQLException {
+    public void fetchMoments(DBRequestListener dbRequestListener, @NonNull Object... types) throws SQLException {
 
     }
 
     @Override
-    public void fetchLastMoment(String type) throws SQLException {
+    public void fetchLastMoment(String type, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
@@ -56,12 +57,12 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public void fetchConsents() throws SQLException {
+    public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
     @Override
-    public Consent fetchConsent() throws SQLException {
+    public Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException {
         return null;
     }
 
