@@ -5,7 +5,7 @@
 */
 package philips.appframeworklibrary.flowmanager.exceptions;
 
-public class NoConditionFoundException extends Exception {
+public class NoConditionFoundException extends RuntimeException {
 
 
     public NoConditionFoundException() {

@@ -11,18 +11,19 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 /**
  * This class id used for loading various fragments that are supported by home activity ,
@@ -72,10 +73,11 @@ public class TabbedActivityPresenter extends UIBasePresenter{
         } catch (NoEventFoundException e) {
             e.printStackTrace();
         }
-        baseState.setStateListener(this);
-        baseState.setUiStateData(setStateData(componentID));
-        fragmentLauncher = getFragmentLauncher();
-        baseState.navigate(fragmentLauncher);
+        if (null != baseState) {
+            baseState.setUiStateData(setStateData(componentID));
+            fragmentLauncher = getFragmentLauncher();
+            baseState.navigate(fragmentLauncher);
+        }
     }
 
     protected UIStateData setStateData(final int componentID) {

@@ -17,7 +17,7 @@
               },
               {
                 "condition": [
-                  "isLoggedIn"
+                  "isLoggedInfo"
                 ],
                 "nextState": "home"
               },

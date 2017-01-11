@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import philips.appframeworklibrary.flowmanager.exceptions.NoConditionFoundException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
 import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
@@ -50,7 +51,6 @@ public abstract class BaseFlowManager {
      */
     // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
     // put @nonNull for all public APIs and make sure it behaves properly when they send null values and app does not crash.
-    @NonNull
     public BaseCondition getCondition(String conditionId) {
         return conditionMap.get(conditionId);
     }
@@ -86,7 +86,7 @@ public abstract class BaseFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException {
+    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
         if (null == eventId)
             throw new NoEventFoundException();
         else if (null != currentState) {
@@ -112,7 +112,7 @@ public abstract class BaseFlowManager {
     }
 
     @Nullable
-    private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException {
+    private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException, NoConditionFoundException {
         String appFlowEventId;
         if (appFlowEvents != null && appFlowEvents.size() != 0) {
             for (final AppFlowEvent appFlowEvent : appFlowEvents) {
@@ -129,7 +129,7 @@ public abstract class BaseFlowManager {
         return null;
     }
 
-    public BaseState getBackState(BaseState currentState) throws NoStateException {
+    public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException {
         if (currentState != null && flowManagerStack.contains(currentState)) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState nextState = null;
@@ -168,7 +168,7 @@ public abstract class BaseFlowManager {
     }
 
     @Nullable
-    private BaseState getUiState(final List<AppFlowNextState> appFlowNextStates) {
+    private BaseState getUiState(final List<AppFlowNextState> appFlowNextStates) throws NoConditionFoundException {
         for (AppFlowNextState appFlowNextState : appFlowNextStates) {
             List<String> conditionsTypes = appFlowNextState.getCondition();
             boolean isConditionSatisfies = true;
@@ -183,13 +183,17 @@ public abstract class BaseFlowManager {
         return null;
     }
 
-    private boolean isConditionSatisfies(final List<String> conditionsTypes) {
+    private boolean isConditionSatisfies(final List<String> conditionsTypes) throws NoConditionFoundException {
         boolean isConditionSatisfies = true;
         for (final String conditionType : conditionsTypes) {
             BaseCondition condition = getCondition(conditionType);
-            isConditionSatisfies = condition.isSatisfied(context);
-            if (isConditionSatisfies)
-                break;
+            if (condition != null) {
+                isConditionSatisfies = condition.isSatisfied(context);
+                if (isConditionSatisfies)
+                    break;
+            } else {
+                throw new NoConditionFoundException();
+            }
         }
         return isConditionSatisfies;
     }

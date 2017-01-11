@@ -7,9 +7,6 @@ package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
 
-import com.philips.platform.appframework.flowmanager.base.BaseCondition;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
@@ -28,6 +25,11 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnB
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 
 import java.util.Map;
+
+import philips.appframeworklibrary.flowmanager.base.BaseCondition;
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.base.BaseState;
+import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 
 public class FlowManager extends BaseFlowManager {
 
