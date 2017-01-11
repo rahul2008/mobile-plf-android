@@ -7,10 +7,10 @@ package com.philips.cdp.dicommclient.port;
 
 import com.philips.cdp.dicommclient.request.Error;
 
-public interface DICommPortListener<P extends DICommPort<?>> {
+public interface DICommPortListener<P extends DICommPort> {
 
     /**
-     * Called when the (locally) know state of a port has changed. This may happen because of two reasons:
+     * Called when the (locally) known state of a port has changed. This may happen because of two reasons:
      * <ul>
      * <li>
      * As the result of performing an action on the port. (putProperties(), subscribe(), ...)
@@ -25,8 +25,8 @@ public interface DICommPortListener<P extends DICommPort<?>> {
      *
      * @param port The port that received an update.
      */
-    public void onPortUpdate(P port);
+    void onPortUpdate(P port);
 
-    public void onPortError(P port, Error error, String errorData);
+    void onPortError(P port, Error error, String errorData);
 
 }
