@@ -34,7 +34,7 @@ node('Android') {
 
         if(env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master"){
             stage('Publish') {
-                sh 'cd ./Source/DICommClient && ./gradlew zipDocuments artifactoryPublish'
+                sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew zipDocuments artifactoryPublish'
             }
         }
     }
