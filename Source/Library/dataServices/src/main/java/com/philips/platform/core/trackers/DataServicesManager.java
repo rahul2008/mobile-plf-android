@@ -355,15 +355,15 @@ public class DataServicesManager {
         mEventing.post(new LoadUserCharacteristicsRequest());
     }
 
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType, @NonNull final String detailValue, int parent, CharacteristicsDetail characteristicsDetail) {
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType, @NonNull final String detailValue, CharacteristicsDetail characteristicsDetail) {
         if (characteristics == null) {
             characteristics = createCharacteristics();
         }
         CharacteristicsDetail chDetail;
         if (characteristicsDetail != null) {
-            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, parent, characteristics, characteristicsDetail);
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, characteristics, characteristicsDetail);
         } else {
-            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, parent, characteristics);
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, characteristics);
         }
         characteristics.addCharacteristicsDetail(chDetail);
         return chDetail;

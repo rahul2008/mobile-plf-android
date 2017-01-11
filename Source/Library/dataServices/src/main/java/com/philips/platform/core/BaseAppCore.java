@@ -143,14 +143,14 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics,@NonNull CharacteristicsDetail characteristicsDetail) {
-        return database.createCharacteristicsDetails(type,value,parentID,characteristics,characteristicsDetail);
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics, @NonNull CharacteristicsDetail characteristicsDetail) {
+        return database.createCharacteristicsDetails(type, value, characteristics, characteristicsDetail);
     }
 
     @NonNull
     @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics) {
-        return database.createCharacteristicsDetails(type,value,parentID,characteristics);
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
+        return database.createCharacteristicsDetails(type, value, characteristics);
     }
 
 }

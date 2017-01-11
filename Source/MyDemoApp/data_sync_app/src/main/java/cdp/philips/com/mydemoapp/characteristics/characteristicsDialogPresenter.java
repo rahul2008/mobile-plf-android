@@ -27,7 +27,7 @@ class CharacteristicsDialogPresenter {
             for (int i = 0; i < mUserCharacteristics.getCharacteristics().size(); i++) {
                 String type = mUserCharacteristics.getCharacteristics().get(i).getType();
                 String value = mUserCharacteristics.getCharacteristics().get(i).getValue();
-                CharacteristicsDetail characteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, 0, null);
+                CharacteristicsDetail characteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, null);
                 saveUserCharacteristicsToLocalDBRecursively(characteristicsDetail, mUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
             }
             mDataServicesManager.updateCharacteristics(mCharacteristics);
@@ -46,7 +46,7 @@ class CharacteristicsDialogPresenter {
             for (int i = 0; i < characteristicsList.size(); i++) {
                 String type = characteristicsList.get(i).getType();
                 String value = characteristicsList.get(i).getValue();
-                CharacteristicsDetail childCharacteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, 0, parentCharacteristicsDetail);
+                CharacteristicsDetail childCharacteristicsDetail = mDataServicesManager.createCharacteristicsDetails(mCharacteristics, type, value, parentCharacteristicsDetail);
                 parentCharacteristicsDetail.setCharacteristicsDetail(childCharacteristicsDetail);
                 saveUserCharacteristicsToLocalDBRecursively(childCharacteristicsDetail, characteristicsList.get(i).getCharacteristics());
             }

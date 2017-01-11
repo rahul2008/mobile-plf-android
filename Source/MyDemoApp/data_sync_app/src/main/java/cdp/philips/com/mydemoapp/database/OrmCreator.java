@@ -149,7 +149,6 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
-        // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
 
         return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
     }
@@ -162,14 +161,14 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics,@NonNull CharacteristicsDetail characteristicsDetail) {
-        return new OrmCharacteristicsDetail(type,value,parentID,(OrmCharacteristics) characteristics,(OrmCharacteristicsDetail)characteristicsDetail);
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics,@NonNull CharacteristicsDetail characteristicsDetail) {
+        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) characteristics,(OrmCharacteristicsDetail)characteristicsDetail);
     }
 
     @NonNull
     @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristicsDetail(type,value,parentID,(OrmCharacteristics) characteristics);
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value,  @NonNull Characteristics characteristics) {
+        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) characteristics);
     }
 
     @NonNull

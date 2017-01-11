@@ -61,39 +61,39 @@ public class UserCharacteristicsConverterTest {
         userCharacteristicsConvertor.dataCreator = verticalDataCreater;
     }
 
-    @Test
-    public void ShouldReturnUCoreCharacteristics_WhenAppCharacteristicsIsPassedWithType() throws Exception {
-        Characteristics characteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TEST_CREATORID");
-        CharacteristicsDetail characteristicsDetail = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics);
-        CharacteristicsDetail characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics, characteristicsDetail);
+//    @Test
+//    public void ShouldReturnUCoreCharacteristics_WhenAppCharacteristicsIsPassedWithType() throws Exception {
+//        Characteristics characteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TEST_CREATORID");
+//        CharacteristicsDetail characteristicsDetail = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics);
+//        CharacteristicsDetail characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", 0, characteristics, characteristicsDetail);
+//
+//        List<Characteristics> characteristicsList = new ArrayList<>();
+//        characteristicsDetail.setCharacteristicsDetail(characteristicsDetail1);
+//        characteristics.addCharacteristicsDetail(characteristicsDetail);
+//
+//        characteristics.addCharacteristicsDetail(characteristicsDetail1);
+//        characteristicsList.add(characteristics);
+//        UCoreUserCharacteristics uCoreCharacteristicsList = userCharacteristicsConvertor.convertToUCoreUserCharacteristics(characteristicsList);
+//        assertThat(uCoreCharacteristicsList).isNotNull();
+//        assertThat(uCoreCharacteristicsList).isInstanceOf(UCoreUserCharacteristics.class);
+//    }
+//
 
-        List<Characteristics> characteristicsList = new ArrayList<>();
-        characteristicsDetail.setCharacteristicsDetail(characteristicsDetail1);
-        characteristics.addCharacteristicsDetail(characteristicsDetail);
-
-        characteristics.addCharacteristicsDetail(characteristicsDetail1);
-        characteristicsList.add(characteristics);
-        UCoreUserCharacteristics uCoreCharacteristicsList = userCharacteristicsConvertor.convertToUCoreUserCharacteristics(characteristicsList);
-        assertThat(uCoreCharacteristicsList).isNotNull();
-        assertThat(uCoreCharacteristicsList).isInstanceOf(UCoreUserCharacteristics.class);
-    }
-
-
-    @Test
-    public void ShouldReturnUCoreCharacteristics_WhenAppUCoreCharacteristicsIsNotNull() throws Exception {
-        List<UCoreCharacteristics> list = new ArrayList<UCoreCharacteristics>();
-        List<UCoreCharacteristics> list1 = new ArrayList<UCoreCharacteristics>();
-        List<UCoreCharacteristics> list2 = new ArrayList<UCoreCharacteristics>();
-
-        list.add(new UCoreCharacteristics("Type", "value", list1));
-        list1.add(new UCoreCharacteristics("Type", "value", list2));
-        UCoreUserCharacteristics userCharacteristics = new UCoreUserCharacteristics();
-        userCharacteristics.setCharacteristics(list);
-
-        Characteristics toCharacteristics = userCharacteristicsConvertor.convertToCharacteristics(userCharacteristics,"TEST_CREATORID");
-
-        assertThat(toCharacteristics.getCharacteristicsDetails()).isNotNull();
-        assertThat(toCharacteristics).isNotNull();
-        assertThat(toCharacteristics).isInstanceOf(Characteristics.class);
-    }
+//    @Test
+//    public void ShouldReturnUCoreCharacteristics_WhenAppUCoreCharacteristicsIsNotNull() throws Exception {
+//        List<UCoreCharacteristics> list = new ArrayList<UCoreCharacteristics>();
+//        List<UCoreCharacteristics> list1 = new ArrayList<UCoreCharacteristics>();
+//        List<UCoreCharacteristics> list2 = new ArrayList<UCoreCharacteristics>();
+//
+//        list.add(new UCoreCharacteristics("Type", "value", list1));
+//        list1.add(new UCoreCharacteristics("Type", "value", list2));
+//        UCoreUserCharacteristics userCharacteristics = new UCoreUserCharacteristics();
+//        userCharacteristics.setCharacteristics(list);
+//
+//        Characteristics toCharacteristics = userCharacteristicsConvertor.convertToCharacteristics(userCharacteristics,"TEST_CREATORID");
+//
+//        assertThat(toCharacteristics.getCharacteristicsDetails()).isNotNull();
+//        assertThat(toCharacteristics).isNotNull();
+//        assertThat(toCharacteristics).isInstanceOf(Characteristics.class);
+//    }
 }

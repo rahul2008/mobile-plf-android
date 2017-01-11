@@ -36,13 +36,18 @@ public class UserCharacteristicsConverter {
             String type = uCoreUserCharacteristics.getCharacteristics().get(i).getType();
             String value = uCoreUserCharacteristics.getCharacteristics().get(i).getValue();
 
-            CharacteristicsDetail characteristicsDetail = DataServicesManager.getInstance().createCharacteristicsDetails(mCharacteristics,type,value,0,null);//dataCreator.createCharacteristicsDetails(type, value, 0, mCharacteristics, null);
+            CharacteristicsDetail characteristicsDetail = dataCreator.createCharacteristicsDetails(type, value,mCharacteristics);
+
+            mCharacteristics.addCharacteristicsDetail(characteristicsDetail);
 
             convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mCharacteristics, characteristicsDetail,
                     uCoreUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+
+            DSLog.d(DSLog.LOG, "Inder = Inside UC Converter Characteristics = " + characteristicsDetail);
+            DSLog.d(DSLog.LOG, "Inder = Inside UC Converter Characteristics = " + uCoreUserCharacteristics);
+            DSLog.d(DSLog.LOG, "Inder = Inside UC Converter Characteristics getCharacteristicsDetails = " + uCoreUserCharacteristics.getCharacteristics());
         }
-        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter Characteristics = " + mCharacteristics);
-        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter Characteristics getCharacteristicsDetails = " + mCharacteristics.getCharacteristicsDetails());
+        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter mCharacteristics = " + mCharacteristics);
         return mCharacteristics;
 
     }
@@ -52,8 +57,12 @@ public class UserCharacteristicsConverter {
             for (int i = 0; i < characteristicsList.size(); i++) {
                 String type = characteristicsList.get(i).getType();
                 String value = characteristicsList.get(i).getValue();
-                CharacteristicsDetail childCharacteristicsDetail = DataServicesManager.getInstance().createCharacteristicsDetails(mCharacteristics,type,value,0, parentCharacteristicsDetail);//dataCreator.createCharacteristicsDetails(type, value, 0, mCharacteristics, parentCharacteristicsDetail);
-                parentCharacteristicsDetail.setCharacteristicsDetail(childCharacteristicsDetail);
+                CharacteristicsDetail childCharacteristicsDetail = dataCreator.createCharacteristicsDetails(type, value, mCharacteristics, parentCharacteristicsDetail);
+
+               // parentCharacteristicsDetail.setCharacteristicsDetail(childCharacteristicsDetail);
+
+                mCharacteristics.addCharacteristicsDetail(childCharacteristicsDetail);
+
                 convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mCharacteristics, childCharacteristicsDetail, characteristicsList.get(i).getCharacteristics());
             }
         }

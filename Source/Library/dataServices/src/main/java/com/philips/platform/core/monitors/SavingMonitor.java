@@ -6,6 +6,7 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
@@ -16,6 +17,7 @@ import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SavingMonitor extends EventMonitor {
     private static final String TAG = SavingMonitor.class.getSimpleName();
@@ -55,6 +57,9 @@ public class SavingMonitor extends EventMonitor {
             return;
 
         boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getCharacteristics());
+
+
+
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved ="+isSaved);
         if(!isSaved){
             dbInterface.postError(new Exception("Failed to insert"));
@@ -66,4 +71,6 @@ public class SavingMonitor extends EventMonitor {
                     userCharacteristicsSaveRequest.getCharacteristics()));
         }
     }
+
+
 }

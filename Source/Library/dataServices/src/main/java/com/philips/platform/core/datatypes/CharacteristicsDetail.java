@@ -9,10 +9,6 @@ import java.util.Collection;
 
 public interface CharacteristicsDetail extends BaseAppData, Serializable {
 
-    void setParent(int parentID);
-
-    int getParent();
-
     void setType(String type);
 
     String getType();

@@ -56,6 +56,9 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
                         mUCoreAccessProvider.getUserId(), API_VERSION);
 
+                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher from UCoreUserCharacteristics size"+uCoreUserCharacteristics.getCharacteristics().size());
+                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher from UCoreUserCharacteristics size"+uCoreUserCharacteristics.toString());
+
                 Characteristics characteristics =
                         mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
                                 mUCoreAccessProvider.getUserId());

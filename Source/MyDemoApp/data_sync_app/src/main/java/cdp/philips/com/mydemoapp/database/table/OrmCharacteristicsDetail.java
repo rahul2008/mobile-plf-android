@@ -22,9 +22,6 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
 
     public static final long serialVersionUID = 11L;
 
-    @DatabaseField(canBeNull = false)
-    private int parent;
-
     @DatabaseField(generatedId = true)
     private int id;
 
@@ -48,34 +45,22 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     OrmCharacteristicsDetail() {
     }
 
-    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics, OrmCharacteristicsDetail ormCharacteristicsDetail) {
+    public OrmCharacteristicsDetail(final String type, final String value,OrmCharacteristics ormCharacteristics, OrmCharacteristicsDetail ormCharacteristicsDetail) {
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
-        this.parent = ormCharacteristicsDetail.getId();
         this.ormCharacteristicsDetail = ormCharacteristicsDetail;
     }
 
-    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics) {
+    public OrmCharacteristicsDetail(final String type, final String value, OrmCharacteristics ormCharacteristics) {
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
-        this.parent = parent;
     }
 
     @Override
     public int getId() {
         return id;
-    }
-
-    @Override
-    public void setParent(int parentID) {
-
-    }
-
-    @Override
-    public int getParent() {
-        return parent;
     }
 
     @Override

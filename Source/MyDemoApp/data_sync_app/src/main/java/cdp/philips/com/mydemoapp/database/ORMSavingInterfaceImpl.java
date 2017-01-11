@@ -12,12 +12,15 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.listener.DBChangeListener;
+import cdp.philips.com.mydemoapp.listener.EventHelper;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
@@ -74,15 +77,30 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public boolean saveUserCharacteristics(Characteristics characteristics) throws SQLException {
+        DSLog.d("Inder saveUserCharacteristics delete", characteristics.getCharacteristicsDetails().toString());
         OrmCharacteristics ormCharacteristics;
         try {
             ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
             deleting.deleteCharacteristics();
+            DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics save", ormCharacteristics.getCharacteristicsDetails().toString());
             saving.saveCharacteristics(ormCharacteristics);
+            updateUCUI(characteristics);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void updateUCUI(Characteristics characteristics) {
+        ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.USERCHARACTERISTICS);
+        for (DBChangeListener listener : dbChangeListeners) {
+
+            if(characteristics!=null){
+                listener.onSuccess(characteristics);
+            } else {
+                listener.onSuccess(null);
+            }
         }
     }
 

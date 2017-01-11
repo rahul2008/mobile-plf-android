@@ -69,9 +69,9 @@ public interface BaseAppDataCreator {
     Characteristics createCharacteristics(@NonNull final String creatorId);
 
     @NonNull
-    CharacteristicsDetail createCharacteristicsDetails(@NonNull final String type, @NonNull final String value, @NonNull final int parentID, @NonNull final Characteristics characteristics ,@NonNull final CharacteristicsDetail characteristicsDetail);
+    CharacteristicsDetail createCharacteristicsDetails(@NonNull final String type, @NonNull final String value, @NonNull final Characteristics characteristics, @NonNull final CharacteristicsDetail characteristicsDetail);
 
     @NonNull
-    CharacteristicsDetail createCharacteristicsDetails(@NonNull final String type, @NonNull final String value, @NonNull final int parentID, @NonNull final Characteristics characteristics);
+    CharacteristicsDetail createCharacteristicsDetails(@NonNull final String type, @NonNull final String value, @NonNull final Characteristics characteristics);
 
 }

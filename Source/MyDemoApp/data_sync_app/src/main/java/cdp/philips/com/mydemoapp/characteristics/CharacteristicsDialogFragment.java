@@ -176,27 +176,24 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public void onSuccess(final Object data) {
         //Display User characteristics UI
-        final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
-        ormCharacteristics.setSynchronized(true);
-        if (ormCharacteristics != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Gson gson = new GsonBuilder().create();
-                    List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>(ormCharacteristics.getCharacteristicsDetails());
-                    System.out.println("OrmCharacteristics Type : " + characteristicsDetailList.get(0).getType() + "Value : " + characteristicsDetailList.get(0).getValue());
-                    String jsonCharacteristicsToDisplay = gson.toJson(characteristicsDetailList.get(0).getCharacteristicsDetail());
-//                    for (CharacteristicsDetail detail : characteristicsDetailList) {
-                    //String type = detail.getType();
-//                        String value = detail.getValue();
-                    //  List<CharacteristicsDetail> characteristicsDetails = (List<CharacteristicsDetail>) detail.getCharacteristicsDetail();
-//                        jsonCharacteristicsToDisplay = gson.toJson(detail.getCharacteristicsDetail());
-//                    }
-                    DSLog.d(DSLog.LOG, "Inder = jsonCharacteristicsToDisplay =" + jsonCharacteristicsToDisplay);
-                    mEtCharacteristics.setText(jsonCharacteristicsToDisplay);
-                }
-            });
-        }
+//        final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
+//        ormCharacteristics.setSynchronized(true);
+//        if (ormCharacteristics != null) {
+//            getActivity().runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Gson gson = new GsonBuilder().create();
+//
+//                    List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>(ormCharacteristics.getCharacteristicsDetails());
+//
+//                    String jsonCharacteristicsToDisplay = gson.toJson(characteristicsDetailList.get(0).getCharacteristicsDetail());
+//
+//                    DSLog.d(DSLog.LOG, "Inder = jsonCharacteristicsToDisplay =" + jsonCharacteristicsToDisplay);
+//
+//                    mEtCharacteristics.setText(jsonCharacteristicsToDisplay);
+//                }
+//            });
+//        }
 
     }
 
