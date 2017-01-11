@@ -126,7 +126,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
     int getContentLoaderLimitOptional(){
         int res = 0;
         if (null != EditTextContentLoaderLimit.getText() && !"".equals(EditTextContentLoaderLimit.getText().toString().trim())) {
-            res = Integer.parseInt(EditTextMaxHour.getText().toString().trim());
+            res = Integer.parseInt(EditTextContentLoaderLimit.getText().toString().trim());
         }
         return res;
     }
