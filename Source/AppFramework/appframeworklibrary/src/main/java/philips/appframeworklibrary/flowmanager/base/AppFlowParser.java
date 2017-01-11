@@ -5,7 +5,7 @@
 */
 package philips.appframeworklibrary.flowmanager.base;
 
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -38,12 +38,11 @@ class AppFlowParser {
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
     AppFlowModel getAppFlow(String jsonPath, AppFlowJsonListener appFlowJsonListener) {
         AppFlowModel appFlow = null;
-        if (TextUtils.isEmpty(jsonPath)) {
+        if (isEmpty(jsonPath)) {
             appFlowJsonListener.onError(AppFlowEnum.FILE_NOT_FOUND);
         } else {
             try {
-                InputStream is = new FileInputStream(jsonPath);
-                final InputStreamReader inputStreamReader = new InputStreamReader(is);
+                final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
                 appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
             } catch (JsonSyntaxException | FileNotFoundException e) {
                 if (e instanceof JsonSyntaxException) {
@@ -54,6 +53,21 @@ class AppFlowParser {
             }
         }
         return appFlow;
+    }
+
+    @NonNull
+    private InputStreamReader getInputStreamReader(final String jsonPath) throws FileNotFoundException {
+        InputStream is = getFileInputStream(jsonPath);
+        return new InputStreamReader(is);
+    }
+
+    @NonNull
+    InputStream getFileInputStream(final String jsonPath) throws FileNotFoundException {
+        return new FileInputStream(jsonPath);
+    }
+
+    boolean isEmpty(final String jsonPath) {
+        return jsonPath == null || jsonPath.length() == 0;
     }
 
     /**
