@@ -10,9 +10,10 @@ import java.sql.SQLException;
  * All rights reserved.
  */
 public interface DBDeletingInterface {
-    void deleteAllMoments(DBRequestListener dbRequestListener);
-    void markAsInActive(Moment moment,DBRequestListener dbRequestListener);
-    void deleteMoment(Moment moment,DBRequestListener dbRequestListener);
+    void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException;
+    void markAsInActive(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
+    void deleteMoment(Moment moment,DBRequestListener dbRequestListener) throws  SQLException;
     void deleteMomentDetail(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
     void deleteMeasurementGroup(Moment moment,DBRequestListener dbRequestListener) throws SQLException;
+    void deleteFailed(Exception e,DBRequestListener dbRequestListener);
 }

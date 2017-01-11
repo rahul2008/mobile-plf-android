@@ -40,46 +40,25 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteAllMoments(DBRequestListener dbRequestListener) {
-        try {
-            ormDeleting.deleteAll();
-        } catch (SQLException e) {
-            dbRequestListener.onFailure(e);
-            if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "exception = " + e.getMessage());
-            }
+    public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.deleteAll();
+    }
+
+    @Override
+    public void markAsInActive(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+        if (isMomentSyncedToBackend(moment)) {
+            prepareMomentForDeletion(moment, dbRequestListener);
+        } else {
+            moment.setSynchronisationData(
+                    new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
+                            DateTime.now(), 0));
+            saveMoment(moment, dbRequestListener);
         }
     }
 
     @Override
-    public void markAsInActive(final Moment moment, DBRequestListener dbRequestListener) {
-        try {
-            if (isMomentSyncedToBackend(moment)) {
-                prepareMomentForDeletion(moment,dbRequestListener);
-            } else {
-                moment.setSynchronisationData(
-                        new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID, true,
-                                DateTime.now(), 0));
-                saveMoment(moment,dbRequestListener);
-            }
-            //notifyAllSuccess(moment);
-        }catch (SQLException e){
-            dbRequestListener.onFailure(e);
-        }
-    }
-
-    @Override
-    public void deleteMoment(Moment moment,DBRequestListener dbRequestListener) {
-        try {
-            ormDeleting.ormDeleteMoment((OrmMoment) moment);
-        } catch (SQLException e) {
-            if(dbRequestListener!=null){
-                dbRequestListener.onFailure(e);
-            }
-            if (e.getMessage() != null) {
-                DSLog.i("***SPO***", "exception = " + e.getMessage());
-            }
-        }
+    public void deleteMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+        ormDeleting.ormDeleteMoment((OrmMoment) moment);
     }
 
     @Override
@@ -90,6 +69,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteMeasurementGroup(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteMeasurementGroups((OrmMoment) moment);
+    }
+
+    @Override
+    public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
+        mTemperatureMomentHelper.notifyFailure(e,dbRequestListener);
     }
 
     private boolean isMomentSyncedToBackend(final Moment moment) {
@@ -104,7 +88,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
-            dbRequestListener.onFailure(e);
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e,"type check failed!");
             if (e.getMessage() != null) {
                 DSLog.i("***SPO***", "Exception = " + e.getMessage());
             }

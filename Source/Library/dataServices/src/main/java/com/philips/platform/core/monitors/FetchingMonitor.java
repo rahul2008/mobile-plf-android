@@ -78,7 +78,7 @@ public class FetchingMonitor extends EventMonitor {
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
-          //  dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, DataServicesManager.getInstance().getDbChangeListener());
         }
     }
 

@@ -2,6 +2,7 @@ package com.philips.platform.core.monitors;
 
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -53,8 +54,13 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
         Moment moment = momentUpdateRequest.getMoment();
         moment.setSynced(false);
-
-        dbUpdatingInterface.updateMoment(moment,momentUpdateRequest.getDbRequestListener());
+        DBRequestListener dbRequestListener = momentUpdateRequest.getDbRequestListener();
+        try {
+            dbUpdatingInterface.updateMoment(moment, dbRequestListener);
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e,dbRequestListener);
+            e.printStackTrace();
+        }
         //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
@@ -93,6 +99,10 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
-        dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), mDbRequestListener);
+        try {
+            dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), mDbRequestListener);
+        }catch (SQLException e){
+            dbUpdatingInterface.updateFailed(e, mDbRequestListener);
+        }
     }
 }

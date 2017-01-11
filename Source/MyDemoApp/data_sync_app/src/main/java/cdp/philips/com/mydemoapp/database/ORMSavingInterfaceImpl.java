@@ -5,10 +5,13 @@
 
 package cdp.philips.com.mydemoapp.database;
 
+import android.util.Log;
+
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -42,26 +45,26 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
-            dbRequestListener.onSuccess(ormMoment);
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormMoment);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            dbRequestListener.onFailure(e);
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed!!");
             return false;
         }
-
     }
+
     @Override
     public boolean saveConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             updateConsentAndSetIdIfConsentExists(ormConsent);
-            dbRequestListener.onSuccess(ormConsent);
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            dbRequestListener.onFailure(e);
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
             return false;
         }
 
@@ -69,7 +72,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
-        dbRequestListener.onFailure(e);
+        mTemperatureMomentHelper.notifyFailure(e,dbRequestListener);
     }
 
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {

@@ -1,5 +1,7 @@
 package cdp.philips.com.mydemoapp.database;
 
+import android.util.Log;
+
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -10,11 +12,6 @@ import com.philips.platform.core.utils.DSLog;
 import java.sql.SQLException;
 import java.util.List;
 
-import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
-import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
-import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
-import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
-import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -40,93 +37,78 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateFailed(Exception e,DBRequestListener dbRequestListener) {
-        dbRequestListener.onFailure(e);
+    public void updateFailed(Exception e, DBRequestListener dbRequestListener) {
+        mTemperatureMomentHelper.notifyFailure(e, dbRequestListener);
     }
 
     @Override
-    public boolean updateConsent(Consent consent,DBRequestListener dbRequestListener) {
-        if(consent==null){
-            dbRequestListener.onFailure(new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."));;
+    public boolean updateConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
+        if (consent == null) {
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."), "Callback Not registered");
             return false;
         }
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            ormConsent=getModifiedConsent(ormConsent);
+            ormConsent = getModifiedConsent(ormConsent);
             saving.saveConsent(ormConsent);
-            dbRequestListener.onSuccess(ormConsent);
-
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            dbRequestListener.onFailure(e);
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            dbRequestListener.onFailure(e);
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Callback Not registered");
             return false;
         }
-
     }
 
     private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
-        DSLog.d("Creator ID MODI",ormConsent.getCreatorId());
+        DSLog.d("Creator ID MODI", ormConsent.getCreatorId());
         OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
 
         if (consentInDatabase != null) {
             int id = consentInDatabase.getId();
             final List<OrmConsentDetail> ormNonSynConsentDetails = fetching.fetchNonSynchronizedConsentDetails();
 
-            for(OrmConsentDetail ormFromBackEndConsentDetail:ormConsent.getConsentDetails()){
+            for (OrmConsentDetail ormFromBackEndConsentDetail : ormConsent.getConsentDetails()) {
 
-                for(OrmConsentDetail ormNonSynConsentDetail:ormNonSynConsentDetails){
-                    if(ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()){
+                for (OrmConsentDetail ormNonSynConsentDetail : ormNonSynConsentDetails) {
+                    if (ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()) {
                         ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
                         ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
                     }
                 }
             }
             ormConsent.setId(id);
-            for(OrmConsent ormConsentInDB:fetching.fetchAllConsent()) {
+            for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
                 deleting.deleteConsent(ormConsentInDB);
             }
             deleting.deleteConsent(consentInDatabase);
             // updating.updateConsent(consentInDatabase);
 
-        }else{
+        } else {
             saving.saveConsent(ormConsent);
         }
         return ormConsent;
     }
 
     @Override
-    public void updateMoment(final Moment moment, DBRequestListener dbRequestListener) {
+    public void updateMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
 
-        OrmMoment ormMoment = getOrmMoment(moment,dbRequestListener);
+        OrmMoment ormMoment = getOrmMoment(moment, dbRequestListener);
         if (ormMoment == null) {
             return;
         }
+        saving.saveMoment(ormMoment);
+        updating.updateMoment(ormMoment);
 
-        try {
-            saving.saveMoment(ormMoment);
-            updating.updateMoment(ormMoment);
-            if(dbRequestListener == null){
-                DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormMoment);
-            }else{
-                dbRequestListener.onSuccess(ormMoment);
-            }
-        } catch (SQLException e) {
-            dbRequestListener.onFailure(e);
-        }
+        mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormMoment);
     }
 
     public OrmMoment getOrmMoment(final Moment moment, DBRequestListener dbRequestListener) {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
-            dbRequestListener.onFailure(e);
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Orm Type check failed");
             DSLog.e(TAG, "Eror while type checking");
         }
         return null;

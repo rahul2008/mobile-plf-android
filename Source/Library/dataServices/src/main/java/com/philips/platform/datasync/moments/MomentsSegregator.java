@@ -1,5 +1,7 @@
 package com.philips.platform.datasync.moments;
 
+import android.util.Log;
+
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -154,7 +156,12 @@ public class MomentsSegregator {
     public void processCreatedMoment(List<? extends Moment> moments) {
         for (final Moment moment : moments) {
                 moment.setSynced(true);
-            updatingInterface.updateMoment(moment,dbRequestListener);
+            try {
+                updatingInterface.updateMoment(moment,dbRequestListener);
+            } catch (SQLException e) {
+                updatingInterface.updateFailed(e,dbRequestListener);
+                e.printStackTrace();
+            }
         }
     }
 
