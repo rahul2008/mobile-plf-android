@@ -84,7 +84,7 @@ public class MomentsSegregator {
         }
     }
 
-    protected boolean isNeverSyncedMomentDeletedLocallyDuringSync(final Moment momentInDatabase) {
+    protected boolean MomentDeletedLocallyDuringSync(final Moment momentInDatabase) {
         if (momentInDatabase != null) {
             final SynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
             if (synchronisationData != null) {
@@ -98,16 +98,10 @@ public class MomentsSegregator {
     public int processMoment(int count, final Moment moment) {
         try {
             final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
-            // updating.updateMoment(momentInDatabase);
             if (hasDifferentMomentVersion(moment, momentInDatabase)) {
-               // final OrmMoment ormMoment = getOrmMoment(moment);
-                /*if(isSyncedMomentUpdatedBeforeSync(momentInDatabase)){
-                    momentInDatabase.getSynchronisationData().setVersion(moment.getSynchronisationData().getVersion());
-                    momentInDatabase.getSynchronisationData().setGuid(moment.getSynchronisationData().getGuid());
-                }*/
                 if (!isActive(moment.getSynchronisationData())) {
                     deleteMomentInDatabaseIfExists(momentInDatabase);
-                } else if (isNeverSyncedMomentDeletedLocallyDuringSync(momentInDatabase)) {
+                } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
                     moment.setSynced(false);
                     moment.getSynchronisationData().setInactive(true);
 
@@ -122,9 +116,10 @@ public class MomentsSegregator {
                 }
                 count++;
             } else {
-                // tagRoomTemperatureAndHumidity(moment);
+
             }
         } catch (SQLException e) {
+            updatingInterface.updateFailed(e);
         }
 
         return count;
