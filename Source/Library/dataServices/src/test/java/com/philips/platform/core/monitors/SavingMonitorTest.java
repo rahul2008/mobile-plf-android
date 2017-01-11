@@ -11,6 +11,7 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentSaveRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,6 +69,9 @@ public class SavingMonitorTest {
     @Captor
     private ArgumentCaptor<MomentChangeEvent> changeEventArgumentCaptor;
 
+    @Mock
+    DBRequestListener dbRequestListener;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -78,9 +82,9 @@ public class SavingMonitorTest {
     @Test
     public void ShouldSaveMoment_WhenSaveMomentRequestIsReceived() throws Exception {
 
-        savingMonitor.onEventAsync(new MomentSaveRequest(moment));
+        savingMonitor.onEventAsync(new MomentSaveRequest(moment,dbRequestListener));
 
-        verify(savingMock).saveMoment(moment);
+        verify(savingMock).saveMoment(moment,dbRequestListener);
          //verify(eventingMock).post(changeEventArgumentCaptor.capture());
      //   assertThat(changeEventArgumentCaptor.getValue().getMoment()).isEqualTo(moment);
     }
@@ -89,9 +93,9 @@ public class SavingMonitorTest {
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails() throws Exception {
 
         //doThrow(SQLException.class).when(savingMock).saveMoment(moment);
-        savingMonitor.onEventAsync(new MomentSaveRequest(moment));
-        doThrow(SQLException.class).when(savingMock).saveMoment(moment);
-        verify(savingMock).saveMoment(moment);
+        savingMonitor.onEventAsync(new MomentSaveRequest(moment,dbRequestListener));
+        doThrow(SQLException.class).when(savingMock).saveMoment(moment,dbRequestListener);
+        verify(savingMock).saveMoment(moment,dbRequestListener);
 
         //verify(eventingMock).post(exceptionEventArgumentCaptor.capture());
         //assertThat(exceptionEventArgumentCaptor.getValue().getCause()).isInstanceOf(SQLException.class);
@@ -102,7 +106,7 @@ public class SavingMonitorTest {
 
         savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true, dbRequestListener));
 
-        verify(savingMock).saveConsent(consent);
+        verify(savingMock).saveConsent(consent,dbRequestListener);
     }
 
     @Test

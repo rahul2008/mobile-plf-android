@@ -150,7 +150,7 @@ public class DataServicesManager {
 
     public void fetchAllData(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener));
-        Log.d(this.getClass().getName(),"Inside DataService");
+       // Log.d(this.getClass().getName(),"Inside DataService");
     }
 
     @NonNull

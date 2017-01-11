@@ -3,6 +3,7 @@ package com.philips.platform.verticals;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,27 +15,27 @@ import java.util.List;
 public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
-    public void updateMoment(Moment ormMoment) {
+    public void updateMoment(Moment ormMoment, DBRequestListener dbRequestListener) {
 
     }
 
     @Override
-    public int processMomentsReceivedFromBackend(List<? extends Moment> moments) {
+    public int processMomentsReceivedFromBackend(List<? extends Moment> moments ,DBRequestListener dbRequestListener) {
         return 0;
     }
 
     @Override
-    public void processCreatedMoment(List<? extends Moment> moments) {
+    public void processCreatedMoment(List<? extends Moment> moments,DBRequestListener dbRequestListener) {
 
     }
 
     @Override
-    public void updateFailed(Exception e) {
+    public void updateFailed(Exception e ,DBRequestListener dbRequestListener) {
 
     }
 
     @Override
-    public boolean updateConsent(Consent consent) throws SQLException {
+    public boolean updateConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
 }

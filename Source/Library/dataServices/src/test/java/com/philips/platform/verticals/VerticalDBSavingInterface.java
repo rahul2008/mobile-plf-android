@@ -13,12 +13,12 @@ import java.sql.SQLException;
 
 public class VerticalDBSavingInterface implements DBSavingInterface{
     @Override
-    public boolean saveMoment(Moment moment) throws SQLException {
+    public boolean saveMoment(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
         return true;
     }
 
     @Override
-    public boolean saveConsent(Consent consent) throws SQLException {
+    public boolean saveConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
         return true;
     }
 

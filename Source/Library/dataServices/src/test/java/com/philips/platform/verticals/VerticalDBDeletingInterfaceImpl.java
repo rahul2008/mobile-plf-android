@@ -20,7 +20,7 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
     }
 
     @Override
-    public void ormDeletingDeleteMoment(Moment moment) {
+    public void ormDeletingDeleteMoment(Moment moment,DBRequestListener dbRequestListener) {
 
     }
 }

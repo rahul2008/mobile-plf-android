@@ -75,7 +75,7 @@ public class FetchingMonitor extends EventMonitor {
 
     public void onEventBackgroundThread(LoadMomentsRequest event) {
         try {
-            Log.d(this.getClass().getName(),"Fetching Monitor");
+//            Log.d(this.getClass().getName(),"Fetching Monitor");
             if (event.hasType()) {
                 dbInterface.fetchMoments(event.getDbRequestListener(),event.getTypes());
             } else if (event.hasID()) {
