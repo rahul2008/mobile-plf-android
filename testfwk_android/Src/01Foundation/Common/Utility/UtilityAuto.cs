@@ -28,6 +28,7 @@ namespace Philips.H2H.Foundation.AutomationCore
 {
     public class UtilityAuto
     {
+        public static string output;
 
         public enum NetworkConnection { LocalAreaConnection, WirelessNetworkConnection }
 
@@ -307,6 +308,15 @@ namespace Philips.H2H.Foundation.AutomationCore
             info.UseShellExecute = false;
             Process proc = Process.Start(info);
             System.Threading.Thread.Sleep(6000);
+            //Below code reads the output from console and saves in a string
+            string res = "";
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                output += proc.StandardOutput.ReadLine();
+                System.Threading.Thread.Sleep(1000);
+            }
+            res = output;
+
         }
 
         public static bool RunUIAutomationTest(string uiAutomatorJarPath, string uiAutiomationTestCmd, string deviceId)

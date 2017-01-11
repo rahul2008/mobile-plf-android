@@ -36,6 +36,23 @@ namespace Philips.CDP.Automation.IAP.Test.ApplicationStartup
             string mobilePlatform = ConfigurationManager.AppSettings["MobilePlatformForTest"];
             if (mobilePlatform.Equals("Android"))
             {
+                // Below code executes an ADB command and saves the logcat to a file with Timestamp.
+                UtilityAuto.ExecuteProcessNoWait("/c adb -s 161.85.22.95:15069 logcat -d > C:\\Downloads\\\"Log-%DATE:/=-%_%TIME::=-%.txt\"");
+                // Below code executes an ADB command and saves the logcat to a temp file, so that it can be used to crop Leak Canary information alone
+                UtilityAuto.ExecuteProcessNoWait("/c adb -s 161.85.22.95:15069 logcat -d > C:\\Downloads\\TempLog.txt");
+                //Below code executes a DOS command and greps the Leak Canary information from the log and saves it in a separate file with timestamp.
+                UtilityAuto.ExecuteProcessNoWait("/c findstr c\\:\"D LeakCanary\" C:\\Downloads\\TempLog.txt > C:\\Downloads\\\"Leak-%DATE:/=-%_%TIME::=-%.txt\"");
+                //Below code checks for the presence of memory leakage in the connected device and flags it as "FAIL" if memory leak has happened.
+                UtilityAuto.ExecuteProcessNoWait("/c adb shell \"[ -d /sdcard/Download/leakcanary-com.philips.platform.hamburger/ ] && echo \"Fail\" || echo \"Pass\"\"   ");
+                if (UtilityAuto.output.Contains("Fail"))
+                {
+                    Logger.Fail("Memory Failure");
+                    //Below code pulls the memory leak information from device to local machine.
+                    UtilityAuto.ExecuteProcessNoWait("/c adb -s 161.85.22.95:15069 pull \"/sdcard/Download/leakcanary-com.philips.platform.hamburger/\" C:\\Downloads\\");
+                    //Below code removes the memory information from device, so that it won't give a false positive during next test case run
+                    UtilityAuto.ExecuteProcessNoWait("/c adb -s 161.85.22.95:15069 shell rm -rf \"/sdcard/Download/leakcanary-com.philips.platform.hamburger/\" ");
+                }
+
                 IAPConfiguration.CloseAll();
             }
             else if (mobilePlatform.Equals("iOS"))
