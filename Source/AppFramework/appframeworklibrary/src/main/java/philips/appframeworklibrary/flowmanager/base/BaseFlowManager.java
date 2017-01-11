@@ -19,7 +19,6 @@ import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 import philips.appframeworklibrary.flowmanager.models.AppFlowEvent;
 import philips.appframeworklibrary.flowmanager.models.AppFlowModel;
 import philips.appframeworklibrary.flowmanager.models.AppFlowNextState;
-import philips.appframeworklibrary.flowmanager.parser.AppFlowParser;
 import philips.appframeworklibrary.flowmanager.stack.FlowManagerStack;
 
 public abstract class BaseFlowManager {
@@ -33,7 +32,7 @@ public abstract class BaseFlowManager {
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
 
-    public BaseFlowManager(final Context context, final String jsonPath,final AppFlowJsonListener appFlowJsonListener) {
+    public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
         this.context = context;
         mapAppFlowStates(jsonPath, appFlowJsonListener);
         flowManagerStack = new FlowManagerStack();
@@ -195,11 +194,12 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath,final AppFlowJsonListener appFlowJsonListener) {
-        AppFlowModel appFlowModel = AppFlowParser.getAppFlow(jsonPath, appFlowJsonListener);
+    private void mapAppFlowStates(final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
+        final AppFlowParser appFlowParser = new AppFlowParser();
+        AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath, appFlowJsonListener);
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             firstState = appFlowModel.getAppFlow().getFirstState();
-            appFlowMap = AppFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
+            appFlowMap = appFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
         }
     }
 }

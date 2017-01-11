@@ -1,20 +1,16 @@
-package com.philips.platform.appframework.flowmanager.stack;
-
-
-import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
-import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
-import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
+package philips.appframeworklibrary.flowmanager.stack;
 
 import junit.framework.TestCase;
 
 import philips.appframeworklibrary.flowmanager.base.BaseState;
 import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
-import philips.appframeworklibrary.flowmanager.stack.FlowManagerStack;
-
+import philips.appframeworklibrary.flowmanager.states.AboutScreenState;
+import philips.appframeworklibrary.flowmanager.states.DataServicesState;
+import philips.appframeworklibrary.flowmanager.states.IAPRetailerFlowState;
+import philips.appframeworklibrary.flowmanager.states.ProductRegistrationState;
+import philips.appframeworklibrary.flowmanager.states.SettingsFragmentState;
+import philips.appframeworklibrary.flowmanager.states.SupportFragmentState;
+import philips.appframeworklibrary.flowmanager.states.UserRegistrationOnBoardingState;
 
 public class FlowManagerStackTest extends TestCase {
 

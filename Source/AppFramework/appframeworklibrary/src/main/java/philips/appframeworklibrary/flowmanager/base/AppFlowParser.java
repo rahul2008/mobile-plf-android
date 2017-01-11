@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package philips.appframeworklibrary.flowmanager.parser;
+package philips.appframeworklibrary.flowmanager.base;
 
 import android.text.TextUtils;
 
@@ -25,7 +25,7 @@ import philips.appframeworklibrary.flowmanager.models.AppFlowEvent;
 import philips.appframeworklibrary.flowmanager.models.AppFlowModel;
 import philips.appframeworklibrary.flowmanager.models.AppFlowState;
 
-public class AppFlowParser {
+class AppFlowParser {
 
     /**
      * This method will return the object of AppFlow class or 'null'.
@@ -36,7 +36,7 @@ public class AppFlowParser {
      * @return Object to 'AppFlowModel' class or 'null'
      */
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
-    public static AppFlowModel getAppFlow(String jsonPath, AppFlowJsonListener appFlowJsonListener) {
+    AppFlowModel getAppFlow(String jsonPath, AppFlowJsonListener appFlowJsonListener) {
         AppFlowModel appFlow = null;
         if (TextUtils.isEmpty(jsonPath)) {
             appFlowJsonListener.onError(AppFlowEnum.FILE_NOT_FOUND);
@@ -62,7 +62,7 @@ public class AppFlowParser {
      * @param appFlow Object to AppFlow class which defines the app flow.
      * @return Map of state to array of next states.
      */
-    public static Map<String, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
+    Map<String, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
         HashMap<String, List<AppFlowEvent>> appFlowMap = null;
         if (appFlow.getStates() != null) {
             appFlowMap = new HashMap<>();
