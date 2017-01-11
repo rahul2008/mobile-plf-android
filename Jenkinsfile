@@ -25,6 +25,12 @@ node ('android_pipeline &&' + node_ext) {
 		}
 		
         try {
+			if (BranchName =~ /(?i)feature/) {
+			stage ('build') {
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+			}
+			else
+			{
 			stage ('build') {
 				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "AppInfra" && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
 			}
