@@ -35,6 +35,7 @@ public class BaseFlowManagerTest extends InstrumentationTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        super.setUp();
         AppFlowJsonListener appFlowJsonListenerMock = mock(AppFlowJsonListener.class);
         context = getInstrumentation().getContext();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
