@@ -55,7 +55,7 @@ public class UpdatingMonitor extends EventMonitor {
         DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
           //  DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
-            dbFetchingInterface.fetchMoments(DataServicesManager.getInstance().getDbRequestListener());
+            dbFetchingInterface.fetchMoments(response.getDbRequestListener());
         } catch (SQLException e) {
             //DSLog.i("**SPO**", "In Updating Monitor report exception");
             dbUpdatingInterface.updateFailed(e,DataServicesManager.getInstance().getDbRequestListener());

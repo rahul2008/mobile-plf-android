@@ -87,7 +87,7 @@ public class UpdatingMonitorTest {
         when(momentUpdateRequestmock.getMoment()).thenReturn(momentMock);
         updatingMonitor.onEventAsync(momentUpdateRequestmock);
         verify(momentMock).setSynced(false);
-        verify(dbUpdatingInterface).updateMoment(momentMock,dbRequestListener);
+        verify(dbUpdatingInterface).updateMoment(momentMock,momentUpdateRequestmock.getDbRequestListener());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {
         updatingMonitor.onEventBackgroundThread(readDataFromBackendResponseMock);
-        verify(dbFetchingInterface).fetchMoments(dbRequestListener);
+        verify(dbFetchingInterface).fetchMoments(readDataFromBackendResponseMock.getDbRequestListener());
     }
 
     @Test
