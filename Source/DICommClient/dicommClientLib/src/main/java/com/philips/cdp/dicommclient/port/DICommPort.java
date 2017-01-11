@@ -266,14 +266,14 @@ public abstract class DICommPort<T> {
     }
 
     private void performGetProperties() {
-        DICommLog.i(LOG_TAG, "Start reloadProperties");
+        DICommLog.i(LOG_TAG, "Start getProperties");
         mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
                 handleResponse(data);
                 requestCompleted();
-                DICommLog.i(LOG_TAG, "End reloadProperties - success");
+                DICommLog.i(LOG_TAG, "End getProperties - success");
             }
 
             @Override
@@ -281,7 +281,7 @@ public abstract class DICommPort<T> {
                 mGetPropertiesRequested = false;
                 notifyPortListenersOnError(error, errorData);
                 requestCompleted();
-                DICommLog.e(LOG_TAG, "End putProperties - error");
+                DICommLog.e(LOG_TAG, "End getProperties - error");
             }
         });
     }
