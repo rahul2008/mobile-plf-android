@@ -85,9 +85,6 @@ public class FetchingMonitorTest {
     private DateTime uGrowDateTime;
 
     @Mock
-    private DBFetchingInterface fetchingMock;
-
-    @Mock
     private AppComponent appComponantMock;
 
     @Before
@@ -120,6 +117,7 @@ public class FetchingMonitorTest {
     @Test
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
         fetchingMonitor.onEventBackgroundThread(new LoadLastMomentRequest("temperature"));
+        verify(fetching).fetchLastMoment("temperature");
     }
 
     @Test
@@ -141,10 +139,10 @@ public class FetchingMonitorTest {
 
     @Test
     public void getNonSynchronizedDataRequestTest() throws SQLException {
-        fetchingMonitor.onEventBackgroundThread(getNonSynchronizedDataRequestMock);
+        fetchingMonitor.onEventBackgroundThread(new GetNonSynchronizedDataRequest(1));
         Map<Class, List<?>> dataToSync = new HashMap<>();
-//        verify(fetching.putMomentsForSync(dataToSync));
-//        verify(fetching.putConsentForSync(dataToSync));
+        verify(momentsSegregatorMock).putMomentsForSync(dataToSync);
+        verify(fetching).putConsentForSync(dataToSync);
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 
@@ -152,8 +150,8 @@ public class FetchingMonitorTest {
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-//        verify(fetching.putMomentsForSync(dataToSync));
-//        verify(fetching.putConsentForSync(dataToSync));
+        verify(fetching).fetchConsent();
+        verify(fetching).fetchNonSynchronizedMoments();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 

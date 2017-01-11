@@ -84,7 +84,7 @@ public class MomentsSegregator {
         }
     }
 
-    private boolean isNeverSyncedMomentDeletedLocallyDuringSync(final Moment momentInDatabase) {
+    protected boolean isNeverSyncedMomentDeletedLocallyDuringSync(final Moment momentInDatabase) {
         if (momentInDatabase != null) {
             final SynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
             if (synchronisationData != null) {
