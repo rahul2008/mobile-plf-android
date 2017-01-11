@@ -112,7 +112,11 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
-            dbRequestListener.onSuccess(ormMoment);
+            if(dbRequestListener == null){
+                DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormMoment);
+            }else{
+                dbRequestListener.onSuccess(ormMoment);
+            }
         } catch (SQLException e) {
             dbRequestListener.onFailure(e);
         }
