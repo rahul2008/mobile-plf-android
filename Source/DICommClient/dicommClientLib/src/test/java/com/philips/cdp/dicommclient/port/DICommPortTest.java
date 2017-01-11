@@ -5,12 +5,12 @@
 
 package com.philips.cdp.dicommclient.port;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -642,10 +642,9 @@ public class DICommPortTest extends RobolectricTest {
 
         private WrappedHandler hander;
 
-        public DICommPortImpl(NetworkNode networkNode,
-                              CommunicationStrategy communicationStrategy, WrappedHandler hander) {
+        public DICommPortImpl(NetworkNode networkNode, CommunicationStrategy communicationStrategy, WrappedHandler handler) {
             super(networkNode, communicationStrategy);
-            this.hander = hander;
+            this.hander = handler;
         }
 
         @Override

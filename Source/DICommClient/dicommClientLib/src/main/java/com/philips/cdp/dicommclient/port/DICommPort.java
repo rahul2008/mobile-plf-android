@@ -17,6 +17,7 @@ import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -224,8 +225,7 @@ public abstract class DICommPort<T> {
     }
 
     private void performPutProperties() {
-        final Map<String, Object> propertiesToSend = Collections.unmodifiableMap(mPutPropertiesMap);
-
+        final Map<String, Object> propertiesToSend = Collections.unmodifiableMap(new HashMap<>(mPutPropertiesMap));
         mPutPropertiesMap.clear();
 
         DICommLog.i(LOG_TAG, "Start putProperties");
