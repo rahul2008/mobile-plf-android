@@ -6,7 +6,7 @@ import com.philips.pins.shinelib.SHNAssociationProcedurePlugin;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.associationprocedures.SHNAssociationProcedureNearestDevice;
-import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
+import com.philips.pins.shinelib.services.SHNServiceDiCommStreaming;
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import java.util.HashSet;
@@ -28,7 +28,7 @@ public class ReferenceNodeDeviceDefinitionInfo implements SHNDeviceDefinitionInf
     public Set<UUID> getPrimaryServiceUUIDs() {
         if (primaryUUID == null) {
             primaryUUID = new HashSet<>();
-            primaryUUID.add(SHNServiceMoonshineStreaming.SERVICE_UUID);
+            primaryUUID.add(SHNServiceDiCommStreaming.SERVICE_UUID);
         }
 
         return primaryUUID;

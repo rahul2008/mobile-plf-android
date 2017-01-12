@@ -69,7 +69,7 @@ dependencies {
         compile project(':bluelib')
         compile 'com.google.code.gson:gson:2.7'
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-20170110.161347-18')
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-20170112.132731-19')
     }
 
     def localCommLibAar = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/build/outputs/aar/dicommClientLib-debug.aar'
