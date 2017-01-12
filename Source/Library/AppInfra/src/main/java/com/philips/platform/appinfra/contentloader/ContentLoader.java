@@ -65,7 +65,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
      * @param downloadLimit no of pages that should be downloaded in one attempt. This will override the limit set in the app config. Pass '0' for taking the default limit from app config.
      */
     public ContentLoader(Context context, String serviceId, int maxAgeInHours, Class<Content> contentClassType,
-                         String contentType, AppInfraInterface appInfra, int AdownloadLimit) {
+                         String contentType, AppInfraInterface appInfra, int downloadLimit) {
         mServiceId = serviceId;
         mMaxAgeInHours = maxAgeInHours;
         mClassType = contentClassType;
@@ -73,8 +73,8 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mAppInfra = appInfra;
         mRestInterface = mAppInfra.getRestClient();
         downloadInProgress = new AtomicBoolean(false);
-        if(AdownloadLimit>0) { // if a positive down load limit is set
-            this.downloadLimit = AdownloadLimit;
+        if(downloadLimit>0) { // if a positive down load limit is set
+            this.downloadLimit = downloadLimit;
         }else{  // if  down load limit is set as 0 or any negative value
             this.downloadLimit = getDownloadLimitFromConfig();
         }

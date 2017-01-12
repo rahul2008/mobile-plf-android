@@ -44,7 +44,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     //table name
     private static final String CONTENT_LOADER_STATES = "ContentLoaderStates";
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     public static synchronized ContentDatabaseHandler getInstance(Context context) {
 
@@ -133,10 +133,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 databaseContentItems = getContentItems(serviceID);
                 Log.v("DELETE", "DB SIZE AFTER DELETE= " + databaseContentItems.size());
             }
-            if (SQLitetransaction) {
-                boolean isContentLoaderStateTableUpdated = updateContentLoaderStateTable(db, lastUpdatedTime, serviceID, expiryDate);
-            }
-            // db.endTransaction();
+
         } catch (Exception e) {
             SQLitetransaction = false;
             Log.w("insertQuery:", e);
@@ -197,7 +194,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("SELECT FAIL", getAllIDQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                try{cursor.close();}catch(Exception e){}
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
         }
         return Ids;
@@ -226,7 +226,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("SELECT FAIL", getContentByIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                try{cursor.close();}catch(Exception e){}
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
 
         }
@@ -262,7 +265,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("SELECT FAIL", getContentByIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                try{cursor.close();}catch(Exception e){}
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
         }
         return ContentItemList;
@@ -294,11 +300,14 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 expiryTime = cursor.getLong(0);
             }
             if (cursor != null && !cursor.isClosed()) {
-                try{cursor.close();}catch(Exception e){}
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
-        } catch(Exception e){
+        } catch (Exception e) {
 
-            }
+        }
         return expiryTime;
     }
 
@@ -326,7 +335,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("DELETE FAIL", e.getMessage());
         } finally {
             if (db != null && db.isOpen()) {
-                try{ db.close();}catch(Exception e){}
+                try {
+                    db.close();
+                } catch (Exception e) {
+                }
             }
         }
         return result;
