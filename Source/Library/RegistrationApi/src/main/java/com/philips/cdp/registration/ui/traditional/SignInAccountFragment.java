@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -366,6 +367,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mEtEmail.setFocusable(true);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
+
+        mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_Email_PhoneNumber));
+        mEtEmail.setInputType(InputType.TYPE_CLASS_TEXT);
+
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnClickListener(this);
         mEtPassword.setOnUpdateListener(this);
