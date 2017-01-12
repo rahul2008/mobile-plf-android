@@ -10,10 +10,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -21,6 +19,9 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import junit.framework.TestCase;
 
 import org.junit.Before;
+
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -81,7 +82,7 @@ public class LaunchActivityPresenterTest extends TestCase {
     }
 
     public void testGetUiState() {
-        assertEquals("back", launchActivityPresenter.getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT));
+        assertEquals("back", launchActivityPresenter.getEvent(Constants.BACK_BUTTON_CLICK_CONSTANT));
     }
 
     public void testOnLoad() throws NoEventFoundException {
@@ -118,9 +119,8 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(splashStateMock.getStateID()).thenReturn("something");
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(launchActivityState);
-        when(uiFlowManagerMock.getNextState(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState(), null)).thenReturn(splashStateMock);
+        when(uiFlowManagerMock.getFirstState()).thenReturn(splashStateMock);
         launchActivityPresenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
-        verify(splashStateMock).setStateListener(launchActivityPresenter);
         verify(splashStateMock, atLeastOnce()).setUiStateData(uiStateData);
         verify(splashStateMock).navigate(fragmentLauncherMock);
     }

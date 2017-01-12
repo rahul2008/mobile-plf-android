@@ -40,6 +40,7 @@ public class TabbedActivityPresenter extends UIBasePresenter{
     final String HOME_FRAGMENT = "home_fragment";
     final String HOME_DATA_SYNC = "data_sync";
     final String SUPPORT_PR = "pr";
+    final int MENU_OPTION_CONNECTIVITY = 6;
     /*Event ID */
     private final int MENU_OPTION_HOME = 0;
     private final int MENU_OPTION_SETTINGS = 1;
@@ -47,7 +48,8 @@ public class TabbedActivityPresenter extends UIBasePresenter{
     private final int MENU_OPTION_SUPPORT = 3;
     private final int MENU_OPTION_ABOUT = 4;
     private final int MENU_OPTION_DATA_SYNC = 5;
-    private final int MENU_OPTION_PR = 6;
+    private final int MENU_OPTION_PR = 7;
+    final private String CONNECTIVITY = "connectivity";
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
@@ -115,6 +117,10 @@ public class TabbedActivityPresenter extends UIBasePresenter{
                 UIStateData syncStateData = new UIStateData();
                 syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return syncStateData;
+            case MENU_OPTION_CONNECTIVITY:
+                UIStateData connectivityStateData = new UIStateData();
+                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return connectivityStateData;
             default:
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
@@ -171,6 +177,8 @@ public class TabbedActivityPresenter extends UIBasePresenter{
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return  HOME_DATA_SYNC;
+            case MENU_OPTION_CONNECTIVITY:
+                return CONNECTIVITY;
             default:
                 return HOME_FRAGMENT;
         }

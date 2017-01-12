@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FileUtility;
@@ -21,6 +20,8 @@ import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 
 import junit.framework.TestCase;
+
+import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

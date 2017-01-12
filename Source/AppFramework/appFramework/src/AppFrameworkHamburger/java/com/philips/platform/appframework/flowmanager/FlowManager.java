@@ -52,7 +52,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
-        uiStateMap.put(AppStates.CONNECTIVITY,new ConnectivityFragmentState());
+        uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

@@ -47,7 +47,7 @@ public class BaseFlowManagerTest extends InstrumentationTestCase {
         assertTrue(firstState != null);
     }
 
-    public File createFileFromInputStream(final int resId) {
+    private File createFileFromInputStream(final int resId) {
 
         try {
             InputStream inputStream = getInputStream(resId);

@@ -23,6 +23,7 @@ import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
+import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 
 import java.util.Map;
 
@@ -52,6 +53,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
+        uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
     }
 
     @Override
