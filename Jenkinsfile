@@ -47,6 +47,7 @@ node ('Ubuntu && 23.0.3 &&' + node_ext) {
             }
 
             currentBuild.result = 'SUCCESS'
+            archiveArtifacts '**/build/**/*.apk'
         }
 
         catch(err) {
