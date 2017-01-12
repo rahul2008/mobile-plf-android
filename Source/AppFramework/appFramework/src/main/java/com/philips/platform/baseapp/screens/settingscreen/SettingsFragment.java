@@ -149,6 +149,10 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         settingsFragmentWeakReference = null;
     }
 
+    /*
+    * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
+    * suppressing "deprecation" for 'else' block.
+    */
     @SuppressWarnings("deprecation")
     private SettingListItem formDataSection(String settingsItem, SettingListItemType type, boolean userRegistrationRequired) {
         SettingListItem settingScreenItem = new SettingListItem();

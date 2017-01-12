@@ -31,6 +31,10 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     private boolean isVisible = false;
 	private boolean isMultiwindowEnabled = false;
 
+    /*
+     * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
+     * suppressing "deprecation" for 'else' block.
+     */
     @SuppressWarnings("deprecation")
     @Nullable
     @Override
