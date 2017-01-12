@@ -31,28 +31,48 @@ class AppFlowParser {
      * This method will return the object of AppFlow class or 'null'.
      * It request 'getJsonFromURL' to download the AppFlow json by sending the server URL.
      * it also send the path of prepackaged AppFlow Json file to handle the offline/error scenarios.
+     * <p>
+     * or {@link android.app.Activity} object.
      *
-     *                or {@link android.app.Activity} object.
      * @return Object to 'AppFlowModel' class or 'null'
      */
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
+    @Deprecated
+    AppFlowModel getAppFlow(String jsonPath) {
+        AppFlowModel appFlow = null;
+
+        try {
+            final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
+            appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+        } catch (JsonSyntaxException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return appFlow;
+    }
+
     AppFlowModel getAppFlow(String jsonPath, AppFlowJsonListener appFlowJsonListener) {
         AppFlowModel appFlow = null;
         if (isEmpty(jsonPath)) {
-            appFlowJsonListener.onError(AppFlowEnum.FILE_NOT_FOUND);
+            callBackOnError(appFlowJsonListener, AppFlowEnum.FILE_NOT_FOUND);
         } else {
             try {
                 final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
                 appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
             } catch (JsonSyntaxException | FileNotFoundException e) {
                 if (e instanceof JsonSyntaxException) {
-                    appFlowJsonListener.onError(AppFlowEnum.JSON_PARSE_EXCEPTION);
+                    callBackOnError(appFlowJsonListener, AppFlowEnum.JSON_PARSE_EXCEPTION);
                 } else {
-                    appFlowJsonListener.onError(AppFlowEnum.FILE_NOT_FOUND);
+                    callBackOnError(appFlowJsonListener, AppFlowEnum.FILE_NOT_FOUND);
                 }
             }
         }
         return appFlow;
+    }
+
+    private void callBackOnError(AppFlowJsonListener appFlowJsonListener, AppFlowEnum appFlowEnum) {
+        if (appFlowJsonListener != null)
+            appFlowJsonListener.onError(appFlowEnum);
     }
 
     @NonNull

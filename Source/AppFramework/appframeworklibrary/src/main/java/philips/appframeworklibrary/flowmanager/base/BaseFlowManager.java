@@ -33,6 +33,11 @@ public abstract class BaseFlowManager {
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
 
+    @Deprecated
+    public BaseFlowManager(final Context context, final String jsonPath){
+        this(context, jsonPath,null);
+    }
+
     public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
         this.context = context;
         mapAppFlowStates(jsonPath, appFlowJsonListener);
@@ -193,9 +198,18 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
+    @Deprecated
+    private void mapAppFlowStates(final String jsonPath) {
+        mapAppFlowStates(jsonPath,null);
+    }
+
     private void mapAppFlowStates(final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath, appFlowJsonListener);
+        getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
+    }
+
+    private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             firstState = appFlowModel.getAppFlow().getFirstState();
             appFlowMap = appFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
