@@ -9,9 +9,10 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -84,4 +85,5 @@ public class LaunchActivityPresenter extends UIBasePresenter{
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) launchView.getFragmentActivity().getApplicationContext();
     }
+
 }
