@@ -6,9 +6,9 @@
 package com.philips.pins.shinelib.protocols.moonshinestreaming;
 
 import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
+import com.philips.pins.shinelib.services.SHNServiceByteStreaming;
 
-public interface SHNProtocolMoonshineStreaming extends SHNServiceMoonshineStreaming.SHNServiceMoonshineStreamingListener {
+public interface SHNProtocolMoonshineStreaming extends SHNServiceByteStreaming.SHNServiceMoonshineStreamingListener {
     interface SHNProtocolMoonshineStreamingListener {
         void onDataReceived(byte[] data);
 
