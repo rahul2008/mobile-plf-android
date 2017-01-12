@@ -20,7 +20,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class LaunchActivityPresenter extends UIBasePresenter{
+public class LaunchActivityPresenter extends UIBasePresenter implements UIStateListener{
 
     public static final int APP_LAUNCH_STATE = 890;
     private LaunchView launchView;
@@ -86,4 +86,8 @@ public class LaunchActivityPresenter extends UIBasePresenter{
         return (AppFrameworkApplication) launchView.getFragmentActivity().getApplicationContext();
     }
 
+    @Override
+    public void onStateComplete(BaseState baseState) {
+
+    }
 }

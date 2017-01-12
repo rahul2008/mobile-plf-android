@@ -10,10 +10,10 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -76,12 +76,11 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(launchActivityState);
         when(uiFlowManagerMock.getBackState(launchActivityState)).thenReturn(homeTabbedActivityStateMock);
         launchActivityPresenter.onEvent(Constants.BACK_BUTTON_CLICK_CONSTANT);
-        verify(homeTabbedActivityStateMock, atLeastOnce()).setStateListener(launchActivityPresenter);
         verify(homeTabbedActivityStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
     public void testGetUiState() {
-        assertEquals("back", launchActivityPresenter.getEventState(Constants.BACK_BUTTON_CLICK_CONSTANT));
+        assertEquals("back", launchActivityPresenter.getEvent(Constants.BACK_BUTTON_CLICK_CONSTANT));
     }
 
     public void testOnLoad() throws NoEventFoundException {
