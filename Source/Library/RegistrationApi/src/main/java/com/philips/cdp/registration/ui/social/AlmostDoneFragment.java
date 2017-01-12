@@ -566,7 +566,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
                         mCbTerms.isChecked(), this, mRegistrationToken);
             } else {
-                mEmail = mEtEmail.getEmailId().toString().trim();
+                mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId().trim());
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
                         mEmail, true, mCbTerms.isChecked(), this, mRegistrationToken);
             }
