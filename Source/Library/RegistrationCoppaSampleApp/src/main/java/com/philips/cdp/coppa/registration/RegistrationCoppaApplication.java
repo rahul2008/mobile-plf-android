@@ -86,7 +86,7 @@ public class RegistrationCoppaApplication extends Application {
 
         mAppInfraInterface.getConfigInterface().setPropertyForKey("appidentity.micrositeId",
                 "appinfra",
-                "81451",
+                "77000",
                 configError);
 
     }

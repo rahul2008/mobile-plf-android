@@ -213,12 +213,13 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                     if(janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")){
                         jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
+                        jumpConfig.engageAppId = getEngageId(PROD_CAPTURE_DOMAIN_CHINA);
+                        jumpConfig.captureAppId = getCaptureId(PROD_CAPTURE_DOMAIN_CHINA);
                     }else{
                         jumpConfig.captureDomain = janrainURL;
+                        jumpConfig.engageAppId = getEngageId(urlLocal);
+                        jumpConfig.captureAppId = getCaptureId(urlLocal);
                     }
-
-                    jumpConfig.engageAppId = getEngageId(urlLocal);
-                    jumpConfig.captureAppId = getCaptureId(urlLocal);
 
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
 
