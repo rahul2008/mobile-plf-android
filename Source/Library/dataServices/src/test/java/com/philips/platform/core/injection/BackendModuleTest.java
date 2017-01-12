@@ -20,6 +20,7 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
+import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
@@ -281,5 +282,12 @@ public class BackendModuleTest {
         DBDeletingInterface dbDeletingInterface = backendModule.providesDeletingImplementation();
         assertThat(dbDeletingInterface).isNotNull();
         assertThat(dbDeletingInterface).isInstanceOf(DBDeletingInterface.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesConsentsSegregaterIsCalled() throws Exception {
+        ConsentsSegregator consentsSegregator = backendModule.providesConsentsSegregater();
+        assertThat(consentsSegregator).isNotNull();
+        assertThat(consentsSegregator).isInstanceOf(ConsentsSegregator.class);
     }
 }
