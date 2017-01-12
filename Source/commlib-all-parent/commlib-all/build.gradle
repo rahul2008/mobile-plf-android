@@ -49,6 +49,7 @@ android {
 
         consumerProguardFiles 'proguard-rules.pro'
         buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+        publishNonDefault true
     }
 
     buildTypes {
@@ -56,19 +57,17 @@ android {
             minifyEnabled false
         }
     }
-
-    publishNonDefault true
 }
 
 dependencies {
     compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.android.support:support-annotations:24.2.1'
+    provided 'com.android.support:support-annotations:24.2.1'
 
     def localBlueLibAar = rootDir.absolutePath + '/../../../android-shinelib/Source/ShineLib/shinelib/build/outputs/aar/shinelib-debug.aar'
     if (new File(localBlueLibAar).exists()) {
+        println("!!! taking local shinelib !!!")
         compile project(':bluelib')
         compile 'com.google.code.gson:gson:2.7'
-        System.out.println("========================================================== taking local shinelib")
     } else {
         compile 'com.philips.cdp:shinelib:2.2.0-20170110.161347-18'
     }
@@ -78,7 +77,7 @@ dependencies {
         compile project(':commlib')
         compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
         compile 'com.google.code.gson:gson:2.7'
-        System.out.println("========================================================== taking local commlib")
+        System.out.println("!!! taking local commlib !!!")
     } else {
         compile 'com.philips.cdp:dicommClientLib:3.0.0-20170110.161655-7'
     }

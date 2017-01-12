@@ -15,7 +15,6 @@ android {
         targetSdkVersion _targetSdkVersion
         versionCode 1
         versionName "1.0"
-
     }
 
     buildTypes {
@@ -35,7 +34,8 @@ dependencies {
     compile 'com.philips.cdp:cloudcontroller:4.0.0'
     compile group: 'joda-time', name: 'joda-time', version: '2.3'
 
-    compile project(':commlib-all')
+    debugCompile project(path:':commlib-all', configuration:'debug')
+    releaseCompile project(path:':commlib-all', configuration:'release')
 
     testCompile 'junit:junit:4.12'
 }
