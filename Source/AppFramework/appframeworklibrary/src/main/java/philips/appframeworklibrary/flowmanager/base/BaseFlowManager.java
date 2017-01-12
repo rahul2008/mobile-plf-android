@@ -16,6 +16,7 @@ import java.util.TreeMap;
 import philips.appframeworklibrary.flowmanager.exceptions.NoConditionFoundException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
+import philips.appframeworklibrary.flowmanager.exceptions.NullEventException;
 import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 import philips.appframeworklibrary.flowmanager.models.AppFlowEvent;
 import philips.appframeworklibrary.flowmanager.models.AppFlowModel;
@@ -91,7 +92,7 @@ public abstract class BaseFlowManager {
      */
     public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
         if (null == eventId)
-            throw new NoEventFoundException();
+            throw new NullEventException();
         else if (null != currentState) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState appFlowNextState = getStateForEventID(false, eventId, appFlowEvents);
