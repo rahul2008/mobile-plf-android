@@ -70,4 +70,9 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     public void postError(Exception e, DBRequestListener dbRequestListener) {
 
     }
+
+    @Override
+    public List<?> fetchNonSyncConsentDetails() throws SQLException {
+        return null;
+    }
 }

@@ -7,7 +7,6 @@
 package cdp.philips.com.mydemoapp.database;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -15,7 +14,6 @@ import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -182,13 +180,13 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends Consent> consentList = fetchConsentsWithNonSynchronizedConsentDetails();
+        List<? extends Consent> consentList = fetchNonSyncConsents();
         dataToSync.put(Consent.class, consentList);
         return dataToSync;
     }
 
-    //TODO: Spoorti - fetchConsentsWithNonSynchronizedConsentDetails and fetchNonSynchronizedConsentDetails - Why 2 APIs
-    public List<OrmConsent> fetchConsentsWithNonSynchronizedConsentDetails() throws SQLException {
+    //TODO: Spoorti - fetchNonSyncConsents and fetchNonSyncConsentDetails - Why 2 APIs
+    public List<OrmConsent> fetchNonSyncConsents() throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         final List<OrmConsent> query = consentQueryBuilder.query();
         for (OrmConsent ormConsent : query) {
@@ -204,12 +202,11 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
                 query.remove(ormConsent);
             }
         }
-        //consentQueryBuilder.where().eq("beSynchronized", false);
-
         return query;
     }
 
-    public List<OrmConsentDetail> fetchNonSynchronizedConsentDetails() throws SQLException {
+    @Override
+    public List<OrmConsentDetail> fetchNonSyncConsentDetails() throws SQLException {
         QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
         consentQueryBuilder.where().eq("beSynchronized", false);
 
@@ -230,11 +227,22 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return consentQueryBuilder.query();
     }
 
+    public OrmConsent getModifiedConsent(OrmConsent ormConsent, OrmConsent consentInDatabase) throws SQLException {
+        DSLog.d("Creator ID MODI", ormConsent.getCreatorId());
+        int id = consentInDatabase.getId();
+        final List<OrmConsentDetail> ormNonSynConsentDetails =fetchNonSyncConsentDetails();
 
-    public List<OrmConsent> fetchAllConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
-        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
-        consentQueryBuilder.where().eq("creatorId", creatorId);
+        for (OrmConsentDetail ormFromBackEndConsentDetail : ormConsent.getConsentDetails()) {
 
-        return consentQueryBuilder.query();
+            for (OrmConsentDetail ormNonSynConsentDetail : ormNonSynConsentDetails) {
+                if (ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()) {
+                    ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
+                    ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
+                }
+            }
+        }
+        return ormConsent;
     }
+
+
 }

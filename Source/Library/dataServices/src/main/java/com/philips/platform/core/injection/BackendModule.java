@@ -33,6 +33,7 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
+import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
@@ -237,6 +238,11 @@ public class BackendModule {
     @Provides
     public MomentsSegregator providesMomentsSegregater(){
         return new MomentsSegregator();
+    }
+
+    @Provides
+    public ConsentsSegregator providesConsentsSegregater(){
+        return new ConsentsSegregator();
     }
 
     @Provides

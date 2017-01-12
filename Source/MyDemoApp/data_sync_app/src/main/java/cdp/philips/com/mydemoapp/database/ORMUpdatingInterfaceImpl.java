@@ -1,12 +1,9 @@
 package cdp.philips.com.mydemoapp.database;
 
-import android.util.Log;
-
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -50,10 +47,22 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
-            ormConsent = getModifiedConsent(ormConsent);
-            saving.saveConsent(ormConsent);
-            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsent);
-            return true;
+            OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
+            if (consentInDatabase == null) {
+                saving.saveConsent(ormConsent);
+                mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsent);
+                return true;
+            } else {
+                ormConsent = fetching.getModifiedConsent(ormConsent, consentInDatabase);
+                ormConsent.setId(consentInDatabase.getId());
+                for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
+                    deleting.deleteConsent(ormConsentInDB);
+                }
+                saving.saveConsent(ormConsent);
+                mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsent);
+                return true;
+            }
+
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
             mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Callback Not registered");
@@ -61,35 +70,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         }
     }
 
-    private OrmConsent getModifiedConsent(OrmConsent ormConsent) throws SQLException {
-        DSLog.d("Creator ID MODI", ormConsent.getCreatorId());
-        OrmConsent consentInDatabase = fetching.fetchConsentByCreatorId(ormConsent.getCreatorId());
-
-        if (consentInDatabase != null) {
-            int id = consentInDatabase.getId();
-            final List<OrmConsentDetail> ormNonSynConsentDetails = fetching.fetchNonSynchronizedConsentDetails();
-
-            for (OrmConsentDetail ormFromBackEndConsentDetail : ormConsent.getConsentDetails()) {
-
-                for (OrmConsentDetail ormNonSynConsentDetail : ormNonSynConsentDetails) {
-                    if (ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()) {
-                        ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
-                        ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
-                    }
-                }
-            }
-            ormConsent.setId(id);
-            for (OrmConsent ormConsentInDB : fetching.fetchAllConsent()) {
-                deleting.deleteConsent(ormConsentInDB);
-            }
-            deleting.deleteConsent(consentInDatabase);
-            // updating.updateConsent(consentInDatabase);
-
-        } else {
-            saving.saveConsent(ormConsent);
-        }
-        return ormConsent;
-    }
 
     @Override
     public void updateMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
