@@ -59,7 +59,7 @@ public class RegistrationApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initRegistration(Configuration.PRODUCTION);
+            initRegistration(Configuration.STAGING);
         }
     }
 
