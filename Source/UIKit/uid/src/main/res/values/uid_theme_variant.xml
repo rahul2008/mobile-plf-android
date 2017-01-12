@@ -120,7 +120,7 @@
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
         <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
-        <item name="uidSeparatorAlpha">0.60</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
 
     </style>
 
@@ -161,7 +161,7 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
-        <item name="uidSeparatorAlpha">0.15</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
     </style>
 
@@ -200,7 +200,7 @@
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
-        <item name="uidSeparatorAlpha">0.2</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
 
     </style>
 
@@ -236,7 +236,7 @@
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
-        <item name="uidSeparatorAlpha">0.15</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
     </style>
 
@@ -275,7 +275,7 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
-        <item name="uidSeparatorAlpha">0.15</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
     </style>
 </resources>

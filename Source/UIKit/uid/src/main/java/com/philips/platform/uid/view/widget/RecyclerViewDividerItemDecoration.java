@@ -49,7 +49,7 @@ public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecorati
         this.height = (int) styledAttributes.getDimension(0, 1);
         final int color1 = styledAttributes.getColor(1, ContextCompat.getColor(context, R.color.uid_gray_level_75));
         final Float alpha = styledAttributes.getFloat(2, 1);
-        final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color1, 1);
+        final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color1, alpha);
         this.divider = new ColorDrawable(modulateColorAlpha);
         styledAttributes.recycle();
     }
