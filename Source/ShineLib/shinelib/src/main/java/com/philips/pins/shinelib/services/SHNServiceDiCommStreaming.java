@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
 
@@ -9,15 +9,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class SHNServiceMoonshineStreaming extends SHNServiceByteStreaming {
-    public static final UUID SERVICE_UUID = UUID.fromString("A651FFF1-4074-4131-BCE9-56D4261BC7B1");
-    public static final UUID RX_CHARACTERISTIC_UUID = UUID.fromString("A6510001-4074-4131-BCE9-56D4261BC7B1");
-    public static final UUID RX_ACK_CHARACTERISTIC_UUID = UUID.fromString("A6510002-4074-4131-BCE9-56D4261BC7B1");
-    public static final UUID TX_CHARACTERISTIC_UUID = UUID.fromString("A6510003-4074-4131-BCE9-56D4261BC7B1");
-    public static final UUID TX_ACK_CHARACTERISTIC_UUID = UUID.fromString("A6510004-4074-4131-BCE9-56D4261BC7B1");
-    public static final UUID PROT_CFG_CHARACTERISTIC_UUID = UUID.fromString("A6510005-4074-4131-BCE9-56D4261BC7B1");
+public class SHNServiceDiCommStreaming extends SHNServiceByteStreaming {
+    public static final UUID SERVICE_UUID = UUID.fromString("e50ba3c0-af04-4564-92ad-fef019489de6");
+    public static final UUID RX_CHARACTERISTIC_UUID = UUID.fromString("e50b0001-af04-4564-92ad-fef019489de6");
+    public static final UUID RX_ACK_CHARACTERISTIC_UUID = UUID.fromString("e50b0002-af04-4564-92ad-fef019489de6");
+    public static final UUID TX_CHARACTERISTIC_UUID = UUID.fromString("e50b0003-af04-4564-92ad-fef019489de6");
+    public static final UUID TX_ACK_CHARACTERISTIC_UUID = UUID.fromString("e50b0004-af04-4564-92ad-fef019489de6");
+    public static final UUID PROT_CFG_CHARACTERISTIC_UUID = UUID.fromString("e50b0005-af04-4564-92ad-fef019489de6");
 
-    public SHNServiceMoonshineStreaming() {
+    public SHNServiceDiCommStreaming() {
         super(SERVICE_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
     }
 

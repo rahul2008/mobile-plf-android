@@ -34,7 +34,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
     public static final byte[] OK_PROTOCOL_INFO_DATA_VPLUS = new byte[]{SHNProtocolMoonshineStreamingV3.PROTOCOL_VERSION + 1, TEST_TX_WINDOW_SIZE, TEST_RX_WINDOW_SIZE};
     private SHNProtocolMoonshineStreamingV3 shnProtocolMoonshineStreamingV3;
     private SHNServiceMoonshineStreaming mockedShnServiceMoonshineStreaming;
-    private SHNProtocolMoonshineStreamingVersionSwitcher.SHNProtocolMoonshineStreamingListener mockedShnProtocolMoonshineStreamingListener;
+    private SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingListener mockedShnProtocolMoonshineStreamingListener;
     private MockedHandler mockedHandler;
     public static final byte[] TWO_BYTES_TEST_DATA = new byte[]{(byte) 0xC0, (byte) 0xDE};
 
@@ -53,7 +53,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
         doNothing().when(mockedShnServiceMoonshineStreaming).sendData(any(byte[].class));
 
         // Make a normal mock object. We will verify the calls being made.
-        mockedShnProtocolMoonshineStreamingListener = mock(SHNProtocolMoonshineStreamingVersionSwitcher.SHNProtocolMoonshineStreamingListener.class);
+        mockedShnProtocolMoonshineStreamingListener = mock(SHNProtocolByteStreamingVersionSwitcher.SHNProtocolMoonshineStreamingListener.class);
 
         mockedHandler = new MockedHandler();
 

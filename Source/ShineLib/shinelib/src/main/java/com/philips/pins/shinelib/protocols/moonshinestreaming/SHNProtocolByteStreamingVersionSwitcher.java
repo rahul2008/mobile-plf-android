@@ -8,24 +8,24 @@ package com.philips.pins.shinelib.protocols.moonshinestreaming;
 import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
+import com.philips.pins.shinelib.services.SHNServiceByteStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
-public class SHNProtocolMoonshineStreamingVersionSwitcher implements SHNProtocolMoonshineStreaming {
-    private static final String TAG = SHNProtocolMoonshineStreamingVersionSwitcher.class.getSimpleName();
+public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoonshineStreaming {
+    private static final String TAG = SHNProtocolByteStreamingVersionSwitcher.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final int PROTOCOL_VERSION_V1 = 1;
     private static final int PROTOCOL_VERSION_V2 = 2;
     private static final int PROTOCOL_VERSION_V3 = 3;
-    private final SHNServiceMoonshineStreaming shnServiceMoonshineStreaming;
+    private final SHNServiceByteStreaming shnServiceByteStreaming;
     private final Handler internalHandler;
     private SHNProtocolMoonshineStreamingState state = SHNProtocolMoonshineStreamingState.Initializing;
     private SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
     private SHNProtocolMoonshineStreamingListener shnProtocolMoonshineStreamingListener;
 
-    public SHNProtocolMoonshineStreamingVersionSwitcher(SHNServiceMoonshineStreaming shnServiceMoonshineStreaming, Handler internalHandler) {
+    public SHNProtocolByteStreamingVersionSwitcher(SHNServiceByteStreaming shnServiceByteStreaming, Handler internalHandler) {
         DebugLog("create instance");
-        this.shnServiceMoonshineStreaming = shnServiceMoonshineStreaming;
+        this.shnServiceByteStreaming = shnServiceByteStreaming;
         this.internalHandler = internalHandler;
     }
 
@@ -101,19 +101,19 @@ public class SHNProtocolMoonshineStreamingVersionSwitcher implements SHNProtocol
 
         if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V3) {
             SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V3);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV3(shnServiceMoonshineStreaming, internalHandler);
+            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV3(shnServiceByteStreaming, internalHandler);
             shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
             shnProtocolMoonshineStreaming.onServiceAvailable();
             shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
         } else if (shnProtocolInformation == null || shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V2) {
             SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V2);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV2(shnServiceMoonshineStreaming, internalHandler);
+            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV2(shnServiceByteStreaming, internalHandler);
             shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
             shnProtocolMoonshineStreaming.onServiceAvailable();
             shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
         } else if (shnProtocolInformation.protocolVersion == PROTOCOL_VERSION_V1) {
             SHNLogger.d(TAG, "onReadProtocolInformation using protocol version: " + PROTOCOL_VERSION_V1);
-            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV1(shnServiceMoonshineStreaming, internalHandler);
+            shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingV1(shnServiceByteStreaming, internalHandler);
             shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(shnProtocolMoonshineStreamingListener);
             shnProtocolMoonshineStreaming.onServiceAvailable();
             shnProtocolMoonshineStreaming.onReadProtocolInformation(configurationData);
@@ -141,7 +141,7 @@ public class SHNProtocolMoonshineStreamingVersionSwitcher implements SHNProtocol
     @Override
     public void onServiceAvailable() {
         DebugLog("onServiceAvailable");
-        shnServiceMoonshineStreaming.readProtocolConfiguration();
+        shnServiceByteStreaming.readProtocolConfiguration();
     }
 
     @Override
