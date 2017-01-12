@@ -94,6 +94,11 @@ public abstract class BaseFlowManager {
      * @return Object to next BaseState if available or 'null'.
      */
     public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
+        return getNextState(eventId);
+    }
+
+    @NonNull
+    public BaseState getNextState(String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
         if (null == eventId)
             throw new NullEventException();
         else if (null != currentState) {
@@ -137,6 +142,11 @@ public abstract class BaseFlowManager {
     }
 
     public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException {
+        return getBackState();
+    }
+
+
+    public BaseState getBackState() throws NoStateException, NoConditionFoundException {
         if (currentState != null && flowManagerStack.contains(currentState)) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState nextState = null;
@@ -205,7 +215,7 @@ public abstract class BaseFlowManager {
 
     @Deprecated
     private void mapAppFlowStates(final String jsonPath) {
-        mapAppFlowStates(jsonPath,null);
+        mapAppFlowStates(jsonPath, null);
     }
 
     private void mapAppFlowStates(final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {

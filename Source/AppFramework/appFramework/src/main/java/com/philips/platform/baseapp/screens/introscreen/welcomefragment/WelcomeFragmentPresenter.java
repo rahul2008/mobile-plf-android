@@ -42,7 +42,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+            baseState = targetFlowManager.getNextState(eventState);
         } catch (NoEventFoundException e) {
             e.printStackTrace();
         }

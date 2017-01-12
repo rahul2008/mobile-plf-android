@@ -49,7 +49,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         if (event.equals(APP_LAUNCH))
             baseState = targetFlowManager.getFirstState();
         else if (event.equals(LAUNCH_BACK_PRESSED))
-            baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
+            baseState = targetFlowManager.getBackState();
 
         if (baseState != null) {
             baseState.setUiStateData(getUiStateData());
