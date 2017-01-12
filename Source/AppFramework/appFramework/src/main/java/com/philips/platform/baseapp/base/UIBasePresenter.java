@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.base;
 
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
 
 /**
