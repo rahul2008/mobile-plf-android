@@ -2,6 +2,7 @@ package com.philips.cdp.pluginreferenceboard;
 
 import com.philips.pins.shinelib.SHNAssociationProcedurePlugin;
 import com.philips.pins.shinelib.SHNCentral;
+import com.philips.pins.shinelib.services.SHNServiceDiCommStreaming;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class DeviceDefinitionInfoReferenceBoardTest {
 
     @Test
     public void shouldSpecifyPrimaryUUUID() throws Exception {
-        UUID uuid = UUID.fromString(DeviceDefinitionInfoReferenceBoard.DEVICE_INFORMATION_SERVICE_UUID);
+        UUID uuid = SHNServiceDiCommStreaming.SERVICE_UUID;
 
         Set<UUID> primaryServiceUUIDs = deviceDefinitionInfoReferenceBoard.getPrimaryServiceUUIDs();
         assertNotNull(primaryServiceUUIDs);
