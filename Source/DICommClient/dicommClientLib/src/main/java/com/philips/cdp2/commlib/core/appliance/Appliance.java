@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
@@ -39,11 +39,11 @@ public abstract class Appliance {
         mNetworkNode = networkNode;
         mCommunicationStrategy = communicationStrategy;
 
-        mDevicePort = new DevicePort(mNetworkNode, mCommunicationStrategy);
-        mFirmwarePort = new FirmwarePort(mNetworkNode, mCommunicationStrategy);
-        mPairingPort = new PairingPort(mNetworkNode, mCommunicationStrategy);
-        mWifiPort = new WifiPort(mNetworkNode, mCommunicationStrategy);
-        mWifiUIPort = new WifiUIPort(mNetworkNode, mCommunicationStrategy);
+        mDevicePort = new DevicePort(mCommunicationStrategy);
+        mFirmwarePort = new FirmwarePort(mCommunicationStrategy);
+        mPairingPort = new PairingPort(mCommunicationStrategy);
+        mWifiPort = new WifiPort(mCommunicationStrategy);
+        mWifiUIPort = new WifiUIPort(mCommunicationStrategy);
 
         addPort(mDevicePort);
         addPort(mFirmwarePort);

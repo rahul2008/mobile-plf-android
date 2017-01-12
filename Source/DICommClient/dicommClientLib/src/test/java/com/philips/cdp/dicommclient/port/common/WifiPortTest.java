@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
@@ -61,7 +61,7 @@ public class WifiPortTest extends RobolectricTest {
     }
 
     private WifiPortProperties parseWifiPortData(String parseData) {
-        WifiPort wifiPort = new WifiPort(null, mock(CommunicationStrategy.class));
+        WifiPort wifiPort = new WifiPort(mock(CommunicationStrategy.class));
         wifiPort.processResponse(parseData);
         return wifiPort.getPortProperties();
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -7,9 +7,7 @@ package com.philips.cdp.dicommclient.port;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -30,7 +28,6 @@ public abstract class DICommPort<T> {
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
 
-    private final NetworkNode mNetworkNode;
     protected CommunicationStrategy mCommunicationStrategy;
     private WrappedHandler mResubscriptionHandler;
 
@@ -46,8 +43,7 @@ public abstract class DICommPort<T> {
     private final Map<String, Object> mPutPropertiesMap = new ConcurrentHashMap<>();
     private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<DICommPortListener>();
 
-    public DICommPort(@NonNull final NetworkNode networkNode, @NonNull final CommunicationStrategy communicationStrategy) {
-        mNetworkNode = networkNode;
+    public DICommPort(CommunicationStrategy communicationStrategy) {
         mCommunicationStrategy = communicationStrategy;
     }
 

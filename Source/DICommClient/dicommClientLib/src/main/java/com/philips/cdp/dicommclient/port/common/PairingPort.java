@@ -1,14 +1,13 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +20,8 @@ public class PairingPort extends DICommPort<Object> {
     private static final String KEY_SETUP = "setup";
     private static final String KEY_CONNECTION = "connection";
 
-    public PairingPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-		super(networkNode, communicationStrategy);
+    public PairingPort(CommunicationStrategy communicationStrategy) {
+		super(communicationStrategy);
 	}
 
 	@Override

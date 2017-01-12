@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
@@ -9,12 +9,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,8 +43,8 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     public static final int MAX_SCHEDULES_REACHED = 1;
     public static final int DEFAULT_ERROR = 999;
 
-    public ScheduleListPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-        super(networkNode, communicationStrategy);
+    public ScheduleListPort(CommunicationStrategy communicationStrategy) {
+        super(communicationStrategy);
     }
 
     @Override

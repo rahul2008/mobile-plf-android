@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
@@ -35,7 +35,7 @@ public class DevicePortTest extends RobolectricTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        devicePort = new DevicePort(null, communicationStrategyMock);
+        devicePort = new DevicePort(communicationStrategyMock);
     }
 
     @Test

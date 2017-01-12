@@ -1,5 +1,5 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 package com.philips.cdp.dicommclientsample.airpurifier;
@@ -14,7 +14,7 @@ public class ComfortAirPurifier extends AirPurifier {
     public ComfortAirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
 
-        airPort = new ComfortAirPort(networkNode, communicationStrategy);
+        airPort = new ComfortAirPort(communicationStrategy);
         addPort(airPort);
     }
 }

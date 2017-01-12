@@ -1,11 +1,10 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
@@ -54,10 +53,9 @@ public class DiCommPortTest extends RobolectricTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        final NetworkNode mNetworkNode = mock(NetworkNode.class);
         mCommunicationStrategy = mock(CommunicationStrategy.class);
         mHandler = mock(WrappedHandler.class);
-        mDiCommPort = new TestPort(mNetworkNode, mCommunicationStrategy, mHandler);
+        mDiCommPort = new TestPort(mCommunicationStrategy, mHandler);
     }
 
     @Test
@@ -643,8 +641,8 @@ public class DiCommPortTest extends RobolectricTest {
 
         private WrappedHandler handler;
 
-        TestPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, WrappedHandler handler) {
-            super(networkNode, communicationStrategy);
+        public TestPort(CommunicationStrategy communicationStrategy, WrappedHandler handler) {
+            super(communicationStrategy);
             this.handler = handler;
         }
 

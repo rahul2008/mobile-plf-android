@@ -1,5 +1,5 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
@@ -190,12 +190,12 @@ public class ScheduleListPortTest extends RobolectricTest {
     }
 
     private ScheduleListPortInfo parseSingleScheduledata(String data) {
-        ScheduleListPort scheduleListPort = new ScheduleListPort(null, null);
+        ScheduleListPort scheduleListPort = new ScheduleListPort(null);
         return scheduleListPort.parseResponseAsSingleSchedule(data);
     }
 
     private List<ScheduleListPortInfo> parseScheduleListdata(String data) {
-        ScheduleListPort scheduleListPort = new ScheduleListPort(null, null);
+        ScheduleListPort scheduleListPort = new ScheduleListPort(null);
         return scheduleListPort.parseResponseAsScheduleList(data);
     }
 }
