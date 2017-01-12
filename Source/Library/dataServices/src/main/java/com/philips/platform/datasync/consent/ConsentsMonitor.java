@@ -121,9 +121,9 @@ public class ConsentsMonitor extends EventMonitor {
                     consentDetail.setBackEndSynchronized(true);
                 }
                 DSLog.i("***SPO***", "Get Consent called After ConsentsClient before sending consents response");
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK, mDbRequestListener));
             } else {
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, mDbRequestListener));
             }
         }  catch (RetrofitError ex) {
         eventing.post(new BackendMomentRequestFailed(ex));

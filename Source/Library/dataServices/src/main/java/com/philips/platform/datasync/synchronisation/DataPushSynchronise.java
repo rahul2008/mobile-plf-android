@@ -116,5 +116,7 @@ public class DataPushSynchronise extends EventMonitor {
                 }
             });*/
         }
+        DSLog.i("***SPO***","DataPushSynchronize set Push complete");
+     //   DataServicesManager.getInstance().setPushComplete(true);
     }
 }
