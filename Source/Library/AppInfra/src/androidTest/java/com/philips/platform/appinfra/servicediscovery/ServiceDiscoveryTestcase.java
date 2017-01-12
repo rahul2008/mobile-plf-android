@@ -135,7 +135,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
     AppConfigurationManager mConfigInterface;
     private Context context;
 
-    RequestItemManager mRequestItemManager = null;
+    RequestManager mRequestItemManager = null;
     private ServiceDiscovery serviceDiscovery = null;
 
 
@@ -150,7 +150,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         testConfig();
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mRequestItemManager = new RequestItemManager(context, mAppInfra);
+        mRequestItemManager = new RequestManager(context, mAppInfra);
         assertNotNull(mRequestItemManager);
         mserviceDiscovery = new ServiceDiscovery();
         mserviceDiscovery = loadServiceDiscoveryModel();

@@ -1,7 +1,12 @@
 package com.philips.platform.appinfra.servicediscovery;
 
+/**
+ * Created by 310243577 on 1/10/2017.
+ */
 
 import android.content.Context;
+import android.os.Build;
+import android.os.LocaleList;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -13,7 +18,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
@@ -23,16 +27,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 //import android.os.LocaleList;
 
-public class RequestItemManager {
+public class RequestManager {
 
     //    RequestQueue mRequestQueue;
     private static final String TAG = "RequestManager";//this.class.getSimpleName();
@@ -42,7 +46,7 @@ public class RequestItemManager {
 
     private AppInfra mAppInfra;
 
-    public RequestItemManager(Context context, AppInfra appInfra) {
+    public RequestManager(Context context, AppInfra appInfra) {
         this.mContext = context;
         mAppInfra = appInfra;
     }
@@ -116,17 +120,13 @@ public class RequestItemManager {
                     resultsJSONArray.put(matchByCountryJSONObject.optJSONObject("results"));
                 }
                 ArrayList<MatchByCountryOrLanguage.Config> matchByCountryConfigs = new ArrayList<MatchByCountryOrLanguage.Config>();
-
                 ArrayList<String> localeList = new ArrayList<String>();
                 JSONArray configCountryJSONArray = null;
-//               LocaleList mLocaleList = mAppInfra.getInternationalization().getLocaleList();
-
                 if (resultsJSONArray.length() > 1) {
-
                     for (int i = 0; i < resultsJSONArray.length(); i++) {
                         localeList.add(resultsJSONArray.getJSONObject(i).optString("locale"));
                     }
-
+                   // configCountryJSONArray = getActualResultsForLocaleList(resultsJSONArray);
                 } else {
                     matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
                     configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
@@ -135,54 +135,18 @@ public class RequestItemManager {
                         configCountryJSONArray.put(resultsJSONArray.getJSONObject(0).optJSONObject("configs"));
                     }
                 }
-
-//                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    for (int i = 0; i < localeList.size(); i++) {
-//                        for (int j = 0; j < mLocaleList.size(); j++) {
-//                            if (mLocaleList.get(j).equals(localeList.get(i))) {
-//                                matchByCountry.setLocale(localeList.get(i));
-//                                configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
-//                                break;
-//                            }
-//                        }
-//
-//                    }
-//                }
-                if (localeList.size() > 0) {
-                    Locale mLocale = mAppInfra.getInternationalization().getUILocale();
-                    String localString = mLocale.getLanguage() + "_" + mLocale.getCountry();
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Locale",
-                            localString);
-                    for (int i = 0; i < localeList.size(); i++) {
-                        if (localString.equals(localeList.get(i))) {
-                            matchByCountry.setLocale(localeList.get(i));
-                            configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
-                            break;
-                        } else {
-                            matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale"));
-                            configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
-                        }
-
-                    }
-                }
-                // Multi, single Locale verification with locale response object
-//                for (int i = 0; i < localeList.size(); i++) {
-//                    for (int j = 0; j < multiLocale.length; j++) {
-//                        if (multiLocale[j].equals(localeList.get(i))) {
-//                            matchByCountry.setLocale(localeList.get(i));
-//                            configCountryJSONArray = resultsJSONArray.getJSONObject(i).optJSONArray("configs");
-//                            break;
-//                        }
-//                    }
-//
-//                }
+//                String test  = getActualResultsForLocaleList(matchByCountry , resultsJSONArray);
+//                JSONArray configCountryJSONArray = new JSONArray(test);
+//                System.out.println("TEST "+" "+configCountryJSONArray);
 
 
                 if (configCountryJSONArray != null) {
                     for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
                         MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
+                        System.out.println("CONFIGCOUNT" + " " + configCountryJSONArray.length());
+                        System.out.println("CONFIGARRAY" + " " + configCountryJSONArray.optJSONObject(configCount));
                         config.setMicrositeId(configCountryJSONArray.optJSONObject(configCount).optString("micrositeId"));
-                        HashMap<String, String> urlHashMap = new HashMap<String, String>();
+                        HashMap<String, String> urlHashMap = new HashMap<>();
                         JSONObject urlJSONObject = configCountryJSONArray.optJSONObject(configCount).optJSONObject("urls");
                         Iterator<String> iter = urlJSONObject.keys();
                         while (iter.hasNext()) {
@@ -272,4 +236,48 @@ public class RequestItemManager {
         }
         return result;
     }
+
+    private String getActualResultsForLocaleList(MatchByCountryOrLanguage matchByCountry, JSONArray resultsJSONArray) {
+        // JSONArray configJsonArray = new JSONArray();
+        try {
+            ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(getLocaleList().split(",")));
+            for (int i = 0; i < deviceLocaleList.size(); i++) {
+                for (int j = 0; j < resultsJSONArray.length(); j++) {
+                    String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
+                    if (deviceLocaleList.get(i).replaceAll("[\\[\\]]", "").equals(resLocale)) {
+                        //configJsonArray.put(resultsJSONArray.getJSONObject(j).optString("configs"));
+                        matchByCountry.setLocale(resLocale);
+                        return resultsJSONArray.getJSONObject(j).optString("configs");
+                    }
+                }
+            }
+            for (int i = 0; i < deviceLocaleList.size(); i++) {
+                for (int j = 0; j < resultsJSONArray.length(); j++) {
+                    String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
+                    if (deviceLocaleList.get(0).replaceAll("[\\[\\]]", "").substring(0, 2).equals(resLocale)) {
+                        // configJsonArray.put(resultsJSONArray.getJSONObject(0).optString("configs"));
+                        matchByCountry.setLocale(resLocale);
+                        return resultsJSONArray.getJSONObject(0).optString("configs");
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Parsing error");
+            ServiceDiscovery result = new ServiceDiscovery();
+            result.setSuccess(false);
+            result.setError(err);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getLocaleList() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return LocaleList.getDefault().toString();
+        } else {
+            return mAppInfra.getInternationalization().getUILocaleString();
+        }
+    }
+
+
 }

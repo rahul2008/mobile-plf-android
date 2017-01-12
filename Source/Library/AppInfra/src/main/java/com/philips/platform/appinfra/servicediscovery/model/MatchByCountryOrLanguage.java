@@ -12,11 +12,13 @@ import java.util.HashMap;
  * Created by 310238114 on 6/7/2016.
  */
 public class MatchByCountryOrLanguage {
+
     boolean available;
     String locale;
     ArrayList<Config> configs;
 
     public static class Config {
+
         public static class Tag {
             private String id;
             private String name;
@@ -25,6 +27,7 @@ public class MatchByCountryOrLanguage {
             public String getId() {
                 return id;
             }
+
             public void setId(String id) {
                 this.id = id;
             }
@@ -32,6 +35,7 @@ public class MatchByCountryOrLanguage {
             public String getName() {
                 return name;
             }
+
             public void setName(String name) {
                 this.name = name;
             }
@@ -39,18 +43,20 @@ public class MatchByCountryOrLanguage {
             public String getKey() {
                 return key;
             }
+
             public void setKey(String key) {
                 this.key = key;
             }
         }
 
         private String micrositeId;
-        private HashMap<String , String > urls;
+        private HashMap<String, String> urls;
         private ArrayList<Tag> tags;
 
         public String getMicrositeId() {
             return micrositeId;
         }
+
         public void setMicrositeId(String micrositeId) {
             this.micrositeId = micrositeId;
         }
@@ -58,6 +64,7 @@ public class MatchByCountryOrLanguage {
         public HashMap<String, String> getUrls() {
             return urls;
         }
+
         public void setUrls(HashMap<String, String> urls) {
             this.urls = urls;
         }
@@ -65,6 +72,7 @@ public class MatchByCountryOrLanguage {
         public ArrayList<Tag> getTags() {
             return tags;
         }
+
         public void setTags(ArrayList<Tag> tags) {
             this.tags = tags;
         }
@@ -78,7 +86,6 @@ public class MatchByCountryOrLanguage {
     public void setAvailable(boolean available) {
         this.available = available;
     }
-
 
 
     public String getLocale() {
