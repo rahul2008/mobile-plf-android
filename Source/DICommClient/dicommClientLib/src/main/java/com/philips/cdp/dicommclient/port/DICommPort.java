@@ -7,18 +7,21 @@ package com.philips.cdp.dicommclient.port;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public abstract class DICommPort<T> {
 
@@ -27,7 +30,7 @@ public abstract class DICommPort<T> {
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
 
-    protected final NetworkNode mNetworkNode;
+    private final NetworkNode mNetworkNode;
     protected CommunicationStrategy mCommunicationStrategy;
     private WrappedHandler mResubscriptionHandler;
 
@@ -37,18 +40,15 @@ public abstract class DICommPort<T> {
     private boolean mSubscribeRequested;
     private boolean mUnsubscribeRequested;
     private boolean mStopResubscribe;
-    private Object mResubscribeLock = new Object();
-
-    private Map<String, Object> mPutPropertiesMap;
+    private final Object mResubscribeLock = new Object();
     private T mPortProperties;
 
-    private List<DICommPortListener> mPortListeners;
+    private final Map<String, Object> mPutPropertiesMap = new ConcurrentHashMap<>();
+    private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<DICommPortListener>();
 
-    public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    public DICommPort(@NonNull final NetworkNode networkNode, @NonNull final CommunicationStrategy communicationStrategy) {
         mNetworkNode = networkNode;
         mCommunicationStrategy = communicationStrategy;
-        mPutPropertiesMap = new HashMap<String, Object>();
-        mPortListeners = new ArrayList<DICommPortListener>();
     }
 
     public abstract boolean isResponseForThisPort(String jsonResponse);
@@ -80,17 +80,13 @@ public abstract class DICommPort<T> {
 
     public void putProperties(String key, String value) {
         DICommLog.d(LOG_TAG, "request putProperties - " + key + " : " + value);
-        synchronized (mPutPropertiesMap) {
-            mPutPropertiesMap.put(key, value);
-        }
+        mPutPropertiesMap.put(key, value);
         tryToPerformNextRequest();
     }
 
     public void putProperties(Map<String, Object> dataMap) {
         DICommLog.d(LOG_TAG, "request putProperties - multiple key values");
-        synchronized (mPutPropertiesMap) {
-            mPutPropertiesMap.putAll(dataMap);
-        }
+        mPutPropertiesMap.putAll(dataMap);
         tryToPerformNextRequest();
     }
 
@@ -160,15 +156,13 @@ public abstract class DICommPort<T> {
     }
 
     private void notifyPortListenersOnUpdate() {
-        ArrayList<DICommPortListener> copyListeners = new ArrayList<DICommPortListener>(mPortListeners);
-        for (DICommPortListener listener : copyListeners) {
+        for (DICommPortListener listener : mPortListeners) {
             listener.onPortUpdate(this);
         }
     }
 
     private void notifyPortListenersOnError(Error error, String errorData) {
-        ArrayList<DICommPortListener> copyListeners = new ArrayList<DICommPortListener>(mPortListeners);
-        for (DICommPortListener listener : copyListeners) {
+        for (DICommPortListener listener : mPortListeners) {
             listener.onPortError(this, error, errorData);
         }
     }
@@ -204,9 +198,7 @@ public abstract class DICommPort<T> {
     }
 
     private boolean isPutPropertiesRequested() {
-        synchronized (mPutPropertiesMap) {
-            return !mPutPropertiesMap.isEmpty();
-        }
+        return !mPutPropertiesMap.isEmpty();
     }
 
     private boolean isGetPropertiesRequested() {
@@ -233,12 +225,8 @@ public abstract class DICommPort<T> {
     }
 
     private void performPutProperties() {
-        final HashMap<String, Object> propertiesToSend;
-
-        synchronized (mPutPropertiesMap) {
-            propertiesToSend = new HashMap<String, Object>(mPutPropertiesMap);
-            mPutPropertiesMap.clear();
-        }
+        final Map<String, Object> propertiesToSend = Collections.unmodifiableMap(new HashMap<>(mPutPropertiesMap));
+        mPutPropertiesMap.clear();
 
         DICommLog.i(LOG_TAG, "Start putProperties");
         setIsApplyingChanges(true);

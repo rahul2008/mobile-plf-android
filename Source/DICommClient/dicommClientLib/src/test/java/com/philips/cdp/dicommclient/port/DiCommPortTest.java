@@ -5,12 +5,12 @@
 
 package com.philips.cdp.dicommclient.port;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class DICommPortTest extends RobolectricTest {
+public class DiCommPortTest extends RobolectricTest {
 
     private final String PORT_NAME = "air";
     private final int PORT_PRODUCTID = 1;
@@ -42,7 +42,7 @@ public class DICommPortTest extends RobolectricTest {
 
     private CommunicationStrategy mCommunicationStrategy;
 
-    private DICommPort<?> mDICommPort;
+    private DICommPort<?> mDiCommPort;
 
     @Captor
     private ArgumentCaptor<Map<String, Object>> mMapCaptor;
@@ -57,12 +57,12 @@ public class DICommPortTest extends RobolectricTest {
         final NetworkNode mNetworkNode = mock(NetworkNode.class);
         mCommunicationStrategy = mock(CommunicationStrategy.class);
         mHandler = mock(WrappedHandler.class);
-        mDICommPort = new DICommPortImpl(mNetworkNode, mCommunicationStrategy, mHandler);
+        mDiCommPort = new TestPort(mNetworkNode, mCommunicationStrategy, mHandler);
     }
 
     @Test
     public void testPutProperties() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 
         verifyPutPropertiesCalled(true);
         Map<String, Object> capturedMap = mMapCaptor.getValue();
@@ -72,28 +72,28 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testGetProperties() {
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(true);
     }
 
     @Test
     public void testSubscribe() {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(true);
     }
 
     @Test
     public void testUnsubscribe() {
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(true);
     }
 
     @Test
     public void testPeformSubscribeAfterPutPropertiesSuccess() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(false);
 
         mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -102,10 +102,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformUnsubscribeAfterPutPropertiesSuccess() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(false);
 
         mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -114,10 +114,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotPerformGetAfterPutPropertiesSuccess() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -126,12 +126,12 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformPutAfterPutPropertiesSuccess() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(false);
 
         responseHandler.onSuccess(null);
@@ -140,10 +140,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPeformSubscribeAfterPutPropertiesError() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(false);
 
         mResponseHandlerCaptor.getValue().onError(null, null);
@@ -152,10 +152,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformUnsubscribeAfterPutPropertiesError() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(false);
 
         mResponseHandlerCaptor.getValue().onError(null, null);
@@ -164,10 +164,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformGetAfterPutPropertiesError() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         mResponseHandlerCaptor.getValue().onError(null, null);
@@ -176,12 +176,12 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformPutAfterPutPropertiesError() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(false);
 
         responseHandler.onError(null, null);
@@ -190,7 +190,7 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotRetryPutAfterPutPropertiesError() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         reset(mCommunicationStrategy);
 
@@ -200,12 +200,12 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotPerformSuscribeAfterSubscribeSuccess() {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(false);
 
         responseHandler.onSuccess(null);
@@ -214,10 +214,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotPerformGetAfterSubscribeSuccess() {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(true);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -226,10 +226,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformGetAfterSubscribeError() {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(true);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         mResponseHandlerCaptor.getValue().onError(null, null);
@@ -238,7 +238,7 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotRetrySuscribeAfterSubscribeError() {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verifySubscribeCalled(true);
         reset(mCommunicationStrategy);
 
@@ -248,12 +248,12 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotPerformUnsubscribeAfterUnsubscribeSuccess() {
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(false);
 
         responseHandler.onSuccess(null);
@@ -262,10 +262,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotPerformGetAfterUnsubscribeSuccess() {
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(true);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -274,7 +274,7 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDonotRetryUnSubscribeAfterUnsubscribeError() {
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(true);
         reset(mCommunicationStrategy);
 
@@ -284,10 +284,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformGetAfterUnsubscribeError() {
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
         verifyUnsubscribeCalled(true);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         mResponseHandlerCaptor.getValue().onError(null, null);
@@ -296,12 +296,12 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotPerformGetAfterGetSuccess() {
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         responseHandler.onSuccess(null);
@@ -310,12 +310,12 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testDoNotPerformGetAfterGetError() {
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.reloadProperties();
+        mDiCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
 
         responseHandler.onError(null, null);
@@ -324,15 +324,15 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testPerformRequestsOnPriority() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.reloadProperties();
-        mDICommPort.unsubscribe();
-        mDICommPort.subscribe();
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.reloadProperties();
+        mDiCommPort.unsubscribe();
+        mDiCommPort.subscribe();
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 
         responseHandler.onSuccess(null);
         verifyPutPropertiesCalled(true);
@@ -355,8 +355,8 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testIsApplyingChangesAfterPutProperties() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
-        DICommPortListenerImpl listener = new DICommPortListenerImpl();
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        TestPortListener listener = new TestPortListener();
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
 
         responseHandler.onSuccess(null);
@@ -366,8 +366,8 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testIsApplyingChangesAfterPutPropertiesError() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
-        DICommPortListenerImpl listener = new DICommPortListenerImpl();
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        TestPortListener listener = new TestPortListener();
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
 
         responseHandler.onError(Error.NOT_CONNECTED, null);
@@ -377,10 +377,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testIsApplyingChangesBetweenTwoPutProperties() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
-        DICommPortListenerImpl listener = new DICommPortListenerImpl();
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        TestPortListener listener = new TestPortListener();
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 
         responseHandler.onSuccess(null);
 
@@ -389,10 +389,10 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testIsApplyingChangesBetweenTwoPutPropertiesError() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
-        DICommPortListenerImpl listener = new DICommPortListenerImpl();
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        TestPortListener listener = new TestPortListener();
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 
         responseHandler.onError(Error.NOT_CONNECTED, null);
 
@@ -401,50 +401,50 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void test_ShouldPostRunnable_WhenSubscribeIsCalled() throws Exception {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
 
         verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
 
     @Test
     public void test_ShouldNotPostRunnableTwice_WhenSubscribeIsCalledTwice() throws Exception {
-        mDICommPort.subscribe();
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
+        mDiCommPort.subscribe();
 
         verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
 
     @Test
     public void test_ShouldPostRunnableAgain_WhenSubscribeIsCalled_AfterSubscribeResponseIsReceived() throws Exception {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         responseHandler.onSuccess(null);
 
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
 
         verify(mHandler, Mockito.times(2)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
 
     @Test
     public void test_ShouldSubscribeToCommunicationStrategy_WhenSubscribeIsCalled() throws Exception {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
 
         verifySubscribeCalled(true);
     }
 
     @Test
     public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() throws Exception {
-        mDICommPort.unsubscribe();
+        mDiCommPort.unsubscribe();
 
         verifyUnsubscribeCalled(true);
     }
 
     @Test
     public void test_ShouldRemoveAndAddRunnable_WhenSubscribeIsCalled() throws Exception {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
 
         Runnable runnable = captureResubscribeHandler();
         verify(mHandler).removeCallbacks(runnable);
@@ -452,8 +452,8 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void test_ShouldRemoveSubscribeRunnable_WhenStopResubscribeIsCalled() throws Exception {
-        mDICommPort.subscribe();
-        mDICommPort.stopResubscribe();
+        mDiCommPort.subscribe();
+        mDiCommPort.stopResubscribe();
 
         Runnable runnable = captureResubscribeHandler();
 
@@ -462,8 +462,8 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() throws Exception {
-        mDICommPort.subscribe();
-        mDICommPort.unsubscribe();
+        mDiCommPort.subscribe();
+        mDiCommPort.unsubscribe();
 
         Runnable runnable = captureResubscribeHandler();
 
@@ -472,7 +472,7 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() throws Exception {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
@@ -487,14 +487,14 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void test_ShouldNotRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeIsCalled() throws Exception {
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         responseHandler.onSuccess(null);
 
-        mDICommPort.stopResubscribe();
+        mDiCommPort.stopResubscribe();
 
         Runnable runnable = captureResubscribeHandler();
         runnable.run();
@@ -504,9 +504,9 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void test_ShouldRePostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeAndSubscribeIsCalled() throws Exception {
-        mDICommPort.stopResubscribe();
+        mDiCommPort.stopResubscribe();
 
-        mDICommPort.subscribe();
+        mDiCommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
@@ -528,13 +528,13 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testMultiplePutRequests() {
-        mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+        mDiCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         reset(mCommunicationStrategy);
 
-        mDICommPort.putProperties(POWER_KEY, POWER_VALUE);
-        mDICommPort.putProperties(CHILDLOCK_KEY, CHILDLOCK_VALUE);
+        mDiCommPort.putProperties(POWER_KEY, POWER_VALUE);
+        mDiCommPort.putProperties(CHILDLOCK_KEY, CHILDLOCK_VALUE);
 
         responseHandler.onSuccess(null);
 
@@ -550,7 +550,7 @@ public class DICommPortTest extends RobolectricTest {
 
     @Test
     public void testGetPropertiesWhenPortInfoNull() {
-        mDICommPort.getPortProperties();
+        mDiCommPort.getPortProperties();
         verifyGetPropertiesCalled(true);
     }
 
@@ -558,45 +558,45 @@ public class DICommPortTest extends RobolectricTest {
     public void testRegisterListener() {
         DICommPortListener listener = mock(DICommPortListener.class);
 
-        mDICommPort.addPortListener(listener);
-        mDICommPort.handleResponse("");
+        mDiCommPort.addPortListener(listener);
+        mDiCommPort.handleResponse("");
 
-        verify(listener, times(1)).onPortUpdate(mDICommPort);
+        verify(listener, times(1)).onPortUpdate(mDiCommPort);
     }
 
     @Test
     public void testUnregisterListener() {
         DICommPortListener listener = mock(DICommPortListener.class);
 
-        mDICommPort.addPortListener(listener);
-        mDICommPort.removePortListener(listener);
-        mDICommPort.handleResponse("");
+        mDiCommPort.addPortListener(listener);
+        mDiCommPort.removePortListener(listener);
+        mDiCommPort.handleResponse("");
 
-        verify(listener, times(0)).onPortUpdate(mDICommPort);
+        verify(listener, times(0)).onPortUpdate(mDiCommPort);
     }
 
     @Test
     public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
         DICommPortListener listener = mock(DICommPortListener.class);
 
-        mDICommPort.addPortListener(listener);
-        mDICommPort.removePortListener(listener);
-        mDICommPort.removePortListener(listener);
+        mDiCommPort.addPortListener(listener);
+        mDiCommPort.removePortListener(listener);
+        mDiCommPort.removePortListener(listener);
 
-        mDICommPort.handleResponse("");
+        mDiCommPort.handleResponse("");
 
-        verify(listener, times(0)).onPortUpdate(mDICommPort);
+        verify(listener, times(0)).onPortUpdate(mDiCommPort);
     }
 
     @Test
     public void testListenerShouldNotBeRegisteredTwice() {
         DICommPortListener listener = mock(DICommPortListener.class);
 
-        mDICommPort.addPortListener(listener);
-        mDICommPort.addPortListener(listener);
-        mDICommPort.handleResponse("");
+        mDiCommPort.addPortListener(listener);
+        mDiCommPort.addPortListener(listener);
+        mDiCommPort.handleResponse("");
 
-        verify(listener, times(1)).onPortUpdate(mDICommPort);
+        verify(listener, times(1)).onPortUpdate(mDiCommPort);
     }
 
     private void verifyPutPropertiesCalled(boolean invoked) {
@@ -631,26 +631,26 @@ public class DICommPortTest extends RobolectricTest {
         }
     }
 
-    private ResponseHandler addListenerAndGetResponseHandler(DICommPortListenerImpl listener) {
-        mDICommPort.addPortListener(listener);
+    private ResponseHandler addListenerAndGetResponseHandler(DICommPortListener listener) {
+        mDiCommPort.addPortListener(listener);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+
         return responseHandler;
     }
 
-    public class DICommPortImpl extends DICommPort<Object> {
+    class TestPort extends DICommPort<Object> {
 
-        private WrappedHandler hander;
+        private WrappedHandler handler;
 
-        public DICommPortImpl(NetworkNode networkNode,
-                              CommunicationStrategy communicationStrategy, WrappedHandler hander) {
+        TestPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, WrappedHandler handler) {
             super(networkNode, communicationStrategy);
-            this.hander = hander;
+            this.handler = handler;
         }
 
         @Override
         protected WrappedHandler getResubscriptionHandler() {
-            return hander;
+            return handler;
         }
 
         @Override
@@ -679,7 +679,7 @@ public class DICommPortTest extends RobolectricTest {
         }
     }
 
-    public class DICommPortListenerImpl implements DICommPortListener<DICommPort<?>> {
+    public class TestPortListener implements DICommPortListener<DICommPort<?>> {
 
         public boolean isApplyingChangesOnCallback = false;
 
