@@ -35,6 +35,9 @@ public abstract class BaseFlowManager {
     private String BACK = "back";
 
     @Deprecated
+    /**
+     * Will be absolute soon , kindly use BaseFlowManager constructor with appFlowJsonListener
+     */
     public BaseFlowManager(final Context context, final String jsonPath){
         this(context, jsonPath,null);
     }
