@@ -1,11 +1,10 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 package com.philips.cdp.dicommclientsample.airpurifier;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.HashMap;
 import java.util.Map;

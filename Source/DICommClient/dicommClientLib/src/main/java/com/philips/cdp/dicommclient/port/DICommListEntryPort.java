@@ -1,12 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 abstract class DICommListEntryPort<T> extends DICommPort<T> {
 
