@@ -26,32 +26,71 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.UIDUtils;
 
+/**
+ * The type Recycler view divider item decoration.
+ * This class can be used to set the divider as per DLS specification which is 1dp/1px in height
+ * Color specification is as per below table
+ * Theme        Ultralight          VeryLight           Light               Bright           Very dark
+ * <p>
+ * Color        10% textPrimary     15% textPrimary     20% textPrimary     15% textPrimary  15% textPrimary
+ * (gray 75)           color 75            white               white            white
+ */
 public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparatorColor, R.attr.uidSeparatorAlpha};
-
     private Drawable divider;
     private int height = 1;
 
-    public static final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
-
-    public static final int VERTICAL = LinearLayoutManager.VERTICAL;
-
+    /**
+     * Instantiates a new Recycler view divider item decoration.
+     * <p>
+     * Usage
+     * recyclerview.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
+     *
+     * @param context the context
+     */
     public RecyclerViewDividerItemDecoration(@NonNull Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         this.height = (int) styledAttributes.getDimension(0, 1);
-        final int color1 = styledAttributes.getColor(1, ContextCompat.getColor(context, R.color.uid_gray_level_75));
-        final Float alpha = styledAttributes.getFloat(2, 1);
-        final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color1, alpha);
+        final int color = styledAttributes.getColor(1, ContextCompat.getColor(context, R.color.uid_gray_level_75));
+        final Float alpha = styledAttributes.getFloat(2, 0);
+        final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color, alpha);
+
         this.divider = new ColorDrawable(modulateColorAlpha);
         styledAttributes.recycle();
+    }
+
+    /**
+     * Gets divider drawable which can be set for listview or recycler view.
+     * using
+     * DividerDrawable dividerDrawable = new DividerDrawable(getContext());
+     * <p>
+     * listView.setDivider(dividerDrawable.getDrawable());
+     *
+     * @return the divider
+     */
+    public Drawable getDivider() {
+        return divider;
+    }
+
+    /**
+     * Gets height of divider as per DLS specification.
+     * Usage :
+     * DividerDrawable dividerDrawable = new DividerDrawable(getContext());
+     * <p>
+     * listView.setDivider(dividerDrawable.getDrawable());
+     * listView.setDividerHeight(dividerDrawable.getHeight());
+     *
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
     }
 
     @Override
