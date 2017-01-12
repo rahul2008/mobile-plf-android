@@ -72,11 +72,11 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
         DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
-            DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
-            dbFetchingInterface.fetchMoments(mDbRequestListener);
+           // DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
+            dbFetchingInterface.fetchMoments(response.getDbRequestListener());
         } catch (SQLException e) {
             DSLog.i("**SPO**", "In Updating Monitor report exception");
-            dbUpdatingInterface.updateFailed(e, mDbRequestListener);
+            dbUpdatingInterface.updateFailed(e, response.getDbRequestListener());
             e.printStackTrace();
         }
         // eventing.post(new WriteDataToBackendRequest());
@@ -95,7 +95,7 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processCreatedMoment(moments);
+        momentsSegregator.processCreatedMoment(moments,momentSaveRequest.getDbRequestListener());
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {

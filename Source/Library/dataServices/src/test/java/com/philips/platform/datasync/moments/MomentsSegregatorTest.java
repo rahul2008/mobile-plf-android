@@ -91,7 +91,7 @@ public class MomentsSegregatorTest {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
-        momentsSegregator.processCreatedMoment(Arrays.asList(moment1));
+        momentsSegregator.processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
         verify(updatingInterface).updateMoment(moment1,dbRequestListener);
     }
 
