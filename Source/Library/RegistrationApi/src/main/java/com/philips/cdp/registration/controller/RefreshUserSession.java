@@ -121,9 +121,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
-        if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
-                || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-
+        if (error == Integer.parseInt(RegConstants.INVALID_JANRAIN_NO_ACCESS_GRANT_CODE) ) {
             clearData();
             RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
         }
