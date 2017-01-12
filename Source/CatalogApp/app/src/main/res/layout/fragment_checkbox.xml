@@ -57,8 +57,7 @@
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/checkbox_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/UIDCheckBox"
                     android:checked="true"
                     android:text="@string/checkbox_app_design"
                     />
@@ -67,8 +66,7 @@
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/checkbox_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/UIDCheckBox"
                     android:checked="true"
                     android:text="@string/checkbox_client_meeting"
                     />
@@ -77,8 +75,7 @@
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/checkbox_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/UIDCheckBox"
                     android:checked="true"
                     android:text="@string/checkbox_update_presentation"
                     />
