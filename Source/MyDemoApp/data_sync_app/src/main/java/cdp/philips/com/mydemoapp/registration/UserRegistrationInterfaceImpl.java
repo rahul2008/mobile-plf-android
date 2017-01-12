@@ -206,14 +206,4 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
         Object propertyForKey = gAppInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
         return propertyForKey.toString();
     }
-
-   /* @Override
-    public void onFailure(final RetrofitError error) {
-        if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
-            DSLog.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
-            Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        refreshAccessTokenUsingWorkAround();
-    }*/
 }

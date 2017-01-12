@@ -66,7 +66,7 @@ public class TemperatureMomentHelper {
             DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormMoments);
         }else {
             //CallBack not registered
-            Log.i(DataServicesManager.TAG,"CallBack not registered");
+            DSLog.i(DataServicesManager.TAG,"CallBack not registered");
         }
     }
 
@@ -78,7 +78,7 @@ public class TemperatureMomentHelper {
             DataServicesManager.getInstance().getDbChangeListener().onSuccess(null);
         }else {
             //Callback not registered
-            Log.i(DataServicesManager.TAG,"Callback not registered");
+            DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
     }
 
@@ -89,7 +89,7 @@ public class TemperatureMomentHelper {
             DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormConsents.get(0));
         }else {
             //Callback not registerd
-            Log.i(DataServicesManager.TAG,"Callback Not registered");
+            DSLog.i(DataServicesManager.TAG,"Callback Not registered");
         }
     }
 
@@ -100,7 +100,7 @@ public class TemperatureMomentHelper {
             DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormMoment);
         } else {
             //No Callback registered
-            Log.i(DataServicesManager.TAG, "No callback registered");
+            DSLog.i(DataServicesManager.TAG, "No callback registered");
         }
     }
 
@@ -112,7 +112,7 @@ public class TemperatureMomentHelper {
             dbRequestListener.onSuccess(ormConsent);
         }else {
             //Callback Not registered
-            Log.i(DataServicesManager.TAG,"Callback not registered");
+            DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
     }
 
@@ -123,7 +123,7 @@ public class TemperatureMomentHelper {
             DataServicesManager.getInstance().getDbChangeListener().onFailure(e);
         }else {
             //Callback No registered
-            Log.i(DataServicesManager.TAG,"Callback not registered");
+            DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
     }
 
@@ -134,7 +134,7 @@ public class TemperatureMomentHelper {
             DataServicesManager.getInstance().getDbChangeListener().onFailure(e);
         } else {
             //Callback not registered
-            Log.i(DataServicesManager.TAG, msg);
+            DSLog.i(DataServicesManager.TAG, msg);
         }
     }
 

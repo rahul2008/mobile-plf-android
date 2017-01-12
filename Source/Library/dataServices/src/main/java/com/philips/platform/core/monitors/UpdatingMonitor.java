@@ -43,6 +43,7 @@ public class UpdatingMonitor extends EventMonitor {
     @Inject
     MomentsSegregator momentsSegregator;
 
+
     public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
@@ -87,7 +88,12 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processMomentsReceivedFromBackend(moments);
+        int count = momentsSegregator.processMomentsReceivedFromBackend(moments);
+        if(count == moments.size()){
+            if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+                DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
+            }
+        }
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
@@ -96,6 +102,9 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         momentsSegregator.processCreatedMoment(moments,momentSaveRequest.getDbRequestListener());
+        if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
+        }
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
