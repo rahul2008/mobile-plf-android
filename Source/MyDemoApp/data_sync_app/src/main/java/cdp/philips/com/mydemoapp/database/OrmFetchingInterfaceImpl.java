@@ -179,33 +179,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends Consent> consentList = fetchNonSyncConsents();
-        dataToSync.put(Consent.class, consentList);
-        return dataToSync;
-    }
-
-    //TODO: Spoorti - fetchNonSyncConsents and fetchNonSyncConsentDetails - Why 2 APIs
-    public List<OrmConsent> fetchNonSyncConsents() throws SQLException {
-        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
-        final List<OrmConsent> query = consentQueryBuilder.query();
-        for (OrmConsent ormConsent : query) {
-
-            boolean isNonSyncConsentDetailExist = false;
-            for (OrmConsentDetail ormConsentDetail : ormConsent.getConsentDetails()) {
-                if (!ormConsentDetail.getBackEndSynchronized()) {
-                    isNonSyncConsentDetailExist = true;
-                }
-            }
-
-            if (!isNonSyncConsentDetailExist) {
-                query.remove(ormConsent);
-            }
-        }
-        return query;
-    }
-
-    @Override
     public List<OrmConsentDetail> fetchNonSyncConsentDetails() throws SQLException {
         QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
         consentQueryBuilder.where().eq("beSynchronized", false);
