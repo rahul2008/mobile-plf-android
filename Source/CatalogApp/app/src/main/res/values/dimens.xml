@@ -35,4 +35,8 @@
 
     <!--label test page-->
     <dimen name="label_textbox_margin">16dp</dimen>
+
+    <!--Checkbox test page-->
+    <dimen name="checkbox_list_margin_top_bottom">8dp</dimen>
+    <dimen name="checkbox_list_margin_left_right">16dp</dimen>
 </resources>
