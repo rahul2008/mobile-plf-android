@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
+import android.renderscript.ScriptGroup;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
@@ -290,6 +291,9 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         if (mEtEmail != null) {
             mEtEmail.setHint(hintText);
         }
+    }
+    public void setInputType(int inputType){
+        mEtEmail.setInputType(inputType);
     }
 
     public void setClickableTrue(boolean isClickable) {
