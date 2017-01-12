@@ -148,6 +148,7 @@ public abstract class BaseFlowManager {
                     setCurrentState(nextState);
                     return nextState;
                 } else {
+                    flowManagerStack.remove(currentState);
                     setCurrentState(nextState);
                     flowManagerStack.push(nextState);
                     return nextState;
