@@ -250,7 +250,18 @@ public class SHNDeviceWrapper implements SHNDevice {
     }
 
     @Override
+    public Set<Class<? extends SHNCapability>> getSupportedCapabilityClasses() {
+        return shnDevice.getSupportedCapabilityClasses();
+    }
+
+    @Override
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
         return shnDevice.getCapabilityForType(type);
+    }
+
+    @Nullable
+    @Override
+    public <T extends SHNCapability> T getCapability(@NonNull Class<T> type) {
+        return shnDevice.getCapability(type);
     }
 }
