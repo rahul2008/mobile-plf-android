@@ -40,7 +40,7 @@ public class DeviceDefinitionInfoReferenceBoardTest {
     }
 
     @Test
-    public void shouldSpecifyPrimaryUUUID() throws Exception {
+    public void shouldSpecifyPrimaryUUID() throws Exception {
         UUID uuid = SHNServiceDiCommStreaming.SERVICE_UUID;
 
         Set<UUID> primaryServiceUUIDs = deviceDefinitionInfoReferenceBoard.getPrimaryServiceUUIDs();
