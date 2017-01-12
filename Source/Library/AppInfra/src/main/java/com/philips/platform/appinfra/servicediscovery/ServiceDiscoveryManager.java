@@ -163,7 +163,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else {
                 //urlBuild = buildUrl();
                 if (urlBuild != null) {
-                    service = mRequestItemManager.execute("http://asd.com");
+                    service = mRequestItemManager.execute(urlBuild);
                     if(service.isSuccess()) {
                         holdbackTime=0;   //remove hold back time
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
