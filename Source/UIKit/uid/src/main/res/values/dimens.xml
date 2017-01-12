@@ -134,4 +134,8 @@
 
     <!--Linear indeterminate progressbar-->
     <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>
+
+    <!-- Separator -->
+    <dimen name="dividerHeight">1dp</dimen>
+
 </resources>
