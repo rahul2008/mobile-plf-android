@@ -6,6 +6,9 @@ import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
+import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -20,6 +23,7 @@ import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
+import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -251,4 +255,31 @@ public class BackendModuleTest {
         assertThat(synchronisationMonitor).isInstanceOf(SynchronisationMonitor.class);
     }
 
+    @Test
+    public void ShouldReturnEventing_WhenProvidesMomentsSegregaterIsCalled() throws Exception {
+        MomentsSegregator momentsSegregator = backendModule.providesMomentsSegregater();
+        assertThat(momentsSegregator).isNotNull();
+        assertThat(momentsSegregator).isInstanceOf(MomentsSegregator.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesFetchigImplementationIsCalled() throws Exception {
+        DBFetchingInterface dbFetchingInterface = backendModule.providesFetchigImplementation();
+        assertThat(dbFetchingInterface).isNotNull();
+        assertThat(dbFetchingInterface).isInstanceOf(DBFetchingInterface.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesUpdatingImplementationIsCalled() throws Exception {
+        DBUpdatingInterface dbUpdatingInterface = backendModule.providesUpdatingImplementation();
+        assertThat(dbUpdatingInterface).isNotNull();
+        assertThat(dbUpdatingInterface).isInstanceOf(DBUpdatingInterface.class);
+    }
+
+    @Test
+    public void ShouldReturnEventing_WhenProvidesDeletingImplementationIsCalled() throws Exception {
+        DBDeletingInterface dbDeletingInterface = backendModule.providesDeletingImplementation();
+        assertThat(dbDeletingInterface).isNotNull();
+        assertThat(dbDeletingInterface).isInstanceOf(DBDeletingInterface.class);
+    }
 }
