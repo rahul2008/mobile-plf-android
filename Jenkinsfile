@@ -46,7 +46,7 @@ node ('android_pipeline &&' + node_ext) {
         }
 
         try {
-            if (env.triggerBy != "ppc" && !(BranchName =~ /master|develop|release.*/)) {
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
                 stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
