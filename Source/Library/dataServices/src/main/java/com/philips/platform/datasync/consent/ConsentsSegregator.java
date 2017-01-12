@@ -23,7 +23,7 @@ public class ConsentsSegregator {
     DBFetchingInterface dbFetchingInterface;
 
     public ConsentsSegregator(){
-
+        DataServicesManager.getInstance().mAppComponent.injectConsentsSegregator(this);
     }
 
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) {

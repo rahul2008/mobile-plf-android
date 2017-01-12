@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
@@ -124,10 +125,9 @@ public class ConsentsMonitor extends EventMonitor {
             } else {
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
             }
-        } catch (Exception e) {
-            DSLog.i("***SPO***", "ConsentsMonitor exception Error");
-            eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
-            //  eventing.post(new BackendResponse(event.getEventId(), e));
+        }  catch (RetrofitError ex) {
+        eventing.post(new BackendMomentRequestFailed(ex));
+
         }
     }
 

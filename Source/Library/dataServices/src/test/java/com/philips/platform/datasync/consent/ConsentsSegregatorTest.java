@@ -3,6 +3,7 @@ package com.philips.platform.datasync.consent;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
@@ -33,9 +34,13 @@ public class ConsentsSegregatorTest {
     @Mock
     DBFetchingInterface mockDBDbFetchingInterface;
 
+    @Mock
+    private AppComponent appComponantMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         consentsSegregator = new ConsentsSegregator();
         consentsSegregator.dbFetchingInterface=mockDBDbFetchingInterface;
     }

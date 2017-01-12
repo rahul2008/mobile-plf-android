@@ -56,7 +56,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
         consentDetails=new ArrayList<>();
         lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
-        //EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
+        DataServicesManager.getInstance().registeredDBRequestListener(this);
         fetchConsent();
         return rootView;
 
@@ -70,23 +70,25 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dismissProgressDialog();
-                if (data == null) {
-                    showProgressDialog();
-                    consentDialogPresenter.createSaveDefaultConsent();
+        if(getActivity()!=null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    if (data == null) {
+                        showProgressDialog();
+                        consentDialogPresenter.createSaveDefaultConsent();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     public void onSuccess(Object data) {
 
         final OrmConsent ormConsent = (OrmConsent) data;
-        if (ormConsent != null) {
+        if (ormConsent != null && getActivity()!=null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -102,14 +104,17 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void onFailure(final Exception exception) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                dismissProgressDialog();
-                Toast.makeText(getActivity(),exception.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(getActivity()!=null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 
@@ -137,6 +142,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     public void onStop() {
         super.onStop();
         dismissProgressDialog();
+        DataServicesManager.getInstance().unRegisteredDBRequestListener();
     }
 
     @Override

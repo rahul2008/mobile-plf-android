@@ -108,6 +108,7 @@ public class TemperatureMomentHelper {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(ormConsent);
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            dbRequestListener=DataServicesManager.getInstance().getDbChangeListener();
             dbRequestListener.onSuccess(ormConsent);
         }else {
             //Callback Not registered
