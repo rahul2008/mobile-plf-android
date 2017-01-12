@@ -222,16 +222,15 @@ public class RequestManager {
             for (int i = 0; i < deviceLocaleList.size(); i++) {
                 for (int j = 0; j < resultsJSONArray.length(); j++) {
                     String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
+                    System.out.println("COMPARE" + " " + resLocale + " with" + deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""));
                     if (deviceLocaleList.get(i).replaceAll("[\\[\\]]", "").equals(resLocale)) {
+                        System.out.println("IF STATEMENT" + " " + resLocale + " with" + deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""));
+
                         matchByCountry.setLocale(resLocale);
                         return resultsJSONArray.getJSONObject(j).optString("configs");
-                    }
-                }
-            }
-            for (int i = 0; i < deviceLocaleList.size(); i++) {
-                for (int j = 0; j < resultsJSONArray.length(); j++) {
-                    String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
-                    if (deviceLocaleList.get(0).replaceAll("[\\[\\]]", "").substring(0, 2).equals(resLocale.substring(0, 2))) {
+                    } else if (deviceLocaleList.get(0).replaceAll("[\\[\\]]", "").substring(0, 2).equals(resLocale.substring(0, 2))) {
+                        System.out.println("ELSE STATEMENT" + " " + resLocale + " with" + deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""));
+
                         matchByCountry.setLocale(resLocale);
                         return resultsJSONArray.getJSONObject(0).optString("configs");
                     }
