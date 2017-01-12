@@ -25,14 +25,14 @@ node ('android_pipeline &&' + node_ext) {
 		}
 		
         try {
-			if (BranchName =~ /(?i)feature/) {
+			if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "AppInfra" && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
 			}
 			else
 			{
 			stage ('build') {
-				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "AppInfra" && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
 			}
             currentBuild.result = 'SUCCESS'
             
