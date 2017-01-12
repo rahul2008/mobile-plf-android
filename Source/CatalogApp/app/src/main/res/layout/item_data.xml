@@ -5,6 +5,7 @@
         <variable name="data" type="com.philips.platform.catalogapp.Datamodel"></variable>
     </data>
     <TextView
+        style="@style/TestButtonTexts"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center"

@@ -37,7 +37,7 @@ public class SeparatorFragment extends BaseFragment {
         DataModelView dataModelView = new DataModelView();
 
         final Context context = getContext();
-        dataModelView.addUser(R.drawable.ic_back_icon, R.string.title1, context);
+        dataModelView.addUser(R.drawable.ic_add_folder, R.string.title1, context);
         dataModelView.addUser(R.drawable.ic_cross_icon, R.string.title2, context);
         dataModelView.addUser(R.drawable.ic_hamburger_icon, R.string.title3, context);
         dataModelView.addUser(R.drawable.ic_location_icon, R.string.title4, context);
@@ -46,17 +46,17 @@ public class SeparatorFragment extends BaseFragment {
         fragmentSeparatorBinding.setFragment(this);
         fragmentSeparatorBinding.setDatamodelview(dataModelView);
         fragmentSeparatorBinding.activityUsersRecycler.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
-        fragmentSeparatorBinding.activityUsersRecycler.setAdapter(new MyAdapter(dataModelView.users));
+        fragmentSeparatorBinding.activityUsersRecycler.setAdapter(new MyAdapter(dataModelView.datamodels));
         fragmentSeparatorBinding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return fragmentSeparatorBinding.getRoot();
     }
 
     public static class MyAdapter extends RecyclerView.Adapter {
-        private ObservableArrayList<Datamodel> users;
+        private ObservableArrayList<Datamodel> datamodels;
 
-        public MyAdapter(final ObservableArrayList<Datamodel> users) {
-            this.users = users;
+        public MyAdapter(final ObservableArrayList<Datamodel> datamodels) {
+            this.datamodels = datamodels;
         }
 
         @Override
@@ -69,14 +69,14 @@ public class SeparatorFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-            final Datamodel datamodel = users.get(position);
+            final Datamodel datamodel = datamodels.get(position);
             ((BindingHolder) holder).getBinding().setVariable(1, datamodel);
             ((BindingHolder) holder).getBinding().executePendingBindings();
         }
 
         @Override
         public int getItemCount() {
-            return users.size();
+            return datamodels.size();
         }
 
         private static class BindingHolder extends RecyclerView.ViewHolder {
