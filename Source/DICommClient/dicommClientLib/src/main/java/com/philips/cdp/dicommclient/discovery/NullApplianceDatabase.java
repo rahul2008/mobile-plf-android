@@ -5,10 +5,10 @@
 
 package com.philips.cdp.dicommclient.discovery;
 
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 
-class NullApplianceDatabase<T extends DICommAppliance> implements DICommApplianceDatabase<T> {
+class NullApplianceDatabase<T extends Appliance> implements DICommApplianceDatabase<T> {
 
 	@Override
 	public long save(T appliance) {

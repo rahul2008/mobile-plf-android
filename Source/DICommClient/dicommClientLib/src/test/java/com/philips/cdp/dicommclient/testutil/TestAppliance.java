@@ -5,14 +5,14 @@
 
 package com.philips.cdp.dicommclient.testutil;
 
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.communication.NullStrategy;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-public class TestAppliance extends DICommAppliance {
+public class TestAppliance extends Appliance {
 
 	public TestAppliance(NetworkNode networkNode) {
-		super(networkNode, new NullStrategy());
+		super(networkNode, new NullCommunicationStrategy());
 	}
 
 	@Override

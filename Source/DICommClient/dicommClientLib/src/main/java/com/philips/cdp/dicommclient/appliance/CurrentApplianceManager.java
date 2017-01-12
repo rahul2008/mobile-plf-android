@@ -10,6 +10,7 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,13 @@ public class CurrentApplianceManager implements Observer {
 
     private static CurrentApplianceManager mInstance;
 
-    private DICommAppliance mDICommAppliance = null;
+    private Appliance mAppliance = null;
     private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
     private final List<DICommApplianceListener> mApplianceListenersList;
     private final List<CurrentApplianceChangedListener> mCurrentApplianceChangedListenerList;
 
-    private DICommPortListener mDICommAppliancePortListener = new DICommPortListener() {
+    private DICommPortListener mDICommAppliancePortListener = new DICommPortListener<DICommPort<?>>() {
 
         @Override
         public void onPortUpdate(DICommPort<?> port) {
@@ -52,41 +53,41 @@ public class CurrentApplianceManager implements Observer {
         mCurrentApplianceChangedListenerList = new ArrayList<>();
     }
 
-    public synchronized void setCurrentAppliance(DICommAppliance diCommAppliance) {
-        if (diCommAppliance == null) throw new RuntimeException("Cannot set null appliance");
+    public synchronized void setCurrentAppliance(Appliance appliance) {
+        if (appliance == null) throw new RuntimeException("Cannot set null appliance");
 
         stopCurrentSubscription();
-        if (mDICommAppliance != null) {
-            mDICommAppliance.getNetworkNode().deleteObserver(this);
-            mDICommAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
+        if (mAppliance != null) {
+            mAppliance.getNetworkNode().deleteObserver(this);
+            mAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
         }
-        mDICommAppliance = diCommAppliance;
-        mDICommAppliance.getNetworkNode().addObserver(this);
-        mDICommAppliance.addListenerForAllPorts(mDICommAppliancePortListener);
+        mAppliance = appliance;
+        mAppliance.getNetworkNode().addObserver(this);
+        mAppliance.addListenerForAllPorts(mDICommAppliancePortListener);
 
-        DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Current appliance set to: " + diCommAppliance);
+        DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Current appliance set to: " + appliance);
 
         startSubscription();
         notifyApplianceChanged();
     }
 
     public synchronized void removeCurrentAppliance() {
-        if (mDICommAppliance == null) return;
+        if (mAppliance == null) return;
 
         if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-            mDICommAppliance.unsubscribe();
+            mAppliance.unsubscribe();
         }
-        mDICommAppliance.getNetworkNode().deleteObserver(this);
-        mDICommAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
+        mAppliance.getNetworkNode().deleteObserver(this);
+        mAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
         stopCurrentSubscription();
 
-        mDICommAppliance = null;
+        mAppliance = null;
         DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Removed current appliance");
         notifyApplianceChanged();
     }
 
-    public synchronized DICommAppliance getCurrentAppliance() {
-        return mDICommAppliance;
+    public synchronized Appliance getCurrentAppliance() {
+        return mAppliance;
     }
 
     public void addApplianceListener(DICommApplianceListener applianceListener) {
@@ -130,7 +131,7 @@ public class CurrentApplianceManager implements Observer {
 
         synchronized (mApplianceListenersList) {
             for (DICommApplianceListener listener : mApplianceListenersList) {
-                listener.onAppliancePortUpdate(mDICommAppliance, port);
+                listener.onAppliancePortUpdate(mAppliance, port);
             }
         }
     }
@@ -138,7 +139,7 @@ public class CurrentApplianceManager implements Observer {
     private void notifyApplianceListenersOnErrorOccurred(DICommPort<?> port, Error error) {
         synchronized (mApplianceListenersList) {
             for (DICommApplianceListener listener : mApplianceListenersList) {
-                listener.onAppliancePortError(mDICommAppliance, port, error);
+                listener.onAppliancePortError(mAppliance, port, error);
             }
         }
     }
@@ -158,7 +159,7 @@ public class CurrentApplianceManager implements Observer {
             return;
         }
 
-        DICommAppliance appliance = getCurrentAppliance();
+        Appliance appliance = getCurrentAppliance();
 
         if (appliance == null) {
             return;
@@ -172,17 +173,17 @@ public class CurrentApplianceManager implements Observer {
 
     private synchronized void stopCurrentSubscription() {
         DICommLog.i(DICommLog.APPLIANCE_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
-        DICommAppliance diCommAppliance = getCurrentAppliance();
-        if (diCommAppliance == null) {
+        Appliance appliance = getCurrentAppliance();
+        if (appliance == null) {
             return;
         }
-        diCommAppliance.disableCommunication();
-        diCommAppliance.stopResubscribe();
+        appliance.disableCommunication();
+        appliance.stopResubscribe();
     }
 
     @Override
     public void update(Observable observable, Object data) {
-        if (mDICommAppliance == null) return;
+        if (mAppliance == null) return;
         stopCurrentSubscription();
         startSubscription();
         notifyApplianceChanged();

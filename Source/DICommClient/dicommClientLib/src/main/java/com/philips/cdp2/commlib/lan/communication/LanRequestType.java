@@ -1,11 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015.
+ * © Koninklijke Philips N.V., 2015, 2017.
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.request;
+package com.philips.cdp2.commlib.lan.communication;
 
-public enum LocalRequestType {
+public enum LanRequestType {
 	
 	POST("POST"),
 	DELETE("DELETE"),
@@ -13,7 +13,7 @@ public enum LocalRequestType {
 	GET("GET");
 	
 	public final String mMethod;
-	LocalRequestType(String method){
+	LanRequestType(String method){
 		mMethod = method;
 	}
 	

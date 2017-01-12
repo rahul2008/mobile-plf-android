@@ -12,12 +12,11 @@ import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.pairing.PermissionListener;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -26,7 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-public class PairingHandler<T extends DICommAppliance> {
+public class PairingHandler<T extends Appliance> {
 
     public static final String PAIRING_REFERENCEPROVIDER = "cpp";
     public static final String PAIRING_USER_REFERENCEPROVIDER = "cphuser";
@@ -294,8 +293,8 @@ public class PairingHandler<T extends DICommAppliance> {
 
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         pairingRelation = new PairingRelation(
-                new PairingEntity(PAIRING_REFERENCEPROVIDER, cloudController.getAppCppId(), cloudController.getAppType(), null),
-                new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null),
+                getAppEntity(),
+                getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
 
@@ -316,7 +315,7 @@ public class PairingHandler<T extends DICommAppliance> {
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         pairingRelation = new PairingRelation(
                 new PairingEntity(PAIRING_USER_REFERENCEPROVIDER, userId, USER_ENTITY_TYPE, accessToken),
-                new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null),
+                getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
 
@@ -332,20 +331,20 @@ public class PairingHandler<T extends DICommAppliance> {
         if (mAppliance == null) return;
         secretKey = generateRandomSecretKey();
 
-        PairingPort pairingPort = mAppliance.getPairingPort();
-        pairingPort.addPortListener(new DICommPortListener() {
+            PairingPort pairingPort = mAppliance.getPairingPort();
+            pairingPort.addPortListener(new DICommPortListener<PairingPort>() {
 
-            @Override
-            public void onPortUpdate(DICommPort<?> port) {
-                DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
+                @Override
+                public void onPortUpdate(PairingPort port) {
+                    DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
 
                 cloudController.getPairingController().addRelationship(pairingRelation, mPairingCallback, secretKey);
                 port.removePortListener(this);
             }
 
-            @Override
-            public void onPortError(DICommPort<?> port, Error error, String errorData) {
-                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
+                @Override
+                public void onPortError(PairingPort port, Error error, String errorData) {
+                    DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
 
                 notifyListenerFailed();
                 port.removePortListener(this);
@@ -362,11 +361,6 @@ public class PairingHandler<T extends DICommAppliance> {
         cloudController.getPairingController().removeRelationship(relationship, mPairingCallback);
     }
 
-    /**
-     * add Trustee data
-     *
-     * @return PairingController.PairingEntityReference
-     */
     private PairingEntity getDICommApplianceEntity() {
         PairingEntity pairingTrustee = new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null);
 
@@ -376,11 +370,6 @@ public class PairingHandler<T extends DICommAppliance> {
         return pairingTrustee;
     }
 
-    /**
-     * add Trustee data
-     *
-     * @return PairingController.PairingEntityReference
-     */
     private PairingEntity getAppEntity() {
         PairingEntity pairingTrustor = new PairingEntity(PAIRING_REFERENCEPROVIDER, cloudController.getAppCppId(), cloudController.getAppType(), null);
 

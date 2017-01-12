@@ -10,13 +10,14 @@ import android.os.Handler;
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
-import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
+import com.philips.cdp2.commlib.lan.NetworkMonitor;
+import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkChangedListener;
+import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkState;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -24,6 +25,7 @@ import org.mockito.ArgumentCaptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -274,23 +276,23 @@ public class DiscoveryManagerTest extends RobolectricTest {
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 
     // ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
-    private NetworkChangedCallback captureNetworkChangedCallback() {
-        ArgumentCaptor<NetworkChangedCallback> captor = ArgumentCaptor.forClass(NetworkChangedCallback.class);
-        verify(mMockedNetworkMonitor, times(1)).setListener(captor.capture());
-        NetworkChangedCallback capturedNetworkChangedCallback = captor.getValue();
+    private NetworkChangedListener captureNetworkChangedCallback() {
+        ArgumentCaptor<NetworkChangedListener> captor = ArgumentCaptor.forClass(NetworkChangedListener.class);
+        verify(mMockedNetworkMonitor, times(1)).addListener(captor.capture());
+        NetworkChangedListener capturedNetworkChangedCallback = captor.getValue();
         return capturedNetworkChangedCallback;
     }
 
     @Test
     public void testDiscoveryManagerRegistersForNetworkMonitorCallbacks() {
-        verify(mMockedNetworkMonitor, times(1)).setListener(any(NetworkChangedCallback.class));
+        verify(mMockedNetworkMonitor, times(1)).addListener(any(NetworkChangedListener.class));
     }
 
     @Test
     public void testDiscoveryTimerWifiNoNetwork() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
 
-        NetworkChangedCallback capturedNetworkChangedCallback = captureNetworkChangedCallback();
+        NetworkChangedListener capturedNetworkChangedCallback = captureNetworkChangedCallback();
         Handler discoveryHandler = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
         discoveryHandler.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
 
@@ -304,7 +306,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
     public void testDiscoveryTimerWifiMobile() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
 
-        NetworkChangedCallback capturedNetworkChangedCallback = captureNetworkChangedCallback();
+        NetworkChangedListener capturedNetworkChangedCallback = captureNetworkChangedCallback();
         Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
         discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
 
@@ -318,7 +320,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
     public void testDiscoveryTimerNoNetworkWifi() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
 
-        NetworkChangedCallback capturedNetworkChangedCallback = captureNetworkChangedCallback();
+        NetworkChangedListener capturedNetworkChangedCallback = captureNetworkChangedCallback();
         Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
 
         capturedNetworkChangedCallback.onNetworkChanged(NetworkState.WIFI_WITH_INTERNET, "JeroenMols");
@@ -453,7 +455,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
     private void triggerOnDiscoveredDevicesListChanged() {
         TestAppliance localAppliance = createLocalAppliance(false);
         setAppliancesList(new TestAppliance[]{localAppliance});
-        NetworkChangedCallback networkChangedCallback = captureNetworkChangedCallback();
+        NetworkChangedListener networkChangedCallback = captureNetworkChangedCallback();
         networkChangedCallback.onNetworkChanged(NetworkState.NONE, null);
     }
 
@@ -505,7 +507,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         return new TestAppliance(networkNode);
     }
 
-    private class TestApplianceFactory extends DICommApplianceFactory<TestAppliance> {
+    private class TestApplianceFactory implements DICommApplianceFactory<TestAppliance> {
 
         @Override
         public boolean canCreateApplianceForNode(NetworkNode networkNode) {
@@ -515,6 +517,11 @@ public class DiscoveryManagerTest extends RobolectricTest {
         @Override
         public TestAppliance createApplianceForNode(NetworkNode networkNode) {
             return new TestAppliance(networkNode);
+        }
+
+        @Override
+        public Set<String> getSupportedModelNames() {
+            return null;
         }
     }
 }

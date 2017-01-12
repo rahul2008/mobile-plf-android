@@ -9,9 +9,9 @@ import android.os.Handler.Callback;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.MockitoTestCase;
-import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.communication.NullStrategy;
+import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
@@ -20,6 +20,7 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atMost;
@@ -438,7 +439,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         assertEquals("cppId_2", onlineCppIds.get(1));
     }
 
-    private static class TestApplianceFactory extends DICommApplianceFactory<TestAppliance> {
+    private static class TestApplianceFactory implements DICommApplianceFactory<TestAppliance> {
 
         @Override
         public boolean canCreateApplianceForNode(NetworkNode networkNode) {
@@ -449,12 +450,17 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         public TestAppliance createApplianceForNode(NetworkNode networkNode) {
             return new TestAppliance(networkNode);
         }
+
+        @Override
+        public Set<String> getSupportedModelNames() {
+            return null;
+        }
     }
 
-    private static class TestAppliance extends DICommAppliance {
+    private static class TestAppliance extends Appliance {
 
         public TestAppliance(NetworkNode networkNode) {
-            super(networkNode, new NullStrategy());
+            super(networkNode, new NullCommunicationStrategy());
         }
 
         @Override

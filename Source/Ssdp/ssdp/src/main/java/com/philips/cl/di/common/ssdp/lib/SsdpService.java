@@ -143,7 +143,7 @@ public class SsdpService extends HandlerThread {
 		mDeviceListModel = new DeviceListModel();
 	}
 
-	private  void addDevice(DeviceModel device) {
+	private void addDevice(DeviceModel device) {
 		if (null != device) {
 			if ((null == device.getNts())
 					|| device.getNts().contains(ConnectionLibContants.SSDP_ALIVE)) {
