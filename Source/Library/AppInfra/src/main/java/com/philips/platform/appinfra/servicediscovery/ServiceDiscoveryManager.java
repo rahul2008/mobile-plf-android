@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -50,6 +51,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private Context context;
     ServiceDiscovery serviceDiscovery = null;
     private String countryCode;
+    private long holdbackTime=0l;
 
     private RequestItemManager mRequestItemManager;
 
@@ -90,44 +92,56 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         downloadAwaiters.add(listener);
 
         if (!downloadInProgress) {
-            downloadInProgress = true;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    boolean forceRefresh = false;
-                    ServiceDiscovery service;
-                    ArrayList<DownloadItemListener> stalledAwaiters = new ArrayList<DownloadItemListener>();
-                    do {
-                        if (forceRefresh == true)
-                            downloadLock.unlock();
-                        forceRefresh = false;
-                        service = downloadServices();
-                        downloadLock.lock();
-                        DownloadItemListener d;
-                        while ((d = downloadAwaiters.poll()) != null) {
-                            if (d.forceRefresh())
-                                forceRefresh = true;
-                            stalledAwaiters.add(d);
+            if (new Date().getTime() > holdbackTime) {// if current time is greater then holdback time
+                downloadInProgress = true;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean forceRefresh = false;
+                        ServiceDiscovery service;
+                        ArrayList<DownloadItemListener> stalledAwaiters = new ArrayList<DownloadItemListener>();
+                        do {
+                            if (forceRefresh == true)
+                                downloadLock.unlock();
+                            forceRefresh = false;
+                            service = downloadServices();
+                            downloadLock.lock();
+                            DownloadItemListener d;
+                            while ((d = downloadAwaiters.poll()) != null) {
+                                if (d.forceRefresh())
+                                    forceRefresh = true;
+                                stalledAwaiters.add(d);
+                            }
+                        }
+                        while (forceRefresh);
+                        downloadInProgress = false;
+                        serviceDiscovery = service;
+                        final ServiceDiscovery result = service;
+                        downloadLock.unlock();
+
+                        for (final DownloadItemListener d : stalledAwaiters) {
+                            Thread t = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    d.onDownloadDone(result);
+
+                                }
+                            });
+
+                            new Handler(Looper.getMainLooper()).post(t);
                         }
                     }
-                    while (forceRefresh);
-                    downloadInProgress = false;
-                    serviceDiscovery = service;
-                    final ServiceDiscovery result = service;
-                    downloadLock.unlock();
+                }).start();
+            }else{
+                ServiceDiscovery ServiceDiscoveryError = new ServiceDiscovery();
+                ServiceDiscoveryError.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
+                ServiceDiscoveryError.setSuccess(false);
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Server is not reachable at the moment,Please try after some time");
+                listener.onDownloadDone(ServiceDiscoveryError);
+            }
+        }else{
 
-                    for (final DownloadItemListener d : stalledAwaiters) {
-                        Thread t = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                d.onDownloadDone(result);
-                            }
-                        });
-
-                        new Handler(Looper.getMainLooper()).post(t);
-                    }
-                }
-            }).start();
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Download already in progress, please wait for response");
         }
         downloadLock.unlock();
     }
@@ -140,7 +154,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         String urlBuild = buildUrl();
 
         ServiceDiscovery service = new ServiceDiscovery();
-        ServiceDiscovery SDcache =  mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
+        ServiceDiscovery SDcache = mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
         if (null == SDcache) {
             if (!isOnline()) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
@@ -149,14 +163,20 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else {
                 //urlBuild = buildUrl();
                 if (urlBuild != null) {
-                    service = mRequestItemManager.execute(urlBuild);
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
+                    service = mRequestItemManager.execute("http://asd.com");
+                    if(service.isSuccess()) {
+                        holdbackTime=0;   //remove hold back time
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
+                    }else{
+                        holdbackTime = new Date().getTime() + 10000; // curent time + 10 Seconds
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD call", service.getError().toString());
+                    }
                 } else {
                     // TODO RayKlo ???
                 }
             }
-        }else{
-            service=SDcache;
+        } else {
+            service = SDcache;
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from cache");
         }
         return service;
@@ -268,8 +288,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public void setHomeCountry(String countryCode) {
 
-        if (countryCode != null && countryCode.length()==2 ) {
-            if( !countryCode.equals(getCountry(serviceDiscovery))) { // entered country is different then existing
+        if (countryCode != null && countryCode.length() == 2) {
+            if (!countryCode.equals(getCountry(serviceDiscovery))) { // entered country is different then existing
                 this.countryCode = countryCode;
                 countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
                 saveToSecureStore(countryCode, true);
@@ -282,7 +302,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Force Refresh is done", "Force Refresh is done");
                     }
                 });
-            }else{
+            } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SAME COUNTRY", "Entered Country code is same as old one");
             }
         } else {

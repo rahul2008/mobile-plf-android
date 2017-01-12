@@ -111,6 +111,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -234,6 +235,19 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         }
     }
 
+    public void testApplyURLParameters(){
+       
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("ctn", "HD9740");
+        parameters.put("sector", "B2C");
+        parameters.put("catalog", "shavers");
+        try {
+            URL url = new URL("https://d1lqe9temigv1p.cloudfront.net");
+            assertNotNull(mServiceDiscoveryManager.applyURLParameters(url,parameters));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
     public void testdownloadServices() {
         Method method = null;
         try {
