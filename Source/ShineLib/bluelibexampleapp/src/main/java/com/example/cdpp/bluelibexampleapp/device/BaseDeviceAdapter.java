@@ -37,7 +37,7 @@ public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDevi
         return mItems.size();
     }
 
-    protected abstract T getItem(int position);
+    public abstract T getItem(int position);
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
