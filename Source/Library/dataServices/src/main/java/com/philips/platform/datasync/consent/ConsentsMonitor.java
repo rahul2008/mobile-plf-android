@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
@@ -88,10 +89,6 @@ public class ConsentsMonitor extends EventMonitor {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
 
-    private RetrofitError getConsentFetchError(Exception e) {
-        return RetrofitError.unexpectedError("", new IllegalStateException(e.toString()));
-    }
-
     private void getConsent(ConsentBackendGetRequest event) {
 
         if (isUserInvalid()) {
@@ -128,10 +125,9 @@ public class ConsentsMonitor extends EventMonitor {
             } else {
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, mDbRequestListener));
             }
-        } catch (Exception e) {
-            DSLog.i("***SPO***", "ConsentsMonitor exception Error");
-            //eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, mDbRequestListener));
-            eventing.post(new BackendResponse(event.getEventId(), getConsentFetchError(e)));
+        }  catch (RetrofitError ex) {
+        eventing.post(new BackendMomentRequestFailed(ex));
+
         }
     }
 
