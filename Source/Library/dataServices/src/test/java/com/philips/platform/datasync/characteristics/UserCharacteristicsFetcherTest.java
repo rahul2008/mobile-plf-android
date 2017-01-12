@@ -75,7 +75,6 @@ public class UserCharacteristicsFetcherTest {
         when(accessProviderMock.getAccessToken()).thenReturn("");
 
         assertThat(userCharacteristicsFetcher.fetchDataSince(null)).isNull();
-        //verifyZeroInteractions(uCoreAdapterMock);
     }
 
     @Test
@@ -84,7 +83,6 @@ public class UserCharacteristicsFetcherTest {
         when(accessProviderMock.getAccessToken()).thenReturn(null);
 
         assertThat(userCharacteristicsFetcher.fetchDataSince(null)).isNull();
-        //verifyZeroInteractions(uCoreAdapterMock);
     }
 
     @Test
@@ -94,15 +92,10 @@ public class UserCharacteristicsFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         final UserCharacteristicsClient uCoreClientMock = mock(UserCharacteristicsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uCoreClientMock);
-        ArrayList<Characteristics> characteristics = new ArrayList<>();
-        //characteristics.add(new Characteristics(Characteristics.USER_CHARACTERISTIC_TYPE, "ttl1"));
-//        characteristics.add(characteristicsMock);
-//        UCoreUserCharacteristics bookmarkCharacteristics = new UCoreUserCharacteristics(characteristics);
-//        when(uCoreClientMock.getUserCharacteristics(TEST_USER_ID, TEST_USER_ID, 9)).thenReturn(bookmarkCharacteristics);
-
+        when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(characteristicsMock);
         userCharacteristicsFetcher.fetchDataSince(null);
 
-        verify(eventingMock).post(isA(CharacteristicsBackendGetRequest.class));
+        verify(eventingMock).post(isA(UserCharacteristicsSaveRequest.class));
     }
 
     @Test

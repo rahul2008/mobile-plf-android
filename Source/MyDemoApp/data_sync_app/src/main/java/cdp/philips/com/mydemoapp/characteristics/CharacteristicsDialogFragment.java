@@ -8,16 +8,35 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.internal.Streams;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.characteristics.UCoreCharacteristics;
+import com.philips.platform.datasync.characteristics.UCoreUserCharacteristics;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.pojo.UserCharacteristics;
 
 public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBRequestListener {
 
@@ -54,39 +73,39 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 "      \"characteristics\": [\n" +
                 "        {\n" +
                 "          \"type\": \"Mouth\",\n" +
-                "          \"value\": \"Upper Teeth\",\n" +
+                "          \"value\": \"Mouth\",\n" +
                 "          \"characteristics\": [\n" +
                 "            {\n" +
                 "              \"type\": \"hair\",\n" +
-                "              \"value\": \"black\",\n" +
+                "              \"value\": \"hair\",\n" +
                 "              \"characteristics\": [\n" +
-                "            {\n" +
-                "              \"type\": \"BrokenTeeth\",\n" +
-                "              \"value\": \"1,2,3,4,5\",\n" +
-                "              \"characteristics\": []\n" +
-                "            }\n" +
-                "          ]\n" +
+                "                {\n" +
+                "                  \"type\": \"BrokenTeeth\",\n" +
+                "                  \"value\": \"BrokenTeeth\",\n" +
+                "                  \"characteristics\": []\n" +
+                "                }\n" +
+                "              ]\n" +
                 "            }\n" +
                 "          ]\n" +
                 "        },\n" +
                 "        {\n" +
                 "          \"type\": \"Mouth\",\n" +
-                "          \"value\": \"Lower Teeth\",\n" +
+                "          \"value\": \"Mouth\",\n" +
                 "          \"characteristics\": [\n" +
                 "            {\n" +
                 "              \"type\": \"BrokenTeeth\",\n" +
-                "              \"value\": \"6,7,8,9\",\n" +
+                "              \"value\": \"BrokenTeeth\",\n" +
                 "              \"characteristics\": []\n" +
                 "            }\n" +
                 "          ]\n" +
                 "        },\n" +
-                "         {\n" +
+                "        {\n" +
                 "          \"type\": \"skin\",\n" +
-                "          \"value\": \"fair\",\n" +
+                "          \"value\": \"skin\",\n" +
                 "          \"characteristics\": [\n" +
                 "            {\n" +
                 "              \"type\": \"color\",\n" +
-                "              \"value\": \"fair\",\n" +
+                "              \"value\": \"color\",\n" +
                 "              \"characteristics\": []\n" +
                 "            }\n" +
                 "          ]\n" +
@@ -166,28 +185,109 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         //Display User characteristics from DB
     }
 
+    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristic) {
+        UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
+        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
+        List<CharacteristicsDetail> mCharacteristicsDetailList;
+        if (characteristic != null) {
+            for (int i = 0; i < characteristic.size(); i++) {//1 times
+                mCharacteristicsDetailList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
+                UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+                String type = mCharacteristicsDetailList.get(i).getType();
+                String value = mCharacteristicsDetailList.get(i).getValue();
+                List<UCoreCharacteristics> childUCoreCharacteristicses = convertToUCoreCharacteristicsDetail((List<CharacteristicsDetail>) mCharacteristicsDetailList.get(i).getCharacteristicsDetail());
+                uCoreCharacteristics.setType(type);
+                uCoreCharacteristics.setValue(value);
+                uCoreCharacteristics.setCharacteristics(childUCoreCharacteristicses);
+                uCoreCharacteristicsList.add(uCoreCharacteristics);
+            }
+        }
+        Collections.reverse(uCoreCharacteristicsList);
+        uCoreUserCharacteristics.setCharacteristics(uCoreCharacteristicsList);
+        return uCoreUserCharacteristics;
+    }
+
+    private List<UCoreCharacteristics> convertToUCoreCharacteristicsDetail(List<CharacteristicsDetail> characteristicsDetails) {
+        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
+        if (characteristicsDetails.size() > 0) {
+            for (int i = 0; i < characteristicsDetails.size(); i++) {// 1 times
+                UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
+                characteristicsDetail.setType(characteristicsDetails.get(i).getType());
+                characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
+                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristicsDetail((List<CharacteristicsDetail>) characteristicsDetails.get(i).getCharacteristicsDetail()));
+                uCoreCharacteristicsList.add(characteristicsDetail);
+            }
+        }
+        return uCoreCharacteristicsList;
+    }
+
+    private List<CharacteristicsDetail> convertToCharacteristicDetail(Collection<? extends CharacteristicsDetail> characteristicsDetails) {
+        List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>();
+        for (CharacteristicsDetail detail : characteristicsDetails) {
+            characteristicsDetailList.add(detail);
+        }
+        return characteristicsDetailList;
+    }
+
+//    private List<UCoreCharacteristics> convertToUCoreCharacteristics(List<CharacteristicsDetail> characteristicsDetails) {
+//        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
+//        if (characteristicsDetails.size() > 0) {
+//            for (int i = 0; i < characteristicsDetails.size(); i++) {
+//                List<CharacteristicsDetail> characteristicsDetailList = convertToCharacteristicDetail(characteristicsDetails.get(i).getCharacteristicsDetail());
+//                UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
+//                characteristicsDetail.setType(characteristicsDetails.get(i).getType());
+//                characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
+//                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristics(characteristicsDetailList));
+//                uCoreCharacteristicsList.add(characteristicsDetail);
+//            }
+//        }
+//        return uCoreCharacteristicsList;
+//    }
+
     @Override
     public void onSuccess(final Object data) {
         //Display User characteristics UI
-//        final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
-//        ormCharacteristics.setSynchronized(true);
-//        if (ormCharacteristics != null) {
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Gson gson = new GsonBuilder().create();
-//
-//                    List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>(ormCharacteristics.getCharacteristicsDetails());
-//
-//                    String jsonCharacteristicsToDisplay = gson.toJson(characteristicsDetailList.get(0).getCharacteristicsDetail());
-//
-//                    DSLog.d(DSLog.LOG, "Inder = jsonCharacteristicsToDisplay =" + jsonCharacteristicsToDisplay);
-//
-//                    mEtCharacteristics.setText(jsonCharacteristicsToDisplay);
-//                }
-//            });
-//        }
+        if (data == null) return;
+        final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
+        if (ormCharacteristics != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String parsedToJSON;
+                        final List<Characteristics> characteristicsList = new ArrayList<>();
+                        characteristicsList.add((Characteristics) data);
 
+                        UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(characteristicsList);
+                        Gson gson = new GsonBuilder().create();
+                        parsedToJSON = gson.toJson(uCoreCharacteristics);
+
+                        DSLog.i(DSLog.LOG, "Inder Characteristics onSuccess= " + parsedToJSON);
+                        mEtCharacteristics.setText(parsedToJSON);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+            });
+        }
+
+
+    }
+
+    private void getUserCharacteristicsFromLocalDBRecursively(List<CharacteristicsDetail> childCharacteristicsDetail) {
+        if (childCharacteristicsDetail != null && childCharacteristicsDetail.size() > 0) {
+            for (int i = 0; i < childCharacteristicsDetail.size(); i++) {
+                String type = childCharacteristicsDetail.get(i).getType();
+                String value = childCharacteristicsDetail.get(i).getValue();
+                Collection<? extends CharacteristicsDetail> characteristicsDetail = childCharacteristicsDetail.get(i).getCharacteristicsDetail();
+                List<CharacteristicsDetail> innerChildCharacteristicsDetail = new ArrayList<CharacteristicsDetail>(characteristicsDetail);
+                getUserCharacteristicsFromLocalDBRecursively(innerChildCharacteristicsDetail);
+            }
+        }
     }
 
     @Override

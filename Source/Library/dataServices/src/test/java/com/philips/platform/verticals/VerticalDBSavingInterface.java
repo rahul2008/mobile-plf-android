@@ -12,19 +12,19 @@ import java.sql.SQLException;
  * Created by 310218660 on 1/2/2017.
  */
 
-public class VerticalDBSavingInterface implements DBSavingInterface{
+public class VerticalDBSavingInterface implements DBSavingInterface {
     @Override
-    public boolean saveMoment(Moment moment,DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         return true;
     }
 
     @Override
-    public boolean saveConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
+    public boolean saveConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
         return true;
     }
 
     @Override
-    public boolean saveUserCharacteristics(Characteristics characteristics) throws SQLException {
+    public boolean saveUserCharacteristics(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
         return true;
     }
 

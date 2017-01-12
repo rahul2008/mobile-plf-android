@@ -29,34 +29,22 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     private OrmCharacteristicsDetail ormCharacteristicsDetail;
     private List<OrmCharacteristicsDetail> ormCharacteristicsDetails = new ArrayList<>();
 
-    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics, OrmCharacteristicsDetail ormCharacteristicsDetail) {
+    public OrmCharacteristicsDetail(final String type, final String value, final OrmCharacteristics ormCharacteristics, final OrmCharacteristicsDetail ormCharacteristicsDetail) {
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
-        this.parent = ormCharacteristicsDetail.getId();
         this.ormCharacteristicsDetail = ormCharacteristicsDetail;
     }
 
-    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics) {
+    public OrmCharacteristicsDetail(final String type, final String value, final OrmCharacteristics ormCharacteristics) {
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
-        this.parent = parent;
     }
 
     @Override
     public int getId() {
         return id;
-    }
-
-    @Override
-    public void setParent(int parentID) {
-
-    }
-
-    @Override
-    public int getParent() {
-        return parent;
     }
 
     @Override

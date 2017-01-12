@@ -265,6 +265,15 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return consentQueryBuilder.query().get(consentQueryBuilder.query().size() - 1); //equivalent to query for last
     }
 
+    public OrmCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException {
+        QueryBuilder<OrmCharacteristics, Integer> lUCQueryBuilder = characteristicsDao.queryBuilder();
+        lUCQueryBuilder.where().eq("creatorId", creatorId);
+        if (lUCQueryBuilder.query().isEmpty()) {
+            return null;
+        }
+        return lUCQueryBuilder.query().get(lUCQueryBuilder.query().size() - 1); //equivalent to query for last
+    }
+
     public List<OrmConsent> fetchAllConsent() throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         return consentQueryBuilder.query();

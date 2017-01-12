@@ -1,8 +1,9 @@
 package cdp.philips.com.mydemoapp.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Characteristics {
+public class Characteristics implements Serializable{
     private String type;
     private String value;
 

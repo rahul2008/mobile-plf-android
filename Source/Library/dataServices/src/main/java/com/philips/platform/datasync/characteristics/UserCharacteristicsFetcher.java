@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.events.UserCharacteristicsRequestFailed;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -54,17 +55,15 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
                         mUCoreAccessProvider.getUserId(), API_VERSION);
 
-                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher from UCoreUserCharacteristics size"+uCoreUserCharacteristics.getCharacteristics().size());
-                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher from UCoreUserCharacteristics size"+uCoreUserCharacteristics.toString());
-
                 Characteristics characteristics =
                         mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
                                 mUCoreAccessProvider.getUserId());
 
+
                 characteristics.setSynchronized(true);
 
                 DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher "+characteristics.getCharacteristicsDetails());
-                eventing.post(new UserCharacteristicsSaveRequest(characteristics, DataServicesManager.getInstance().getDbRequestListener()));
+                eventing.post(new UCDBUpdateFromBackendRequest(characteristics, DataServicesManager.getInstance().getDbRequestListener()));
             }
             return null;
         } catch (RetrofitError exception) {

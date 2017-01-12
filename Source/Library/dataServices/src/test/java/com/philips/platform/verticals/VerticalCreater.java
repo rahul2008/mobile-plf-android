@@ -19,6 +19,7 @@ import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
+import com.philips.testing.verticals.table.OrmCharacteristics;
 import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmMeasurement;
 import com.philips.testing.verticals.table.OrmMeasurementDetail;
@@ -39,19 +40,19 @@ import org.joda.time.DateTime;
  * Created by 310218660 on 12/12/2016.
  */
 
-public class VerticalCreater implements BaseAppDataCreator{
+public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public OrmMoment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type) {
         final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
-        return new OrmMoment(creatorId,subjectId,ormMomentType);
+        return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
     @NonNull
     @Override
     public Moment createMomentWithoutUUID(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type) {
         final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
-        return new OrmMoment(creatorId,subjectId,ormMomentType);
+        return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
     @NonNull
@@ -103,7 +104,7 @@ public class VerticalCreater implements BaseAppDataCreator{
     @NonNull
     @Override
     public SynchronisationData createSynchronisationData(@NonNull String guid, boolean inactive, @NonNull DateTime lastModifiedTime, int version) {
-        return new OrmSynchronisationData(guid,inactive,lastModifiedTime,version);
+        return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
 
     @NonNull
@@ -115,24 +116,24 @@ public class VerticalCreater implements BaseAppDataCreator{
     @NonNull
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
-        return new ConsentDetailImpl(type,status,version,deviceIdentificationNumber,isSynchronized,consent);
+        return new ConsentDetailImpl(type, status, version, deviceIdentificationNumber, isSynchronized, consent);
     }
 
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String creatorId) {
+        return new OrmCharacteristics(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics, @NonNull CharacteristicsDetail characteristicsDetail) {
         return null;
     }
 
     @NonNull
     @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics, @NonNull CharacteristicsDetail characteristicsDetail) {
-        return null;
-    }
-
-    @NonNull
-    @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull int parentID, @NonNull Characteristics characteristics) {
+    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
         return null;
     }
 }

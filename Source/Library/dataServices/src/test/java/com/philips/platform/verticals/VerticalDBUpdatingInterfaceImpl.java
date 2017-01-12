@@ -20,22 +20,22 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateFailed(Exception e,DBRequestListener dbRequestListener) {
+    public void updateFailed(Exception e, DBRequestListener dbRequestListener) {
 
     }
 
     @Override
-    public boolean updateConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
 
     @Override
-    public boolean updateCharacteristics(Characteristics characteristics) throws SQLException {
+    public boolean updateCharacteristics(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
 
     @Override
-    public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics) throws SQLException {
+    public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 }

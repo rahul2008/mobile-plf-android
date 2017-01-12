@@ -147,7 +147,7 @@ public class FetchingMonitorTest {
 
         fetchingMonitor.onEventBackgroundThread(new LoadUserCharacteristicsRequest(dbRequestListener));
 
-        verify(fetching).fetchCharacteristics();
+        verify(fetching).fetchCharacteristics(dbRequestListener);
     }
 
     @Test

@@ -150,7 +150,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
-
+        Characteristics dbUC=fetching.fetchUCByCreatorId(characteristics.getCreatorId());
+        if(dbUC!=null){
+            if(!dbUC.isSynchronized()){
+                return;
+            }else{
+                updateCharacteristics(characteristics,dbRequestListener);
+            }
+        }else{
+            updateCharacteristics(characteristics,dbRequestListener);
+        }
     }
 
 }

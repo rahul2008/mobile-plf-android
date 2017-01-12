@@ -254,12 +254,12 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
-        tracker.updateCharacteristics(any(Characteristics.class));
+        tracker.updateCharacteristics(any(Characteristics.class),dbRequestListener);
     }
 
     @Test
     public void ShouldPostFetchCharacteristicsRequest_WhenFetchCharacteristicsIsCalled() throws Exception {
-        tracker.fetchUserCharacteristics();
+        tracker.fetchUserCharacteristics(dbRequestListener);
     }
 
     @Test
@@ -366,13 +366,13 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() throws Exception {
-        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE",0, mock(CharacteristicsDetail.class));
+        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE",mock(CharacteristicsDetail.class));
 //        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
     }
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailIsNULL() throws Exception {
-        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE",0, null);
+        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE", null);
 //        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
     }
 
