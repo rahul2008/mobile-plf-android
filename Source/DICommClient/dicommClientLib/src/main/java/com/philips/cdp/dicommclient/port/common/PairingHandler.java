@@ -293,8 +293,8 @@ public class PairingHandler<T extends Appliance> {
 
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         pairingRelation = new PairingRelation(
-                new PairingEntity(PAIRING_REFERENCEPROVIDER, cloudController.getAppCppId(), cloudController.getAppType(), null),
-                new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null),
+                getAppEntity(),
+                getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
 
@@ -315,7 +315,7 @@ public class PairingHandler<T extends Appliance> {
         currentRelationshipType = PAIRING_DI_COMM_RELATIONSHIP;
         pairingRelation = new PairingRelation(
                 new PairingEntity(PAIRING_USER_REFERENCEPROVIDER, userId, USER_ENTITY_TYPE, accessToken),
-                new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null),
+                getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
 
@@ -361,11 +361,6 @@ public class PairingHandler<T extends Appliance> {
         cloudController.getPairingController().removeRelationship(relationship, mPairingCallback);
     }
 
-    /**
-     * add Trustee data
-     *
-     * @return PairingController.PairingEntityReference
-     */
     private PairingEntity getDICommApplianceEntity() {
         PairingEntity pairingTrustee = new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null);
 
@@ -375,11 +370,6 @@ public class PairingHandler<T extends Appliance> {
         return pairingTrustee;
     }
 
-    /**
-     * add Trustee data
-     *
-     * @return PairingController.PairingEntityReference
-     */
     private PairingEntity getAppEntity() {
         PairingEntity pairingTrustor = new PairingEntity(PAIRING_REFERENCEPROVIDER, cloudController.getAppCppId(), cloudController.getAppType(), null);
 
