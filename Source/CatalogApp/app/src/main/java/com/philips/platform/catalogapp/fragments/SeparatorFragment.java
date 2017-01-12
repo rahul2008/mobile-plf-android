@@ -42,22 +42,22 @@ public class SeparatorFragment extends BaseFragment {
         dataModelView.addUser(R.drawable.ic_bottle, R.string.title3, context);
         dataModelView.addUser(R.drawable.ic_home, R.string.title4, context);
         dataModelView.addUser(R.drawable.ic_lock, R.string.title5, context);
-        dataModelView.addUser(R.drawable.ic_location_icon, R.string.title6, context);
+        dataModelView.addUser(R.drawable.ic_location, R.string.title6, context);
 
         final FragmentSeparatorBinding fragmentSeparatorBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_separator, container, false);
         fragmentSeparatorBinding.setFragment(this);
         fragmentSeparatorBinding.setDatamodelview(dataModelView);
         fragmentSeparatorBinding.activityUsersRecycler.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
-        fragmentSeparatorBinding.activityUsersRecycler.setAdapter(new MyAdapter(dataModelView.datamodels));
+        fragmentSeparatorBinding.activityUsersRecycler.setAdapter(new SeparatorRecyclerViewAdapter(dataModelView.datamodels));
         fragmentSeparatorBinding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return fragmentSeparatorBinding.getRoot();
     }
 
-    public static class MyAdapter extends RecyclerView.Adapter {
+    public static class SeparatorRecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<Datamodel> datamodels;
 
-        public MyAdapter(final ObservableArrayList<Datamodel> datamodels) {
+        public SeparatorRecyclerViewAdapter(final ObservableArrayList<Datamodel> datamodels) {
             this.datamodels = datamodels;
         }
 
