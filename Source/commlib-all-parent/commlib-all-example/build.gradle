@@ -15,20 +15,12 @@ android {
         targetSdkVersion _targetSdkVersion
         versionCode 1
         versionName "1.0"
-
     }
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        localDevelopment {
-            debuggable true
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
         }
     }
 }
@@ -42,9 +34,8 @@ dependencies {
     compile 'com.philips.cdp:cloudcontroller:4.0.0'
     compile group: 'joda-time', name: 'joda-time', version: '2.3'
 
-    localDevelopmentCompile project(path: ':commlib-all', configuration: 'localDevelopment')
-    debugCompile project(path: ':commlib-all', configuration: 'debug')
-    releaseCompile project(path: ':commlib-all', configuration: 'release')
+    debugCompile project(path:':commlib-all', configuration:'debug')
+    releaseCompile project(path:':commlib-all', configuration:'release')
 
     testCompile 'junit:junit:4.12'
 }

@@ -49,39 +49,38 @@ android {
 
         consumerProguardFiles 'proguard-rules.pro'
         buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+        publishNonDefault true
     }
 
     buildTypes {
-        debug {
-        }
         release {
             minifyEnabled false
         }
-        localDevelopment {
-            minifyEnabled false
-        }
     }
-
-    publishNonDefault true
 }
 
 dependencies {
     compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.android.support:support-annotations:24.2.1'
+    provided 'com.android.support:support-annotations:24.2.1'
 
-    def blueLib = 'com.philips.cdp:shinelib:2.2.0-20170110.161347-18'
-    def commLib = 'com.philips.cdp:dicommClientLib:3.0.0-20170110.161655-7'
+    def localBlueLibAar = rootDir.absolutePath + '/../../../android-shinelib/Source/ShineLib/shinelib/build/outputs/aar/shinelib-debug.aar'
+    if (new File(localBlueLibAar).exists()) {
+        println("!!! taking local shinelib !!!")
+        compile project(':bluelib')
+        compile 'com.google.code.gson:gson:2.7'
+    } else {
+        compile 'com.philips.cdp:shinelib:2.2.0-20170110.161347-18'
+    }
 
-    localDevelopmentCompile project(":bluelib")
-    localDevelopmentCompile project(":commlib")
-    localDevelopmentCompile 'com.philips.cdp:cloudcontroller-api:2.0.2'
-    localDevelopmentCompile 'com.google.code.gson:gson:2.7'
-
-    debugCompile blueLib
-    debugCompile commLib
-
-    releaseCompile blueLib
-    releaseCompile commLib
+    def localCommLibAar = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/build/outputs/aar/dicommClientLib-debug.aar'
+    if (new File(localCommLibAar).exists()) {
+        compile project(':commlib')
+        compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
+        compile 'com.google.code.gson:gson:2.7'
+        System.out.println("!!! taking local commlib !!!")
+    } else {
+        compile 'com.philips.cdp:dicommClientLib:3.0.0-20170110.161655-7'
+    }
 
     testCompile "org.mockito:mockito-core:2.5.5"
     testCompile 'info.cukes:cucumber-java:1.2.2'
