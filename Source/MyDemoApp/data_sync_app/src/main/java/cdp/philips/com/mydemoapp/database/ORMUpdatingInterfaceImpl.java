@@ -40,10 +40,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public boolean updateConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
-        if (consent == null) {
-            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, new OrmTypeChecking.OrmTypeException("No consent Found on DataCore ."), "Callback Not registered");
-            return false;
-        }
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);

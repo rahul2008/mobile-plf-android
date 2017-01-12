@@ -88,6 +88,10 @@ public class ConsentsMonitor extends EventMonitor {
         return RetrofitError.unexpectedError("", new IllegalStateException("you're not logged in"));
     }
 
+    private RetrofitError getConsentFetchError(Exception e) {
+        return RetrofitError.unexpectedError("", new IllegalStateException(e.toString()));
+    }
+
     private void getConsent(ConsentBackendGetRequest event) {
 
         if (isUserInvalid()) {
@@ -120,14 +124,14 @@ public class ConsentsMonitor extends EventMonitor {
                     consentDetail.setBackEndSynchronized(true);
                 }
                 DSLog.i("***SPO***", "Get Consent called After ConsentsClient before sending consents response");
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK, mDbRequestListener));
             } else {
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, mDbRequestListener));
             }
         } catch (Exception e) {
             DSLog.i("***SPO***", "ConsentsMonitor exception Error");
-            eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
-            //  eventing.post(new BackendResponse(event.getEventId(), e));
+            //eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, mDbRequestListener));
+            eventing.post(new BackendResponse(event.getEventId(), getConsentFetchError(e)));
         }
     }
 
