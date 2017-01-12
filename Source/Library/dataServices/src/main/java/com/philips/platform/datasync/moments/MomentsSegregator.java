@@ -153,7 +153,7 @@ public class MomentsSegregator {
         updatingInterface.updateMoment(ormMoment,dbRequestListener);
     }
 
-    public void processCreatedMoment(List<? extends Moment> moments) {
+    public void processCreatedMoment(List<? extends Moment> moments,DBRequestListener dbRequestListener) {
         for (final Moment moment : moments) {
                 moment.setSynced(true);
             try {

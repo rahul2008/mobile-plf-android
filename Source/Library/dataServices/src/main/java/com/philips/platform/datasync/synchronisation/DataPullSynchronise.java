@@ -161,7 +161,7 @@ public class DataPullSynchronise {
 
     private void postOk(final int referenceId) {
         DSLog.i("**SPO**","In Data Pull Synchronize postOK");
-        eventing.post(new ReadDataFromBackendResponse(referenceId));
+        eventing.post(new ReadDataFromBackendResponse(referenceId, mDbRequestListener));
     }
 
     private void initFetch() {

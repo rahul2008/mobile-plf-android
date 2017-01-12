@@ -154,7 +154,7 @@ public class FetchingMonitorTest {
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
         fetchingMonitor.onEventBackgroundThread(getNonSynchronizedMomentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
-        verify(fetching).fetchConsent(dbRequestListener);
+        verify(fetching).fetchConsent(getNonSynchronizedMomentsRequestMock.getDbRequestListener());
         verify(fetching).fetchNonSynchronizedMoments();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }

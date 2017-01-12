@@ -26,9 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -101,7 +99,7 @@ public class UpdatingMonitorTest {
         when(momentUpdateRequestmock.getMoment()).thenReturn(momentMock);
         updatingMonitor.onEventAsync(momentUpdateRequestmock);
         verify(momentMock).setSynced(false);
-        verify(dbUpdatingInterface).updateMoment(momentMock,dbRequestListener);
+        verify(dbUpdatingInterface).updateMoment(momentMock,momentUpdateRequestmock.getDbRequestListener());
     }
 
     @Test
@@ -139,7 +137,7 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenReadDataFromBackendResponsePassed() throws Exception {
         updatingMonitor.onEventBackgroundThread(readDataFromBackendResponseMock);
-        verify(dbFetchingInterface).fetchMoments(dbRequestListener);
+        verify(dbFetchingInterface).fetchMoments(readDataFromBackendResponseMock.getDbRequestListener());
     }
 
     @Test
@@ -152,9 +150,9 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1)));
+        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbRequestListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
-         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1));
+         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
     }
 
 }
