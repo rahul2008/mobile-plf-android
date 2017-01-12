@@ -34,7 +34,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/theme_settings_divider"/>
+        <include layout="@layout/uid_horizontal_separator"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/theme_settings_divider"/>
+        <include layout="@layout/uid_horizontal_separator"/>
 
         <LinearLayout
             android:layout_width="match_parent"
