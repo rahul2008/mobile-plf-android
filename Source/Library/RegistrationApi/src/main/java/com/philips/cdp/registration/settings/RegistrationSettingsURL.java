@@ -211,15 +211,14 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
                     String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
 
-                    if (RegistrationConfiguration.getInstance().getRegistrationEnvironment().equalsIgnoreCase(String.valueOf(Configuration.PRODUCTION))) {
+                    if(janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")){
                         jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
-                        jumpConfig.engageAppId = getEngageId(PROD_CAPTURE_DOMAIN_CHINA);
-                        jumpConfig.captureAppId = getCaptureId(PROD_CAPTURE_DOMAIN_CHINA);
-                    } else {
+                    }else{
                         jumpConfig.captureDomain = janrainURL;
-                        jumpConfig.engageAppId = getEngageId(urlLocal);
-                        jumpConfig.captureAppId = getCaptureId(urlLocal);
                     }
+
+                    jumpConfig.engageAppId = getEngageId(urlLocal);
+                    jumpConfig.captureAppId = getCaptureId(urlLocal);
 
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
 
@@ -290,7 +289,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +
                             "Service Deiscover inis at non China local");
-                     setChinaFlow(false);
+                    setChinaFlow(false);
                     jumpConfig.captureLocale = locale;
                     mPreferredCountryCode = countryCode;
                     mPreferredLangCode = langCode;
