@@ -84,19 +84,19 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
         TabUtils utils = new TabUtils(this, topLayout, true);
 
         TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star, 0);
-        utils.setTitle(tab, "Home");
+        utils.setTitle(tab, R.string.RA_HomeTab_Menu_Title);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_radio, 0);
-        utils.setTitle(tab, "Settings");
+        utils.setTitle(tab, R.string.RA_Settings_Menu_Title);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_on, 0);
-        utils.setTitle(tab, "Philips Shop");
+        utils.setTitle(tab, R.string.RA_Philips_Shop_Menu_Title);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
-        utils.setTitle(tab, "Support");
+        utils.setTitle(tab, R.string.RA_Support_Menu_Title);
         topLayout.addTab(tab);
     }
 

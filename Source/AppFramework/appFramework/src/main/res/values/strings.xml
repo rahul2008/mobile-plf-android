@@ -111,6 +111,7 @@
     <string name="RA_About_Menu_Title">About</string>
     <string name="RA_DataServices_Menu_Title">Data Services</string>
     <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
+    <string name="RA_HomeTab_Menu_Title">Home</string>
 
     <!-- IAP errors -->
     <string name="RA_Iap_Server_Error">Server error</string>
