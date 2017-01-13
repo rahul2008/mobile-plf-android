@@ -96,7 +96,8 @@ public class SeparatorMatcher {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                return DrawableMatcher.isSameHeight(4).matches(view.getBackground());
+
+                return DrawableMatcher.isSameHeight((int) height).matches(view.getBackground());
             }
         };
     }
