@@ -11,6 +11,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,7 @@ public class SeparatorFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 
         DataModelView dataModelView = new DataModelView();
 
@@ -57,12 +58,12 @@ public class SeparatorFragment extends BaseFragment {
     public static class SeparatorRecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<Datamodel> datamodels;
 
-        public SeparatorRecyclerViewAdapter(final ObservableArrayList<Datamodel> datamodels) {
+        public SeparatorRecyclerViewAdapter(@NonNull final ObservableArrayList<Datamodel> datamodels) {
             this.datamodels = datamodels;
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data, parent, false);
             BindingHolder holder = new BindingHolder(v);
 
@@ -70,7 +71,7 @@ public class SeparatorFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
             final Datamodel datamodel = datamodels.get(position);
             ((BindingHolder) holder).getBinding().setVariable(1, datamodel);
             ((BindingHolder) holder).getBinding().executePendingBindings();
@@ -84,7 +85,7 @@ public class SeparatorFragment extends BaseFragment {
         private static class BindingHolder extends RecyclerView.ViewHolder {
             private ViewDataBinding binding;
 
-            public BindingHolder(View rowView) {
+            public BindingHolder(@NonNull View rowView) {
                 super(rowView);
                 binding = DataBindingUtil.bind(rowView);
             }
