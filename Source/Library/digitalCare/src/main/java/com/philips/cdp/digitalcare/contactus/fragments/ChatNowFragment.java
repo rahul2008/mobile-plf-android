@@ -248,18 +248,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
             startActivityForResult(createImagePickerIntent(), SELECT_IMAGE);
         }
     }
-
-    private void checkPermissionForPhotoCamera(final Context context) {
-        int currentAPIVersion = Build.VERSION.SDK_INT;
-        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, PERMISSION_CAMERA);
-            } else {
-                //TODO
-            }
-        }
-    }
-
+    
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
