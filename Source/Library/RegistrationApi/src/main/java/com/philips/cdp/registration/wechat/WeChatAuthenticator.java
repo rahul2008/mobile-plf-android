@@ -11,8 +11,11 @@ import com.squareup.okhttp.Response;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class WeChatAuthenticator {
+
+    private static final int CONNECTION_TIME_OUT = 30 * 1000;
 
     public void getWeChatResponse(final String weChatAppId,
                                   final String weChatAppSecrete,
@@ -24,6 +27,7 @@ public class WeChatAuthenticator {
             public void run() {
                 try {
                     OkHttpClient client = new OkHttpClient();
+                    client.setConnectTimeout(CONNECTION_TIME_OUT, TimeUnit.MILLISECONDS);
                     RequestBody formBody = new FormEncodingBuilder()
                             .add("appid", weChatAppId)
                             .add("secret", weChatAppSecrete)
