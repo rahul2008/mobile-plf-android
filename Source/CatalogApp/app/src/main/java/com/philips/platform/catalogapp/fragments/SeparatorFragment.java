@@ -22,7 +22,7 @@ import com.philips.platform.catalogapp.DataModelView;
 import com.philips.platform.catalogapp.Datamodel;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSeparatorBinding;
-import com.philips.platform.uid.view.widget.RecyclerViewDividerItemDecoration;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 public class SeparatorFragment extends BaseFragment {
     @Override
@@ -47,7 +47,7 @@ public class SeparatorFragment extends BaseFragment {
         final FragmentSeparatorBinding fragmentSeparatorBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_separator, container, false);
         fragmentSeparatorBinding.setFragment(this);
         fragmentSeparatorBinding.setDatamodelview(dataModelView);
-        fragmentSeparatorBinding.recyclerviewSeparatorItems.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
+        fragmentSeparatorBinding.recyclerviewSeparatorItems.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         fragmentSeparatorBinding.recyclerviewSeparatorItems.setAdapter(new SeparatorRecyclerViewAdapter(dataModelView.datamodels));
         fragmentSeparatorBinding.recyclerviewSeparatorItems.setLayoutManager(new LinearLayoutManager(getContext()));
 

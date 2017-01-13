@@ -41,7 +41,7 @@ import com.philips.platform.uid.utils.UIDUtils;
  * Color        10% textPrimary     15% textPrimary     20% textPrimary     15% textPrimary  15% textPrimary
  * (gray 75)           color 75            white               white            white
  */
-public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparatorColor, R.attr.uidSeparatorAlpha};
     public static final int HEIGHT_ATTR_INDEX = 0;
@@ -54,11 +54,11 @@ public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecorati
      * Instantiates a new Recycler view divider item decoration.
      * <p>
      * Usage
-     * recyclerview.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
+     * recyclerview.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
      *
      * @param context the context
      */
-    public RecyclerViewDividerItemDecoration(@NonNull Context context) {
+    public RecyclerViewSeparatorItemDecoration(@NonNull Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         this.height = (int) styledAttributes.getDimension(HEIGHT_ATTR_INDEX, 1);
         final int color = styledAttributes.getColor(SEPARATOR_ATT_INDEX, ContextCompat.getColor(context, R.color.uid_gray_level_75));

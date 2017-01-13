@@ -14,7 +14,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.DividerMatcher;
+import com.philips.platform.uid.matcher.SeparatorMatcher;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
@@ -49,34 +49,57 @@ public class SeparatorTest {
     }
 
     @Test
-    public void verifyDividerHeight() throws Exception {
-        final float height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
-        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.componentList)).check(matches(DividerMatcher.hasSameHeight(height)));
+    public void verifyListViewSeparatorHeight() throws Exception {
+        final int height = (int) activity.getResources().getDimension(R.dimen.uid_divider_Height);
+
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.componentList)).check(matches(SeparatorMatcher.hasSameHeight(height)));
     }
 
     @Test
-    public void verifyDividerColor() throws Exception {
+    public void verifyListViewSeparatorColor() throws Exception {
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparatorColor);
         final float alpha = UIDTestUtils.getAttributeAlpha(activity, R.attr.uidSeparatorAlpha);
         final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
+
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.componentList))
-                .check(matches(DividerMatcher.isSameColor(modulateColorAlpha)));
+                .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
     }
 
     @Test
-    public void verifyDividerColorForRecyclerView() throws Exception {
+    public void verifySeparatorHeight() throws Exception {
+        final float height = activity.getResources().getDimension(R.dimen.uid_divider_Height);
+        UIDTestUtils.waitFor(height, 750);
+
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator)).check(matches(SeparatorMatcher.hasHeight((int) height)));
+    }
+
+    @Test
+    public void verifySeparatorColor() throws Exception {
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparatorColor);
         final float alpha = UIDTestUtils.getAttributeAlpha(activity, R.attr.uidSeparatorAlpha);
         final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
-        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
-                .check(matches(DividerMatcher.isSameColor(modulateColorAlpha)));
+
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator))
+                .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
     }
 
     @Test
-    public void verifyDividerHeightForRecyclerView() throws Exception {
-        final float height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
+    public void verifyRecyclerViewSeparatorColor() throws Exception {
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparatorColor);
+        final float alpha = UIDTestUtils.getAttributeAlpha(activity, R.attr.uidSeparatorAlpha);
+        final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
-                .check(matches(DividerMatcher.hasSameHeight(height)));
+                .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
+    }
+
+    @Test
+    public void verifyRecyclerViewSeparatorHeight() throws Exception {
+        final int height = (int) activity.getResources().getDimension(R.dimen.uid_divider_Height);
+
+        UIDTestUtils.waitFor(height, 700);
+
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
+                .check(matches(SeparatorMatcher.hasSameHeight(height)));
     }
 }

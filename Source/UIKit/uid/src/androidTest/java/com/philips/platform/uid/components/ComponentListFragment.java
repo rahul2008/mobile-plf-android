@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.platform.uid.compat.SeparatorDrawable;
-import com.philips.platform.uid.view.widget.RecyclerViewDividerItemDecoration;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -43,32 +43,16 @@ public class ComponentListFragment extends Fragment {
         View view = inflater.inflate(com.philips.platform.uid.test.R.layout.layout_component_list, container, false);
         listView = (ListView) view.findViewById(com.philips.platform.uid.test.R.id.componentList);
         recyclerView = (RecyclerView) view.findViewById(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems);
+        View divider = view.findViewById(com.philips.platform.uid.test.R.id.uid_test_separator);
+        divider.setBackground(new SeparatorDrawable(getContext()).getDrawable());
         setListItems();
         setRecyclerItems();
         return view;
     }
 
     private void setRecyclerItems() {
-        recyclerView.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
-        recyclerView.setAdapter(new RecyclerView.Adapter() {
-            @Override
-            public TestViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-                TextView textView = new TextView(parent.getContext());
-
-                final TestViewHolder holder = new TestViewHolder(textView);
-                return holder;
-            }
-
-            @Override
-            public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-                ((TestViewHolder) holder).textView.setText("Hello");
-            }
-
-            @Override
-            public int getItemCount() {
-                return 2;
-            }
-        });
+        recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+        recyclerView.setAdapter(new SeparatorAdapter());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -128,6 +112,26 @@ public class ComponentListFragment extends Fragment {
         @Override
         public int compare(final Integer key1, final Integer key2) {
             return map.get(key1).compareTo(map.get(key2));
+        }
+    }
+
+    private static class SeparatorAdapter extends RecyclerView.Adapter {
+        @Override
+        public TestViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+            TextView textView = new TextView(parent.getContext());
+
+            final TestViewHolder holder = new TestViewHolder(textView);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+            ((TestViewHolder) holder).textView.setText("Hello");
+        }
+
+        @Override
+        public int getItemCount() {
+            return 2;
         }
     }
 }

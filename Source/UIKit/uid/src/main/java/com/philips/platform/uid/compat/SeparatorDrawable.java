@@ -9,14 +9,14 @@ package com.philips.platform.uid.compat;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import com.philips.platform.uid.view.widget.RecyclerViewDividerItemDecoration;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 /**
  * The type Divider drawable.
  * This class can be used as utility class for setting divider and and its height
  */
 public class SeparatorDrawable {
-    private final RecyclerViewDividerItemDecoration recyclerViewDividerItemDecoration;
+    private final RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
 
     /**
      * Instantiates a new Divider drawable.
@@ -24,7 +24,7 @@ public class SeparatorDrawable {
      * @param context the context
      */
     public SeparatorDrawable(final Context context) {
-        recyclerViewDividerItemDecoration = new RecyclerViewDividerItemDecoration(context);
+        recyclerViewSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(context);
     }
 
     /**
@@ -37,7 +37,7 @@ public class SeparatorDrawable {
      * @return the divider
      */
     public Drawable getDrawable() {
-        return recyclerViewDividerItemDecoration.getDivider();
+        return recyclerViewSeparatorItemDecoration.getDivider();
     }
 
     /**
@@ -51,6 +51,6 @@ public class SeparatorDrawable {
      * @return the height
      */
     public int getHeight() {
-        return recyclerViewDividerItemDecoration.getHeight();
+        return recyclerViewSeparatorItemDecoration.getHeight();
     }
 }
