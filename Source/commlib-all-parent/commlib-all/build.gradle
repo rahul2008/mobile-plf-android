@@ -63,8 +63,7 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     provided 'com.android.support:support-annotations:24.2.1'
 
-    def localBlueLibAar = rootDir.absolutePath + '/../../../android-shinelib/Source/ShineLib/shinelib/build/outputs/aar/shinelib-debug.aar'
-    if (new File(localBlueLibAar).exists()) {
+    if (findProject(':bluelib')) {
         println("!!! taking local shinelib !!!")
         compile project(':bluelib')
         compile 'com.google.code.gson:gson:2.7'
@@ -72,8 +71,7 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-20170112.141916-21')
     }
 
-    def localCommLibAar = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/build/outputs/aar/dicommClientLib-debug.aar'
-    if (new File(localCommLibAar).exists()) {
+    if (findProject(':commlib')) {
         compile project(':commlib')
         compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
         compile 'com.google.code.gson:gson:2.7'
