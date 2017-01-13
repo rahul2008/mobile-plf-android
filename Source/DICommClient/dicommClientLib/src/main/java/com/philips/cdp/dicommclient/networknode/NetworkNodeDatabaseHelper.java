@@ -33,34 +33,14 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_MODEL_TYPE = "model_type";
     public static final String KEY_HTTPS = "https";
 
-    /**
-     * Instantiates a new dB helper.
-     *
-     * @param context the context
-     */
     public NetworkNodeDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    /**
-     * Instantiates a new dB helper.
-     *
-     * @param context the context
-     * @param name    the name
-     * @param factory the factory
-     * @param version the version
-     */
     public NetworkNodeDatabaseHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite
-     * .SQLiteDatabase)
-     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         DICommLog.w(DICommLog.DATABASE, "Create table " + TABLE_NETWORK_NODE);
@@ -88,13 +68,6 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database.sqlite
-     * .SQLiteDatabase, int, int)
-     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         switch (oldVersion) {
