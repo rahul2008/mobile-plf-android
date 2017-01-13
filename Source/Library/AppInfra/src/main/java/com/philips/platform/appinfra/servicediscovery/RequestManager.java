@@ -6,7 +6,6 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.os.Build;
 import android.os.LocaleList;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -17,6 +16,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
@@ -26,7 +26,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-//import android.os.LocaleList;
 
 public class RequestManager {
 
@@ -57,22 +56,29 @@ public class RequestManager {
             Throwable error = e.getCause();
             ServiceDiscovery.Error volleyError;
             if (error instanceof TimeoutError) {
-                Log.i("TimeoutORNoConnection", "" + "TimeoutORNoConnection");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+                        error.toString());
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
             } else if (error instanceof NoConnectionError) {
-                Log.i("NoConnectionError", "" + "NoConnectionError");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+                        error.toString());
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK, "NoConnectionError");
             } else if (error instanceof AuthFailureError) {
-                Log.i("AuthFailureError", "" + "AuthFailureError");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+                        error.toString());
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "AuthFailureError");
             } else if (error instanceof ServerError) {
-                Log.i("ServerError", "" + "ServerError");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+                        error.toString());
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
             } else if (error instanceof NetworkError) {
-                Log.i("NetworkError", "" + "NetworkError");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+                        error.toString());
+
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "NetworkError");
             } else if (error instanceof ParseError) {
-                Log.i("ParseError", "" + "ParseError");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+                        error.toString());
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
             } else {
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, e.getMessage());
