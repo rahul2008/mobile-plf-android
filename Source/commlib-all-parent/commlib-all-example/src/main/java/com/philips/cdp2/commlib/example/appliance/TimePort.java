@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
@@ -21,8 +20,8 @@ public class TimePort extends DICommPort<TimePortProperties> {
     private static final String TIME_PORT_NAME = "time";
     private static final int TIME_PORT_PRODUCTID = 0;
 
-    public TimePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-        super(networkNode, communicationStrategy);
+    public TimePort(CommunicationStrategy communicationStrategy) {
+        super(communicationStrategy);
     }
 
     @Override

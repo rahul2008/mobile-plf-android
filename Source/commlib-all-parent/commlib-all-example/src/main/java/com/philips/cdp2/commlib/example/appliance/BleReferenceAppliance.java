@@ -16,7 +16,7 @@ public class BleReferenceAppliance extends Appliance {
     public BleReferenceAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
 
-        timePort = new TimePort(networkNode, communicationStrategy);
+        timePort = new TimePort(communicationStrategy);
         addPort(timePort);
     }
 
