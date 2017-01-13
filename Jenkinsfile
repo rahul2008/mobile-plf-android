@@ -31,7 +31,6 @@ node ('android_pipeline &&' + node_ext) {
                 
 			}
 			}	
-			}
 			else
 			{
 			stage ('build') {
