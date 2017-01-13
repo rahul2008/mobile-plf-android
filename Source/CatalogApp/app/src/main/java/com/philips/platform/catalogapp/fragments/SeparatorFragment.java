@@ -47,9 +47,9 @@ public class SeparatorFragment extends BaseFragment {
         final FragmentSeparatorBinding fragmentSeparatorBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_separator, container, false);
         fragmentSeparatorBinding.setFragment(this);
         fragmentSeparatorBinding.setDatamodelview(dataModelView);
-        fragmentSeparatorBinding.activityUsersRecycler.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
-        fragmentSeparatorBinding.activityUsersRecycler.setAdapter(new SeparatorRecyclerViewAdapter(dataModelView.datamodels));
-        fragmentSeparatorBinding.activityUsersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentSeparatorBinding.recyclerviewSeparatorItems.addItemDecoration(new RecyclerViewDividerItemDecoration(getContext()));
+        fragmentSeparatorBinding.recyclerviewSeparatorItems.setAdapter(new SeparatorRecyclerViewAdapter(dataModelView.datamodels));
+        fragmentSeparatorBinding.recyclerviewSeparatorItems.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return fragmentSeparatorBinding.getRoot();
     }

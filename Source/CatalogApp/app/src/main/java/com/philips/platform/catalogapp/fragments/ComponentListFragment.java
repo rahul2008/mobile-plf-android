@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.NavigationController;
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uid.compat.DividerDrawable;
+import com.philips.platform.uid.compat.SeparatorDrawable;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -43,9 +43,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
 
     private void setListItems() {
         String[] strings = getDemoItems().values().toArray(new String[1]);
-        DividerDrawable dividerDrawable = new DividerDrawable(getContext());
-        listView.setDivider(dividerDrawable.getDrawable());
-        listView.setDividerHeight(dividerDrawable.getHeight());
+        SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        listView.setDivider(separatorDrawable.getDrawable());
+        listView.setDividerHeight(separatorDrawable.getHeight());
 
         listView.setAdapter(new ArrayAdapter<>(this.getContext(), R.layout.component_list_text, strings));
         listView.setOnItemClickListener(this);

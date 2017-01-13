@@ -24,7 +24,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
-public class SeparatorDTest {
+public class SeparatorTest {
 
     @Rule
     public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
@@ -61,5 +61,22 @@ public class SeparatorDTest {
         final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.componentList))
                 .check(matches(DividerMatcher.isSameColor(modulateColorAlpha)));
+    }
+
+    @Test
+    public void verifyDividerColorForRecyclerView() throws Exception {
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparatorColor);
+        final float alpha = UIDTestUtils.getAttributeAlpha(activity, R.attr.uidSeparatorAlpha);
+        final int modulateColorAlpha = UIDTestUtils.modulateColorAlpha(color, alpha);
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
+                .check(matches(DividerMatcher.isSameColor(modulateColorAlpha)));
+    }
+
+    @Test
+    public void verifyDividerHeightForRecyclerView() throws Exception {
+        final float height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
+
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
+                .check(matches(DividerMatcher.hasSameHeight(height)));
     }
 }

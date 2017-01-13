@@ -72,7 +72,7 @@ public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecorati
     /**
      * Gets divider drawable which can be set for listview or recycler view.
      * using
-     * DividerDrawable dividerDrawable = new DividerDrawable(getContext());
+     * SeparatorDrawable dividerDrawable = new SeparatorDrawable(getContext());
      * <p>
      * listView.setDivider(dividerDrawable.getDrawable());
      *
@@ -85,7 +85,7 @@ public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecorati
     /**
      * Gets height of divider as per DLS specification.
      * Usage :
-     * DividerDrawable dividerDrawable = new DividerDrawable(getContext());
+     * SeparatorDrawable dividerDrawable = new SeparatorDrawable(getContext());
      * <p>
      * listView.setDivider(dividerDrawable.getDrawable());
      * listView.setDividerHeight(dividerDrawable.getHeight());

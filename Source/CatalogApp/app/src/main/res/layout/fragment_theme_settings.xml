@@ -34,7 +34,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/uid_horizontal_separator"/>
+        <include android:id="@+id/divider1" layout="@layout/uid_horizontal_separator"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/uid_horizontal_separator"/>
+        <include android:id="@+id/divider2" layout="@layout/uid_horizontal_separator"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -114,8 +114,8 @@
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="20dp"
