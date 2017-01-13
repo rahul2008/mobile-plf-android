@@ -128,7 +128,13 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.start_connectivity_button:
-                startConnectivity();
+               try{
+                    startConnectivity();
+                }
+               catch(IllegalArgumentException iae)
+                {
+                    Toast.makeText(getActivity()," Please enter device ID ", Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.get_momentumvalue_button:
                 editTextValue = editText.getText().toString();
