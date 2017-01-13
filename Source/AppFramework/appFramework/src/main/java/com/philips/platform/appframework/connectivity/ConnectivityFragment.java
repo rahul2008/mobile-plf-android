@@ -7,13 +7,19 @@
 package com.philips.platform.appframework.connectivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,63 +31,39 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.FirmwarePort;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.pins.shinelib.SHNCapabilityType;
-import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNDevice;
-import com.philips.pins.shinelib.SHNMapResultListener;
-import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.capabilities.CapabilityFirmwareUpdateDiComm;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
-import com.philips.pins.shinelib.dicommsupport.DiCommChannel;
-import com.philips.pins.shinelib.dicommsupport.DiCommPort;
-import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
-import com.philips.pins.shinelib.wrappers.SHNCapabilityFirmwareUpdateWrapper;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
-import com.philips.platform.appframework.connectivity.appliance.DeviceMeasurementPort;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.lang.reflect.Field;
-import java.util.Map;
 
 public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
     private EditText editText = null;
     private EditText momentValueEditText = null;
-    private EditText deviceID = null;
     private String editTextValue;
     private String accessTokenValue;
-    private TextView connectionState;
-    private SHNCentral shnCentral;
-    private SHNDevice shineDevice;
-    private DicommDeviceMeasurementPort measPort = null;
-    private DeviceDefinitionInfoReferenceBoard deviceDefinitionInfoReferenceBoard;
     private User user;
     private ProgressDialog dialog = null;
     private TextView dataCoreErrorText;
-    private int measValue;
     private CommCentral commCentral;
     private DICommApplianceFactory applianceFactory;
     private BleReferenceAppliance bleReferenceAppliance;
-    private TextView txtState;
-    private TextView txtResult;
     private Runnable permissionCallback;
+    private TextView connectionState;
+    private BluetoothAdapter mBluetoothAdapter;
+    private static final int REQUEST_ENABLE_BT = 1;
+    private BLEScanDialogFragment bleScanDialogFragment;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
+
 
     /**
      * Presenter object for Connectivity
@@ -99,6 +81,12 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
+        // BluetoothAdapter through BluetoothManager.
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();
+
     }
 
     @Override
@@ -107,13 +95,9 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         connectivityPresenter = new ConnectivityPresenter(this, getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         editText = (EditText) rootView.findViewById(R.id.measurement_value_editbox);
-        deviceID = (EditText) rootView.findViewById(R.id.reference_device_id_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
         dataCoreErrorText = (TextView) rootView.findViewById(R.id.datacre_error_text);
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
-        txtState = (TextView) rootView.findViewById(R.id.txtState);
-        txtResult = (TextView) rootView.findViewById(R.id.txtResult);
-
         btnGetMoment.setOnClickListener(this);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
@@ -121,21 +105,12 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         accessTokenValue = user.getHsdpAccessToken();
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
         setUpCommCentral();
-//        setUpShnCentral();
         return rootView;
     }
 
-    private void setUpShnCentral() {
-        try {
-            Handler mainHandler = new Handler(getActivity().getMainLooper());
-            shnCentral = new SHNCentral.Builder(getActivity().getApplicationContext()).setHandler(mainHandler).create();
-            deviceDefinitionInfoReferenceBoard = new DeviceDefinitionInfoReferenceBoard();
-            shnCentral.registerDeviceDefinition(deviceDefinitionInfoReferenceBoard);
-        } catch (SHNBluetoothHardwareUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Setup comm central
+     */
     private void setUpCommCentral() {
         // Setup CommCentral
         final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
@@ -148,13 +123,10 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
         @Override
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
-            bleReferenceAppliance = foundAppliance;
-            Log.d("test", "Device found :" + foundAppliance.getName());
+            Log.d(TAG, "Device found :" + foundAppliance.getName());
+            bleScanDialogFragment.addDevice(foundAppliance);
             Toast.makeText(getActivity(), "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
-            setupAppliance(bleReferenceAppliance);
 
-            // Perform request on port
-           bleReferenceAppliance.getDeviceMeasurementPort().getPortProperties();
         }
 
         @Override
@@ -163,44 +135,17 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         }
     };
 
-    private void updateStateAndResult(final String state, final String result) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                txtState.setText(state);
-                txtResult.setText(result);
-            }
-        });
-    }
-
-    private SHNCapabilityBattery setListenerAndReturnSHNCapabilityBattery() {
-        SHNCapabilityBattery shnCapabilityBattery = getSHNCapabilityBattery();
-        if (shnCapabilityBattery != null) {
-            shnCapabilityBattery.setSetSHNCapabilityBatteryListener(shnCapabilityBatteryListener);
-        }
-        return shnCapabilityBattery;
-    }
-
-    private SHNCapabilityBattery getSHNCapabilityBattery() {
-        SHNDevice connectedDevice = shineDevice;
-        if (connectedDevice != null && connectedDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.BATTERY)) {
-            return ((SHNCapabilityBattery) connectedDevice.getCapabilityForType(SHNCapabilityType.BATTERY));
-        }
-        return null;
-    }
-
-    SHNCapabilityBattery.SHNCapabilityBatteryListener shnCapabilityBatteryListener = new SHNCapabilityBattery.SHNCapabilityBatteryListener() {
-        @Override
-        public void onBatteryLevelChanged(int level) {
-        }
-    };
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.start_connectivity_button:
-//                startConnectivity();
-                startDiscovery();
+                if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                } else {
+                    checkForAccessFineLocation();
+                }
                 break;
             case R.id.get_momentumvalue_button:
                 editTextValue = editText.getText().toString();
@@ -217,107 +162,58 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         }
     }
 
+    /**
+     * Start scanning nearby devices using given strategy
+     */
     private void startDiscovery() {
         try {
-            this.commCentral.startDiscovery();
-            updateStateAndResult(getString(R.string.lblStateDiscovering), getString(R.string.lblResultNotApplicable));
-        } catch (MissingPermissionException e) {
-            updateStateAndResult(getString(R.string.lblStatePermissionError), getString(R.string.lblResultDiscoveryFailed));
-            acquirePermission(new Runnable() {
+            bleScanDialogFragment = new BLEScanDialogFragment();
+            bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+            bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                 @Override
-                public void run() {
-                    startDiscovery();
+                public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                    connectivityPresenter.setUpApplicance(bleRefAppliance);
+                    bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
                 }
             });
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new Handler().post(this.permissionCallback);
-                } else {
-                    updateStateAndResult(getString(R.string.lblStateError), getString(R.string.lblResultNotApplicable));
-                }
-            }
-        }
-    }
-
-    private void acquirePermission(@NonNull Runnable permissionCallback) {
-        this.permissionCallback = permissionCallback;
-
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
-        }
-    }
-
-    private void startConnectivity() {
-        SHNDevice.SHNDeviceListener shineDeviceListener = new SHNDevice.SHNDeviceListener() {
-            @Override
-            public void onStateUpdated(SHNDevice shnDevice) {
-                connectionState.setText(shnDevice.getState().toString());
-                if (shnDevice.getState().toString() == "Connected") {
-                    getMeasurementValue();
-                }
-            }
-
-            @Override
-            public void onFailedToConnect(SHNDevice shnDevice, SHNResult shnResult) {
-                connectionState.setText(shnDevice.getState().toString() + shnResult);
-            }
-
-            @Override
-            public void onReadRSSI(final int rssi) {
-
-            }
-        };
-
-        shineDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceID.getText().toString(), deviceDefinitionInfoReferenceBoard);
-        shineDevice.registerSHNDeviceListener(shineDeviceListener);
-        shineDevice.connect();
-        connectionState.setText(shineDevice.getState().toString());
-    }
-
-    private void getMeasurementValue() {
-        try {
-            SHNCapabilityFirmwareUpdateWrapper shnCapabilityFirmwareUpdate = (SHNCapabilityFirmwareUpdateWrapper) shineDevice.getCapabilityForType(SHNCapabilityType.FIRMWARE_UPDATE);
-            Field fui = SHNCapabilityFirmwareUpdateWrapper.class.getDeclaredField("wrappedCapability");
-            fui.setAccessible(true);
-            Field firmwarePort = CapabilityFirmwareUpdateDiComm.class.getDeclaredField("firmwareDiCommPort");
-            firmwarePort.setAccessible(true);
-            DiCommPort port = (DiCommPort) firmwarePort.get(fui.get(shnCapabilityFirmwareUpdate));
-            Field channel = DiCommPort.class.getDeclaredField("diCommChannel");
-            channel.setAccessible(true);
-            DiCommChannel diCommChannel = (DiCommChannel) channel.get(port);
-            measPort = new DicommDeviceMeasurementPort(new Handler());
-            diCommChannel.addPort(measPort);
-            if (measPort != null) {
-                measPort.reloadProperties(new SHNMapResultListener<String, Object>() {
-                    @Override
-                    public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
-                        measValue = measPort.GetMeasurementValue();
-                        getActivity().runOnUiThread(new Runnable() {
-                            public void run() {
-                                editText.setText(String.valueOf((measValue)));
-                            }
-                        });
+            this.commCentral.startDiscovery();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(commCentral!=null){
+                        commCentral.stopDiscovery();
+                        if(bleScanDialogFragment!=null) {
+                            bleScanDialogFragment.hideProgressBar();
+                        }
                     }
-                });
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+                }
+            },30000);
+            connectionState.setText(getString(R.string.lblStateDiscovering));
+        } catch (MissingPermissionException e) {
+            Log.e(TAG,"Permissio missing");
         }
     }
 
+
+
+
+    /**
+     * Send moment value to data core
+     *
+     * @param user
+     * @param momentValue
+     */
     public void processMoment(final User user, String momentValue) {
         Log.i(TAG, "Moment value" + momentValue);
         showProgressDialog("Posting data in datacore, Please wait...");
         connectivityPresenter.postMoment(user, momentValue);
     }
 
+    /**
+     * Callnack after post success
+     *
+     * @param momentId
+     */
     @Override
     public void updateUIOnPostMomentSuccess(final String momentId) {
         Log.i(TAG, "Moment Id" + momentId);
@@ -325,12 +221,21 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         connectivityPresenter.getMoment(user, momentId);
     }
 
+    /**
+     * Error while posting moment to data core
+     *
+     * @param volleyError
+     */
     @Override
     public void updateUIOnPostMomentError(final VolleyError volleyError) {
         dismissProgressDialog();
         Log.d(TAG, "Error while setting moment value");
     }
 
+
+    /**
+     * Callback after get moment  success
+     */
     @Override
     public void updateUIOnGetMomentSuccess(final String momentValue) {
         getActivity().runOnUiThread(new Runnable() {
@@ -341,60 +246,133 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         });
     }
 
+    /**
+     * Error while getting moment from data core
+     *
+     * @param volleyError
+     */
     @Override
     public void updateUIOnGetMomentError(final VolleyError volleyError) {
         dismissProgressDialog();
         Log.d(TAG, "Error while getting moment value");
     }
 
+    @Override
+    public void updateDeviceMeasurementValue(final String measurementvalue) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (!TextUtils.isEmpty(measurementvalue)) {
+                        editText.setText(measurementvalue);
+                    } else {
+                        editText.setText(Integer.toString(-1));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onDeviceMeasurementError(final Error error, String s) {
+        //TODO:Handle device measurement error properly
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), "Erroe while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+            }
+        });
+
+    }
+
+    /**
+     * SHow progress dialog
+     *
+     * @param text
+     */
     public void showProgressDialog(String text) {
         dismissProgressDialog();
         dialog = ProgressDialog.show(getActivity(), "", text);
     }
 
+    /**
+     * Dismiss progress dialog
+     */
     public void dismissProgressDialog() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }
 
-    private void setupAppliance(@NonNull BleReferenceAppliance appliance) {
-        if (appliance == null) {
-            throw new IllegalArgumentException("Cannot create bleReferenceAppliance for provided NetworkNode.");
+
+    private void checkForAccessFineLocation() {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            checkForAccessCoarseLocation();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
+    }
 
-        // Setup firmware port
-        appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
-            @Override
-            public void onPortUpdate(FirmwarePort firmwarePort) {
-                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsSuccess, firmwarePort.getPortProperties().getVersion()));
+    private void checkForAccessCoarseLocation() {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            startDiscovery();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    checkForAccessCoarseLocation();
+                } else {
+                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+            case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    startDiscovery();
+                } else {
+                    // permission denied, boo!
+                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == Activity.RESULT_OK) {
+                checkForAccessFineLocation();
             }
-
-            @Override
-            public void onPortError(FirmwarePort diCommPort, Error error, String s) {
-                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsFailed, s));
-            }
-        });
-
-        // Setup time port
-        appliance.getDeviceMeasurementPort().addPortListener(new DICommPortListener<DeviceMeasurementPort>() {
-
-            @Override
-            public void onPortUpdate(DeviceMeasurementPort deviceMeasurementPort) {
-                Toast.makeText(getActivity(), "Inside port update", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity(), "Port properties"+deviceMeasurementPort.getPortProperties(), Toast.LENGTH_SHORT).show();
-                Log.d("test","Posrt properties"+deviceMeasurementPort.getPortProperties().measurementvalue);
-//                DateTime dateTime = new DateTime(timePort.getPortProperties().);
-//                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_OUTPUT_FORMAT);
-//
-//                updateStateAndResult(getString(R.string.lblStateDone), dateTime.toString(dateTimeFormatter));
-            }
-
-            @Override
-            public void onPortError(DeviceMeasurementPort deviceMeasurementPort, Error error, final String s) {
-                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultPortError, s));
-            }
-        });
+        }
     }
 }
 

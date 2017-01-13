@@ -13,4 +13,7 @@
     <string name="lblResultNotApplicable">N/A</string>
     <string name="lblResultPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
     <string name="lblResultPortError">Port error: (%1$s)</string>
+    <string name="reference_device_scan">Reference Device Scan</string>
+    <string name="unknown_device">Unknown Device</string>
+    <string name="ble_ref_device">ble ref device</string>
 </resources>

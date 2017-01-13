@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.tabbedscreen;
 
 import android.os.Bundle;
+import java.util.List;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -235,5 +236,18 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
     @Override
     public void onFailure(final int i) {
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null) {
+                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+            }
+        }
     }
 }
