@@ -1,5 +1,4 @@
 Source/MicroApp/
-*.xml
 testfwk_android/Src/packages/
 testfwk_android/Src/02TestAuthoring API/CDP_TestPlugin/obj/
 testfwk_android/Src/02TestAuthoring API/CDP_ObjectRepository/obj/
