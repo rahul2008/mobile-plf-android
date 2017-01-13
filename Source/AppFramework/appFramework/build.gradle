@@ -362,7 +362,6 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile project(':pluginreferenceboard')
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
