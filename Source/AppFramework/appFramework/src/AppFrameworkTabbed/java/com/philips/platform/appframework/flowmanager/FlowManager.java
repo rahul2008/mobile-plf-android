@@ -38,6 +38,10 @@ public class FlowManager extends BaseFlowManager {
         super(context, jsonPath, appFlowJsonListener);
     }
 
+    public FlowManager(){
+        super();
+    }
+
     @Override
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());

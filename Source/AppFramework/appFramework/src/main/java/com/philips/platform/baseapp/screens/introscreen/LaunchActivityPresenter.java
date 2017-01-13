@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -47,7 +48,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         if (event.equals(APP_LAUNCH))
-            baseState = targetFlowManager.getFirstState();
+            baseState = new SplashState();
         else if (event.equals(LAUNCH_BACK_PRESSED))
             baseState = targetFlowManager.getBackState();
 

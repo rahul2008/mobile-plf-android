@@ -38,6 +38,10 @@ public class FlowManager extends BaseFlowManager {
         super(context, jsonPath, appFlowJsonListener);
     }
 
+    public FlowManager(){
+        super();
+    }
+
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
         uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());

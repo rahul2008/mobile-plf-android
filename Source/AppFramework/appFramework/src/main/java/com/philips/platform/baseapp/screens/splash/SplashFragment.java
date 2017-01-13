@@ -19,20 +19,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends Fragment implements LaunchView, BackEventListener {
+import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
+
+public class SplashFragment extends Fragment implements LaunchView, BackEventListener,AppFlowJsonListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
     UIBasePresenter presenter;
     private boolean isVisible = false;
 	private boolean isMultiwindowEnabled = false;
+    private CircularProgressbar circularProgressbar;
 
     @Nullable
     @Override
@@ -47,7 +53,16 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
 
         TextView title = (TextView) view.findViewById(R.id.splash_title);
         title.setText(titleText);
+        initializeFlowManager();
         return view;
+    }
+
+    private void initializeFlowManager() {
+        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
+        FileUtility fileUtility = new FileUtility(getFragmentActivity());
+        circularProgressbar = (CircularProgressbar) getFragmentActivity().findViewById(R.id.splash_progress_bar);
+        circularProgressbar.setVisibility(View.VISIBLE);
+        getApplicationContext().getTargetFlowManager().initFlowManager(getFragmentActivity().getApplicationContext(),fileUtility.createFileFromInputStream(resId).getPath(),this);
     }
 
     @Override
@@ -147,4 +162,14 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
     public boolean handleBackEvent() {
         return true;
     }
+
+    @Override
+    public void onParseSuccess() {
+        circularProgressbar.setVisibility(View.GONE);
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+    }
+
 }

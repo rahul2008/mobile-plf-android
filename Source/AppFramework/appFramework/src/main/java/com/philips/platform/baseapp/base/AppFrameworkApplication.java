@@ -10,7 +10,6 @@ import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -54,9 +53,7 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
         }
         MultiDex.install(this);
         super.onCreate();
-        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
-        FileUtility fileUtility = new FileUtility(this);
-        targetFlowManager = new FlowManager(getApplicationContext(), fileUtility.createFileFromInputStream(resId).getPath(), this);
+        targetFlowManager = new FlowManager();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);

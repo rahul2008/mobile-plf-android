@@ -38,13 +38,19 @@ public abstract class BaseFlowManager {
 
     @Deprecated
     /**
-     * Will be absolute soon , kindly use BaseFlowManager constructor with appFlowJsonListener
+     * Will be obsolete soon , kindly use BaseFlowManager constructor with appFlowJsonListener
      */
     public BaseFlowManager(final Context context, final String jsonPath){
         this(context, jsonPath,null);
     }
 
     public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+        initFlowManager(context,jsonPath,null);
+    }
+    public BaseFlowManager(){
+
+    }
+    public void initFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         this.context = context;
         mapAppFlowStates(jsonPath, appFlowJsonListener);
         flowManagerStack = new FlowManagerStack();
@@ -53,11 +59,10 @@ public abstract class BaseFlowManager {
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
     }
-
     /**
-     * This method will creates and return the object of BaseCondition depending upon Condition ID.
+     * This method will create and return the object of BaseCondition depending on Condition ID.
      *
-     * @param conditionId Condition ID for which the BaseCondition type object need to be created.
+     * @param conditionId Condition ID for which the BaseCondition object needs to be created.
      * @return Object of BaseCondition type.
      */
     public BaseCondition getCondition(String conditionId) {
@@ -96,6 +101,7 @@ public abstract class BaseFlowManager {
      * @return Object to next BaseState if available or 'null'.
      */
     public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
+        setCurrentState(currentState);
         return getNextState(eventId);
     }
 
