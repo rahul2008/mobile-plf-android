@@ -27,8 +27,8 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
         @Override
         public void navigate(UiLauncher uiLauncher) {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                    addFragment(new ConnectivityFragment(), ConnectivityFragment.TAG);
+            ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
+                    handleFragmentBackStack( new ConnectivityFragment(), ConnectivityFragment.TAG,getUiStateData().getFragmentLaunchState());
         }
 
         @Override
