@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_connectivity_title">Connectivity</string>
+    <string name="lblStateDiscovering">Starting discovery…</string>
+    <string name="lblStateDone">Done</string>
+    <string name="lblStateError">Error</string>
+    <string name="lblStatePermissionError">Permission error</string>
+    <string name="lblStateScanning">Scanning…</string>
+
+    <string name="lblResultDiscoveryFailed">Discovery failed</string>
+    <string name="lblResultGetPropsFailed">GetProps failed: \'%1$s\'</string>
+    <string name="lblResultGetPropsSuccess">GetProps success: \'%1$s\'</string>
+    <string name="lblResultNotApplicable">N/A</string>
+    <string name="lblResultPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
+    <string name="lblResultPortError">Port error: (%1$s)</string>
 </resources>
