@@ -26,13 +26,13 @@ import com.squareup.leakcanary.LeakCanary;
 import java.util.Locale;
 
 import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
-import philips.appframeworklibrary.flowmanager.enums.AppFlowEnum;
 import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 
 /**
  * Application class is used for initialization
  */
 public class AppFrameworkApplication extends Application implements AppFlowJsonListener {
+    private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
@@ -40,7 +40,6 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
     private IAPState iapState;
     private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
-    private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
 
     @SuppressWarnings("deprecation")
     @Override
@@ -100,10 +99,5 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
     @Override
     public void onParseSuccess() {
 
-    }
-
-    @Override
-    public void onError(AppFlowEnum appFlowEnum) {
-        throw new RuntimeException(appFlowEnum.getDescription());
     }
 }

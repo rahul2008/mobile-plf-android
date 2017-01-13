@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import philips.appframeworklibrary.flowmanager.exceptions.JsonFileNotFoundException;
+import philips.appframeworklibrary.flowmanager.exceptions.JsonStructureException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoConditionFoundException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
@@ -42,7 +44,7 @@ public abstract class BaseFlowManager {
         this(context, jsonPath,null);
     }
 
-    public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
+    public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         this.context = context;
         mapAppFlowStates(jsonPath, appFlowJsonListener);
         flowManagerStack = new FlowManagerStack();
@@ -213,15 +215,11 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    @Deprecated
-    private void mapAppFlowStates(final String jsonPath) {
-        mapAppFlowStates(jsonPath, null);
-    }
-
-    private void mapAppFlowStates(final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
+    private void mapAppFlowStates(final String jsonPath, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
-        AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath, appFlowJsonListener);
+        AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
+        appFlowJsonListener.onParseSuccess();
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {

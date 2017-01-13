@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import philips.appframeworklibrary.flowmanager.enums.AppFlowEnum;
-import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
+import philips.appframeworklibrary.flowmanager.exceptions.JsonFileNotFoundException;
+import philips.appframeworklibrary.flowmanager.exceptions.JsonStructureException;
 import philips.appframeworklibrary.flowmanager.models.AppFlow;
 import philips.appframeworklibrary.flowmanager.models.AppFlowEvent;
 import philips.appframeworklibrary.flowmanager.models.AppFlowModel;
@@ -37,42 +37,23 @@ class AppFlowParser {
      * @return Object to 'AppFlowModel' class or 'null'
      */
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
-    @Deprecated
-    AppFlowModel getAppFlow(String jsonPath) {
-        AppFlowModel appFlow = null;
-
-        try {
-            final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
-            appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
-        } catch (JsonSyntaxException | FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return appFlow;
-    }
-
-    AppFlowModel getAppFlow(String jsonPath, AppFlowJsonListener appFlowJsonListener) {
-        AppFlowModel appFlow = null;
+    AppFlowModel getAppFlow(String jsonPath) throws JsonFileNotFoundException, JsonStructureException {
+        AppFlowModel appFlow;
         if (isEmpty(jsonPath)) {
-            callBackOnError(appFlowJsonListener, AppFlowEnum.FILE_NOT_FOUND);
+            throw new JsonFileNotFoundException();
         } else {
             try {
                 final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
                 appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
             } catch (JsonSyntaxException | FileNotFoundException e) {
                 if (e instanceof JsonSyntaxException) {
-                    callBackOnError(appFlowJsonListener, AppFlowEnum.JSON_PARSE_EXCEPTION);
+                    throw new JsonStructureException();
                 } else {
-                    callBackOnError(appFlowJsonListener, AppFlowEnum.FILE_NOT_FOUND);
+                    throw new JsonFileNotFoundException();
                 }
             }
         }
         return appFlow;
-    }
-
-    private void callBackOnError(AppFlowJsonListener appFlowJsonListener, AppFlowEnum appFlowEnum) {
-        if (appFlowJsonListener != null)
-            appFlowJsonListener.onError(appFlowEnum);
     }
 
     @NonNull
