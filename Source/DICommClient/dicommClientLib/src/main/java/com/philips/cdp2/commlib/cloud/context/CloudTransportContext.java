@@ -21,7 +21,7 @@ public class CloudTransportContext implements TransportContext {
 
     @Override
     public DiscoveryStrategy getDiscoveryStrategy() {
-        throw new UnsupportedOperationException("CloudTransportContext does not support discovery.");
+        return null;
     }
 
     @Override
