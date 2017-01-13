@@ -7,12 +7,12 @@
     <TextView
         style="@style/TestButtonTexts"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/separator_item_height"
         android:layout_gravity="center"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="@dimen/uid_page_marging_left_right"
+        android:layout_marginStart="@dimen/uid_page_marging_left_right"
         android:drawableLeft="@{data.getIcon()}"
-        android:drawablePadding="32dp"
+        android:drawablePadding="@dimen/separator_drawable_padding"
         android:gravity="start|center_vertical"
         android:text="@{data.text}"
         android:textColor="?attr/uidTextPrimary"/>
