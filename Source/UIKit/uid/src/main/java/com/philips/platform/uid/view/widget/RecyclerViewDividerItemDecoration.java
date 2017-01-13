@@ -39,7 +39,7 @@ import com.philips.platform.uid.utils.UIDUtils;
  * Theme        Ultralight          VeryLight           Light               Bright           Very dark
  * <p>
  * Color        10% textPrimary     15% textPrimary     20% textPrimary     15% textPrimary  15% textPrimary
- * (gray 75)           color 75            white               white            white
+ *              (gray 75)           color 75            white               white            white
  */
 public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecoration {
 

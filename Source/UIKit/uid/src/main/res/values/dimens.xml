@@ -136,6 +136,6 @@
     <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>
 
     <!-- Separator -->
-    <dimen name="dividerHeight">1dp</dimen>
+    <dimen name="uid_divider_Height">1dp</dimen>
 
 </resources>
