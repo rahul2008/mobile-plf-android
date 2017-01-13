@@ -274,7 +274,7 @@
                         android:layout_marginBottom="@dimen/button_label_margin_bottom"
                         android:text="@string/buttons_determinate"/>
 
-                    <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                    <com.philips.platform.uid.view.widget.ProgressBarButton
                         android:id="@+id/progressButtonsNormalDeterminate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -299,7 +299,7 @@
                         android:layout_marginTop="@dimen/layout_margin_top"
                         android:text="@string/buttons_indeterminate"/>
 
-                    <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                    <com.philips.platform.uid.view.widget.ProgressBarButton
                         android:id="@+id/progressButtonsNormalIndeterminate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -325,7 +325,7 @@
                     android:layout_marginBottom="@dimen/button_label_margin_bottom"
                     android:text="@string/buttons_determinate"/>
 
-                <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                <com.philips.platform.uid.view.widget.ProgressBarButton
                     android:id="@+id/buttonsProgressIndicatorExtraWideDeterminate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -343,7 +343,7 @@
                     android:layout_marginTop="@dimen/layout_margin_top"
                     android:text="@string/buttons_indeterminate"/>
 
-                <com.philips.platform.uid.view.widget.ProgressIndicatorButton
+                <com.philips.platform.uid.view.widget.ProgressBarButton
                     android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

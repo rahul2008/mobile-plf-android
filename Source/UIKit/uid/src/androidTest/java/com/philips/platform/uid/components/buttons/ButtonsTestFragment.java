@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.uid.view.widget.ProgressIndicatorButton;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 public class ButtonsTestFragment extends Fragment {
 
@@ -15,10 +15,10 @@ public class ButtonsTestFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(com.philips.platform.uid.test.R.layout.layout_progress_on_button, container, false);
-        final ProgressIndicatorButton progressIndicatorButton = (ProgressIndicatorButton) view.findViewById(com.philips.platform.uid.test.R.id.progressButtonsNormalDeterminate);
+        final ProgressBarButton progressIndicatorButton = (ProgressBarButton) view.findViewById(com.philips.platform.uid.test.R.id.progressButtonsNormalDeterminate);
         progressIndicatorButton.showProgressIndicator();
 
-        final ProgressIndicatorButton progressIndicatorIndeterminateButton = (ProgressIndicatorButton) view.findViewById(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate);
+        final ProgressBarButton progressIndicatorIndeterminateButton = (ProgressBarButton) view.findViewById(com.philips.platform.uid.test.R.id.progressButtonsNormalIndeterminate);
         progressIndicatorIndeterminateButton.showProgressIndicator();
         return view;
     }

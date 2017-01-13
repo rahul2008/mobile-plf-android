@@ -21,7 +21,7 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
-import com.philips.platform.uid.view.widget.ProgressIndicatorButton;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNot;
@@ -384,7 +384,7 @@ public class ButtonWithProgressIndicatorsTest {
 
         @Override
         public void perform(final UiController uiController, final View view) {
-            ((ProgressIndicatorButton) view).setProgressText(progressText);
+            ((ProgressBarButton) view).setProgressText(progressText);
         }
     }
 
@@ -401,8 +401,8 @@ public class ButtonWithProgressIndicatorsTest {
 
         @Override
         public void perform(final UiController uiController, final View view) {
-            if (view instanceof ProgressIndicatorButton) {
-                ProgressIndicatorButton progressBar = (ProgressIndicatorButton) view;
+            if (view instanceof ProgressBarButton) {
+                ProgressBarButton progressBar = (ProgressBarButton) view;
                 progressBar.setEnabled(false);
             }
         }
