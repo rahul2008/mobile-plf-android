@@ -4,33 +4,17 @@
  *
  */
 
-/*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- *
- */
-
-/*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- *
- */
-
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.philips.platform.uid.R;
-import com.philips.platform.uid.utils.UIDUtils;
+import com.philips.platform.uid.compat.SeparatorDrawable;
 
 /**
  * The type Recycler view divider item decoration.
@@ -43,12 +27,7 @@ import com.philips.platform.uid.utils.UIDUtils;
  */
 public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecoration {
 
-    private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparatorColor, R.attr.uidSeparatorAlpha};
-    public static final int HEIGHT_ATTR_INDEX = 0;
-    public static final int SEPARATOR_ATT_INDEX = 1;
-    public static final int SEPARATOR_ALPHA_ATTR_INDEX = 2;
-    private final Drawable divider;
-    private final int height;
+    final SeparatorDrawable divider;
 
     /**
      * Instantiates a new Recycler view divider item decoration.
@@ -59,47 +38,13 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
      * @param context the context
      */
     public RecyclerViewSeparatorItemDecoration(@NonNull Context context) {
-        final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
-        this.height = (int) styledAttributes.getDimension(HEIGHT_ATTR_INDEX, 1);
-        final int color = styledAttributes.getColor(SEPARATOR_ATT_INDEX, ContextCompat.getColor(context, R.color.uid_gray_level_75));
-        final Float alpha = styledAttributes.getFloat(SEPARATOR_ALPHA_ATTR_INDEX, 0);
-        final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color, alpha);
-
-        this.divider = new ColorDrawable(modulateColorAlpha);
-        styledAttributes.recycle();
-    }
-
-    /**
-     * Gets divider drawable which can be set for listview or recycler view.
-     * using
-     * SeparatorDrawable dividerDrawable = new SeparatorDrawable(getContext());
-     * <p>
-     * listView.setDivider(dividerDrawable.getDrawable());
-     *
-     * @return the divider
-     */
-    public Drawable getDivider() {
-        return divider;
-    }
-
-    /**
-     * Gets height of divider as per DLS specification.
-     * Usage :
-     * SeparatorDrawable dividerDrawable = new SeparatorDrawable(getContext());
-     * <p>
-     * listView.setDivider(dividerDrawable.getDrawable());
-     * listView.setDividerHeight(dividerDrawable.getHeight());
-     *
-     * @return the height
-     */
-    public int getHeight() {
-        return height;
+        this.divider = new SeparatorDrawable(context);
     }
 
     @Override
     public void onDraw(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         if (divider == null) {
-            super.onDrawOver(canvas, parent);
+            super.onDraw(canvas, parent);
             return;
         }
         drawHorizontalDivider(canvas, parent);
@@ -116,7 +61,7 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
             int top = child.getBottom() - params.bottomMargin - divider.getIntrinsicHeight();
-            int bottom = top + height;
+            int bottom = top + divider.getHeight();
             divider.setBounds(left, top, right, bottom);
             divider.draw(canvas);
         }
@@ -125,5 +70,10 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
     @Override
     public void getItemOffsets(@NonNull Rect outRect, int itemPosition, @NonNull RecyclerView parent) {
         outRect.set(0, 0, divider.getIntrinsicWidth(), 0);
+    }
+
+    @VisibleForTesting
+    public SeparatorDrawable getDivider() {
+        return divider;
     }
 }

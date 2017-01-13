@@ -43,8 +43,8 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
 
     private void setListItems() {
         String[] strings = getDemoItems().values().toArray(new String[1]);
-        SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
-        listView.setDivider(separatorDrawable.getDrawable());
+        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        listView.setDivider(separatorDrawable);
         listView.setDividerHeight(separatorDrawable.getHeight());
 
         listView.setAdapter(new ArrayAdapter<>(this.getContext(), R.layout.component_list_text, strings));

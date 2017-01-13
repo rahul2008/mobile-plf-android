@@ -4,12 +4,7 @@
  *
  */
 
-/*
- * (C) Koninklijke Philips N.V., 2016.
- * All rights reserved.
- *
- */
-package com.philips.platform.uid.components;
+package com.philips.platform.uid.components.separator;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,7 +39,7 @@ public class ComponentListFragment extends Fragment {
         listView = (ListView) view.findViewById(com.philips.platform.uid.test.R.id.componentList);
         recyclerView = (RecyclerView) view.findViewById(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems);
         View divider = view.findViewById(com.philips.platform.uid.test.R.id.uid_test_separator);
-        divider.setBackground(new SeparatorDrawable(getContext()).getDrawable());
+        divider.setBackground(new SeparatorDrawable(getContext()));
         setListItems();
         setRecyclerItems();
         return view;
@@ -68,7 +63,7 @@ public class ComponentListFragment extends Fragment {
     private void setListItems() {
         String[] strings = getDemoItems().values().toArray(new String[1]);
         SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
-        listView.setDivider(separatorDrawable.getDrawable());
+        listView.setDivider(separatorDrawable);
         listView.setDividerHeight(separatorDrawable.getHeight());
 
         listView.setAdapter(new ArrayAdapter<>(this.getContext(), com.philips.platform.uid.test.R.layout.list_text, strings));

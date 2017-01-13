@@ -94,6 +94,8 @@ public class ThemeSettingsFragment extends BaseFragment {
             colorRange = themeHelper.initColorRange();
             navigationColor = themeHelper.initNavigationRange();
             contentColor = themeHelper.initContentTonalRange();
+            setSeparatorBackground(view);
+
         }
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -109,15 +111,14 @@ public class ThemeSettingsFragment extends BaseFragment {
             }
         });
 
-        setSeparatorBackground(view);
         return view;
     }
 
     private void setSeparatorBackground(final View view) {
         View viewById = view.findViewById(R.id.divider1);
-        viewById.setBackground(new SeparatorDrawable(getContext()).getDrawable());
+        viewById.setBackground(new SeparatorDrawable(getContext()));
         viewById = view.findViewById(R.id.divider2);
-        viewById.setBackground(new SeparatorDrawable(getContext()).getDrawable());
+        viewById.setBackground(new SeparatorDrawable(getContext()));
     }
 
     private void initContentColor(final int colorRangeSelectedPosition) {

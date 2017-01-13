@@ -6,12 +6,12 @@
 
 package com.philips.platform.uid.matcher;
 
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListView;
 
+import com.philips.platform.uid.compat.SeparatorDrawable;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -39,8 +39,9 @@ public class SeparatorMatcher {
                         return DrawableMatcher.isSameHeight(height).matches(divider);
                     }
                 }
-                if (view.getBackground() instanceof ColorDrawable) {
-                    return DrawableMatcher.isSameHeight(height).matches(view.getBackground());
+                if (view.getBackground() instanceof SeparatorDrawable) {
+                    setValues(((SeparatorDrawable) view.getBackground()).getHeight(), height);
+                    return areEqual();
                 }
 
                 return false;
@@ -58,8 +59,8 @@ public class SeparatorMatcher {
                 if (view instanceof RecyclerView) {
                     if (hasSameRecyclerViewDividerColor((RecyclerView) view)) return areEqual();
                 }
-                if (view.getBackground() instanceof ColorDrawable) {
-                    if (isSameColorDrawableColor(view.getBackground())) return true;
+                if (view.getBackground() instanceof SeparatorDrawable) {
+                    return isSameColorDrawableColor(view.getBackground());
                 }
                 return false;
             }
@@ -67,25 +68,23 @@ public class SeparatorMatcher {
             private boolean hasSameListviewDividerColor(final ListView view) {
                 ListView listView = view;
                 final Drawable divider = listView.getDivider();
-                if (isSameColorDrawableColor(divider)) return true;
-                return false;
+                return isSameColorDrawableColor(divider);
             }
 
             private boolean hasSameRecyclerViewDividerColor(final RecyclerView view) {
                 final List<RecyclerView.ItemDecoration> itemsDecoration = UIDTestUtils.getItemsDecoration(view);
                 final RecyclerView.ItemDecoration itemDecoration = itemsDecoration.get(0);
                 if (itemDecoration instanceof RecyclerViewSeparatorItemDecoration) {
-                    final Drawable divider = ((RecyclerViewSeparatorItemDecoration) itemDecoration).getDivider();
-                    if (isSameColorDrawableColor(divider)) return true;
+                    return isSameColorDrawableColor(((RecyclerViewSeparatorItemDecoration) itemDecoration).getDivider());
                 }
                 return false;
             }
 
             private boolean isSameColorDrawableColor(final Drawable divider) {
-                if (divider instanceof ColorDrawable) {
-                    ColorDrawable colorDrawable = (ColorDrawable) divider;
+                if (divider instanceof SeparatorDrawable) {
+                    SeparatorDrawable colorDrawable = (SeparatorDrawable) divider;
                     setValues(colorDrawable.getColor(), color);
-                    return true;
+                    return areEqual();
                 }
                 return false;
             }
@@ -96,7 +95,6 @@ public class SeparatorMatcher {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-
                 return DrawableMatcher.isSameHeight((int) height).matches(view.getBackground());
             }
         };

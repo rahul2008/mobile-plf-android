@@ -4,7 +4,7 @@
  *
  */
 
-package com.philips.platform.uid.components;
+package com.philips.platform.uid.components.separator;
 
 import android.content.Intent;
 import android.os.Bundle;
