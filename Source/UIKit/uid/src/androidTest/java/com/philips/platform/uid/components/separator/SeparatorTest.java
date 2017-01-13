@@ -66,12 +66,11 @@ public class SeparatorTest {
                 .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
     }
 
-    //TODO below test is ignored because it is failing beacuse of 1 value diffrence e.g expected is 4
-    // but after java converts float to int its coming out 3
+    //TODO below test is ignored because it is failing beacuse of 1 value diffrence e.g expected is 4 but after java converts float to int its coming out 3
     @Ignore
     @Test
     public void verifySeparatorHeight() throws Exception {
-        final float height = activity.getResources().getDimension(R.dimen.uid_divider_Height);
+        final float height = activity.getResources().getDimensionPixelSize(R.dimen.uid_divider_Height);
         UIDTestUtils.waitFor(height, 750);
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator)).check(matches(SeparatorMatcher.hasHeight((int) height)));

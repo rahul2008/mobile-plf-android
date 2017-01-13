@@ -8,7 +8,6 @@ package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
@@ -60,16 +59,11 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
 
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
-            int top = child.getBottom() - params.bottomMargin - divider.getIntrinsicHeight();
-            int bottom = top + divider.getHeight();
+            int top = child.getBottom() - params.bottomMargin;
+            int bottom = top;
             divider.setBounds(left, top, right, bottom);
             divider.draw(canvas);
         }
-    }
-
-    @Override
-    public void getItemOffsets(@NonNull Rect outRect, int itemPosition, @NonNull RecyclerView parent) {
-        outRect.set(0, 0, divider.getIntrinsicWidth(), 0);
     }
 
     @VisibleForTesting

@@ -12,7 +12,6 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -47,13 +46,7 @@ public class SeparatorDrawable extends Drawable {
 
     @Override
     public void setBounds(final int left, final int top, final int right, final int bottom) {
-        super.setBounds(left, top, right, top + height);
-    }
-
-    @Override
-    public void setBounds(final Rect bounds) {
-        bounds.bottom = bounds.top + height;
-        super.setBounds(bounds);
+        super.setBounds(left, top, right, bottom + height);
     }
 
     public int getHeight() {
