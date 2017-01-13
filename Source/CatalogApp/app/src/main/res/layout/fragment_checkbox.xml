@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:gravity="center_vertical|end"
-                    android:onCheckedChanged="@{(v, isChecked) -> frag.setEnabled(isChecked)}"/>
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.setEnabled(!isChecked)}"/>
             </LinearLayout>
 
             <include layout="@layout/divider_layout"/>
@@ -50,35 +50,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
-                android:layout_marginEnd="@dimen/checkbox_list_margin_left_right"
-                android:layout_marginStart="@dimen/checkbox_list_margin_left_right"
                 android:layout_marginTop="@dimen/checkbox_list_margin_top_bottom"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/checkbox_1"
                     style="@style/UIDCheckBox"
-                    android:checked="true"
-                    android:text="@string/checkbox_app_design"
-                    />
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_1"/>
 
                 <include layout="@layout/divider_layout"/>
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/checkbox_2"
                     style="@style/UIDCheckBox"
-                    android:checked="true"
-                    android:text="@string/checkbox_client_meeting"
-                    />
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_2"/>
 
                 <include layout="@layout/divider_layout"/>
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/checkbox_3"
                     style="@style/UIDCheckBox"
-                    android:checked="true"
-                    android:text="@string/checkbox_update_presentation"
-                    />
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_3"/>
 
                 <include layout="@layout/divider_layout"/>
             </LinearLayout>

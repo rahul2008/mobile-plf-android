@@ -118,4 +118,18 @@
         <attr name="uidProgressIndicatorButtonProgressBackgroundColorAlpha" format="reference|float"/>
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDCheckBox">
+        <attr name="uidCheckBoxTextEnabledColor" format="reference|color"/>
+        <attr name="uidCheckBoxTextDisaledColor" format="reference|color"/>
+        <attr name="uidCheckBoxTextDisabledAlpha" format="float"/>
+        <attr name="uidCheckBoxBackgroundCheckedEnabledColor" format="reference|color"/>
+        <attr name="uidCheckBoxBackgroundUncheckedEnabledColor" format="reference|color"/>
+        <attr name="uidCheckBoxBackgroundUncheckedEnabledAlpha" format="float"/>
+        <attr name="uidCheckBoxBackgroundDisabledColor" format="reference|color"/>
+        <attr name="uidCheckBoxBackgroundDisabledAlpha" format="float"/>
+        <attr name="uidCheckBoxTickEnabledColor" format="reference|color"/>
+        <attr name="uidCheckBoxTickDisabledColor" format="reference|color"/>
+        <attr name="uidCheckBoxTickDisabledAlpha" format="float"/>
+    </declare-styleable>
 </resources>

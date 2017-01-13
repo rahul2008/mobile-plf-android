@@ -1,6 +1,7 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.philips.platform.catalogapp.databinding.FragmentCheckboxBinding;
 
 public class CheckBoxFragment extends BaseFragment {
 
+    public ObservableBoolean isCheckBoxEnabled = new ObservableBoolean(Boolean.TRUE);
     private FragmentCheckboxBinding fragmentCheckboxBinding;
 
     @Override
@@ -27,6 +29,6 @@ public class CheckBoxFragment extends BaseFragment {
     }
 
     public void setEnabled(boolean enabled) {
-        //set all checkboxes disabled
+        isCheckBoxEnabled.set(enabled);
     }
 }
