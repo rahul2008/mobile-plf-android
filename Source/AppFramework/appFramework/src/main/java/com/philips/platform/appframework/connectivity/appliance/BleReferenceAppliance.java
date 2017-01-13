@@ -29,9 +29,6 @@ public class BleReferenceAppliance extends Appliance {
         return MODELNAME;
     }
 
-    public TimePort getTimePort() {
-        return timePort;
-    }
 
     public DeviceMeasurementPort getDeviceMeasurementPort(){
         return deviceMeasurementPort;
