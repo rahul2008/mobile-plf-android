@@ -89,8 +89,7 @@
   @android.webkit.JavascriptInterface <methods>;
 }
 
-#Webview file chooser
--keepclassmembers class * extends android.webkit.WebChromeClient{
+-keepclassmembers class * extends android.webkit.WebChromeClient {
        public void openFileChooser(...);
 }
 
