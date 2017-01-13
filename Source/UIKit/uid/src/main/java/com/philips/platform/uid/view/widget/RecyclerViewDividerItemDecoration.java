@@ -39,13 +39,16 @@ import com.philips.platform.uid.utils.UIDUtils;
  * Theme        Ultralight          VeryLight           Light               Bright           Very dark
  * <p>
  * Color        10% textPrimary     15% textPrimary     20% textPrimary     15% textPrimary  15% textPrimary
- *              (gray 75)           color 75            white               white            white
+ * (gray 75)           color 75            white               white            white
  */
 public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparatorColor, R.attr.uidSeparatorAlpha};
-    private Drawable divider;
-    private int height = 1;
+    public static final int HEIGHT_ATTR_INDEX = 0;
+    public static final int SEPARATOR_ATT_INDEX = 1;
+    public static final int SEPARATOR_ALPHA_ATTR_INDEX = 2;
+    private final Drawable divider;
+    private final int height;
 
     /**
      * Instantiates a new Recycler view divider item decoration.
@@ -57,9 +60,9 @@ public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecorati
      */
     public RecyclerViewDividerItemDecoration(@NonNull Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
-        this.height = (int) styledAttributes.getDimension(0, 1);
-        final int color = styledAttributes.getColor(1, ContextCompat.getColor(context, R.color.uid_gray_level_75));
-        final Float alpha = styledAttributes.getFloat(2, 0);
+        this.height = (int) styledAttributes.getDimension(HEIGHT_ATTR_INDEX, 1);
+        final int color = styledAttributes.getColor(SEPARATOR_ATT_INDEX, ContextCompat.getColor(context, R.color.uid_gray_level_75));
+        final Float alpha = styledAttributes.getFloat(SEPARATOR_ALPHA_ATTR_INDEX, 0);
         final int modulateColorAlpha = UIDUtils.modulateColorAlpha(color, alpha);
 
         this.divider = new ColorDrawable(modulateColorAlpha);
