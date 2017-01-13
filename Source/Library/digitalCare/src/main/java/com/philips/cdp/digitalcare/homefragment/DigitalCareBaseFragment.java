@@ -454,7 +454,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         if (fragmentManager == null && mActivityContext != null) {
             fragmentManager = mActivityContext.getSupportFragmentManager();
         } else if (fragmentManager == null) {
-            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+            fragmentManager = this.getActivity().getSupportFragmentManager();
         }
         // if (fragmentManager.getBackStackEntryCount() == 2) {
         // fragmentManager.popBackStack();
