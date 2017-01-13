@@ -106,4 +106,8 @@
 
     <!--Label dimens -->
     <dimen name="label_fontsize">16sp</dimen>
+
+    <!--Checkbox dimens -->
+    <dimen name="checkbox_height">16sp</dimen>
+
 </resources>
