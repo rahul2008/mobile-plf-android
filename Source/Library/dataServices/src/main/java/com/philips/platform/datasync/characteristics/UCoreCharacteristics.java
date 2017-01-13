@@ -22,12 +22,6 @@ public class UCoreCharacteristics {
     public void setCharacteristics(List<UCoreCharacteristics> characteristics) {
         this.characteristics = characteristics;
     }
-//
-//    public UCoreCharacteristics(String type, String value, List<UCoreCharacteristics> characteristics) {
-//        this.type = type;
-//        this.value = value;
-//        this.characteristics = characteristics;
-//    }
 
     public String getType() {
         return type;

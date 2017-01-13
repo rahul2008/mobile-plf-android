@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.stetho.common.ArrayListAccumulator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -185,49 +186,45 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         //Display User characteristics from DB
     }
 
-    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristic) {
-        UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
-        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
-        List<CharacteristicsDetail> mCharacteristicsDetailList;
-        if (characteristic != null) {
-            for (int i = 0; i < characteristic.size(); i++) {//1 times
-                mCharacteristicsDetailList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
-                UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
-                String type = mCharacteristicsDetailList.get(i).getType();
-                String value = mCharacteristicsDetailList.get(i).getValue();
-
-                uCoreCharacteristics.setType(type);
-                uCoreCharacteristics.setValue(value);
-                uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristicsDetail(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
-                uCoreCharacteristicsList.add(uCoreCharacteristics);
-            }
-        }
-        uCoreUserCharacteristics.setCharacteristics(uCoreCharacteristicsList);
-        return uCoreUserCharacteristics;
-    }
-
-    private List<UCoreCharacteristics> convertToUCoreCharacteristicsDetail(List<CharacteristicsDetail> characteristicsDetails) {
-        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
-        if (characteristicsDetails.size() > 0) {
-            for (int i = 0; i < characteristicsDetails.size(); i++) {// 1 times
-                UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
-                characteristicsDetail.setType(characteristicsDetails.get(i).getType());
-                characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
-                List<CharacteristicsDetail> characteristicsDetailList = convertToCharacteristicDetail(characteristicsDetails.get(i).getCharacteristicsDetail());
-                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristicsDetail(characteristicsDetailList));
-                uCoreCharacteristicsList.add(characteristicsDetail);
-            }
-        }
-        return uCoreCharacteristicsList;
-    }
-
-    private List<CharacteristicsDetail> convertToCharacteristicDetail(Collection<? extends CharacteristicsDetail> characteristicsDetails) {
-        List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>();
-        for (CharacteristicsDetail detail : characteristicsDetails) {
-            characteristicsDetailList.add(detail);
-        }
-        return characteristicsDetailList;
-    }
+//
+//    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristic) {
+//        UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
+//        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
+//        for (int i = characteristic.size(); i < 0; i--) {
+//            List<CharacteristicsDetail> characteristicsDetails = convertToUCoreCharacteristics(characteristic.get(i).getCharacteristicsDetails());
+//            UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+//            uCoreCharacteristics.setType(characteristicsDetails.get(i).getType());
+//            uCoreCharacteristics.setValue(characteristicsDetails.get(i).getValue());
+//            uCoreCharacteristics.setCharacteristics(convertToUCoreUserCharacteristicsList(convertToUCoreCharacteristics(characteristicsDetails.get(i).getCharacteristicsDetail())));
+//            uCoreCharacteristicsList.add(uCoreCharacteristics);
+//        }
+//        uCoreUserCharacteristics.setCharacteristics(uCoreCharacteristicsList);
+//        return uCoreUserCharacteristics;
+//    }
+//
+//    private List<CharacteristicsDetail> convertToUCoreCharacteristics(Collection<? extends CharacteristicsDetail> characteristicsDetails) {
+//        List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>();
+//        for (CharacteristicsDetail detail : characteristicsDetails) {
+//            characteristicsDetailList.add(detail);
+//        }
+//        return characteristicsDetailList;
+//    }
+//
+//
+//    private List<UCoreCharacteristics> convertToUCoreUserCharacteristicsList(List<CharacteristicsDetail> characteristicsDetailList) {
+//        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
+//        if (characteristicsDetailList.size() > 0) {
+//            for (CharacteristicsDetail detail : characteristicsDetailList) {
+//                    List<CharacteristicsDetail> characteristicsDetailList1 = convertToUCoreCharacteristics(detail.getCharacteristicsDetail());
+//                    UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
+//                    characteristicsDetail.setType(detail.getType());
+//                    characteristicsDetail.setValue(detail.getValue());
+//                    characteristicsDetail.setCharacteristics(convertToUCoreUserCharacteristicsList(characteristicsDetailList1));
+//                    uCoreCharacteristicsList.add(characteristicsDetail);
+//                }
+//        }
+//        return uCoreCharacteristicsList;
+//    }
 
     @Override
     public void onSuccess(final Object data) {
@@ -240,23 +237,57 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 @Override
                 public void run() {
                     try {
-                        String parsedToJSON;
+
                         final List<Characteristics> characteristicsList = new ArrayList<>();
                         characteristicsList.add((Characteristics) data);
 
-                        UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(characteristicsList);
-                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                        parsedToJSON = gson.toJson(uCoreCharacteristics.getCharacteristics());
+                        JSONObject jsonObj = new JSONObject();
+                        JSONArray jsonArray1 = new JSONArray();
 
-                        DSLog.i(DSLog.LOG, "Inder Characteristics onSuccess= " + parsedToJSON);
-                        mEtCharacteristics.setText(parsedToJSON);
+                        for (int i = 0; i < characteristicsList.size(); i++) {
+                            Collection<? extends CharacteristicsDetail> characteristicsDetails = characteristicsList.get(i).getCharacteristicsDetails();
+                            List<CharacteristicsDetail> details = new ArrayList<>(characteristicsDetails);
+                            for (CharacteristicsDetail characteristicsDetail : details) {
+                                JSONObject jsonObj1 = new JSONObject();
 
-                    } catch (Exception e) {
+
+                                if (characteristicsDetail.getCharacteristicsDetail() == null) {
+                                    jsonObj1.put("type", characteristicsDetail.getType());
+                                    jsonObj1.put("value", characteristicsDetail.getValue());
+
+
+                                } else {
+                                    JSONObject jsonObj2 = new JSONObject();
+                                    JSONArray jsonArray2 = new JSONArray();
+                                    jsonObj2.put("type", characteristicsDetail.getType());
+                                    jsonObj2.put("value", characteristicsDetail.getValue());
+                                    jsonArray2.put(jsonObj2);
+                                    jsonObj1.put("characteristics", jsonArray2);
+
+                                }
+                                jsonArray1.put(jsonObj1);
+
+                            }
+                            jsonObj.put("characteristics", jsonArray1);
+                        }
+
+//                        UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(characteristicsList);
+//
+//
+//
+//                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                        parsedToJSON = gson.toJson(uCoreCharacteristics);
+                        String parsedToJSON = null;
+                        DSLog.i(DSLog.LOG, "Inder Characteristics onSuccess= " + jsonObj.toString());
+                        mEtCharacteristics.setText(jsonObj.toString());
+
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
 
                 }
+
 
             });
         }
