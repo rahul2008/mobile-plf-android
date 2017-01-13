@@ -208,6 +208,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                                 hideProgressDialog();
                                 mRegError.setError(mContext.
                                         getString(R.string.reg_JanRain_Server_Connection_Failed));
+                                scrollViewAutomatically(mRegError,mSvRootLayout);
+
                             }
                         });
                     }
@@ -875,6 +877,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         enableControls(true);
         if (null != userRegistrationFailureInfo) {
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
+        }
+        if(userRegistrationFailureInfo.getErrorCode() == RegConstants.UR_ERRORCODE){
+            mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            scrollViewAutomatically(mRegError,mSvRootLayout);
         }
     }
 

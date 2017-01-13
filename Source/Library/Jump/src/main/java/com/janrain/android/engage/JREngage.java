@@ -136,6 +136,7 @@ import static com.janrain.android.utils.LogUtils.throwDebugException;
  * @nosubgrouping
  */
 public class JREngage {
+    public static final int UR_ERRORCODE = 67675438;
     /**
      * If not set library logging is automatically controlled via the "debuggable" flag for the application
      * which is normally automatically set by the build system
@@ -818,6 +819,11 @@ public class JREngage {
         //completion.onFailure(message, errorCode, exception, shouldTryWebViewAuthentication);
         LogUtils.loge("triggerOnFailure message: " + message);
         LogUtils.loge("triggerOnFailure errorCode: " + errorCode.toString());
+
+        //Added by philips
+        mSession.triggerAuthenticationDidFail(new JREngageError(message, UR_ERRORCODE,exception.getMessage()));
+
+
 
         if(exception != null) LogUtils.loge("triggerOnFailure exception: " + exception.getMessage());
 

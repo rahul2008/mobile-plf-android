@@ -162,4 +162,6 @@ public class RegConstants {
 
     public static final String WECHAT_CODE = "WECHAT_CODE";
 
+    public static final int UR_ERRORCODE = 67675438;
+
 }
