@@ -11,10 +11,12 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -79,7 +81,7 @@ public class LinearProgressIndicators {
 
     @Test
     public void verifyProgressBarBackgroundColor() {
-        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
+        final int expectedProgressBarBackgroundColor = getExpectedProgressBarBackgroundColor();
         getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, progressBackgroundID(), true)));
     }
 
@@ -87,7 +89,6 @@ public class LinearProgressIndicators {
     public void verifySecondaryProgressBarProgressColor() {
         final int expectedSecProgressBarProgressColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
         getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarProgressColor, progressID(), true)));
-
     }
 
     @Test
@@ -99,9 +100,15 @@ public class LinearProgressIndicators {
 
     @Test
     public void verifySecondaryProgressBarSecondaryBackgroundColor() {
-        final int expectedSecProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
-        getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarBackgroundColor, progressBackgroundID(), true)));
 
+        final int expectedProgressBarBackgroundColor = getExpectedProgressBarBackgroundColor();
+        getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, progressBackgroundID(), true)));
+    }
+
+    private int getExpectedProgressBarBackgroundColor() {
+        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryTrackOff);
+        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidControlPrimaryTrackOffAlpha);
+        return modulateColorAlpha(attributeColor, alpha);
     }
 
     private ViewInteraction getProgressBar() {

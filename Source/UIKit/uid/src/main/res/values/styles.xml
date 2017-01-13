@@ -4,7 +4,7 @@
     <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
         <item name="buttonStyle">@style/UIDDefaultButton</item>
         <item name="imageButtonStyle">@style/UIDImageButton</item>
-        <item name="editTextStyle">@style/UIDTextEditBox</item>
+        <item name="editTextStyle">@style/UIDEditTextBox</item>
         <item name="android:windowBackground">?attr/uidContentPrimary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -40,5 +40,7 @@
         <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
+
+        <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
     </style>
 </resources>

@@ -127,6 +127,73 @@
                 android:drawablePadding="@dimen/uid_imagebutton_padding"
                 android:text="@string/buttons_with_icons"
                 android:layout_marginTop="@dimen/component_bottom_spacing"/>
+
+        </LinearLayout>
+
+        <!--Progress on buttons-->
+        <LinearLayout
+            android:id="@+id/groupProgressButtonsNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+
+                <com.philips.platform.uid.view.widget.ProgressBarButton
+                    android:id="@+id/progressButtonsNormalDeterminate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:uidProgressIndicatorButtonProgress="50"
+                    app:uidProgressIndicatorButtonText="@string/progress_button"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/groupProgressButtonsNormalIndeterminate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+
+                <com.philips.platform.uid.view.widget.ProgressBarButton
+                    android:id="@+id/progressButtonsNormalIndeterminate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:uidIsIndeterminateProgressIndicator="true"
+                    app:uidProgressIndicatorButtonText="@string/progress_button"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/groupProgressButtonsExtraWide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.ProgressBarButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:uidProgressIndicatorButtonProgress="50"
+                app:uidProgressIndicatorButtonProgressText="@string/progress_button_loading"
+                app:uidProgressIndicatorButtonText="@string/progress_button"/>
+
+            <com.philips.platform.uid.view.widget.ProgressBarButton
+                android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:uidIsIndeterminateProgressIndicator="true"
+                app:uidProgressIndicatorButtonProgressText="@string/progress_button_loading"
+                app:uidProgressIndicatorButtonText="@string/progress_button"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

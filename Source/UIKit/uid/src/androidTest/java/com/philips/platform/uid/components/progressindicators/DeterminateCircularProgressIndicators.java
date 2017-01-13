@@ -11,9 +11,11 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.utils.TestConstants;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -126,8 +128,14 @@ public class DeterminateCircularProgressIndicators {
 
     @Test
     public void verifyProgressBarSmallBackgroundColor() {
-        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
+        final int expectedProgressBarBackgroundColor = getExpectedProgressBarBackgroundColor();
         getSmallCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, circularprogressBackgroundID(), true)));
+    }
+
+    private int getExpectedProgressBarBackgroundColor() {
+        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryTrackOff);
+        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidControlPrimaryTrackOffAlpha);
+        return modulateColorAlpha(attributeColor, alpha);
     }
 
     @Test
@@ -138,7 +146,7 @@ public class DeterminateCircularProgressIndicators {
 
     @Test
     public void verifyProgressBarMediumBackgroundColor() {
-        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
+        final int expectedProgressBarBackgroundColor = getExpectedProgressBarBackgroundColor();
         getMiddleCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, circularprogressBackgroundID(), true)));
     }
 
@@ -150,7 +158,7 @@ public class DeterminateCircularProgressIndicators {
 
     @Test
     public void verifyProgressBarLargeBackgroundColor() {
-        final int expectedProgressBarBackgroundColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.15f);
+        final int expectedProgressBarBackgroundColor = getExpectedProgressBarBackgroundColor();
         getLargeCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarBackgroundColor, circularprogressBackgroundID(), true)));
     }
 

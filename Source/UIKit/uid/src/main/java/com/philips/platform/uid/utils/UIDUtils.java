@@ -4,14 +4,20 @@
  */
 package com.philips.platform.uid.utils;
 
+import android.content.Context;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.ColorUtils;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+
+import com.philips.platform.uid.thememanager.ThemeUtils;
 
 import java.lang.reflect.Method;
 
@@ -47,5 +53,12 @@ public class UIDUtils {
 
     public static int modulateColorAlpha(int color, float alphaMod) {
         return ColorUtils.setAlphaComponent(color, Math.round(Color.alpha(color) * alphaMod));
+    }
+
+    public static Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme, Context context) {
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, tintId);
+        Drawable compatDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(compatDrawable, colorStateList);
+        return compatDrawable;
     }
 }

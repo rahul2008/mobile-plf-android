@@ -3,11 +3,10 @@
 buildscript {
 
     repositories {
-        maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven { url "https://plugins.gradle.org/m2/" }
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
@@ -21,24 +20,18 @@ allprojects {
         toolVersion = '0.7.5.201505241946'
     }
 
-    tasks.withType(Test) {
-        maxHeapSize = '4g'
-        scanForTestClasses = false
-        include "**/*Test.class"
 
-        test {
-            // set JVM arguments for the test JVM(s)
-            jvmArgs '-noverify'
-        }
-    }
     repositories {
-        maven { url 'http://130.145.245.193:8081/artifactory/jcenter' }
-        maven { url 'http://130.145.245.193:8081/artifactory/jitpack.io' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jitpack.io'
+        }
 
         maven {
             url "https://plugins.gradle.org/m2/"
         }
         jcenter()
+        mavenCentral()
 
     }
 
