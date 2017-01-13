@@ -93,7 +93,7 @@ public abstract class SHNServiceByteStreaming extends SHNService implements SHNS
     // implements SHNService.SHNServiceListener
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        SHNLogger.e(TAG, "onServiceStateChanged state: " + state);
+        SHNLogger.i(TAG, "onServiceStateChanged state: " + state);
         switch (state) {
             case Unavailable:
                 if (shnServiceMoonshineStreamingListener != null) {
@@ -105,7 +105,7 @@ public abstract class SHNServiceByteStreaming extends SHNService implements SHNS
                     shnServiceMoonshineStreamingListener.onServiceAvailable();
                 }
                 SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(getRxAckCharacteristicUuid());
-                if(shnCharacteristic!=null) {
+                if (shnCharacteristic != null) {
                     shnCharacteristic.setNotification(true, null);
                     shnCharacteristic.setShnCharacteristicChangedListener(rxAckChangedListener);
                     shnCharacteristic = shnService.getSHNCharacteristic(getTxCharacteristicUuid());
