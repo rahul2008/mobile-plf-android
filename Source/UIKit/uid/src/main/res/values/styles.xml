@@ -44,7 +44,6 @@
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
 
         <item name="android:listDivider">?attr/uidSeparatorColor</item>
-        <item name="android:divider">?attr/uidSeparatorColor</item>
         <item name="android:dividerHeight">@dimen/uid_divider_Height</item>
     </style>
 </resources>
