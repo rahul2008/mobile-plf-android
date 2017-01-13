@@ -878,7 +878,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (null != userRegistrationFailureInfo) {
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }
-        if(userRegistrationFailureInfo.getErrorCode() == RegConstants.UR_ERRORCODE){
+
+        //Temp fix need to be changed
+        if(userRegistrationFailureInfo.getErrorCode() == -1){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             scrollViewAutomatically(mRegError,mSvRootLayout);
         }

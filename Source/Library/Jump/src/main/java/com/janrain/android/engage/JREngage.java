@@ -821,7 +821,7 @@ public class JREngage {
         LogUtils.loge("triggerOnFailure errorCode: " + errorCode.toString());
 
         //Added by philips
-        mSession.triggerAuthenticationDidFail(new JREngageError(message, UR_ERRORCODE,exception.getMessage()));
+        mSession.triggerAuthenticationDidFail(new JREngageError(message, UR_ERRORCODE,message));
 
 
 
