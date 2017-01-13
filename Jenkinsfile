@@ -21,8 +21,10 @@ node ('android_pipeline &&' + node_ext) {
 			step([$class: 'StashNotifier'])
 		}
 		try {
+		    if (BranchName =~ /master|develop|release.*/) {
 			stage ('build') {
                 sh 'chmod -R 775 . && cd ./Source/Library/PrxSample && ./gradlew clean assembleDebug && ../../../check_and_delete_artifact.sh "prx" && ./gradlew assembleRelease zipDocuments artifactoryPublish'
+				}
 			}
             currentBuild.result = 'SUCCESS'
         }
