@@ -174,7 +174,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 
     protected void handleWeChatCode(final String code) {
-        RLog.i("WECHAT", String.format("WeChat Code: %s", code));
+        RLog.i("WECHAT", String.format("WeChat Code: ", code));
         WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
         weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, code,
                 new WeChatAuthenticationListener() {
@@ -206,6 +206,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                             public void run() {
                                 makeProgressInvisible();
                                 hideProgressDialog();
+                                mRegError.setError(mContext.
+                                        getString(R.string.reg_JanRain_Server_Connection_Failed));
                             }
                         });
                     }
@@ -320,6 +322,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onClick(View v) {
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
+                if(mRegError.isShown())mRegError.hideError();
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
                     providerBtn.showProgressBar();
                     callSocialProvider(providerName);
@@ -406,11 +409,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          * Library does not include resource constants after ADT 14 Link
          * :http://tools.android.com/tips/non-constant-fields
          */
+        if(mRegError.isShown())mRegError.hideError();
         if (v.getId() == R.id.btn_reg_create_account) {
             RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
             trackMultipleActionsRegistration();
             launchCreateAccountFragment();
-
         } else if (v.getId() == R.id.btn_reg_my_philips) {
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
@@ -446,18 +449,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                             OnGetServiceLocaleListener() {
                         @Override
                         public void onSuccess(String s) {
-                            System.out.println("STRING S : " + s);
+                            RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + s);
                             String localeArr[] = s.toString().split("_");
                             PILLocaleManager localeManager = new PILLocaleManager(mContext);
                             localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
                             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-                            System.out.println("Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
+                            RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
                             handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
                         }
 
                         @Override
                         public void onError(ERRORVALUES errorvalues, String s) {
-                            System.out.println("errorvalues : " + errorvalues);
+                            RLog.d(RLog.SERVICE_DISCOVERY,"errorvalues : " + errorvalues);
                         }
                     });
         }
@@ -538,7 +541,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private boolean isWeChatAuthenticate() {
         if (!mWeChatApi.isWXAppInstalled()) {
-            Toast.makeText(mContext, mContext.getText(R.string.reg_AppNotInstalled_Alert_Title)
+            final String formatedString = String.format(mContext.getText(R.string.reg_App_NotInstalled_AlertMessage).toString(),
+                    mContext.getText(R.string.reg_wechat));
+            Toast.makeText(mContext, formatedString
                     , Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -707,6 +712,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         @Override
         public void onClick(View widget) {
+            if(mRegError.isShown())mRegError.hideError();
             handlePrivacyPolicy();
         }
 
@@ -716,6 +722,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         @Override
         public void onClick(View widget) {
+            if(mRegError.isShown())mRegError.hideError();
             handleTermsCondition();
         }
 
@@ -1014,13 +1021,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH);
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
-                    Toast.makeText(context, "User canceled the request", Toast.LENGTH_LONG).show();
                     RLog.d("WECHAT", "WeChat - User canceled the request");
                     makeProgressInvisible();
                     hideProviderProgress();
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                    Toast.makeText(context, "User denied the request", Toast.LENGTH_LONG).show();
                     RLog.d("WECHAT", "WeChat - User denied the request");
                     makeProgressInvisible();
                     hideProviderProgress();
