@@ -8,6 +8,8 @@ node('Android && 25.0.0 && Ubuntu') {
   timestamps {
     def ARCHIVE_CONFIG = getArchiveConfig()
     def VERSION = ""
+    def ANDROID_RELEASE_CANDIDATE = ""
+    def ANDROID_VERSION_CODE = ""
 
     stage('Checkout') {
       checkout scm
@@ -17,6 +19,10 @@ node('Android && 25.0.0 && Ubuntu') {
     try {
       sh 'chmod +x git_version.sh'
       VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
+      ANDROID_RELEASE_CANDIDATE = "1"
+      ANDROID_RELEASE_CANDIDATE = ("00" + ANDROID_RELEASE_CANDIDATE).substring(ANDROID_RELEASE_CANDIDATE.length())
+      ANDROID_VERSION_CODE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d- -f1 | sed 's/[^0-9]*//g'").trim()
+      ANDROID_VERSION_CODE = (ANDROID_VERSION_CODE + ANDROID_RELEASE_CANDIDATE).toInteger()
 
       stage('Build Catalog app') {
         sh """#!/bin/bash -l
@@ -26,8 +32,11 @@ node('Android && 25.0.0 && Ubuntu') {
           env | sort
           echo "----------------------- End of Environment ---------------------------"
 
+          echo "Android Release Candidate: ${ANDROID_RELEASE_CANDIDATE}"
+          echo "Android Version Code: ${ANDROID_VERSION_CODE}"
+
           chmod +x set_version.sh
-          ./set_version.sh ${VERSION}
+          ./set_version.sh ${VERSION} ${ANDROID_VERSION_CODE}
 
           cd Source/CatalogApp
           ./gradlew clean assembleDebug

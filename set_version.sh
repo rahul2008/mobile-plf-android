@@ -1,19 +1,17 @@
 #!/bin/bash
 
 VERSION_NUMBER="$1"
-
-echo "Script executed from: ${PWD}"
+VERSION_CODE="$2"
 
 VERSIONS_FILE='./Source/AppFramework/scripts/versions.gradle'
-OLD_VERSION_NAME='versionName *: * "[^"]*"'
+TMP_VERSIONS_FILE=temp.versions.gradle
+
 NEW_VERSION_NAME='versionName    : "'$VERSION_NUMBER'"'
-if [ -f "$VERSIONS_FILE" ]
-then
-	echo "File $VERSIONS_FILE found."
-else
-	echo "File $VERSIONS_FILE not found."
-fi
+NEW_VERSION_CODE='versionCode    : '$VERSION_CODE''
 
-printf "$NEW_VERSION_NAME\n"
+sed "s/versionName.*/""$NEW_VERSION_NAME"",/" $VERSIONS_FILE > $TMP_VERSIONS_FILE
+sed "s/versionCode.*/""$NEW_VERSION_CODE"",/" $TMP_VERSIONS_FILE > $VERSIONS_FILE
 
-echo sed -i "s/""$OLD_VERSION_NAME""/""$NEW_VERSION_NAME""/" $VERSIONS_FILE
+cat $VERSIONS_FILE | grep version | grep -v ext
+
+rm $TMP_VERSIONS_FILE
