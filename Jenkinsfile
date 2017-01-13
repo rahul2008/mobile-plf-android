@@ -19,7 +19,7 @@ node('Android && 25.0.0 && Ubuntu') {
     try {
       sh 'chmod +x git_version.sh'
       VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
-      ANDROID_RELEASE_CANDIDATE = "1"
+      ANDROID_RELEASE_CANDIDATE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d. -f4").trim()
       ANDROID_RELEASE_CANDIDATE = ("00" + ANDROID_RELEASE_CANDIDATE).substring(ANDROID_RELEASE_CANDIDATE.length())
       ANDROID_VERSION_CODE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d- -f1 | sed 's/[^0-9]*//g'").trim()
       ANDROID_VERSION_CODE = (ANDROID_VERSION_CODE + ANDROID_RELEASE_CANDIDATE).toInteger()
