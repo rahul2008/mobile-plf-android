@@ -23,6 +23,7 @@ import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import java.sql.SQLException;
@@ -46,6 +47,9 @@ public class FetchingMonitor extends EventMonitor {
     @Inject
     MomentsSegregator momentsSegregator;
 
+    @Inject
+    ConsentsSegregator consentsSegregator;
+
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
         DataServicesManager.getInstance().mAppComponent.injectFetchingMonitor(this);
@@ -58,7 +62,7 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e,event.getDbRequestListener());
         }
     }
-
+    
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType(),event.getDbRequestListener());
@@ -74,20 +78,20 @@ public class FetchingMonitor extends EventMonitor {
             DSLog.i("***SPO***","In Fetching Monitor before putMomentsForSync");
             dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
             DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
-            dataToSync = dbInterface.putConsentForSync(dataToSync);
+            dataToSync = consentsSegregator.putConsentForSync(dataToSync);
             DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
 
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {
             DSLog.i("***SPO***","In Fetching Monitor before GetNonSynchronizedDataRequest error");
-          //  dbInterface.postError(e, event.getDbRequestListener());
+            dbInterface.postError(e, DataServicesManager.getInstance().getDbChangeListener());
         }
     }
 
     public void onEventBackgroundThread(LoadMomentsRequest event) {
         try {
-//            Log.d(this.getClass().getName(),"Fetching Monitor");
+           // Log.d(this.getClass().getName(),"Fetching Monitor");
             if (event.hasType()) {
                 dbInterface.fetchMoments(event.getDbRequestListener(),event.getTypes());
             } else if (event.hasID()) {

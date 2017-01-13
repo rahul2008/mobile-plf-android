@@ -64,7 +64,7 @@ public class DeletingMonitorTest {
     @Test
     public void DeletionMomentAsked_WhenEventReceived() throws Exception {
         monitor.onEventAsync(new MomentDeleteRequest(momentMock,dbRequestListener));
-       // verify(deletingMock).deleteMoment(momentMock,dbRequestListener);
+        verify(deletingMock).markAsInActive(momentMock,dbRequestListener);
     }
 
     @Test
@@ -104,10 +104,10 @@ public class DeletingMonitorTest {
         DataClearRequest request = new DataClearRequest(dbRequestListener);
         monitor.onEventBackgroundThread(request);
 
-      //  verify(eventingMock).post(eventCaptor.capture());
-//        assertThat(eventCaptor.getValue()).isInstanceOf(DataClearResponse.class);
-//        DataClearResponse responseEvent = (DataClearResponse) eventCaptor.getValue();
-//        assertThat(responseEvent.getReferenceId()).isEqualTo(request.getEventId());
+       /* verify(eventingMock).post(eventCaptor.capture());
+        assertThat(eventCaptor.getValue()).isInstanceOf(DataClearResponse.class);
+        DataClearResponse responseEvent = (DataClearResponse) eventCaptor.getValue();
+        assertThat(responseEvent.getReferenceId()).isEqualTo(request.getEventId());*/
     }
 
  /*   @Test
@@ -133,7 +133,7 @@ public class DeletingMonitorTest {
     public void ShouldDeleteMoment_WhenBackendDeleteResponseIsReceived() throws Exception {
         monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock));
 
-        verify(deletingMock).deleteMoment(momentMock);
+        verify(deletingMock).markAsInActive(momentMock);
     }*/
 
    /* @Test

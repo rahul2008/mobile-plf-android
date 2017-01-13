@@ -112,30 +112,30 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         setUpBackendSynchronizationLoop();
 
-        if (!mUtility.isOnline(getContext())) {
-            Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
+        if(!mUtility.isOnline(getContext())){
+            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (!mSharedPreferences.getBoolean("isSynced", false)) {
+        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
             showProgressDialog();
         }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        if (getLastStoredEmail() == null) {
+        if(getLastStoredEmail()==null){
             storeLastEmail();
             return;
         }
 
-        if (!isSameEmail()) {
+        if(!isSameEmail()){
             userRegistrationInterface.clearUserData();
         }
         storeLastEmail();
     }
 
     private boolean isSameEmail() {
-        if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+        if(getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
@@ -143,6 +143,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
+        DataServicesManager.getInstance().unRegisteredDBRequestListener();
         cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
@@ -165,32 +166,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // inflater.inflate(R.menu.menu_ds,menu);
-        super.onCreateOptionsMenu(menu, inflater);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            /*case R.id.menu_consent:
-                ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                dFragment.show(getFragmentManager(), "Dialog");
-                return true;
-
-            case R.id.menu_characteristics:
-                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-                characteristicsDialogFragment.show(getFragmentManager(), "Character");
-                return true;*/
-            default:
-                break;
-
-        }
-        return false;
     }
 
     private void setUpBackendSynchronizationLoop() {
@@ -229,7 +204,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
                 break;
             case R.id.tv_set_consents:
-
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
                 dFragment.show(getFragmentManager(), "Dialog");
 
@@ -303,18 +277,18 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
     }
 
-    String getLastStoredEmail() {
+    String getLastStoredEmail(){
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
+        String decryptedData= ssInterface.fetchValueForKey("last_email",ssError);
         return decryptedData;
     }
 
-    void storeLastEmail() {
+    void storeLastEmail(){
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
+        ssInterface.storeValueForKey("last_email",mUser.getEmail(), ssError);
     }
 }

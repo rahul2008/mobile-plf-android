@@ -16,6 +16,7 @@ import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
@@ -26,9 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,6 +46,9 @@ public class UpdatingMonitorTest {
 
     @Mock
     MomentUpdateRequest momentUpdateRequestmock;
+
+    @Mock
+    DBRequestListener dbRequestListener;
 
     @Mock
     DatabaseConsentUpdateRequest consentUpdateRequestmock;
@@ -152,9 +154,9 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1)));
+        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbRequestListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
-         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1));
+         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
     }
 
 }

@@ -72,11 +72,7 @@ public class DataServicesManager {
 
     private volatile boolean isPushComplete = true;
 
-    DBRequestListener dbRequestListener;
-
-    public DBRequestListener getDbRequestListener() {
-        return dbRequestListener;
-    }
+    private DBRequestListener dbChangeListener;
 
     @Inject
     Eventing mEventing;
@@ -153,7 +149,7 @@ public class DataServicesManager {
 
     public void fetchAllData(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener));
-       // Log.d(this.getClass().getName(),"Inside DataService");
+//        Log.d(this.getClass().getName(),"Inside DataService");
     }
 
     @NonNull
@@ -239,7 +235,7 @@ public class DataServicesManager {
     }
 
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+    public void initializeSyncMonitors(Context context,ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
         this.fetchers = fetchers;
         this.senders = senders;
@@ -258,7 +254,7 @@ public class DataServicesManager {
     }*/
 
     private void sendPullDataEvent() {
-        synchronized (this) {
+        synchronized(this) {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
             if (mCore != null) {
                 DSLog.i("***SPO***", "mCore not null, hence starting");
@@ -272,7 +268,7 @@ public class DataServicesManager {
         }
     }
 
-    public void initializeDBMonitors(Context context, DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+    public void initializeDBMonitors(Context context,DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
         this.mDeletingInterface = deletingInterface;
         this.mFetchingInterface = fetchingInterface;
         this.mSavingInterface = savingInterface;
@@ -280,7 +276,7 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
-        DSLog.i("SPO", "initialize called");
+        DSLog.i("SPO","initialize called");
         this.mDataCreater = creator;
         this.userRegistrationInterface = facade;
         this.errorHandlingInterface = errorHandlingInterface;
@@ -297,9 +293,9 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
-                mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
-                fetchers, senders, errorHandlingInterface);
+        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()),mDataCreater, userRegistrationInterface,
+                mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,
+                fetchers,senders,errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
@@ -394,11 +390,13 @@ public class DataServicesManager {
     }
 
     public void registeredDBRequestListener(DBRequestListener dbRequestListener){
-    this.dbRequestListener=dbRequestListener;
+    this.dbChangeListener =dbRequestListener;
     }
     public void unRegisteredDBRequestListener(){
-        this.dbRequestListener=null;
+        this.dbChangeListener =null;
     }
 
+    public DBRequestListener getDbChangeListener() {
+        return dbChangeListener;
+    }
 }
-

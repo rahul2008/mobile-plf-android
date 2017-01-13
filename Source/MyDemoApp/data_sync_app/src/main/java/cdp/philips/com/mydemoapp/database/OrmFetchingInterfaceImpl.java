@@ -14,7 +14,6 @@ import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -45,6 +44,8 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     @NonNull
     private Dao<OrmMoment, Integer> momentDao;
 
+
+
     @NonNull
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     private final Dao<OrmConsent, Integer> consentDao;
@@ -61,10 +62,12 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
         this.characteristicsDao = characteristicsDao;
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
+
 
         this.consentDao = consentDao;
         this.consentDetailsDao = consentDetailsDao;
+
+        mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
 
     @Override
@@ -78,9 +81,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) consentDao.query(queryBuilder.prepare());
         if (ormConsents.size() != 0) {
-            dbRequestListener.onSuccess(ormConsents.get(0));
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsents);
         } else {
-            dbRequestListener.onSuccess(null);
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener);
         }
     }
 
@@ -109,7 +112,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
-        dbRequestListener.onFailure(e);
+        mTemperatureMomentHelper.notifyFailure(e, dbRequestListener);
     }
 
     @Override
@@ -148,7 +151,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         ArrayList<OrmMoment> moments = new ArrayList<>();
         moments.add(ormMoments);
 
-        dbRequestListener.onSuccess(ormMoments);
+        mTemperatureMomentHelper.notifySuccess(dbRequestListener,ormMoments);
     }
 
     @Override
@@ -196,16 +199,15 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
             }
         }
         DSLog.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
-        dbRequestListener.onSuccess((ArrayList<? extends Object>)ormMoments);
-       // mTemperatureMomentHelper.notifySuccessToAll((ArrayList<? extends Object>) activeOrmMoments,dbRequestListener);
+        mTemperatureMomentHelper.notifySuccess((ArrayList<? extends Object>)activeOrmMoments, dbRequestListener);
     }
 
-    @Override
-    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends Consent> consentList = fetchConsentsWithNonSynchronizedConsentDetails();
-        dataToSync.put(Consent.class, consentList);
-        return dataToSync;
-    }
+//    @Override
+//    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+//        List<? extends Consent> consentList = fetchConsentsWithNonSynchronizedConsentDetails();
+//        dataToSync.put(Consent.class, consentList);
+//        return dataToSync;
+//    }
 
     //TODO: Spoorti - fetchConsentsWithNonSynchronizedConsentDetails and fetchNonSynchronizedConsentDetails - Why 2 APIs
     @Override
@@ -249,7 +251,8 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return query;
     }
 
-    public List<OrmConsentDetail> fetchNonSynchronizedConsentDetails() throws SQLException {
+    @Override
+    public List<OrmConsentDetail> fetchNonSyncConsentDetails() throws SQLException {
         QueryBuilder<OrmConsentDetail, Integer> consentQueryBuilder = consentDetailsDao.queryBuilder();
         consentQueryBuilder.where().eq("beSynchronized", false);
 
@@ -279,11 +282,20 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return consentQueryBuilder.query();
     }
 
+    public OrmConsent getModifiedConsent(OrmConsent ormConsent, OrmConsent consentInDatabase) throws SQLException {
+        DSLog.d("Creator ID MODI", ormConsent.getCreatorId());
+        int id = consentInDatabase.getId();
+        final List<OrmConsentDetail> ormNonSynConsentDetails =fetchNonSyncConsentDetails();
 
-    public List<OrmConsent> fetchAllConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
-        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
-        consentQueryBuilder.where().eq("creatorId", creatorId);
+        for (OrmConsentDetail ormFromBackEndConsentDetail : ormConsent.getConsentDetails()) {
 
-        return consentQueryBuilder.query();
+            for (OrmConsentDetail ormNonSynConsentDetail : ormNonSynConsentDetails) {
+                if (ormFromBackEndConsentDetail.getType() == ormNonSynConsentDetail.getType()) {
+                    ormFromBackEndConsentDetail.setBackEndSynchronized(ormNonSynConsentDetail.getBackEndSynchronized());
+                    ormFromBackEndConsentDetail.setStatus(ormNonSynConsentDetail.getStatus());
+                }
+            }
+        }
+        return ormConsent;
     }
 }

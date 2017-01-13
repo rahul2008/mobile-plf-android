@@ -13,9 +13,9 @@ import java.util.List;
  * All rights reserved.
  */
 public interface DBUpdatingInterface {
-    void updateMoment(final Moment ormMoment,DBRequestListener dbRequestListener);
-    void updateFailed(Exception e,DBRequestListener dbRequestListener);
+    void updateMoment(final Moment ormMoment,DBRequestListener dbRequestListener) throws SQLException;
     boolean updateConsent(final Consent consent,DBRequestListener dbRequestListener) throws SQLException;
+    void updateFailed(Exception e,DBRequestListener dbRequestListener);
     boolean updateCharacteristics(final Characteristics characteristics,DBRequestListener dbRequestListener) throws SQLException;
     void processCharacteristicsReceivedFromDataCore (final Characteristics characteristics,DBRequestListener dbRequestListener) throws SQLException;
 }

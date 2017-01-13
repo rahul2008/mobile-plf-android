@@ -6,6 +6,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.injection.AppComponent;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmMoment;
@@ -47,6 +48,9 @@ public class MomentsSegregatorTest {
     @Mock
     private OrmMoment ormMomentMock;
 
+    @Mock
+    DBRequestListener dbRequestListener;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -83,21 +87,21 @@ public class MomentsSegregatorTest {
     }
 
     @Test
-    public void should_processCreatedMoment_update_only_sync_data(){
+    public void should_processCreatedMoment_update_only_sync_data() throws SQLException {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
-        momentsSegregator.processCreatedMoment(Arrays.asList(moment1));
-       // verify(updatingInterface).updateMoment(moment1);
+        momentsSegregator.processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
+        verify(updatingInterface).updateMoment(moment1,dbRequestListener);
     }
 
-    @Test
+    /*@Test
     public void should_isNeverSyncedMomentDeletedLocallyDuringSync_returnsFalse() throws SQLException {
         OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
-       // boolean isSynced = momentsSegregator.isNeverSyncedMomentDeletedLocallyDuringSync(moment1);
-       // assertEquals(isSynced, false);
+        boolean isSynced = momentsSegregator.isNeverSyncedMomentDeletedLocallyDuringSync(moment1);
+        assertEquals(isSynced, false);
     }
 
     @Test
@@ -105,9 +109,9 @@ public class MomentsSegregatorTest {
         OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         SynchronisationData synchronisationData = new OrmSynchronisationData(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID,true,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
-        //boolean isSynced = momentsSegregator.isNeverSyncedMomentDeletedLocallyDuringSync(moment1);
-       // assertEquals(isSynced, true);
-    }
+        boolean isSynced = momentsSegregator.isNeverSyncedMomentDeletedLocallyDuringSync(moment1);
+        assertEquals(isSynced, true);
+    }*/
 
     @Test
     public void should_putMomentsForSync_return_data() throws SQLException {

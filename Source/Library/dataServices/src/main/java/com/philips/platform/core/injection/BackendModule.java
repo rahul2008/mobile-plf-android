@@ -19,7 +19,6 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.DeletingMonitor;
 import com.philips.platform.core.monitors.ErrorMonitor;
@@ -37,6 +36,7 @@ import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
+import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
@@ -245,6 +245,11 @@ public class BackendModule {
     @Provides
     public MomentsSegregator providesMomentsSegregater(){
         return new MomentsSegregator();
+    }
+
+    @Provides
+    public ConsentsSegregator providesConsentsSegregater(){
+        return new ConsentsSegregator();
     }
 
     @Provides

@@ -70,7 +70,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
 
     public void clearUserData() {
         DataServicesManager manager = DataServicesManager.getInstance();
-        manager.deleteAll(manager.getDbRequestListener());
+        manager.deleteAll(manager.getDbChangeListener());
         clearPreferences();
         email =  null;
         accessToken = "";

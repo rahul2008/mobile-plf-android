@@ -1,6 +1,5 @@
 package com.philips.platform.verticals;
 
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -14,13 +13,10 @@ import java.util.List;
  */
 
 public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
-    @Override
-    public void updateMoment(Moment ormMoment, DBRequestListener dbRequestListener) {
 
-    }
 
     @Override
-    public void updateFailed(Exception e, DBRequestListener dbRequestListener) {
+    public void updateMoment(Moment ormMoment, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
@@ -30,12 +26,7 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public boolean updateCharacteristics(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
-        return false;
-    }
-
-    @Override
-    public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
+    public void updateFailed(Exception e, DBRequestListener dbRequestListener) {
 
     }
 }

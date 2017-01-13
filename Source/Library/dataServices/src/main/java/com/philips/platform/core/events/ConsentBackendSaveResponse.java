@@ -15,15 +15,10 @@ public class ConsentBackendSaveResponse extends Event{
 
     private final DBRequestListener dbRequestListener;
 
-    public DBRequestListener getDbRequestListener() {
-        return dbRequestListener;
-    }
-
     public ConsentBackendSaveResponse(@NonNull final int refernceId, @Nullable final Consent consent, final int responseCode, DBRequestListener dbRequestListener) {
         this.consent = consent;
         this.responseCode = responseCode;
         this.dbRequestListener = dbRequestListener;
-
     }
 
     @Nullable

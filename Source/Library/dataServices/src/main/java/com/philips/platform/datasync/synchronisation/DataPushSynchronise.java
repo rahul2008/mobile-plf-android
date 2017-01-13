@@ -96,5 +96,7 @@ public class DataPushSynchronise extends EventMonitor {
             DSLog.i("***SPO***", "DataPushSynchronize startAllSenders inside loop");
             sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
         }
+        DSLog.i("***SPO***","DataPushSynchronize set Push complete");
+     //   DataServicesManager.getInstance().setPushComplete(true);
     }
 }

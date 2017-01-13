@@ -35,4 +35,9 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
     public void deleteMeasurementGroup(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
 
     }
+
+    @Override
+    public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
+
+    }
 }

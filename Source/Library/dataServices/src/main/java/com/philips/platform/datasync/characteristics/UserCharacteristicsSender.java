@@ -94,7 +94,7 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     private void postOk(Characteristics characteristic) {
         characteristic.setSynchronized(true);
         DSLog.d(DSLog.LOG, "Inder = Inside UC Sender postOk " + characteristic.getCharacteristicsDetails());
-        mEventing.post(new UserCharacteristicsSaveRequest(characteristic, DataServicesManager.getInstance().getDbRequestListener()));
+        mEventing.post(new UserCharacteristicsSaveRequest(characteristic, DataServicesManager.getInstance().getDbChangeListener()));
     }
 
     @Override

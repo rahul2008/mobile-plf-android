@@ -6,10 +6,13 @@
 package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
+import android.util.Log;
+
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -45,26 +48,26 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
-            dbRequestListener.onSuccess(ormMoment);
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormMoment);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            dbRequestListener.onFailure(e);
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed!!");
             return false;
         }
-
     }
+
     @Override
     public boolean saveConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             updateConsentAndSetIdIfConsentExists(ormConsent);
-            dbRequestListener.onSuccess(ormConsent);
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            dbRequestListener.onFailure(e);
+            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
             return false;
         }
 
@@ -79,7 +82,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             deleting.deleteCharacteristics();
             DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics save", ormCharacteristics.getCharacteristicsDetails().toString());
             saving.saveCharacteristics(ormCharacteristics);
-            updateUCUI(characteristics,dbRequestListener);
+            updateUCUI(characteristics,DataServicesManager.getInstance().getDbChangeListener());
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();
@@ -88,6 +91,9 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     }
 
     private void updateUCUI(Characteristics characteristics,DBRequestListener dbRequestListener) {
+            if(dbRequestListener==null){
+                return;
+            }
             if(characteristics!=null){
                 dbRequestListener.onSuccess(characteristics);
             } else {
@@ -97,7 +103,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
-        dbRequestListener.onFailure(e);
+        mTemperatureMomentHelper.notifyFailure(e,dbRequestListener);
     }
 
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {

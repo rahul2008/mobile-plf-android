@@ -69,7 +69,7 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        mDbRequestListener = mDataServicesManager.getDbRequestListener();
+        mDbRequestListener = mDataServicesManager.getDbChangeListener();
         mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
@@ -82,7 +82,7 @@ public class DataPullSynchronise {
 
 
     public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
-        DSLog.i("**SPO**", "In Data Pull Synchronize startFetching");
+        DSLog.i("**SPO**","In Data Pull Synchronize startFetching");
         preformFetch(fetcher, lastSyncDateTime, referenceId);
       /*  executor.execute(new Runnable() {
             @Override
@@ -94,21 +94,21 @@ public class DataPullSynchronise {
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
-        DSLog.i("***SPO***", "In startSynchronise - DataPullSynchronize");
+        DSLog.i("***SPO***","In startSynchronise - DataPullSynchronize");
         this.lastSyncDateTime = lastSyncDateTime;
         this.referenceId = referenceId;
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
-        if (!isLoggedIn) {
-            DSLog.i("***SPO***", "DataPullSynchronize isLogged-in is false");
+        if(!isLoggedIn){
+            DSLog.i("***SPO***","DataPullSynchronize isLogged-in is false");
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
             return;
         }
 
         if (!isSyncStarted()) {
-            DSLog.i("***SPO***", "DataPullSynchronize isLogged-in is true");
+            DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
-            DSLog.i("***SPO***", "Before calling GetNonSynchronizedMomentsRequest");
+            DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
             eventing.post(new GetNonSynchronizedMomentsRequest(mDbRequestListener));
         }
     }
@@ -157,7 +157,7 @@ public class DataPullSynchronise {
 
     private void postOk(final int referenceId) {
         DSLog.i("**SPO**","In Data Pull Synchronize postOK");
-        eventing.post(new ReadDataFromBackendResponse(referenceId,mDataServicesManager.getDbRequestListener()));
+        eventing.post(new ReadDataFromBackendResponse(referenceId, mDbRequestListener));
     }
 
     private void initFetch() {

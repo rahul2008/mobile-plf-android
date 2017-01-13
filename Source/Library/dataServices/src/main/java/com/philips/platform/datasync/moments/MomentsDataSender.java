@@ -4,7 +4,6 @@
  */
 package com.philips.platform.datasync.moments;
 
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -72,7 +71,7 @@ public class MomentsDataSender implements DataSender<Moment> {
             @NonNull final MomentGsonConverter momentGsonConverter) {
 
         DataServicesManager.getInstance().mAppComponent.injectMomentsDataSender(this);
-        this.mDbRequestListener = DataServicesManager.getInstance().getDbRequestListener();
+        this.mDbRequestListener = DataServicesManager.getInstance().getDbChangeListener();
         this.momentsConverter = momentsConverter;
         this.momentGsonConverter = momentGsonConverter;
     }
@@ -245,11 +244,11 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private void postCreatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList));
+        eventing.post(new MomentDataSenderCreatedRequest(momentList, mDbRequestListener));
     }
 
     private void postUpdatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList));
+        eventing.post(new MomentDataSenderCreatedRequest(momentList, mDbRequestListener));
     }
 
     private void postDeletedOk(final Moment moment) {

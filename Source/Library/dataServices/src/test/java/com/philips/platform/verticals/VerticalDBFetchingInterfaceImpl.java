@@ -2,7 +2,6 @@ package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -16,23 +15,24 @@ import java.util.Map;
  */
 
 public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
+
     @Override
     public void fetchMoments(DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
     @Override
-    public void fetchMoments(@NonNull String type,DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchMoments(@NonNull String type, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
     @Override
-    public void fetchMoments(DBRequestListener dbRequestListener,@NonNull Object... types) throws SQLException {
+    public void fetchMoments(DBRequestListener dbRequestListener, @NonNull Object... types) throws SQLException {
 
     }
 
     @Override
-    public void fetchLastMoment(String type,DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchLastMoment(String type, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
@@ -52,16 +52,6 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        return null;
-    }
-
-    @Override
     public void fetchConsents(DBRequestListener dbRequestListener) throws SQLException {
 
     }
@@ -72,13 +62,12 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
-    public void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+    public void postError(Exception e, DBRequestListener dbRequestListener) {
 
     }
 
-
     @Override
-    public void postError(Exception e, DBRequestListener dbRequestListener) {
-
+    public List<?> fetchNonSyncConsentDetails() throws SQLException {
+        return null;
     }
 }

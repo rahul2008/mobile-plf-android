@@ -17,6 +17,7 @@ import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 
@@ -80,6 +81,9 @@ public class FetchingMonitorTest {
     MomentsSegregator momentsSegregatorMock;
 
     @Mock
+    ConsentsSegregator consentsSegregatorMock;
+
+    @Mock
     private SynchronisationData synchronizationDataMock;
     @Mock
     private ConsentDetail consentDetailsMock;
@@ -100,6 +104,7 @@ public class FetchingMonitorTest {
         DataServicesManager.getInstance().mAppComponent = appComponantMock;
         fetchingMonitor = new FetchingMonitor(fetching);
         fetchingMonitor.momentsSegregator = momentsSegregatorMock;
+        fetchingMonitor.consentsSegregator=consentsSegregatorMock;
         uGrowDateTime = new DateTime();
         fetchingMonitor.start(eventingMock);
     }
@@ -155,7 +160,7 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventBackgroundThread(new GetNonSynchronizedDataRequest(1));
         Map<Class, List<?>> dataToSync = new HashMap<>();
         verify(momentsSegregatorMock).putMomentsForSync(dataToSync);
-        verify(fetching).putConsentForSync(dataToSync);
+        verify(consentsSegregatorMock).putConsentForSync(dataToSync);
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 

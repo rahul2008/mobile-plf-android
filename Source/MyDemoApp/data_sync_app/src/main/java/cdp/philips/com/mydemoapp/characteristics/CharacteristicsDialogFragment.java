@@ -195,14 +195,13 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
                 String type = mCharacteristicsDetailList.get(i).getType();
                 String value = mCharacteristicsDetailList.get(i).getValue();
-                List<UCoreCharacteristics> childUCoreCharacteristicses = convertToUCoreCharacteristicsDetail((List<CharacteristicsDetail>) mCharacteristicsDetailList.get(i).getCharacteristicsDetail());
+
                 uCoreCharacteristics.setType(type);
                 uCoreCharacteristics.setValue(value);
-                uCoreCharacteristics.setCharacteristics(childUCoreCharacteristicses);
+                uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristicsDetail(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
                 uCoreCharacteristicsList.add(uCoreCharacteristics);
             }
         }
-        Collections.reverse(uCoreCharacteristicsList);
         uCoreUserCharacteristics.setCharacteristics(uCoreCharacteristicsList);
         return uCoreUserCharacteristics;
     }
@@ -214,7 +213,8 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
                 characteristicsDetail.setType(characteristicsDetails.get(i).getType());
                 characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
-                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristicsDetail((List<CharacteristicsDetail>) characteristicsDetails.get(i).getCharacteristicsDetail()));
+                List<CharacteristicsDetail> characteristicsDetailList = convertToCharacteristicDetail(characteristicsDetails.get(i).getCharacteristicsDetail());
+                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristicsDetail(characteristicsDetailList));
                 uCoreCharacteristicsList.add(characteristicsDetail);
             }
         }
@@ -229,25 +229,11 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         return characteristicsDetailList;
     }
 
-//    private List<UCoreCharacteristics> convertToUCoreCharacteristics(List<CharacteristicsDetail> characteristicsDetails) {
-//        List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
-//        if (characteristicsDetails.size() > 0) {
-//            for (int i = 0; i < characteristicsDetails.size(); i++) {
-//                List<CharacteristicsDetail> characteristicsDetailList = convertToCharacteristicDetail(characteristicsDetails.get(i).getCharacteristicsDetail());
-//                UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
-//                characteristicsDetail.setType(characteristicsDetails.get(i).getType());
-//                characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
-//                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristics(characteristicsDetailList));
-//                uCoreCharacteristicsList.add(characteristicsDetail);
-//            }
-//        }
-//        return uCoreCharacteristicsList;
-//    }
-
     @Override
     public void onSuccess(final Object data) {
         //Display User characteristics UI
         if (data == null) return;
+        if (getActivity() == null) return;
         final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
         if (ormCharacteristics != null) {
             getActivity().runOnUiThread(new Runnable() {
@@ -259,8 +245,8 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                         characteristicsList.add((Characteristics) data);
 
                         UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(characteristicsList);
-                        Gson gson = new GsonBuilder().create();
-                        parsedToJSON = gson.toJson(uCoreCharacteristics);
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        parsedToJSON = gson.toJson(uCoreCharacteristics.getCharacteristics());
 
                         DSLog.i(DSLog.LOG, "Inder Characteristics onSuccess= " + parsedToJSON);
                         mEtCharacteristics.setText(parsedToJSON);
@@ -278,20 +264,21 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
     }
 
-    private void getUserCharacteristicsFromLocalDBRecursively(List<CharacteristicsDetail> childCharacteristicsDetail) {
-        if (childCharacteristicsDetail != null && childCharacteristicsDetail.size() > 0) {
-            for (int i = 0; i < childCharacteristicsDetail.size(); i++) {
-                String type = childCharacteristicsDetail.get(i).getType();
-                String value = childCharacteristicsDetail.get(i).getValue();
-                Collection<? extends CharacteristicsDetail> characteristicsDetail = childCharacteristicsDetail.get(i).getCharacteristicsDetail();
-                List<CharacteristicsDetail> innerChildCharacteristicsDetail = new ArrayList<CharacteristicsDetail>(characteristicsDetail);
-                getUserCharacteristicsFromLocalDBRecursively(innerChildCharacteristicsDetail);
-            }
-        }
-    }
+//    private void getUserCharacteristicsFromLocalDBRecursively(List<CharacteristicsDetail> childCharacteristicsDetail) {
+//        if (childCharacteristicsDetail != null && childCharacteristicsDetail.size() > 0) {
+//            for (int i = 0; i < childCharacteristicsDetail.size(); i++) {
+//                String type = childCharacteristicsDetail.get(i).getType();
+//                String value = childCharacteristicsDetail.get(i).getValue();
+//                Collection<? extends CharacteristicsDetail> characteristicsDetail = childCharacteristicsDetail.get(i).getCharacteristicsDetail();
+//                List<CharacteristicsDetail> innerChildCharacteristicsDetail = new ArrayList<CharacteristicsDetail>(characteristicsDetail);
+//                getUserCharacteristicsFromLocalDBRecursively(innerChildCharacteristicsDetail);
+//            }
+//        }
+//    }
 
     @Override
     public void onFailure(final Exception exception) {
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

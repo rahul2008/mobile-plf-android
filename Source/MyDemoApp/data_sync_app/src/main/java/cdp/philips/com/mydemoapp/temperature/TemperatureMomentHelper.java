@@ -1,17 +1,21 @@
 package cdp.philips.com.mydemoapp.temperature;
 
+import android.util.Log;
+
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -52,6 +56,85 @@ public class TemperatureMomentHelper {
             return "default";
         }catch (Exception e){
             return "default";
+        }
+    }
+
+    public void notifySuccess(ArrayList<? extends Object> ormMoments, DBRequestListener dbRequestListener) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess((ArrayList<? extends Object>) ormMoments);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormMoments);
+        }else {
+            //CallBack not registered
+            Log.i(DataServicesManager.TAG,"CallBack not registered");
+        }
+    }
+
+
+    public void notifySuccess(DBRequestListener dbRequestListener) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(null);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().onSuccess(null);
+        }else {
+            //Callback not registered
+            Log.i(DataServicesManager.TAG,"Callback not registered");
+        }
+    }
+
+    public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsent> ormConsents) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(ormConsents.get(0));
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormConsents.get(0));
+        }else {
+            //Callback not registerd
+            Log.i(DataServicesManager.TAG,"Callback Not registered");
+        }
+    }
+
+    public void notifySuccess(DBRequestListener dbRequestListener, OrmMoment ormMoment) {
+        if (dbRequestListener != null) {
+            dbRequestListener.onSuccess(ormMoment);
+        } else if (DataServicesManager.getInstance().getDbChangeListener() != null) {
+            DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormMoment);
+        } else {
+            //No Callback registered
+            Log.i(DataServicesManager.TAG, "No callback registered");
+        }
+    }
+
+    public void notifySuccess(DBRequestListener dbRequestListener, OrmConsent ormConsent) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(ormConsent);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            dbRequestListener=DataServicesManager.getInstance().getDbChangeListener();
+            dbRequestListener.onSuccess(ormConsent);
+        }else {
+            //Callback Not registered
+            Log.i(DataServicesManager.TAG,"Callback not registered");
+        }
+    }
+
+    public void notifyFailure(Exception e, DBRequestListener dbRequestListener) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onFailure(e);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().onFailure(e);
+        }else {
+            //Callback No registered
+            Log.i(DataServicesManager.TAG,"Callback not registered");
+        }
+    }
+
+    public void notifyOrmTypeCheckingFailure(DBRequestListener dbRequestListener, OrmTypeChecking.OrmTypeException e, String msg) {
+        if (dbRequestListener != null) {
+            dbRequestListener.onFailure(e);
+        } else if (DataServicesManager.getInstance().getDbChangeListener() != null) {
+            DataServicesManager.getInstance().getDbChangeListener().onFailure(e);
+        } else {
+            //Callback not registered
+            Log.i(DataServicesManager.TAG, msg);
         }
     }
 

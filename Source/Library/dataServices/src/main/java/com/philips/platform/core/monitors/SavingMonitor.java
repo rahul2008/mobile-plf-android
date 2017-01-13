@@ -63,7 +63,7 @@ public class SavingMonitor extends EventMonitor {
 
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved ="+isSaved);
         if(!isSaved){
-            dbInterface.postError(new Exception("Failed to insert"), DataServicesManager.getInstance().getDbRequestListener());
+            dbInterface.postError(new Exception("Failed to insert"), DataServicesManager.getInstance().getDbChangeListener());
             return;
         }
 
