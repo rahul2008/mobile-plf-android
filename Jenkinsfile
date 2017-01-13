@@ -7,7 +7,7 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
 ])
 
-def MailRecipient = 'pascal.van.kempen@philips.com,ambati.muralikrishna@philips.com,ramesh.r.m@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
 
 node_ext = "build_t"
 if (env.triggerBy == "ppc") {
@@ -22,9 +22,17 @@ node ('android_pipeline &&' + node_ext) {
         }
 
         try {
+		if (BranchName =~ /master|develop|release.*/) {
             stage ('build') {
                 sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug && ../../check_and_delete_artifact.sh "productselection" && ./gradlew lint cC assembleRelease zipDocuments artifactoryPublish'
             }
+			}
+			else
+			{
+			stage ('build') {
+				sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew clean assembleDebug assembleRelease'
+			}
+			}
             currentBuild.result = 'SUCCESS'
         }
 
@@ -34,7 +42,7 @@ node ('android_pipeline &&' + node_ext) {
         }
 
         try {    
-            if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
                 stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
