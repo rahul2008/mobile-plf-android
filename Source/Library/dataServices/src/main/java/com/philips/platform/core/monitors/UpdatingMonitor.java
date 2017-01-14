@@ -111,7 +111,7 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
             DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync UCDBUpdateFromBackendRequest");
-            dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getCharacteristics(), mDbRequestListener);
+            dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getCharacteristics(), DataServicesManager.getInstance().getDbChangeListener());
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, DataServicesManager.getInstance().getDbChangeListener());
         }

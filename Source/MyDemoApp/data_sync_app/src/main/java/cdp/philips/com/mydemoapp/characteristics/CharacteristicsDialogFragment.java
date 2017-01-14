@@ -117,7 +117,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 "}";
 
         mEtCharacteristics.setText(mSampleJsonString);
-        DataServicesManager.getInstance().fetchUserCharacteristics(this);
+        fetchData();
         return rootView;
     }
 
@@ -237,14 +237,12 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         if (data == null) return;
         if (getActivity() == null) return;
         final OrmCharacteristics ormCharacteristics = (OrmCharacteristics) data;
-        if (ormCharacteristics != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-
-                        final List<Characteristics> characteristicsList = new ArrayList<>();
-                        characteristicsList.add((Characteristics) data);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<Characteristics> characteristicsList = new ArrayList<>();
+                    characteristicsList.add(ormCharacteristics);
 
 //                        JSONObject jsonObj = new JSONObject();
 //                        JSONArray jsonArray1 = new JSONArray();
@@ -276,23 +274,22 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 //                            jsonObj.put("characteristics", jsonArray1);
 //                        }
 
-                        UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(characteristicsList);
+                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(characteristicsList);
 
-                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                        String jsonObj = gson.toJson(uCoreCharacteristics);
-                        DSLog.i(DSLog.LOG, "Inder Characteristics onSuccess= " + jsonObj);
-                        mEtCharacteristics.setText(jsonObj);
-                    } catch (Exception e) {
-                        DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                        e.printStackTrace();
-                    }
-
-
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    String jsonObj = gson.toJson(uCoreCharacteristics);
+                    DSLog.i(DSLog.LOG, "Inder Characteristics onSuccess= " + jsonObj);
+                    mEtCharacteristics.setText(jsonObj);
+                } catch (Exception e) {
+                    DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
+                    e.printStackTrace();
                 }
 
 
-            });
-        }
+            }
+
+
+        });
 
 
     }
@@ -318,5 +315,10 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void fetchData() {
+        DataServicesManager.getInstance().fetchUserCharacteristics(this);
     }
 }

@@ -7,4 +7,5 @@ public interface DBRequestListener {
     void onSuccess(ArrayList<? extends Object> data);
     void onSuccess(Object data);
     void onFailure(Exception exception);
+    void fetchData();
 }

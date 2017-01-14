@@ -131,6 +131,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     }
 
     @Override
+    public void fetchData() {
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOK:

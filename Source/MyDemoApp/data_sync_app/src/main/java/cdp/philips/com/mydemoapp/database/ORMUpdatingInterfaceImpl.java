@@ -106,7 +106,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
             deleting.deleteCharacteristics();
             saving.saveCharacteristics(ormCharacteristics);
-            dbRequestListener.onSuccess(characteristics);
+            dbRequestListener.fetchData();
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();
