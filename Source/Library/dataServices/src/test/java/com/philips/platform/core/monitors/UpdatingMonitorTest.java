@@ -85,9 +85,6 @@ public class UpdatingMonitorTest {
     @Mock
     private AppComponent appComponantMock;
 
-    @Mock
-    DBRequestListener dbRequestListener;
-
     @Before
     public void setUp() {
         initMocks(this);

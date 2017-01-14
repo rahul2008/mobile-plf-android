@@ -49,7 +49,7 @@ public class UpdatingMonitor extends EventMonitor {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
-        DataServicesManager.mAppComponent.injectUpdatingMonitor(this);
+        DataServicesManager.getInstance().mAppComponent.injectUpdatingMonitor(this);
         this.mDbRequestListener = DataServicesManager.getInstance().getDbChangeListener();
     }
 
@@ -109,6 +109,11 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
-        dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getCharacteristics(), userCharacteristicsSaveBackendRequest.getDbRequestListener());
+        try {
+            DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync UCDBUpdateFromBackendRequest");
+            dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getCharacteristics(), mDbRequestListener);
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e, DataServicesManager.getInstance().getDbChangeListener());
+        }
     }
 }
