@@ -48,8 +48,10 @@ public class CheckBox extends android.widget.CheckBox {
     private void applyStyling(Context context, AttributeSet attrs, int defStyleAttr) {
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
-        ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_checkbox_text_selector);
-        setTextColor(colorStateList);
+        if (getTextColors() == null) {
+            ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_checkbox_text_selector);
+            setTextColor(colorStateList);
+        }
 
         VectorDrawableCompat checkedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_checked_enabled, theme);
         VectorDrawableCompat checkedDisabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_checked_disabled, theme);
@@ -84,7 +86,7 @@ public class CheckBox extends android.widget.CheckBox {
     protected void onDraw(final Canvas canvas) {
         canvas.save();
 
-        if(getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
+        if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
             canvas.translate(-checkBoxStartPadding, 0);
         } else {
             canvas.translate(checkBoxStartPadding, 0);
