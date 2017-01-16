@@ -68,7 +68,6 @@ public class UserCharacteristicsFetcher extends DataFetcher {
             }
             return null;
         } catch (RetrofitError exception) {
-            //TODO: There is no reciever for the failure (Make sure 401 is handled)
             eventing.post(new BackendMomentRequestFailed(exception));
             return exception;
         }
