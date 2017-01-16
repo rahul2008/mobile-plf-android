@@ -10,6 +10,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -64,7 +65,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         try {
             db.execSQL(createNetworkNodeTable);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(DICommLog.DATABASE, "Table creation error", e);
         }
     }
 
@@ -73,6 +74,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         switch (oldVersion) {
             case 1:
                 db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0;");
+                break;
+            default:
+                DICommLog.e(DICommLog.DATABASE, "Table creation error");
                 break;
         }
     }
