@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.events.UserCharacteristicsRequestFailed;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
@@ -68,7 +69,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
             return null;
         } catch (RetrofitError exception) {
             //TODO: There is no reciever for the failure (Make sure 401 is handled)
-            eventing.post(new UserCharacteristicsRequestFailed(exception));
+            eventing.post(new BackendMomentRequestFailed(exception));
             return exception;
         }
     }
