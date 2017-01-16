@@ -13,7 +13,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.philips.platform.uid.compat.SeparatorDrawable;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 /**
  * The type Recycler view divider item decoration.
@@ -42,11 +42,10 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
 
     @Override
     public void onDraw(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        if (divider == null) {
-            super.onDraw(canvas, parent);
-            return;
+        if (divider != null) {
+            drawHorizontalDivider(canvas, parent);
         }
-        drawHorizontalDivider(canvas, parent);
+        super.onDraw(canvas, parent, state);
     }
 
     private void drawHorizontalDivider(@NonNull final Canvas canvas, @NonNull final RecyclerView parent) {

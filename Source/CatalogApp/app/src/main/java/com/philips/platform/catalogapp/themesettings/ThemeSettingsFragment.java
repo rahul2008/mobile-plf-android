@@ -25,7 +25,7 @@ import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
-import com.philips.platform.uid.compat.SeparatorDrawable;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;

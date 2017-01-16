@@ -18,7 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.uid.compat.SeparatorDrawable;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.Comparator;

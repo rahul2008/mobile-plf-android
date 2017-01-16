@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListView;
 
-import com.philips.platform.uid.compat.SeparatorDrawable;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 

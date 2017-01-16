@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.NavigationController;
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.uid.compat.SeparatorDrawable;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 import java.util.Comparator;
 import java.util.HashMap;
