@@ -30,10 +30,11 @@ import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 
 public class CharacteristicsDialogFragment extends DialogFragment implements View.OnClickListener, DBRequestListener {
-
+    Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
     private CharacteristicsDialogPresenter mCharacteristicsDialogPresenter;
+    private boolean isEditable ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,66 +48,21 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
         View rootView = inflater.inflate(R.layout.dialog_user_characteristics, container, false);
 
-        Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
+        mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
+
+        mBtnEdit = (Button) rootView.findViewById(R.id.btnEdit);
+        mBtnEdit.setOnClickListener(this);
 
         Button mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
 
         mEtCharacteristics = (EditText) rootView.findViewById(R.id.et_characteristics);
+
         mCharacteristicsDialogPresenter = new CharacteristicsDialogPresenter(this);
 
-        String mSampleJsonString = "{\n" +
-                "  \"characteristics\": [\n" +
-                "    {\n" +
-                "      \"type\": \"User\",\n" +
-                "      \"value\": \"Teja\",\n" +
-                "      \"characteristics\": [\n" +
-                "        {\n" +
-                "          \"type\": \"Mouth\",\n" +
-                "          \"value\": \"Mouth\",\n" +
-                "          \"characteristics\": [\n" +
-                "            {\n" +
-                "              \"type\": \"hair\",\n" +
-                "              \"value\": \"hair\",\n" +
-                "              \"characteristics\": [\n" +
-                "                {\n" +
-                "                  \"type\": \"BrokenTeeth\",\n" +
-                "                  \"value\": \"BrokenTeeth\",\n" +
-                "                  \"characteristics\": []\n" +
-                "                }\n" +
-                "              ]\n" +
-                "            }\n" +
-                "          ]\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"type\": \"Mouth\",\n" +
-                "          \"value\": \"Mouth\",\n" +
-                "          \"characteristics\": [\n" +
-                "            {\n" +
-                "              \"type\": \"BrokenTeeth\",\n" +
-                "              \"value\": \"BrokenTeeth\",\n" +
-                "              \"characteristics\": []\n" +
-                "            }\n" +
-                "          ]\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"type\": \"skin\",\n" +
-                "          \"value\": \"skin\",\n" +
-                "          \"characteristics\": [\n" +
-                "            {\n" +
-                "              \"type\": \"color\",\n" +
-                "              \"value\": \"color\",\n" +
-                "              \"characteristics\": []\n" +
-                "            }\n" +
-                "          ]\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-
-        mEtCharacteristics.setText(mSampleJsonString);
+        mEtCharacteristics.setEnabled(false);
+        isEditable = false;
         fetchData();
         return rootView;
     }
@@ -154,6 +110,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOK:
+                isEditable = false;
                 String userCharacteristics = mEtCharacteristics.getText().toString().trim();
                 if (!userCharacteristics.trim().isEmpty()) {
                     boolean isUpdated = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
@@ -167,6 +124,12 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
                 break;
             case R.id.btnCancel:
                 getDialog().dismiss();
+                break;
+            case R.id.btnEdit:
+                isEditable = true;
+                mBtnEdit.setEnabled(false);
+                mEtCharacteristics.setEnabled(true);
+                mEtCharacteristics.setFocusable(true);
                 break;
         }
     }
@@ -260,6 +223,11 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
     @Override
     public void fetchData() {
-        DataServicesManager.getInstance().fetchUserCharacteristics(this);
+        DSLog.i(DSLog.LOG, "Inder fetchData before editing");
+        if (!isEditable) {
+            DSLog.i(DSLog.LOG, "Inder fetchData editing");
+            DataServicesManager.getInstance().fetchUserCharacteristics(this);
+        }
     }
+
 }

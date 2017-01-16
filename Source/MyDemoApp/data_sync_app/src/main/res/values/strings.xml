@@ -28,5 +28,6 @@
     <string name="set_characteristics">User Characteristics</string>
     <string name="view_characteristics">View Characteristics</string>
     <string name="hide_characteristics">Hide Characteristics</string>
+    <string name="edit">Edit</string>
 
 </resources>
