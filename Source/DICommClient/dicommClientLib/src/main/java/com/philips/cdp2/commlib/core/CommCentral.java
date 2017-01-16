@@ -34,7 +34,10 @@ public final class CommCentral {
 
         // Setup discovery strategies
         for (TransportContext transportContext : transportContexts) {
-            discoveryStrategies.add(transportContext.getDiscoveryStrategy());
+            DiscoveryStrategy discoveryStrategy = transportContext.getDiscoveryStrategy();
+            if (discoveryStrategy != null) {
+                discoveryStrategies.add(discoveryStrategy);
+            }
         }
 
         // Setup ApplianceManager
