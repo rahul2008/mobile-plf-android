@@ -3,8 +3,6 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -54,13 +52,5 @@ public class CheckBox extends android.widget.CheckBox {
         stateListDrawable.addState(new int[]{-android.R.attr.state_enabled, -android.R.attr.state_checked}, uncheckedDisabled);
         stateListDrawable.addState(new int[]{android.R.attr.state_enabled, -android.R.attr.state_checked}, uncheckedEnabled);
         return stateListDrawable;
-    }
-
-    @NonNull
-    private LayerDrawable getCombinedDrawable(final VectorDrawableCompat tick, final VectorDrawableCompat background) {
-        Drawable[] array = new Drawable[2];
-        array[0] = background;
-        array[1] = tick;
-        return new LayerDrawable(array);
     }
 }

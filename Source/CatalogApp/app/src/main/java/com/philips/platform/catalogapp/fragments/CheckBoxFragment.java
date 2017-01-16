@@ -24,6 +24,20 @@ public class CheckBoxFragment extends BaseFragment {
     }
 
     @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putBoolean("isCheckBoxEnabled", isCheckBoxEnabled.get());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            setEnabled(savedInstanceState.getBoolean("isCheckBoxEnabled"));
+        }
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
     public int getPageTitle() {
         return R.string.page_title_checkbox;
     }
