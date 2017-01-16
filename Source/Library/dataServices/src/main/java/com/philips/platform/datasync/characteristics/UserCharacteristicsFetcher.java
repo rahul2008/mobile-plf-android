@@ -63,7 +63,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 characteristics.setSynchronized(true);
 
                 DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher "+characteristics.getCharacteristicsDetails());
-                eventing.post(new UCDBUpdateFromBackendRequest(characteristics, DataServicesManager.getInstance().getDbChangeListener()));
+                eventing.post( new UCDBUpdateFromBackendRequest(characteristics, DataServicesManager.getInstance().getDbChangeListener()));
             }
             return null;
         } catch (RetrofitError exception) {
