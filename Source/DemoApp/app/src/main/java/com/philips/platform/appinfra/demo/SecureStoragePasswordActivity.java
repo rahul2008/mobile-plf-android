@@ -41,7 +41,7 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
 
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
 
-                boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), passWord.getText().toString(), sseStore);
+                boolean isSaved = mSecureStorage.createPassWord(userKey.getText().toString(), passWord.getText().toString(), sseStore);
                 if (null != sseStore.getErrorCode()) {
                     Toast.makeText(SecureStoragePasswordActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -60,7 +60,7 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-                String decryptedData = mSecureStorage.fetchValueForKey(userKey.getText().toString(), sse);
+                String decryptedData = mSecureStorage.retrievePassWord(userKey.getText().toString(), sse);
                 if (null != sse.getErrorCode()) {
                     Toast.makeText(SecureStoragePasswordActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -81,7 +81,7 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                boolean result = mSecureStorage.removeValueForKey(userKey.getText().toString());
+                boolean result = mSecureStorage.deletePassWord(userKey.getText().toString());
                 if (result) {
                     passWord.setText(null);
                     userKey.setText(null);
