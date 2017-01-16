@@ -85,12 +85,7 @@ public class CheckBox extends android.widget.CheckBox {
     @Override
     protected void onDraw(final Canvas canvas) {
         canvas.save();
-
-        if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
-            canvas.translate(-checkBoxStartPadding, 0);
-        } else {
-            canvas.translate(checkBoxStartPadding, 0);
-        }
+        canvas.translate(getStartPaddingAsPerLayoutDirection(), 0);
         super.onDraw(canvas);
         canvas.restore();
     }
@@ -100,5 +95,13 @@ public class CheckBox extends android.widget.CheckBox {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         final int measuredWidth = getMeasuredWidth() + checkBoxStartPadding;
         setMeasuredDimension(measuredWidth, ViewCompat.getMeasuredHeightAndState(this));
+    }
+
+    private int getStartPaddingAsPerLayoutDirection() {
+        if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
+            return -checkBoxStartPadding;
+        } else {
+            return checkBoxStartPadding;
+        }
     }
 }
