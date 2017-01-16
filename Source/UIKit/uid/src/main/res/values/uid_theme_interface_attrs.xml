@@ -131,5 +131,6 @@
         <attr name="uidCheckBoxTickEnabledColor" format="reference|color"/>
         <attr name="uidCheckBoxTickDisabledColor" format="reference|color"/>
         <attr name="uidCheckBoxTickDisabledAlpha" format="float"/>
+        <attr name="uidCheckBoxPaddingStart" format="dimension"/>
     </declare-styleable>
 </resources>

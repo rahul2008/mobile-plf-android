@@ -134,8 +134,8 @@
     <dimen name="uid_label_margin_left_control">12dp</dimen>
 
     <!--CheckBox-->
-    <dimen name="checkbox_margin_left_right">12dp</dimen>
-    <dimen name="checkbox_height">48dp</dimen>
-    <dimen name="checkbox_text_size">16dp</dimen>
+    <dimen name="uid_checkbox_margin_left_right">12dp</dimen>
+    <dimen name="uid_checkbox_height">48dp</dimen>
+    <dimen name="uid_checkbox_text_size">16dp</dimen>
 </resources>
 

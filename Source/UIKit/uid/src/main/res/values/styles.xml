@@ -1,17 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Base application theme. -->
     <style name="Theme.Philips" parent="Theme.AppCompat.NoActionBar">
-        <item name="buttonStyle">@style/UIDDefaultButton</item>
-        <item name="imageButtonStyle">@style/UIDImageButton</item>
-        <item name="editTextStyle">@style/UIDEditTextBox</item>
         <item name="android:windowBackground">?attr/uidContentPrimary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
-
-        <item name="switchStyle">@style/UIDSwitchStyle</item>
-        <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
 
         <!-- Action bar and toolbar style-->
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
@@ -39,6 +32,13 @@
         <!-- Below lines are to set the color for options menu items text color -->
         <item name="actionMenuTextColor">?attr/uidNavigationTextColor</item>
         <item name="android:actionMenuTextColor">?attr/uidNavigationTextColor</item>
+
         <item name="progressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
+        <item name="checkboxStyle">@style/UIDCheckBox</item>
+        <item name="buttonStyle">@style/UIDDefaultButton</item>
+        <item name="imageButtonStyle">@style/UIDImageButton</item>
+        <item name="editTextStyle">@style/UIDEditTextBox</item>
+        <item name="switchStyle">@style/UIDSwitchStyle</item>
+        <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
     </style>
 </resources>
