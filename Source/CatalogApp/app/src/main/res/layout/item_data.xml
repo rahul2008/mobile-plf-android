@@ -2,7 +2,7 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="data" type="com.philips.platform.catalogapp.DataModel"></variable>
+        <variable name="data" type="com.philips.platform.catalogapp.DataHolder"></variable>
     </data>
     <TextView
         style="@style/TestButtonTexts"

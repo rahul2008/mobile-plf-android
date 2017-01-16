@@ -11,15 +11,15 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 
-public class DataModelView extends BaseObservable {
+public class DataHolderView extends BaseObservable {
     @Bindable
-    public ObservableArrayList<DataModel> dataModels;
+    public ObservableArrayList<DataHolder> dataHolders;
 
-    public DataModelView() {
-        this.dataModels = new ObservableArrayList<>();
+    public DataHolderView() {
+        this.dataHolders = new ObservableArrayList<>();
     }
 
     public void addUser(int icon, int title, final Context context) {
-        this.dataModels.add(new DataModel(icon, title, context));
+        this.dataHolders.add(new DataHolder(icon, title, context));
     }
 }

@@ -19,8 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.catalogapp.DataModel;
-import com.philips.platform.catalogapp.DataModelView;
+import com.philips.platform.catalogapp.DataHolder;
+import com.philips.platform.catalogapp.DataHolderView;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSeparatorBinding;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -35,29 +35,29 @@ public class SeparatorFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 
-        DataModelView dataModelView = new DataModelView();
+        DataHolderView dataHolderView = new DataHolderView();
 
         final Context context = getContext();
-        dataModelView.addUser(R.drawable.ic_add_folder, R.string.title1, context);
-        dataModelView.addUser(R.drawable.ic_home, R.string.title2, context);
-        dataModelView.addUser(R.drawable.ic_lock, R.string.title3, context);
-        dataModelView.addUser(R.drawable.ic_alarm, R.string.title4, context);
-        dataModelView.addUser(R.drawable.ic_bottle, R.string.title5, context);
-        dataModelView.addUser(R.drawable.ic_location, R.string.title6, context);
+        dataHolderView.addUser(R.drawable.ic_add_folder, R.string.title1, context);
+        dataHolderView.addUser(R.drawable.ic_home, R.string.title2, context);
+        dataHolderView.addUser(R.drawable.ic_lock, R.string.title3, context);
+        dataHolderView.addUser(R.drawable.ic_alarm, R.string.title4, context);
+        dataHolderView.addUser(R.drawable.ic_bottle, R.string.title5, context);
+        dataHolderView.addUser(R.drawable.ic_location, R.string.title6, context);
 
         final FragmentSeparatorBinding fragmentSeparatorBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_separator, container, false);
         fragmentSeparatorBinding.recyclerviewSeparatorItems.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
-        fragmentSeparatorBinding.recyclerviewSeparatorItems.setAdapter(new SeparatorRecyclerViewAdapter(dataModelView.dataModels));
+        fragmentSeparatorBinding.recyclerviewSeparatorItems.setAdapter(new SeparatorRecyclerViewAdapter(dataHolderView.dataHolders));
         fragmentSeparatorBinding.recyclerviewSeparatorItems.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return fragmentSeparatorBinding.getRoot();
     }
 
     static class SeparatorRecyclerViewAdapter extends RecyclerView.Adapter {
-        private ObservableArrayList<DataModel> dataModels;
+        private ObservableArrayList<DataHolder> dataHolders;
 
-        public SeparatorRecyclerViewAdapter(@NonNull final ObservableArrayList<DataModel> dataModels) {
-            this.dataModels = dataModels;
+        public SeparatorRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
+            this.dataHolders = dataHolders;
         }
 
         @Override
@@ -70,14 +70,14 @@ public class SeparatorFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
-            final DataModel dataModel = dataModels.get(position);
-            ((BindingHolder) holder).getBinding().setVariable(1, dataModel);
+            final DataHolder dataHolder = dataHolders.get(position);
+            ((BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((BindingHolder) holder).getBinding().executePendingBindings();
         }
 
         @Override
         public int getItemCount() {
-            return dataModels.size();
+            return dataHolders.size();
         }
 
         static class BindingHolder extends RecyclerView.ViewHolder {
