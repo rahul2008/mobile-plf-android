@@ -16,6 +16,7 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
@@ -131,6 +132,12 @@ public class BaseAppCore implements BaseAppDataCreator {
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull boolean isSynchronized, @NonNull Consent consent) {
         return database.createConsentDetail(type, status, version, deviceIdentificationNumber, isSynchronized, consent);
+    }
+
+    @NonNull
+    @Override
+    public Settings createSettings(String type, String value) {
+        return database.createSettings(type,value);
     }
 
 

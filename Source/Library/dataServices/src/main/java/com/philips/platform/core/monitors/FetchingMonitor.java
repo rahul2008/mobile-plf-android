@@ -20,6 +20,7 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
+import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -122,6 +123,15 @@ public class FetchingMonitor extends EventMonitor {
 
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
+        }
+    }
+
+    public void onEventBackgroundThread(LoadSettingsRequest loadSettingsRequest) {
+
+        try {
+            dbInterface.fetchSettings(loadSettingsRequest.getDbRequestListener());
+        } catch (SQLException e) {
+            dbInterface.postError(e, loadSettingsRequest.getDbRequestListener());
         }
     }
 }

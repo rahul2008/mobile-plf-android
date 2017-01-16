@@ -10,8 +10,11 @@ import android.support.annotation.NonNull;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
@@ -19,6 +22,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -34,25 +38,20 @@ public class OrmUpdating {
     @NonNull
     private final Dao<OrmConsent, Integer> constentDao;
 
-    //TODO: Spoorti - Remove Unused
     @NonNull
-    private final Dao<OrmConsentDetail, Integer> constentDetailsDao;
-
-
+    private final Dao<OrmSettings, Integer> settingsDao;
 
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao) {
+                       @NonNull final Dao<OrmConsent, Integer> constentDao, @NonNull Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.constentDao = constentDao;
-        this.constentDetailsDao = constentDetailsDao;
-
+        this.settingsDao = settingsDao;
     }
 
     public void updateMoment(OrmMoment moment) throws SQLException {
@@ -84,4 +83,12 @@ public class OrmUpdating {
     }
 
 
+    public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) throws SQLException {
+        UpdateBuilder<OrmSettings, Integer> updateBuilder = settingsDao.updateBuilder();
+        for(Settings settings:settingsList) {
+            updateBuilder.updateColumnValue("type",settings.getType());
+            updateBuilder.updateColumnValue("value",settings.getValue());
+            updateBuilder.update();
+        }
+    }
 }

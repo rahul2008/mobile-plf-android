@@ -12,6 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -24,6 +25,7 @@ import java.util.Map;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
@@ -46,14 +48,16 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     private final Dao<OrmConsent, Integer> consentDao;
     private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
+    private final Dao<OrmSettings,Integer> settingsDao;
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
 
         this.consentDao = consentDao;
         this.consentDetailsDao = consentDetailsDao;
+        this.settingsDao = settingsDao;
 
         mTemperatureMomentHelper = new TemperatureMomentHelper();
     }
@@ -184,6 +188,17 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         consentQueryBuilder.where().eq("beSynchronized", false);
 
         return consentQueryBuilder.query();
+    }
+
+    @Override
+    public List<OrmSettings> fetchSettings(DBRequestListener dbRequestListener) throws SQLException{
+        QueryBuilder<OrmSettings, Integer> settingsQueryBuilder = settingsDao.queryBuilder();
+        if (settingsQueryBuilder.query().size() != 0) {
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener, settingsQueryBuilder.query());
+        } else {
+            mTemperatureMomentHelper.notifySuccess(dbRequestListener);
+        }
+        return settingsQueryBuilder.query();
     }
 
     public OrmConsent fetchConsentByCreatorId(@NonNull final String creatorId) throws SQLException {

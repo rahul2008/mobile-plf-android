@@ -3,6 +3,7 @@ package com.philips.platform.core.monitors;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -11,6 +12,7 @@ import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
+import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
@@ -28,6 +30,8 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -84,6 +88,9 @@ public class UpdatingMonitorTest {
     @Mock
     private AppComponent appComponantMock;
 
+    @Mock
+    private DatabaseSettingsUpdateRequest databaseSettingsUpdateRequestMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -117,6 +124,13 @@ public class UpdatingMonitorTest {
         updatingMonitor.onEventAsync(consentBackendSaveResponseMock);
 //        verify(consentMock).setSynced(false);
     }
+
+    @Test
+    public void shouldUpdateSettings_whenDatabaseSettingsUpdateRequestIsCalled() throws Exception {
+        when(databaseSettingsUpdateRequestMock.getSettingsList()).thenReturn(anyListOf(Settings.class));
+        updatingMonitor.onEventAsync(databaseSettingsUpdateRequestMock);
+    }
+
 
     /*@Test
     public void shouldDeleteUpdateAndPostMoment_whenonEventBackgroundThreadIsCalled() throws Exception {

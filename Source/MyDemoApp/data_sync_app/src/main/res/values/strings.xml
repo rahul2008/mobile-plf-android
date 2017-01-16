@@ -21,5 +21,31 @@
     <string name="create_moment">Create moment</string>
     <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
     <string name="consents">Consents</string>
+    <string name="settings">User Settings</string>
+
+    <string-array name="metrics">
+        <item>"metric"</item>
+        <item>"imperial"</item>
+        <item>"us-customary"</item>
+    </string-array>
+
+    <string-array name="locals">
+        <item>"en_AU"</item>
+        <item>"en_GB""</item>
+        <item>"en_CA"</item>
+        <item>"en_HK"</item>
+        <item>"en_ID"</item>
+        <item>"en_IE"</item>
+        <item>"en_IN"</item>
+        <item>"en_MY"</item>
+        <item>"en_NZ"</item>
+        <item>"en_PH"</item>
+        <item>"en_PK"</item>
+        <item>"en_SA"</item>
+        <item>"en_SG"</item>
+        <item>"en_US"</item>
+        <item>"en_ZA"</item>
+
+    </string-array>
 
 </resources>

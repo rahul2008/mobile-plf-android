@@ -37,4 +37,5 @@ public interface DBFetchingInterface {
 
     List<?> fetchNonSyncConsentDetails() throws SQLException;
 
+    List<?> fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
 }

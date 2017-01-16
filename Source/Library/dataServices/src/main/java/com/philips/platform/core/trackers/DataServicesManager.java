@@ -24,12 +24,14 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -50,6 +52,7 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -174,6 +177,16 @@ public class DataServicesManager {
     public void updateConsent(Consent consent,DBRequestListener dbRequestListener) {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
+
+    public Settings createSettings(String type,String value) {
+        Settings settings = mDataCreater.createSettings(type,value);
+        return settings;
+    }
+
+    public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) {
+        mEventing.post(new DatabaseSettingsUpdateRequest(settingsList,dbRequestListener));
+    }
+
 
     @NonNull
     public Moment createMoment(@NonNull final String type) {
@@ -367,5 +380,9 @@ public class DataServicesManager {
 
     public DBRequestListener getDbChangeListener() {
         return dbChangeListener;
+    }
+
+    public void fetchSettings(DBRequestListener dbRequestListener) {
+
     }
 }

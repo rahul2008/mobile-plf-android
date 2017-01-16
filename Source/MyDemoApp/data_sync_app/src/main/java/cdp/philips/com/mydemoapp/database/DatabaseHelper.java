@@ -37,6 +37,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
@@ -64,6 +65,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
     private Dao<OrmConsent, Integer> consentDao;
     private Dao<OrmConsentDetail, Integer> consentDetailDao;
+    private Dao <OrmSettings,Integer> settingDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -87,6 +89,32 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMomentDetailsTypes();
         insertMeasurementDetailTypes();
         insertMeasurementGroupDetailType();
+        insertDefaultSettings();
+    }
+
+    private void insertDefaultSettings() {
+        final Dao<OrmSettings, Integer> settingsDao;
+        try {
+            settingsDao = getSettingsDao();
+            settingsDao.createOrUpdate(new OrmSettings("Metrics","metric"));
+            settingsDao.createOrUpdate(new OrmSettings("Locale","en_US"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    public Dao<OrmSettings,Integer> getSettingsDao() {
+        if (settingDao == null) {
+            try {
+                settingDao = getDao(OrmSettings.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return settingDao;
     }
 
     private void insertMeasurementTypes() throws SQLException {
@@ -148,6 +176,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
+        TableUtils.createTable(connectionSource, OrmSettings.class);
     }
 
     @Override
@@ -208,6 +237,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmSynchronisationData.class, true);
         TableUtils.dropTable(connectionSource, OrmConsent.class, true);
         TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
+        TableUtils.dropTable(connectionSource, OrmSettings.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {

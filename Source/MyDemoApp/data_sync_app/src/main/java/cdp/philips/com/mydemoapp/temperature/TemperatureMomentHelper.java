@@ -12,11 +12,13 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -88,6 +90,17 @@ public class TemperatureMomentHelper {
             dbRequestListener.onSuccess(ormConsents.get(0));
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormConsents.get(0));
+        }else {
+            //Callback not registerd
+            DSLog.i(DataServicesManager.TAG,"Callback Not registered");
+        }
+    }
+
+    public void notifySuccess(DBRequestListener dbRequestListener, List<OrmSettings> ormSettingsList) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(ormSettingsList);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().onSuccess(ormSettingsList);
         }else {
             //Callback not registerd
             DSLog.i(DataServicesManager.TAG,"Callback Not registered");

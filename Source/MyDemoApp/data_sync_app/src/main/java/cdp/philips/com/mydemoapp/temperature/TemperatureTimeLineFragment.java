@@ -35,6 +35,7 @@ import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
 import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
+import cdp.philips.com.mydemoapp.settings.SettingsFragment;
 import cdp.philips.com.mydemoapp.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -54,7 +55,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    private TextView mTvSetCosents;
+    private TextView mTvSetCosents,mTvSettings;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
@@ -156,7 +157,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
         mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
+        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
         mTvSetCosents.setOnClickListener(this);
+        mTvSettings.setOnClickListener(this);
 
         return view;
     }
@@ -198,7 +201,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 break;
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                dFragment.show(getFragmentManager(), "Dialog");
+                dFragment.show(getFragmentManager(), "consent");
+                break;
+            case R.id.tv_settings:
+                SettingsFragment settingsFragment = new SettingsFragment();
+                settingsFragment.show(getFragmentManager(), "settings");
                 break;
         }
     }

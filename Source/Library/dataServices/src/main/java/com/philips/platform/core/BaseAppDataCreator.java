@@ -16,6 +16,7 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
 
 import org.joda.time.DateTime;
@@ -63,4 +64,6 @@ public interface BaseAppDataCreator {
     @NonNull
     ConsentDetail createConsentDetail(@NonNull final String type, @NonNull final String status, @NonNull final String version, final String deviceIdentificationNumber, boolean isSynchronized, @NonNull final Consent consent);
 
+    @NonNull
+    Settings createSettings(String type, String value);
 }

@@ -17,6 +17,7 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
@@ -41,6 +42,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetailType;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 
 /**
@@ -148,6 +150,12 @@ public class OrmCreator implements BaseAppDataCreator {
         // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
 
         return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
+    }
+
+    @NonNull
+    @Override
+    public Settings createSettings(String type, String value) {
+        return new OrmSettings(type,value);
     }
 
     @NonNull

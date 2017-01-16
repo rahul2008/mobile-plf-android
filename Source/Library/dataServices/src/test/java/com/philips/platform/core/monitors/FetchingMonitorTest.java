@@ -13,6 +13,7 @@ import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
+import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -143,6 +144,14 @@ public class FetchingMonitorTest {
         fetchingMonitor.onEventBackgroundThread(new LoadConsentsRequest(dbRequestListener));
 
         verify(fetching).fetchConsents(dbRequestListener);
+    }
+
+    @Test
+    public void ShouldFetchSettings_WhenLoadSettingsRequestIsCalled() throws Exception {
+
+        fetchingMonitor.onEventBackgroundThread(new LoadSettingsRequest(dbRequestListener));
+
+        verify(fetching).fetchSettings(dbRequestListener);
     }
 
 

@@ -2,6 +2,7 @@ package cdp.philips.com.mydemoapp.database;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -36,6 +37,15 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public void updateFailed(Exception e, DBRequestListener dbRequestListener) {
         mTemperatureMomentHelper.notifyFailure(e, dbRequestListener);
+    }
+
+    @Override
+    public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) {
+        try {
+            updating.updateSettings(settingsList,dbRequestListener);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
