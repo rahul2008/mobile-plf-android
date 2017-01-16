@@ -305,7 +305,7 @@ public class FAQCustomView implements Serializable {
 
         // questionTypeView.setBackgroundResource(R.drawable.uikit_grad_blue_bright_to_light);
         int topMarginOfQuestionType = (int) (mContext.getResources()
-                .getDimension(R.dimen.err_alert_width) * mDensity);
+                .getDimension(R.dimen.faq_top_textview_padding) * mDensity);
         DigiCareLogger.d("FaqDeta", " : " + topMarginOfQuestionType);
         // questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
         // questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_question_background));
