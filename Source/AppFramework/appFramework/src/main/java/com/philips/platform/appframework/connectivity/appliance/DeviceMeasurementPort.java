@@ -15,7 +15,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
  */
 
 public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortProperties> {
-    private static final String TAG = "TimePort";
+    private static final String TAG = "DeviceMeasurementPort";
 
     private static final String DEVICE_MEASUREMENT_PORT_NAME = "devicemeasurement";
     private static final int DEVICE_MEAUREMENT_PRODUCT_ID = 1;
@@ -36,7 +36,6 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
             setPortProperties(deviceMeasurementPortProperties);
             return;
         }
-        Log.e(TAG, "TimePort is null.");
     }
 
     @Override
