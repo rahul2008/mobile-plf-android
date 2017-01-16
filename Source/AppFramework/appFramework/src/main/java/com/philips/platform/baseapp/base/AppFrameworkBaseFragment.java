@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 
 /**
  * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.

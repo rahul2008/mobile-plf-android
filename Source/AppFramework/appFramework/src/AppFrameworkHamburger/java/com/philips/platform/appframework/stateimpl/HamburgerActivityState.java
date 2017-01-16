@@ -9,8 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
