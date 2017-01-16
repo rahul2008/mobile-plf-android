@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="UIDCheckBox" parent="Base.Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/checkbox_height</item>
         <item name="android:layout_marginEnd">@dimen/checkbox_margin_left_right</item>
         <item name="android:layout_marginStart">@dimen/checkbox_margin_left_right</item>
         <item name="android:paddingStart">@dimen/checkbox_margin_left_right</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/checkbox_text_size</item>
     </style>
 </resources>

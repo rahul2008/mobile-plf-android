@@ -74,6 +74,17 @@
 
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel45</item>
         <item name="uidProgressIndicatorButtonBackgroundAlpha">@dimen/uid_alpha_per_35</item>
+
+        <item name="uidCheckBoxTextEnabledColor">@color/uidColorWhite</item>
+        <item name="uidCheckBoxTextDisaledColor">?attr/uidCheckBoxTextEnabledColor</item>
+        <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_45</item>
+        <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel45</item>
+        <item name="uidCheckBoxBackgroundUncheckedEnabledColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
+        <item name="uidCheckBoxBackgroundUncheckedEnabledAlpha">@dimen/uid_alpha_per_60</item>
+        <item name="uidCheckBoxBackgroundDisabledColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
+        <item name="uidCheckBoxBackgroundDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidCheckBoxTickEnabledColor">@color/uidColorWhite</item>
+        <item name="uidCheckBoxTickDisabledColor">@color/uidColorWhite</item>
     </style>
 
     <style name="UltraLight">
@@ -113,11 +124,14 @@
         <item name="uidControlPrimaryTrackOff">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_30</item>
 
-
         <item name="uidTextPrimary">@color/uid_gray_level_75</item>
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+
+        <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
+        <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_00</item>
     </style>
 
     <style name="VeryLight">
@@ -156,6 +170,9 @@
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+
+        <item name="uidCheckBoxTextEnabledColor">?attr/uidColorLevel75</item>
+        <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_70</item>
     </style>
 
     <style name="Light">
@@ -192,6 +209,8 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+        <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
+        <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
     </style>
 
     <style name="Bright">
@@ -225,6 +244,10 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+
+        <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
+        <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
     </style>
 
     <style name="VeryDark">
@@ -261,5 +284,8 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+
+        <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_40</item>
+        <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
     </style>
 </resources>
