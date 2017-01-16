@@ -9,12 +9,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
+import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
-import com.philips.platform.appframework.flowmanager.parser.AppFlowParser;
 import com.philips.platform.appframework.flowmanager.stack.FlowManagerStack;
 
 import java.util.List;
@@ -32,25 +36,37 @@ public abstract class BaseFlowManager {
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
 
+    @Deprecated
+    /**
+     * Will be obsolete soon , kindly use BaseFlowManager constructor with appFlowJsonListener
+     */
     public BaseFlowManager(final Context context, final String jsonPath) {
+        this(context, jsonPath, null);
+    }
+
+    public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+        initFlowManager(context, jsonPath, null);
+    }
+
+    public BaseFlowManager() {
+
+    }
+
+    public void initFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         this.context = context;
-        mapAppFlowStates(jsonPath);
+        mapAppFlowStates(jsonPath, appFlowJsonListener);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
     }
-
     /**
-     * This method will creates and return the object of BaseCondition depending upon Condition ID.
+     * This method will create and return the object of BaseCondition depending on Condition ID.
      *
-     * @param conditionId Condition ID for which the BaseCondition type object need to be created.
+     * @param conditionId Condition ID for which the BaseCondition object needs to be created.
      * @return Object of BaseCondition type.
      */
-    // TODO: Deepthi , enough validation is not done here to check params and return type, make sure enough test cases are added.
-    // put @nonNull for all public APIs and make sure it behaves properly when they send null values and app does not crash.
-    @NonNull
     public BaseCondition getCondition(String conditionId) {
         return conditionMap.get(conditionId);
     }
@@ -86,9 +102,15 @@ public abstract class BaseFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException {
+    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
+        setCurrentState(currentState);
+        return getNextState(eventId);
+    }
+
+    @NonNull
+    public BaseState getNextState(String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
         if (null == eventId)
-            throw new NoEventFoundException();
+            throw new NullEventException();
         else if (null != currentState) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState appFlowNextState = getStateForEventID(false, eventId, appFlowEvents);
@@ -112,24 +134,28 @@ public abstract class BaseFlowManager {
     }
 
     @Nullable
-    private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException {
+    private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException, NoConditionFoundException {
         String appFlowEventId;
         if (appFlowEvents != null && appFlowEvents.size() != 0) {
             for (final AppFlowEvent appFlowEvent : appFlowEvents) {
                 appFlowEventId = appFlowEvent.getEventId();
-                if (appFlowEvent.getEventId() != null && appFlowEventId.equals(eventId)) {
+                if (appFlowEvent.getEventId() != null && appFlowEventId.equalsIgnoreCase(eventId)) {
                     final List<AppFlowNextState> appFlowNextStates = appFlowEvent.getNextStates();
                     return getUiState(appFlowNextStates);
                 }
             }
-        } else {
-            if (!isBack)
-                throw new NoEventFoundException();
         }
-        return null;
+        if (!isBack)
+            throw new NoEventFoundException();
+        else
+            return null;
     }
 
-    public BaseState getBackState(BaseState currentState) throws NoStateException {
+    public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException {
+        return getBackState();
+    }
+
+    public BaseState getBackState() throws NoStateException, NoConditionFoundException {
         if (currentState != null && flowManagerStack.contains(currentState)) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState nextState = null;
@@ -140,11 +166,11 @@ public abstract class BaseFlowManager {
             }
             if (nextState != null) {
                 if (flowManagerStack.contains(nextState)) {
-                    // TODO: Deepthi pop operations need not return state, you can return just next state
                     flowManagerStack.pop(nextState);
                     setCurrentState(nextState);
                     return nextState;
                 } else {
+                    flowManagerStack.clear();
                     setCurrentState(nextState);
                     flowManagerStack.push(nextState);
                     return nextState;
@@ -157,8 +183,6 @@ public abstract class BaseFlowManager {
         throw new NoStateException();
     }
 
-    // TODO: Deepthi check if we need to standardize this exit state
-    // TODO: Deepthi check oncreate of application is called every time you press home, exit app etc.
     public void clearStates() {
         flowManagerStack.clear();
     }
@@ -168,7 +192,7 @@ public abstract class BaseFlowManager {
     }
 
     @Nullable
-    private BaseState getUiState(final List<AppFlowNextState> appFlowNextStates) {
+    private BaseState getUiState(final List<AppFlowNextState> appFlowNextStates) throws NoConditionFoundException {
         for (AppFlowNextState appFlowNextState : appFlowNextStates) {
             List<String> conditionsTypes = appFlowNextState.getCondition();
             boolean isConditionSatisfies = true;
@@ -183,22 +207,32 @@ public abstract class BaseFlowManager {
         return null;
     }
 
-    private boolean isConditionSatisfies(final List<String> conditionsTypes) {
+    private boolean isConditionSatisfies(final List<String> conditionsTypes) throws NoConditionFoundException {
         boolean isConditionSatisfies = true;
         for (final String conditionType : conditionsTypes) {
             BaseCondition condition = getCondition(conditionType);
-            isConditionSatisfies = condition.isSatisfied(context);
-            if (isConditionSatisfies)
-                break;
+            if (condition != null) {
+                isConditionSatisfies = condition.isSatisfied(context);
+                if (isConditionSatisfies)
+                    break;
+            } else {
+                throw new NoConditionFoundException();
+            }
         }
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath) {
-        AppFlowModel appFlowModel = AppFlowParser.getAppFlow(jsonPath);
+    private void mapAppFlowStates(final String jsonPath, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+        final AppFlowParser appFlowParser = new AppFlowParser();
+        AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
+        getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
+        appFlowJsonListener.onParseSuccess();
+    }
+
+    private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
         if (appFlowModel != null && appFlowModel.getAppFlow() != null) {
             firstState = appFlowModel.getAppFlow().getFirstState();
-            appFlowMap = AppFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
+            appFlowMap = appFlowParser.getAppFlowMap(appFlowModel.getAppFlow());
         }
     }
 }

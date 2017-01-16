@@ -3,10 +3,14 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.appframework.flowmanager.parser;
+package com.philips.platform.appframework.flowmanager.base;
+
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;
 import com.philips.platform.appframework.flowmanager.models.AppFlow;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
@@ -20,28 +24,50 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-public class AppFlowParser {
+class AppFlowParser {
 
     /**
      * This method will return the object of AppFlow class or 'null'.
      * It request 'getJsonFromURL' to download the AppFlow json by sending the server URL.
      * it also send the path of prepackaged AppFlow Json file to handle the offline/error scenarios.
+     * <p>
+     * or {@link android.app.Activity} object.
      *
-     *                or {@link android.app.Activity} object.
      * @return Object to 'AppFlowModel' class or 'null'
      */
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
-    public static AppFlowModel getAppFlow(String jsonPath) {
-        AppFlowModel appFlow = null;
-        try {
-            InputStream is = new FileInputStream(jsonPath);
-            final InputStreamReader inputStreamReader = new InputStreamReader(is);
-            appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
-        } catch (JsonSyntaxException | FileNotFoundException e) {
-            e.printStackTrace();
+    AppFlowModel getAppFlow(String jsonPath) throws JsonFileNotFoundException, JsonStructureException {
+        AppFlowModel appFlow;
+        if (isEmpty(jsonPath)) {
+            throw new JsonFileNotFoundException();
+        } else {
+            try {
+                final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
+                appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+            } catch (JsonSyntaxException | FileNotFoundException e) {
+                if (e instanceof JsonSyntaxException) {
+                    throw new JsonStructureException();
+                } else {
+                    throw new JsonFileNotFoundException();
+                }
+            }
         }
         return appFlow;
+    }
+
+    @NonNull
+    private InputStreamReader getInputStreamReader(final String jsonPath) throws FileNotFoundException {
+        InputStream is = getFileInputStream(jsonPath);
+        return new InputStreamReader(is);
+    }
+
+    @NonNull
+    InputStream getFileInputStream(final String jsonPath) throws FileNotFoundException {
+        return new FileInputStream(jsonPath);
+    }
+
+    boolean isEmpty(final String jsonPath) {
+        return jsonPath == null || jsonPath.length() == 0;
     }
 
     /**
@@ -50,7 +76,7 @@ public class AppFlowParser {
      * @param appFlow Object to AppFlow class which defines the app flow.
      * @return Map of state to array of next states.
      */
-    public static Map<String, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
+    Map<String, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
         HashMap<String, List<AppFlowEvent>> appFlowMap = null;
         if (appFlow.getStates() != null) {
             appFlowMap = new HashMap<>();
