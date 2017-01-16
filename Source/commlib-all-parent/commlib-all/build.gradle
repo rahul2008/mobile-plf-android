@@ -72,10 +72,10 @@ dependencies {
     }
 
     if (findProject(':commlib')) {
+        println("!!! taking local commlib !!!")
         compile project(':commlib')
         compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
         compile 'com.google.code.gson:gson:2.7'
-        System.out.println("!!! taking local commlib !!!")
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.0.0-20170111.105638-8')
     }
