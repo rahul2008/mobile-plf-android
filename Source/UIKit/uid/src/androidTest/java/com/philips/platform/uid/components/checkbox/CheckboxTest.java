@@ -5,89 +5,69 @@
  */
 package com.philips.platform.uid.components.checkbox;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.components.buttons.ButtonWithProgressIndicatorsTest;
-import com.philips.platform.uid.components.buttons.ButtonsTestFragment;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.view.widget.CheckBox;
-import com.philips.platform.uid.view.widget.ProgressIndicatorButton;
 
 import org.hamcrest.Matcher;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
-import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.activity.BaseTestActivity.CONTENT_COLOR_KEY;
 import static com.philips.platform.uid.test.R.color.Gray75;
-import static com.philips.platform.uid.test.R.color.GroupBlue35;
 import static com.philips.platform.uid.test.R.color.GroupBlue45;
 import static com.philips.platform.uid.test.R.color.GroupBlue75;
 import static com.philips.platform.uid.test.R.color.White;
-import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
+import static com.philips.platform.uid.utils.UIDUtils.modulateColorAlpha;
 import static org.hamcrest.CoreMatchers.allOf;
 
-public class checkbox {
-
-    private Context context;
-    private Context instrumentationContext;
+public class CheckboxTest {
 
     @Rule
-    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
+    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
     private BaseTestActivity activity;
-    private Resources testResources;
 
-    @Before
-    public void setUpDefaultTheme() {
-        final Intent intent = getIntent(0);
-        activity = mActivityTestRule.launchActivity(intent);
-        activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-
-        activity.switchFragment(new ButtonsTestFragment());
-        testResources = getInstrumentation().getContext().getResources();
-        context = getInstrumentation().getContext();
-    }
+    Resources resources;
+    private static final int ULTRA_LIGHT = 0;
+    private static final int VERY_LIGHT = 1;
+    private static final int BRIGHT = 2;
+    private static final int LIGHT = 3;
+    private static final int VERY_DARK = 4;
 
     /********************************
      * Layout scenarios
      ******************************/
     @Test
     public void verifyCheckboxHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_height);
-        getCheckbox()
-                .check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
+        setUpTheme(ULTRA_LIGHT);
+        int expectedHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_height);
+        getCheckbox().check(matches(FunctionDrawableMatchers.isSameHeight(TestConstants.FUNCTION_GET_BACKGROUND, expectedHeight)));
     }
 
     @Test
     public void verifyCheckboxCornerRadius() {
-        float radius = (float) Math.floor(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_cornerradius));
-        getCheckbox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
+        setUpTheme(ULTRA_LIGHT);
 
+        float radius = (float) Math.floor(resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_cornerradius));
+        getCheckbox().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
 
     @Test
@@ -97,58 +77,70 @@ public class checkbox {
 
     @Test
     public void verifyCheckboxLeftMargin() {
-        int expectedLeftMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_leftrightmargin);
+        setUpTheme(ULTRA_LIGHT);
+
+        int expectedLeftMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_leftrightmargin);
         getCheckbox().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
     }
 
     @Test
     public void verifyCheckboxRightMargin() {
-        int expectedRightMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_leftrightmargin);
+        setUpTheme(ULTRA_LIGHT);
+
+        int expectedRightMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_leftrightmargin);
         getCheckbox().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedRightMargin)));
     }
 
     @Test
     public void verifyCheckboxLabelFontSize() {
-        int expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.label_fontsize);
+        setUpTheme(ULTRA_LIGHT);
+
+        int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.label_fontsize);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
 
     @Test
     public void verifyCheckboxTickMarkHeight() {
-        int expectedIconHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_tickmarkheightwidth);
+        setUpTheme(ULTRA_LIGHT);
+
+        int expectedIconHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_tickmarkheightwidth);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
     public void verifyCheckboxTickMarkWidth() {
-        int expectedIconWidth = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_tickmarkheightwidth);
+        setUpTheme(ULTRA_LIGHT);
+
+        int expectedIconWidth = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_tickmarkheightwidth);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconWidth)));
     }
 
     /****************************Theming scenarios***********************/
-    /***************************CheckBox On Test scenarios**************/
+    /***************************
+     * CheckBox On Test scenarios
+     **************/
 
     @Test
     public void verifyCheckBoxOnFillColor() {
-        setUpDefaultTheme();
-        onView(withId(com.philips.platform.uid.test.R.id.checkbox_1)).perform(click());
-        final int expectedOnFillColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        setUpTheme(ULTRA_LIGHT);
+        getCheckbox().perform(click());
+        final int expectedOnFillColor = ContextCompat.getColor(activity, GroupBlue45);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedOnFillColor)));
     }
 
     @Test
     public void verifyCheckBoxOnFillColorBrightTonalRange() {
-        setupBrightTheme();
-        onView(withId(com.philips.platform.uid.test.R.id.checkbox_1)).perform(click());
-        final int expectedOnFillColor = ContextCompat.getColor(instrumentationContext, GroupBlue75);
+        setUpTheme(BRIGHT);
+        getCheckbox().perform(click());
+        final int expectedOnFillColor = ContextCompat.getColor(activity, GroupBlue75);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedOnFillColor)));
     }
 
     @Test
     public void verifyCheckBoxOnFillColorVeryDarkTonalRange() {
-        setupVeryDarkTheme();
-        onView(withId(com.philips.platform.uid.test.R.id.checkbox_1)).perform(click());
-        final int expectedOnFillColor = ContextCompat.getColor(instrumentationContext, GroupBlue45);
+        setUpTheme(VERY_DARK);
+        getCheckbox().perform(click());
+        final int expectedOnFillColor = ContextCompat.getColor(activity, GroupBlue45);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedOnFillColor)));
     }
 
@@ -164,44 +156,46 @@ public class checkbox {
 
     @Test
     public void verifyCheckBoxTextColor() {
-        setUpDefaultTheme();
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray75);
+        setUpTheme(ULTRA_LIGHT);
+        final int expectedColor = ContextCompat.getColor(activity, Gray75);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyCheckBoxTextColorVeryLightTheme() {
-        setupVeryLightTheme();
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue75);
+        setUpTheme(VERY_LIGHT);
+        final int expectedColor = ContextCompat.getColor(activity, GroupBlue75);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyCheckBoxTextColorBrightTheme() {
-        setupBrightTheme();
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, White);
+        setUpTheme(BRIGHT);
+        final int expectedColor = ContextCompat.getColor(activity, White);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
-    /***************************CheckBox Off Test scenarios**************/
+    /***************************
+     * CheckBox Off Test scenarios
+     **************/
     @Test
     public void verifyCheckBoxOffFillColor() {
-        setUpDefaultTheme();
-        final int expectedCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.60f);
+        setUpTheme(ULTRA_LIGHT);
+        final int expectedCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(activity, GroupBlue45), 0.60f);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedCheckBoxOffFillColor)));
     }
 
     @Test
     public void verifyCheckBoxOffFillColorBright() {
-        setupBrightTheme();
-        final int expectedCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue75), 0.60f);
+        setUpTheme(BRIGHT);
+        final int expectedCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(activity, GroupBlue75), 0.60f);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedCheckBoxOffFillColor)));
     }
 
     @Test
     public void verifyCheckBoxOffFillColorVeryDark() {
-        setupVeryDarkTheme();
-        final int expectedCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.60f);
+        setUpTheme(VERY_DARK);
+        final int expectedCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(activity, GroupBlue45), 0.60f);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.enabled, expectedCheckBoxOffFillColor)));
     }
 
@@ -211,7 +205,6 @@ public class checkbox {
     //// TODO: 1/16/2017
     @Test
     public void verifyCheckBoxPressedBorderColor() {
-
 
     }
 
@@ -233,49 +226,49 @@ public class checkbox {
 
     @Test
     public void verifyCheckBoxDisabledFillColor() {
-        setUpDefaultTheme();
-        getCheckbox().perform(new SetViewDisabledViewAction());
-        final int expectedDisabledCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
+        setUpTheme(ULTRA_LIGHT);
+        getCheckbox().perform(new SetCheckboxCheckedViewAction());
+        final int expectedDisabledCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(activity, GroupBlue45), 0.35f);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, -android.R.attr.enabled, expectedDisabledCheckBoxOffFillColor)));
     }
 
     @Test
     public void verifyCheckBoxDisabledFillColorBright() {
-        setupBrightTheme();
-        getCheckbox().perform(new SetViewDisabledViewAction());
-        final int expectedDisabledCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue75), 0.35f);
+        setUpTheme(BRIGHT);
+        getCheckbox().perform(new SetCheckboxCheckedViewAction());
+        final int expectedDisabledCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(activity, GroupBlue75), 0.35f);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, -android.R.attr.enabled, expectedDisabledCheckBoxOffFillColor)));
     }
 
     @Test
     public void verifyCheckBoxDisabledFillColorVeryDark() {
-        setupVeryDarkTheme();
-        getCheckbox().perform(new SetViewDisabledViewAction());
-        final int expectedDisabledCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.35f);
+        setUpTheme(VERY_DARK);
+        getCheckbox().perform(new SetCheckboxCheckedViewAction());
+        final int expectedDisabledCheckBoxOffFillColor = modulateColorAlpha(ContextCompat.getColor(activity, GroupBlue45), 0.35f);
         getCheckbox().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, -android.R.attr.enabled, expectedDisabledCheckBoxOffFillColor)));
     }
 
     @Test
     public void verifyDisabledCheckBoxTextColor() {
-        setUpDefaultTheme();
-        getCheckbox().perform(new SetViewDisabledViewAction());
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, Gray75);
+        setUpTheme(ULTRA_LIGHT);
+        getCheckbox().perform(new SetCheckboxCheckedViewAction());
+        final int expectedColor = ContextCompat.getColor(activity, Gray75);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyDisabledCheckBoxTextColorVeryLightTheme() {
-        setupVeryLightTheme();
-        getCheckbox().perform(new SetViewDisabledViewAction());
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue75);
+        setUpTheme(VERY_LIGHT);
+        getCheckbox().perform(new SetCheckboxCheckedViewAction());
+        final int expectedColor = ContextCompat.getColor(activity, GroupBlue75);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyDisabledCheckBoxTextColorBrightTheme() {
-        setupBrightTheme();
-        getCheckbox().perform(new SetViewDisabledViewAction());
-        final int expectedColor = ContextCompat.getColor(instrumentationContext, White);
+        setUpTheme(BRIGHT);
+        getCheckbox().perform(new SetCheckboxCheckedViewAction());
+        final int expectedColor = ContextCompat.getColor(activity, White);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
 
@@ -285,28 +278,11 @@ public class checkbox {
 
     }
 
-    private void setupVeryLightTheme() {
-        final Intent intent = getIntent(1);
-
+    public void setUpTheme(final int theme) {
+        final Intent intent = getIntent(theme);
         activity = mActivityTestRule.launchActivity(intent);
-        activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(new ButtonsTestFragment());
-    }
-
-    private void setupBrightTheme() {
-        final Intent intent = getIntent(2);
-
-        activity = mActivityTestRule.launchActivity(intent);
-        activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(new ButtonsTestFragment());
-    }
-
-    private void setupVeryDarkTheme() {
-        final Intent intent = getIntent(4);
-
-        activity = mActivityTestRule.launchActivity(intent);
-        activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(new ButtonsTestFragment());
+        activity.switchTo(com.philips.platform.uid.test.R.layout.layout_checkbox);
+        resources = activity.getResources();
     }
 
     @NonNull
@@ -318,7 +294,7 @@ public class checkbox {
         return intent;
     }
 
-    static class SetViewDisabledViewAction implements ViewAction {
+    static class SetCheckboxCheckedViewAction implements ViewAction {
         @Override
         public Matcher<View> getConstraints() {
             return allOf();
@@ -326,20 +302,19 @@ public class checkbox {
 
         @Override
         public String getDescription() {
-            return "set checkbox enabled";
+            return "set CheckboxTest enabled";
         }
 
         @Override
         public void perform(final UiController uiController, final View view) {
             if (view instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) view;
-                checkBox.setEnabled(false);
+                checkBox.setEnabled(true);
             }
         }
     }
 
     private ViewInteraction getCheckbox() {
-        return onView(withId(com.philips.platform.uid.test.R.id.checkbox_1));
+        return onView(withId(com.philips.platform.uid.test.R.id.test_checkbox));
     }
-
 }
