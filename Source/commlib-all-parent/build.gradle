@@ -37,6 +37,11 @@ allprojects {
     ext._versionCode = 1
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 subprojects {
     def coverageSourceDirs = ['src/main/java']
 
