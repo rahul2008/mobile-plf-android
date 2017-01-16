@@ -1,4 +1,4 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.helper;
 
 import android.content.Context;
 
@@ -10,6 +10,9 @@ import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
+import com.philips.platform.securedblibrary.connectionSource.SecureAndroidConnectionSource;
+import com.philips.platform.securedblibrary.ormlite.OrmLiteConfigUtil;
+import com.philips.platform.securedblibrary.sqlcipher.AndroidDatabaseConnection;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteDatabase.CursorFactory;
@@ -28,20 +31,24 @@ import java.sql.SQLException;
  * SQLite database open helper which can be extended by your application to help manage when the application needs to
  * create or upgrade its database.
  *
- * @author kevingalligan, graywatson
  */
-public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
+public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelper {
 
-	protected static Logger logger = LoggerFactory.getLogger(DemoOrmLiteSqliteOpenHelper.class);
-	protected AndroidConnectionSource connectionSource;
+	protected static Logger logger = LoggerFactory.getLogger(SecureDbOrmLiteSqliteOpenHelper.class);
+	protected SecureAndroidConnectionSource connectionSource;
 
 	protected boolean cancelQueriesEnabled;
 	private volatile boolean isOpen = true;
+	private String password;
+	private Context context;
+	 public Class tableName;
+	private String dataBaseName, dataBasePassword;
+	private int databaseVersion = 1;
 
 	/**
 	 * @param context
 	 *            Associated content from the application. This is needed to locate the database.
-	 * @param databaseName
+	 * @param dataBaseName
 	 *            Name of the database we are opening.
 	 * @param factory
 	 *            Cursor factory or null if none.
@@ -49,10 +56,14 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 	 *            Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
 	 *            called if the stored database is a different version.
 	 */
-	public DemoOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion, String password) {
-		super(context, databaseName, factory, databaseVersion);
+	public SecureDbOrmLiteSqliteOpenHelper(Context context, String dataBaseName, CursorFactory factory, int databaseVersion, Class tableName, String dataBasePassword) {
+		super(context, dataBaseName, factory, databaseVersion);
+		this.dataBaseName = dataBaseName;
+		this.tableName=tableName;
+		this.databaseVersion = databaseVersion;
+		this.dataBasePassword = dataBasePassword;
 		SQLiteDatabase.loadLibs(context);
-		connectionSource = new AndroidConnectionSource(this, password);
+		connectionSource = new SecureAndroidConnectionSource(this, dataBasePassword);
 		logger.trace("{}: constructed connectionSource {}", this, connectionSource);
 	}
 
@@ -72,9 +83,10 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 	 * @param configFileId
 	 *            file-id which probably should be a R.raw.ormlite_config.txt or some static value.
 	 */
-	public DemoOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion,
-									   int configFileId, String password) {
-		this(context, databaseName, factory, databaseVersion, openFileId(context, configFileId), password);
+	public SecureDbOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion, Class tableName,
+										   int configFileId, String password) {
+		this(context, databaseName, factory, databaseVersion, tableName,openFileId(context, configFileId), password);
+		SQLiteDatabase.loadLibs(context);
 	}
 
 	/**
@@ -92,9 +104,10 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 	 * @param configFile
 	 *            Configuration file to be loaded.
 	 */
-	public DemoOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion,
-									   File configFile, String password) {
-		this(context, databaseName, factory, databaseVersion, openFile(configFile), password);
+	public SecureDbOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion, Class tableName,
+										   File configFile, String password) {
+		this(context, databaseName, factory, databaseVersion,tableName, openFile(configFile), password);
+
 	}
 
 	/**
@@ -103,7 +116,7 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 	 *
 	 * @param context
 	 *            Associated content from the application. This is needed to locate the database.
-	 * @param databaseName
+	 * @param dataBasePassword
 	 *            Name of the database we are opening.
 	 * @param factory
 	 *            Cursor factory or null if none.
@@ -113,11 +126,15 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 	 * @param stream
 	 *            Stream opened to the configuration file to be loaded.
 	 */
-	public DemoOrmLiteSqliteOpenHelper(Context context, String databaseName, CursorFactory factory, int databaseVersion,
-									   InputStream stream, String password) {
-		super(context, databaseName, factory, databaseVersion);
+	public SecureDbOrmLiteSqliteOpenHelper(Context context, String dataBaseName, CursorFactory factory, int databaseVersion, Class tableName,
+										   InputStream stream, String dataBasePassword) {
+		super(context, dataBaseName, factory, databaseVersion);
+		this.dataBaseName = dataBaseName;
+		this.databaseVersion = databaseVersion;
+		this.tableName=tableName;
+		this.dataBasePassword = dataBasePassword;
 		SQLiteDatabase.loadLibs(context);
-		connectionSource = new AndroidConnectionSource(this, password);
+		connectionSource = new SecureAndroidConnectionSource(this, dataBasePassword);
 		if (stream == null) {
 			return;
 		}
@@ -173,7 +190,7 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 	 *            The version that we are upgrading the database to.
 	 */
 	public abstract void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion,
-			int newVersion);
+								   int newVersion);
 
 	/**
 	 * Get the connection source associated with the helper.
@@ -195,7 +212,7 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 		/*
 		 * The method is called by Android database helper's get-database calls when Android detects that we need to
 		 * create or update the database. So we have to use the database argument and save a connection to it on the
-		 * LumeaLumeaAndroidConnectionSource, otherwise it will go recursive if the subclass calls getConnectionSource().
+		 * SecureAndroidConnectionSource, otherwise it will go recursive if the subclass calls getConnectionSource().
 		 */
 		DatabaseConnection conn = cs.getSpecialConnection();
 		boolean clearSpecial = false;
@@ -226,7 +243,7 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 		/*
 		 * The method is called by Android database helper's get-database calls when Android detects that we need to
 		 * create or update the database. So we have to use the database argument and save a connection to it on the
-		 * LumeaLumeaAndroidConnectionSource, otherwise it will go recursive if the subclass calls getConnectionSource().
+		 * SecureAndroidConnectionSource, otherwise it will go recursive if the subclass calls getConnectionSource().
 		 */
 		DatabaseConnection conn = cs.getSpecialConnection();
 		boolean clearSpecial = false;
@@ -271,7 +288,7 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Get a DAO for our class. This uses the {@link DaoManager} to cache the DAO for future gets.
-	 * 
+	 *
 	 * <p>
 	 * NOTE: This routing does not return Dao<T, ID> because of casting issues if we are assigning it to a custom DAO.
 	 * Grumble.
@@ -287,7 +304,7 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Get a RuntimeExceptionDao for our class. This uses the {@link DaoManager} to cache the DAO for future gets.
-	 * 
+	 *
 	 * <p>
 	 * NOTE: This routing does not return RuntimeExceptionDao<T, ID> because of casting issues if we are assigning it to
 	 * a custom DAO. Grumble.
@@ -303,6 +320,32 @@ public abstract class DemoOrmLiteSqliteOpenHelper extends SQLiteOpenHelper {
 			throw new RuntimeException("Could not create RuntimeExcepitionDao for class " + clazz, e);
 		}
 	}
+
+	public String getDataBaseName() {
+		if (null == dataBaseName || dataBaseName.isEmpty()) {
+			return null;
+		}
+		return dataBaseName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public int getDataBaseVersion() {
+		return databaseVersion;
+	}
+
+
+	public String getPassWord() {
+		return dataBasePassword;
+	}
+
+
+	public Class<T> getTableName() {
+		return tableName;
+	}
+
 
 	@Override
 	public String toString() {

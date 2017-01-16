@@ -1,4 +1,4 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.sqlcipher;
 
 import android.database.Cursor;
 
@@ -25,7 +25,6 @@ import java.sql.Savepoint;
 /**
  * Database connection for Android.
  * 
- * @author kevingalligan, graywatson
  */
 public class AndroidDatabaseConnection implements DatabaseConnection {
 

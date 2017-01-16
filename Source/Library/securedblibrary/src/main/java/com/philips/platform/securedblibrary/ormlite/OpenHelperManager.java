@@ -1,4 +1,4 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.ormlite;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
+import com.philips.platform.securedblibrary.helper.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteOpenHelper;
 
@@ -20,7 +21,7 @@ import java.lang.reflect.Type;
  * places where database locks can occur. This class allows database connection sharing between multiple threads in a
  * single app.
  * 
- * This gets injected or called with the {@link DemoOrmLiteSqliteOpenHelper} class that is used to manage the database
+ * This gets injected or called with the {@link SecureDbOrmLiteSqliteOpenHelper} class that is used to manage the database
  * connection. The helper instance will be kept in a static field and only released once its internal usage count goes
  * to 0.
  * 
@@ -39,8 +40,8 @@ public class OpenHelperManager {
 	private static final String HELPER_CLASS_RESOURCE_NAME = "open_helper_classname";
 	private static Logger logger = LoggerFactory.getLogger(OpenHelperManager.class);
 
-	private static Class<? extends DemoOrmLiteSqliteOpenHelper> helperClass = null;
-	private static volatile DemoOrmLiteSqliteOpenHelper helper = null;
+	private static Class<? extends SecureDbOrmLiteSqliteOpenHelper> helperClass = null;
+	private static volatile SecureDbOrmLiteSqliteOpenHelper helper = null;
 	private static boolean wasClosed = false;
 	private static int instanceCount = 0;
 
@@ -48,7 +49,7 @@ public class OpenHelperManager {
 	 * If you are _not_ using the {@link OrmLiteBaseActivity} type classes then you will need to call this in a static
 	 * method in your code.
 	 */
-	public static synchronized void setOpenHelperClass(Class<? extends DemoOrmLiteSqliteOpenHelper> openHelperClass) {
+	public static synchronized void setOpenHelperClass(Class<? extends SecureDbOrmLiteSqliteOpenHelper> openHelperClass) {
 		if (openHelperClass == null) {
 			helperClass = null;
 		} else {
@@ -61,7 +62,7 @@ public class OpenHelperManager {
 	 * _really_ know what you are doing. If you do use it then it should be in a static {} initializing block to make
 	 * sure you have one helper instance for your application.
 	 */
-	public static synchronized void setHelper(DemoOrmLiteSqliteOpenHelper helper) {
+	public static synchronized void setHelper(SecureDbOrmLiteSqliteOpenHelper helper) {
 		OpenHelperManager.helper = helper;
 	}
 
@@ -71,7 +72,7 @@ public class OpenHelperManager {
 	 * onCreate() type of method when the application or service is starting. The caller should then keep the helper
 	 * around until it is shutting down when {@link #releaseHelper()} should be called.
 	 */
-	public static synchronized <T extends DemoOrmLiteSqliteOpenHelper> T getHelper(Context context, Class<T> openHelperClass) {
+	public static synchronized <T extends SecureDbOrmLiteSqliteOpenHelper> T getHelper(Context context, Class<T> openHelperClass) {
 		if (openHelperClass == null) {
 			throw new IllegalArgumentException("openHelperClass argument is null");
 		}
@@ -90,14 +91,14 @@ public class OpenHelperManager {
 	 * helper. <br />
 	 * 2) If the resource class name is configured in the strings.xml file it will be used. <br />
 	 * 3) The context class hierarchy is walked looking at the generic parameters for a class extending
-	 * DemoOrmLiteSqliteOpenHelper. This is used by the {@link OrmLiteBaseActivity} and other base classes. <br />
+	 * SecureDbOrmLiteSqliteOpenHelper. This is used by the {@link OrmLiteBaseActivity} and other base classes. <br />
 	 * 4) An exception is thrown saying that it was not able to set the helper class.
 	 * </p>
 	 * 
 	 * @deprecated Should use {@link #getHelper(Context, Class)}
 	 */
 	@Deprecated
-	public static synchronized DemoOrmLiteSqliteOpenHelper getHelper(Context context) {
+	public static synchronized SecureDbOrmLiteSqliteOpenHelper getHelper(Context context) {
 		if (helperClass == null) {
 			if (context == null) {
 				throw new IllegalArgumentException("context argument is null");
@@ -146,7 +147,7 @@ public class OpenHelperManager {
 	/**
 	 * Set the helper class and make sure we aren't changing it to another class.
 	 */
-	private static void innerSetHelperClass(Class<? extends DemoOrmLiteSqliteOpenHelper> openHelperClass) {
+	private static void innerSetHelperClass(Class<? extends SecureDbOrmLiteSqliteOpenHelper> openHelperClass) {
 		// make sure if that there are not 2 helper classes in an application
 		if (openHelperClass == null) {
 			throw new IllegalStateException("Helper class was trying to be reset to null");
@@ -158,7 +159,7 @@ public class OpenHelperManager {
 		}
 	}
 
-	private static <T extends DemoOrmLiteSqliteOpenHelper> T loadHelper(Context context, Class<T> openHelperClass) {
+	private static <T extends SecureDbOrmLiteSqliteOpenHelper> T loadHelper(Context context, Class<T> openHelperClass) {
 		if (helper == null) {
 			if (wasClosed) {
 				// this can happen if you are calling get/release and then get again
@@ -207,8 +208,8 @@ public class OpenHelperManager {
 	/**
 	 * Call the constructor on our helper class.
 	 */
-	private static DemoOrmLiteSqliteOpenHelper constructHelper(Context context,
-															   Class<? extends DemoOrmLiteSqliteOpenHelper> openHelperClass) {
+	private static SecureDbOrmLiteSqliteOpenHelper constructHelper(Context context,
+																   Class<? extends SecureDbOrmLiteSqliteOpenHelper> openHelperClass) {
 		Constructor<?> constructor;
 		try {
 			constructor = openHelperClass.getConstructor(Context.class);
@@ -218,7 +219,7 @@ public class OpenHelperManager {
 							+ openHelperClass, e);
 		}
 		try {
-			return (DemoOrmLiteSqliteOpenHelper) constructor.newInstance(context);
+			return (SecureDbOrmLiteSqliteOpenHelper) constructor.newInstance(context);
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not construct instance of helper class " + openHelperClass, e);
 		}
@@ -227,7 +228,7 @@ public class OpenHelperManager {
 	/**
 	 * Lookup the helper class either from the resource string or by looking for a generic parameter.
 	 */
-	private static Class<? extends DemoOrmLiteSqliteOpenHelper> lookupHelperClass(Context context, Class<?> componentClass) {
+	private static Class<? extends SecureDbOrmLiteSqliteOpenHelper> lookupHelperClass(Context context, Class<?> componentClass) {
 
 		// see if we have the magic resource class name set
 		Resources resources = context.getResources();
@@ -236,8 +237,8 @@ public class OpenHelperManager {
 			String className = resources.getString(resourceId);
 			try {
 				@SuppressWarnings("unchecked")
-				Class<? extends DemoOrmLiteSqliteOpenHelper> castClass =
-						(Class<? extends DemoOrmLiteSqliteOpenHelper>) Class.forName(className);
+				Class<? extends SecureDbOrmLiteSqliteOpenHelper> castClass =
+						(Class<? extends SecureDbOrmLiteSqliteOpenHelper>) Class.forName(className);
 				return castClass;
 			} catch (Exception e) {
 				throw new IllegalStateException("Could not create helper instance for class " + className, e);
@@ -263,10 +264,10 @@ public class OpenHelperManager {
 					continue;
 				}
 				Class<?> clazz = (Class<?>) type;
-				if (DemoOrmLiteSqliteOpenHelper.class.isAssignableFrom(clazz)) {
+				if (SecureDbOrmLiteSqliteOpenHelper.class.isAssignableFrom(clazz)) {
 					@SuppressWarnings("unchecked")
-					Class<? extends DemoOrmLiteSqliteOpenHelper> castOpenHelperClass =
-							(Class<? extends DemoOrmLiteSqliteOpenHelper>) clazz;
+					Class<? extends SecureDbOrmLiteSqliteOpenHelper> castOpenHelperClass =
+							(Class<? extends SecureDbOrmLiteSqliteOpenHelper>) clazz;
 					return castOpenHelperClass;
 				}
 			}

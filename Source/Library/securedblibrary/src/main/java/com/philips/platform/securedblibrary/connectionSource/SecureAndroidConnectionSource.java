@@ -1,4 +1,4 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.connectionSource;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.db.DatabaseType;
@@ -10,6 +10,7 @@ import com.j256.ormlite.support.BaseConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseConnectionProxyFactory;
+import com.philips.platform.securedblibrary.sqlcipher.AndroidDatabaseConnection;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
@@ -22,9 +23,9 @@ import java.sql.SQLException;
  *
  * @author kevingalligan, graywatson
  */
-public class AndroidConnectionSource extends BaseConnectionSource implements ConnectionSource {
+public class SecureAndroidConnectionSource extends BaseConnectionSource implements ConnectionSource {
 
-    private static final Logger logger = LoggerFactory.getLogger(AndroidConnectionSource.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecureAndroidConnectionSource.class);
 
     private final SQLiteOpenHelper helper;
     private final SQLiteDatabase sqliteDatabase;
@@ -35,13 +36,13 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
     private static DatabaseConnectionProxyFactory connectionProxyFactory;
     private boolean cancelQueriesEnabled = false;
 
-    public AndroidConnectionSource(SQLiteOpenHelper helper, String password) {
+    public SecureAndroidConnectionSource(SQLiteOpenHelper helper, String password) {
         this.helper = helper;
         this.sqliteDatabase = null;
         this.password = password;
     }
 
-    public AndroidConnectionSource(SQLiteDatabase sqliteDatabase, String password) {
+    public SecureAndroidConnectionSource(SQLiteDatabase sqliteDatabase, String password) {
         this.helper = null;
         this.sqliteDatabase = sqliteDatabase;
         this.password = password;
@@ -117,7 +118,7 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
      * Set to enable connection proxying. Set to null to disable.
      */
     public static void setDatabaseConnectionProxyFactory(DatabaseConnectionProxyFactory connectionProxyFactory) {
-        AndroidConnectionSource.connectionProxyFactory = connectionProxyFactory;
+        SecureAndroidConnectionSource.connectionProxyFactory = connectionProxyFactory;
     }
 
     public boolean isCancelQueriesEnabled() {

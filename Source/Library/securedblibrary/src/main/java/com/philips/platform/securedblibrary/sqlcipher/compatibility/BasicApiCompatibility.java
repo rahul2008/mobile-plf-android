@@ -1,6 +1,8 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.sqlcipher.compatibility;
 
 import android.database.Cursor;
+
+import com.philips.platform.securedblibrary.sqlcipher.compatibility.ApiCompatibility;
 
 import net.sqlcipher.database.SQLiteDatabase;
 

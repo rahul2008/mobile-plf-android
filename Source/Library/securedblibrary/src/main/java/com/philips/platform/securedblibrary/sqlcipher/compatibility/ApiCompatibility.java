@@ -1,4 +1,4 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.sqlcipher.compatibility;
 
 import android.database.Cursor;
 

@@ -1,125 +1,194 @@
 package com.philips.platform.database;
 
+
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.philips.platform.securedblibrary.helper.SecureDataBaseQueryHelper;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
-import com.philips.platform.securedblibrary.Contact;
-import com.philips.platform.securedblibrary.FeedReaderDbHelper;
+public class MainActivity extends Activity implements OnClickListener {
 
-import net.sqlcipher.database.SQLiteDatabase;
+    SecureDataBaseQueryHelper secureDataBaseQueryHelper;
+    static String UPDATE = "update";
+    static String UPDATE_ALL= "updateall";
+    static String DELETE = "delete";
+    static String GET = "getById";
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
-public class MainActivity extends AppCompatActivity {
-
-    private FeedReaderDbHelper mFeedReaderDbHelper;
-    private static SimpleDateFormat df;
-
+    private Button add_btn, del_btn, del_all_btn, view_btn, view_All_btn, update_all_btn, update_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        secureDataBaseQueryHelper = SecureDBApplication.getSecureDataBaseQueryHelper();
+        add_btn = (Button) findViewById(R.id.createOrInsert_btn);
+        del_btn = (Button) findViewById(R.id.deleteById_btn);
+        del_all_btn = (Button) findViewById(R.id.deleteAll_btn);
+        view_btn = (Button) findViewById(R.id.retrieveById_btn);
+        view_All_btn = (Button) findViewById(R.id.retrieveAll_btn);
+        update_all_btn = (Button) findViewById(R.id.updateAll_btn);
+        update_btn = (Button) findViewById(R.id.updateById_btn);
 
-        Button insertButton = (Button) findViewById(R.id.button);
-        Button updateButton = (Button) findViewById(R.id.button2);
-        Button readButton = (Button) findViewById(R.id.button3);
-        SQLiteDatabase.loadLibs(this);
-
-        df = new SimpleDateFormat("HH:mm:ss.SSS a", Locale.ENGLISH);
-
-        mFeedReaderDbHelper = new FeedReaderDbHelper(getApplicationContext());
-
-        /**
-         * CRUD Operations
-         * */
-        // Inserting Contacts
-
-        final Contact mContact = new Contact("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", "1234500000", "");
-
-
-        insertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String InsertStartTime = getLocalTimestamp();
-                Log.d("Insert Start Time: ", "Inserting .." + getLocalTimestamp());
-
-                mFeedReaderDbHelper.addContact(mContact);
-
-                Log.d("Insert End Time: ", "Insert End .." + getLocalTimestamp());
-                String InsertEndTime = getLocalTimestamp();
-                getFinalTime(InsertStartTime, InsertEndTime, "InsertTime");
-
-            }
-        });
-
-
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Update Start Time: ", "Update.." + getLocalTimestamp());
-                String UpdateStart = getLocalTimestamp();
-
-
-                mFeedReaderDbHelper.updateContact(mContact);
-
-                Log.d("Update End Time: ", "Update.." + getLocalTimestamp());
-                String UpdateEnd = getLocalTimestamp();
-                getFinalTime(UpdateStart, UpdateEnd, "UpdateTime");
-
-
-            }
-        });
-
-        readButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Read Start Time: ", "Read.." + getLocalTimestamp());
-                String ReadStart = getLocalTimestamp();
-                mFeedReaderDbHelper.getAllContacts();
-                Log.d("Read End Time: ", "Read.." + getLocalTimestamp());
-
-                String ReadEnd = getLocalTimestamp();
-                getFinalTime(ReadStart, ReadEnd, "Read Time");
-            }
-        });
-
-
+        // Attachment of onClickListner for them
+        add_btn.setOnClickListener(this);
+        del_btn.setOnClickListener(this);
+        del_all_btn.setOnClickListener(this);
+        view_btn.setOnClickListener(this);
+        view_All_btn.setOnClickListener(this);
+        update_all_btn.setOnClickListener(this);
+        update_btn.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
 
-    private String getLocalTimestamp() {
 
-        String mLocalTimestamp;
-        Calendar c = Calendar.getInstance();
-        mLocalTimestamp = df.format(c.getTime());
-        return mLocalTimestamp;
-    }
-
-    private void getFinalTime(String start, String end, String TAG) {
-        Date startDate = null;
-        Date endDate = null;
-        try {
-            startDate = df.parse(start);
-            endDate = df.parse(end);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        switch (v.getId()) {
+            case R.id.createOrInsert_btn:
+                startActivity(new Intent(this, AddAddressActivity.class));
+                break;
+            case R.id.deleteAll_btn:
+                deleteAllRecords();
+                break;
+            case R.id.deleteById_btn:
+                openDialog(DELETE);
+                break;
+            case R.id.retrieveById_btn:
+                openDialog(GET);
+                break;
+            case R.id.retrieveAll_btn:
+               viewAllRecords();
+                break;
+            case R.id.updateAll_btn:
+                updateAllRecords();
+                break;
+            case R.id.updateById_btn:
+                openDialog(UPDATE);
+                break;
         }
-        long diffInMs = endDate.getTime() - startDate.getTime();
-
-        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMs);
-
-        Log.i(TAG, "  diffInMs: " + diffInMs);
     }
 
+    private void viewAllRecords() {
+        final Intent negativeActivity = new Intent(getApplicationContext(), ViewAddressRecordActivity.class);
+        List<AddressBook> addressList = secureDataBaseQueryHelper.retrieveAll(AddressBook.class);
+
+        negativeActivity.putExtra("ADDREES_BOOK", (Serializable) addressList);
+        startActivity(negativeActivity);
+    }
+
+    private void viewByIdRecords(int id) {
+        final Intent negativeActivity = new Intent(getApplicationContext(), ViewAddressRecordActivity.class);
+
+        AddressBook address = (AddressBook) secureDataBaseQueryHelper.retrieveById(AddressBook.class, id);
+
+
+        List<AddressBook> addressList = new ArrayList<AddressBook>();
+        if (address == null) {
+            addressList.clear();
+        } else {
+            addressList.add(address);
+        }
+        negativeActivity.putExtra("ADDREES_BOOK", (Serializable) addressList);
+        startActivity(negativeActivity);
+    }
+
+    private void deleteAllRecords() {
+        int deleteRecordCount = secureDataBaseQueryHelper.deleteAll(AddressBook.class);
+
+        if (deleteRecordCount > 0) {
+            showMessageDialog("Successfully All records deleted");
+        }
+        Log.i("", "deleteAllRecords" + deleteRecordCount);
+
+
+    }
+
+    private void deleteByIdRecords(int id) {
+        int deleteRecordCount = secureDataBaseQueryHelper.deleteById(AddressBook.class, id);
+        if (deleteRecordCount > 0) {
+            showMessageDialog("Successfully deleted"+deleteRecordCount+" records");
+        }
+        Log.i("", "deleteById" + deleteRecordCount);
+
+    }
+
+    private <T> void updateAllRecords() {
+
+        int updateRecordCount = secureDataBaseQueryHelper.updateAllRecords(AddressBook.class,"address","Bangalore");
+
+        if (updateRecordCount > 0) {
+            showMessageDialog("Successfully All records Updated");
+        }
+        Log.i("MainActivity", "updateRecordCount" + updateRecordCount);
+
+
+    }
+
+    private void updateByWhere(int id) {
+        int updateRecordCount = secureDataBaseQueryHelper.updateRecordByWhere(AddressBook.class,"Bangalore","address_id",id,"address");
+        if (updateRecordCount > 0) {
+            showMessageDialog("Successfully Updated"+updateRecordCount+" records");
+        }
+        Log.i("MainActivity", "updateById" + updateRecordCount);
+
+    }
+
+    private void showMessageDialog(final String message) {
+        final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(message);
+        final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void openDialog(final String type) {
+        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+        View subView = inflater.inflate(R.layout.alert_dialog, null);
+        final EditText subEditText = (EditText) subView.findViewById(R.id.dialogEditText);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("AlertDialog");
+        builder.setView(subView);
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if (type.equalsIgnoreCase(GET)) {
+                    viewByIdRecords(Integer.parseInt(subEditText.getText().toString()));
+
+                } else if (type.equalsIgnoreCase(UPDATE)) {
+                    updateByWhere(Integer.parseInt(subEditText.getText().toString()));
+                }
+                else if (type.equalsIgnoreCase(DELETE)) {
+                    deleteByIdRecords(Integer.parseInt(subEditText.getText().toString()));
+                }
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.show();
+    }
 }

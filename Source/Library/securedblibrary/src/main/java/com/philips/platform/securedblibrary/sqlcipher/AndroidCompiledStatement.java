@@ -1,8 +1,7 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.sqlcipher;
 
 import android.database.Cursor;
 
-import com.j256.ormlite.android.AndroidDatabaseResults;
 import com.j256.ormlite.dao.ObjectCache;
 import com.j256.ormlite.field.SqlType;
 import com.j256.ormlite.logger.Logger;
@@ -11,6 +10,8 @@ import com.j256.ormlite.misc.SqlExceptionUtil;
 import com.j256.ormlite.stmt.StatementBuilder.StatementType;
 import com.j256.ormlite.support.CompiledStatement;
 import com.j256.ormlite.support.DatabaseResults;
+import com.philips.platform.securedblibrary.sqlcipher.compatibility.ApiCompatibility;
+import com.philips.platform.securedblibrary.sqlcipher.compatibility.ApiCompatibilityUtils;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteStatement;

@@ -28,7 +28,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     testCompile 'junit:junit:4.12'
-    debugCompile 'com.facebook.stetho:stetho:1.2.0'
-    //SecureDBLibrary
     compile project(':securedblibrary')
 }

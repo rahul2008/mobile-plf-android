@@ -1,12 +1,12 @@
-package com.philips.platform.securedblibrary;
+package com.philips.platform.securedblibrary.ormlite;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.support.ConnectionSource;
+import com.philips.platform.securedblibrary.helper.SecureDbOrmLiteSqliteOpenHelper;
 
 /**
  * Base class to use for activities in Android.
@@ -21,7 +21,7 @@ import com.j256.ormlite.support.ConnectionSource;
  * 
  * @author graywatson, kevingalligan
  */
-public abstract class OrmLiteBaseActivity<H extends DemoOrmLiteSqliteOpenHelper> extends Activity {
+public abstract class OrmLiteBaseActivity<H extends SecureDbOrmLiteSqliteOpenHelper> extends Activity {
 
 	private volatile H helper;
 	private volatile boolean created = false;
@@ -76,7 +76,7 @@ public abstract class OrmLiteBaseActivity<H extends DemoOrmLiteSqliteOpenHelper>
 	 * 
 	 * <p>
 	 * <b> NOTE: </b> If you override this method, you most likely will need to override the
-	 * {@link #releaseHelper(DemoOrmLiteSqliteOpenHelper)} method as well.
+	 * {@link #releaseHelper(SecureDbOrmLiteSqliteOpenHelper)} method as well.
 	 * </p>
 	 */
 	protected H getHelperInternal(Context context) {

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SecureDB.iml" filepath="$PROJECT_DIR$/SecureDB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DemoApp.iml" filepath="$PROJECT_DIR$/DemoApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Library/securedblibrary/securedblibrary.iml" filepath="$PROJECT_DIR$/../Library/securedblibrary/securedblibrary.iml" />
     </modules>
   </component>
 </project>

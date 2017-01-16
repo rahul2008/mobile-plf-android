@@ -7,15 +7,25 @@ package com.philips.platform.database;
 
 import android.app.Application;
 
-import com.crittercism.app.Crittercism;
-import com.facebook.stetho.Stetho;
+import com.philips.platform.securedblibrary.helper.SecureDataBaseQueryHelper;
+
 
 public class SecureDBApplication extends Application {
-
+    SecureDataBaseHelper secureDataBaseHelper;
+    static SecureDataBaseQueryHelper secureDataBaseQueryHelper;
+    private static final String DATABASE_NAME = "address.db";
+    public static  String DATABASE_PASSWORD = "Philips@123#";
+    private static  int DATABASE_VERSION = 3;
     @Override
     public void onCreate() {
         super.onCreate();
-        Stetho.initializeWithDefaults(this);
-        Crittercism.initialize(getApplicationContext(),"513a43d30f754f219b006e795cd7a20600555300");
+        secureDataBaseHelper=new SecureDataBaseHelper<>(this, AddressBook.class,DATABASE_NAME,DATABASE_VERSION,DATABASE_PASSWORD);
+        secureDataBaseQueryHelper=new SecureDataBaseQueryHelper(this,secureDataBaseHelper, DATABASE_PASSWORD);
+
     }
+
+public static SecureDataBaseQueryHelper getSecureDataBaseQueryHelper()
+{
+    return secureDataBaseQueryHelper;
+}
 }
