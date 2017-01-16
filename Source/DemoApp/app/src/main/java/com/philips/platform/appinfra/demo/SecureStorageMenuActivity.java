@@ -31,6 +31,15 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        Button passWordCreationButton   = (Button) findViewById(R.id.createPaaasword);
+        passWordCreationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SecureStorageMenuActivity.this,SecureStoragePasswordActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
 }

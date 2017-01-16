@@ -38,6 +38,37 @@ public interface SecureStorageInterface {
      */
     public boolean removeValueForKey(String userKey);
 
+
+
+
+    /**
+     * Store value for Password  .
+     *
+     * @param userKey the user key to store the password
+     * @param passWord            the passWord
+     * @param secureStorageError the secure storage error
+     * @return denote store operation success or failure
+     */
+    public boolean createPassWord(String userKey,String passWord, SecureStorageError secureStorageError);
+
+    /**
+     * Retrieve value for Password .
+     *
+     * @param userKey the user key to access the password
+     * @param secureStorageError the secure storage error code if any
+     * @return the string, decrypted value
+     */
+    public String retrievePassWord(String userKey,SecureStorageError secureStorageError);
+
+    /**
+     * Remove value for passWord .
+     *
+     * @param userKey the user key to access the password
+     * @return denote delete operation success or failure
+     */
+    public boolean deletePassWord(String userKey);
+
+
     /**
      * encrypt Data .
      *
@@ -55,7 +86,7 @@ public interface SecureStorageInterface {
     public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 
     public class SecureStorageError {
-        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError, NoDataFoundForKey, NullData}
+        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError, NoDataFoundForKey, NullData,PassWordIsEmptyOrNull}
 
         ;
         private secureStorageError errorCode = null;

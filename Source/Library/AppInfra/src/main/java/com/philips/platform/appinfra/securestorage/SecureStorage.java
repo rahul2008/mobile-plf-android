@@ -56,6 +56,39 @@ public class SecureStorage implements SecureStorageInterface {
     @Override
     public synchronized boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError) {
         // TODO: RayKlo: define max size limit recommendation
+        return storeValue(userKey, valueToBeEncrypted, secureStorageError);
+    }
+
+
+    @Override
+    public synchronized String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
+        return fetchValue(userKey, secureStorageError);
+    }
+
+
+    @Override
+    public synchronized boolean removeValueForKey(String userKey) {
+        return removeValue(userKey);
+    }
+
+    @Override
+    public boolean createPassWord(String userKey, String passWord, SecureStorageError secureStorageError) {
+        return storeValue(userKey, passWord, secureStorageError);
+
+
+    }
+
+    @Override
+    public String retrievePassWord(String userKey, SecureStorageError secureStorageError) {
+        return fetchValue(userKey, secureStorageError);
+    }
+
+    @Override
+    public boolean deletePassWord(String userKey) {
+        return removeValue(userKey);
+    }
+
+    private boolean storeValue(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError) {
         boolean returnResult = true;
         String encryptedString = null;
         try {
@@ -105,9 +138,46 @@ public class SecureStorage implements SecureStorageInterface {
         }
     }
 
+    private boolean removeValue(String userKey) {
+        boolean deleteResultValue = false;
+        boolean deleteResultKey = false;
+        if (null == userKey || userKey.isEmpty()) {
+            return false;
+        }
+        deleteResultValue = deleteEncryptedData(userKey, DATA_FILE_NAME);
+        deleteResultKey = deleteEncryptedData(userKey, KEY_FILE_NAME);
+        return (deleteResultValue && deleteResultKey);
+    }
 
-    @Override
-    public synchronized String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
+    private void generateKeyPair() {
+        try {
+            keyStore = KeyStore.getInstance("AndroidKeyStore");
+            keyStore.load(null);
+            if (!keyStore.containsAlias(SINGLE_UNIVERSAL_KEY)) {
+                // if key is not generated
+                Calendar start = Calendar.getInstance();
+                Calendar end = Calendar.getInstance();
+                end.add(Calendar.YEAR, 50);
+                KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(mContext)
+                        .setAlias(SINGLE_UNIVERSAL_KEY)
+                        .setSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
+                        .setSerialNumber(BigInteger.ONE)
+                        .setStartDate(start.getTime())
+                        .setEndDate(end.getTime())
+                        .build();
+                KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
+                generator.initialize(spec);
+                KeyPair keyPair = generator.generateKeyPair();
+
+
+            }
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
+        }
+
+    }
+
+    private String fetchValue(String userKey, SecureStorageError secureStorageError) {
         String decryptedString = null;
         String decryptedAESkey = null;
         if (null == userKey || userKey.isEmpty()) {
@@ -152,48 +222,6 @@ public class SecureStorage implements SecureStorageInterface {
         } finally {
             return decryptedString;
         }
-    }
-
-
-    @Override
-    public synchronized boolean removeValueForKey(String userKey) {
-        boolean deleteResultValue = false;
-        boolean deleteResultKey = false;
-        if (null == userKey || userKey.isEmpty()) {
-            return false;
-        }
-        deleteResultValue = deleteEncryptedData(userKey, DATA_FILE_NAME);
-        deleteResultKey = deleteEncryptedData(userKey, KEY_FILE_NAME);
-        return (deleteResultValue && deleteResultKey);
-    }
-
-
-    private void generateKeyPair() {
-        try {
-            keyStore = KeyStore.getInstance("AndroidKeyStore");
-            keyStore.load(null);
-            if (!keyStore.containsAlias(SINGLE_UNIVERSAL_KEY)) {
-                // if key is not generated
-                Calendar start = Calendar.getInstance();
-                Calendar end = Calendar.getInstance();
-                end.add(Calendar.YEAR, 50);
-                KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(mContext)
-                        .setAlias(SINGLE_UNIVERSAL_KEY)
-                        .setSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
-                        .setSerialNumber(BigInteger.ONE)
-                        .setStartDate(start.getTime())
-                        .setEndDate(end.getTime())
-                        .build();
-                KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
-                generator.initialize(spec);
-                KeyPair keyPair = generator.generateKeyPair();
-
-
-            }
-        } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
-        }
-
     }
 
 
