@@ -7,12 +7,24 @@
  */
 package com.philips.cdp.digitalcare.contactus.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -26,16 +38,25 @@ import com.philips.cdp.digitalcare.util.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ChatNowFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ChatNowFragment.class.getSimpleName();
 
+    private static final int SELECT_IMAGE = 0x2;
+
+    private static final int PERMISSION_GALLERY = 0x11;
+    private static final int PERMISSION_CAMERA = 0x12;
+
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
     private String mUrl = null;
+    private ValueCallback<Uri> mUploadMessage;
+    private ValueCallback<Uri[]> mFilePathCallbackArray;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +91,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         if (getChatUrl() == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-
+            mWebView.setWebChromeClient(new CustomWebChromeClient());
             Utils.loadWebPageContent(getChatEndPoint(), mWebView, mProgressBar);
         }
     }
@@ -90,7 +111,6 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         }else {
             chatLink = DigitalCareConfigManager.getInstance().getLiveChatUrl();
         }
-
         return chatLink;
     }
 
@@ -142,5 +162,113 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     private void clearWebViewData() {
 
         mWebView.saveState(new Bundle());
+    }
+
+    protected class CustomWebChromeClient extends WebChromeClient {
+
+        //Android 5.0+
+        @Override
+        @SuppressLint("NewApi")
+        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+            if (mFilePathCallbackArray != null) {
+                mFilePathCallbackArray.onReceiveValue(null);
+            }
+            mFilePathCallbackArray = filePathCallback;
+            checkPermissionForGallery(getContext());
+            return true;
+        }
+
+        // For Android > 4.1
+        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+            handleImageChooser(uploadMsg);
+        }
+
+
+        // Andorid 3.0 +
+        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+            handleImageChooser(uploadMsg);
+        }
+
+
+        //Android 3.0
+        public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+            handleImageChooser(uploadMsg);
+        }
+    }
+
+    private void handleImageChooser(ValueCallback<Uri> uploadMsg) {
+        if (mUploadMessage != null) {
+            mUploadMessage.onReceiveValue(null);
+        }
+        mUploadMessage = uploadMsg;
+        startActivityForResult(createImagePickerIntent(), SELECT_IMAGE);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SELECT_IMAGE:
+                if (mFilePathCallbackArray == null && mUploadMessage == null) {
+                    return;
+                }
+                Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
+
+
+                if (result != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mFilePathCallbackArray.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+                    } else {
+                        mUploadMessage.onReceiveValue(result);
+                    }
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mFilePathCallbackArray.onReceiveValue(null);
+                    } else {
+                        mUploadMessage.onReceiveValue(null);
+                    }
+                }
+                mFilePathCallbackArray = null;
+                mUploadMessage = null;
+                clearWebViewData();
+                break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void checkPermissionForGallery(Context context) {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_GALLERY);
+            } else {
+                startActivityForResult(createImagePickerIntent(), SELECT_IMAGE);
+            }
+        }else{
+            startActivityForResult(createImagePickerIntent(), SELECT_IMAGE);
+        }
+    }
+    
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_GALLERY:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startActivityForResult(createImagePickerIntent(), SELECT_IMAGE);
+                } else {
+                    Log.i(TAG, "GALLERY PERMISSION DENIED");
+                }
+                break;
+        }
+    }
+
+    private Intent createImagePickerIntent() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        return Intent.createChooser(intent,"Choose image");
     }
 }

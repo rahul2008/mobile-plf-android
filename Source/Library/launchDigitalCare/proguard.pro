@@ -89,6 +89,9 @@
   @android.webkit.JavascriptInterface <methods>;
 }
 
+-keepclassmembers class * extends android.webkit.WebChromeClient {
+    public void openFileChooser(...);
+}
 
 #GooglePLayServices
 
