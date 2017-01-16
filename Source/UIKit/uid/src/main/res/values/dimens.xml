@@ -4,6 +4,7 @@
 
     <!--Percentage for opacity-->
     <item name="uid_alpha_per_100" format="float" type="dimen">1</item>
+    <item name="uid_alpha_per_00" format="float" type="dimen">0</item>
     <item name="uid_alpha_per_15" format="float" type="dimen">0.15</item>
     <item name="uid_alpha_per_20" format="float" type="dimen">0.20</item>
     <item name="uid_alpha_per_25" format="float" type="dimen">0.25</item>

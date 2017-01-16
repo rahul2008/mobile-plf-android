@@ -131,6 +131,7 @@
 
         <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_00</item>
     </style>
 
     <style name="VeryLight">
