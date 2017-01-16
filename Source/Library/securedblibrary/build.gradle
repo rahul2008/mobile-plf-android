@@ -1,4 +1,91 @@
 apply plugin: 'com.android.library'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+
+buildscript {
+    repositories {
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
+        }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    }
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+    }
+
+    apply plugin: 'com.jfrog.artifactory-upload'
+
+    group = 'com.philips.cdp'
+
+
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
     compileSdkVersion 25
@@ -8,28 +95,44 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        versionName version
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //   minifyEnabled false
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            testCoverageEnabled true
         }
     }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.4.0-SNAPSHOT', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+    compile "com.j256.ormlite:ormlite-core:4.48"
+    compile "com.j256.ormlite:ormlite-android:4.48"
+    compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     testCompile 'junit:junit:4.12'
-
-    compile "com.j256.ormlite:ormlite-core:4.48"
-    compile "com.j256.ormlite:ormlite-android:4.48"
-    compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
+    androidTestCompile "org.mockito:mockito-core:1.9.5"
 }
+
+
+
+
+
