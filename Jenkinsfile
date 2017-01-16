@@ -23,10 +23,10 @@ node ('Ubuntu && 23.0.3 &&' + node_ext) {
 
         try {
             stage ('build') {
-                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug'
+                sh 'cd ./Source/AppFramework && ./gradlew clean assembleDebug assembleLeakCanary'
             }
             
-            sh 'cd ./Source/AppFramework && ./gradlew assembleDebug'
+            sh 'cd ./Source/AppFramework && ./gradlew assembleDebug assembleLeakCanary'
 
             if(env.BRANCH_NAME == 'master') {
                 stage ('Release') {
