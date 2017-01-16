@@ -50,6 +50,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibraryVer}"
     compile "com.android.support:design:${supportLibraryVer}"
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.shamanland:fonticon:0.1.8'
 
     //test
     androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {

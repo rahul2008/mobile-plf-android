@@ -93,4 +93,6 @@
     <string name="hint_email">example@philips.com</string>
     <string name="with_label">With label</string>
     <string name="label_textboxes">Textboxes</string>
+    <string name="page_title_social_icon">Social icons</string>
+    <string name="social_media_icons">Social media icons</string>
 </resources>

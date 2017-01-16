@@ -29,6 +29,7 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        initFontIconLib();
         EventBus.getDefault().register(this);
         navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
@@ -181,6 +183,14 @@ public class MainActivity extends AppCompatActivity {
         saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
         saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
+    }
+
+    private void initFontIconLib() {
+        try {
+            FontIconTypefaceHolder.getTypeface();
+        } catch (IllegalStateException e) {
+            FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+        }
     }
 
     @Override

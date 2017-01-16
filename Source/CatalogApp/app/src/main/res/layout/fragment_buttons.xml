@@ -251,6 +251,37 @@
 
             <TextView
                 style="@style/ButtonsCategoryStyle"
+                android:text="@string/social_media_icons"/>
+
+            <LinearLayout
+                android:id="@+id/socialMediaIcons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <com.shamanland.fonticon.FontIconView
+                    android:id="@+id/uikit_social_twitter_32"
+                    style="@style/FontIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="@string/uikit_fonticon_twitter"/>
+
+                <com.shamanland.fonticon.FontIconView
+                    android:id="@+id/uikit_social_linkedin_32"
+                    style="@style/FontIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="@string/uikit_fonticon_linkedin"/>
+            </LinearLayout>
+
+            <TextView
+                style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_progress"/>
 
             <LinearLayout
