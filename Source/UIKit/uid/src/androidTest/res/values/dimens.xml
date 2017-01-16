@@ -108,6 +108,10 @@
     <dimen name="label_fontsize">16sp</dimen>
 
     <!--Checkbox dimens -->
-    <dimen name="checkbox_height">16sp</dimen>
+    <dimen name="checkbox_height">20dp</dimen>
+    <dimen name="checkbox_cornerradius">2dp</dimen>
+    <dimen name="checkbox_leftrightmargin">12dp</dimen>
+    <dimen name="checkbox_tickmarkheightwidth">16dp</dimen>
+
 
 </resources>

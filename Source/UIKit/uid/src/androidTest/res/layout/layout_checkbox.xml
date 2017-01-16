@@ -12,7 +12,10 @@
                     android:id="@+id/checkbox_1"
                     style="@style/UIDCheckBox"
                     android:checked="true"
-                    android:text="@string/checkbox" />
+                    android:text="@string/checkbox"
+                    app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </LinearLayout>
 </layout>
 
