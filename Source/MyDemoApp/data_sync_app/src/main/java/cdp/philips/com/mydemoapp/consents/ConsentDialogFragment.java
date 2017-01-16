@@ -61,7 +61,6 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
         consentDetails=new ArrayList<>();
         lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
-        mDataServicesManager.registeredDBRequestListener(this);
         fetchConsent();
         return rootView;
 
@@ -170,6 +169,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onStart() {
         super.onStart();
+        mDataServicesManager.registeredDBRequestListener(this);
         Dialog dialog = getDialog();
         dialog.setTitle(R.string.consents);
         if (dialog != null) {
