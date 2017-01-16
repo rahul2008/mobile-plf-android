@@ -18,4 +18,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"/>
+    <include android:id="@+id/uid_test_separator_with_color"
+             layout="@layout/uid_horizontal_separator"/>
+
 </LinearLayout>

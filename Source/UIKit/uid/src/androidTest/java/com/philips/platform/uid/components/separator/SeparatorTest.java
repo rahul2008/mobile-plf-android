@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
+import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -84,6 +85,14 @@ public class SeparatorTest {
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator))
                 .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
+    }
+
+    @Test
+    public void verifySeparatorColorWithCustomColor() throws Exception {
+        final int color = ContextCompat.getColor(activity, R.color.uidColorBlack);
+
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator_with_color))
+                .check(matches(SeparatorMatcher.hasSameColor(color)));
     }
 
     @Test

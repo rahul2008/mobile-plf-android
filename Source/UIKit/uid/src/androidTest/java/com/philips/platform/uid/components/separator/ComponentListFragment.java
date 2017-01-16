@@ -9,6 +9,7 @@ package com.philips.platform.uid.components.separator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -39,7 +41,13 @@ public class ComponentListFragment extends Fragment {
         listView = (ListView) view.findViewById(com.philips.platform.uid.test.R.id.componentList);
         recyclerView = (RecyclerView) view.findViewById(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems);
         View divider = view.findViewById(com.philips.platform.uid.test.R.id.uid_test_separator);
+        View divider1 = view.findViewById(com.philips.platform.uid.test.R.id.uid_test_separator_with_color);
+
         divider.setBackground(new SeparatorDrawable(getContext()));
+        final SeparatorDrawable separator2 = new SeparatorDrawable(getContext());
+        separator2.setColor(ContextCompat.getColor(getContext(), R.color.uidColorBlack));
+
+        divider1.setBackground(separator2);
         setListItems();
         setRecyclerItems();
         return view;
