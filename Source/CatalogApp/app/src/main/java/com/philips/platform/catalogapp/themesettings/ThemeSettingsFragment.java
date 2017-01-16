@@ -95,7 +95,6 @@ public class ThemeSettingsFragment extends BaseFragment {
             navigationColor = themeHelper.initNavigationRange();
             contentColor = themeHelper.initContentTonalRange();
             setSeparatorBackground(view);
-
         }
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -116,9 +115,10 @@ public class ThemeSettingsFragment extends BaseFragment {
 
     private void setSeparatorBackground(final View view) {
         View viewById = view.findViewById(R.id.divider1);
-        viewById.setBackground(new SeparatorDrawable(getContext()));
+        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        viewById.setBackground(separatorDrawable);
         viewById = view.findViewById(R.id.divider2);
-        viewById.setBackground(new SeparatorDrawable(getContext()));
+        viewById.setBackground(separatorDrawable);
     }
 
     private void initContentColor(final int colorRangeSelectedPosition) {
