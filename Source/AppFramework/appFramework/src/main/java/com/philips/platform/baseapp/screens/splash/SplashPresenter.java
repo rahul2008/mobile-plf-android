@@ -38,7 +38,8 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener{
     @Override
     public void onEvent(int componentID) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        BaseState baseState = targetFlowManager.getNextState(new SplashState(), APP_START);
+        final BaseState splashState = targetFlowManager.getState(AppStates.SPLASH);
+        BaseState baseState = targetFlowManager.getNextState(splashState, APP_START);
         if (null != baseState) {
             baseState.setStateListener(this);
             if (baseState instanceof UserRegistrationState) {
