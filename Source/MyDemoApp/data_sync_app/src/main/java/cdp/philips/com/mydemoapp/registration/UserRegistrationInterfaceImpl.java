@@ -21,8 +21,6 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import retrofit.RetrofitError;
-
 import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
 
 /**
@@ -30,14 +28,12 @@ import static cdp.philips.com.mydemoapp.DataSyncApplication.gAppInfra;
  * All rights reserved.
  */
 @Singleton
-public class UserRegistrationInterfaceImpl implements UserRegistrationInterface {
+public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 
-    // TODO: This I do not want
     @NonNull
     private final Context context;
 
     public static final String TAG = UserRegistrationInterfaceImpl.class.getSimpleName();
-
 
     @NonNull
     private final User user;
@@ -70,7 +66,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
 
     public void clearUserData() {
         DataServicesManager manager = DataServicesManager.getInstance();
-        manager.deleteAll(manager.getDbChangeListener());
+        manager.deleteAll(DataServicesManager.getInstance().getDbChangeListener());
         clearPreferences();
         email =  null;
         accessToken = "";
@@ -104,20 +100,18 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
     @NonNull
     @Override
     public String getAccessToken() {
-        Log.i(TAG, "Inside getAccessToken");
+        Log.i(TAG,"Inside getAccessToken");
 
-        if (accessToken != null) {
-            Log.i(TAG, "AccessToken is not null = " + accessToken);
+        if(accessToken!=null){
+            Log.i(TAG,"AccessToken is not null = " + accessToken);
         }
 
         if ((accessToken == null || accessToken.isEmpty()) && !accessTokenRefreshInProgress) {
-            Log.i(TAG, "get the token from Registration");
-
+            Log.i(TAG,"get the token from Registration");
             accessToken = gethsdpaccesstoken();
-            Log.i(TAG, "get the token from Registration access token = " + accessToken);
+            Log.i(TAG,"get the token from Registration access token = " + accessToken);
         }
-        Log.i(TAG, "get the token from Registration return - " + accessToken);
-
+        Log.i(TAG,"get the token from Registration return - " + accessToken);
         return accessToken;
     }
 
@@ -134,16 +128,15 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
         return userProfile;
     }
 
+    // TODO: We may have to ask the common component to take care of this
     @Override
     public synchronized void refreshAccessTokenUsingWorkAround() {
-        Log.i(TAG, "Inside Refresh Access Token");
-
+        Log.i(TAG,"Inside Refresh Access Token");
         if (accessTokenRefreshInProgress) {
             return;
         }
         DSLog.d("***SPO***", "refreshAccessTokenUsingWorkAround()");
         accessTokenRefreshInProgress = true;
-
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
         synchronized (this) {
@@ -162,10 +155,10 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
         }
     }
 
-    private boolean isAccessTokenStillValid() {
+   /* private boolean isAccessTokenStillValid() {
         return (null != accessToken) || !(accessToken != null ? accessToken.isEmpty() : false);
         //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
-    }
+    }*/
 
 /*    public void clearUserData() {
       //  accessTokenRefreshTime = null;
@@ -213,14 +206,4 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
         Object propertyForKey = gAppInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
         return propertyForKey.toString();
     }
-
-//    @Override
-//    public void onFailure(final RetrofitError error) {
-//        if (error.getKind().equals(RetrofitError.Kind.UNEXPECTED)) {
-//            DSLog.i("***SPO***", "In onFailure of UserRegistration - User Not logged in");
-//            Toast.makeText(context, "User Not Logged-in", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        refreshAccessTokenUsingWorkAround();
-//    }
 }

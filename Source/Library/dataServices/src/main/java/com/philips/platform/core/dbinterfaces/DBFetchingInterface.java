@@ -37,8 +37,8 @@ public interface DBFetchingInterface {
 
     void postError(Exception e, DBRequestListener dbRequestListener);
 
-    List<?> fetchNonSyncConsentDetails() throws SQLException;
-
     void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
+
+    List<?> fetchNonSyncConsentDetails() throws SQLException;
 
 }

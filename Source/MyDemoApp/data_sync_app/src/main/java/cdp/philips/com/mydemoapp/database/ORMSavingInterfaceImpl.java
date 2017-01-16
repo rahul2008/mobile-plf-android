@@ -8,6 +8,8 @@ package cdp.philips.com.mydemoapp.database;
 import com.philips.platform.core.datatypes.Characteristics;
 import android.util.Log;
 
+import android.util.Log;
+
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;

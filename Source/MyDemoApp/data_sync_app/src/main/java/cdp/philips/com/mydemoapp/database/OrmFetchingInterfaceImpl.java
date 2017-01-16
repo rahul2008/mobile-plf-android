@@ -202,14 +202,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         mTemperatureMomentHelper.notifySuccess((ArrayList<? extends Object>)activeOrmMoments, dbRequestListener);
     }
 
-//    @Override
-//    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-//        List<? extends Consent> consentList = fetchConsentsWithNonSynchronizedConsentDetails();
-//        dataToSync.put(Consent.class, consentList);
-//        return dataToSync;
-//    }
-
-    //TODO: Spoorti - fetchConsentsWithNonSynchronizedConsentDetails and fetchNonSynchronizedConsentDetails - Why 2 APIs
     @Override
     public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
         List<? extends Characteristics> characteristicses = fetchNonSynchronizedCharacteristics();
@@ -298,4 +290,6 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         }
         return ormConsent;
     }
+
+
 }
