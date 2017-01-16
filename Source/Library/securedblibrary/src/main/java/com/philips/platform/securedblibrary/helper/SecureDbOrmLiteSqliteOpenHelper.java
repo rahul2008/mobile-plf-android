@@ -10,6 +10,9 @@ import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.securedblibrary.connectionSource.SecureAndroidConnectionSource;
 import com.philips.platform.securedblibrary.ormlite.OrmLiteConfigUtil;
 import com.philips.platform.securedblibrary.sqlcipher.AndroidDatabaseConnection;
@@ -36,6 +39,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 
 	protected static Logger logger = LoggerFactory.getLogger(SecureDbOrmLiteSqliteOpenHelper.class);
 	protected SecureAndroidConnectionSource connectionSource;
+	SecureStorageInterface mSecureStorage=null;
 
 	protected boolean cancelQueriesEnabled;
 	private volatile boolean isOpen = true;
@@ -62,6 +66,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 		this.tableName=tableName;
 		this.databaseVersion = databaseVersion;
 		this.dataBasePassword = dataBasePassword;
+		//dataBasePassword=retrievePassword();
 		SQLiteDatabase.loadLibs(context);
 		connectionSource = new SecureAndroidConnectionSource(this, dataBasePassword);
 		logger.trace("{}: constructed connectionSource {}", this, connectionSource);
@@ -133,6 +138,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 		this.databaseVersion = databaseVersion;
 		this.tableName=tableName;
 		this.dataBasePassword = dataBasePassword;
+		//dataBasePassword=retrievePassword();
 		SQLiteDatabase.loadLibs(context);
 		connectionSource = new SecureAndroidConnectionSource(this, dataBasePassword);
 		if (stream == null) {
@@ -351,6 +357,14 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 	public String toString() {
 		return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
 	}
+
+	/*private String retrievePassword()
+	{
+		AppInfraInterface  appInfra= new AppInfra.Builder().build(context.getApplicationContext());
+		mSecureStorage = appInfra.getSecureStorage();
+		SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+		return mSecureStorage.retrievePassWord("Key",sse);;
+	}*/
 
 	private static InputStream openFileId(Context context, int fileId) {
 		InputStream stream = context.getResources().openRawResource(fileId);
