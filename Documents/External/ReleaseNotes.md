@@ -1,6 +1,14 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
+Version 2.2.0-SNAPSHOT
+-------------
+### New features
+* [BL-147] Custom capabilities added. It is now possible to implement capabilities without modifying BlueLib.
+
+### Known issues
+* [BG-234] Google backup might restore previously associated devices
+
 Version 2.1.0
 -------------
 ### New features
