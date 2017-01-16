@@ -118,6 +118,10 @@
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
+
     </style>
 
     <style name="VeryLight">
@@ -156,6 +160,9 @@
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
     </style>
 
     <style name="Light">
@@ -192,6 +199,9 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
+
     </style>
 
     <style name="Bright">
@@ -225,6 +235,9 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
     </style>
 
     <style name="VeryDark">
@@ -261,5 +274,8 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
     </style>
 </resources>

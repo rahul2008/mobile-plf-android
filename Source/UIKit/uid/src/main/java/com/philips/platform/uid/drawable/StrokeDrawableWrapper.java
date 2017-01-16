@@ -1,8 +1,14 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.uid.compat;
+package com.philips.platform.uid.drawable;
 
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;

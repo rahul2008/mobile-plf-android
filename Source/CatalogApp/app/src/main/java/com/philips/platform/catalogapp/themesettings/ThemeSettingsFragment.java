@@ -25,6 +25,7 @@ import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -93,6 +94,7 @@ public class ThemeSettingsFragment extends BaseFragment {
             colorRange = themeHelper.initColorRange();
             navigationColor = themeHelper.initNavigationRange();
             contentColor = themeHelper.initContentTonalRange();
+//            setSeparatorBackground(view);
         }
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -109,6 +111,20 @@ public class ThemeSettingsFragment extends BaseFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setSeparatorBackground(view);
+    }
+
+    private void setSeparatorBackground(final View view) {
+        View viewById = view.findViewById(R.id.divider1);
+        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        viewById.setBackground(separatorDrawable);
+        viewById = view.findViewById(R.id.divider2);
+        viewById.setBackground(separatorDrawable);
     }
 
     private void initContentColor(final int colorRangeSelectedPosition) {

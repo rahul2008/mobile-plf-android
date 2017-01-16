@@ -23,7 +23,7 @@ import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.compat.StrokeCompat;
+import com.philips.platform.uid.drawable.StrokeCompat;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.ClearEditTextIconHandler;
 import com.philips.platform.uid.utils.EditTextIconHandler;

@@ -1,5 +1,5 @@
 <View
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="?attr/uidApplicationBackground"/>
+    android:layout_height="@dimen/uid_divider_Height"
+    android:background="?attr/uidSeparatorColor"/>
