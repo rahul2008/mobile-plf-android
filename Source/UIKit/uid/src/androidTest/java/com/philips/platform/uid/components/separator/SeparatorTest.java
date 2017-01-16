@@ -24,7 +24,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 public class SeparatorTest {
 
@@ -103,6 +105,11 @@ public class SeparatorTest {
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
                 .check(matches(SeparatorMatcher.hasSameColor(modulateColorAlpha)));
+    }
+
+    @Test
+    public void verifySeperatorIsPresent(){
+        onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator)).check(matches(isDisplayed()));
     }
 
     @Test
