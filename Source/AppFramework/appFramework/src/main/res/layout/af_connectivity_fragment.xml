@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/homescreen_left_margin"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:text="Measurement value"
             android:textColor="@color/uikit_philips_blue"
             android:textSize="17sp" />
@@ -116,7 +117,6 @@
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="@dimen/homescreen_left_margin"
         android:layout_marginTop="20dp"
-        android:onClick=""
         android:text="Get Measurement Value from device"
         android:textColor="@color/uikit_philips_blue"
         android:textSize="14sp" />

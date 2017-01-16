@@ -99,6 +99,26 @@
       <DependentUpon>ProductRegistration.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefAppJourney02.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RefAppJourney02.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RefAppJourney03.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RefAppJourney03.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RefAppJourney04.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RefAppJourney04.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RefAppJourney05.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RefAppJourney05.feature</DependentUpon>
+    </Compile>
     <Compile Include="UJ01.cs" />
     <Compile Include="UJ02.cs" />
     <Compile Include="UJ03.cs" />
@@ -142,6 +162,22 @@
     <None Include="ProductRegistration.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ProductRegistration.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RefAppJourney02.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RefAppJourney02.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RefAppJourney03.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RefAppJourney03.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RefAppJourney04.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RefAppJourney04.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RefAppJourney05.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RefAppJourney05.feature.cs</LastGenOutput>
     </None>
     <None Include="runtests.cmd" />
     <None Include="SpecRunTestProfile.xsd">

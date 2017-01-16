@@ -8,18 +8,14 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.capabilities.CapabilityFirmwareUpdateDiComm;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityBatteryImpl;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformationCached;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformationImpl;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 import com.philips.pins.shinelib.dicommsupport.DiCommChannel;
 import com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort;
-import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreamingVersionSwitcher;
-import com.philips.pins.shinelib.services.SHNServiceBattery;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
 import com.philips.pins.shinelib.utility.DeviceInformationCache;
@@ -31,7 +27,7 @@ class DeviceDefinitionReferenceBoard implements SHNDeviceDefinitionInfo.SHNDevic
     public static final int RESPONSE_TIME_OUT = 4000;
 
     @Override
-    public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) {
+    public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) throws IllegalArgumentException{
         // using existing building block from BlueLib. It is also possible to create custom implementation inside the plugin
         SHNDeviceImpl device = new SHNDeviceImpl(shnCentral.getBTDevice(deviceAddress), shnCentral, shnDeviceDefinitionInfo.getDeviceTypeName());
 

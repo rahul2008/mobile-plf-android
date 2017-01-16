@@ -9,9 +9,10 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -19,7 +20,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class LaunchActivityPresenter extends UIBasePresenter{
+public class LaunchActivityPresenter extends UIBasePresenter implements UIStateListener{
 
     public static final int APP_LAUNCH_STATE = 890;
     private LaunchView launchView;
@@ -83,5 +84,10 @@ public class LaunchActivityPresenter extends UIBasePresenter{
 
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) launchView.getFragmentActivity().getApplicationContext();
+    }
+
+    @Override
+    public void onStateComplete(BaseState baseState) {
+
     }
 }
