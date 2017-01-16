@@ -94,7 +94,7 @@ public class ThemeSettingsFragment extends BaseFragment {
             colorRange = themeHelper.initColorRange();
             navigationColor = themeHelper.initNavigationRange();
             contentColor = themeHelper.initContentTonalRange();
-            setSeparatorBackground(view);
+//            setSeparatorBackground(view);
         }
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -111,6 +111,12 @@ public class ThemeSettingsFragment extends BaseFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setSeparatorBackground(view);
     }
 
     private void setSeparatorBackground(final View view) {
