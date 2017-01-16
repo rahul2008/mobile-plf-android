@@ -112,12 +112,12 @@ task tgzTask(type: Tar) {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -137,11 +137,14 @@ configurations.all {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.4.0-SNAPSHOT', ext: 'aar', changing: true)
     {
            transitive = true
     }
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile "org.robolectric:robolectric:3.1.1"
 }
 
 task copyToLib(type: Copy) {
