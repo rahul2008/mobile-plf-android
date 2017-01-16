@@ -53,7 +53,7 @@ public class SeparatorDrawable extends Drawable {
 
     @Override
     public void setBounds(final int left, final int top, final int right, final int bottom) {
-        super.setBounds(left, top, right, bottom + height);
+        super.setBounds(left, top, right, top + height);
     }
 
     public int getHeight() {
