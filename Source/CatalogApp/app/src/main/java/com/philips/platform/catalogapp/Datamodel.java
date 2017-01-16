@@ -13,14 +13,14 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 
-public class Datamodel extends BaseObservable {
+public class DataModel extends BaseObservable {
     @DrawableRes
     public final int icon;
     @StringRes
     public final int text;
     final private Context context;
 
-    public Datamodel(@DrawableRes final int icon, @StringRes final int text, final Context context) {
+    public DataModel(@DrawableRes final int icon, @StringRes final int text, final Context context) {
         this.icon = icon;
         this.text = text;
         this.context = context;

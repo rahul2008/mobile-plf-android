@@ -13,13 +13,13 @@ import android.databinding.ObservableArrayList;
 
 public class DataModelView extends BaseObservable {
     @Bindable
-    public ObservableArrayList<Datamodel> datamodels;
+    public ObservableArrayList<DataModel> dataModels;
 
     public DataModelView() {
-        this.datamodels = new ObservableArrayList<>();
+        this.dataModels = new ObservableArrayList<>();
     }
 
     public void addUser(int icon, int title, final Context context) {
-        this.datamodels.add(new Datamodel(icon, title, context));
+        this.dataModels.add(new DataModel(icon, title, context));
     }
 }
