@@ -122,7 +122,6 @@ public class FetchingMonitor extends EventMonitor {
             }else{
                 eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, new ArrayList(consent.getConsentDetails())));
             }
-
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbRequestListener());
         }

@@ -61,6 +61,7 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
         for (Characteristics characteristics : userCharacteristicsListToSend) {
             userCharacteristicsList.add(characteristics);
         }
+        //TODO:Spoorti - send only if not synced
         return sendUserCharacteristics(userCharacteristicsList);
     }
 
@@ -94,6 +95,8 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     private void postOk(Characteristics characteristic) {
         characteristic.setSynchronized(true);
         DSLog.d(DSLog.LOG, "Inder = Inside UC Sender postOk " + characteristic.getCharacteristicsDetails());
+        //TODO: SPoorti - As of now I see that the below event is posted to saving monitor, genrally it could go to UpdatingMonitor.
+        // We can get it one's verified with Ajay
         mEventing.post(new UserCharacteristicsSaveRequest(characteristic, DataServicesManager.getInstance().getDbChangeListener()));
     }
 

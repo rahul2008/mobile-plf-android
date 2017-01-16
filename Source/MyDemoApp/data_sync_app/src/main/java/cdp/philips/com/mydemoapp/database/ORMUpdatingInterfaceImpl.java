@@ -115,6 +115,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     }
 
+    //TODO: SPoorti - put the Logic in segrater
     @Override
     public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
         Characteristics dbUC=fetching.fetchUCByCreatorId(characteristics.getCreatorId());
