@@ -193,16 +193,16 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
-        ArrayList<String> var1 = new ArrayList<>();
-        var1.add("userreg.janrain.api");
-        var1.add("userreg.landing.emailverif");
-        var1.add("userreg.landing.resetpass");
-        var1.add("userreg.janrain.cdn");
-        var1.add("userreg.janrain.engage");
-        var1.add("userreg.smssupported");
+        ArrayList<String> serviceIdList = new ArrayList<>();
+        serviceIdList.add("userreg.janrain.api");
+        serviceIdList.add("userreg.landing.emailverif");
+        serviceIdList.add("userreg.landing.resetpass");
+        serviceIdList.add("userreg.janrain.cdn");
+        serviceIdList.add("userreg.janrain.engage");
+        serviceIdList.add("userreg.smssupported");
 
 
-        serviceDiscoveryInterface.getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIdList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveyService> resultMap) {
 
