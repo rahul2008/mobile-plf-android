@@ -55,6 +55,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
 
             @Override
             public void onPortUpdate(DeviceMeasurementPort deviceMeasurementPort) {
+                connectivityViewListener.updateConnectionStateText(context.getString(R.string.disconnected));
                 if(deviceMeasurementPort!=null && deviceMeasurementPort.getPortProperties()!=null) {
                     connectivityViewListener.updateDeviceMeasurementValue(Integer.toString(deviceMeasurementPort.getPortProperties().measurementvalue));
                 }else{
@@ -64,6 +65,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
 
             @Override
             public void onPortError(DeviceMeasurementPort deviceMeasurementPort, Error error, final String s) {
+                connectivityViewListener.updateConnectionStateText(context.getString(R.string.disconnected));
                 connectivityViewListener.onDeviceMeasurementError(error,s);
             }
         });

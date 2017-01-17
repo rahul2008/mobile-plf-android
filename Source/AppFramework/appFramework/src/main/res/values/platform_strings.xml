@@ -16,4 +16,6 @@
     <string name="reference_device_scan">Reference Device Scan</string>
     <string name="unknown_device">Unknown Device</string>
     <string name="ble_ref_device">ble ref device</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connected">Connected</string>
 </resources>

@@ -25,6 +25,8 @@ public class ConnectivityContract {
         void updateDeviceMeasurementValue(String measurementValue);
 
         void onDeviceMeasurementError(Error error,String s);
+
+        void updateConnectionStateText(String text);
     }
 
     interface UserActionsListener {

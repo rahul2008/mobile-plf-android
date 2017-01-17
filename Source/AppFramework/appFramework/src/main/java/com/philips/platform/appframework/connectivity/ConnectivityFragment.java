@@ -52,7 +52,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private String accessTokenValue;
     private User user;
     private ProgressDialog dialog = null;
-    private TextView dataCoreErrorText;
     private CommCentral commCentral;
     private DICommApplianceFactory applianceFactory;
     private BleReferenceAppliance bleReferenceAppliance;
@@ -96,7 +95,6 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         editText = (EditText) rootView.findViewById(R.id.measurement_value_editbox);
         momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
-        dataCoreErrorText = (TextView) rootView.findViewById(R.id.datacre_error_text);
         Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
         btnGetMoment.setOnClickListener(this);
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
@@ -150,11 +148,8 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
             case R.id.get_momentumvalue_button:
                 editTextValue = editText.getText().toString();
                 if (accessTokenValue == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !ConnectivityUtils.isNetworkAvailable(getActivity())) {
-                    dataCoreErrorText.setVisibility(View.VISIBLE);
                     Toast.makeText(getActivity(), "Datacore is not reachable", Toast.LENGTH_SHORT).show();
                     break;
-                } else {
-                    dataCoreErrorText.setVisibility(View.GONE);
                 }
                 processMoment(user, editTextValue);
                 break;
@@ -172,6 +167,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
             bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                 @Override
                 public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                    updateConnectionStateText(getString(R.string.connected));
                     connectivityPresenter.setUpApplicance(bleRefAppliance);
                     bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
                 }
@@ -188,12 +184,11 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     }
                 }
             },30000);
-            connectionState.setText(getString(R.string.lblStateDiscovering));
+            updateConnectionStateText(getString(R.string.disconnected));
         } catch (MissingPermissionException e) {
             Log.e(TAG,"Permissio missing");
         }
     }
-
 
 
 
@@ -282,7 +277,20 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), "Erroe while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+            }
+        });
+
+    }
+
+    @Override
+    public void updateConnectionStateText(final String text) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(connectionState!=null) {
+                    connectionState.setText(text);
+                }
             }
         });
 

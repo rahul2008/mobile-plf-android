@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/start_connectivity_button"
             android:layout_below="@+id/start_connectivity_button"
-            android:text="Not Connected"
+            android:text="@string/disconnected"
             android:visibility="visible" />
 
         <Button
@@ -102,19 +102,10 @@
             android:layout_below="@+id/connectionState"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
-            android:layout_toEndOf="@+id/datacre_error_text"
             android:text="Get moment value from datacore"
             android:textColor="@color/uikit_philips_blue"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/datacre_error_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/get_momentumvalue_button"
-            android:text="Datacore is not reachable"
-            android:visibility="gone" />
 
 
 
