@@ -457,8 +457,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void filterDataForUrlbyLang(ServiceDiscovery service, String serviceId, OnGetServiceUrlListener onGetServiceUrlListener,
                                         Map<String, String> replacement) {
         if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByLanguage().getConfigs() != null) {
-            String BYLANG = "bylang";
-            getDataForUrl(service, serviceId, onGetServiceUrlListener, replacement, BYLANG);
+            if (service.getMatchByLanguage().getLocale() == null) {
+                onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
+            } else {
+                String BYLANG = "bylang";
+                getDataForUrl(service, serviceId, onGetServiceUrlListener, replacement, BYLANG);
+            }
         } else if (onGetServiceUrlListener != null) {
             onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
@@ -467,8 +472,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void filterDataForUrlbyCountry(ServiceDiscovery service, String serviceId, OnGetServiceUrlListener onGetServiceUrlListener,
                                            Map<String, String> replacement) {
         if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByCountry().getConfigs() != null) {
-            String BYCOUNTRY = "bycountry";
-            getDataForUrl(service, serviceId, onGetServiceUrlListener, replacement, BYCOUNTRY);
+            if (service.getMatchByCountry().getLocale() == null) {
+                onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
+            } else {
+                String BYCOUNTRY = "bycountry";
+                getDataForUrl(service, serviceId, onGetServiceUrlListener, replacement, BYCOUNTRY);
+            }
         } else {
             if (onGetServiceUrlListener != null) {
                 onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
@@ -511,7 +521,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             onGetServiceLocaleListener) {
         if (onGetServiceLocaleListener != null && service.getMatchByLanguage().getConfigs() != null) {
             if (service.getMatchByLanguage().getLocale() == null) {
-                onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
             } else {
                 onGetServiceLocaleListener.onSuccess(service.getMatchByLanguage().getLocale());
             }
@@ -524,7 +535,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             onGetServiceLocaleListener) {
         if (onGetServiceLocaleListener != null && service.getMatchByCountry().getConfigs() != null) {
             if (service.getMatchByCountry().getLocale() == null) {
-                onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
+                onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
             } else {
                 onGetServiceLocaleListener.onSuccess(service.getMatchByCountry().getLocale());
             }
@@ -539,8 +551,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                         OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> replacement) {
         String dataByUrl = "urlbylanguage";
         if (onGetServiceUrlMapListener != null && serviceIds != null && service.getMatchByLanguage().getConfigs() != null) {
-            final int configSize = service.getMatchByLanguage().getConfigs().size();
-            getUrlsMapper(service, configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener, replacement);
+            if (service.getMatchByLanguage().getLocale() == null) {
+                onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
+            } else {
+                final int configSize = service.getMatchByLanguage().getConfigs().size();
+                getUrlsMapper(service, configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener, replacement);
+            }
         } else if (onGetServiceUrlMapListener != null) {
             onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
@@ -550,8 +567,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                            OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> replacement) {
         String dataByUrl = "urlbycountry";
         if (onGetServiceUrlMapListener != null && serviceIds != null && service.getMatchByCountry().getConfigs() != null) {
-            final int configSize = service.getMatchByCountry().getConfigs().size();
-            getUrlsMapper(service, configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener, replacement);
+            if (service.getMatchByCountry().getLocale() == null) {
+                onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
+            } else {
+                final int configSize = service.getMatchByCountry().getConfigs().size();
+                getUrlsMapper(service, configSize, dataByUrl, serviceIds, onGetServiceUrlMapListener, replacement);
+            }
+
         } else {
             if (onGetServiceUrlMapListener != null) {
                 onGetServiceUrlMapListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
