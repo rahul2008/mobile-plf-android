@@ -35,8 +35,11 @@
     <SignInText>Sign In</SignInText>
   </ClassName>
   <LoginScreen>
+    <countrycode>com.philips.platform.referenceapp:id/tv_country_displat</countrycode>
+    <countrypicker>com.philips.platform.referenceapp:id/reg_country_picker_search</countrypicker>
+    <countryenter>com.philips.platform.referenceapp:id/reg_row_title</countryenter>
     <SocialMergeGoogle>//android.widget.TextView[@text='Google+']</SocialMergeGoogle>
-    <Login_Title>com.philips.platform.referenceapp:id/home_action_bar_text</Login_Title>
+    <Login_Title>com.philips.platform.referenceapp:id/home_action_bar_text</Login_Title>    
     <CreatePhilipsAccount>com.philips.platform.referenceapp:id/btn_reg_create_account</CreatePhilipsAccount>
     <LoginPhilipsAccount>com.philips.platform.referenceapp:id/tv_reg_provider_name</LoginPhilipsAccount>
     <LoginFaceBook>com.philips.platform.referenceapp:id/tv_reg_provider_name</LoginFaceBook>

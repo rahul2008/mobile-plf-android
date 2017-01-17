@@ -75,6 +75,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                 return GetData("LoginTitle");
             }
         }
+
         public static string CreatePhilipsAccount
         {
             get
@@ -2100,6 +2101,14 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                         return GetData("LoginSettings");
                     }
                 }
+
+                public static string Login_Title_UR_Setting
+                {
+                    get
+                    {
+                        return GetData("Login_Title_UR_Setting");
+                    }
+                }
                 public static string Logout
                 {
                     get
@@ -3651,6 +3660,28 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     get
                     {
                         return GetData("LoogedIn_Continue");
+                    }
+                }
+                public static string countrycode
+                {
+                    get
+                    {
+                        return GetData("countrycode");
+                    }
+                }
+                
+                 public static string countryenter
+                {
+                    get
+                    {
+                        return GetData("countryenter");
+                    }
+                }
+                public static string countrypicker
+                {
+                    get
+                    {
+                        return GetData("countrypicker");
                     }
                 }
                 public static string PhilipsAccountName
