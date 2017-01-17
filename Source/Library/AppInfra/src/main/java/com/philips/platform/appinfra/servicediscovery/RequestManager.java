@@ -38,7 +38,7 @@ public class RequestManager {
     private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
     private Context mContext = null;
 
-    public RequestManager(Context context , AppInfra appInfra) {
+    public RequestManager(Context context, AppInfra appInfra) {
         mContext = context;
         mAppInfra = appInfra;
     }
@@ -102,7 +102,7 @@ public class RequestManager {
             result.setError(err);
         } else { // no sense in further processing if server reports error
             // START setting match by country
-            result.parseResponse(mAppInfra, response);
+            result.parseResponse(mContext, mAppInfra, response);
         }
 
         return result;

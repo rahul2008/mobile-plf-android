@@ -5,7 +5,7 @@
  */
 package com.philips.platform.appinfra.servicediscovery.model;
 
-import android.util.Log;
+import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -30,6 +30,7 @@ public class ServiceDiscovery {
     private MatchByCountryOrLanguage matchByCountry;
     private MatchByCountryOrLanguage matchByLanguage;
     private AppInfra mAppInfra;
+    private Context mContext;
 
     Error error = null;
 
@@ -112,8 +113,9 @@ public class ServiceDiscovery {
     }
 
 
-    public void parseResponse(AppInfra appInfra, JSONObject response) {
+    public void parseResponse(Context context, AppInfra appInfra, JSONObject response) {
         this.mAppInfra = appInfra;
+        this.mContext = context;
         try {
             JSONObject payloadJSONObject = response.getJSONObject("payload");
             String country = response.getJSONObject("payload").optString("country");
@@ -190,7 +192,7 @@ public class ServiceDiscovery {
     private String getActualResultsForLocaleList(MatchByCountryOrLanguage matchByCountry,
                                                  JSONArray resultsJSONArray) {
         try {
-            ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(new RequestManager(mAppInfra)
+            ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(new RequestManager(mContext, mAppInfra)
                     .getLocaleList().split(",")));
             for (int i = 0; i < deviceLocaleList.size(); i++) {
                 for (int j = 0; j < resultsJSONArray.length(); j++) {

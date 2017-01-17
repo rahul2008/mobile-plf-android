@@ -1072,7 +1072,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        serviceDiscovery.parseResponse(mAppInfra ,jsonObject);
+        serviceDiscovery.parseResponse(context,mAppInfra ,jsonObject);
         mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
                     @Override

@@ -62,7 +62,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
-        mRequestItemManager = new RequestManager(mAppInfra);
+        mRequestItemManager = new RequestManager(context,mAppInfra);
         downloadInProgress = false;
         downloadAwaiters = new ArrayDeque<>();
         downloadLock = new ReentrantLock();
