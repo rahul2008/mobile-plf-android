@@ -54,6 +54,12 @@ public class CheckboxTest {
     private static final int VERY_DARK = 4;
 
     @Test
+    public void verifyCheckboxHeight() {
+        setUpTheme(ULTRA_LIGHT);
+        int expectedHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.checkbox_height);
+        getCheckbox().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
+    }
+    @Test
     public void verifyCheckboxLabelFontSize() {
         setUpTheme(ULTRA_LIGHT);
         int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.label_fontsize);
