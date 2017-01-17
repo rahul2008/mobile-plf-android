@@ -16,7 +16,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 
@@ -67,8 +66,6 @@ public class CheckBox extends android.widget.CheckBox {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
         ColorStateList borderColorStateID = ThemeUtils.buildColorStateList(getResources(), theme, R.color.uid_checkbox_ripple_selector);
-
-        setBackground(ContextCompat.getDrawable(getContext(), R.drawable.uid_checkbox_background));
 
         if (UIDUtils.isMinLollipop() && (borderColorStateID != null) && (getBackground() instanceof RippleDrawable)) {
             ((RippleDrawable) getBackground()).setColor(borderColorStateID);
