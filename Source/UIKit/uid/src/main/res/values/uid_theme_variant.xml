@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Base">
         <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
         <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel55</item>
@@ -118,6 +119,18 @@
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+
+
+        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidControlPrimaryTextColor</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
     </style>
 
     <style name="VeryLight">
@@ -156,6 +169,18 @@
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+
+        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidControlPrimaryTextColor</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
+
     </style>
 
     <style name="Light">
@@ -192,6 +217,18 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+
+        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
+        </item>
+        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel35</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
     </style>
 
     <style name="Bright">
@@ -225,6 +262,18 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+
+        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
+        </item>
+        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel50</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
     </style>
 
     <style name="VeryDark">
@@ -261,5 +310,18 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+
+        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
+        <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+        </item>
+
+
+        <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
+        </item>
+        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel80</item>
+        <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
     </style>
 </resources>

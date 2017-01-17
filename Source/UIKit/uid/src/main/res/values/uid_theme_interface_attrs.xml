@@ -127,4 +127,14 @@
         <attr name="uidProgressIndicatorButtonProgressBackgroundColorAlpha" format="reference|float"/>
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDSocialMediaButton">
+        <attr name="uidSocialIconPrimaryButtonTextColor" format="reference|color"/>
+        <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
+        <attr name="uidSocialIconPrimaryButtonPressedColor" format="reference|color"/>
+        <attr name="uidSocialIconWhiteButtonTextColor" format="reference|color"/>
+        <attr name="uidSocialIconWhiteButtonNormalFillColor" format="reference|color"/>
+        <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
+
+    </declare-styleable>
 </resources>

@@ -231,8 +231,8 @@
                     style="@style/UIDImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isButtonsEnabled}"
                     app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
 
@@ -241,8 +241,8 @@
                     style="@style/UIDQuietIconButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isButtonsEnabled}"
                     app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
             </LinearLayout>
@@ -259,25 +259,27 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_left_right"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp">
+                android:orientation="horizontal">
 
-                <com.shamanland.fonticon.FontIconView
-                    android:id="@+id/uikit_social_twitter_32"
-                    style="@style/FontIcon"
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/uid_social_facebook"
+                    style="@style/UIDSocialIconPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/uikit_fonticon_twitter"/>
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/uid_fonticon_twitter"/>
 
-                <com.shamanland.fonticon.FontIconView
-                    android:id="@+id/uikit_social_linkedin_32"
-                    style="@style/FontIcon"
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/uid_social_twitter"
+                    style="@style/UIDSocialIconWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/uikit_fonticon_linkedin"/>
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/uid_fonticon_twitter"/>
             </LinearLayout>
 
             <TextView

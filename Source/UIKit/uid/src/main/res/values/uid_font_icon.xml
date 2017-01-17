@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="FontIcon">
+    <style name="UIDSocialIconPrimary" parent="UIDDefaultButton">
         <item name="fontPath">fonts/puicon.ttf</item>
-        <item name="android:textColor">?attr/uidTextPrimary</item>
-
         <item name="android:textSize">32sp</item>
+        <item name="android:paddingLeft">0px</item>
+        <item name="android:paddingRight">0px</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="uidButtonImageDrawableWidth">32dp</item>
+        <item name="uidButtonImageDrawableHeight">32dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="uidButtonDrawableColorList">
+            @color/uid_social_icon_primary_button_background_selector
+        </item>
+        <item name="uidButtonTextColorList">@color/uid_social_icon_primary_button_text_selector
+        </item>
+    </style>
+
+    <style name="UIDSocialIconWhite" parent="UIDSocialIconPrimary">
+        <item name="uidButtonTextColorList">@color/uid_social_icon_white_button_text_selector</item>
+        <item name="uidButtonBackgroundColorList">
+            @color/uid_social_icon_white_button_background_selector
+        </item>
     </style>
 </resources>
