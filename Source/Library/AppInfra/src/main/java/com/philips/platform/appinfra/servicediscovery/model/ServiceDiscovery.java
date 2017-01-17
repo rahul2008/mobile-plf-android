@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.servicediscovery.model;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.RequestManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
@@ -116,7 +117,8 @@ public class ServiceDiscovery {
         try {
             JSONObject payloadJSONObject = response.getJSONObject("payload");
             String country = response.getJSONObject("payload").optString("country");
-            Log.i("Response", "" + country);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery country",
+                    country);
             this.country = country.toUpperCase();
             parseMatchByCountryJSON(payloadJSONObject.getJSONObject("matchByCountry"));
             parseMatchByLanguageJSON(payloadJSONObject.getJSONObject("matchByLanguage"));

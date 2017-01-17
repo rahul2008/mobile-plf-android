@@ -10,6 +10,7 @@ import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLang
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
@@ -970,7 +971,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
                     assertNotNull(message);
                 }
             });
-
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -1029,5 +1029,48 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    public void testemptyresultarray() {
+
+        String resJson = "{\n" +
+                "    \"success\": true,\n" +
+                "    \"payload\": {\n" +
+                "        \"country\": \"US\",\n" +
+                "        \"matchByLanguage\": {\n" +
+                "            \"available\": false,\n" +
+                "            \"results\": [\n" +
+                "                        \n" +
+                "                        ]\n" +
+                "        },\n" +
+                "        \"matchByCountry\": {\n" +
+                "            \"available\": false,\n" +
+                "            \"results\": [\n" +
+                "                        \n" +
+                "                        ]\n" +
+                "        }\n" +
+                "    },\n" +
+                "    \"httpStatus\": \"OK\"\n" +
+                "}\n";
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(resJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        serviceDiscovery.parseResponse(mAppInfra ,jsonObject);
+        mServiceDiscoveryManager.ServiceLocaleWithCountryorLanguagePreference(mServiceId,
+                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+                    @Override
+                    public void onSuccess(String locale) {
+                        assertNotNull(locale);
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        assertNotNull(error);
+                        assertNotNull(message);
+                    }
+                }, false);
     }
 }
