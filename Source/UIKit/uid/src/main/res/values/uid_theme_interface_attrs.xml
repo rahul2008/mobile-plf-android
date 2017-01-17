@@ -121,7 +121,7 @@
 
     <declare-styleable name="UIDCheckBox">
         <attr name="uidCheckBoxTextEnabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxTextDisaledColor" format="reference|color"/>
+        <attr name="uidCheckBoxTextDisabledColor" format="reference|color"/>
         <attr name="uidCheckBoxTextDisabledAlpha" format="reference|float"/>
         <attr name="uidCheckBoxBackgroundCheckedEnabledColor" format="reference|color"/>
         <attr name="uidCheckBoxBackgroundUncheckedEnabledColor" format="reference|color"/>
