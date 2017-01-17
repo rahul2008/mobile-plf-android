@@ -62,11 +62,13 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
             userUserCharacteristicsList.add(userCharacteristics);
         }
         //TODO:Spoorti - send only if not synced
+        //While sending UC ,we used to fetch UC which are not synced ,So no need to check here
         return sendUserCharacteristics(userUserCharacteristicsList);
     }
 
     private boolean sendUserCharacteristics(List<UserCharacteristics> userUserCharacteristicsList) {
-        if (userUserCharacteristicsList == null || userUserCharacteristicsList.size() == 0) return false;
+
+        if (userUserCharacteristicsList == null || userUserCharacteristicsList.size() == 0 ) return false;
         try {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
