@@ -122,17 +122,17 @@
     <declare-styleable name="UIDCheckBox">
         <attr name="uidCheckBoxTextEnabledColor" format="reference|color"/>
         <attr name="uidCheckBoxTextDisaledColor" format="reference|color"/>
-        <attr name="uidCheckBoxTextDisabledAlpha" format="float"/>
+        <attr name="uidCheckBoxTextDisabledAlpha" format="reference|float"/>
         <attr name="uidCheckBoxBackgroundCheckedEnabledColor" format="reference|color"/>
         <attr name="uidCheckBoxBackgroundUncheckedEnabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxBackgroundUncheckedEnabledAlpha" format="float"/>
+        <attr name="uidCheckBoxBackgroundUncheckedEnabledAlpha" format="reference|float"/>
         <attr name="uidCheckBoxBackgroundDisabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxBackgroundDisabledAlpha" format="float"/>
+        <attr name="uidCheckBoxBackgroundDisabledAlpha" format="reference|float"/>
         <attr name="uidCheckBoxTickEnabledColor" format="reference|color"/>
         <attr name="uidCheckBoxTickDisabledColor" format="reference|color"/>
-        <attr name="uidCheckBoxTickDisabledAlpha" format="float"/>
+        <attr name="uidCheckBoxTickDisabledAlpha" format="reference|float"/>
         <attr name="uidCheckBoxPaddingStart" format="dimension"/>
         <attr name="uidCheckBoxRippleColor" format="reference|color"/>
-        <attr name="uidCheckBoxRippleAlpha" format="float"/>
+        <attr name="uidCheckBoxRippleAlpha" format="reference|float"/>
     </declare-styleable>
 </resources>

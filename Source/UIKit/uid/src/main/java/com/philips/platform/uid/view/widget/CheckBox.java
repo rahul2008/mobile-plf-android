@@ -4,7 +4,6 @@
  */
 package com.philips.platform.uid.view.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -15,7 +14,9 @@ import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 
@@ -63,12 +64,15 @@ public class CheckBox extends android.widget.CheckBox {
         setCheckBoxDrawables(checkedEnabled, checkedDisabled, uncheckedDisabled, uncheckedEnabled);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
-        int borderColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchBorderColorList, -1);
-        if (UIDUtils.isMinLollipop() && (borderColorStateID > -1) && (getBackground() instanceof RippleDrawable)) {
-            ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(getResources(), theme, borderColorStateID));
-            int radius = getResources().getDimensionPixelSize(R.dimen.uid_switch_border_ripple_radius);
+        ColorStateList borderColorStateID = ThemeUtils.buildColorStateList(getResources(), theme, R.color.uid_checkbox_ripple_selector);
+
+        setBackground(ContextCompat.getDrawable(getContext(), R.drawable.uid_checkbox_background));
+
+        if (UIDUtils.isMinLollipop() && (borderColorStateID != null) && (getBackground() instanceof RippleDrawable)) {
+            ((RippleDrawable) getBackground()).setColor(borderColorStateID);
+            int radius = getResources().getDimensionPixelSize(R.dimen.uid_checkbox_border_ripple_radius);
             UIDUtils.setRippleMaxRadius(getBackground(), radius);
         }
     }
@@ -95,10 +99,10 @@ public class CheckBox extends android.widget.CheckBox {
     }
 
     @Override
-    protected void onDraw(final Canvas canvas) {
+    public void draw(final Canvas canvas) {
         canvas.save();
         canvas.translate(getStartPaddingAsPerLayoutDirection(), 0);
-        super.onDraw(canvas);
+        super.draw(canvas);
         canvas.restore();
     }
 

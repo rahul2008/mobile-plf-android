@@ -136,5 +136,6 @@
     <dimen name="uid_checkbox_margin_left_right">12dp</dimen>
     <dimen name="uid_checkbox_height">48dp</dimen>
     <dimen name="uid_checkbox_text_size">16sp</dimen>
+    <dimen name="uid_checkbox_border_ripple_radius">20dp</dimen>
 </resources>
 
