@@ -90,7 +90,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return null;
     }
 
-    //User UserCharacteristics
+    //User AppUserCharacteristics
     @Override
     public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
         OrmCharacteristics ormCharacteristics = null;

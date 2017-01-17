@@ -11,7 +11,8 @@ import com.philips.platform.core.utils.DSLog;
 
 import java.util.List;
 
-import cdp.philips.com.mydemoapp.pojo.UserCharacteristics;
+import cdp.philips.com.mydemoapp.pojo.AppCharacteristics;
+import cdp.philips.com.mydemoapp.pojo.AppUserCharacteristics;
 
 /**
  * Created by indrajitkumar on 1/17/17.
@@ -28,14 +29,14 @@ public class CharacteristicsPresenter {
 
     boolean createOrUpdateCharacteristics(String userCharacteristics) {
         try {
-            UserCharacteristics mUserCharacteristics = parseUserCharacteristics(userCharacteristics);
-            if (mUserCharacteristics == null || mUserCharacteristics.getCharacteristics() == null)
+            AppUserCharacteristics mAppUserCharacteristics = parseUserCharacteristics(userCharacteristics);
+            if (mAppUserCharacteristics == null || mAppUserCharacteristics.getCharacteristics() == null)
                 return false;
-            for (int i = 0; i < mUserCharacteristics.getCharacteristics().size(); i++) {
-                String type = mUserCharacteristics.getCharacteristics().get(i).getType();
-                String value = mUserCharacteristics.getCharacteristics().get(i).getValue();
+            for (int i = 0; i < mAppUserCharacteristics.getCharacteristics().size(); i++) {
+                String type = mAppUserCharacteristics.getCharacteristics().get(i).getType();
+                String value = mAppUserCharacteristics.getCharacteristics().get(i).getValue();
                 Characteristics characteristics = mDataServicesManager.createUserCharacteristics(type, value, null);
-                saveUserCharacteristicsToLocalDBRecursively(characteristics, mUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+                saveUserCharacteristicsToLocalDBRecursively(characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
             }
             mDataServicesManager.updateCharacteristics(dbRequestListener);
         } catch (JsonParseException exception) {
@@ -45,23 +46,23 @@ public class CharacteristicsPresenter {
     }
 
     @Nullable
-    private UserCharacteristics parseUserCharacteristics(String userCharacteristics) {
+    private AppUserCharacteristics parseUserCharacteristics(String userCharacteristics) {
         try {
-            return new Gson().fromJson(userCharacteristics, UserCharacteristics.class);
+            return new Gson().fromJson(userCharacteristics, AppUserCharacteristics.class);
         } catch (Exception ex) {
             DSLog.e(DSLog.LOG, "JSON Parser Exception =" + ex.getMessage());
             return null;
         }
     }
 
-    private void saveUserCharacteristicsToLocalDBRecursively(Characteristics parentCharacteristics, List<cdp.philips.com.mydemoapp.pojo.Characteristics> characteristicsList) {
-        if (characteristicsList != null && characteristicsList.size() > 0) {
-            for (int i = 0; i < characteristicsList.size(); i++) {
-                String type = characteristicsList.get(i).getType();
-                String value = characteristicsList.get(i).getValue();
+    private void saveUserCharacteristicsToLocalDBRecursively(Characteristics parentCharacteristics, List<AppCharacteristics> appCharacteristicsList) {
+        if (appCharacteristicsList != null && appCharacteristicsList.size() > 0) {
+            for (int i = 0; i < appCharacteristicsList.size(); i++) {
+                String type = appCharacteristicsList.get(i).getType();
+                String value = appCharacteristicsList.get(i).getValue();
                 Characteristics childCharacteristics = mDataServicesManager.createUserCharacteristics(type, value, parentCharacteristics);
                 parentCharacteristics.setCharacteristicsDetail(childCharacteristics);
-                saveUserCharacteristicsToLocalDBRecursively(childCharacteristics, characteristicsList.get(i).getCharacteristics());
+                saveUserCharacteristicsToLocalDBRecursively(childCharacteristics, appCharacteristicsList.get(i).getCharacteristics());
             }
         }
     }

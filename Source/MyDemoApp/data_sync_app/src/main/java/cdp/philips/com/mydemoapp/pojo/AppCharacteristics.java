@@ -3,11 +3,11 @@ package cdp.philips.com.mydemoapp.pojo;
 import java.io.Serializable;
 import java.util.List;
 
-public class Characteristics implements Serializable{
+public class AppCharacteristics implements Serializable{
     private String type;
     private String value;
 
-    private List<Characteristics> characteristics;
+    private List<AppCharacteristics> characteristics;
 
     public void setType(String type) {
         this.type = type;
@@ -17,7 +17,7 @@ public class Characteristics implements Serializable{
         this.value = value;
     }
 
-    public void setCharacteristics(List<Characteristics> characteristics) {
+    public void setCharacteristics(List<AppCharacteristics> characteristics) {
         this.characteristics = characteristics;
     }
 
@@ -29,7 +29,7 @@ public class Characteristics implements Serializable{
         return value;
     }
 
-    public List<Characteristics> getCharacteristics() {
+    public List<AppCharacteristics> getCharacteristics() {
         return characteristics;
     }
 }
