@@ -136,7 +136,7 @@ public class RequestManager {
             final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
             Date currentDate = new Date();
             long currentDateLong = currentDate.getTime();
-            if (savedURL.equals(url) && currentDateLong < refreshTimeExpiry) { // cache is VALID  i.e. AppIdentity and locale has not changed
+            if (savedURL != null && savedURL.equals(url) && currentDateLong < refreshTimeExpiry) { // cache is VALID  i.e. AppIdentity and locale has not changed
                 try {
                     JSONObject SDjSONObject = new JSONObject(prefs.getString("SDcache", null));
                     serviceDiscovery = parseResponse(SDjSONObject);
