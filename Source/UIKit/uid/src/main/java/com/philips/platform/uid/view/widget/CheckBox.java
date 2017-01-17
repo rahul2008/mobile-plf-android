@@ -4,13 +4,16 @@
  */
 package com.philips.platform.uid.view.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -18,6 +21,7 @@ import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 public class CheckBox extends android.widget.CheckBox {
     private int checkBoxStartPadding = 0;
@@ -33,25 +37,23 @@ public class CheckBox extends android.widget.CheckBox {
     public CheckBox(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        getCheckBoxPaddingStartFromAttributes(context, attrs, defStyleAttr);
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        applyCheckBoxStyling(context, attrs, defStyleAttr, theme);
 
-        applyStyling(context, attrs, defStyleAttr);
-    }
-
-    private void getCheckBoxPaddingStartFromAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDCheckBox, defStyleAttr, R.style.UIDCheckBox);
-        checkBoxStartPadding = typedArray.getDimensionPixelSize(R.styleable.UIDCheckBox_uidCheckBoxPaddingStart,
-                context.getResources().getDimensionPixelSize(R.dimen.uid_checkbox_margin_left_right));
+        getCheckBoxPaddingStartFromAttributes(context, typedArray);
+        applyRippleTint(typedArray, theme);
         typedArray.recycle();
     }
 
-    private void applyStyling(Context context, AttributeSet attrs, int defStyleAttr) {
-        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+    private void getCheckBoxPaddingStartFromAttributes(final Context context, TypedArray typedArray) {
+        checkBoxStartPadding = typedArray.getDimensionPixelSize(R.styleable.UIDCheckBox_uidCheckBoxPaddingStart,
+                context.getResources().getDimensionPixelSize(R.dimen.uid_checkbox_margin_left_right));
+    }
 
-        if (getTextColors() == null) {
-            ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_checkbox_text_selector);
-            setTextColor(colorStateList);
-        }
+    private void applyCheckBoxStyling(Context context, AttributeSet attrs, int defStyleAttr, Resources.Theme theme) {
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_checkbox_text_selector);
+        setTextColor(colorStateList);
 
         VectorDrawableCompat checkedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_checked_enabled, theme);
         VectorDrawableCompat checkedDisabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_checked_disabled, theme);
@@ -59,6 +61,16 @@ public class CheckBox extends android.widget.CheckBox {
         VectorDrawableCompat uncheckedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_unchecked_enabled, theme);
 
         setCheckBoxDrawables(checkedEnabled, checkedDisabled, uncheckedDisabled, uncheckedEnabled);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
+        int borderColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchBorderColorList, -1);
+        if (UIDUtils.isMinLollipop() && (borderColorStateID > -1) && (getBackground() instanceof RippleDrawable)) {
+            ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(getResources(), theme, borderColorStateID));
+            int radius = getResources().getDimensionPixelSize(R.dimen.uid_switch_border_ripple_radius);
+            UIDUtils.setRippleMaxRadius(getBackground(), radius);
+        }
     }
 
     @NonNull
