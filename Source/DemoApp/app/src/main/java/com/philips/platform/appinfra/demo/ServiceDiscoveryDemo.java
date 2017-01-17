@@ -179,7 +179,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            resultView.setText("SD REFRESH Error");
+                            resultView.setText("SD REFRESH Error:  "+ message);
                             Log.i("SD REFRESH", "Error");
                         }
                     });

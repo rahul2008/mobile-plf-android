@@ -73,6 +73,7 @@ public class RequestItemManager {
             result.setError(err);
             result.setSuccess(false);
         } catch (ExecutionException e) {
+            result.setSuccess(false);
             Throwable error = e.getCause();
             ServiceDiscovery.Error volleyError = null;
             if (error instanceof TimeoutError) {
@@ -319,6 +320,6 @@ public class RequestItemManager {
     }
 
     SharedPreferences getServiceDiscoverySharedPreferences(){
-        return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, mContext.MODE_PRIVATE);
+        return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
     }
 }

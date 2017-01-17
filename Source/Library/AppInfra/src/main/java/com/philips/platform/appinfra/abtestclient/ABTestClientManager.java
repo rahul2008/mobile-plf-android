@@ -110,9 +110,9 @@ public class ABTestClientManager implements ABTestClientInterface {
                 Object mbox = mAppInfra.getConfigInterface().getPropertyForKey
                         ("abtest.precache", "appinfra", configError);
                 if (mbox != null) {
-                    if (mbox instanceof ArrayList) {
+                    if (mbox instanceof ArrayList<?>) {
                         ArrayList<String> mBoxList = new ArrayList<>();
-                        ArrayList list = (ArrayList) mbox;
+                        ArrayList<?> list = (ArrayList<?>) mbox;
                         for (int i = 0; i < list.size(); i++) {
                             if (list.get(i) instanceof String) {
                                 mBoxList.add((String) list.get(i));

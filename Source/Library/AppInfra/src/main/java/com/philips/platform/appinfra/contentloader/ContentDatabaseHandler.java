@@ -60,7 +60,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_CONTENT_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_TABLE + "("
+        final String CREATE_CONTENT_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_TABLE + "("
                 + KEY_ID + " TEXT ,"
                 + KEY_SERVICE_ID + " TEXT,"
                 + KEY_RAW_CONTENT + " TEXT,"
@@ -72,7 +72,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_CONTENT_TABLE);
         Log.d("first run", "" + CONTENT_TABLE + "DB CREATED");
 
-        String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
+        final String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
                 + KEY_SERVICE_ID + " TEXT PRIMARY KEY,"
                 + KEY_EXPIRE_TIMESTAMP + " DATETIME,"
                 + KEY_LAST_UPDATED_TIME + " DATETIME "
