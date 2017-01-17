@@ -4,6 +4,7 @@
 
     <!--Percentage for opacity-->
     <item name="uid_alpha_per_100" format="float" type="dimen">1</item>
+    <item name="uid_alpha_per_10" format="float" type="dimen">0.1</item>
     <item name="uid_alpha_per_15" format="float" type="dimen">0.15</item>
     <item name="uid_alpha_per_20" format="float" type="dimen">0.20</item>
     <item name="uid_alpha_per_25" format="float" type="dimen">0.25</item>
@@ -133,4 +134,8 @@
 
     <!--Linear indeterminate progressbar-->
     <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>
+
+    <!-- Separator -->
+    <dimen name="uid_divider_Height">1dp</dimen>
+
 </resources>

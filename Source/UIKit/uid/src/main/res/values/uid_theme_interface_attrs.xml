@@ -137,4 +137,11 @@
         <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
 
     </declare-styleable>
+
+    <declare-styleable name="UIDSeparator">
+        <attr name="uidSeparatorColor" format="reference|color"/>
+        <attr name="uidSeparatorAlpha" format="float"/>
+        <!-- Below attr will be used later currently only color is applied without alpha-->
+    </declare-styleable>
+
 </resources>

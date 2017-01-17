@@ -131,6 +131,10 @@
         </item>
         <item name="uidSocialIconWhiteButtonTextColor">?attr/uidControlPrimaryTextColor</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
+        <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
+
     </style>
 
     <style name="VeryLight">
@@ -181,6 +185,9 @@
         <item name="uidSocialIconWhiteButtonTextColor">?attr/uidControlPrimaryTextColor</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
 
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
     </style>
 
     <style name="Light">
@@ -229,6 +236,9 @@
         <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel35</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
 
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
+
     </style>
 
     <style name="Bright">
@@ -273,6 +283,9 @@
         </item>
         <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel50</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
     </style>
 
@@ -322,6 +335,9 @@
         </item>
         <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel80</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
     </style>
 </resources>

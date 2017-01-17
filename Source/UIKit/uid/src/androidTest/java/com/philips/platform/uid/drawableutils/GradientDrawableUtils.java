@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableWrapper;
 
-import com.philips.platform.uid.compat.StrokeDrawableWrapper;
+import com.philips.platform.uid.drawable.StrokeDrawableWrapper;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

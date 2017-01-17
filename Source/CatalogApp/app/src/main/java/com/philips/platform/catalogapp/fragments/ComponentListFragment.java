@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.NavigationController;
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -42,6 +43,10 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
 
     private void setListItems() {
         String[] strings = getDemoItems().values().toArray(new String[1]);
+        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
+        listView.setDivider(separatorDrawable);
+        listView.setDividerHeight(separatorDrawable.getHeight());
+
         listView.setAdapter(new ArrayAdapter<>(this.getContext(), R.layout.component_list_text, strings));
         listView.setOnItemClickListener(this);
     }
@@ -54,6 +59,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(3, getString(R.string.page_title_alertDialog));
         itemsMap.put(4, getString(R.string.page_title_progress_bar));
         itemsMap.put(5, getString(R.string.page_title_label));
+        itemsMap.put(6, getString(R.string.page_title_separator));
         return sortMap(itemsMap);
     }
 
@@ -96,6 +102,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 5:
                 navigationController.switchFragment(new LabelFragment());
+                break;
+            case 6:
+                navigationController.switchFragment(new SeparatorFragment());
                 break;
         }
     }

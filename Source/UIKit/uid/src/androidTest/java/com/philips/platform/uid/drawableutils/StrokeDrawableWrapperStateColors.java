@@ -2,7 +2,7 @@ package com.philips.platform.uid.drawableutils;
 
 import android.graphics.drawable.Drawable;
 
-import com.philips.platform.uid.compat.StrokeDrawableWrapper;
+import com.philips.platform.uid.drawable.StrokeDrawableWrapper;
 
 /**
  * Created by 310213764 on 10/7/2016.

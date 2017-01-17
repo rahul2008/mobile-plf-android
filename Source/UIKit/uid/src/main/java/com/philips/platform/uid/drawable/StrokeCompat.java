@@ -1,4 +1,10 @@
-package com.philips.platform.uid.compat;
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
+package com.philips.platform.uid.drawable;
 
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
