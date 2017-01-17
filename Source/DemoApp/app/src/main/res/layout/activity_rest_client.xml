@@ -28,23 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
-        <TextView
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:text="ID:"
-             />
-    <EditText
-
-        android:layout_marginRight="20dp"
-        android:layout_gravity="center_horizontal"
-        android:text="aa"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextID"
-
-        />
 
     <Spinner
         android:gravity="center_horizontal"
