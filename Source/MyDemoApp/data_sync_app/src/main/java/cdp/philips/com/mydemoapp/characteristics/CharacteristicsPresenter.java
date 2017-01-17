@@ -1,31 +1,29 @@
 package cdp.philips.com.mydemoapp.characteristics;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.google.gson.stream.JsonReader;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
-import java.io.StringReader;
 import java.util.List;
-import java.util.Map;
 
 import cdp.philips.com.mydemoapp.pojo.UserCharacteristics;
 
-class CharacteristicsDialogPresenter {
+/**
+ * Created by indrajitkumar on 1/17/17.
+ */
 
+public class CharacteristicsPresenter {
     private DataServicesManager mDataServicesManager;
     private Characteristics mCharacteristics;
     private final DBRequestListener dbRequestListener;
 
-    CharacteristicsDialogPresenter(DBRequestListener dbRequestListener) {
+    CharacteristicsPresenter(DBRequestListener dbRequestListener) {
         this.dbRequestListener = dbRequestListener;
         mDataServicesManager = DataServicesManager.getInstance();
         mCharacteristics = mDataServicesManager.createCharacteristics();

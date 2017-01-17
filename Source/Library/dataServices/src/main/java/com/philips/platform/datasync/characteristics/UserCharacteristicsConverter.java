@@ -73,11 +73,15 @@ public class UserCharacteristicsConverter {
         if (characteristic != null) {
             for (int i = 0; i < characteristic.size(); i++) {
                 mCharacteristicsDetailList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
-                UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
-                uCoreCharacteristics.setType(mCharacteristicsDetailList.get(i).getType());
-                uCoreCharacteristics.setValue(mCharacteristicsDetailList.get(i).getValue());
-                uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
-                uCoreCharacteristicsList.add(uCoreCharacteristics);
+                if (mCharacteristicsDetailList.size() > 0) {
+                   // for (int j = 0; j < mCharacteristicsDetailList.size(); j++) {
+                        UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+                        uCoreCharacteristics.setType(mCharacteristicsDetailList.get(i).getType());
+                        uCoreCharacteristics.setValue(mCharacteristicsDetailList.get(i).getValue());
+                        uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsDetailList.get(i).getCharacteristicsDetail())));
+                        uCoreCharacteristicsList.add(uCoreCharacteristics);
+//                    }
+                }
             }
         }
         uCoreUserCharacteristics.setCharacteristics(uCoreCharacteristicsList);

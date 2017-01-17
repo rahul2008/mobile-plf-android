@@ -33,7 +33,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
-    private CharacteristicsDialogPresenter mCharacteristicsDialogPresenter;
+    private CharacteristicsPresenter mCharacteristicsDialogPresenter;
     private boolean isEditable ;
 
     @Override
@@ -59,7 +59,7 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
         mEtCharacteristics = (EditText) rootView.findViewById(R.id.et_characteristics);
 
-        mCharacteristicsDialogPresenter = new CharacteristicsDialogPresenter(this);
+        mCharacteristicsDialogPresenter = new CharacteristicsPresenter(this);
 
         mEtCharacteristics.setEnabled(false);
         isEditable = false;
@@ -148,15 +148,17 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
             for (int i = 0; i < characteristic.size(); i++) {
                 Collection<? extends CharacteristicsDetail> characteristicsDetails = characteristic.get(i).getCharacteristicsDetails();
                 List<CharacteristicsDetail> detailList = new ArrayList<>(characteristicsDetails);
-                UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
-                if (detailList.size() != 0) {
-                    uCoreCharacteristics.setType(detailList.get(i).getType());
-                    uCoreCharacteristics.setValue(detailList.get(i).getValue());
-                    Collection<? extends CharacteristicsDetail> characteristicsDetail = detailList.get(i).getCharacteristicsDetail();
-
-                    List<CharacteristicsDetail> detailList1 = new ArrayList<>(characteristicsDetail);
-                    uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(detailList1));
-                    uCoreCharacteristicsList.add(uCoreCharacteristics);
+               // UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+                if (detailList.size() > 0) {
+                    //for (int j = 0; j < detailList.size(); j++) {
+                        UCoreCharacteristics uCoreCharacteristics1 = new UCoreCharacteristics();
+                        uCoreCharacteristics1.setType(detailList.get(i).getType());
+                        uCoreCharacteristics1.setValue(detailList.get(i).getValue());
+                        Collection<? extends CharacteristicsDetail> characteristicsDetail = detailList.get(i).getCharacteristicsDetail();
+                        List<CharacteristicsDetail> detailList1 = new ArrayList<>(characteristicsDetail);
+                        uCoreCharacteristics1.setCharacteristics(convertToUCoreCharacteristics(detailList1));
+                        uCoreCharacteristicsList.add(uCoreCharacteristics1);
+                    //}
                 }
             }
         }

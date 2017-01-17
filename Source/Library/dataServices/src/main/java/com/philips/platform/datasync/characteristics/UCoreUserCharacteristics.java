@@ -19,9 +19,4 @@ public class UCoreUserCharacteristics {
         return characteristics;
     }
 
-    @Override
-    public String toString() {
-        DSLog.i(DSLog.LOG, "Inder = UCoreUserCharacteristics =" + characteristics.get(0).getCharacteristics().get(0).toString());
-        return characteristics.get(0).toString();
-    }
 }

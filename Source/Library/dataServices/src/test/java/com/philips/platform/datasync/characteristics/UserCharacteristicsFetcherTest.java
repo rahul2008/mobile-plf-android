@@ -3,6 +3,7 @@ package com.philips.platform.datasync.characteristics;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
+import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -95,7 +96,7 @@ public class UserCharacteristicsFetcherTest {
         when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(characteristicsMock);
         userCharacteristicsFetcher.fetchDataSince(null);
 
-        verify(eventingMock).post(isA(UserCharacteristicsSaveRequest.class));
+        verify(eventingMock).post(isA(UCDBUpdateFromBackendRequest.class));
     }
 
     @Test
