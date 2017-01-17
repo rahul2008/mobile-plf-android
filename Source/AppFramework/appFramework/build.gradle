@@ -230,7 +230,6 @@ android {
             shrinkResources false
             debuggable true
             signingConfig signingConfigs.debug
-            applicationIdSuffix ".leakcanary"
         }
         release {
             minifyEnabled true
