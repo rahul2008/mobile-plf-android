@@ -197,16 +197,8 @@ public class RequestItemManager {
                         urlHashMap.put(key, value);
                     }
                     config.setUrls(urlHashMap);
-
-                    ArrayList<MatchByCountryOrLanguage.Config.Tag> tagArrayList = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
                     JSONArray tagJSONArray = configCountryJSONArray.optJSONObject(configCount).optJSONArray("tags");
-                    for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
-                        MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
-                        tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
-                        tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
-                        tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
-                        tagArrayList.add(tag);
-                    }
+                    ArrayList<MatchByCountryOrLanguage.Config.Tag> tagArrayList = getTagArrayList(tagJSONArray);
                     config.setTags(tagArrayList);
                     matchByCountryConfigs.add(config);
                 }
@@ -242,16 +234,8 @@ public class RequestItemManager {
                             urlHashMap.put(key, value);
                         }
                         config.setUrls(urlHashMap);
-
-                        ArrayList<MatchByCountryOrLanguage.Config.Tag> tagArrayList = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
                         JSONArray tagJSONArray = configLanguageJSONArray.optJSONObject(configCount).optJSONArray("tags");
-                        for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
-                            MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
-                            tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
-                            tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
-                            tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
-                            tagArrayList.add(tag);
-                        }
+                        ArrayList<MatchByCountryOrLanguage.Config.Tag> tagArrayList  = getTagArrayList(tagJSONArray);
                         config.setTags(tagArrayList);
                         matchByLanguageConfigs.add(config);
                     }
@@ -321,5 +305,17 @@ public class RequestItemManager {
 
     SharedPreferences getServiceDiscoverySharedPreferences(){
         return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
+    }
+
+    ArrayList<MatchByCountryOrLanguage.Config.Tag> getTagArrayList(JSONArray tagJSONArray){
+        ArrayList<MatchByCountryOrLanguage.Config.Tag> tagArrayList = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
+        for (int tagCount = 0; tagCount < tagJSONArray.length(); tagCount++) {
+            MatchByCountryOrLanguage.Config.Tag tag = new MatchByCountryOrLanguage.Config.Tag();
+            tag.setId(tagJSONArray.optJSONObject(tagCount).optString("id"));
+            tag.setName(tagJSONArray.optJSONObject(tagCount).optString("name"));
+            tag.setKey(tagJSONArray.optJSONObject(tagCount).optString("key"));
+            tagArrayList.add(tag);
+        }
+        return tagArrayList;
     }
 }

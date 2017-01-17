@@ -105,9 +105,8 @@ public class AppTagging implements AppTaggingInterface {
             result = new JSONObject(total.toString());
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
                     result.toString());
-
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Tagging ADBMobileConfig file reading exception",
                     Log.getStackTraceString(e));
         }
         return result;
