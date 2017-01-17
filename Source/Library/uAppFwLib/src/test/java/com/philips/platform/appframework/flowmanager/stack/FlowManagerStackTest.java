@@ -27,11 +27,10 @@ public class FlowManagerStackTest extends TestCase {
         BaseState iapRetailer = new IAPRetailerFlowState();
         flowManagerStack.push(aboutState);
         flowManagerStack.push(aboutState);
-        assertEquals(null, flowManagerStack.pop());
         flowManagerStack.push(iapRetailer);
-        assertEquals(flowManagerStack.size(), 1);
+        assertEquals(flowManagerStack.size(), 3);
         flowManagerStack.pop();
-        assertEquals(flowManagerStack.size(), 0);
+        assertEquals(flowManagerStack.size(), 2);
     }
 
     public void testPopByState() {
@@ -48,11 +47,14 @@ public class FlowManagerStackTest extends TestCase {
         flowManagerStack.push(urState);
         flowManagerStack.push(supportState);
         flowManagerStack.push(settingsState);
+        flowManagerStack.push(prState);
         flowManagerStack.push(dataSyncState);
         assertTrue(flowManagerStack.pop(supportState) instanceof SupportFragmentState);
         assertEquals(flowManagerStack.size(), 5);
+        flowManagerStack.push(prState);
+        flowManagerStack.push(dataSyncState);
         assertTrue(flowManagerStack.pop(prState) instanceof ProductRegistrationState);
-        assertEquals(flowManagerStack.size(), 2);
+        assertEquals(flowManagerStack.size(), 6);
     }
 
     public void testPush() throws NoStateException {
@@ -61,10 +63,10 @@ public class FlowManagerStackTest extends TestCase {
         BaseState iapRetailer = new IAPRetailerFlowState();
         flowManagerStack.push(aboutState);
         flowManagerStack.push(aboutState);
-        assertEquals(1, flowManagerStack.size());
+        assertEquals(2, flowManagerStack.size());
         flowManagerStack.push(iapRetailer);
         flowManagerStack.push(prState);
-        assertEquals(3, flowManagerStack.size());
+        assertEquals(4, flowManagerStack.size());
         assertEquals(iapRetailer, flowManagerStack.pop());
     }
 
