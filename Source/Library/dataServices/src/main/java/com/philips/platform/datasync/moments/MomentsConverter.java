@@ -47,9 +47,13 @@ public class MomentsConverter {
     public List<Moment> convert(@NonNull final List<UCoreMoment> uCoreMoments) {
 
         List<Moment> momentList = new ArrayList<>();
-        for (UCoreMoment uCoreMoment : uCoreMoments) {
-            Moment moment = createMoment(uCoreMoment);
-            momentList.add(moment);
+        try {
+            for (UCoreMoment uCoreMoment : uCoreMoments) {
+                Moment moment = createMoment(uCoreMoment);
+                momentList.add(moment);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return momentList;
     }
@@ -315,22 +319,26 @@ public class MomentsConverter {
     public UCoreMoment convertToUCoreMoment(Moment moment) {
         UCoreMoment uCoreMoment = new UCoreMoment();
 
-        uCoreMoment.setTimestamp(moment.getDateTime().toString());
-        String momentTypeString = moment.getType();
-        uCoreMoment.setType(momentTypeString);
+        try {
+            uCoreMoment.setTimestamp(moment.getDateTime().toString());
+            String momentTypeString = moment.getType();
+            uCoreMoment.setType(momentTypeString);
 
-        List<UCoreMeasurementGroups> uCoreMeasurementGroupList = new ArrayList<>();
-        List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetails = new ArrayList<>();
-        List<UCoreDetail> uCoreMomentList = new ArrayList<>();
+            List<UCoreMeasurementGroups> uCoreMeasurementGroupList = new ArrayList<>();
+            List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetails = new ArrayList<>();
+            List<UCoreDetail> uCoreMomentList = new ArrayList<>();
 
-        addToUCoreMomentDetails(moment.getMomentDetails(), uCoreMomentList);
-        //addToUCoreMeasurements(moment.getMeasurements(), uCoreMeasurementList);
-        uCoreMoment.setDetails(uCoreMomentList);
+            addToUCoreMomentDetails(moment.getMomentDetails(), uCoreMomentList);
+            //addToUCoreMeasurements(moment.getMeasurements(), uCoreMeasurementList);
+            uCoreMoment.setDetails(uCoreMomentList);
 
-        uCoreMeasurementGroupList = addToUCoreMeasurementGroups(moment.getMeasurementGroups(), uCoreMeasurementGroupList);
-        uCoreMoment.setMeasurementGroups(uCoreMeasurementGroupList);
+            uCoreMeasurementGroupList = addToUCoreMeasurementGroups(moment.getMeasurementGroups(), uCoreMeasurementGroupList);
+            uCoreMoment.setMeasurementGroups(uCoreMeasurementGroupList);
 
-        setVersion(uCoreMoment, moment.getSynchronisationData());
+            setVersion(uCoreMoment, moment.getSynchronisationData());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return uCoreMoment;
     }
 
