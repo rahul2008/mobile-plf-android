@@ -5,6 +5,11 @@
  */
 package com.philips.platform.appinfra.securestorage;
 
+
+import android.inputmethodservice.Keyboard;
+
+import java.security.Key;
+
 /**
  * The interface Secure storage interface.
  */
@@ -40,33 +45,35 @@ public interface SecureStorageInterface {
 
 
 
+    enum KeyTypes {AES};
 
     /**
-     * Store value for Password  .
+     * Store value for Create Key  .
      *
-     * @param userKey the user key to store the password
-     * @param passWord            the passWord
-     * @param secureStorageError the secure storage error
+     * @param keyType the  keytype of encrypt
+     * @param keyName            the name of key
+     * @param error the secure storage error
      * @return denote store operation success or failure
      */
-    public boolean createPassWord(String userKey,String passWord, SecureStorageError secureStorageError);
+    public boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error);
 
     /**
-     * Retrieve value for Password .
+     * Retrieve value for Create Key .
      *
-     * @param userKey the user key to access the password
-     * @param secureStorageError the secure storage error code if any
+     * @param keyName the user key to access the password
+     * @param error the secure storage error code if any
      * @return the string, decrypted value
      */
-    public String retrievePassWord(String userKey,SecureStorageError secureStorageError);
+    public Key getKey(String keyName, SecureStorageError error) ;
 
     /**
      * Remove value for passWord .
      *
-     * @param userKey the user key to access the password
+     * @param keyName the user key to access the password
      * @return denote delete operation success or failure
      */
-    public boolean deletePassWord(String userKey);
+    public boolean clearKey(String keyName, SecureStorageError error) ;
+
 
 
     /**
@@ -86,7 +93,7 @@ public interface SecureStorageInterface {
     public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 
     public class SecureStorageError {
-        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError, NoDataFoundForKey, NullData,PassWordIsEmptyOrNull}
+        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError, NoDataFoundForKey, NullData}
 
         ;
         private secureStorageError errorCode = null;

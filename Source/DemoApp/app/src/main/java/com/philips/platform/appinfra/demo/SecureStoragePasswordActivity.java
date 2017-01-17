@@ -7,6 +7,8 @@ package com.philips.platform.appinfra.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+
+import java.security.Key;
 
 
 public class SecureStoragePasswordActivity extends AppCompatActivity {
@@ -28,7 +32,6 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
         mSecureStorage = appInfra.getSecureStorage();
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);
-        final EditText passWord = (EditText) findViewById(R.id.password_editText);
         final TextView output_textView = (TextView) findViewById(R.id.output_textView);
 
 
@@ -41,13 +44,12 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
 
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
 
-                boolean isSaved = mSecureStorage.createPassWord(userKey.getText().toString(), passWord.getText().toString(), sseStore);
+                boolean isSaved = mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, userKey.getText().toString(), sseStore);
                 if (null != sseStore.getErrorCode()) {
                     Toast.makeText(SecureStoragePasswordActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
                 } else {
-                    output_textView.setText("PassWord Successfully");
+                    output_textView.setText("Create Key Successfully");
                 }
-
 
             }
         });
@@ -60,19 +62,25 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-                String decryptedData = mSecureStorage.retrievePassWord(userKey.getText().toString(), sse);
-                if (null != sse.getErrorCode()) {
-                    Toast.makeText(SecureStoragePasswordActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
-                } else {
-                    output_textView.setText(decryptedData);
 
-                }
-                /*if(null==decryptedData){
-                    Toast.makeText(SecureStorageActivity.this,"Key not found",Toast.LENGTH_SHORT).show();
-                }*/
+                   Key decryptedData = mSecureStorage.getKey(userKey.getText().toString(), sse);
+                  if(decryptedData!=null) {
+                      String keyString = Base64.encodeToString(decryptedData.getEncoded(), Base64.DEFAULT);
+                      if (null != sse.getErrorCode()) {
+                          Toast.makeText(SecureStoragePasswordActivity.this, sse.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                      } else {
+                          output_textView.setText(keyString);
+
+                      }
+                  }
+            else {
+                      output_textView.setText(null);
+                Toast.makeText(SecureStoragePasswordActivity.this, "Key is not found", Toast.LENGTH_SHORT).show();
+            }
 
             }
         });
+
 
         Button deleteButton = (Button) findViewById(R.id.delete_button);
 
@@ -80,14 +88,16 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
 
-                boolean result = mSecureStorage.deletePassWord(userKey.getText().toString());
+                boolean result = mSecureStorage.clearKey(userKey.getText().toString(), sse);
                 if (result) {
-                    passWord.setText(null);
+                    output_textView.setText("Deleted key successfully");
                     userKey.setText(null);
-                    output_textView.setText(null);
                 } else {
+                    output_textView.setText(null);
                     Toast.makeText(SecureStoragePasswordActivity.this, "Deletion failed", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

@@ -76,6 +76,38 @@ public class SecureStorageTest extends MockitoTestCase {
 
     }
 
+
+    public void testCreateKey() throws Exception {
+
+        SecureStorage secureStorageMock = mock(SecureStorage.class);
+
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+
+
+        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "",sse));
+        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, null,sse));
+        assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName",sse));
+        assertTrue(mSecureStorage.createKey(null, "keyname",sse));
+        assertFalse(mSecureStorage.createKey(null, " ",sse));
+        assertFalse(mSecureStorage.createKey(null, null,sse));
+
+    }
+
+    public void testGetKey() throws Exception {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+
+    }
+
+    public void testClearKey()
+    {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+
+        assertFalse(mSecureStorage.clearKey(" ",sse));
+        assertFalse(mSecureStorage.clearKey(null,sse));
+        assertTrue(mSecureStorage.clearKey("keyname",sse));
+
+    }
+
     public void testSharedPreferences(){
         final SharedPreferences sharedPreferencesMock = mock(SharedPreferences.class);
         when(sharedPreferencesMock.getString("key",null)).thenReturn("value");
@@ -93,6 +125,15 @@ public class SecureStorageTest extends MockitoTestCase {
 
         assertFalse(mSecureStorage.removeValueForKey(""));
         assertFalse(mSecureStorage.removeValueForKey(null));
+
+        //assertEquals(mSecureStorage.RemoveValueForKey("key"),mSecureStorage.deleteEncryptedData("key"));
+
+
+    }
+    public void testDeletePassWord() throws Exception {
+
+      /*  assertFalse(mSecureStorage.deletePassWord(""));
+        assertFalse(mSecureStorage.deletePassWord(null));*/
 
         //assertEquals(mSecureStorage.RemoveValueForKey("key"),mSecureStorage.deleteEncryptedData("key"));
 
