@@ -369,7 +369,7 @@ public class DataServicesManager {
         mEventing.post(new LoadUserCharacteristicsRequest(dbRequestListener));
     }
 
-    public Characteristics createCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
+    public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
 
         userCharacteristics = getUserCharacteristics();
         if(userCharacteristics ==null) {
@@ -384,6 +384,7 @@ public class DataServicesManager {
             chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics);
         }
         userCharacteristics.addCharacteristicsDetail(chDetail);
+        setUserCharacteristics(userCharacteristics);
         return chDetail;
     }
 

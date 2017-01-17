@@ -359,14 +359,14 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() throws Exception {
-        tracker.createCharacteristics("TYPE", "VALUE",mock(Characteristics.class));
-//        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
+        tracker.createUserCharacteristics("TYPE", "VALUE",mock(Characteristics.class));
+//        verify(baseAppDataCreator).createUserCharacteristics(TEST_USER_ID);
     }
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailIsNULL() throws Exception {
-        tracker.createCharacteristics("TYPE", "VALUE", null);
-//        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
+        tracker.createUserCharacteristics("TYPE", "VALUE", null);
+//        verify(baseAppDataCreator).createUserCharacteristics(TEST_USER_ID);
     }
 
     @Test

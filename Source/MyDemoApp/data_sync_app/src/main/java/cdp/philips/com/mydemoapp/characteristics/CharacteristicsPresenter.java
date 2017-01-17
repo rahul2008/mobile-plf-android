@@ -34,7 +34,7 @@ public class CharacteristicsPresenter {
             for (int i = 0; i < mUserCharacteristics.getCharacteristics().size(); i++) {
                 String type = mUserCharacteristics.getCharacteristics().get(i).getType();
                 String value = mUserCharacteristics.getCharacteristics().get(i).getValue();
-                Characteristics characteristics = mDataServicesManager.createCharacteristics(type, value, null);
+                Characteristics characteristics = mDataServicesManager.createUserCharacteristics(type, value, null);
                 saveUserCharacteristicsToLocalDBRecursively(characteristics, mUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
             }
             mDataServicesManager.updateCharacteristics(dbRequestListener);
@@ -59,7 +59,7 @@ public class CharacteristicsPresenter {
             for (int i = 0; i < characteristicsList.size(); i++) {
                 String type = characteristicsList.get(i).getType();
                 String value = characteristicsList.get(i).getValue();
-                Characteristics childCharacteristics = mDataServicesManager.createCharacteristics(type, value, parentCharacteristics);
+                Characteristics childCharacteristics = mDataServicesManager.createUserCharacteristics(type, value, parentCharacteristics);
                 parentCharacteristics.setCharacteristicsDetail(childCharacteristics);
                 saveUserCharacteristicsToLocalDBRecursively(childCharacteristics, characteristicsList.get(i).getCharacteristics());
             }
