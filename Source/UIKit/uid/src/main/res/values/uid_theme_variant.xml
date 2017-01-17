@@ -76,7 +76,7 @@
         <item name="uidProgressIndicatorButtonBackgroundAlpha">@dimen/uid_alpha_per_35</item>
 
         <item name="uidCheckBoxTextEnabledColor">@color/uidColorWhite</item>
-        <item name="uidCheckBoxTextDisaledColor">?attr/uidCheckBoxTextEnabledColor</item>
+        <item name="uidCheckBoxTextDisabledColor">?attr/uidCheckBoxTextEnabledColor</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_45</item>
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel45</item>
         <item name="uidCheckBoxBackgroundUncheckedEnabledColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>

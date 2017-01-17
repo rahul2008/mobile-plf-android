@@ -17,13 +17,46 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDUtils;
 
-public class CheckBox extends android.widget.CheckBox {
+/**
+ * <p>Provides an implementation for a customized CheckBox.
+ * </p>
+ * <p>In order to customize the checkbox to your own needs, it is recommended to create a new style and use UIDCheckBox style as your parrent style. <br>
+ * The provided background is used for the ripple effect from lollipop onwards.</p>
+ * <p>The attributes mapping follows below table.</p>
+ * <table border="2" width="85%" align="center" cellpadding="5">
+ * <thead>
+ * <tr><th>ResourceID</th> <th>Configuration</th></tr>
+ * </thead>
+ * <p>
+ * <tbody>
+ * <tr>
+ * <td rowspan="1">uidCheckBoxPaddingStart</td>
+ * <td rowspan="1">Padding used in front of the checkbox</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">paddingStart</td>
+ * <td rowspan="1">Padding used between the checkbox and label</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">paddingEnd</td>
+ * <td rowspan="1">Padding used after the label</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">fontPath</td>
+ * <td rowspan="1">Path used to specify your custom font</td>
+ * </tr>
+ * </tbody>
+ * <p>
+ * </table>
+ */
+public class CheckBox extends AppCompatCheckBox {
     private int checkBoxStartPadding = 0;
 
     public CheckBox(final Context context) {
@@ -38,11 +71,11 @@ public class CheckBox extends android.widget.CheckBox {
         super(context, attrs, defStyleAttr);
 
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        applyCheckBoxStyling(context, attrs, defStyleAttr, theme);
+        applyCheckBoxStyling(context, theme);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDCheckBox, defStyleAttr, R.style.UIDCheckBox);
         getCheckBoxPaddingStartFromAttributes(context, typedArray);
-        applyRippleTint(typedArray, theme);
+        applyRippleTint(theme);
         typedArray.recycle();
     }
 
@@ -51,7 +84,7 @@ public class CheckBox extends android.widget.CheckBox {
                 context.getResources().getDimensionPixelSize(R.dimen.uid_checkbox_margin_left_right));
     }
 
-    private void applyCheckBoxStyling(Context context, AttributeSet attrs, int defStyleAttr, Resources.Theme theme) {
+    private void applyCheckBoxStyling(Context context, Resources.Theme theme) {
         ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_checkbox_text_selector);
         setTextColor(colorStateList);
 
@@ -64,7 +97,7 @@ public class CheckBox extends android.widget.CheckBox {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
+    private void applyRippleTint(final Resources.Theme theme) {
         ColorStateList borderColorStateID = ThemeUtils.buildColorStateList(getResources(), theme, R.color.uid_checkbox_ripple_selector);
 
         if (UIDUtils.isMinLollipop() && (borderColorStateID != null) && (getBackground() instanceof RippleDrawable)) {
@@ -88,6 +121,14 @@ public class CheckBox extends android.widget.CheckBox {
         return stateListDrawable;
     }
 
+    /**
+     * Customize your checkbox by providing drawables of the four possible states
+     *
+     * @param checkedEnabled Drawable for the checked enabled state
+     * @param checkedDisabled Drawable for the checked disabled state
+     * @param uncheckedDisabled Drawable for the unchecked disabled state
+     * @param uncheckedEnabled Drawable for the unchecked enabled state
+     */
     public void setCheckBoxDrawables(final Drawable checkedEnabled,
                                      final Drawable checkedDisabled,
                                      final Drawable uncheckedDisabled,
