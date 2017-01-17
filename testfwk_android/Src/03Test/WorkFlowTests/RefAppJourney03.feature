@@ -1,16 +1,15 @@
 ﻿Feature: RefAppJourney03 - US14119:Creation of Feature Files For App Journey 2,3,4,5
+    Pre-Condition : My Philips Account needs to be created by REST API and the country code needs to be set to UK
 	Verify the traditional merge behavior with Gmail 
     Click on FAQ 
     Verify user is able to navigate launch the Click on " Tell us what you think "
     Verify that the user can logout from setting screen 
+	Post-Condition : My Philips Account needs to be deleted  
 
 
 @E2E
 Scenario: RefAppJourney03
-	Given that the user should not previously be previously logged in  
-	Given that the user is able to see the Splash screen after the launch of the application
-	And the user skips the Welcome screen
-	Then user verifies that User Registration home screen is successfully opened 
+	Given user is on the User Registration screen  
 	Then I click on Philips Account
 	Then enter email as "eno55465@gmail.com" and password as "Philips123"
 	Then I click on Log In button

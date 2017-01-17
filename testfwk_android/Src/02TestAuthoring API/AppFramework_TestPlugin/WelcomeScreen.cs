@@ -97,16 +97,24 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         public static bool IsVisible(Button btn)
         {
             bool IsVisible = false;
-            if (btn == Button.Skip)
-                IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Skip).Displayed;
-            else if (btn == Button.Done)
-                IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Done).Displayed;
-            else if (btn == Button.LeftArrow)
-                IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.LeftArrow).Displayed;
-            else if (btn == Button.RightArrow)
-                IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.RightArrow).Displayed;
-            else if (btn == Button.Alogout)
-                IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Alogout).Displayed;
+            try
+            {
+                if (btn == Button.Skip)
+                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Skip).Displayed;
+                else if (btn == Button.Done)
+                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Done).Displayed;
+                else if (btn == Button.LeftArrow)
+                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.LeftArrow).Displayed;
+                else if (btn == Button.RightArrow)
+                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.RightArrow).Displayed;
+                else if (btn == Button.Alogout)
+                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Alogout).Displayed;
+            }
+            catch (Exception e)
+            {
+                IsVisible = false;
+            }
+            
 
             return IsVisible;
 

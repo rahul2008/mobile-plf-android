@@ -18,9 +18,12 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [TechTalk.SpecRun.FeatureAttribute("RefAppJourney03 - US14119:Creation of Feature Files For App Journey 2,3,4,5", Description="Verify the traditional merge behavior with Gmail \r\n  Click on FAQ \r\n  Verify user" +
-        " is able to navigate launch the Click on \" Tell us what you think \"\r\n  Verify th" +
-        "at the user can logout from setting screen", SourceFile="RefAppJourney03.feature", SourceLine=0)]
+    [TechTalk.SpecRun.FeatureAttribute("RefAppJourney03 - US14119:Creation of Feature Files For App Journey 2,3,4,5", Description=@"  Pre-Condition : My Philips Account needs to be created by REST API and the country code needs to be set to UK
+Verify the traditional merge behavior with Gmail 
+  Click on FAQ 
+  Verify user is able to navigate launch the Click on "" Tell us what you think ""
+  Verify that the user can logout from setting screen 
+Post-Condition : My Philips Account needs to be deleted", SourceFile="RefAppJourney03.feature", SourceLine=0)]
     public partial class RefAppJourney03_US14119CreationOfFeatureFilesForAppJourney2345Feature
     {
         
@@ -33,9 +36,12 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RefAppJourney03 - US14119:Creation of Feature Files For App Journey 2,3,4,5", "Verify the traditional merge behavior with Gmail \r\n  Click on FAQ \r\n  Verify user" +
-                    " is able to navigate launch the Click on \" Tell us what you think \"\r\n  Verify th" +
-                    "at the user can logout from setting screen", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RefAppJourney03 - US14119:Creation of Feature Files For App Journey 2,3,4,5", @"  Pre-Condition : My Philips Account needs to be created by REST API and the country code needs to be set to UK
+Verify the traditional merge behavior with Gmail 
+  Click on FAQ 
+  Verify user is able to navigate launch the Click on "" Tell us what you think ""
+  Verify that the user can logout from setting screen 
+Post-Condition : My Philips Account needs to be deleted", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -67,68 +73,61 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("RefAppJourney03", new string[] {
-                "E2E"}, SourceLine=8)]
+                "E2E"}, SourceLine=10)]
         public virtual void RefAppJourney03()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("RefAppJourney03", new string[] {
                         "E2E"});
-#line 9
-this.ScenarioSetup(scenarioInfo);
-#line 10
- testRunner.Given("that the user should not previously be previously logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.Given("that the user is able to see the Splash screen after the launch of the applicatio" +
-                    "n", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 12
- testRunner.And("the user skips the Welcome screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("user is on the User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
- testRunner.Then("user verifies that User Registration home screen is successfully opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
  testRunner.Then("I click on Philips Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
+#line 14
  testRunner.Then("enter email as \"eno55465@gmail.com\" and password as \"Philips123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 16
+#line 15
  testRunner.Then("I click on Log In button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 17
+#line 16
  testRunner.Then("accept terms conditions and click on continue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 18
+#line 17
  testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 20
+#line 19
  testRunner.Given("that the user should be logged out if the user has logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 21
+#line 20
  testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 22
+#line 21
  testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 23
+#line 22
  testRunner.Then("I click on Account Settings from Hamburger Menu", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 24
+#line 23
  testRunner.Then("I verify that the My Account has LogIn button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 25
+#line 24
  testRunner.Then("I launch the user registration home screen from Account settings", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 26
+#line 25
  testRunner.Then("I click on google+ to login with gmail account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 27
+#line 26
  testRunner.Then("I enter email as \" app81209@gmail.com\" and password as \"Philips123\" in gmail webv" +
                     "iew screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 28
+#line 27
  testRunner.Then("Verify the traditional merge funtional by entering the gmail password \"Philips123" +
                     "\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 29
+#line 28
  testRunner.Then("Verify that the user should land to home screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 31
+#line 30
  testRunner.Given("user has to launch the support screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 32
+#line 31
  testRunner.Then("reach FAQs screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 33
+#line 32
  testRunner.Then("verify each FAQ is clickable and readable", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 34
+#line 33
  testRunner.Then("I click on Support from Hamburger Menu List and Validate Support Page is launched" +
                     "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 35
+#line 34
  testRunner.Then("select \"Tell us what you think\" from support screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 36
+#line 35
  testRunner.Then("verify tell us what you think screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 37
+#line 36
  testRunner.Then("verify that user can logout from Account Settings", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
