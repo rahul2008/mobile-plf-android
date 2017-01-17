@@ -20,8 +20,8 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
     private static final String DEVICE_MEASUREMENT_PORT_NAME = "devicemeasurement";
     private static final int DEVICE_MEAUREMENT_PRODUCT_ID = 1;
 
-    public DeviceMeasurementPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-        super(networkNode, communicationStrategy);
+    public DeviceMeasurementPort(CommunicationStrategy communicationStrategy) {
+        super(communicationStrategy);
     }
 
     @Override

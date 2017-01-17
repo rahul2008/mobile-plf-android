@@ -16,7 +16,7 @@ public class BleReferenceAppliance extends Appliance {
 
     public BleReferenceAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
-        deviceMeasurementPort=new DeviceMeasurementPort(networkNode, communicationStrategy);
+        deviceMeasurementPort=new DeviceMeasurementPort(communicationStrategy);
         addPort(deviceMeasurementPort);
 
     }

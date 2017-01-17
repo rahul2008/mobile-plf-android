@@ -5,6 +5,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -19,23 +20,29 @@ public class DeviceMeasurementPortTest {
     @Mock
     CommunicationStrategy communicationStrategy;
 
+    DeviceMeasurementPort deviceMeasurementPort;
+    @Before
+    public void setUp(){
+        deviceMeasurementPort=new DeviceMeasurementPort(communicationStrategy);
+    }
+
     @Test
     public void isResponseForThisPort_Returns_True(){
-        Assert.assertTrue(new DeviceMeasurementPort(networkNode,communicationStrategy).isResponseForThisPort("{\"measurementvalue\":50}"));
+        Assert.assertTrue(deviceMeasurementPort.isResponseForThisPort("{\"measurementvalue\":50}"));
     }
 
     @Test
     public void getDicommPortName(){
-        Assert.assertEquals("devicemeasurement",new DeviceMeasurementPort(networkNode,communicationStrategy).getDICommPortName());
+        Assert.assertEquals("devicemeasurement",deviceMeasurementPort.getDICommPortName());
     }
 
     @Test
     public void getDicommProductID(){
-        Assert.assertEquals(1,new DeviceMeasurementPort(networkNode,communicationStrategy).getDICommProductId());
+        Assert.assertEquals(1,deviceMeasurementPort.getDICommProductId());
     }
 
     @Test
     public void supportSubcriptions_Returns_False(){
-        Assert.assertFalse(new DeviceMeasurementPort(networkNode,communicationStrategy).supportsSubscription());
+        Assert.assertFalse(deviceMeasurementPort.supportsSubscription());
     }
 }
