@@ -40,7 +40,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public void deleteAllMoments(DBRequestListener dbRequestListener) throws SQLException {
+    public void deleteAll(DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteAll();
     }
 

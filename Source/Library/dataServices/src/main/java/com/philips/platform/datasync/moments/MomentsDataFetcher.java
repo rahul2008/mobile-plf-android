@@ -84,6 +84,7 @@ public class MomentsDataFetcher extends DataFetcher {
             DSLog.e("***SPO***", "DataPullSynchronize fetch send null");
             return null;
         } catch (RetrofitError ex) {
+            //TODO: - Veritcals should be forced to call this
             DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendMomentRequestFailed(ex));
             return ex;

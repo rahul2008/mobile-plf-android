@@ -27,6 +27,8 @@ public interface DBFetchingInterface {
 
     List<?> fetchNonSynchronizedMoments() throws SQLException;
 
+    //TODO: Can the fetchNonSynchronized data types be called once for all the datatypes.
+
     Object fetchMomentById(final int id, DBRequestListener dbRequestListener) throws SQLException;
 
     void fetchConsents(DBRequestListener dbRequestListener) throws SQLException;
@@ -36,5 +38,4 @@ public interface DBFetchingInterface {
     void postError(Exception e, DBRequestListener dbRequestListener);
 
     List<?> fetchNonSyncConsentDetails() throws SQLException;
-
 }

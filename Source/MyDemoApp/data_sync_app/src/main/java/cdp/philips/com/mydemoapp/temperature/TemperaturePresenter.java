@@ -38,6 +38,7 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.database.DatabaseHelper;
+import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
@@ -66,11 +67,11 @@ public class TemperaturePresenter {
     private EditText mPhase;
     private Button mDialogButton;
 
-    TemperaturePresenter(Context context, String momentType,DBRequestListener dbRequestListener) {
+    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
-        this.dbRequestListener=dbRequestListener;
+        this.dbRequestListener = dbRequestListener;
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
@@ -133,7 +134,7 @@ public class TemperaturePresenter {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
-            mDataServices.save(moment,dbRequestListener);
+            mDataServices.save(moment, dbRequestListener);
         }
     }
 
@@ -180,7 +181,7 @@ public class TemperaturePresenter {
     private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter,
                               final List<? extends Moment> data, int adapterPosition) {
         try {
-            mDataServices.deleteMoment(data.get(adapterPosition),dbRequestListener);
+            mDataServices.deleteMoment(data.get(adapterPosition), dbRequestListener);
             data.remove(adapterPosition);
             adapter.notifyItemRemoved(adapterPosition);
             adapter.notifyDataSetChanged();
@@ -191,56 +192,37 @@ public class TemperaturePresenter {
         }
     }
 
-    private void updateMoment(OrmMoment old) throws SQLException {
-        DatabaseHelper databaseHelper = new DatabaseHelper(mContext, new UuidGenerator());
-
-        Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
-        Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
-        Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
-        Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
-        Dao<OrmMeasurementGroup, Integer> measurementGroup = databaseHelper.getMeasurementGroupDao();
-
+    private void updateMoment(OrmMoment old) {
         String momentDetail = mPhase.getText().toString();
         String meausrementValue = mTemperature.getText().toString();
         String measurementDetailValue = mLocation.getText().toString();
 
         Collection<? extends MomentDetail> momentDetails = old.getMomentDetails();
 
-
-        for (MomentDetail momentDetail1 : momentDetails) {
-            momentDetail1.setValue(momentDetail);
-            momentDetailDao.createOrUpdate((OrmMomentDetail) momentDetail1);
-            momentDetailDao.refresh((OrmMomentDetail) momentDetail1);
+        for (MomentDetail detail : momentDetails) {
+            detail.setValue(momentDetail);
         }
 
         Collection<? extends MeasurementGroup> measurementGroups = old.getMeasurementGroups();
-        for (MeasurementGroup next : measurementGroups) {
-            Collection<? extends MeasurementGroup> measurementGroupsInside = next.getMeasurementGroups();
-            for (MeasurementGroup next1 : measurementGroupsInside) {
-                Collection<? extends Measurement> measurements = next1.getMeasurements();
-                for (Measurement next2 : measurements) {
-                    next2.setValue(meausrementValue);
+        for (MeasurementGroup measurementGroup : measurementGroups) {
+            Collection<? extends MeasurementGroup> measurementGroupsInside = measurementGroup.getMeasurementGroups();
+            Collection<MeasurementGroup> measurementGroupsOutput = new EmptyForeignCollection<>();
+            for (MeasurementGroup measurementgroupInside : measurementGroupsInside) {
+                Collection<? extends Measurement> measurements = measurementgroupInside.getMeasurements();
+                for (Measurement measurement : measurements) {
+                    measurement.setValue(meausrementValue);
 
-                    Collection<? extends MeasurementDetail> measurementDetails = next2.getMeasurementDetails();
-                    for (MeasurementDetail next3 : measurementDetails) {
-                        next3.setValue(measurementDetailValue);
-                        measurementDetailDao.createOrUpdate((OrmMeasurementDetail) next3);
-                        measurementDetailDao.refresh((OrmMeasurementDetail) next3);
+                    Collection<? extends MeasurementDetail> measurementDetails = measurement.getMeasurementDetails();
+                    for (MeasurementDetail measurementDetail : measurementDetails) {
+                        measurementDetail.setValue(measurementDetailValue);
                     }
-                    measurementDao.createOrUpdate((OrmMeasurement) next2);
-                    measurementDao.refresh((OrmMeasurement) next2);
                 }
-                measurementGroup.createOrUpdate((OrmMeasurementGroup) next1);
-                measurementGroup.refresh((OrmMeasurementGroup) next1);
+                measurementGroupsOutput.add(measurementgroupInside);
             }
-            measurementGroup.createOrUpdate((OrmMeasurementGroup) next);
-            measurementGroup.refresh((OrmMeasurementGroup) next);
+            measurementGroup.setMeasurementGroups(measurementGroupsOutput);
         }
         old.setDateTime(DateTime.now());
-        old.setSynced(false);
-        momentDao.createOrUpdate(old);
-        momentDao.refresh(old);
-        mDataServices.update(old,dbRequestListener);
+        mDataServices.update(old, dbRequestListener);
     }
 
     void addOrUpdateMoment(final int addOrUpdate, final Moment moment) {
@@ -278,11 +260,7 @@ public class TemperaturePresenter {
                         createAndSaveMoment();
                         break;
                     case UPDATE:
-                        try {
-                            updateMoment((OrmMoment) moment);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        updateMoment((OrmMoment) moment);
                         break;
                 }
                 dialog.dismiss();

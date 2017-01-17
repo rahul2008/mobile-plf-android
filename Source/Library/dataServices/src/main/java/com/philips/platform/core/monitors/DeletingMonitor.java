@@ -1,14 +1,12 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.sql.SQLException;
 
@@ -32,7 +30,7 @@ public class DeletingMonitor extends EventMonitor {
     public void onEventBackgroundThread(@NonNull DataClearRequest event) {
         DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
-            dbInterface.deleteAllMoments(dbRequestListener);
+            dbInterface.deleteAll(dbRequestListener);
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
             e.printStackTrace();
