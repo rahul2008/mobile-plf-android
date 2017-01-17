@@ -213,7 +213,7 @@
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
-        <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_25</item>
+        <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
     </style>
 
     <style name="Bright">
