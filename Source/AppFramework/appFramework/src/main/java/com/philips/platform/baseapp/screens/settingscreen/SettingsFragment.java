@@ -7,6 +7,7 @@
 package com.philips.platform.baseapp.screens.settingscreen;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -44,8 +45,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     private ProgressBar settingsProgressBar;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         settingsFragmentWeakReference = new WeakReference<SettingsFragment>(this);
     }
 
