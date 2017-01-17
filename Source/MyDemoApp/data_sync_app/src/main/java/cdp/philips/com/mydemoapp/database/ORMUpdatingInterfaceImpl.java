@@ -1,6 +1,6 @@
 package cdp.philips.com.mydemoapp.database;
 
-import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
@@ -8,18 +8,10 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
-import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
-import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
-import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
-import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
@@ -98,12 +90,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return null;
     }
 
-    //User Characteristics
+    //User UserCharacteristics
     @Override
-    public boolean updateCharacteristics(Characteristics characteristics,DBRequestListener dbRequestListener) throws SQLException {
+    public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
         OrmCharacteristics ormCharacteristics = null;
         try {
-            ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
             deleting.deleteCharacteristics();
             saving.saveCharacteristics(ormCharacteristics);
             dbRequestListener.fetchData();
@@ -116,16 +108,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void processCharacteristicsReceivedFromDataCore(Characteristics characteristics, DBRequestListener dbRequestListener) throws SQLException {
-        Characteristics dbUC=fetching.fetchUCByCreatorId(characteristics.getCreatorId());
+    public void processCharacteristicsReceivedFromDataCore(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+        UserCharacteristics dbUC=fetching.fetchUCByCreatorId(userCharacteristics.getCreatorId());
         if(dbUC!=null){
             if(!dbUC.isSynchronized()){
                 return;
             }else{
-                updateCharacteristics(characteristics,dbRequestListener);
+                updateCharacteristics(userCharacteristics,dbRequestListener);
             }
         }else{
-            updateCharacteristics(characteristics,dbRequestListener);
+            updateCharacteristics(userCharacteristics,dbRequestListener);
         }
     }
 

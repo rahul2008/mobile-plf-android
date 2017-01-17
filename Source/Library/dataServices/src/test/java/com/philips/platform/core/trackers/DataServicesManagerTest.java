@@ -7,7 +7,7 @@ import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -16,7 +16,7 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -39,7 +39,6 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
-import com.philips.testing.verticals.AssertHelper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +49,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -127,7 +125,7 @@ public class DataServicesManagerTest {
     @Mock
     private ConsentDetail consentDetailMock;
     @Mock
-    Characteristics characteristicsMock;
+    UserCharacteristics userCharacteristicsMock;
 
 
     UCoreAccessProvider uCoreAccessProvider;
@@ -254,7 +252,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
-        tracker.updateCharacteristics(any(Characteristics.class),dbRequestListener);
+        tracker.updateCharacteristics(dbRequestListener);
     }
 
     @Test
@@ -358,21 +356,16 @@ public class DataServicesManagerTest {
         tracker.initializeDBMonitors(null, deletingInterfaceMock, fetchingInterfaceMock, savingInterfaceMock, updatingInterfaceMock);
     }
 
-    @Test
-    public void ShouldCreateCharacteristics_WhenCharacteristicsIsCalled() throws Exception {
-        tracker.createCharacteristics();
-//        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
-    }
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailsIsCalled() throws Exception {
-        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE",mock(CharacteristicsDetail.class));
+        tracker.createCharacteristics("TYPE", "VALUE",mock(Characteristics.class));
 //        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
     }
 
     @Test
     public void ShouldCreateCharacteristicsDetails_WhenCreateCharacteristicsDetailIsNULL() throws Exception {
-        tracker.createCharacteristicsDetails(characteristicsMock,"TYPE", "VALUE", null);
+        tracker.createCharacteristics("TYPE", "VALUE", null);
 //        verify(baseAppDataCreator).createCharacteristics(TEST_USER_ID);
     }
 

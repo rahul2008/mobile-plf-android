@@ -1,34 +1,27 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
-import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.Collections;
 import java.util.List;
 
-import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -50,7 +43,7 @@ public class UserCharacteristicsMonitorTest {
     private Eventing eventingMock;
 
     @Captor
-    private ArgumentCaptor<List<? extends Characteristics>> captor;
+    private ArgumentCaptor<List<? extends UserCharacteristics>> captor;
 
     @Mock
     private UserCharacteristicsFetcher userCharacteristicsFetcherMock;
@@ -59,7 +52,7 @@ public class UserCharacteristicsMonitorTest {
     private UserCharacteristicsConverter userCharacteristicsConvertorMock;
 
     @Mock
-    private Characteristics characteristicsMock;
+    private UserCharacteristics userCharacteristicsMock;
 
     @Mock
     private CharacteristicsBackendSaveRequest characteristicsBackendSaveRequestMock;
@@ -88,20 +81,20 @@ public class UserCharacteristicsMonitorTest {
 
     @Test
     public void ShouldCallSaveUserCharacteristics_WhenSyncUserCharacteristicsIsCalled() throws Exception {
-        when(characteristicsBackendSaveRequestMock.getCharacteristic()).thenReturn(characteristicsMock);
+        when(characteristicsBackendSaveRequestMock.getCharacteristic()).thenReturn(userCharacteristicsMock);
         when(uCoreAccessProviderMock.isLoggedIn()).thenReturn(true);
         when(uCoreAccessProviderMock.getAccessToken()).thenReturn("3423sdfs324234");
 
         userCharacteristicsMonitor.onEventAsync(characteristicsBackendSaveRequestMock);
 
-        verify(userCharacteristicsSenderMock).sendDataToBackend(Collections.singletonList(characteristicsMock));
+        verify(userCharacteristicsSenderMock).sendDataToBackend(Collections.singletonList(userCharacteristicsMock));
 
     }
 
     @Test
     public void ShouldSendCharacteristics_WhenCharacteristicsSend() throws Exception {
-        when(characteristicsBackendSaveRequestMock.getCharacteristic()).thenReturn(characteristicsMock);
-        when(userCharacteristicsSenderMock.sendDataToBackend(Collections.singletonList((characteristicsMock)))).thenReturn(true);
+        when(characteristicsBackendSaveRequestMock.getCharacteristic()).thenReturn(userCharacteristicsMock);
+        when(userCharacteristicsSenderMock.sendDataToBackend(Collections.singletonList((userCharacteristicsMock)))).thenReturn(true);
 
         userCharacteristicsMonitor.onEventAsync(characteristicsBackendSaveRequestMock);
 

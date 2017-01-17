@@ -7,16 +7,17 @@ package com.philips.platform.core.datatypes;
 import java.io.Serializable;
 import java.util.Collection;
 
-public interface Characteristics extends BaseAppData, DateData, Serializable {
+public interface Characteristics extends BaseAppData, Serializable {
 
-    String getCreatorId();
+    void setType(String type);
 
-    Collection<? extends CharacteristicsDetail> getCharacteristicsDetails();
+    String getType();
 
-    void addCharacteristicsDetail(CharacteristicsDetail characteristicsDetail);
+    void setValue(String value);
 
-    boolean isSynchronized();
+    String getValue();
 
-    void setSynchronized(boolean isSynchronized);
+    Collection<? extends Characteristics> getCharacteristicsDetail();
 
+    void setCharacteristicsDetail(Characteristics characteristics);
 }

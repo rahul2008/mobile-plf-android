@@ -4,14 +4,14 @@
  */
 package com.philips.testing.verticals.table;
 
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.datatypes.Characteristics;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializable {
+public class OrmCharacteristicsDetail implements Characteristics, Serializable {
 
     public static final long serialVersionUID = 11L;
 
@@ -68,13 +68,13 @@ public class OrmCharacteristicsDetail implements CharacteristicsDetail, Serializ
     }
 
     @Override
-    public Collection<? extends CharacteristicsDetail> getCharacteristicsDetail() {
+    public Collection<? extends Characteristics> getCharacteristicsDetail() {
         return ormCharacteristicsDetails;
     }
 
     @Override
-    public void setCharacteristicsDetail(CharacteristicsDetail characteristicsDetail) {
-        ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristicsDetail);
+    public void setCharacteristicsDetail(Characteristics characteristics) {
+        ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristics);
     }
 
     @Override

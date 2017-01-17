@@ -14,7 +14,8 @@ import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -24,7 +25,6 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -107,6 +107,16 @@ public class DataServicesManager {
 
     private ArrayList<DataFetcher> fetchers;
     private ArrayList<DataSender> senders;
+
+    public UserCharacteristics getUserCharacteristics() {
+        return userCharacteristics;
+    }
+
+    public void setUserCharacteristics(UserCharacteristics userCharacteristics) {
+        this.userCharacteristics = userCharacteristics;
+    }
+
+    private UserCharacteristics userCharacteristics;
 
     @Singleton
     private DataServicesManager() {
@@ -345,31 +355,35 @@ public class DataServicesManager {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 
-    //User Characteristics
+    //User UserCharacteristics
     @NonNull
-    public Characteristics createCharacteristics() {
+    private UserCharacteristics createUCSync() {
         return mDataCreater.createCharacteristics(userRegistrationInterface.getUserProfile().getGUid());
     }
 
-    public void updateCharacteristics(@NonNull final Characteristics userCharacteristics,DBRequestListener dbRequestListener) {
-        mEventing.post(new UserCharacteristicsSaveRequest(userCharacteristics, dbRequestListener));
+    public void updateCharacteristics(DBRequestListener dbRequestListener) {
+        mEventing.post(new UserCharacteristicsSaveRequest(getUserCharacteristics(), dbRequestListener));
     }
 
     public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadUserCharacteristicsRequest(dbRequestListener));
     }
 
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull Characteristics characteristics, @NonNull final String detailType, @NonNull final String detailValue, CharacteristicsDetail characteristicsDetail) {
-        if (characteristics == null) {
-            characteristics = createCharacteristics();
+    public Characteristics createCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
+
+        userCharacteristics = getUserCharacteristics();
+        if(userCharacteristics ==null) {
+            userCharacteristics = createUCSync();
+            setUserCharacteristics(userCharacteristics);
         }
-        CharacteristicsDetail chDetail;
-        if (characteristicsDetail != null) {
-            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, characteristics, characteristicsDetail);
+
+        Characteristics chDetail;
+        if (characteristics != null) {
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics, characteristics);
         } else {
-            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, characteristics);
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics);
         }
-        characteristics.addCharacteristicsDetail(chDetail);
+        userCharacteristics.addCharacteristicsDetail(chDetail);
         return chDetail;
     }
 

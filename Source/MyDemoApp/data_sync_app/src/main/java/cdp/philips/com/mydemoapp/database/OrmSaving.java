@@ -197,7 +197,7 @@ public class OrmSaving {
         consentDetailsDao.createOrUpdate(consentDetail);
     }
 
-    //User Characteristics
+    //User UserCharacteristics
     public void saveCharacteristics(OrmCharacteristics ormCharacteristics) throws SQLException {
         characteristicsesDao.createOrUpdate(ormCharacteristics);
         assureCharacteristicDetailsAreSaved((Collection<? extends OrmCharacteristicsDetail>) ormCharacteristics.getCharacteristicsDetails());

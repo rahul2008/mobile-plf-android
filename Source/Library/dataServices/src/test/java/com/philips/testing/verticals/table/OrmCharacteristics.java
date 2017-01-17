@@ -7,8 +7,8 @@ package com.philips.testing.verticals.table;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
 
 import org.joda.time.DateTime;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class OrmCharacteristics implements Characteristics, Serializable {
+public class OrmCharacteristics implements UserCharacteristics, Serializable {
 
     public static final long serialVersionUID = 11L;
 
@@ -53,13 +53,13 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     }
 
     @Override
-    public Collection<? extends CharacteristicsDetail> getCharacteristicsDetails() {
+    public Collection<? extends Characteristics> getCharacteristicsDetails() {
         return ormCharacteristicsDetailList;
     }
 
     @Override
-    public void addCharacteristicsDetail(CharacteristicsDetail characteristicsDetail) {
-        ormCharacteristicsDetailList.add((OrmCharacteristicsDetail) characteristicsDetail);
+    public void addCharacteristicsDetail(Characteristics characteristics) {
+        ormCharacteristicsDetailList.add((OrmCharacteristicsDetail) characteristics);
     }
 
     @Override

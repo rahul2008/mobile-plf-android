@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -141,21 +141,21 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
 
 
     //Application data type to DataCore type
-    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristic) {
+    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<UserCharacteristics> characteristic) {
         UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
         if (characteristic != null) {
             for (int i = 0; i < characteristic.size(); i++) {
-                Collection<? extends CharacteristicsDetail> characteristicsDetails = characteristic.get(i).getCharacteristicsDetails();
-                List<CharacteristicsDetail> detailList = new ArrayList<>(characteristicsDetails);
+                Collection<? extends Characteristics> characteristicsDetails = characteristic.get(i).getCharacteristicsDetails();
+                List<Characteristics> detailList = new ArrayList<>(characteristicsDetails);
                // UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
                 if (detailList.size() > 0) {
                     //for (int j = 0; j < detailList.size(); j++) {
                         UCoreCharacteristics uCoreCharacteristics1 = new UCoreCharacteristics();
                         uCoreCharacteristics1.setType(detailList.get(i).getType());
                         uCoreCharacteristics1.setValue(detailList.get(i).getValue());
-                        Collection<? extends CharacteristicsDetail> characteristicsDetail = detailList.get(i).getCharacteristicsDetail();
-                        List<CharacteristicsDetail> detailList1 = new ArrayList<>(characteristicsDetail);
+                        Collection<? extends Characteristics> characteristicsDetail = detailList.get(i).getCharacteristicsDetail();
+                        List<Characteristics> detailList1 = new ArrayList<>(characteristicsDetail);
                         uCoreCharacteristics1.setCharacteristics(convertToUCoreCharacteristics(detailList1));
                         uCoreCharacteristicsList.add(uCoreCharacteristics1);
                     //}
@@ -166,16 +166,16 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
         return uCoreUserCharacteristics;
     }
 
-    private List<UCoreCharacteristics> convertToUCoreCharacteristics(List<CharacteristicsDetail> characteristicsDetails) {
+    private List<UCoreCharacteristics> convertToUCoreCharacteristics(List<Characteristics> characteristicses) {
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
-        if (characteristicsDetails.size() > 0) {
-            for (int i = 0; i < characteristicsDetails.size(); i++) {
-                Collection<? extends CharacteristicsDetail> characteristicsDetail1 = characteristicsDetails.get(i).getCharacteristicsDetail();
-                List<CharacteristicsDetail> characteristicsDetailList = new ArrayList<>(characteristicsDetail1);
+        if (characteristicses.size() > 0) {
+            for (int i = 0; i < characteristicses.size(); i++) {
+                Collection<? extends Characteristics> characteristicsDetail1 = characteristicses.get(i).getCharacteristicsDetail();
+                List<Characteristics> characteristicsList = new ArrayList<>(characteristicsDetail1);
                 UCoreCharacteristics characteristicsDetail = new UCoreCharacteristics();
-                characteristicsDetail.setType(characteristicsDetails.get(i).getType());
-                characteristicsDetail.setValue(characteristicsDetails.get(i).getValue());
-                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristics(characteristicsDetailList));
+                characteristicsDetail.setType(characteristicses.get(i).getType());
+                characteristicsDetail.setValue(characteristicses.get(i).getValue());
+                characteristicsDetail.setCharacteristics(convertToUCoreCharacteristics(characteristicsList));
                 uCoreCharacteristicsList.add(characteristicsDetail);
             }
         }
@@ -192,15 +192,15 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
             @Override
             public void run() {
                 try {
-                    final List<Characteristics> characteristicsList = new ArrayList<>();
-                    characteristicsList.add(ormCharacteristics);
+                    final List<UserCharacteristics> userCharacteristicsList = new ArrayList<>();
+                    userCharacteristicsList.add(ormCharacteristics);
 
-                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(characteristicsList);
+                    UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(userCharacteristicsList);
 
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     String jsonObj = gson.toJson(uCoreCharacteristics);
 
-                    DSLog.i(DSLog.LOG, "Inder Characteristics onSuccess= " + jsonObj);
+                    DSLog.i(DSLog.LOG, "Inder UserCharacteristics onSuccess= " + jsonObj);
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());

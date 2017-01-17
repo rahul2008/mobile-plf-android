@@ -6,7 +6,6 @@ package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
@@ -18,7 +17,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class SavingMonitor extends EventMonitor {
     private static final String TAG = SavingMonitor.class.getSimpleName();
@@ -54,10 +52,10 @@ public class SavingMonitor extends EventMonitor {
 
     public void onEventAsync(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest onEventAsync");
-        if (userCharacteristicsSaveRequest.getCharacteristics() == null)
+        if (userCharacteristicsSaveRequest.getUserCharacteristics() == null)
             return;
 
-        boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getCharacteristics(),userCharacteristicsSaveRequest.getDbRequestListener());
+        boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristics(),userCharacteristicsSaveRequest.getDbRequestListener());
 
 
 
@@ -67,9 +65,9 @@ public class SavingMonitor extends EventMonitor {
             return;
         }
 
-        if (!userCharacteristicsSaveRequest.getCharacteristics().isSynchronized()) {
+        if (!userCharacteristicsSaveRequest.getUserCharacteristics().isSynchronized()) {
             eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
-                    userCharacteristicsSaveRequest.getCharacteristics()));
+                    userCharacteristicsSaveRequest.getUserCharacteristics()));
         }
     }
 

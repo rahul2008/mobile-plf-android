@@ -4,11 +4,8 @@
  */
 package com.philips.platform.core.monitors;
 
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;

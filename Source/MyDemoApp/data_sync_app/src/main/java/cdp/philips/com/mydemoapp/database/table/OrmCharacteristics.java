@@ -10,8 +10,8 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
 import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 
 import org.joda.time.DateTime;
 
@@ -22,7 +22,7 @@ import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.annotations.DatabaseConstructor;
 
 @DatabaseTable
-public class OrmCharacteristics implements Characteristics, Serializable {
+public class OrmCharacteristics implements UserCharacteristics, Serializable {
 
     public static final long serialVersionUID = 11L;
 
@@ -65,13 +65,13 @@ public class OrmCharacteristics implements Characteristics, Serializable {
     }
 
     @Override
-    public Collection<? extends CharacteristicsDetail> getCharacteristicsDetails() {
+    public Collection<? extends Characteristics> getCharacteristicsDetails() {
         return ormCharacteristicsDetails;
     }
 
     @Override
-    public void addCharacteristicsDetail(CharacteristicsDetail characteristicsDetail) {
-        ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristicsDetail);
+    public void addCharacteristicsDetail(Characteristics characteristics) {
+        ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristics);
     }
 
     @Override

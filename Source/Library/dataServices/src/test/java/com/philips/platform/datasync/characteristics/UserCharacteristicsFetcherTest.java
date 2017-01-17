@@ -1,23 +1,16 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.events.CharacteristicsBackendGetRequest;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
-
-import java.util.ArrayList;
 
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
@@ -26,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -34,7 +26,7 @@ public class UserCharacteristicsFetcherTest {
     UserCharacteristicsFetcher userCharacteristicsFetcher;
 
     @Mock
-    private Characteristics characteristicsMock;
+    private UserCharacteristics userCharacteristicsMock;
     @Mock
     private UCoreAdapter uCoreAdapterMock;
 
@@ -93,7 +85,7 @@ public class UserCharacteristicsFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         final UserCharacteristicsClient uCoreClientMock = mock(UserCharacteristicsClient.class);
         when(uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uCoreClientMock);
-        when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(characteristicsMock);
+        when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(userCharacteristicsMock);
         userCharacteristicsFetcher.fetchDataSince(null);
 
         verify(eventingMock).post(isA(UCDBUpdateFromBackendRequest.class));

@@ -1,14 +1,12 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
@@ -17,7 +15,6 @@ import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
@@ -120,7 +117,7 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
             DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync UCDBUpdateFromBackendRequest");
-            dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getCharacteristics(), DataServicesManager.getInstance().getDbChangeListener());
+            dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), DataServicesManager.getInstance().getDbChangeListener());
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, DataServicesManager.getInstance().getDbChangeListener());
         }

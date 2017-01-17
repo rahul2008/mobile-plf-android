@@ -11,8 +11,7 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -204,12 +202,12 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException {
-        List<? extends Characteristics> characteristicses = fetchNonSynchronizedCharacteristics();
-        dataToSync.put(Characteristics.class, characteristicses);
+        List<? extends UserCharacteristics> characteristicses = fetchNonSynchronizedCharacteristics();
+        dataToSync.put(UserCharacteristics.class, characteristicses);
         return dataToSync;
     }
 
-    private List<? extends Characteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
+    private List<? extends UserCharacteristics> fetchNonSynchronizedCharacteristics() throws SQLException {
         QueryBuilder<OrmCharacteristics, Integer> characteristicsIntegerQueryBuilder = characteristicsDao.queryBuilder();
         final List<OrmCharacteristics> query = characteristicsIntegerQueryBuilder.query();
 

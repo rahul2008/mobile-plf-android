@@ -7,7 +7,7 @@ package com.philips.platform.datasync.characteristics;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -26,7 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-public class UserCharacteristicsSender implements DataSender<Characteristics> {
+public class UserCharacteristicsSender implements DataSender<UserCharacteristics> {
 
     private static final int API_VERSION = 9;
 
@@ -52,21 +52,21 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     }
 
     @Override
-    public boolean sendDataToBackend(@NonNull List<? extends Characteristics> userCharacteristicsListToSend) {
+    public boolean sendDataToBackend(@NonNull List<? extends UserCharacteristics> userCharacteristicsListToSend) {
         if (!mUCoreAccessProvider.isLoggedIn() && userCharacteristicsListToSend.size() > 0) {
             return false;
         }
 
-        List<Characteristics> userCharacteristicsList = new ArrayList<>();
-        for (Characteristics characteristics : userCharacteristicsListToSend) {
-            userCharacteristicsList.add(characteristics);
+        List<UserCharacteristics> userUserCharacteristicsList = new ArrayList<>();
+        for (UserCharacteristics userCharacteristics : userCharacteristicsListToSend) {
+            userUserCharacteristicsList.add(userCharacteristics);
         }
         //TODO:Spoorti - send only if not synced
-        return sendUserCharacteristics(userCharacteristicsList);
+        return sendUserCharacteristics(userUserCharacteristicsList);
     }
 
-    private boolean sendUserCharacteristics(List<Characteristics> userCharacteristicsList) {
-        if (userCharacteristicsList == null || userCharacteristicsList.size() == 0) return false;
+    private boolean sendUserCharacteristics(List<UserCharacteristics> userUserCharacteristicsList) {
+        if (userUserCharacteristicsList == null || userUserCharacteristicsList.size() == 0) return false;
         try {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
@@ -74,11 +74,11 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
 
             Response response = uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(),
                             mUCoreAccessProvider.getUserId(),
-                            mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userCharacteristicsList),
+                            mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
                             API_VERSION);
 
             if (isResponseSuccess(response)) {
-                postOk(userCharacteristicsList.get(0));
+                postOk(userUserCharacteristicsList.get(0));
                 return true;
             }
         } catch (RetrofitError retrofitError) {
@@ -92,7 +92,7 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
         mEventing.post(new BackendResponse(1, retrofitError));
     }
 
-    private void postOk(Characteristics characteristic) {
+    private void postOk(UserCharacteristics characteristic) {
         characteristic.setSynchronized(true);
         DSLog.d(DSLog.LOG, "Inder = Inside UC Sender postOk " + characteristic.getCharacteristicsDetails());
         //TODO: SPoorti - As of now I see that the below event is posted to saving monitor, genrally it could go to UpdatingMonitor.
@@ -101,8 +101,8 @@ public class UserCharacteristicsSender implements DataSender<Characteristics> {
     }
 
     @Override
-    public Class<? extends Characteristics> getClassForSyncData() {
-        return Characteristics.class;
+    public Class<? extends UserCharacteristics> getClassForSyncData() {
+        return UserCharacteristics.class;
     }
 
     private boolean isResponseSuccess(final Response response) {

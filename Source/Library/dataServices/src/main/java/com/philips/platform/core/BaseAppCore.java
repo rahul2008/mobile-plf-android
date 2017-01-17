@@ -9,7 +9,7 @@ package com.philips.platform.core;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.CharacteristicsDetail;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -137,20 +137,20 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Characteristics createCharacteristics(@NonNull String creatorId) {
+    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
         return database.createCharacteristics(creatorId);
     }
 
     @NonNull
     @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics, @NonNull CharacteristicsDetail characteristicsDetail) {
-        return database.createCharacteristicsDetails(type, value, characteristics, characteristicsDetail);
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
+        return database.createCharacteristicsDetails(type, value, userCharacteristics, characteristics);
     }
 
     @NonNull
     @Override
-    public CharacteristicsDetail createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
-        return database.createCharacteristicsDetails(type, value, characteristics);
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
+        return database.createCharacteristicsDetails(type, value, userCharacteristics);
     }
 
 }

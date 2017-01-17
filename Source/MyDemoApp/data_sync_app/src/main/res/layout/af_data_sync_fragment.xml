@@ -35,7 +35,7 @@
             android:layout_above="@+id/tv_set_characteristics"></android.support.v7.widget.RecyclerView>
 
     <TextView
-        android:text="Set Consents"
+        android:text="@string/consents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -47,7 +47,7 @@
         android:id="@+id/tv_set_consents" />
 
     <TextView
-        android:text="Set Characteristics"
+        android:text="@string/set_characteristics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"

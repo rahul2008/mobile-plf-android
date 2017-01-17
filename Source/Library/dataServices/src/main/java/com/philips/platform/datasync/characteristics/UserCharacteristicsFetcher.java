@@ -8,11 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
-import com.philips.platform.core.events.UserCharacteristicsRequestFailed;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -56,15 +54,15 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
                         mUCoreAccessProvider.getUserId(), API_VERSION);
 
-                Characteristics characteristics =
+                UserCharacteristics userCharacteristics =
                         mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
                                 mUCoreAccessProvider.getUserId());
 
 
-                characteristics.setSynchronized(true);
+                userCharacteristics.setSynchronized(true);
 
-                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher "+characteristics.getCharacteristicsDetails());
-                eventing.post( new UCDBUpdateFromBackendRequest(characteristics, DataServicesManager.getInstance().getDbChangeListener()));
+                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher "+ userCharacteristics.getCharacteristicsDetails());
+                eventing.post( new UCDBUpdateFromBackendRequest(userCharacteristics, DataServicesManager.getInstance().getDbChangeListener()));
             }
             return null;
         } catch (RetrofitError exception) {
