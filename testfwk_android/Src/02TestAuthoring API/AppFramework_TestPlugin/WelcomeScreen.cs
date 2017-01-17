@@ -100,15 +100,17 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             try
             {
                 if (btn == Button.Skip)
-                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Skip).Displayed;
+                    IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Skip).Displayed;
                 else if (btn == Button.Done)
-                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Done).Displayed;
+                    IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Done).Displayed;
                 else if (btn == Button.LeftArrow)
-                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.LeftArrow).Displayed;
+                    IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.LeftArrow).Displayed;
                 else if (btn == Button.RightArrow)
-                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.RightArrow).Displayed;
+                    IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.RightArrow).Displayed;
                 else if (btn == Button.Alogout)
-                    IsVisible = _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.Alogout).Displayed;
+                    IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Alogout).Displayed;
+
+                IsVisible = true;
             }
             catch (Exception e)
             {
