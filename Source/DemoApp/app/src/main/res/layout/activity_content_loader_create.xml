@@ -25,7 +25,14 @@
         android:ems="10"
         android:hint="Max age in hours"
         android:inputType="number" />
-
+    <EditText
+        android:id="@+id/editTextContentLoaderLimit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Content Loader Limit(Optional)"
+        android:inputType="number" />
    <!-- <EditText
         android:id="@+id/editTextContentClassType"
         android:layout_width="match_parent"
