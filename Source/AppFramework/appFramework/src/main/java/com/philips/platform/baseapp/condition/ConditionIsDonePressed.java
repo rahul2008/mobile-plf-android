@@ -9,9 +9,9 @@ package com.philips.platform.baseapp.condition;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppConditions;
+import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
-import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 
 public class ConditionIsDonePressed extends BaseCondition {
 

@@ -20,7 +20,6 @@ import android.widget.ProgressBar;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
@@ -150,9 +149,21 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         settingsFragmentWeakReference = null;
     }
 
+    /*
+    * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
+    * suppressing "deprecation" for 'else' block.
+    */
+    @SuppressWarnings("deprecation")
     private SettingListItem formDataSection(String settingsItem, SettingListItemType type, boolean userRegistrationRequired) {
         SettingListItem settingScreenItem = new SettingListItem();
-        settingScreenItem.title = Html.fromHtml(settingsItem);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            settingScreenItem.title = Html.fromHtml(settingsItem, Html.FROM_HTML_MODE_LEGACY);
+        }
+        else{
+            settingScreenItem.title = Html.fromHtml(settingsItem);
+        }
+
         settingScreenItem.type = type;
         settingScreenItem.userRegistrationRequired = userRegistrationRequired;
         return settingScreenItem;

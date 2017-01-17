@@ -8,9 +8,9 @@ package com.philips.platform.baseapp.screens.dataservices.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
-import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
+import com.philips.platform.core.datatypes.MeasurementDetail;
+
 import java.io.Serializable;
 
 /**
