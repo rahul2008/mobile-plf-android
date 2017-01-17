@@ -51,4 +51,13 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
         }
         return super.getHeaders();
     }
+
+    @Override
+    protected Map<String, String> getParams()
+            throws AuthFailureError {
+        if (mParams != null)
+            return mParams;
+
+        return super.getParams();
+    }
 }

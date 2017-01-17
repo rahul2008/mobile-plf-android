@@ -47,4 +47,13 @@ public class StringRequest extends com.android.volley.toolbox.StringRequest {
         }
         return super.getHeaders();
     }
+
+    @Override
+    protected Map<String, String> getParams()
+            throws AuthFailureError {
+        if (mParams != null)
+            return mParams;
+
+        return super.getParams();
+    }
 }

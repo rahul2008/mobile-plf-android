@@ -23,12 +23,12 @@ import java.util.Arrays;
  */
 public class ServiceDiscovery {
 
-    boolean success = false;
+    private boolean success = false;
     String httpStatus;
     String country;
-    MatchByCountryOrLanguage matchByCountry;
-    MatchByCountryOrLanguage matchByLanguage;
-    AppInfra mAppInfra;
+    private MatchByCountryOrLanguage matchByCountry;
+    private MatchByCountryOrLanguage matchByLanguage;
+    private AppInfra mAppInfra;
 
     Error error = null;
 
@@ -145,7 +145,6 @@ public class ServiceDiscovery {
                         matchByLanguageConfigs.add(config);
                     }
                 }
-
                 matchByLanguage.setConfigs(matchByLanguageConfigs);
             }
             setMatchByLanguage(matchByLanguage);

@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
@@ -126,7 +125,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ServiceDiscovery downloadServices() {
         String urlBuild;
         ServiceDiscovery service = new ServiceDiscovery();
-
         if (!isOnline()) {
             service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
             service.setSuccess(false);
@@ -134,7 +132,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             urlBuild = buildUrl();
             if (urlBuild != null) {
                 service = mRequestItemManager.execute(urlBuild);
-                Log.i("Request Call", "Request Call");
+                saveToSecureStore(service.getCountry(), true);
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Request Call", "Request Call");
             } else {
                 service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "URL is null"));
@@ -644,7 +642,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         });
     }
 
-    String getCountry(ServiceDiscovery service) {
+    private String getCountry(ServiceDiscovery service) {
 
         if (countryCode != null) {
             return countryCode;
@@ -706,7 +704,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         } else {
             ssi.storeValueForKey("COUNTRY_SOURCE", country, mSecureStorage);
         }
-
     }
 
     private String fetchFromSecureStorage(boolean isCountry) {

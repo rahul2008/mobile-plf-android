@@ -55,4 +55,14 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
         }
         return super.getHeaders();
     }
+
+    @Override
+    protected Map<String, String> getParams()
+            throws AuthFailureError {
+        if (mParams != null)
+            return mParams;
+
+        return super.getParams();
+    }
+
 }
