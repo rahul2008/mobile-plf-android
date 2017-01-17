@@ -25,6 +25,8 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
 
     EditText EditTextServiceId;
     EditText EditTextMaxHour;
+    EditText EditTextContentLoaderLimit;
+
   /*  EditText EditTextContentClass;
     EditText EditTextContentType;*/
     Class contentClass;
@@ -37,6 +39,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
 
 
     ContentLoader mContentLoader;
+    List<String> ContentLoaderServiceIdList;
     static List<ContentLoader> ContentLoaderList;
 
     @Override
@@ -44,9 +47,11 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_loader_create);
         ContentLoaderList= new ArrayList<ContentLoader>();
+        ContentLoaderServiceIdList= new ArrayList<String>();
         EditTextServiceId = (EditText) findViewById(R.id.editTextServiceId);
      //   EditTextServiceId.setText("https://www.philips.com/wrx/b2c/c/nl/nl/ugrow-app/home.api.v1"); //test
         EditTextMaxHour = (EditText) findViewById(R.id.editTextMaxAgeInHours);
+        EditTextContentLoaderLimit =  (EditText) findViewById(R.id.editTextContentLoaderLimit);
         spinnerModelType = (Spinner) findViewById(R.id.spinnerModelTypes);
         ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, modelList);
@@ -60,6 +65,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int magAge = getMaxAge();
+                int contentLoaderLimitOptional = getContentLoaderLimitOptional();
                 if (magAge < 0) {
                     showAlertDialog("Invalid Input", "Invalid Max age ");
                 } else if (null == EditTextServiceId.getText() || "".equals(EditTextServiceId.getText().toString().trim())) {
@@ -82,10 +88,18 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
                             break;
 
                     }
-                    ContentLoader  mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AppInfraApplication.gAppInfra);
-                    ContentLoaderList.add(mContentLoader);
-                    Intent i = new Intent(ContentLoaderCreateActivity.this,ContentLoaderList.class);
-                    startActivity(i);
+                    ContentLoader  mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AppInfraApplication.gAppInfra,contentLoaderLimitOptional);
+
+                    if(!ContentLoaderServiceIdList.isEmpty() && ContentLoaderServiceIdList.contains(EditTextServiceId.getText().toString().trim()))
+                    {
+                        showAlertDialog("Duplicate Service ID","Given Service ID already available, please use different Service ID to create Content Loader");
+                    }
+                    else {
+                        ContentLoaderServiceIdList.add(mContentLoader.getmServiceId());
+                        ContentLoaderList.add(mContentLoader);
+                        Intent i = new Intent(ContentLoaderCreateActivity.this, ContentLoaderList.class);
+                        startActivity(i);
+                    }
                 }
             }
         });
@@ -105,6 +119,14 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
         int res = -1;
         if (null != EditTextMaxHour.getText() && !"".equals(EditTextMaxHour.getText().toString().trim())) {
             res = Integer.parseInt(EditTextMaxHour.getText().toString().trim());
+        }
+        return res;
+    }
+
+    int getContentLoaderLimitOptional(){
+        int res = 0;
+        if (null != EditTextContentLoaderLimit.getText() && !"".equals(EditTextContentLoaderLimit.getText().toString().trim())) {
+            res = Integer.parseInt(EditTextContentLoaderLimit.getText().toString().trim());
         }
         return res;
     }

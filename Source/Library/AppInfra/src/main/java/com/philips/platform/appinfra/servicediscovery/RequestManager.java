@@ -4,6 +4,8 @@ package com.philips.platform.appinfra.servicediscovery;
  * Created by 310243577 on 1/10/2017.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.LocaleList;
 
@@ -22,6 +24,7 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -32,8 +35,11 @@ public class RequestManager {
     //    RequestQueue mRequestQueue;
     private static final String TAG = "RequestManager";//this.class.getSimpleName();
     private AppInfra mAppInfra;
+    private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
+    private Context mContext = null;
 
-    public RequestManager(AppInfra appInfra) {
+    public RequestManager(Context context , AppInfra appInfra) {
+        mContext = context;
         mAppInfra = appInfra;
     }
 
@@ -47,6 +53,7 @@ public class RequestManager {
 
         try {
             JSONObject response = future.get(10, TimeUnit.SECONDS); // Blocks for at most 10 seconds.
+            cacheServiceDiscovery(response, url);
             return parseResponse(response);
         } catch (InterruptedException | TimeoutException e) {
             ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
@@ -74,7 +81,6 @@ public class RequestManager {
             } else if (error instanceof NetworkError) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
                         error.toString());
-
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "NetworkError");
             } else if (error instanceof ParseError) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
@@ -104,10 +110,55 @@ public class RequestManager {
 
 
     public String getLocaleList() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return LocaleList.getDefault().toString();
         } else {
             return mAppInfra.getInternationalization().getUILocaleString();
         }
     }
+
+    private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url) {
+        SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
+        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+        prefEditor.putString("SDcache", serviceDiscovery.toString());
+        prefEditor.putString("SDurl", url);
+        Date currentDate = new Date();
+        long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
+        prefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
+        prefEditor.commit();
+    }
+
+    ServiceDiscovery getServiceDiscoveryFromCache(String url) {
+        ServiceDiscovery serviceDiscovery = null;
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        if (null != prefs && prefs.contains("SDurl")) {
+            final String savedURL = prefs.getString("SDurl", null);
+            final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
+            Date currentDate = new Date();
+            long currentDateLong = currentDate.getTime();
+            if (savedURL.equals(url) && currentDateLong < refreshTimeExpiry) { // cache is VALID  i.e. AppIdentity and locale has not changed
+                try {
+                    JSONObject SDjSONObject = new JSONObject(prefs.getString("SDcache", null));
+                    serviceDiscovery = parseResponse(SDjSONObject);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {// cache is INVALID so clear SD Cache
+                clearCacheServiceDiscovery();
+            }
+        }
+        return serviceDiscovery;
+    }
+
+    void clearCacheServiceDiscovery() {
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        SharedPreferences.Editor prefEditor = prefs.edit();
+        prefEditor.clear();
+        prefEditor.commit();
+    }
+
+    private SharedPreferences getServiceDiscoverySharedPreferences() {
+        return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
+    }
+
 }

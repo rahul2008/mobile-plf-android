@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,14 +36,13 @@ public class RestClientActivity extends AppCompatActivity {
     String[] requestTypeOption = {"GET", "POST", "PUT", "DELETE"};
     // String url = "https://hashim.herokuapp.com/RCT/test.php?action=data&id=aa";
     //String baseURL= "https://www.oldchaphome.nl";
-    String baseURL = "https://hashim.herokuapp.com";
+    String baseURL = "https://";
 
     String accessToken;
     private Spinner requestTypeSpinner;
     HashMap<String, String> params;
     HashMap<String, String> headers;
     EditText urlInput;
-    EditText idInput;
     RestInterface mRestInterface;
     TextView loginStatus;
     TextView accessTokenTextView;
@@ -59,7 +57,6 @@ public class RestClientActivity extends AppCompatActivity {
         mRestInterface = new AppInfra.Builder().build(getApplicationContext()).getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         urlInput = (EditText) findViewById(R.id.editTextURL);
-        idInput = (EditText) findViewById(R.id.editTextID);
         loginStatus = (TextView) findViewById(R.id.textViewLogStatus);
         urlFired = (TextView) findViewById(R.id.textViewURLfired);
         accessTokenTextView = (TextView) findViewById(R.id.textViewAccessToken);
@@ -83,11 +80,17 @@ public class RestClientActivity extends AppCompatActivity {
         });
 
 
+        requestTypeSpinner = (Spinner) findViewById(R.id.spinnerRequestType);
+
+        ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, requestTypeOption);
+        requestTypeSpinner.setAdapter(input_adapter);
+
         Button invoke = (Button) findViewById(R.id.buttonInvoke);
         invoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int methodType = Request.Method.GET;
+                 int methodType=Request.Method.GET ;
 
 
                 for (String key : headers.keySet()) {
@@ -116,12 +119,13 @@ public class RestClientActivity extends AppCompatActivity {
 //                            showAlertDialog("URL Error","Invalid URL");
 //                            return ;
 //                        }
-                        putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim() + "/RCT/test.php?action=data&id=" + idInput.getText().toString().trim(),
+                        putRequest = new StringRequest(Request.Method.PUT, urlInput.getText().toString().trim() ,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
                                         Log.i("LOG", "" + response);
                                         //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
+                                        params.clear();
                                         showAlertDialog("Success Response", response);
                                     }
                                 },
@@ -171,7 +175,7 @@ public class RestClientActivity extends AppCompatActivity {
 //                    }
                     StringRequest mStringRequest = null;
                     try {
-                        mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim() + "/RCT/test.php?action=data&id=" + idInput.getText().toString().trim(), new Response.Listener<String>() {
+                        mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim()  , new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 Log.i("LOG", "" + response);
@@ -216,24 +220,9 @@ public class RestClientActivity extends AppCompatActivity {
             }
         });
 
-        requestTypeSpinner = (Spinner) findViewById(R.id.spinnerRequestType);
 
-        ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, requestTypeOption);
-        requestTypeSpinner.setAdapter(input_adapter);
 
-        requestTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // initializeDigitalCareLibrary();
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         Button loginButton = (Button) findViewById(R.id.buttonLogin);
         assert loginButton != null;
@@ -246,7 +235,7 @@ public class RestClientActivity extends AppCompatActivity {
 //                }
                 StringRequest mStringRequest = null;
                 try {
-                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim() + "/RCT/test.php?action=authtoken", new Response.Listener<String>() {
+                    mStringRequest = new StringRequest(Request.Method.GET, "https://hashim.herokuapp.com/RCT/test.php?action=authtoken" , new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             Log.i("LOG", "" + response);
@@ -321,7 +310,7 @@ public class RestClientActivity extends AppCompatActivity {
 
                 StringRequest mStringRequest = null;
                 try {
-                    mStringRequest = new StringRequest(Request.Method.GET, urlInput.getText().toString().trim() + "/RCT/test.php?action=authcheck"
+                    mStringRequest = new StringRequest(Request.Method.GET, "https://hashim.herokuapp.com/RCT/test.php?action=authcheck"
                             ,
                             new Response.Listener<String>() {
                                 @Override

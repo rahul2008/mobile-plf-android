@@ -15,11 +15,9 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by 310238114 on 11/8/2016.
@@ -46,7 +44,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     //table name
     private static final String CONTENT_LOADER_STATES = "ContentLoaderStates";
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     public static synchronized ContentDatabaseHandler getInstance(Context context) {
 
@@ -62,7 +60,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_CONTENT_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_TABLE + "("
+        final String CREATE_CONTENT_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_TABLE + "("
                 + KEY_ID + " TEXT ,"
                 + KEY_SERVICE_ID + " TEXT,"
                 + KEY_RAW_CONTENT + " TEXT,"
@@ -74,7 +72,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_CONTENT_TABLE);
         Log.d("first run", "" + CONTENT_TABLE + "DB CREATED");
 
-        String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
+        final String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
                 + KEY_SERVICE_ID + " TEXT PRIMARY KEY,"
                 + KEY_EXPIRE_TIMESTAMP + " DATETIME,"
                 + KEY_LAST_UPDATED_TIME + " DATETIME "
@@ -135,16 +133,16 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 databaseContentItems = getContentItems(serviceID);
                 Log.v("DELETE", "DB SIZE AFTER DELETE= " + databaseContentItems.size());
             }
-            if (SQLitetransaction) {
-                boolean isContentLoaderStateTableUpdated = updateContentLoaderStateTable(db, lastUpdatedTime, serviceID, expiryDate);
-            }
-            // db.endTransaction();
+
         } catch (Exception e) {
             SQLitetransaction = false;
             Log.w("insertQuery:", e);
         } finally {
             if (db != null && db.isOpen()) {
-                db.close();
+                try {
+                    db.close();
+                } catch (Exception e) {
+                }
             }
         }
         return SQLitetransaction;
@@ -168,7 +166,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.w("selectQuery:", e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
 
         }
@@ -193,7 +194,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("SELECT FAIL", getAllIDQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
         }
         return Ids;
@@ -222,7 +226,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("SELECT FAIL", getContentByIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
 
         }
@@ -258,14 +265,16 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("SELECT FAIL", getContentByIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
             }
         }
         return ContentItemList;
     }
 
     private boolean updateContentLoaderStateTable(SQLiteDatabase db, long mLastUpdatedTime, String serviceID, long expiryDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         ContentValues values = new ContentValues();
         values.put(KEY_SERVICE_ID, serviceID);
         values.put(KEY_EXPIRE_TIMESTAMP, expiryDate);
@@ -283,14 +292,21 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
     protected long getContentLoaderServiceStateExpiry(String serviceID) {
         long expiryTime = 0l;
-        SQLiteDatabase db = this.getWritableDatabase();
-        String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?";
-        Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, new String[]{serviceID});
-        if (null != cursor && cursor.moveToFirst()) {
-            expiryTime = cursor.getLong(0);
-        }
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String getContentLoaderServiceStateExpiryQuery = "SELECT " + KEY_EXPIRE_TIMESTAMP + " FROM " + CONTENT_LOADER_STATES + " WHERE " + KEY_SERVICE_ID + " = ?";
+            Cursor cursor = db.rawQuery(getContentLoaderServiceStateExpiryQuery, new String[]{serviceID});
+            if (null != cursor && cursor.moveToFirst()) {
+                expiryTime = cursor.getLong(0);
+            }
+            if (cursor != null && !cursor.isClosed()) {
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
+            }
+        } catch (Exception e) {
+
         }
         return expiryTime;
     }
@@ -319,7 +335,10 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             Log.e("DELETE FAIL", e.getMessage());
         } finally {
             if (db != null && db.isOpen()) {
-                db.close();
+                try {
+                    db.close();
+                } catch (Exception e) {
+                }
             }
         }
         return result;

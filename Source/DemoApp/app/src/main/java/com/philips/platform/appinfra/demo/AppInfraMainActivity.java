@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +16,16 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader"};
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +47,9 @@ public class AppInfraMainActivity extends AppCompatActivity {
         arryaLsit.add("userreg.landing.emailverif");
         arryaLsit.add("userreg.landing.resetpass");
 
-        AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+       /* AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
@@ -69,7 +63,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
         });
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SDTest", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
@@ -84,7 +78,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithCountryPreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
@@ -98,7 +92,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
         });
         AppInfraApplication.gAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(arryaLsit, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+            public void onSuccess(Map<String, ServiceDiscoveyService> urlMap) {
                 for (int i = 0; i < urlMap.size(); i++)
                 {
                     Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
@@ -133,7 +127,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 Log.i("SD", ""+message);
             }
         });
-
+*/
     }
 
 
@@ -212,6 +206,12 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 Intent contentLoaderActivity = new Intent(AppInfraMainActivity.this,
                         ContentLoaderCreateActivity.class);
                 startActivity(contentLoaderActivity);
+                break;
+
+            case 12:
+                Intent whiteBoxAPISignInIntent = new Intent(AppInfraMainActivity.this,
+                        WhiteBoxAPIActivity.class);
+                startActivity(whiteBoxAPISignInIntent);
                 break;
         }
 

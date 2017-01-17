@@ -16,7 +16,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import org.json.JSONException;
@@ -106,9 +105,8 @@ public class AppTagging implements AppTaggingInterface {
             result = new JSONObject(total.toString());
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
                     result.toString());
-
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Tagging ADBMobileConfig file reading exception",
                     Log.getStackTraceString(e));
         }
         return result;
@@ -152,8 +150,8 @@ public class AppTagging implements AppTaggingInterface {
                 try {
                     Object object = mAppInfra.getConfigInterface().getPropertyForKey
                             ("tagging.sensitiveData", "appinfra", configError);
-                    if (object instanceof ArrayList) {
-                        ArrayList<String> taggingSensitiveData = (ArrayList<String>) object;
+                    if (object instanceof ArrayList<?>) {
+                        ArrayList<?> taggingSensitiveData = (ArrayList<?>) object;
                         if (taggingSensitiveData.size() > 0) {
                             data.keySet().removeAll(taggingSensitiveData);
                         }
@@ -305,10 +303,10 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        Map<String, Object> contextData;
+        Map contextData;
         contextData = addAnalyticsDataObject();
         if (paramMap != null) {
-            paramMap.putAll((Map) contextData);
+            paramMap.putAll(contextData);
             contextData = removeSensitiveData((Map) paramMap);
         }
         if (null != prevPage && isTrackPage) {
