@@ -320,6 +320,6 @@ public class RequestItemManager {
     }
 
     SharedPreferences getServiceDiscoverySharedPreferences(){
-        return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, mContext.MODE_PRIVATE);
+        return mContext.getSharedPreferences(ServiceDiscoveryCacheFile, Context.MODE_PRIVATE);
     }
 }

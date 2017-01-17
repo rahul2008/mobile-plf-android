@@ -231,7 +231,7 @@ public class SecureStorage implements SecureStorageInterface {
 
 
     private SharedPreferences getSharedPreferences(String filename) {
-        return mContext.getSharedPreferences(filename, mContext.MODE_PRIVATE);
+        return mContext.getSharedPreferences(filename, Context.MODE_PRIVATE);
     }
 
 

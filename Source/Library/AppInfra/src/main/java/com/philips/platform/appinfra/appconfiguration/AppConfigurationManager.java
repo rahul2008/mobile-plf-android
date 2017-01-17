@@ -160,9 +160,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                             throw new IllegalArgumentException("Invalid Argument Exception");
                         }
                     } else if (object instanceof HashMap) { // if object is MAP
-                        Map map = (Map) object;
-                        Set keyset = map.keySet();
-                        Iterator keyItr = keyset.iterator();
+                        Map<?,?> map = (Map) object;
+                        Set<?> keyset = map.keySet();
+                        Iterator<?> keyItr = keyset.iterator();
                         Object objectKey = keyItr.next();
                         Object value = map.get(objectKey); // value for key:objectKey
                         if (null == value) {
@@ -265,7 +265,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         return object;
     }
 
-    private Map jsonToMap(Object JSON) throws JSONException {
+    private Map<String,?> jsonToMap(Object JSON) throws JSONException {
         HashMap<String, Object> map = new HashMap<String, Object>();
         JSONObject jObject = new JSONObject(JSON.toString());
         Iterator<?> keys = jObject.keys();
