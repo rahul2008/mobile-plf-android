@@ -21,13 +21,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.utility.Constants;
 
 import java.util.Arrays;
 import java.util.List;

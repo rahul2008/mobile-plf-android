@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
-import com.philips.platform.baseapp.screens.introscreen.LaunchView;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends Fragment implements LaunchView, BackEventListener {
+public class SplashFragment extends OnboardingBaseFragment implements BackEventListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
@@ -34,16 +31,27 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
     private boolean isVisible = false;
 	private boolean isMultiwindowEnabled = false;
 
+    /*
+     * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
+     * suppressing "deprecation" for 'else' block.
+     */
+    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
-        ViewGroup group = (ViewGroup) view.findViewById(R.id.splash_layout);
         ImageView logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()) );
 
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
-        CharSequence titleText = Html.fromHtml(splashScreenTitle);
+        CharSequence titleText = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            titleText = Html.fromHtml(splashScreenTitle, Html.FROM_HTML_MODE_LEGACY);
+        }
+        else{
+            titleText = Html.fromHtml(splashScreenTitle);
+        }
 
         TextView title = (TextView) view.findViewById(R.id.splash_title);
         title.setText(titleText);
@@ -103,44 +111,10 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
         isVisible = false;
     }
 
-
-    @Override
-    public void showActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.showActionBar();
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        getFragmentActivity().getWindow().getDecorView().requestLayout();
-    }
-
-    @Override
-    public void hideActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.hideActionBar();
-    }
-
-    @Override
-    public void finishActivityAffinity() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.finishAffinity();
-    }
-
-    @Override
-    public ActionBarListener getActionBarListener() {
-        return (LaunchActivity) getActivity();
-    }
-
-    @Override
-    public int getContainerId() {
-        return R.id.welcome_frame_container;
-    }
-
-    @Override
-    public FragmentActivity getFragmentActivity() {
-        return getActivity();
+        getActivity().getWindow().getDecorView().requestLayout();
     }
 
     @Override

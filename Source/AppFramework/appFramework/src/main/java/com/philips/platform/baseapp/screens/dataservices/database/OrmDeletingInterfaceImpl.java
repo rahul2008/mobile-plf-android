@@ -1,7 +1,6 @@
 package com.philips.platform.baseapp.screens.dataservices.database;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;

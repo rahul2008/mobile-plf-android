@@ -2,7 +2,6 @@ package com.philips.platform.baseapp.screens.dataservices.error;
 
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.core.ErrorHandlingInterface;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 /**
