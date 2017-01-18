@@ -66,11 +66,12 @@ public class SavingMonitorTest {
 
     private SavingMonitor savingMonitor;
 
-    @Mock
-    DBRequestListener dbRequestListener;
 
     @Captor
     private ArgumentCaptor<MomentChangeEvent> changeEventArgumentCaptor;
+
+    @Mock
+    DBRequestListener dbRequestListener;
 
     @Before
     public void setUp() {

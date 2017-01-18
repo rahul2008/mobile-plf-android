@@ -14,6 +14,7 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;

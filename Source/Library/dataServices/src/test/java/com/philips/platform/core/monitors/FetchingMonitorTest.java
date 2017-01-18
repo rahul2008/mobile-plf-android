@@ -14,11 +14,12 @@ import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
-import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -92,6 +93,7 @@ public class FetchingMonitorTest {
     @Mock
     private AppComponent appComponantMock;
 
+
     @Mock
     private DBRequestListener dbRequestListener;
 
@@ -145,6 +147,13 @@ public class FetchingMonitorTest {
         verify(fetching).fetchConsents(dbRequestListener);
     }
 
+    @Test
+    public void ShouldFetchCharacteristics_WhenLoadCharacterSicsRequest() throws Exception {
+
+        fetchingMonitor.onEventBackgroundThread(new LoadUserCharacteristicsRequest(dbRequestListener));
+
+        verify(fetching).fetchCharacteristics(dbRequestListener);
+    }
 
     @Test
     public void getNonSynchronizedDataRequestTest() throws SQLException {

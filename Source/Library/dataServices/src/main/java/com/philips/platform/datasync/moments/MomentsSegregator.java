@@ -15,10 +15,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-/**
- * Created by 310218660 on 1/10/2017.
- */
-
 public class MomentsSegregator {
 
     @Inject

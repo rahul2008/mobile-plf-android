@@ -2,12 +2,14 @@ package com.philips.platform.datasync.moments;
 
 import android.app.Application;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.testing.verticals.AssertHelper;
@@ -23,6 +25,7 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
@@ -36,10 +39,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by indrajitkumar on 12/12/16.
- */
-@RunWith(RobolectricTestRunner.class)
 public class MomentsConverterTest {
     public static final DateTime TEST_TIMESTAMP = DateTime.now().plusHours(1);
     public static final String TEST_GUID = "TEST_GUID";
@@ -76,8 +75,20 @@ public class MomentsConverterTest {
     private MeasurementDetail measurementGroupDetail;
     private Application context;
     private DataServicesManager dataServicesManager;
-    private OrmCreatorTest verticalDataCreater;
     private ErrorHandlerImplTest errorHandler;
+    @Mock
+    private AppComponent appComponantMock;
+
+    private BaseAppDataCreator verticalDataCreater;
+//    verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
+//    errorHandlerImplTest = new ErrorHandlerImplTest();
+//
+//    DataServicesManager.getInstance().mAppComponent = appComponantMock;
+//    consentsMonitor = new ConsentsMonitor(uCoreAdapterMock, consentsConverterMock, gsonConverterMock);
+//    consentsMonitor.uCoreAccessProvider = accessProviderMock;
+//    consentsMonitor.start(eventingMock);
+
+
 
     @Before
     public void setUp() {
@@ -85,17 +96,15 @@ public class MomentsConverterTest {
 
         ormCreatorTest = new OrmCreatorTest(new UuidGenerator());
 
-        context = RuntimeEnvironment.application;
-        dataServicesManager = DataServicesManager.getInstance();
+        DataServicesManager.getInstance().mAppComponent = appComponantMock;
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
+        momentsConverter = new MomentsConverter();
+        momentsConverter.baseAppDataCreater = verticalDataCreater;
         errorHandler = new ErrorHandlerImplTest();
-        dataServicesManager.initialize(context, verticalDataCreater, errorHandler,null);
-
         initializeUCoreMoment();
 
         initializeMoment();
 
-        momentsConverter = new MomentsConverter();
     }
 
     private void initializeMoment() {
@@ -494,25 +503,25 @@ public class MomentsConverterTest {
         assertThat(uCoreMoment.getVersion()).isEqualTo(TEST_VERSION);
     }
 
-//    @Test
-//    public void ShouldAddUUIDAsDetail_WhenMomentWithDetailsIsProvided() {
-//        UCoreDetail uCoreMomentDetail = new UCoreDetail();
-//        uCoreMomentDetail.setType(MomentDetailType.TAGGING_ID);
-//        uCoreMomentDetail.setValue("UUID");
-//
-//        uCoreMoment.setDetails(Collections.singletonList(uCoreMomentDetail));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
-//        assertThat(momentDetails).hasSize(1); //one for uuid
-//
-//        MomentDetail momentDetail = momentDetails.iterator().next();
-//        assertThat(momentDetail.getType()).isEqualTo(MomentDetailType.TAGGING_ID);
-//        assertThat(momentDetail.getValue()).isEqualTo("UUID");
-//    }
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void ShouldAddUUIDAsDetail_WhenMomentWithDetailsIsProvided() {
+        UCoreDetail uCoreMomentDetail = new UCoreDetail();
+        uCoreMomentDetail.setType(MomentDetailType.TAGGING_ID);
+        uCoreMomentDetail.setValue("UUID");
+
+        uCoreMoment.setDetails(Collections.singletonList(uCoreMomentDetail));
+
+        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
+
+        assertThat(moments).hasSize(1);
+        Moment moment = moments.get(0);
+        Collection<? extends MomentDetail> momentDetails = moment.getMomentDetails();
+        assertThat(momentDetails).hasSize(1); //one for uuid
+
+        MomentDetail momentDetail = momentDetails.iterator().next();
+        assertThat(momentDetail.getType()).isEqualTo(MomentDetailType.TAGGING_ID);
+        assertThat(momentDetail.getValue()).isEqualTo("UUID");
+    }
 
     @Test
     public void ShouldHaveUUIDInJson_WhenConverted() throws Exception {

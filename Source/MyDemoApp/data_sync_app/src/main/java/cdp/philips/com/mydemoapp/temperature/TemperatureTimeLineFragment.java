@@ -13,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
@@ -55,13 +59,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    private TextView mTvSetCosents;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
     UserRegistrationInterfaceImpl userRegistrationInterface;
     User mUser;
     Utility mUtility;
+
+    TextView mTvConsents, mTvCharacteristics;
 
 
     @Override
@@ -94,7 +99,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         if(mUser!=null && !mUser.isUserSignIn()){
             Toast.makeText(getContext(),"Please Login",Toast.LENGTH_SHORT).show();
             mAddButton.setVisibility(View.INVISIBLE);
-            mTvSetCosents.setVisibility(View.INVISIBLE);
+            mTvConsents.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -156,9 +161,11 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
-        mTvSetCosents.setOnClickListener(this);
+        mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
 
+        mTvConsents.setOnClickListener(this);
+        mTvCharacteristics.setOnClickListener(this);
         return view;
     }
 
@@ -200,6 +207,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
                 dFragment.show(getFragmentManager(), "Dialog");
+
+                break;
+            case R.id.tv_set_characteristics:
+
+                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+                characteristicsDialogFragment.show(getFragmentManager(), "Character");
+
                 break;
         }
     }

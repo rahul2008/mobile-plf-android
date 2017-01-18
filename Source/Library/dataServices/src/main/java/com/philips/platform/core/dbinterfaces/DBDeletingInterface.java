@@ -4,6 +4,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

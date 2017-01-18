@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 

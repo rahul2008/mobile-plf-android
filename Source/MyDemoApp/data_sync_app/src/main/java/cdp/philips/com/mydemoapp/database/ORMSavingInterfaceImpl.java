@@ -5,7 +5,7 @@
 
 package cdp.philips.com.mydemoapp.database;
 
-import android.util.Log;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
@@ -17,6 +17,7 @@ import com.philips.platform.core.utils.DSLog;
 import java.sql.SQLException;
 
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
@@ -69,6 +70,34 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             return false;
         }
 
+    }
+
+    @Override
+    public boolean saveUserCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+        DSLog.d("Inder saveUserCharacteristics delete", userCharacteristics.getCharacteristicsDetails().toString());
+        OrmCharacteristics ormCharacteristics;
+        try {
+            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
+            deleting.deleteCharacteristics();
+            DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics save", ormCharacteristics.getCharacteristicsDetails().toString());
+            saving.saveCharacteristics(ormCharacteristics);
+            updateUCUI(userCharacteristics,dbRequestListener);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void updateUCUI(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {
+            if(dbRequestListener==null){
+                return;
+            }
+            if(userCharacteristics !=null){
+                dbRequestListener.onSuccess(userCharacteristics);
+            } else {
+                dbRequestListener.onSuccess(null);
+            }
     }
 
     @Override

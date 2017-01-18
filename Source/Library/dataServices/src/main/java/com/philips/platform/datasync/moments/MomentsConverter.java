@@ -40,7 +40,7 @@ public class MomentsConverter {
 
     @Inject
     public MomentsConverter() {
-        DataServicesManager.mAppComponent.injectMomentsConverter(this);
+        DataServicesManager.getInstance().mAppComponent.injectMomentsConverter(this);
     }
 
     @NonNull
@@ -153,17 +153,6 @@ public class MomentsConverter {
                 childUCoreList = childUCore.getMeasurementGroups();
                 i++;
             }
-
-            /*Collection<? extends UCoreMeasurementGroups> uCoreMeasurementGroups1 = uCoreMeasurementGroups.getMeasurementGroups();
-            MeasurementGroup measurementGroup1 = measurementGroup;
-            if(uCoreMeasurementGroups1!=null){
-                for(UCoreMeasurementGroups uCoreMeasurementGroup : uCoreMeasurementGroups1){
-                    measurementGroup1 = baseAppDataCreater.createMeasurementGroup(measurementGroup);
-                    addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroup, measurementGroup1);
-                }
-            }
-
-            moment.addMeasurementGroup(measurementGroup1);*/
         }
 
         moment.addMeasurementGroup(parentOrmToAttachMoment);

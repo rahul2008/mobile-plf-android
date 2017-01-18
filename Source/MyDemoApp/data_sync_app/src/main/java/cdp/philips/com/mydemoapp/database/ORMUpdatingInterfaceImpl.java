@@ -1,16 +1,17 @@
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
-import java.util.List;
 
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
@@ -89,5 +90,24 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             DSLog.e(TAG, "Eror while type checking");
         }
         return null;
+    }
+
+    //User AppUserCharacteristics
+    @Override
+    public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+        OrmCharacteristics ormCharacteristics;
+        try {
+            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
+            deleting.deleteCharacteristics();
+            saving.saveCharacteristics(ormCharacteristics);
+            notifyDBRequestListener.notifySuccess(null);
+            //mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormCharacteristics);
+           // dbRequestListener.fetchData();
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

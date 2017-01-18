@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public interface DBRequestListener {
 
-    public void onSuccess(ArrayList<? extends Object> data);
-    public void onSuccess(Object data);
-    public void onFailure(Exception exception);
+    void onSuccess(ArrayList<? extends Object> data);
+
+    void onSuccess(Object data);
+
+    void onFailure(Exception exception);
 }

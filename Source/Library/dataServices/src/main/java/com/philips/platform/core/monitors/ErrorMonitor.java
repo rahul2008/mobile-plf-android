@@ -13,17 +13,17 @@ import javax.inject.Inject;
 
 import retrofit.RetrofitError;
 
-public class ErrorMonitor extends EventMonitor{
+public class ErrorMonitor extends EventMonitor {
 
     private ErrorHandlingInterface mErrorHandlingInterface;
-
     @Inject
     UserRegistrationInterface userRegistrationInterface;
 
     int UNKNOWN = -1;
+
     //TODO: String to be passed instead of status codes
     //String and int to be held in Object and object to be sent to verticals
-    public ErrorMonitor(ErrorHandlingInterface errorHandlingInterface){
+    public ErrorMonitor(ErrorHandlingInterface errorHandlingInterface) {
         DataServicesManager.getInstance().mAppComponent.injectErrorMonitor(this);
         mErrorHandlingInterface = errorHandlingInterface;
     }
@@ -34,22 +34,26 @@ public class ErrorMonitor extends EventMonitor{
     }
 
     private void postError(RetrofitError exception) {
-        if(exception == null){
+        if (exception == null) {
             mErrorHandlingInterface.syncError(UNKNOWN);
             return;
         }
-        if(!isTokenExpired(exception)) {
+        if (!isTokenExpired(exception)) {
             mErrorHandlingInterface.syncError(exception.getResponse().getStatus());
+
         }
+//        if (retrofitError != null)
+//            mErrorHandlingInterface.syncError(retrofitError.getResponse().getStatus());
     }
 
     public void onEventBackgroundThread(final BackendResponse error) {
         RetrofitError exception = error.getCallException();
+
         postError(exception);
     }
 
     private boolean isTokenExpired(RetrofitError e) {
-        DSLog.i("UserRegistrationInterfaceImpl","Check is token valid in MomentDataFetcher");
+        DSLog.i("UserRegistrationInterfaceImpl", "Check is token valid in MomentDataFetcher");
         int status = -1000;
         if (e != null && e.getResponse() != null) {
             status = e.getResponse().getStatus();
@@ -57,10 +61,11 @@ public class ErrorMonitor extends EventMonitor{
 
         if (status == HttpURLConnection.HTTP_UNAUTHORIZED ||
                 status == HttpURLConnection.HTTP_FORBIDDEN) {
-            DSLog.i("UserRegistrationInterfaceImpl","Call refresh token using work around");
+            DSLog.i("UserRegistrationInterfaceImpl", "Call refresh token using work around");
             userRegistrationInterface.refreshAccessTokenUsingWorkAround();
             return true;
         }
         return false;
     }
+
 }

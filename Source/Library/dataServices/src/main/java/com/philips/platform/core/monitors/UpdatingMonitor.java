@@ -12,9 +12,11 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.core.utils.NotifyDBChangeListener;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
@@ -42,12 +44,15 @@ public class UpdatingMonitor extends EventMonitor {
     @Inject
     MomentsSegregator momentsSegregator;
 
+    @Inject
+    UserCharacteristicsSegregator mUserCharacteristicsSegregator;
+
 
     public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
-        DataServicesManager.mAppComponent.injectUpdatingMonitor(this);
+        DataServicesManager.getInstance().mAppComponent.injectUpdatingMonitor(this);
         notifyDBChangeListener=new NotifyDBChangeListener();
     }
 
@@ -111,4 +116,17 @@ public class UpdatingMonitor extends EventMonitor {
             dbUpdatingInterface.updateFailed(e, null);
         }
     }
+
+    public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
+        try {
+            DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync updateMonitor UCDBUpdateFromBackendRequest");
+            boolean isSynced = mUserCharacteristicsSegregator.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
+            if (isSynced) {
+                dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
+            }
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e, userCharacteristicsSaveBackendRequest.getDbRequestListener());
+        }
+    }
+
 }

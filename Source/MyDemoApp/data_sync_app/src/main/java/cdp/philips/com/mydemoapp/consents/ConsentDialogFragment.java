@@ -128,6 +128,17 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
             });
         }
 
+        if(getActivity()!=null) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
     }
 
     @Override
