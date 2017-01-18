@@ -4,6 +4,7 @@ package com.philips.cl.di.regsample.app;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.LocaleList;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
@@ -75,11 +76,18 @@ public class RegistrationApplication extends Application {
         editor.commit();
 
 
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
+        String languageCode;
+        String countryCode;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            languageCode = LocaleList.getDefault().get(0).getLanguage();
+            countryCode = LocaleList.getDefault().get(0).getCountry();
+        }else{
+            languageCode = Locale.getDefault().getLanguage();
+            countryCode = Locale.getDefault().getCountry();
+        }
 
         PILLocaleManager localeManager = new PILLocaleManager(this);
-       localeManager.setInputLocale(languageCode, countryCode);
+        localeManager.setInputLocale(languageCode, countryCode);
      //   localeManager.setInputLocale("zh", "CN");
 
         initAppIdentity(configuration);
