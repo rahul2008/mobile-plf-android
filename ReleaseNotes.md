@@ -4,15 +4,16 @@ Philips UIKit DLS for Android
 # Release Notes MobileUitoolkit Android
 
 Version 0.1.1
-SPRINT - MUITK.PI17.1.Sprint2
-EHUFA-1250	Android: Create custom indeterminate linear progress indicator
-EHUFA-1276	Android: SPIKE Applying DLS Art direction in Date Picker
-EHUFA-1289	[Android Test] Text leading is not implemented in KITKAT devices.
-EHUFA-1291	[Android Test][Navigation Bar] Bottom navigation bar is not themed in landscape mode
-EHUFA-1295 *	iOS: Update Release Notes
-EHUFA-1296 *	iOS: AlertController, UIAlertAction bridge header not generating
-EHUFA-1265	Android: Separator
-EHUFA-1215	Migrating old jobs from old build server (mobteam one)
+SPRINT - MUITK.PI17.1.Sprint3
+EHUFA-1250 - Android: Create custom indeterminate linear progress indicator
+EHUFA-1276 - Android: SPIKE Applying DLS Art direction in Date Picker
+EHUFA-1289 - [Android Test] Text leading is not implemented in KITKAT devices.
+EHUFA-1291 - [Android Test][Navigation Bar] Bottom navigation bar is not themed in landscape mode
+EHUFA-1295 - iOS: Update Release Notes
+EHUFA-1296 - iOS: AlertController, UIAlertAction bridge header not generating
+EHUFA-1265 - Android: Separator
+EHUFA-1215 - Migrating old jobs from old build server (mobteam one)
+EHUFA-1267 - Android: CheckBox
 
 
 SPRINT - MUITK.PI17.1.Sprint2
@@ -42,7 +43,6 @@ EHUFA-1263 - iOS: Button with progress indicator
 EHUFA-1280 - [Jenkinsfiles] blocking issues in build environment
 EHUFA-1286 - iOS: Add release notes to HockeyApp binary distribution
 EHUFA-1287 - Android: Add release notes to HockeyApp binary distribution
-EHUFA-1267 - Android: CheckBox
 
 
 SPRINT - MUITK.PI16.5.Sprint5
