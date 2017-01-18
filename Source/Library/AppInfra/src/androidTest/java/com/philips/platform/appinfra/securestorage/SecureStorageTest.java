@@ -101,8 +101,8 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testClearKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
 
-       // assertFalse(mSecureStorage.clearKey(" ", sse));
-       // assertFalse(mSecureStorage.clearKey(null, sse));
+        assertFalse(mSecureStorage.clearKey(" ", sse));
+        assertFalse(mSecureStorage.clearKey(null, sse));
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
         assertTrue(mSecureStorage.clearKey("KeyName", sse));
 
@@ -125,15 +125,6 @@ public class SecureStorageTest extends MockitoTestCase {
 
         assertFalse(mSecureStorage.removeValueForKey(""));
         assertFalse(mSecureStorage.removeValueForKey(null));
-
-        //assertEquals(mSecureStorage.RemoveValueForKey("key"),mSecureStorage.deleteEncryptedData("key"));
-
-
-    }
-    public void testDeletePassWord() throws Exception {
-
-      /*  assertFalse(mSecureStorage.deletePassWord(""));
-        assertFalse(mSecureStorage.deletePassWord(null));*/
 
         //assertEquals(mSecureStorage.RemoveValueForKey("key"),mSecureStorage.deleteEncryptedData("key"));
 
