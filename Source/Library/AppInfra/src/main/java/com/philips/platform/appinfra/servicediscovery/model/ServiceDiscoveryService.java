@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by 310238655 on 8/8/2016.
  */
-public class ServiceDiscoveyService {
+public class ServiceDiscoveryService {
 
 
     String locale;

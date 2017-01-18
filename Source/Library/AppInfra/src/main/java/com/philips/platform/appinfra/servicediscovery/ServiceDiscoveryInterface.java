@@ -5,7 +5,7 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public interface ServiceDiscoveryInterface {
      * onSuccess returns the successful response
      */
     interface OnGetServiceUrlMapListener extends OnErrorListener {
-        void onSuccess(Map<String, ServiceDiscoveyService> urlMap);
+        void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
     }
 
     /**

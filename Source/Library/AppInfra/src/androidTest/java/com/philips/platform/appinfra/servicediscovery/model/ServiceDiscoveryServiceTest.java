@@ -15,7 +15,7 @@ public class ServiceDiscoveryServiceTest extends MockitoTestCase {
     private Context context;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     ServiceDiscoveryManager mServiceDiscoveryManager = null;
-    ServiceDiscoveyService mServiceDiscoveyService = null;
+    ServiceDiscoveryService mServiceDiscoveryService = null;
     AppInfra mAppInfra;
 
     @Override
@@ -27,26 +27,26 @@ public class ServiceDiscoveryServiceTest extends MockitoTestCase {
         assertNotNull(mAppInfra);
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mServiceDiscoveyService = new ServiceDiscoveyService();
+        mServiceDiscoveryService = new ServiceDiscoveryService();
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
-        assertNotNull(mServiceDiscoveyService);
+        assertNotNull(mServiceDiscoveryService);
     }
 
     public void testInit(){
-        mServiceDiscoveyService.init("TestLocal","TestConfig");
-        assertSame("TestLocal",mServiceDiscoveyService.locale);
-        assertSame("TestConfig",mServiceDiscoveyService.configUrl);
+        mServiceDiscoveryService.init("TestLocal","TestConfig");
+        assertSame("TestLocal", mServiceDiscoveryService.locale);
+        assertSame("TestConfig", mServiceDiscoveryService.configUrl);
     }
 
     public void testgetLocale(){
-        mServiceDiscoveyService.init("TestLocal","TestConfig");
-       assertNotNull(mServiceDiscoveyService.getLocale());
+        mServiceDiscoveryService.init("TestLocal","TestConfig");
+       assertNotNull(mServiceDiscoveryService.getLocale());
 
     }
     public void testgetConfigUrls(){
-        mServiceDiscoveyService.init("TestLocal","TestConfig");
-        assertNotNull(mServiceDiscoveyService.getConfigUrls());
+        mServiceDiscoveryService.init("TestLocal","TestConfig");
+        assertNotNull(mServiceDiscoveryService.getConfigUrls());
     }
 
 

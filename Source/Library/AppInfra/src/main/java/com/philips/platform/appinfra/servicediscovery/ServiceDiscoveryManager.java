@@ -19,7 +19,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -590,7 +590,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> replacement) {
         Map<String, String> urls = null;
         String modelLocale = null;
-        final HashMap<String, ServiceDiscoveyService> responseMap = new HashMap<>();
+        final HashMap<String, ServiceDiscoveryService> responseMap = new HashMap<>();
         for (int config = 0; config < configSize; config++) {
             if (urlByData.equalsIgnoreCase("urlbycountry")) {
                 modelLocale = service.getMatchByCountry().getLocale();
@@ -612,7 +612,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                 URL replacedUrl;
                                 try {
                                     replacedUrl = applyURLParameters(new URL(serviceUrlval), replacement);
-                                    ServiceDiscoveyService sdService = new ServiceDiscoveyService();
+                                    ServiceDiscoveryService sdService = new ServiceDiscoveryService();
                                     sdService.init(modelLocale, replacedUrl.toString());
                                     responseMap.put(key, sdService);
                                 } catch (MalformedURLException e) {
@@ -621,7 +621,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                             "Malformed URL");
                                 }
                             } else {
-                                ServiceDiscoveyService sdService = new ServiceDiscoveyService();
+                                ServiceDiscoveryService sdService = new ServiceDiscoveryService();
                                 sdService.init(modelLocale, serviceUrlval);
                                 responseMap.put(key, sdService);
                             }

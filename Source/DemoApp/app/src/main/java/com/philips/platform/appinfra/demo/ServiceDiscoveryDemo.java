@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveyService;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -271,7 +271,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
     @Override
     public void onSuccess(Map urlMap) {
-        ServiceDiscoveyService service = new ServiceDiscoveyService();
+        ServiceDiscoveryService service = new ServiceDiscoveryService();
 
         String key = null;
         String locale = null;
@@ -285,7 +285,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             Map.Entry pair = (Map.Entry) it.next();
             System.out.println(pair.getKey() + " = " + pair.getValue());
             key = pair.getKey().toString();
-            service = (ServiceDiscoveyService) pair.getValue();
+            service = (ServiceDiscoveryService) pair.getValue();
             locale = service.getLocale();
             configUrl = service.getConfigUrls();
 
