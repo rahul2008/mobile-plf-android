@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
@@ -135,7 +136,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
-        updateUiStatus();
+        updateUiStatus(false);
         handleOrientation(view);
         return view;
     }
@@ -441,7 +442,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
-    private void updateUiStatus() {
+    private void updateUiStatus(Boolean networkChange) {
         if (isEmailExist) {
             if (NetworkUtility.isNetworkAvailable(mContext)) {
                 mBtnContinue.setEnabled(true);
@@ -450,6 +451,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
+                if (!networkChange) {
+                    trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+                }
             }
         } else {
             if (NetworkUtility.isNetworkAvailable(mContext) && mEtEmail.isValidEmail() && mEtEmail.isShown()) {
@@ -462,6 +466,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
+                if (!networkChange) {
+                    trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+                }
             }
         }
     }
@@ -480,7 +487,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onEventReceived(String event) {
         RLog.i(RLog.EVENT_LISTENERS, "AlmostDoneFragment :onEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUiStatus();
+            updateUiStatus(false);
         }
     }
 
@@ -489,7 +496,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                updateUiStatus();
+                updateUiStatus(false);
             }
         });
     }
@@ -767,7 +774,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
         //handleUiState();
-        updateUiStatus();
+        updateUiStatus(true);
     }
 
     //called on click of back

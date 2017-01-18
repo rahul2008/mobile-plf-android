@@ -84,6 +84,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
     public static final String WECHAT = "wechat";
+    public static final int AUTHENTICATION_FAILED = -30;
     private Button mBtnCreateAccount;
     private XProviderButton mBtnMyPhilips;
     private TextView mTvWelcome;
@@ -276,7 +277,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         }
                         RLog.d("HomeFragment", "social providers : " + providers);
                     }
-                    handleUiState();
+                    handleUiState(false);
                 }
             });
         }
@@ -385,7 +386,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 .findViewById(R.id.ll_reg_social_provider_container);
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
-        handleUiState();
+        handleUiState(false);
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
@@ -627,7 +628,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void handleUiState() {
+    private void handleUiState(boolean networkChange) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegError.hideError();
             enableControls(true);
@@ -635,6 +636,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
             scrollViewAutomatically(mRegError, mSvRootLayout);
+            if (!networkChange){
+             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
+            }
         }
     }
 
@@ -879,7 +883,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
 
         //Temp fix need to be changed
-        if(userRegistrationFailureInfo.getErrorCode() == -30){
+        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             scrollViewAutomatically(mRegError,mSvRootLayout);
         }
@@ -986,7 +990,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (!isOnline) {
             hideProviderProgress();
         }
-        handleUiState();
+        handleUiState(true);
     }
 
     private void trackSocialProviderPage() {
