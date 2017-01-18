@@ -93,6 +93,14 @@
     <string name="hint_email">example@philips.com</string>
     <string name="with_label">With label</string>
     <string name="label_textboxes">Textboxes</string>
+
+    <!--Checkbox-->
+    <string name="page_title_checkbox">Check box</string>
+    <string name="checkbox_check_box">Check box</string>
+    <string name="checkbox_check_item_1">Check item 1</string>
+    <string name="checkbox_check_item_2">Check item 2</string>
+    <string name="checkbox_check_item_3">Check item 3</string>
+
     <string name="page_title_social_icon">Social icons</string>
 
     <string name="social_media_icons">Social media icons</string>
