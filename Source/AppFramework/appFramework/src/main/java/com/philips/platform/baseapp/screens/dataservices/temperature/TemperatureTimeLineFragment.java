@@ -149,7 +149,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 if (isFragmentAlive())
                     deleteUserDataIfNewUserLoggedIn();
                 Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment on start - before fetchData");
-                mTemperaturePresenter.fetchData(this);
+                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
 
                 //Reseting the sync Flags
                 mDataServicesManager.setPullComplete(true);
