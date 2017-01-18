@@ -27,23 +27,45 @@ public abstract class PrxRequest {
     private String mCtn;
     private String mServiceId;
 
-    PrxRequest(String ctn , String serviceId) {
+    /**
+     * @param ctn ctn of the product.
+     * @param serviceId PRX ServiceId.
+     */
+    PrxRequest(String ctn, String serviceId) {
         this.mCtn = ctn;
         this.mServiceId = serviceId;
     }
 
-    PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog){
+    /**
+     * @param ctn ctn of the product.
+     * @param serviceID PRX ServiceId.
+     * @param sector sector.
+     * @param catalog catalog.
+     */
+    PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
         this.mCtn = ctn;
         this.mServiceId = serviceID;
         this.mSector = sector;
         this.mCatalog = catalog;
     }
 
+    /**
+     * @return returns the ctn.
+     */
+    public String getCtn() {
+        return this.mCtn;
+    }
 
+    /**
+     * @return returns the sector.
+     */
     public Sector getSector() {
         return mSector;
     }
 
+    /**
+     * @param mSector
+     */
     public void setSector(final Sector mSector) {
         this.mSector = mSector;
     }
@@ -58,6 +80,12 @@ public abstract class PrxRequest {
 
     public abstract ResponseData getResponseData(JSONObject jsonObject);
 
+
+    /**
+     * Returns the base prx url from service discovery.
+     * @param appInfra appinfra instance.
+     * @param listener callback urlreceived
+     */
     public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
         Map<String, String> replaceUrl = new HashMap<>();
         replaceUrl.put("ctn", mCtn);
@@ -81,24 +109,42 @@ public abstract class PrxRequest {
     }
 
 
+    /**
+     * Interface which gives callback onUrlReceieved.
+     */
     public interface OnUrlReceived extends ServiceDiscoveryInterface.OnErrorListener {
         void onSuccess(String url);
-
     }
 
-
+    /**
+     * returns request type
+     * @return request type for ex . GET/POST/PUT.
+     */
     public int getRequestType() {
         return RequestType.GET.getValue();
     }
 
+    /**
+     *
+     * @return headers
+     */
     public Map<String, String> getHeaders() {
         return null;
     }
 
+    /**
+     *
+     * @return params
+     */
     public Map<String, String> getParams() {
         return null;
     }
 
+    /**
+     * Get Max num of retries.
+     *
+     * @return Max num of retries
+     */
     public int getMaxRetries() {
         return maxRetries;
     }
@@ -110,6 +156,11 @@ public abstract class PrxRequest {
         this.maxRetries = maxRetries;
     }
 
+    /**
+     * get request time out in milli seconds
+     *
+     * @return timeout.
+     */
     public int getRequestTimeOut() {
         return requestTimeOut;
     }
