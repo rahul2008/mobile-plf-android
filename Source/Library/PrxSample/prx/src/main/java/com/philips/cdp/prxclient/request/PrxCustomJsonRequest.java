@@ -22,7 +22,9 @@ public class PrxCustomJsonRequest extends Request<JSONObject> {
     private ErrorListener mErrorListener;
     private Map<String, String> params, headers;
 
-    public PrxCustomJsonRequest(final int method, final String url, final Map<String, String> params, final Map<String, String> headers, Listener<JSONObject> responseListener, final ErrorListener errorListener) {
+    public PrxCustomJsonRequest(final int method, final String url, final Map<String, String> params,
+                                final Map<String, String> headers, Listener<JSONObject> responseListener,
+                                final ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mErrorListener = errorListener;
         this.params = params;
@@ -56,7 +58,7 @@ public class PrxCustomJsonRequest extends Request<JSONObject> {
 
             JSONObject result = null;
 
-            if (jsonString != null && jsonString.length() > 0)
+            if (jsonString.length() > 0)
                 result = new JSONObject(jsonString);
 
             return Response.success(result,

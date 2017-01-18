@@ -1,49 +1,32 @@
 package com.philips.cdp.prxclient.request;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
-import java.util.Map;
-
 /**
  * Created by naveen@philips.com on 28-Mar-16.
  */
 public class ProductSupportRequest extends PrxRequest {
-    private String mCtn = null;
+
     private String mRequestTag = null;
-    private static final String PRX_SUPPORT_REQUEST_URL = "https://%s/product/%s/%s/%s/products/%s.support";
+    private static final String PRXFAQServiceID = "prxclient.support";
 
     public ProductSupportRequest(String ctn, String requestTag) {
-        this.mCtn = ctn;
+        super(ctn, PRXFAQServiceID);
+        this.mRequestTag = requestTag;
+    }
+
+    public ProductSupportRequest(String ctn, Sector sector, Catalog catalog, String requestTag) {
+        super(ctn, PRXFAQServiceID, sector, catalog);
         this.mRequestTag = requestTag;
     }
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-
         return new SupportModel().parseJsonResponseData(jsonObject);
-    }
-
-    @Override
-    public String getRequestUrl() {
-        return String.format(PRX_SUPPORT_REQUEST_URL, getServerInfo(),  getSector(), getLocaleMatchResult(),
-                getCatalog(), mCtn);
-    }
-
-    @Override
-    public int getRequestType() {
-        return 0;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> getParams() {
-        return null;
     }
 }

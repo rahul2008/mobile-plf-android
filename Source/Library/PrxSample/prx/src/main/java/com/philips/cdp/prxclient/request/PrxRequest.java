@@ -2,10 +2,15 @@ package com.philips.cdp.prxclient.request;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,22 +20,52 @@ import java.util.Map;
  */
 public abstract class PrxRequest {
 
-    private String mServerInfo = "www.philips.com/prx";
     private Sector mSector;
     private Catalog mCatalog;
-    private String mLocaleMatchResult;
     private int maxRetries = 0;
     private int requestTimeOut = 5000;
+    private String mCtn;
+    private String mServiceId;
 
-    public String getServerInfo() {
-        return mServerInfo;
+    /**
+     * @param ctn ctn of the product.
+     * @param serviceId PRX ServiceId.
+     */
+    PrxRequest(String ctn, String serviceId) {
+        this.mCtn = ctn;
+        this.mServiceId = serviceId;
     }
 
+    /**
+     * @param ctn ctn of the product.
+     * @param serviceID PRX ServiceId.
+     * @param sector sector.
+     * @param catalog catalog.
+     */
+    PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
+        this.mCtn = ctn;
+        this.mServiceId = serviceID;
+        this.mSector = sector;
+        this.mCatalog = catalog;
+    }
 
+    /**
+     * @return returns the ctn.
+     */
+    public String getCtn() {
+        return this.mCtn;
+    }
+
+    /**
+     * @return returns the sector.
+     */
     public Sector getSector() {
         return mSector;
     }
 
+    /**
+     * @param mSector
+     */
     public void setSector(final Sector mSector) {
         this.mSector = mSector;
     }
@@ -45,22 +80,71 @@ public abstract class PrxRequest {
 
     public abstract ResponseData getResponseData(JSONObject jsonObject);
 
-    public abstract String getRequestUrl();
 
-    public abstract int getRequestType();
+    /**
+     * Returns the base prx url from service discovery.
+     * @param appInfra appinfra instance.
+     * @param listener callback urlreceived
+     */
+    public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
+        Map<String, String> replaceUrl = new HashMap<>();
+        replaceUrl.put("ctn", mCtn);
+        replaceUrl.put("sector", getSector().toString());
+        replaceUrl.put("catalog", getCatalog().toString());
+        // replaceUrl.put("locale", locale);
+        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId,
+                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onSuccess(URL url) {
+                        PrxLogger.i("SUCCESS ***", "" + url);
+                        listener.onSuccess(url.toString());
+                    }
 
-    public abstract Map<String, String> getHeaders();
-
-    public abstract Map<String, String> getParams();
-
-    public String getLocaleMatchResult() {
-        return mLocaleMatchResult;
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        PrxLogger.i("ERRORVALUES ***", "" + message);
+                        listener.onError(error, message);
+                    }
+                }, replaceUrl);
     }
 
-    public void setLocaleMatchResult(String mLocaleMatchResult) {
-        this.mLocaleMatchResult = mLocaleMatchResult;
+
+    /**
+     * Interface which gives callback onUrlReceieved.
+     */
+    public interface OnUrlReceived extends ServiceDiscoveryInterface.OnErrorListener {
+        void onSuccess(String url);
     }
 
+    /**
+     * returns request type
+     * @return request type for ex . GET/POST/PUT.
+     */
+    public int getRequestType() {
+        return RequestType.GET.getValue();
+    }
+
+    /**
+     *
+     * @return headers
+     */
+    public Map<String, String> getHeaders() {
+        return null;
+    }
+
+    /**
+     *
+     * @return params
+     */
+    public Map<String, String> getParams() {
+        return null;
+    }
+
+    /**
+     * Get Max num of retries.
+     *
+     * @return Max num of retries
+     */
     public int getMaxRetries() {
         return maxRetries;
     }
@@ -72,6 +156,11 @@ public abstract class PrxRequest {
         this.maxRetries = maxRetries;
     }
 
+    /**
+     * get request time out in milli seconds
+     *
+     * @return timeout.
+     */
     public int getRequestTimeOut() {
         return requestTimeOut;
     }

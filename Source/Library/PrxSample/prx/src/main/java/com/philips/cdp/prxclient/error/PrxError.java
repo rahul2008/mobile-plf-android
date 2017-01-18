@@ -31,12 +31,13 @@ public class PrxError {
         AUTHENTICATION_FAILURE(401, "Authentication failure when performing a Request"),
         NETWORK_ERROR(511, "Network error when performing a request"),
         PARSE_ERROR(1, "Indicates that the server's response could not be parsed"),
+        INJECT_APPINFRA(3 , "You must inject AppInfra into PRX"),
         SERVER_ERROR(2, "Indicates that the error responded with an error response.");
 
         private final int id;
         private final String description;
 
-        PrxErrorType(final int id,final String description) {
+        PrxErrorType(final int id, final String description) {
             this.description = description;
             this.id = id;
         }
