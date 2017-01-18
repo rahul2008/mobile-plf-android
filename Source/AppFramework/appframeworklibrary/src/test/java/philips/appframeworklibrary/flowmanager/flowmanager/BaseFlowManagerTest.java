@@ -1,8 +1,12 @@
-package philips.appframeworklibrary.flowmanager.base;
+package philips.appframeworklibrary.flowmanager.flowmanager;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.test.InstrumentationTestCase;
+
+import junit.framework.TestCase;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,9 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import philips.appframeworklibrary.R;
-import philips.appframeworklibrary.flowmanager.flowmanager.AppConditions;
-import philips.appframeworklibrary.flowmanager.flowmanager.AppStates;
+import philips.appframeworklibrary.flowmanager.base.BaseCondition;
+import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
+import philips.appframeworklibrary.flowmanager.base.BaseState;
 import philips.appframeworklibrary.flowmanager.flowmanager.condition.ConditionAppLaunch;
 import philips.appframeworklibrary.flowmanager.flowmanager.condition.ConditionIsDonePressed;
 import philips.appframeworklibrary.flowmanager.flowmanager.condition.ConditionIsLoggedIn;
@@ -28,29 +32,29 @@ import philips.appframeworklibrary.flowmanager.states.UserRegistrationOnBoarding
 import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("deprecation")
-public class BaseFlowManagerTest extends InstrumentationTestCase {
+public class BaseFlowManagerTest extends TestCase{
 
     private FlowManagerTest flowManagerTest;
     private Context context;
 
-    @Override
+    @Before
     protected void setUp() throws Exception {
         super.setUp();
         AppFlowJsonListener appFlowJsonListenerMock = mock(AppFlowJsonListener.class);
-        context = getInstrumentation().getContext();
-        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
-        flowManagerTest = new FlowManagerTest(context, createFileFromInputStream(resId).getPath(), appFlowJsonListenerMock);
+        context = mock(Context.class);
+        flowManagerTest = new FlowManagerTest(createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("assets/Appflow.json")).getPath());
     }
 
+    @Test
     public void testGetFirstState() {
         final BaseState firstState = flowManagerTest.getFirstState();
         assertTrue(firstState != null);
     }
 
-    private File createFileFromInputStream(final int resId) {
+    private File createFileFromInputStream(final InputStream inputStream) {
 
         try {
-            InputStream inputStream = getInputStream(resId);
+
             String filename = "tempFile";
             FileOutputStream outputStream;
             final File file = File.createTempFile(filename, null, context.getCacheDir());
@@ -86,8 +90,8 @@ public class BaseFlowManagerTest extends InstrumentationTestCase {
 
     private class FlowManagerTest extends BaseFlowManager {
 
-        FlowManagerTest(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
-            super(context, jsonPath, appFlowJsonListener);
+        FlowManagerTest(final String jsonPath) {
+            super(jsonPath);
         }
 
         @Override
