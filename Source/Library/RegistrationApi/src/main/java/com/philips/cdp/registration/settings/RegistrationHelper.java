@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.settings;
 
 import android.content.Context;
+import android.os.LocaleList;
 
 import com.philips.cdp.localematch.BuildConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -232,7 +233,11 @@ public class RegistrationHelper {
         String locale = (new PILLocaleManager(context)).getInputLocale();
         RLog.i("Locale", "Locale from LOcale match" + locale);
         if (locale == null) {
-            return Locale.getDefault();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                return LocaleList.getDefault().get(0);
+            }else{
+                return Locale.getDefault();
+            }
         }
         return new Locale(locale);
     }
