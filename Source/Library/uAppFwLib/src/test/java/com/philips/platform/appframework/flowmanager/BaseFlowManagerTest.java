@@ -1,40 +1,11 @@
 package com.philips.platform.appframework.flowmanager;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
-
-import com.philips.platform.appframework.flowmanager.base.BaseCondition;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.condition.ConditionAppLaunch;
-import com.philips.platform.appframework.flowmanager.condition.ConditionIsDonePressed;
-import com.philips.platform.appframework.flowmanager.condition.ConditionIsLoggedIn;
-import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
-import com.philips.platform.appframework.flowmanager.states.AboutScreenState;
-import com.philips.platform.appframework.flowmanager.states.DataServicesState;
-import com.philips.platform.appframework.flowmanager.states.IAPRetailerFlowState;
-import com.philips.platform.appframework.flowmanager.states.ProductRegistrationState;
-import com.philips.platform.appframework.flowmanager.states.SettingsFragmentState;
-import com.philips.platform.appframework.flowmanager.states.SupportFragmentState;
-import com.philips.platform.appframework.flowmanager.states.UserRegistrationOnBoardingState;
-
 import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-
-import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("deprecation")
 public class BaseFlowManagerTest extends TestCase {
 
-    private FlowManagerTest flowManagerTest;
+    /*private FlowManagerTest flowManagerTest;
     private Context context;
 
     @Before
@@ -111,5 +82,5 @@ public class BaseFlowManagerTest extends TestCase {
             baseConditionMap.put(AppConditions.IS_DONE_PRESSED, new ConditionIsDonePressed());
             baseConditionMap.put(AppConditions.CONDITION_APP_LAUNCH, new ConditionAppLaunch());
         }
-    }
+    }*/
 }
