@@ -5,6 +5,11 @@
  */
 package com.philips.platform.appinfra.securestorage;
 
+
+import android.inputmethodservice.Keyboard;
+
+import java.security.Key;
+
 /**
  * The interface Secure storage interface.
  */
@@ -37,6 +42,39 @@ public interface SecureStorageInterface {
      * @return denote delete operation success or failure
      */
     public boolean removeValueForKey(String userKey);
+
+
+
+    enum KeyTypes {AES};
+
+    /**
+     * Store value for Create Key  .
+     *
+     * @param keyType the  keytype of encrypt
+     * @param keyName            the name of key
+     * @param error the secure storage error
+     * @return denote store operation success or failure
+     */
+    public boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error);
+
+    /**
+     * Retrieve value for Create Key .
+     *
+     * @param keyName the user key to access the password
+     * @param error the secure storage error code if any
+     * @return the string, decrypted value
+     */
+    public Key getKey(String keyName, SecureStorageError error) ;
+
+    /**
+     * Remove value for passWord .
+     *
+     * @param keyName the user key to access the password
+     * @return denote delete operation success or failure
+     */
+    public boolean clearKey(String keyName, SecureStorageError error) ;
+
+
 
     /**
      * encrypt Data .
