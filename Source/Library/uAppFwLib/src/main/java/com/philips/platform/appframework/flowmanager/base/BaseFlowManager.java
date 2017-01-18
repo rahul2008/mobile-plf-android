@@ -49,10 +49,6 @@ public abstract class BaseFlowManager {
         populateConditionMap(conditionMap);
     }
 
-    public BaseFlowManager() {
-
-    }
-
     public void initFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         this.context = context;
         mapAppFlowStates(jsonPath, appFlowJsonListener);
