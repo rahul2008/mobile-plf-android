@@ -15,14 +15,13 @@ import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
-
-import philips.appframeworklibrary.flowmanager.base.BaseState;
 
 /**
  * This class contains all initialization & Launching details of IAP
@@ -33,14 +32,14 @@ public abstract class IAPState extends BaseState {
      IAP flow constants, values for IAP views should start from 4000 series
      */
     public static final int IAP_CATALOG_VIEW = 4001;
+    protected int launchType;
+    protected ArrayList<String> ctnList = null;
     // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
     // public static final int IAP_SHOPPING_CART_VIEW = 4003;
     private Context activityContext;
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
-    protected int launchType;
-    protected ArrayList<String> ctnList = null;
 
     public IAPState() {
         super(AppStates.IAP);

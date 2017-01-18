@@ -20,6 +20,8 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -28,9 +30,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import philips.appframeworklibrary.flowmanager.base.BaseState;
-import philips.appframeworklibrary.flowmanager.base.UIStateData;
 
 /**
  * This class contains all initialization & Launching details of Product Registration
@@ -41,6 +40,10 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
     private ArrayList<String> ctnList = null;
+
+    public ProductRegistrationState() {
+        super(AppStates.PR);
+    }
 
     public ArrayList<String> getCtnList() {
         return ctnList;
@@ -59,10 +62,6 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
         return products;
-    }
-
-    public ProductRegistrationState(){
-        super(AppStates.PR);
     }
 
     /**

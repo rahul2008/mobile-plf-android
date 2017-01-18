@@ -8,11 +8,9 @@ package com.philips.platform.baseapp.condition;
 import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppConditions;
+import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-
-import philips.appframeworklibrary.flowmanager.base.BaseCondition;
-import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
-
 
 public class ConditionAppLaunch extends BaseCondition {
 

@@ -1,4 +1,0 @@
-<resources>
-    <string name="app_name">appFrameworkLibrary</string>
-    <string name="com_philips_app_fmwk_app_flow_url">json/Appflow.json</string>
-</resources>

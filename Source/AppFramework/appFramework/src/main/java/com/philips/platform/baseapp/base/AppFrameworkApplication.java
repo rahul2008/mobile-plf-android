@@ -10,7 +10,9 @@ import android.support.multidex.MultiDex;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -20,17 +22,16 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.Locale;
 
-import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
-import philips.appframeworklibrary.flowmanager.listeners.AppFlowJsonListener;
 
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application implements AppFlowJsonListener {
+public class AppFrameworkApplication extends Application {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
@@ -51,9 +52,12 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
             }
             LeakCanary.install(this);
         }
+        new BaseAppUtil().createDirIfNotExists();
+        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
+        FileUtility fileUtility = new FileUtility(this);
+        fileUtility.createFileFromInputStream(resId);
         MultiDex.install(this);
         super.onCreate();
-        targetFlowManager = new FlowManager();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
         loggingInterface.enableConsoleLog(true);
@@ -93,8 +97,7 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
         return targetFlowManager;
     }
 
-    @Override
-    public void onParseSuccess() {
-
+    public void setTargetFlowManager(final FlowManager targetFlowManager) {
+        this.targetFlowManager = targetFlowManager;
     }
 }

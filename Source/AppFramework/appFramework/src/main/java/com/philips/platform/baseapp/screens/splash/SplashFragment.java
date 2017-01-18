@@ -21,11 +21,12 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -58,11 +59,10 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
     }
 
     private void initializeFlowManager() {
-        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
-        FileUtility fileUtility = new FileUtility(getFragmentActivity());
         circularProgressbar = (CircularProgressbar) getFragmentActivity().findViewById(R.id.splash_progress_bar);
         circularProgressbar.setVisibility(View.VISIBLE);
-        getApplicationContext().getTargetFlowManager().initFlowManager(getFragmentActivity().getApplicationContext(),fileUtility.createFileFromInputStream(resId).getPath(),this);
+        FlowManager flowManager = new FlowManager(getFragmentActivity().getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
+        getApplicationContext().setTargetFlowManager(flowManager);
     }
 
     @Override
