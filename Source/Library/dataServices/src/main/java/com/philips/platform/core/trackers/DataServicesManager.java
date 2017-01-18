@@ -9,7 +9,6 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
@@ -40,6 +39,7 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
@@ -69,7 +69,13 @@ public class DataServicesManager {
 
     private volatile boolean isPushComplete = true;
 
-    private DBRequestListener dbChangeListener;
+    private DBRequestListener dbRequestListener;
+
+    private DBChangeListener dbChangeListener;
+
+    public DBChangeListener getDbChangeListener() {
+        return dbChangeListener;
+    }
 
     @Inject
     Eventing mEventing;
@@ -358,14 +364,12 @@ public class DataServicesManager {
         isPushComplete = pushComplete;
     }
 
-    public void registeredDBRequestListener(DBRequestListener dbRequestListener){
-    this.dbChangeListener =dbRequestListener;
-    }
-    public void unRegisteredDBRequestListener(){
-        this.dbChangeListener =null;
+
+    public void registerDBChangeListener(DBChangeListener dbChangeListener){
+        this.dbChangeListener=dbChangeListener;
     }
 
-    public DBRequestListener getDbChangeListener() {
-        return dbChangeListener;
+    public void unRegisterDBChangeListener(){
+        this.dbChangeListener=null;
     }
 }

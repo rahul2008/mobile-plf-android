@@ -14,6 +14,7 @@ import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.datatypes.UserProfile;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
@@ -64,9 +65,9 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
         }
     };
 
-    public void clearUserData() {
+    public void clearUserData(DBRequestListener dbRequestListener) {
         DataServicesManager manager = DataServicesManager.getInstance();
-        manager.deleteAll(DataServicesManager.getInstance().getDbChangeListener());
+        manager.deleteAll(dbRequestListener);
         clearPreferences();
         email =  null;
         accessToken = "";

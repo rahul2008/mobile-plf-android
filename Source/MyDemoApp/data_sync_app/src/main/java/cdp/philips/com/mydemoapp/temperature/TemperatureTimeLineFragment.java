@@ -23,6 +23,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -44,7 +45,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener {
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener,DBChangeListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -72,7 +73,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mDataServicesManager.registeredDBRequestListener(this);
+        mDataServicesManager.registerDBChangeListener(this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
@@ -124,7 +125,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
 
         if(!isSameEmail()){
-            userRegistrationInterface.clearUserData();
+            userRegistrationInterface.clearUserData(this);
         }
         storeLastEmail();
     }
@@ -138,7 +139,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
-        DataServicesManager.getInstance().unRegisteredDBRequestListener();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
         cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
@@ -276,5 +277,15 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         ssInterface.storeValueForKey("last_email",mUser.getEmail(), ssError);
+    }
+
+    @Override
+    public void dBChangeSuccess() {
+
+    }
+
+    @Override
+    public void dBChangeFailed(Exception e) {
+
     }
 }

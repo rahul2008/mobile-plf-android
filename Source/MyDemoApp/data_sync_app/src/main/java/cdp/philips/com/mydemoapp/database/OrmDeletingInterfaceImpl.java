@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
+import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -29,14 +30,14 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @NonNull
     private final OrmSaving ormSaving;
 
-    TemperatureMomentHelper mTemperatureMomentHelper;
+    NotifyDBRequestListener notifyDBRequestListener;
 
     @Inject
     public OrmDeletingInterfaceImpl(@NonNull final OrmDeleting ormDeleting,
                                     final OrmSaving ormSaving) {
         this.ormDeleting = ormDeleting;
         this.ormSaving = ormSaving;
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
+        notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
     @Override
@@ -73,7 +74,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     @Override
     public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
-        mTemperatureMomentHelper.notifyFailure(e,dbRequestListener);
+        notifyDBRequestListener.notifyFailure(e,dbRequestListener);
     }
 
     private boolean isMomentSyncedToBackend(final Moment moment) {
@@ -88,7 +89,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         try {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
-            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e,"type check failed!");
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e,"type check failed!");
             if (e.getMessage() != null) {
                 DSLog.i("***SPO***", "Exception = " + e.getMessage());
             }

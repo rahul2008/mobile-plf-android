@@ -20,6 +20,7 @@ import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
+import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
@@ -28,14 +29,14 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     private final OrmUpdating updating;
     private OrmFetchingInterfaceImpl fetching;
     private OrmDeleting deleting;
-    private TemperatureMomentHelper mTemperatureMomentHelper;
+    private NotifyDBRequestListener notifyDBRequestListener;
 
     public ORMSavingInterfaceImpl(OrmSaving saving, OrmUpdating updating, final OrmFetchingInterfaceImpl fetching, final OrmDeleting deleting, final BaseAppDateTime baseAppDateTime) {
         this.saving = saving;
         this.updating = updating;
         this.fetching = fetching;
         this.deleting = deleting;
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
+        notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
     @Override
@@ -45,11 +46,11 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
-            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormMoment);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed!!");
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed!!");
             return false;
         }
     }
@@ -60,11 +61,11 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             updateConsentAndSetIdIfConsentExists(ormConsent);
-            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsent);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            mTemperatureMomentHelper.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
             return false;
         }
 
@@ -72,7 +73,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
-        mTemperatureMomentHelper.notifyFailure(e,dbRequestListener);
+        notifyDBRequestListener.notifyFailure(e,dbRequestListener);
     }
 
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {

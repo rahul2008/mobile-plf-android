@@ -51,7 +51,7 @@ public class DataPullSynchronise {
     @NonNull
     MomentsDataFetcher mMomentsDataFetcher;
 
-    DBRequestListener mDbRequestListener;
+
 
     @NonNull
     private final Executor executor;
@@ -73,7 +73,6 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        mDbRequestListener = mDataServicesManager.getDbChangeListener();
         mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
@@ -113,7 +112,7 @@ public class DataPullSynchronise {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.post(new GetNonSynchronizedMomentsRequest(mDbRequestListener));
+            eventing.post(new GetNonSynchronizedMomentsRequest(null));
         }
     }
 
@@ -161,7 +160,7 @@ public class DataPullSynchronise {
 
     private void postOk(final int referenceId) {
         DSLog.i("**SPO**","In Data Pull Synchronize postOK");
-        eventing.post(new ReadDataFromBackendResponse(referenceId, mDbRequestListener));
+        eventing.post(new ReadDataFromBackendResponse(referenceId, null));
     }
 
     private void initFetch() {

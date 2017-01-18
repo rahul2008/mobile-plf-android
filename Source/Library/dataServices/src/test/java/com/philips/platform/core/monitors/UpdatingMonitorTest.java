@@ -143,14 +143,14 @@ public class UpdatingMonitorTest {
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new BackendMomentListSaveRequest(Arrays.asList(moment1)));
+        updatingMonitor.onEventBackgroundThread(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
         verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1));
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbRequestListener));
+        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbRequestListener, dbChangeListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
          verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
     }

@@ -1,8 +1,6 @@
 package com.philips.platform.core.monitors;
 
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -17,6 +15,7 @@ import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.NotifyDBChangeListener;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import java.sql.SQLException;
@@ -38,7 +37,7 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBFetchingInterface dbFetchingInterface;
 
-    DBRequestListener mDbRequestListener;
+    NotifyDBChangeListener notifyDBChangeListener;
 
     @Inject
     MomentsSegregator momentsSegregator;
@@ -49,7 +48,7 @@ public class UpdatingMonitor extends EventMonitor {
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
         DataServicesManager.mAppComponent.injectUpdatingMonitor(this);
-        this.mDbRequestListener = DataServicesManager.getInstance().getDbChangeListener();
+        notifyDBChangeListener=new NotifyDBChangeListener();
     }
 
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
@@ -88,11 +87,9 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        int count = momentsSegregator.processMomentsReceivedFromBackend(moments);
+        int count = momentsSegregator.processMomentsReceivedFromBackend(moments,null);
         if(count == moments.size()){
-            if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-                DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
-            }
+            notifyDBChangeListener.notifyDBChangeSuccess(momentSaveRequest.getDbChangeListener());
         }
     }
 
@@ -101,17 +98,17 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processCreatedMoment(moments,momentSaveRequest.getDbRequestListener());
-        if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-            DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
-        }
+        momentsSegregator.processCreatedMoment(moments,null);
+       /* if(DataServicesManager.getInstance().getDbRequestListener()!=null){
+            DataServicesManager.getInstance().getDbRequestListener().onSuccess(moments);
+        }*/
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         try {
-            dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), mDbRequestListener);
+            dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), null);
         }catch (SQLException e){
-            dbUpdatingInterface.updateFailed(e, mDbRequestListener);
+            dbUpdatingInterface.updateFailed(e, null);
         }
     }
 }

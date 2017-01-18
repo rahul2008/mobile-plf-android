@@ -16,7 +16,6 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
@@ -49,7 +48,6 @@ public class MomentsDataSender implements DataSender<Moment> {
     @Inject
     UCoreAdapter uCoreAdapter;
 
-    DBRequestListener mDbRequestListener;
 
     @NonNull
     private final MomentsConverter momentsConverter;
@@ -77,7 +75,6 @@ public class MomentsDataSender implements DataSender<Moment> {
             @NonNull final MomentGsonConverter momentGsonConverter) {
 
         DataServicesManager.getInstance().mAppComponent.injectMomentsDataSender(this);
-        this.mDbRequestListener = DataServicesManager.getInstance().getDbChangeListener();
         this.momentsConverter = momentsConverter;
         this.momentGsonConverter = momentGsonConverter;
     }
@@ -250,15 +247,15 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private void postCreatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList, mDbRequestListener));
+        eventing.post(new MomentDataSenderCreatedRequest(momentList, null));
     }
 
     private void postUpdatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList, mDbRequestListener));
+        eventing.post(new MomentDataSenderCreatedRequest(momentList, null));
     }
 
     private void postDeletedOk(final Moment moment) {
-        eventing.post(new MomentBackendDeleteResponse(moment, mDbRequestListener));
+        eventing.post(new MomentBackendDeleteResponse(moment, null));
     }
 
     @Override

@@ -26,6 +26,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
+import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -40,7 +41,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     @NonNull
     private Dao<OrmMoment, Integer> momentDao;
 
-    TemperatureMomentHelper mTemperatureMomentHelper;
+    NotifyDBRequestListener notifyDBRequestListener;
 
     @NonNull
     private Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
@@ -55,7 +56,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         this.consentDao = consentDao;
         this.consentDetailsDao = consentDetailsDao;
 
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
+        notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
     @Override
@@ -69,9 +70,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmConsent, Integer> queryBuilder = consentDao.queryBuilder();
         ArrayList<OrmConsent> ormConsents = (ArrayList<OrmConsent>) consentDao.query(queryBuilder.prepare());
         if (ormConsents.size() != 0) {
-            mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormConsents);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsents);
         } else {
-            mTemperatureMomentHelper.notifySuccess(dbRequestListener);
+            notifyDBRequestListener.notifySuccess(dbRequestListener);
         }
     }
 
@@ -88,7 +89,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public void postError(Exception e, DBRequestListener dbRequestListener) {
-        mTemperatureMomentHelper.notifyFailure(e, dbRequestListener);
+        notifyDBRequestListener.notifyFailure(e, dbRequestListener);
     }
 
     @Override
@@ -127,7 +128,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         ArrayList<OrmMoment> moments = new ArrayList<>();
         moments.add(ormMoments);
 
-        mTemperatureMomentHelper.notifySuccess(dbRequestListener,ormMoments);
+        notifyDBRequestListener.notifySuccess(dbRequestListener,ormMoments);
     }
 
     @Override
@@ -175,7 +176,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
             }
         }
         DSLog.i("***SPO***","In getActiveMoments - OrmFetchingInterfaceImpl and ormMoments = " + ormMoments);
-        mTemperatureMomentHelper.notifySuccess((ArrayList<? extends Object>)activeOrmMoments, dbRequestListener);
+        notifyDBRequestListener.notifySuccess((ArrayList<? extends Object>)activeOrmMoments, dbRequestListener);
     }
 
     @Override
