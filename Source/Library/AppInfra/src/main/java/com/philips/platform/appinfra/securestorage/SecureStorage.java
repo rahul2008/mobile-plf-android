@@ -190,14 +190,11 @@ public class SecureStorage implements SecureStorageInterface {
                 error.setErrorCode(SecureStorageError.secureStorageError.StoreError);
             }
             keyString = returnResult ? keyString : null; // if save of encryption data fails return null
-            boolean isDebuggable = (0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-            if (isDebuggable) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "Encrypted Data Key", keyString);
-            }
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "SqlCipher Data Key", keyString);
         } catch (Exception e) {
             error.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
             returnResult = false;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage Create Key ", e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage  SqlCipher Data Key ", e.getMessage());
             //Log.e("SecureStorage", Log.getStackTraceString(e));
         } finally {
             return returnResult;
@@ -225,7 +222,7 @@ public class SecureStorage implements SecureStorageInterface {
             decryptedKey = (Key) new SecretKeySpec(originalKey.getEncoded(), "AES");
 
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage SqlCipher Data Key", e.getMessage());
             error.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
             if (null != decryptedKey) {  // if exception is thrown at:  decryptedString = new String(decText);
                 decryptedKey = null;

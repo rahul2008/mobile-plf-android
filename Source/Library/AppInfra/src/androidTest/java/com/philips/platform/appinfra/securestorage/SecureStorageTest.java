@@ -7,10 +7,13 @@ package com.philips.platform.appinfra.securestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 
+import java.security.Key;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
@@ -95,7 +98,10 @@ public class SecureStorageTest extends MockitoTestCase {
 
     public void testGetKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-
+        assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
+        Key key =mSecureStorage.getKey("KeyName", sse);
+        String keyString = Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
+        Log.v("SqlCipher Data Key" , keyString );
     }
 
     public void testClearKey() {
