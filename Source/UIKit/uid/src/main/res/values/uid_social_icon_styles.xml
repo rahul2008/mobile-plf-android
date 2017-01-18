@@ -15,14 +15,17 @@
         <item name="uidButtonBackgroundColorList">
             @color/uid_social_icon_primary_button_background_selector
         </item>
-        <item name="uidButtonTextColorList">@color/uid_social_icon_primary_button_text_selector
+        <item name="uidButtonDrawableColorList">
+            @color/uid_social_icon_primary_button_text_selector
         </item>
     </style>
 
     <style name="UIDSocialIconWhite" parent="UIDSocialIconPrimary">
-        <item name="uidButtonTextColorList">@color/uid_social_icon_white_button_text_selector</item>
         <item name="uidButtonBackgroundColorList">
             @color/uid_social_icon_white_button_background_selector
+        </item>
+        <item name="uidButtonDrawableColorList">
+            @color/uid_social_icon_white_button_text_selector
         </item>
     </style>
 
