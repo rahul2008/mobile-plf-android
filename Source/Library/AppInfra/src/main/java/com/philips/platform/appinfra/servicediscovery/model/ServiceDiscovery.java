@@ -169,10 +169,18 @@ public class ServiceDiscovery {
                 resultsJSONArray = new JSONArray();
                 resultsJSONArray.put(jsonObject.optJSONObject("results"));
             }
-            JSONArray configCountryJSONArray;
+            JSONArray configCountryJSONArray = null;
             String resConfig = getActualResultsForLocaleList(matchByCountry, resultsJSONArray);
+
             if (resConfig != null) {
                 configCountryJSONArray = new JSONArray(resConfig);
+            } else {
+                if (resultsJSONArray.length() > 0) {
+                    matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale")); // return first locale if nothing matches
+                    configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+                }
+            }
+            if (configCountryJSONArray != null) {
                 for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
                     MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
                     config.parseConfigArray(configCountryJSONArray.optJSONObject(configCount));
@@ -184,6 +192,7 @@ public class ServiceDiscovery {
                 setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
                         "ServiceDiscovery cannot find the locale");
             }
+
         } catch (JSONException e) {
             setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "Parse Error");
         }
@@ -194,16 +203,19 @@ public class ServiceDiscovery {
         try {
             ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(new RequestManager(mContext, mAppInfra)
                     .getLocaleList().split(",")));
-            for (int i = 0; i < deviceLocaleList.size(); i++) {
-                for (int j = 0; j < resultsJSONArray.length(); j++) {
-                    String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
-                    String deviceLocale = deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
-                    if (deviceLocale.equals(resLocale)) {
-                        matchByCountry.setLocale(resLocale);
-                        return resultsJSONArray.getJSONObject(j).optString("configs");
-                    } else if (deviceLocale.substring(0, 2).equals(resLocale.substring(0, 2))) { // comparing the language part of the locale
-                        matchByCountry.setLocale(resLocale);
-                        return resultsJSONArray.getJSONObject(0).optString("configs");
+
+            if (resultsJSONArray != null && resultsJSONArray.length() > 0) {
+                for (int i = 0; i < deviceLocaleList.size(); i++) {
+                    for (int j = 0; j < resultsJSONArray.length(); j++) {
+                        String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
+                        String deviceLocale = deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
+                        if (deviceLocale.equals(resLocale)) {
+                            matchByCountry.setLocale(resLocale);
+                            return resultsJSONArray.getJSONObject(j).optString("configs");
+                        } else if (deviceLocale.substring(0, 2).equals(resLocale.substring(0, 2))) { // comparing the language part of the locale
+                            matchByCountry.setLocale(resLocale);
+                            return resultsJSONArray.getJSONObject(0).optString("configs");
+                        }
                     }
                 }
             }
