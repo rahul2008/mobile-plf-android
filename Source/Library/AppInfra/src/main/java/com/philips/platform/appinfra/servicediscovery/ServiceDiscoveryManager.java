@@ -87,7 +87,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         ServiceDiscovery service;
                         ArrayList<DownloadItemListener> stalledAwaiters = new ArrayList<DownloadItemListener>();
                         do {
-                            if (forceRefresh == true)
+                            if (forceRefresh)
                                 downloadLock.unlock();
                             forceRefresh = false;
                             service = downloadServices();
@@ -120,7 +120,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else {
                 ServiceDiscovery ServiceDiscoveryError = new ServiceDiscovery();
                 ServiceDiscoveryError.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
-                ServiceDiscoveryError.setSuccess(false);
+                //ServiceDiscoveryError.setSuccess(false);
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Server is not reachable at the moment,Please try after some time");
                 listener.onDownloadDone(ServiceDiscoveryError);
             }
