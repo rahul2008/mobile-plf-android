@@ -2,7 +2,6 @@ package com.philips.cdp.registration.settings;
 
 import android.util.Log;
 
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -12,6 +11,8 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -204,7 +205,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIdList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> resultMap) {
-
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
                 if (serviceDiscoveyService != null) {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
