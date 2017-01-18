@@ -222,9 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_left_right"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp">
+                android:orientation="horizontal">
 
                 <com.philips.platform.uid.view.widget.ImageButton
                     android:id="@+id/imageShare"
@@ -251,7 +249,8 @@
 
             <TextView
                 style="@style/ButtonsCategoryStyle"
-                android:text="@string/social_media_icons"/>
+                android:text="@string/social_media_icons"
+                android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}"/>
 
             <LinearLayout
                 android:id="@+id/socialMediaIcons"
@@ -259,7 +258,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_left_right"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}">
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/uid_social_facebook"
