@@ -629,7 +629,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void handleUiState(boolean networkChange) {
+    private void handleUiState(boolean isNetwork) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegError.hideError();
             enableControls(true);
@@ -637,7 +637,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
             scrollViewAutomatically(mRegError, mSvRootLayout);
-            if (!networkChange){
+            if (!isNetwork){
              trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             }
         }

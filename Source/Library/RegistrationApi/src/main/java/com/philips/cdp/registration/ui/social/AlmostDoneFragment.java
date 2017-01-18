@@ -23,8 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
@@ -444,7 +442,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
-    private void updateUiStatus(Boolean networkChange) {
+    private void updateUiStatus(Boolean isNetwork) {
         if (isEmailExist) {
             if (NetworkUtility.isNetworkAvailable(mContext)) {
                 mBtnContinue.setEnabled(true);
@@ -453,7 +451,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                if (!networkChange) {
+                if (!isNetwork) {
                     trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 }
             }
@@ -468,7 +466,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                if (!networkChange) {
+                if (!isNetwork) {
                     trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 }
             }
