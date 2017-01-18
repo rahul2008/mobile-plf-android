@@ -55,6 +55,8 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener, XCheckBox.OnCheckedChangeListener {
 
+    private static final int FAILURE_TO_CONNECT = -1;
+
     private LinearLayout mLlCreateAccountFields;
 
     private LinearLayout mLlCreateAccountContainer;
@@ -558,7 +560,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
-        if(userRegistrationFailureInfo.getErrorCode() == -1 ){
+        if(userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT){
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());

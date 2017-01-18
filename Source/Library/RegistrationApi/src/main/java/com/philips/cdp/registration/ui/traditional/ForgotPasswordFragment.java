@@ -47,6 +47,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, NetworStateListener, View.OnClickListener, ForgotPasswordHandler {
 
+    private static final int FAILURE_TO_CONNECT = -1;
+
     private LinearLayout mLlEmailField;
 
     private RelativeLayout mRlContinueBtnContainer;
@@ -323,7 +325,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     private void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
-        if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE){
+        if(userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE){
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;

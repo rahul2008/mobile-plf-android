@@ -84,7 +84,8 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
     public static final String WECHAT = "wechat";
-    public static final int AUTHENTICATION_FAILED = -30;
+    private static final int AUTHENTICATION_FAILED = -30;
+    private static final int LOGIN_FAILURE = -1;
     private Button mBtnCreateAccount;
     private XProviderButton mBtnMyPhilips;
     private TextView mTvWelcome;
@@ -878,7 +879,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!=-1) {
+        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!= LOGIN_FAILURE) {
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }
 

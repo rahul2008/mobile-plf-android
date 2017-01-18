@@ -63,6 +63,8 @@ import java.util.Map;
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
 
+    private static final int LOGIN_FAILURE = -1;
+
     private TextView mTvSignInWith;
 
     private LinearLayout mLlAlmostDoneContainer;
@@ -634,7 +636,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
         }
-        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!=-1) {
+        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!= LOGIN_FAILURE) {
             trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         }
     }
