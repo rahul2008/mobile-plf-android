@@ -5,10 +5,9 @@
 */
 package com.philips.platform.appframework.flowmanager.exceptions;
 
-public class NoConditionFoundException extends RuntimeException {
+public class JsonStructureException extends RuntimeException {
 
-
-    public NoConditionFoundException() {
-        super("No Condition Found");
+    public JsonStructureException() {
+        super("Error in Json Structure");
     }
 }

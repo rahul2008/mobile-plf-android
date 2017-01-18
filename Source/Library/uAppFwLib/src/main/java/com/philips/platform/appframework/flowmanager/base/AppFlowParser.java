@@ -1,0 +1,107 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+package com.philips.platform.appframework.flowmanager.base;
+
+import android.support.annotation.NonNull;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;
+import com.philips.platform.appframework.flowmanager.models.AppFlow;
+import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
+import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
+import com.philips.platform.appframework.flowmanager.models.AppFlowState;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class AppFlowParser {
+
+    /**
+     * This method will return the object of AppFlow class or 'null'.
+     * It request 'getJsonFromURL' to download the AppFlow json by sending the server URL.
+     * it also send the path of prepackaged AppFlow Json file to handle the offline/error scenarios.
+     * <p>
+     * or {@link android.app.Activity} object.
+     *
+     * @return Object to 'AppFlowModel' class or 'null'
+     */
+    // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
+    AppFlowModel getAppFlow(String jsonPath) throws JsonFileNotFoundException, JsonStructureException {
+        AppFlowModel appFlow;
+        if (isEmpty(jsonPath)) {
+            throw new JsonFileNotFoundException();
+        } else {
+            try {
+                final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
+                appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+            } catch (JsonSyntaxException | FileNotFoundException e) {
+                if (e instanceof JsonSyntaxException) {
+                    throw new JsonStructureException();
+                } else {
+                    throw new JsonFileNotFoundException();
+                }
+            }
+        }
+        return appFlow;
+    }
+
+    AppFlowModel getAppFlowTestCase(String data) throws JsonStructureException {
+        AppFlowModel appFlow;
+        try {
+            final InputStreamReader inputStreamReader = getInputStreamForString(data);
+            appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+        } catch (JsonSyntaxException e) {
+            throw new JsonStructureException();
+        }
+        return appFlow;
+    }
+
+    @NonNull
+    private InputStreamReader getInputStreamReader(final String jsonPath) throws FileNotFoundException {
+        InputStream is = getFileInputStream(jsonPath);
+        return new InputStreamReader(is);
+    }
+
+    protected InputStreamReader getInputStreamForString(final String data) {
+        InputStream stream = new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8));
+        return new InputStreamReader(stream);
+    }
+
+    @NonNull
+    InputStream getFileInputStream(final String jsonPath) throws FileNotFoundException {
+        return new FileInputStream(jsonPath);
+    }
+
+    boolean isEmpty(final String jsonPath) {
+        return jsonPath == null || jsonPath.length() == 0;
+    }
+
+    /**
+     * This method will return a Map of state to array of next states.
+     *
+     * @param appFlow Object to AppFlow class which defines the app flow.
+     * @return Map of state to array of next states.
+     */
+    Map<String, List<AppFlowEvent>> getAppFlowMap(AppFlow appFlow) {
+        HashMap<String, List<AppFlowEvent>> appFlowMap = null;
+        if (appFlow.getStates() != null) {
+            appFlowMap = new HashMap<>();
+            for (final AppFlowState states : appFlow.getStates()) {
+                appFlowMap.put(states.getState(), states.getEvents());
+            }
+        }
+        return appFlowMap;
+    }
+}

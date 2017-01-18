@@ -5,6 +5,7 @@
 */
 
 package com.philips.platform.appframework.flowmanager.models;
+
 @SuppressWarnings("serial")
 public final class AppFlowModel{
 
