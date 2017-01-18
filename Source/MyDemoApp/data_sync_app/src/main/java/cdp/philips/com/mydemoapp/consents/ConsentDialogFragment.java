@@ -193,7 +193,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     private void showProgressDialog() {
         if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-            mProgressDialog.show();
+             mProgressDialog.show();
         }
     }
 

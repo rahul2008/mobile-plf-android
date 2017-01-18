@@ -58,6 +58,7 @@ public class OrmCreator implements BaseAppDataCreator {
     @Singleton
     public OrmCreator(UuidGenerator uuidGenerator) {
         this.uuidGenerator = uuidGenerator;
+        
     }
 
     @Override
