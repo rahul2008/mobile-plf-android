@@ -32,6 +32,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
@@ -243,27 +244,32 @@ public class BackendModule {
     }
 
     @Provides
-    public MomentsSegregator providesMomentsSegregater(){
+    public MomentsSegregator providesMomentsSegregater() {
         return new MomentsSegregator();
     }
 
     @Provides
-    public ConsentsSegregator providesConsentsSegregater(){
+    public ConsentsSegregator providesConsentsSegregater() {
         return new ConsentsSegregator();
     }
 
     @Provides
-    public DBFetchingInterface providesFetchigImplementation(){
+    public UserCharacteristicsSegregator providesUserCharacteristicsSegregator() {
+        return new UserCharacteristicsSegregator();
+    }
+
+    @Provides
+    public DBFetchingInterface providesFetchigImplementation() {
         return fetchingInterface;
     }
 
     @Provides
-    public DBUpdatingInterface providesUpdatingImplementation(){
+    public DBUpdatingInterface providesUpdatingImplementation() {
         return updatingInterface;
     }
 
     @Provides
-    public DBDeletingInterface providesDeletingImplementation(){
+    public DBDeletingInterface providesDeletingImplementation() {
         return deletingInterface;
     }
 }

@@ -20,5 +20,4 @@ public interface DBUpdatingInterface {
 
     boolean updateCharacteristics(final UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
 
-    void processCharacteristicsReceivedFromDataCore(final UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
 }

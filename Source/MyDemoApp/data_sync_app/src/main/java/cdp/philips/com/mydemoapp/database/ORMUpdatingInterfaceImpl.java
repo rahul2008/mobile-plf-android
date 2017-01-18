@@ -5,6 +5,7 @@ import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -93,11 +94,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     //User AppUserCharacteristics
     @Override
     public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
-        OrmCharacteristics ormCharacteristics = null;
+        OrmCharacteristics ormCharacteristics;
         try {
             ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
             deleting.deleteCharacteristics();
             saving.saveCharacteristics(ormCharacteristics);
+            //mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormCharacteristics);
             dbRequestListener.fetchData();
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
@@ -106,19 +108,4 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         }
 
     }
-
-    @Override
-    public void processCharacteristicsReceivedFromDataCore(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
-        UserCharacteristics dbUC=fetching.fetchUCByCreatorId(userCharacteristics.getCreatorId());
-        if(dbUC!=null){
-            if(!dbUC.isSynchronized()){
-                return;
-            }else{
-                updateCharacteristics(userCharacteristics,dbRequestListener);
-            }
-        }else{
-            updateCharacteristics(userCharacteristics,dbRequestListener);
-        }
-    }
-
 }

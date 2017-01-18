@@ -2,7 +2,9 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
@@ -17,11 +19,11 @@ import java.util.Map;
 public interface DBFetchingInterface {
     void fetchMoments(DBRequestListener dbRequestListener) throws SQLException;
 
-    void fetchMoments(final @NonNull String type ,DBRequestListener dbRequestListener) throws SQLException;
+    void fetchMoments(final @NonNull String type, DBRequestListener dbRequestListener) throws SQLException;
 
-    void fetchMoments(DBRequestListener dbRequestListener,final @NonNull Object... types) throws SQLException;
+    void fetchMoments(DBRequestListener dbRequestListener, final @NonNull Object... types) throws SQLException;
 
-    void fetchLastMoment(final String type,DBRequestListener dbRequestListener) throws SQLException;
+    void fetchLastMoment(final String type, DBRequestListener dbRequestListener) throws SQLException;
 
     Object fetchMomentByGuid(@NonNull final String guid) throws SQLException;
 
@@ -30,6 +32,7 @@ public interface DBFetchingInterface {
     Object fetchMomentById(final int id, DBRequestListener dbRequestListener) throws SQLException;
 
     void fetchConsents(DBRequestListener dbRequestListener) throws SQLException;
+
     Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException;
 
 
@@ -40,5 +43,7 @@ public interface DBFetchingInterface {
     void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
 
     List<?> fetchNonSyncConsentDetails() throws SQLException;
+
+    UserCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException;
 
 }

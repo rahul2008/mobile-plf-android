@@ -17,6 +17,7 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsConverter;
@@ -88,4 +89,6 @@ public interface AppComponent {
     void injectUserCharacteristicsFetcher(UserCharacteristicsFetcher userCharacteristicsFetcher);
 
     void injectUserCharacteristicsConverter(UserCharacteristicsConverter userCharacteristicsConverter);
+
+    void injectUserCharacteristicsSegregator(UserCharacteristicsSegregator userCharacteristicsSegregator);
 }

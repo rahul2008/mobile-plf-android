@@ -81,12 +81,12 @@ public class CharacteristicsDialogFragment extends DialogFragment implements Vie
     @Override
     public void onStop() {
         super.onStop();
+        DataServicesManager.getInstance().unRegisteredDBRequestListener();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        DataServicesManager.getInstance().unRegisteredDBRequestListener();
     }
 
     @Override

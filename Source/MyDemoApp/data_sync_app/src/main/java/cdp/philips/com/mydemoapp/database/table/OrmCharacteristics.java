@@ -36,7 +36,7 @@ public class OrmCharacteristics implements UserCharacteristics, Serializable {
     private DateTime dateTime = new DateTime();
 
     @DatabaseField(canBeNull = true)
-    private boolean mIsSynchronized;
+    private boolean mIsSynchronized = false;
 
 
     @ForeignCollectionField(eager = true)

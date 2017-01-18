@@ -76,7 +76,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
-        //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mDataServicesManager.registeredDBRequestListener(this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
         mUtility = new Utility();

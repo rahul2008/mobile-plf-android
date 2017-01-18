@@ -16,6 +16,7 @@ import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import java.sql.SQLException;
@@ -42,6 +43,9 @@ public class UpdatingMonitor extends EventMonitor {
     @Inject
     MomentsSegregator momentsSegregator;
 
+    @Inject
+    UserCharacteristicsSegregator mUserCharacteristicsSegregator;
+
 
     public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
@@ -58,7 +62,7 @@ public class UpdatingMonitor extends EventMonitor {
         try {
             dbUpdatingInterface.updateMoment(moment, dbRequestListener);
         } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e,dbRequestListener);
+            dbUpdatingInterface.updateFailed(e, dbRequestListener);
             e.printStackTrace();
         }
         //     eventing.post(new MomentChangeEvent(requestId, moment));
@@ -72,7 +76,7 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
         DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
-           // DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
+            // DSLog.i("**SPO**", "In Updating Monitor before calling fetchMoments");
             dbFetchingInterface.fetchMoments(response.getDbRequestListener());
         } catch (SQLException e) {
             DSLog.i("**SPO**", "In Updating Monitor report exception");
@@ -88,8 +92,8 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         int count = momentsSegregator.processMomentsReceivedFromBackend(moments);
-        if(count == moments.size()){
-            if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+        if (count == moments.size()) {
+            if (DataServicesManager.getInstance().getDbChangeListener() != null) {
                 DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
             }
         }
@@ -100,8 +104,8 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processCreatedMoment(moments,momentSaveRequest.getDbRequestListener());
-        if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+        momentsSegregator.processCreatedMoment(moments, momentSaveRequest.getDbRequestListener());
+        if (DataServicesManager.getInstance().getDbChangeListener() != null) {
             DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
         }
     }
@@ -116,10 +120,13 @@ public class UpdatingMonitor extends EventMonitor {
 
     public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
-            DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync UCDBUpdateFromBackendRequest");
-            dbUpdatingInterface.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), DataServicesManager.getInstance().getDbChangeListener());
+            DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync updateMonitor UCDBUpdateFromBackendRequest");
+            boolean isSynced = mUserCharacteristicsSegregator.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), DataServicesManager.getInstance().getDbChangeListener());
+            if (isSynced) {
+                dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), mDbRequestListener);
+            }
         } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e, DataServicesManager.getInstance().getDbChangeListener());
+            dbUpdatingInterface.updateFailed(e, mDbRequestListener);
         }
     }
 }

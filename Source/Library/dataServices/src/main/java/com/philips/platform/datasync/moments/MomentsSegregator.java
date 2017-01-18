@@ -1,7 +1,5 @@
 package com.philips.platform.datasync.moments;
 
-import android.util.Log;
-
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -16,10 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-
-/**
- * Created by 310218660 on 1/10/2017.
- */
 
 public class MomentsSegregator {
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
@@ -111,6 +112,18 @@ public class TemperatureMomentHelper {
         }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
             dbRequestListener=DataServicesManager.getInstance().getDbChangeListener();
             dbRequestListener.onSuccess(ormConsent);
+        }else {
+            //Callback Not registered
+            DSLog.i(DataServicesManager.TAG,"Callback not registered");
+        }
+    }
+
+    public void notifySuccess(DBRequestListener dbRequestListener, OrmCharacteristics ormCharacteristics) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(ormCharacteristics);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            dbRequestListener=DataServicesManager.getInstance().getDbChangeListener();
+            dbRequestListener.onSuccess(ormCharacteristics);
         }else {
             //Callback Not registered
             DSLog.i(DataServicesManager.TAG,"Callback not registered");
