@@ -36,15 +36,7 @@ public abstract class BaseFlowManager {
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
 
-    @Deprecated
-    /**
-     * Will be obsolete soon , kindly use BaseFlowManager constructor with appFlowJsonListener
-     */
     public BaseFlowManager(final Context context, final String jsonPath) {
-        this(context, jsonPath, null);
-    }
-
-    public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         initFlowManager(context, jsonPath, null);
     }
 
@@ -55,6 +47,10 @@ public abstract class BaseFlowManager {
         conditionMap = new TreeMap<>();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
+    }
+
+    public BaseFlowManager() {
+
     }
 
     public void initFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
@@ -231,14 +227,16 @@ public abstract class BaseFlowManager {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        appFlowJsonListener.onParseSuccess();
+        if (appFlowJsonListener != null)
+            appFlowJsonListener.onParseSuccess();
     }
 
     private void mapAppFlowForTestCase(final String data, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlowTestCase(data);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        appFlowJsonListener.onParseSuccess();
+        if (appFlowJsonListener != null)
+            appFlowJsonListener.onParseSuccess();
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
