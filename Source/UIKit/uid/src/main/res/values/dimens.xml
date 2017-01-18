@@ -11,6 +11,7 @@
     <item name="uid_alpha_per_30" format="float" type="dimen">0.30</item>
     <item name="uid_alpha_per_35" format="float" type="dimen">0.35</item>
     <item name="uid_alpha_per_40" format="float" type="dimen">0.40</item>
+    <item name="uid_alpha_per_45" format="float" type="dimen">0.45</item>
     <item name="uid_alpha_per_50" format="float" type="dimen">0.50</item>
     <item name="uid_alpha_per_60" format="float" type="dimen">0.60</item>
     <item name="uid_alpha_per_70" format="float" type="dimen">0.70</item>
@@ -131,6 +132,12 @@
     <dimen name="uid_label_margin_start">12dp</dimen>
     <dimen name="uid_label_margin_bottom_slider">36dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
+
+    <!--CheckBox-->
+    <dimen name="uid_checkbox_margin_left_right">12dp</dimen>
+    <dimen name="uid_checkbox_height">48dp</dimen>
+    <dimen name="uid_checkbox_text_size">16sp</dimen>
+    <dimen name="uid_checkbox_border_ripple_radius">20dp</dimen>
 
     <!--Linear indeterminate progressbar-->
     <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>

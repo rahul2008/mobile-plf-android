@@ -35,6 +35,10 @@
 
     <!--label test page-->
     <dimen name="label_textbox_margin">16dp</dimen>
+
+    <!--Checkbox test page-->
+    <dimen name="checkbox_list_margin_top_bottom">8dp</dimen>
+
     <dimen name="separator_item_height">48dp</dimen>
     <dimen name="separator_drawable_padding">32dp</dimen>
 </resources>
