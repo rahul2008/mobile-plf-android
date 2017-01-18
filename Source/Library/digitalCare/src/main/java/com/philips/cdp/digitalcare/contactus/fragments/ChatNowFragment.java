@@ -65,7 +65,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         DigiCareLogger.i(TAG, "Showing Chat Now Screen");
 
         if (mView == null) {
-            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
+            mView = inflater.inflate(R.layout.consumercare_chatnow_fragment, container, false);
         }
         setChatEndPoint(getChatUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
         return mView;
