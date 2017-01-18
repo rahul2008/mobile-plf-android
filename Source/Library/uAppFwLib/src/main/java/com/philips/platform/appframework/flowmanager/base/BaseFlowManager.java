@@ -48,8 +48,13 @@ public abstract class BaseFlowManager {
         initFlowManager(context, jsonPath, null);
     }
 
-    public BaseFlowManager() {
-
+    protected BaseFlowManager(String data, AppFlowJsonListener appFlowJsonListener) {
+        mapAppFlowForTestCase(data, appFlowJsonListener);
+        flowManagerStack = new FlowManagerStack();
+        stateMap = new TreeMap<>();
+        conditionMap = new TreeMap<>();
+        populateStateMap(stateMap);
+        populateConditionMap(conditionMap);
     }
 
     public void initFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
@@ -225,6 +230,13 @@ public abstract class BaseFlowManager {
     private void mapAppFlowStates(final String jsonPath, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
+        getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
+        appFlowJsonListener.onParseSuccess();
+    }
+
+    private void mapAppFlowForTestCase(final String data, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+        final AppFlowParser appFlowParser = new AppFlowParser();
+        AppFlowModel appFlowModel = appFlowParser.getAppFlowTestCase(data);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
         appFlowJsonListener.onParseSuccess();
     }

@@ -16,10 +16,12 @@ import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowState;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,10 +57,26 @@ class AppFlowParser {
         return appFlow;
     }
 
+    AppFlowModel getAppFlowTestCase(String data) throws JsonStructureException {
+        AppFlowModel appFlow;
+        try {
+            final InputStreamReader inputStreamReader = getInputStreamForString(data);
+            appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+        } catch (JsonSyntaxException e) {
+            throw new JsonStructureException();
+        }
+        return appFlow;
+    }
+
     @NonNull
     private InputStreamReader getInputStreamReader(final String jsonPath) throws FileNotFoundException {
         InputStream is = getFileInputStream(jsonPath);
         return new InputStreamReader(is);
+    }
+
+    protected InputStreamReader getInputStreamForString(final String data) {
+        InputStream stream = new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8));
+        return new InputStreamReader(stream);
     }
 
     @NonNull
