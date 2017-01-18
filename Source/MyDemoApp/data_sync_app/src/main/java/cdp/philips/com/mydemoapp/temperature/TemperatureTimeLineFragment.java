@@ -49,7 +49,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener,DBChangeListener {
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -79,7 +79,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
         mDataServicesManager.registerDBChangeListener(this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -96,8 +96,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStart() {
         super.onStart();
 
-        if(mUser!=null && !mUser.isUserSignIn()){
-            Toast.makeText(getContext(),"Please Login",Toast.LENGTH_SHORT).show();
+        if (mUser != null && !mUser.isUserSignIn()) {
+            Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
             mAddButton.setVisibility(View.INVISIBLE);
             mTvConsents.setVisibility(View.INVISIBLE);
             return;
@@ -113,30 +113,30 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         setUpBackendSynchronizationLoop();
 
-        if(!mUtility.isOnline(getContext())){
-            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
+        if (!mUtility.isOnline(getContext())) {
+            Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
+        if (!mSharedPreferences.getBoolean("isSynced", false)) {
             showProgressDialog();
         }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        if(getLastStoredEmail()==null){
+        if (getLastStoredEmail() == null) {
             storeLastEmail();
             return;
         }
 
-        if(!isSameEmail()){
+        if (!isSameEmail()) {
             userRegistrationInterface.clearUserData(this);
         }
         storeLastEmail();
     }
 
     private boolean isSameEmail() {
-        if(getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+        if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
@@ -194,7 +194,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-       // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+        // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
         //mDataServicesManager.releaseDataServicesInstances();
     }
 
@@ -220,6 +220,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
+        if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -248,6 +249,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void onFailureRefresh(final Exception e) {
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -278,19 +280,19 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
     }
 
-    String getLastStoredEmail(){
+    String getLastStoredEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        String decryptedData= ssInterface.fetchValueForKey("last_email",ssError);
+        String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
         return decryptedData;
     }
 
-    void storeLastEmail(){
+    void storeLastEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("last_email",mUser.getEmail(), ssError);
+        ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
     }
 
     @Override
@@ -300,12 +302,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeFailed(final Exception e) {
-
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
