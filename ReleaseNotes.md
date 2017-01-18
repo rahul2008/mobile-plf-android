@@ -3,7 +3,6 @@ Philips UIKit DLS for Android
 
 # Release Notes MobileUitoolkit Android
 
-Version 0.1.1
 SPRINT - MUITK.PI17.1.Sprint3
 EHUFA-1250 - Android: Create custom indeterminate linear progress indicator
 EHUFA-1276 - Android: SPIKE Applying DLS Art direction in Date Picker
@@ -26,7 +25,7 @@ EHUFA-1292 - [Android Test][TextBox Password] Cursor state is not retained
 EHUFA-1293 - [Android Test][TextBox Password] Content is always in hidden state in landscape mode
 
 
-SPRINT - MUITK.PI17.1
+SPRINT - MUITK.PI17.1.Sprint1
 EHUFA-1206 - iOS Linear Progress Indicators- Layout and Configuration
 EHUFA-1214 - iOS: Release DLS Catalog Application via TestFlight
 EHUFA-1218 - iOS: Fix Jenkins Archive step to create .ipa's for the catalog app
