@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
@@ -11,6 +12,7 @@ import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -39,6 +41,7 @@ public class ConsentsMonitor extends EventMonitor {
 
     @Inject
     UCoreAccessProvider uCoreAccessProvider;
+
 
     @NonNull
     private final GsonConverter gsonConverter;
@@ -116,14 +119,13 @@ public class ConsentsMonitor extends EventMonitor {
                     consentDetail.setBackEndSynchronized(true);
                 }
                 DSLog.i("***SPO***", "Get Consent called After ConsentsClient before sending consents response");
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK, null));
             } else {
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, null));
             }
-        } catch (Exception e) {
-            DSLog.i("***SPO***", "ConsentsMonitor exception Error");
-            eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK));
-            //  eventing.post(new BackendResponse(event.getEventId(), e));
+        }  catch (RetrofitError ex) {
+        eventing.post(new BackendMomentRequestFailed(ex));
+
         }
     }
 
@@ -171,7 +173,7 @@ public class ConsentsMonitor extends EventMonitor {
             for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                 consentDetail.setBackEndSynchronized(true);
             }
-            eventing.post(new DatabaseConsentSaveRequest(consent, true));
+            eventing.post(new DatabaseConsentSaveRequest(consent, true, null));
         } catch (RetrofitError error) {
             postError(event.getEventId(), error);
         }

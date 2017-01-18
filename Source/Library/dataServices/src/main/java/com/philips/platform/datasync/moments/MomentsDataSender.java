@@ -1,9 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
-
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
@@ -37,16 +35,13 @@ import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class MomentsDataSender implements DataSender<Moment> {
     @Inject
     UCoreAccessProvider accessProvider;
 
     @Inject
     UCoreAdapter uCoreAdapter;
+
 
     @NonNull
     private final MomentsConverter momentsConverter;
@@ -246,15 +241,15 @@ public class MomentsDataSender implements DataSender<Moment> {
     }
 
     private void postCreatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList));
+        eventing.post(new MomentDataSenderCreatedRequest(momentList, null));
     }
 
     private void postUpdatedOk(final List<Moment> momentList) {
-        eventing.post(new MomentDataSenderCreatedRequest(momentList));
+        eventing.post(new MomentDataSenderCreatedRequest(momentList, null));
     }
 
     private void postDeletedOk(final Moment moment) {
-        eventing.post(new MomentBackendDeleteResponse(moment));
+        eventing.post(new MomentBackendDeleteResponse(moment, null));
     }
 
     @Override

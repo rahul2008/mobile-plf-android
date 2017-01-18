@@ -5,18 +5,23 @@
 
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.UserCharacteristics;
+
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 
-import cdp.philips.com.mydemoapp.consents.ConsentHelper;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
+import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
 
@@ -25,53 +30,79 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     private final OrmUpdating updating;
     private OrmFetchingInterfaceImpl fetching;
     private OrmDeleting deleting;
-    private TemperatureMomentHelper mTemperatureMomentHelper;
+    private NotifyDBRequestListener notifyDBRequestListener;
 
     public ORMSavingInterfaceImpl(OrmSaving saving, OrmUpdating updating, final OrmFetchingInterfaceImpl fetching, final OrmDeleting deleting, final BaseAppDateTime baseAppDateTime) {
         this.saving = saving;
         this.updating = updating;
         this.fetching = fetching;
         this.deleting = deleting;
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
+        notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
     @Override
-    public boolean saveMoment(final Moment moment) throws SQLException {
+    public boolean saveMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
         OrmMoment ormMoment = null;
         try {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
             updating.updateMoment(ormMoment);
-
-            mTemperatureMomentHelper.notifyAllSuccess(ormMoment);
-
+            notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            mTemperatureMomentHelper.notifyAllFailure(e);
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed!!");
             return false;
         }
-
     }
+
     @Override
-    public boolean saveConsent(Consent consent) throws SQLException {
+    public boolean saveConsent(Consent consent,DBRequestListener dbRequestListener) throws SQLException {
         OrmConsent ormConsent = null;
         try {
             ormConsent = OrmTypeChecking.checkOrmType(consent, OrmConsent.class);
             updateConsentAndSetIdIfConsentExists(ormConsent);
-            new ConsentHelper().notifyAllSuccess(ormConsent);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, ormConsent);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
-            new ConsentHelper().notifyFailConsent(e);
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
             return false;
         }
 
     }
 
     @Override
-    public void postError(Exception e) {
-        mTemperatureMomentHelper.notifyAllFailure(e);
+    public boolean saveUserCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+        DSLog.d("Inder saveUserCharacteristics delete", userCharacteristics.getCharacteristicsDetails().toString());
+        OrmCharacteristics ormCharacteristics;
+        try {
+            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
+            deleting.deleteCharacteristics();
+            DSLog.d("Inder saveUserCharacteristics OrmCharacteristeics save", ormCharacteristics.getCharacteristicsDetails().toString());
+            saving.saveCharacteristics(ormCharacteristics);
+            updateUCUI(userCharacteristics,dbRequestListener);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void updateUCUI(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {
+            if(dbRequestListener==null){
+                return;
+            }
+            if(userCharacteristics !=null){
+                dbRequestListener.onSuccess(userCharacteristics);
+            } else {
+                dbRequestListener.onSuccess(null);
+            }
+    }
+
+    @Override
+    public void postError(Exception e, DBRequestListener dbRequestListener) {
+        notifyDBRequestListener.notifyFailure(e,dbRequestListener);
     }
 
     private void updateConsentAndSetIdIfConsentExists(OrmConsent ormConsent) throws SQLException {

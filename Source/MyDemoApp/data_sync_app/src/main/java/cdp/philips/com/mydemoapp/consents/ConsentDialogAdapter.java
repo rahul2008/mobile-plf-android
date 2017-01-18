@@ -71,8 +71,8 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         return consentDetails.size();
     }
 
-    public void updateConsentDetails() {
-        DataServicesManager.getInstance().updateConsent(mConsent);
+    public void updateConsent() {
+        consentDialogPresenter.updateConsent(mConsent);
     }
 
 

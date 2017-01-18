@@ -8,13 +8,14 @@ package com.philips.platform.core.events;
 
 
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class MomentBackendDeleteResponse extends com.philips.platform.core.events.MomentEvent {
-    public MomentBackendDeleteResponse(final Moment moment) {
-        super(moment);
+    public MomentBackendDeleteResponse(final Moment moment, DBRequestListener dbRequestListener) {
+        super(moment,dbRequestListener);
     }
 }

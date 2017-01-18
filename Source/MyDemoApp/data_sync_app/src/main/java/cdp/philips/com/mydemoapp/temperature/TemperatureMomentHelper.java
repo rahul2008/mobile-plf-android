@@ -5,15 +5,17 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
+import cdp.philips.com.mydemoapp.database.OrmTypeChecking;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
-import cdp.philips.com.mydemoapp.listener.DBChangeListener;
-import cdp.philips.com.mydemoapp.listener.EventHelper;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmConsent;
+import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -57,6 +59,7 @@ public class TemperatureMomentHelper {
         }
     }
 
+
     String getNotes(Moment moment) {
         try {
 
@@ -81,49 +84,4 @@ public class TemperatureMomentHelper {
         //return null;
     }
 
-    public void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
-        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-        if (dbChangeListeners != null) {
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
-
-    public void notifyAllSuccess(Object ormMoments) {
-        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-        if (dbChangeListeners != null) {
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
-
-    public void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if (integers.contains(EventHelper.MOMENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
-            }
-        }
-    }
-
-    Moment updateMoment(Moment moment, String phase, String temperature, String notes) {
-        ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
-        int momentDetailsSize = momentDetails.size();
-        MomentDetail momentDetail = momentDetails.get(momentDetailsSize - 1);
-        momentDetail.setValue(phase);
-
-        //  ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
-        // Measurement measurement = measurements.get(0);
-        // measurement.setValue(Double.parseDouble(temperature));
-
-        //  ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
-        // MeasurementDetail measurementDetail = measurementDetails.get(0);
-        //measurementDetail.setValue(notes);
-
-        return moment;
-    }
 }

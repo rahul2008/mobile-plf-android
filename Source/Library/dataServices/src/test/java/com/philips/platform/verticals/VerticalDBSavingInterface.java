@@ -1,8 +1,10 @@
 package com.philips.platform.verticals;
 
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 
@@ -11,18 +13,25 @@ import java.sql.SQLException;
  */
 
 public class VerticalDBSavingInterface implements DBSavingInterface{
+
+
     @Override
-    public boolean saveMoment(Moment moment) throws SQLException {
-        return true;
+    public boolean saveMoment(Moment moment, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
     }
 
     @Override
-    public boolean saveConsent(Consent consent) throws SQLException {
-        return true;
+    public boolean saveConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
     }
 
     @Override
-    public void postError(Exception e) {
+    public void postError(Exception e, DBRequestListener dbRequestListener) {
 
+    }
+
+    @Override
+    public boolean saveUserCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
     }
 }

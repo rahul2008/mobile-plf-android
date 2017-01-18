@@ -2,7 +2,10 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,27 +17,36 @@ import java.util.Map;
  */
 @SuppressWarnings("rawtypes")
 public interface DBFetchingInterface {
-    void fetchMoments() throws SQLException;
+    void fetchMoments(DBRequestListener dbRequestListener) throws SQLException;
 
-    void fetchMoments(final @NonNull String type) throws SQLException;
+    void fetchMoments(final @NonNull String type ,DBRequestListener dbRequestListener) throws SQLException;
 
-    void fetchMoments(final @NonNull Object... types) throws SQLException;
+    void fetchMoments(DBRequestListener dbRequestListener,final @NonNull Object... types) throws SQLException;
 
-    void fetchLastMoment(final String type) throws SQLException;
+    void fetchLastMoment(final String type,DBRequestListener dbRequestListener) throws SQLException;
 
     Object fetchMomentByGuid(@NonNull final String guid) throws SQLException;
 
     List<?> fetchNonSynchronizedMoments() throws SQLException;
 
-    Object fetchMomentById(final int id) throws SQLException;
+    //TODO: Can the fetchNonSynchronized data types be called once for all the datatypes.
 
-    Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
+    Object fetchMomentById(final int id, DBRequestListener dbRequestListener) throws SQLException;
 
-    Map<Class, List<?>> putConsentForSync(final Map<Class, List<?>> dataToSync) throws SQLException;
+    void fetchConsents(DBRequestListener dbRequestListener) throws SQLException;
 
-    void fetchConsents() throws SQLException;
+    Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException;
 
-    Consent fetchConsent() throws SQLException;
 
-    void postError(Exception e);
+    Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException;
+
+    void postError(Exception e, DBRequestListener dbRequestListener);
+
+    void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
+
+    List<?> fetchNonSyncConsentDetails() throws SQLException;
+
+    UserCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException;
+
+    List<?> fetchNonSyncConsents() throws SQLException;
 }

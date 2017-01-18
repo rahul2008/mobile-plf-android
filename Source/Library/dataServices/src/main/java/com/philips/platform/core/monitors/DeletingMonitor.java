@@ -4,10 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DataClearResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
-import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentDeleteRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
+
+import java.sql.SQLException;
 
 import javax.inject.Inject;
 
@@ -16,29 +17,47 @@ import javax.inject.Inject;
  * All rights reserved.
  */
 
-public class DeletingMonitor extends EventMonitor{
+public class DeletingMonitor extends EventMonitor {
 
     private DBDeletingInterface dbInterface;
 
     @Inject
-    public DeletingMonitor(DBDeletingInterface dbInterface){
+    public DeletingMonitor(DBDeletingInterface dbInterface) {
         this.dbInterface = dbInterface;
 
     }
 
     public void onEventBackgroundThread(@NonNull DataClearRequest event) {
-            dbInterface.deleteAllMoments();
-            eventing.post(new DataClearResponse(event.getEventId()));
+        DBRequestListener dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.deleteAll(dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+            e.printStackTrace();
+        }
+        //eventing.post(new DataClearResponse(event.getEventId()));
     }
 
     public void onEventAsync(@NonNull MomentDeleteRequest event) {
-            dbInterface.deleteMoment(event.getMoment());
-         //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
+        DBRequestListener dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.markAsInActive(event.getMoment(), dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+            e.printStackTrace();
+        }
+        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoment()));
 
     }
 
     public void onEventBackgroundThread(@NonNull MomentBackendDeleteResponse backendDeleteResponse) {
-        dbInterface.ormDeletingDeleteMoment(backendDeleteResponse.getMoment());
+        DBRequestListener dbRequestListener = backendDeleteResponse.getDbRequestListener();
+        try {
+            dbInterface.deleteMoment(backendDeleteResponse.getMoment(), backendDeleteResponse.getDbRequestListener());
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+            e.printStackTrace();
+        }
     }
 }
 

@@ -102,6 +102,12 @@ public static <fields>;
 -keepattributes *Annotation*
 -keepattributes Signature
 
+#WeChat (Registration)
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
+
+
 
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
@@ -164,6 +170,7 @@ public static <fields>;
 -keep class com.philips.platform.datasync.moments.UCoreMomentSaveResponse { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMeasurementGroupDetail { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
+-keep class com.philips.platform.datasync.consent.UCoreConsentDetail { *; }
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}

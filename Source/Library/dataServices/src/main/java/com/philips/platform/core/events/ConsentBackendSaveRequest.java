@@ -13,9 +13,7 @@ public class ConsentBackendSaveRequest extends Event {
 
     private RequestType requestType = RequestType.SAVE;
 
-    public enum RequestType {SAVE, UPDATE}
-
-    ;
+    public enum RequestType {SAVE, UPDATE};
 
     public ConsentBackendSaveRequest(RequestType requestType, Consent consent) {
         this.requestType = requestType;

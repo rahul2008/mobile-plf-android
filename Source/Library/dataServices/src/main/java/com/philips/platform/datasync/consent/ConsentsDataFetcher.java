@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
@@ -20,10 +24,6 @@ import javax.inject.Inject;
 
 import retrofit.RetrofitError;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ConsentsDataFetcher extends DataFetcher {
     public static final String TAG = "ConsentsDataFetcher";
     @NonNull
@@ -62,8 +62,5 @@ public class ConsentsDataFetcher extends DataFetcher {
 
         return super.fetchAllData();
     }
-
-
-
 }
 

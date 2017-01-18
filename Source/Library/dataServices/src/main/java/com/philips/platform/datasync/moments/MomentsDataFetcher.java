@@ -47,10 +47,12 @@ public class MomentsDataFetcher extends DataFetcher {
                               @NonNull final MomentsConverter converter,
                               @NonNull final GsonConverter gsonConverter) {
         super(uCoreAdapter);
-        DataServicesManager.mAppComponent.injectMomentsDataFetcher(this);
         this.converter = converter;
         this.gsonConverter = gsonConverter;
+        DataServicesManager.getInstance().mAppComponent.injectMomentsDataFetcher(this);
     }
+
+    UCoreMomentsHistory momentsHistory;
 
     @Override
     @CheckResult
@@ -67,7 +69,7 @@ public class MomentsDataFetcher extends DataFetcher {
                     accessProvider.getAccessToken(), gsonConverter);
 
             if (client != null) {
-                UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
+                momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
                         accessProvider.getUserId(), momentsLastSyncUrl);
 
                 accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
@@ -79,11 +81,12 @@ public class MomentsDataFetcher extends DataFetcher {
 
                 List<Moment> moments = converter.convert(uCoreMoments);
                 DSLog.e("***SPO***", "DataPullSynchronize fetch Success");
-                eventing.post(new BackendMomentListSaveRequest(moments));
+                eventing.post(new BackendMomentListSaveRequest(moments, null));
             }
             DSLog.e("***SPO***", "DataPullSynchronize fetch send null");
             return null;
         } catch (RetrofitError ex) {
+            //TODO: - Veritcals should be forced to call this
             DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
             eventing.post(new BackendMomentRequestFailed(ex));
             return ex;

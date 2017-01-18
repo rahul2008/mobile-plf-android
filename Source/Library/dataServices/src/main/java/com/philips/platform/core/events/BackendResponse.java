@@ -9,13 +9,15 @@ package com.philips.platform.core.events;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import retrofit.RetrofitError;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class BackendResponse extends Event {
     @Nullable
-    private final Exception throwable;
+    private final RetrofitError throwable;
 
     //TODO: Spoorti: Can this constructor be removed - Action item on Spoorti
     public BackendResponse(final int referenceId) {
@@ -23,7 +25,7 @@ public class BackendResponse extends Event {
         throwable = null;
     }
 
-    public BackendResponse(final int referenceId, @NonNull final Exception throwable) {
+    public BackendResponse(final int referenceId, @NonNull final RetrofitError throwable) {
         super(referenceId);
         this.throwable = throwable;
     }
@@ -34,7 +36,7 @@ public class BackendResponse extends Event {
     }
 
     @Nullable
-    public Exception getCallException() {
+    public RetrofitError getCallException() {
         return throwable;
     }
 }

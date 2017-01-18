@@ -9,6 +9,8 @@ package com.philips.platform.core.events;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.util.List;
 
@@ -18,7 +20,14 @@ import java.util.List;
  */
 public class MomentDataSenderCreatedRequest extends ListEvent<Moment> {
 
-    public MomentDataSenderCreatedRequest(@NonNull final List<? extends Moment> dataList) {
+    private final DBChangeListener dbChangeListener;
+    public MomentDataSenderCreatedRequest(@NonNull final List<? extends Moment> dataList,DBChangeListener dbChangeListener) {
         super(dataList);
+
+        this.dbChangeListener = dbChangeListener;
+    }
+
+    public DBChangeListener getDbChangeListener() {
+        return dbChangeListener;
     }
 }

@@ -8,6 +8,8 @@ package com.philips.platform.core.events;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.listeners.DBRequestListener;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -17,8 +19,14 @@ public class LoadLastMomentRequest extends Event {
     @NonNull
     private final String type;
 
-    public LoadLastMomentRequest(@NonNull String type) {
+    public DBRequestListener getDbRequestListener() {
+        return dbRequestListener;
+    }
+
+    private final DBRequestListener dbRequestListener;
+    public LoadLastMomentRequest(@NonNull String type, DBRequestListener dbRequestListener) {
         this.type = type;
+        this.dbRequestListener = dbRequestListener;
     }
 
     @NonNull

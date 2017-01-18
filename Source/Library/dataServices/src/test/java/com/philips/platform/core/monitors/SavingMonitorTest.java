@@ -9,9 +9,9 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.ExceptionEvent;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.events.MomentSaveRequest;
+import com.philips.platform.core.listeners.DBRequestListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -66,11 +66,12 @@ public class SavingMonitorTest {
 
     private SavingMonitor savingMonitor;
 
+
     @Captor
     private ArgumentCaptor<MomentChangeEvent> changeEventArgumentCaptor;
 
-    @Captor
-    private ArgumentCaptor<ExceptionEvent> exceptionEventArgumentCaptor;
+    @Mock
+    DBRequestListener dbRequestListener;
 
     @Before
     public void setUp() {
@@ -82,9 +83,9 @@ public class SavingMonitorTest {
     @Test
     public void ShouldSaveMoment_WhenSaveMomentRequestIsReceived() throws Exception {
 
-        savingMonitor.onEventAsync(new MomentSaveRequest(moment));
+        savingMonitor.onEventAsync(new MomentSaveRequest(moment,dbRequestListener));
 
-        verify(savingMock).saveMoment(moment);
+        verify(savingMock).saveMoment(moment,dbRequestListener);
          //verify(eventingMock).post(changeEventArgumentCaptor.capture());
      //   assertThat(changeEventArgumentCaptor.getValue().getMoment()).isEqualTo(moment);
     }
@@ -93,9 +94,9 @@ public class SavingMonitorTest {
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails() throws Exception {
 
         //doThrow(SQLException.class).when(savingMock).saveMoment(moment);
-        savingMonitor.onEventAsync(new MomentSaveRequest(moment));
-        doThrow(SQLException.class).when(savingMock).saveMoment(moment);
-        verify(savingMock).saveMoment(moment);
+        savingMonitor.onEventAsync(new MomentSaveRequest(moment,dbRequestListener));
+        doThrow(SQLException.class).when(savingMock).saveMoment(moment,dbRequestListener);
+        verify(savingMock).saveMoment(moment,dbRequestListener);
 
         //verify(eventingMock).post(exceptionEventArgumentCaptor.capture());
         //assertThat(exceptionEventArgumentCaptor.getValue().getCause()).isInstanceOf(SQLException.class);
@@ -104,15 +105,15 @@ public class SavingMonitorTest {
     @Test
     public void ShouldSaveConsent_WhenSaveConsentRequestIsReceived() throws Exception {
 
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true));
+        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true, dbRequestListener));
 
-        verify(savingMock).saveConsent(consent);
+        verify(savingMock).saveConsent(consent,dbRequestListener);
     }
 
     @Test
     public void ShouldPostSuccessEvent_WhenConsentIsProcessed() throws Exception {
 
-        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true));
+        savingMonitor.onEventAsync(new DatabaseConsentSaveRequest(consent,true, dbRequestListener));
 
         /*DatabaseConsentSaveResponse response = captureEvent(DatabaseConsentSaveResponse.class, eventingMock, 1);
         assertThat(response.isSaved()).isTrue();*/
