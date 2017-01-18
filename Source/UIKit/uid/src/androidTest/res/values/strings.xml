@@ -6,13 +6,9 @@
     <string name="alternate_primary_label">Alternate Primary Button</string>
     <string name="secondary_button_label">Secondary Button</string>
     <string name="quiet_button_label">Quiet Button</string>
-
-
-    <!--TextBox-->
     <string name="textbox_dummy_string">TextBox</string>
     <string name="navigation_content_desc">Navigation content description</string>
     <string name="progress_button">button_press_me</string>
     <string name="progress_button_loading">button_loading</string>
-
-
+    <string name="checkbox">checkbox</string>
 </resources>

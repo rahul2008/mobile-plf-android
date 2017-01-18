@@ -59,7 +59,8 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(3, getString(R.string.page_title_alertDialog));
         itemsMap.put(4, getString(R.string.page_title_progress_bar));
         itemsMap.put(5, getString(R.string.page_title_label));
-        itemsMap.put(6, getString(R.string.page_title_separator));
+        itemsMap.put(6, getString(R.string.page_title_checkbox));
+        itemsMap.put(7, getString(R.string.page_title_separator));
         return sortMap(itemsMap);
     }
 
@@ -104,6 +105,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 navigationController.switchFragment(new LabelFragment());
                 break;
             case 6:
+                navigationController.switchFragment(new CheckBoxFragment());
+                break;
+            case 7:
                 navigationController.switchFragment(new SeparatorFragment());
                 break;
         }
