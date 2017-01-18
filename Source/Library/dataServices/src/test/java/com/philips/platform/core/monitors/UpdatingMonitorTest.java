@@ -14,6 +14,7 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -85,6 +86,9 @@ public class UpdatingMonitorTest {
     @Mock
     private AppComponent appComponantMock;
 
+    @Mock
+    private DBChangeListener dbChangeListener;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -145,15 +149,15 @@ public class UpdatingMonitorTest {
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         updatingMonitor.onEventBackgroundThread(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1));
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbRequestListener, dbChangeListener));
+        updatingMonitor.onEventBackgroundThread(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
       //  List<? extends Moment> moments = momentDataSenderCreatedRequestMock.getList();
-         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
+         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),null);
     }
 
 }
