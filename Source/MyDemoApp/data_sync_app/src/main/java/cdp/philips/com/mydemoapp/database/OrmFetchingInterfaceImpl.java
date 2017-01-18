@@ -218,5 +218,26 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return ormConsent;
     }
 
+    public List<OrmConsent> fetchNonSyncConsents() throws SQLException {
+        QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
+        final List<OrmConsent> query = consentQueryBuilder.query();
+        for (OrmConsent ormConsent : query) {
+
+            boolean isNonSyncConsentDetailExist = false;
+            for (OrmConsentDetail ormConsentDetail : ormConsent.getConsentDetails()) {
+                if (!ormConsentDetail.getBackEndSynchronized()) {
+                    isNonSyncConsentDetailExist = true;
+                }
+            }
+
+            if (!isNonSyncConsentDetailExist) {
+                query.remove(ormConsent);
+            }
+        }
+        //consentQueryBuilder.where().eq("beSynchronized", false);
+
+        return query;
+    }
+
 
 }

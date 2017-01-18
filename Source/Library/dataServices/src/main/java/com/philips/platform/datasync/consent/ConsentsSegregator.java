@@ -29,7 +29,7 @@ public class ConsentsSegregator {
     public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) {
         List<? extends Consent> consentList = null;
         try {
-            consentList = (List<? extends Consent>) dbFetchingInterface.fetchNonSyncConsentDetails();
+            consentList = (List<? extends Consent>) dbFetchingInterface.fetchNonSyncConsents();
             dataToSync.put(Consent.class, consentList);
         } catch (SQLException e) {
             e.printStackTrace();

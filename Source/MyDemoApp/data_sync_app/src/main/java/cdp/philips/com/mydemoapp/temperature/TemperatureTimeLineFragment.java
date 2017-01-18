@@ -281,11 +281,18 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeSuccess() {
-
+        mTemperaturePresenter.fetchData(this);
     }
 
     @Override
-    public void dBChangeFailed(Exception e) {
+    public void dBChangeFailed(final Exception e) {
 
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

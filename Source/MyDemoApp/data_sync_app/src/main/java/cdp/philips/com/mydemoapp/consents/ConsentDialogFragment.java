@@ -199,11 +199,17 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void dBChangeSuccess() {
-
+        fetchConsent();
     }
 
     @Override
-    public void dBChangeFailed(Exception e) {
+    public void dBChangeFailed(final Exception e) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
+                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

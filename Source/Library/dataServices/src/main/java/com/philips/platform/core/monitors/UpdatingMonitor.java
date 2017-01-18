@@ -88,9 +88,9 @@ public class UpdatingMonitor extends EventMonitor {
             return;
         }
         int count = momentsSegregator.processMomentsReceivedFromBackend(moments,null);
-        if(count == moments.size()){
-            notifyDBChangeListener.notifyDBChangeSuccess(momentSaveRequest.getDbChangeListener());
-        }
+       /* if(count == moments.size()){
+           // new NotifyDBChangeListener().notifyDBChangeSuccess(momentSaveRequest.getDbChangeListener());
+        }*/
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
