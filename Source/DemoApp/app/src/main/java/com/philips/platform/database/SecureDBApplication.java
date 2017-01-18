@@ -7,8 +7,6 @@ package com.philips.platform.database;
 
 import android.app.Application;
 
-import com.philips.platform.securedblibrary.helper.SecureDataBaseQueryHelper;
-
 
 public class SecureDBApplication extends Application {
     SecureDataBaseHelper secureDataBaseHelper;

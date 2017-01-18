@@ -9,8 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.philips.platform.securedblibrary.helper.SecureDataBaseQueryHelper;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.List;

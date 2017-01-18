@@ -1,32 +1,23 @@
-package com.philips.platform.securedblibrary.ormlite;
+package com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
-import com.j256.ormlite.logger.Logger;
-import com.j256.ormlite.logger.LoggerFactory;
+
 import com.j256.ormlite.support.ConnectionSource;
-import com.philips.platform.securedblibrary.helper.SecureDbOrmLiteSqliteOpenHelper;
 
 /**
- * Base class to use for activities in Android.
+ * Base class to use for Tab activities in Android.
  * 
- * You can simply call {@link #getHelper()} to get your helper class, or {@link #getConnectionSource()} to get a
- * {@link ConnectionSource}.
- * 
- * The method {@link #getHelper()} assumes you are using the default helper factory -- see {@link OpenHelperManager}. If
- * not, you'll need to provide your own helper instances which will need to implement a reference counting scheme. This
- * method will only be called if you use the database, and only called once for this activity's life-cycle. 'close' will
- * also be called once for each call to createInstance.
+ * For more information, see {@link OrmLiteBaseActivity}.
  * 
  * @author graywatson, kevingalligan
  */
-public abstract class OrmLiteBaseActivity<H extends SecureDbOrmLiteSqliteOpenHelper> extends Activity {
+public abstract class OrmLiteBaseListActivity<H extends SecureDbOrmLiteSqliteOpenHelper> extends ListActivity {
 
 	private volatile H helper;
 	private volatile boolean created = false;
 	private volatile boolean destroyed = false;
-	private static Logger logger = LoggerFactory.getLogger(OrmLiteBaseActivity.class);
 
 	/**
 	 * Get a helper for this action.
@@ -82,7 +73,6 @@ public abstract class OrmLiteBaseActivity<H extends SecureDbOrmLiteSqliteOpenHel
 	protected H getHelperInternal(Context context) {
 		@SuppressWarnings({ "unchecked", "deprecation" })
 		H newHelper = (H) OpenHelperManager.getHelper(context);
-		logger.trace("{}: got new helper {} from OpenHelperManager", this, newHelper);
 		return newHelper;
 	}
 
@@ -97,12 +87,6 @@ public abstract class OrmLiteBaseActivity<H extends SecureDbOrmLiteSqliteOpenHel
 	 */
 	protected void releaseHelper(H helper) {
 		OpenHelperManager.releaseHelper();
-		logger.trace("{}: helper {} was released, set to null", this, helper);
 		this.helper = null;
-	}
-
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
 	}
 }

@@ -1,17 +1,14 @@
-package com.philips.platform.securedblibrary.ormlite;
+package com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools;
 
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.db.DatabaseType;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.DatabaseFieldConfig;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
-import com.j256.ormlite.table.DatabaseTableConfig;
-import com.j256.ormlite.table.DatabaseTableConfigLoader;
-import com.philips.platform.securedblibrary.helper.SecureDbOrmLiteSqliteOpenHelper;
-import com.philips.platform.securedblibrary.sqlcipher.db.SqliteAndroidDatabaseType;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -19,31 +16,41 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.db.DatabaseType;
+import com.j256.ormlite.db.SqliteAndroidDatabaseType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.DatabaseFieldConfig;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+import com.j256.ormlite.table.DatabaseTableConfig;
+import com.j256.ormlite.table.DatabaseTableConfigLoader;
+
 /**
  * Database configuration file helper class that is used to write a configuration file into the raw resource
  * sub-directory to speed up DAO creation.
- * 
+ *
  * <p>
  * With help from the user list and especially Ian Dees, we discovered that calls to annotation methods in Android are
  * _very_ expensive because Method.equals() was doing a huge toString(). This was causing folks to see 2-3 seconds
  * startup time when configuring 10-15 DAOs because of 1000s of calls to @DatabaseField methods. See <a
  * href="https://code.google.com/p/android/issues/detail?id=7811" >this Android bug report</a>.
  * </p>
- * 
+ *
  * <p>
  * I added this utility class which writes a configuration file into the raw resource "res/raw" directory inside of your
  * project containing the table and field names and associated details. This file can then be loaded into the
  * {@link DaoManager} with the help of the
- * {@link SecureDbOrmLiteSqliteOpenHelper(android.content.Context, String, android.database.sqlite.SQLiteDatabase.CursorFactory, int, int)}
+ * {@link SecureDbOrmLiteSqliteOpenHelper#SecureDbOrmLiteSqliteOpenHelper(android.content.Context, String, android.database.sqlite.SQLiteDatabase.CursorFactory, int, int)}
  * constructor. This means that you can configure your classes _without_ any runtime calls to annotations. It seems
  * significantly faster.
  * <p>
- * 
+ *
  * <p>
  * <b>WARNING:</b> Although this is fast, the big problem is that you have to remember to regenerate the config file
  * whenever you edit one of your database classes. There is no way that I know of to do this automagically.
  * </p>
- * 
+ *
  * @author graywatson
  */
 public class OrmLiteConfigUtil {
@@ -288,7 +295,7 @@ public class OrmLiteConfigUtil {
 
 	/**
 	 * Returns the package name of a file that has one of the annotations we are looking for.
-	 * 
+	 *
 	 * @return Package prefix string or null or no annotations.
 	 */
 	private static String getPackageOfClass(File file) throws IOException {
@@ -318,6 +325,7 @@ public class OrmLiteConfigUtil {
 		for (File file : dir.listFiles()) {
 			if (file.getName().equals(RESOURCE_DIR_NAME) && file.isDirectory()) {
 				File[] rawFiles = file.listFiles(new FileFilter() {
+					@Override
 					public boolean accept(File file) {
 						return file.getName().equals(RAW_DIR_NAME) && file.isDirectory();
 					}

@@ -1,4 +1,4 @@
-package com.philips.platform.securedblibrary.helper;
+package com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools;
 
 import android.content.Context;
 
@@ -7,15 +7,13 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
+import com.j256.ormlite.misc.IOUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.securedblibrary.connectionSource.SecureAndroidConnectionSource;
-import com.philips.platform.securedblibrary.ormlite.OrmLiteConfigUtil;
-import com.philips.platform.securedblibrary.sqlcipher.AndroidDatabaseConnection;
+import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidConnectionSource;
+import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidDatabaseConnection;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteDatabase.CursorFactory;
@@ -25,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
@@ -38,14 +35,14 @@ import java.sql.SQLException;
 public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelper {
 
 	protected static Logger logger = LoggerFactory.getLogger(SecureDbOrmLiteSqliteOpenHelper.class);
-	protected SecureAndroidConnectionSource connectionSource;
+	protected AndroidConnectionSource connectionSource;
 	SecureStorageInterface mSecureStorage=null;
 
 	protected boolean cancelQueriesEnabled;
 	private volatile boolean isOpen = true;
 	private String password;
 	private Context context;
-	 public Class tableName;
+	public Class tableName;
 	private String dataBaseName, dataBasePassword;
 	private int databaseVersion = 1;
 
@@ -68,7 +65,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 		this.dataBasePassword = dataBasePassword;
 		//dataBasePassword=retrievePassword();
 		SQLiteDatabase.loadLibs(context);
-		connectionSource = new SecureAndroidConnectionSource(this, dataBasePassword);
+		connectionSource = new AndroidConnectionSource(this);
 		logger.trace("{}: constructed connectionSource {}", this, connectionSource);
 	}
 
@@ -140,24 +137,22 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 		this.dataBasePassword = dataBasePassword;
 		//dataBasePassword=retrievePassword();
 		SQLiteDatabase.loadLibs(context);
-		connectionSource = new SecureAndroidConnectionSource(this, dataBasePassword);
+		connectionSource = new AndroidConnectionSource(this);
 		if (stream == null) {
 			return;
 		}
 
 		// if a config file-id was specified then load it into the DaoManager
+		BufferedReader reader = null;
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(stream), 4096);
+			reader = new BufferedReader(new InputStreamReader(stream), 4096);
+			stream = null;
 			DaoManager.addCachedDatabaseConfigs(DatabaseTableConfigLoader.loadDatabaseConfigFromReader(reader));
 		} catch (SQLException e) {
 			throw new IllegalStateException("Could not load object config file", e);
 		} finally {
-			try {
-				// we close the stream here because we may not get a reader
-				stream.close();
-			} catch (IOException e) {
-				// ignore close errors
-			}
+			IOUtils.closeQuietly(reader);
+			IOUtils.closeQuietly(stream);
 		}
 	}
 
@@ -220,7 +215,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 		 * create or update the database. So we have to use the database argument and save a connection to it on the
 		 * SecureAndroidConnectionSource, otherwise it will go recursive if the subclass calls getConnectionSource().
 		 */
-		DatabaseConnection conn = cs.getSpecialConnection();
+		DatabaseConnection conn = cs.getSpecialConnection(null);
 		boolean clearSpecial = false;
 		if (conn == null) {
 			conn = new AndroidDatabaseConnection(db, true, cancelQueriesEnabled);
@@ -251,7 +246,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 		 * create or update the database. So we have to use the database argument and save a connection to it on the
 		 * SecureAndroidConnectionSource, otherwise it will go recursive if the subclass calls getConnectionSource().
 		 */
-		DatabaseConnection conn = cs.getSpecialConnection();
+		DatabaseConnection conn = cs.getSpecialConnection(null);
 		boolean clearSpecial = false;
 		if (conn == null) {
 			conn = new AndroidDatabaseConnection(db, true, cancelQueriesEnabled);
@@ -269,6 +264,9 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 				cs.clearSpecialConnection(conn);
 			}
 		}
+	}
+	public String getPassword() {
+		return password;
 	}
 
 	/**
@@ -326,32 +324,6 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 			throw new RuntimeException("Could not create RuntimeExcepitionDao for class " + clazz, e);
 		}
 	}
-
-	public String getDataBaseName() {
-		if (null == dataBaseName || dataBaseName.isEmpty()) {
-			return null;
-		}
-		return dataBaseName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public int getDataBaseVersion() {
-		return databaseVersion;
-	}
-
-
-	public String getPassWord() {
-		return dataBasePassword;
-	}
-
-
-	public Class<T> getTableName() {
-		return tableName;
-	}
-
 
 	@Override
 	public String toString() {

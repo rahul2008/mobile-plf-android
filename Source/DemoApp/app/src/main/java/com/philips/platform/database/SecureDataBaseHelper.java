@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.philips.platform.securedblibrary.helper.SecureDbOrmLiteSqliteOpenHelper;
+import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 

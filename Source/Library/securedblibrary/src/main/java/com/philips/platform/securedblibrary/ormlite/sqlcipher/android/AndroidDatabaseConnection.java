@@ -1,13 +1,18 @@
-package com.philips.platform.securedblibrary.sqlcipher;
+package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
-import android.database.Cursor;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 
-import com.j256.ormlite.android.AndroidDatabaseResults;
+import android.database.Cursor;;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteStatement;
 import com.j256.ormlite.dao.ObjectCache;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.field.SqlType;
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.logger.LoggerFactory;
+import com.j256.ormlite.misc.IOUtils;
 import com.j256.ormlite.misc.SqlExceptionUtil;
 import com.j256.ormlite.misc.VersionUtils;
 import com.j256.ormlite.stmt.GenericRowMapper;
@@ -16,19 +21,15 @@ import com.j256.ormlite.support.CompiledStatement;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.GeneratedKeyHolder;
 
-import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteStatement;
-
-import java.sql.SQLException;
-import java.sql.Savepoint;
 
 /**
  * Database connection for Android.
- * 
+ *
+ * @author kevingalligan, graywatson
  */
 public class AndroidDatabaseConnection implements DatabaseConnection {
 
-	private static final String ANDROID_VERSION = "VERSION__4.48-SNAPSHOT__";
+	private static final String ANDROID_VERSION = "VERSION__5.0-SNAPSHOT__";
 
 	private static Logger logger = LoggerFactory.getLogger(AndroidDatabaseConnection.class);
 	private static final String[] NO_STRING_ARGS = new String[0];
@@ -52,10 +53,12 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		logger.trace("{}: db {} opened, read-write = {}", this, db, readWrite);
 	}
 
+	@Override
 	public boolean isAutoCommitSupported() {
 		return true;
 	}
 
+	@Override
 	public boolean isAutoCommit() throws SQLException {
 		try {
 			boolean inTransaction = db.inTransaction();
@@ -67,6 +70,7 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		}
 	}
 
+	@Override
 	public void setAutoCommit(boolean autoCommit) {
 		/*
 		 * Sqlite does not support auto-commit. The various JDBC drivers seem to implement it with the use of a
@@ -84,6 +88,7 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		}
 	}
 
+	@Override
 	public Savepoint setSavePoint(String name) throws SQLException {
 		try {
 			db.beginTransaction();
@@ -101,32 +106,34 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		return readWrite;
 	}
 
+	@Override
 	public void commit(Savepoint savepoint) throws SQLException {
 		try {
 			db.setTransactionSuccessful();
 			db.endTransaction();
 			if (savepoint == null) {
-				logger.trace("{}: transaction is successfuly ended", this);
+				logger.trace("{}: transaction is successfully ended", this);
 			} else {
-				logger.trace("{}: transaction {} is successfuly ended", this, savepoint.getSavepointName());
+				logger.trace("{}: transaction {} is successfully ended", this, savepoint.getSavepointName());
 			}
 		} catch (android.database.SQLException e) {
 			if (savepoint == null) {
-				throw SqlExceptionUtil.create("problems commiting transaction", e);
+				throw SqlExceptionUtil.create("problems committing transaction", e);
 			} else {
-				throw SqlExceptionUtil.create("problems commiting transaction " + savepoint.getSavepointName(), e);
+				throw SqlExceptionUtil.create("problems committing transaction " + savepoint.getSavepointName(), e);
 			}
 		}
 	}
 
+	@Override
 	public void rollback(Savepoint savepoint) throws SQLException {
 		try {
 			// no setTransactionSuccessful() means it is a rollback
 			db.endTransaction();
 			if (savepoint == null) {
-				logger.trace("{}: transaction is ended, unsuccessfuly", this);
+				logger.trace("{}: transaction is ended, unsuccessfully", this);
 			} else {
-				logger.trace("{}: transaction {} is ended, unsuccessfuly", this, savepoint.getSavepointName());
+				logger.trace("{}: transaction {} is ended, unsuccessfully", this, savepoint.getSavepointName());
 			}
 		} catch (android.database.SQLException e) {
 			if (savepoint == null) {
@@ -137,18 +144,21 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		}
 	}
 
+	@Override
 	public int executeStatement(String statementStr, int resultFlags) throws SQLException {
 		return AndroidCompiledStatement.execSql(db, statementStr, statementStr, NO_STRING_ARGS);
 	}
 
+	@Override
 	public CompiledStatement compileStatement(String statement, StatementType type, FieldType[] argFieldTypes,
-											  int resultFlags) {
+											  int resultFlags, boolean cacheStore) {
 		// resultFlags argument is not used in Android-land since the {@link Cursor} is bi-directional.
-		CompiledStatement stmt = new AndroidCompiledStatement(statement, db, type, cancelQueriesEnabled);
+		CompiledStatement stmt = new AndroidCompiledStatement(statement, db, type, cancelQueriesEnabled, cacheStore);
 		logger.trace("{}: compiled statement got {}: {}", this, stmt, statement);
 		return stmt;
 	}
 
+	@Override
 	public int insert(String statement, Object[] args, FieldType[] argFieldTypes, GeneratedKeyHolder keyHolder)
 			throws SQLException {
 		SQLiteStatement stmt = null;
@@ -169,27 +179,29 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("inserting to database failed: " + statement, e);
 		} finally {
-			if (stmt != null) {
-				stmt.close();
-			}
+			closeQuietly(stmt);
 		}
 	}
 
+	@Override
 	public int update(String statement, Object[] args, FieldType[] argFieldTypes) throws SQLException {
 		return update(statement, args, argFieldTypes, "updated");
 	}
 
+	@Override
 	public int delete(String statement, Object[] args, FieldType[] argFieldTypes) throws SQLException {
 		// delete is the same as update
 		return update(statement, args, argFieldTypes, "deleted");
 	}
 
+	@Override
 	public <T> Object queryForOne(String statement, Object[] args, FieldType[] argFieldTypes,
 								  GenericRowMapper<T> rowMapper, ObjectCache objectCache) throws SQLException {
 		Cursor cursor = null;
+		AndroidDatabaseResults results = null;
 		try {
 			cursor = db.rawQuery(statement, toStrings(args));
-			AndroidDatabaseResults results = new AndroidDatabaseResults(cursor, objectCache);
+			results = new AndroidDatabaseResults(cursor, objectCache, true);
 			logger.trace("{}: queried for one result: {}", this, statement);
 			if (!results.first()) {
 				return null;
@@ -204,12 +216,12 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("queryForOne from database failed: " + statement, e);
 		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
+			IOUtils.closeQuietly(results);
+			closeQuietly(cursor);
 		}
 	}
 
+	@Override
 	public long queryForLong(String statement) throws SQLException {
 		SQLiteStatement stmt = null;
 		try {
@@ -220,17 +232,17 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("queryForLong from database failed: " + statement, e);
 		} finally {
-			if (stmt != null) {
-				stmt.close();
-			}
+			closeQuietly(stmt);
 		}
 	}
 
+	@Override
 	public long queryForLong(String statement, Object[] args, FieldType[] argFieldTypes) throws SQLException {
 		Cursor cursor = null;
+		AndroidDatabaseResults results = null;
 		try {
 			cursor = db.rawQuery(statement, toStrings(args));
-			AndroidDatabaseResults results = new AndroidDatabaseResults(cursor, null);
+			results = new AndroidDatabaseResults(cursor, null, false);
 			long result;
 			if (results.first()) {
 				result = results.getLong(0);
@@ -242,29 +254,27 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("queryForLong from database failed: " + statement, e);
 		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
+			closeQuietly(cursor);
+			IOUtils.closeQuietly(results);
 		}
 	}
 
-	public void close() throws SQLException {
+	@Override
+	public void close() throws IOException {
 		try {
 			db.close();
 			logger.trace("{}: db {} closed", this, db);
 		} catch (android.database.SQLException e) {
-			throw SqlExceptionUtil.create("problems closing the database connection", e);
+			throw new IOException("problems closing the database connection", e);
 		}
 	}
 
+	@Override
 	public void closeQuietly() {
-		try {
-			close();
-		} catch (SQLException e) {
-			// ignored
-		}
+		IOUtils.closeQuietly(this);
 	}
 
+	@Override
 	public boolean isClosed() throws SQLException {
 		try {
 			boolean isOpen = db.isOpen();
@@ -275,6 +285,7 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		}
 	}
 
+	@Override
 	public boolean isTableExists(String tableName) {
 		Cursor cursor =
 				db.rawQuery("SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name = '" + tableName + "'", null);
@@ -301,10 +312,8 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("updating database failed: " + statement, e);
 		} finally {
-			if (stmt != null) {
-				stmt.close();
-				stmt = null;
-			}
+			closeQuietly(stmt);
+			stmt = null;
 		}
 		int result;
 		try {
@@ -314,9 +323,7 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 			// ignore the exception and just return 1
 			result = 1;
 		} finally {
-			if (stmt != null) {
-				stmt.close();
-			}
+			closeQuietly(stmt);
 		}
 		logger.trace("{} statement is compiled and executed, changed {}: {}", label, result, statement);
 		return result;
@@ -390,6 +397,24 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
 	}
 
+	/**
+	 * We can't use IOUtils here because older versions didn't implement Closeable.
+	 */
+	private void closeQuietly(Cursor cursor) {
+		if (cursor != null) {
+			cursor.close();
+		}
+	}
+
+	/**
+	 * We can't use IOUtils here because older versions didn't implement Closeable.
+	 */
+	private void closeQuietly(SQLiteStatement statement) {
+		if (statement != null) {
+			statement.close();
+		}
+	}
+
 	private static class OurSavePoint implements Savepoint {
 
 		private String name;
@@ -398,10 +423,12 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 			this.name = name;
 		}
 
+		@Override
 		public int getSavepointId() {
 			return 0;
 		}
 
+		@Override
 		public String getSavepointName() {
 			return name;
 		}

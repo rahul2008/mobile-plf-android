@@ -1,4 +1,4 @@
-package com.philips.platform.securedblibrary.sqlcipher.compatibility;
+package com.philips.platform.securedblibrary.ormlite.sqlcipher.android.compat;
 
 import android.os.Build;
 
@@ -36,7 +36,11 @@ public class ApiCompatibilityUtils {
 	private static final int JELLY_BEAN_MR2 = 18;
 
 	static {
-		compatibility = new BasicApiCompatibility();
+		if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
+			compatibility = new JellyBeanApiCompatibility();
+		} else {
+			compatibility = new BasicApiCompatibility();
+		}
 	}
 
 	/**

@@ -1,10 +1,4 @@
-package com.philips.platform.securedblibrary.sqlcipher;
-
-import android.database.Cursor;
-import com.j256.ormlite.dao.ObjectCache;
-import com.j256.ormlite.db.DatabaseType;
-import com.j256.ormlite.support.DatabaseResults;
-import com.philips.platform.securedblibrary.sqlcipher.db.SqliteAndroidDatabaseType;
+package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -15,9 +9,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.j256.ormlite.dao.ObjectCache;
+import com.j256.ormlite.db.DatabaseType;
+import com.j256.ormlite.db.SqliteAndroidDatabaseType;
+import com.j256.ormlite.support.DatabaseResults;
+
+import android.database.Cursor;
+
 /**
  * Android implementation of our results object.
- * 
+ *
  * @author kevingalligan, graywatson
  */
 public class AndroidDatabaseResults implements DatabaseResults {
@@ -28,9 +29,10 @@ public class AndroidDatabaseResults implements DatabaseResults {
 	private final String[] columnNames;
 	private final Map<String, Integer> columnNameMap;
 	private final ObjectCache objectCache;
+	private final boolean cacheStore;
 	private static final DatabaseType databaseType = new SqliteAndroidDatabaseType();
 
-	public AndroidDatabaseResults(Cursor cursor, ObjectCache objectCache) {
+	public AndroidDatabaseResults(Cursor cursor, ObjectCache objectCache, boolean cacheStore) {
 		this.cursor = cursor;
 		this.columnNames = cursor.getColumnNames();
 		if (this.columnNames.length >= MIN_NUM_COLUMN_NAMES_MAP) {
@@ -43,22 +45,15 @@ public class AndroidDatabaseResults implements DatabaseResults {
 			columnNameMap = null;
 		}
 		this.objectCache = objectCache;
+		this.cacheStore = cacheStore;
 	}
 
-	/**
-	 * Constructor that allows you to inject a cursor that has already been configured with first-call set to false.
-	 * 
-	 * @deprecated The firstCall is no longer needed since the library now calls first() and next on its own.
-	 */
-	@Deprecated
-	public AndroidDatabaseResults(Cursor cursor, boolean firstCall, ObjectCache objectCache) {
-		this(cursor, objectCache);
-	}
-
+	@Override
 	public int getColumnCount() {
 		return cursor.getColumnCount();
 	}
 
+	@Override
 	public String[] getColumnNames() {
 		int colN = getColumnCount();
 		String[] columnNames = new String[colN];
@@ -68,26 +63,32 @@ public class AndroidDatabaseResults implements DatabaseResults {
 		return columnNames;
 	}
 
+	@Override
 	public boolean first() {
 		return cursor.moveToFirst();
 	}
 
+	@Override
 	public boolean next() {
 		return cursor.moveToNext();
 	}
 
+	@Override
 	public boolean last() {
 		return cursor.moveToLast();
 	}
 
+	@Override
 	public boolean previous() {
 		return cursor.moveToPrevious();
 	}
 
+	@Override
 	public boolean moveRelative(int offset) {
 		return cursor.move(offset);
 	}
 
+	@Override
 	public boolean moveAbsolute(int position) {
 		return cursor.moveToPosition(position);
 	}
@@ -106,6 +107,7 @@ public class AndroidDatabaseResults implements DatabaseResults {
 		return cursor.getPosition();
 	}
 
+	@Override
 	public int findColumn(String columnName) throws SQLException {
 		int index = lookupColumn(columnName);
 		if (index >= 0) {
@@ -129,10 +131,12 @@ public class AndroidDatabaseResults implements DatabaseResults {
 		}
 	}
 
+	@Override
 	public String getString(int columnIndex) {
 		return cursor.getString(columnIndex);
 	}
 
+	@Override
 	public boolean getBoolean(int columnIndex) {
 		if (cursor.isNull(columnIndex) || cursor.getShort(columnIndex) == 0) {
 			return false;
@@ -141,6 +145,7 @@ public class AndroidDatabaseResults implements DatabaseResults {
 		}
 	}
 
+	@Override
 	public char getChar(int columnIndex) throws SQLException {
 		String string = cursor.getString(columnIndex);
 		if (string == null || string.length() == 0) {
@@ -152,58 +157,87 @@ public class AndroidDatabaseResults implements DatabaseResults {
 		}
 	}
 
+	@Override
 	public byte getByte(int columnIndex) {
 		return (byte) getShort(columnIndex);
 	}
 
+	@Override
 	public byte[] getBytes(int columnIndex) {
 		return cursor.getBlob(columnIndex);
 	}
 
+	@Override
 	public short getShort(int columnIndex) {
 		return cursor.getShort(columnIndex);
 	}
 
+	@Override
 	public int getInt(int columnIndex) {
 		return cursor.getInt(columnIndex);
 	}
 
+	@Override
 	public long getLong(int columnIndex) {
 		return cursor.getLong(columnIndex);
 	}
 
+	@Override
 	public float getFloat(int columnIndex) {
 		return cursor.getFloat(columnIndex);
 	}
 
+	@Override
 	public double getDouble(int columnIndex) {
 		return cursor.getDouble(columnIndex);
 	}
 
+	@Override
 	public Timestamp getTimestamp(int columnIndex) throws SQLException {
 		throw new SQLException("Android does not support timestamp.  Use JAVA_DATE_LONG or JAVA_DATE_STRING types");
 	}
 
+	@Override
 	public InputStream getBlobStream(int columnIndex) {
 		return new ByteArrayInputStream(cursor.getBlob(columnIndex));
 	}
 
+	@Override
 	public BigDecimal getBigDecimal(int columnIndex) throws SQLException {
-		throw new SQLException("Android does not support BigDecimal type.  Use BIG_DECIMAL or BIG_DECIMAL_STRING types");
+		throw new SQLException(
+				"Android does not support BigDecimal type.  Use BIG_DECIMAL or BIG_DECIMAL_STRING types");
 	}
 
+	@Override
+	public Object getObject(int columnIndex) throws SQLException {
+		throw new SQLException("Android does not support Object type.");
+	}
+
+	@Override
 	public boolean wasNull(int columnIndex) {
 		return cursor.isNull(columnIndex);
 	}
 
-	public ObjectCache getObjectCache() {
+	@Override
+	public ObjectCache getObjectCacheForRetrieve() {
 		return objectCache;
 	}
 
+	@Override
+	public ObjectCache getObjectCacheForStore() {
+		if (cacheStore) {
+			return objectCache;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
 	public void close() {
 		cursor.close();
 	}
 
+	@Override
 	public void closeQuietly() {
 		close();
 	}

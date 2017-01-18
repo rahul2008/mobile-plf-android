@@ -14,8 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.philips.platform.securedblibrary.helper.SecureDataBaseQueryHelper;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

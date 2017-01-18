@@ -1,5 +1,11 @@
-package com.philips.platform.securedblibrary.sqlcipher;
+package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.DataPersister;
 import com.j256.ormlite.field.DataType;
@@ -8,25 +14,26 @@ import com.j256.ormlite.field.DatabaseFieldConfig;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTableConfig;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Class which uses reflection to make the job of processing the {@link DatabaseField} annotation more efficient. In
  * current (as of 11/2011) versions of Android, Annotations are ghastly slow. This uses reflection on the Android
  * classes to work around this issue. Gross and a hack but a significant (~20x) performance improvement.
- * 
+ *
  * <p>
  * Thanks much go to Josh Guilfoyle for the idea and the code framework to make this happen.
  * </p>
- * 
+ *
  * @author joshguilfoyle, graywatson
  */
 public class DatabaseTableConfigUtil {
+
+	/**
+	 * Set this system property to any value to disable the annotations hack which seems to cause problems on certain
+	 * operating systems.
+	 */
+	public static final String DISABLE_ANNOTATION_HACK_SYSTEM_PROPERTY = "ormlite.annotation.hack.disable";
 
 	private static Class<?> annotationFactoryClazz;
 	private static Field elementsField;
@@ -35,7 +42,19 @@ public class DatabaseTableConfigUtil {
 	private static Field valueField;
 	private static int workedC = 0;
 
-	private static final int[] configFieldNums = lookupClasses();
+	private static final int[] configFieldNums;
+
+	static {
+		/*
+		 * If we are dealing with older versions of the OS and if we've not disabled the annotation hack...
+		 */
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH
+				&& System.getProperty(DISABLE_ANNOTATION_HACK_SYSTEM_PROPERTY) == null) {
+			configFieldNums = lookupClasses();
+		} else {
+			configFieldNums = null;
+		}
+	}
 
 	/**
 	 * Build our list table config from a class using some annotation fu around.
@@ -405,7 +424,6 @@ public class DatabaseTableConfigUtil {
 	 * Class used to investigate the @DatabaseField annotation.
 	 */
 	private static class DatabaseFieldSample {
-		@SuppressWarnings("unused")
 		@DatabaseField
 		String field;
 	}
