@@ -4,6 +4,7 @@
 
     <!--Percentage for opacity-->
     <item name="uid_alpha_per_100" format="float" type="dimen">1</item>
+    <item name="uid_alpha_per_10" format="float" type="dimen">0.1</item>
     <item name="uid_alpha_per_15" format="float" type="dimen">0.15</item>
     <item name="uid_alpha_per_20" format="float" type="dimen">0.20</item>
     <item name="uid_alpha_per_25" format="float" type="dimen">0.25</item>
@@ -57,13 +58,13 @@
     <dimen name="uid_edittext_min_width">24dp</dimen>
     <dimen name="uid_edittext_text_size">16sp</dimen>
     <dimen name="uid_edittext_stroke_width_ultralight">1dp</dimen>
-    <dimen name="uid_edittext_line_spacing">26dp</dimen>
+    <dimen name="uid_edittext_line_spacing">0dp</dimen>
     <dimen name="uid_edittext_vertical_padding">12dp</dimen>
     <item name="uid_edittext_fill_disabled_alpha" format="float" type="dimen">0.35</item>
     <item name="uid_edittext_border_20_alpha" format="float" type="dimen">0.20</item>
     <item name="uid_edittext_border_25_alpha" format="float" type="dimen">0.25</item>
     <item name="uid_editboxtext_border_35_alpha" format="float" type="dimen">0.35</item>
-    <integer name="uid_edittext_font_spacing_multiplier">0</integer>
+    <integer name="uid_edittext_font_spacing_multiplier">1</integer>
     <dimen name="uid_edittext_password_drawable_touch_area">48dp</dimen>
     <dimen name="uid_edittext_password_right_drawable_left_padding">20dp</dimen>
 
@@ -137,5 +138,11 @@
     <dimen name="uid_checkbox_height">48dp</dimen>
     <dimen name="uid_checkbox_text_size">16sp</dimen>
     <dimen name="uid_checkbox_border_ripple_radius">20dp</dimen>
-</resources>
 
+    <!--Linear indeterminate progressbar-->
+    <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>
+
+    <!-- Separator -->
+    <dimen name="uid_divider_Height">1dp</dimen>
+
+</resources>

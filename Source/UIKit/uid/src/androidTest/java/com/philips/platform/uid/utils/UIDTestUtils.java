@@ -15,14 +15,18 @@ import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class UIDTestUtils {
+    public final static int UI_LOAD_WAIT_TIME = 750;
+
     public static int getAttributeColor(Context context, int attribute) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{attribute});
         int color = Color.MAGENTA;
@@ -180,5 +184,15 @@ public class UIDTestUtils {
         TypedValue typedValue = new TypedValue();
         activity.getResources().getValue(dimenResource, typedValue, true);
         return typedValue.getFloat();
+    }
+
+    public static List<RecyclerView.ItemDecoration> getItemsDecoration(final RecyclerView recyclerView) {
+        try {
+            final List<RecyclerView.ItemDecoration> mItemDecorations = (List<RecyclerView.ItemDecoration>) FieldUtils.readField(recyclerView, "mItemDecorations", true);
+            return mItemDecorations;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

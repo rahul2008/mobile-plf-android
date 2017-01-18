@@ -134,6 +134,9 @@
         <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_100</item>
+
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
     </style>
 
     <style name="VeryLight">
@@ -175,6 +178,9 @@
 
         <item name="uidCheckBoxTextEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_70</item>
+
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
     </style>
 
     <style name="Light">
@@ -211,9 +217,13 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
+
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
     </style>
 
     <style name="Bright">
@@ -252,6 +262,9 @@
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_25</item>
+
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
     </style>
 
     <style name="VeryDark">
@@ -292,5 +305,8 @@
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_40</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_35</item>
+
+        <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+        <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
     </style>
 </resources>

@@ -100,4 +100,12 @@
     <string name="checkbox_check_item_1">Check item 1</string>
     <string name="checkbox_check_item_2">Check item 2</string>
     <string name="checkbox_check_item_3">Check item 3</string>
+
+    <string name="page_title_separator">Separator</string>
+    <string name="title1">Title 1</string>
+    <string name="title2">Title 2</string>
+    <string name="title3">Title 3</string>
+    <string name="title4">Title 4</string>
+    <string name="title5">Title 5</string>
+    <string name="title6">Title 6</string>
 </resources>
