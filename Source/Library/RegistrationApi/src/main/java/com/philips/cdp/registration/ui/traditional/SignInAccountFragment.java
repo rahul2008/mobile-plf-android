@@ -418,7 +418,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegError.hideError();
         } else {
-            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }

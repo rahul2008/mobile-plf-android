@@ -431,7 +431,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
 
 

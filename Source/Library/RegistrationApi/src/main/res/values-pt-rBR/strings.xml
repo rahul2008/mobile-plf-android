@@ -122,7 +122,6 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Olá,</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Deseja acessar mais configurações da conta?\nAcesse %s pelo navegador.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt"></string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">O que isso significa?</string>
 <string name="reg_Philips_News_Title">Informações da Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Retornar</string>

@@ -136,7 +136,7 @@ import static com.janrain.android.utils.LogUtils.throwDebugException;
  * @nosubgrouping
  */
 public class JREngage {
-    public static final int UR_ERRORCODE = 67675438;
+    public static final int UR_ERRORCODE = -30;
     /**
      * If not set library logging is automatically controlled via the "debuggable" flag for the application
      * which is normally automatically set by the build system

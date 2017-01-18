@@ -262,7 +262,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             mBtnActivate.setEnabled(false);
             mBtnResend.setEnabled(false);
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }

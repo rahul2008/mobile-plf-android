@@ -211,7 +211,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             mRegError.hideError();
         } else {
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }

@@ -448,7 +448,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.hideError();
             } else {
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-                trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }
@@ -461,7 +460,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mRegError.hideError();
             } else {
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-                trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }
@@ -629,7 +627,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
         }
-        trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
+        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!=-1) {
+            trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
+        }
     }
 
     @Override

@@ -634,7 +634,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
-            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
@@ -875,12 +874,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo) {
+        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!=-1) {
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }
 
         //Temp fix need to be changed
-        if(userRegistrationFailureInfo.getErrorCode() == -1){
+        if(userRegistrationFailureInfo.getErrorCode() == -30){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             scrollViewAutomatically(mRegError,mSvRootLayout);
         }

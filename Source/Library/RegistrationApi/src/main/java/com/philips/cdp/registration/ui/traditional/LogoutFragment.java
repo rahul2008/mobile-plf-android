@@ -376,7 +376,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             }
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
 
