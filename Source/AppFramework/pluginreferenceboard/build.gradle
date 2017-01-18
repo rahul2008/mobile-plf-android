@@ -33,5 +33,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.4-SNAPSHOT', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar')
 }
