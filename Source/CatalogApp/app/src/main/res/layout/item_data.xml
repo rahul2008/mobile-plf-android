@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="data" type="com.philips.platform.catalogapp.DataHolder"></variable>
+
+        <variable
+            name="data"
+            type="com.philips.platform.catalogapp.DataHolder"></variable>
     </data>
+
     <TextView
         style="@style/TestButtonTexts"
         android:layout_width="match_parent"
@@ -11,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/uid_page_marging_left_right"
         android:layout_marginStart="@dimen/uid_page_marging_left_right"
-        android:drawableLeft="@{data.getIcon()}"
+        android:drawableStart="@{data.getIcon()}"
         android:drawablePadding="@dimen/separator_drawable_padding"
         android:gravity="start|center_vertical"
         android:text="@{data.text}"

@@ -12,7 +12,7 @@
         <item name="uidButtonImageDrawableWidth">32dp</item>
         <item name="uidButtonImageDrawableHeight">32dp</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="uidButtonDrawableColorList">
+        <item name="uidButtonBackgroundColorList">
             @color/uid_social_icon_primary_button_background_selector
         </item>
         <item name="uidButtonTextColorList">@color/uid_social_icon_primary_button_text_selector
@@ -25,4 +25,25 @@
             @color/uid_social_icon_white_button_background_selector
         </item>
     </style>
+
+    <style name="UIDSocialIconPrimaryWithDrawable" parent="UIDSocialIconPrimary">
+        <item name="uidButtonDrawableColorList">
+            @color/uid_social_icon_white_button_text_selector
+        </item>
+        <item name="uidButtonBackgroundColorList">
+            @color/uid_social_icon_primary_button_text_selector
+        </item>
+        <item name="uidButtonTextColorList">@null</item>
+    </style>
+
+    <style name="UIDSocialIconWhiteWithDrawable" parent="UIDSocialIconPrimary">
+        <item name="uidButtonDrawableColorList">
+            @color/uid_social_icon_white_button_background_selector
+        </item>
+        <item name="uidButtonBackgroundColorList">
+            @color/uid_social_icon_white_button_text_selector
+        </item>
+        <item name="uidButtonTextColorList">@null</item>
+    </style>
+
 </resources>

@@ -280,6 +280,24 @@
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isButtonsEnabled}"
                     android:text="@string/uid_fonticon_twitter"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/uid_social_facebook_with_drawable"
+                    style="@style/UIDSocialIconPrimaryWithDrawable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/uid_social_twitter_with_drawable"
+                    style="@style/UIDSocialIconWhiteWithDrawable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"/>
             </LinearLayout>
 
             <TextView
