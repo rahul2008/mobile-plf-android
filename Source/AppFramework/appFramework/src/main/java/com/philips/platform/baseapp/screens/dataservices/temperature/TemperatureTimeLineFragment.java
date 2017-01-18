@@ -100,7 +100,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mDataServicesManager.registerDBChangeListener(this);
         mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
@@ -122,6 +121,18 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
         Thread t = new Thread(new BuildModel());
         t.start();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+     mDataServicesManager.registerDBChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mDataServicesManager.unRegisterDBChangeListener();
     }
 
     public class BuildModel implements Runnable {
@@ -221,7 +232,6 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onStop() {
         super.onStop();
-        DataServicesManager.getInstance().unRegisterDBChangeListener();
         cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();

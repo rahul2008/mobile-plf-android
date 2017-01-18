@@ -208,7 +208,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     @Override
     public void dBChangeSuccess() {
-        fetchConsent();
+        DataServicesManager.getInstance().fetchConsent(this);
     }
 
     @Override
