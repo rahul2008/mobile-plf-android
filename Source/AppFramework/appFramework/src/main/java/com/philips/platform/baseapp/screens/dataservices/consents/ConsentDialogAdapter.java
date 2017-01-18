@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     private ArrayList<? extends ConsentDetail> consentDetails;
@@ -70,8 +70,8 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         return consentDetails.size();
     }
 
-    public void updateConsentDetails() {
-        DataServicesManager.getInstance().updateConsent(mConsent);
+    public void updateConsent() {
+        consentDialogPresenter.updateConsent(mConsent);
     }
 
 

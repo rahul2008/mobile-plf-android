@@ -2,6 +2,7 @@ package com.philips.platform.baseapp.screens.dataservices.consents;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -15,9 +16,9 @@ import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
-import com.philips.platform.baseapp.screens.dataservices.listener.DBChangeListener;
-import com.philips.platform.baseapp.screens.dataservices.listener.EventHelper;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
  * Created by sangamesh on 08/11/16.
  */
 
-public class ConsentDialogFragment extends DialogFragment implements DBChangeListener, View.OnClickListener {
+public class ConsentDialogFragment extends DialogFragment implements DBRequestListener,DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -35,6 +36,8 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     ConsentDialogPresenter consentDialogPresenter;
     private ProgressDialog mProgressDialog;
     ArrayList<? extends ConsentDetail> consentDetails;
+    private Context mContext;
+    private DataServicesManager mDataServicesManager;
 
     @Nullable
     @Override
@@ -43,6 +46,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         View rootView = inflater.inflate(R.layout.dialog_consent, container,
                 false);
 
+        mDataServicesManager= DataServicesManager.getInstance();
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
         mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
@@ -51,12 +55,11 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
         mBtnCancel.setOnClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        consentDialogPresenter=new ConsentDialogPresenter(getActivity());
+        consentDialogPresenter=new ConsentDialogPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
         consentDetails=new ArrayList<>();
         lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
-        EventHelper.getInstance().registerEventNotification(EventHelper.CONSENT, this);
         fetchConsent();
         return rootView;
 
@@ -70,23 +73,32 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dismissProgressDialog();
-                if (data == null) {
-                    showProgressDialog();
-                    consentDialogPresenter.createSaveDefaultConsent();
+        if(getActivity()!=null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    if (data == null) {
+                        showProgressDialog();
+                        consentDialogPresenter.createSaveDefaultConsent();
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext=context;
     }
 
     @Override
     public void onSuccess(Object data) {
 
         final OrmConsent ormConsent = (OrmConsent) data;
-        if (ormConsent != null) {
+        if (getActivity()!=null && ormConsent != null ) {
+
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -102,14 +114,28 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     @Override
     public void onFailure(final Exception exception) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                dismissProgressDialog();
-                Toast.makeText(getActivity(),exception.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(getActivity()!=null) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if(getActivity()!=null) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 
@@ -117,7 +143,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOK:
-                lConsentAdapter.updateConsentDetails();
+                lConsentAdapter.updateConsent();
                 dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:
@@ -136,7 +162,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStop() {
         super.onStop();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.CONSENT, this);
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
         dismissProgressDialog();
     }
 
@@ -153,8 +179,9 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
     @Override
     public void onStart() {
         super.onStart();
+        mDataServicesManager.registerDBChangeListener(this);
         Dialog dialog = getDialog();
-        dialog.setTitle("consents");
+        dialog.setTitle(R.string.consents);
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -176,6 +203,22 @@ public class ConsentDialogFragment extends DialogFragment implements DBChangeLis
 
     public void fetchConsent() {
         showProgressDialog();
-        DataServicesManager.getInstance().fetchConsent();
+        DataServicesManager.getInstance().fetchConsent(this);
+    }
+
+    @Override
+    public void dBChangeSuccess() {
+        fetchConsent();
+    }
+
+    @Override
+    public void dBChangeFailed(final Exception e) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

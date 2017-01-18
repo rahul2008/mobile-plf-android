@@ -308,7 +308,7 @@ configurations.all {
 }
 
 dependencies {
-    testCompile('org.mockito:mockito-core:1.10.19')
+    testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-annotations:24.0.0'
@@ -321,47 +321,44 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // Module projects
+
     //compile project(':dataServices')
+
     // DEBUG
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
-
-    compile "com.j256.ormlite:ormlite-core:4.48"
-    compile "com.j256.ormlite:ormlite-android:4.48"
-
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.2.0-SNAPSHOT', ext: 'aar', changing: true) {
+    compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile('com.philips.cdp:product-registration-lib:2.2.0-SNAPSHOT@aar') {
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.2.0-SNAPSHOT', ext: 'aar', changing: true) {
-        transitive=true
+    compile('com.philips.cdp:digitalCare:7.2.0-SNAPSHOT@aar') {
+        transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.2.0-SNAPSHOT', ext: 'aar', changing: true) {
-        transitive=true
+    compile('com.philips.cdp:iap:5.2.0-SNAPSHOT@aar') {
+        transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.2.0-SNAPSHOT', ext: 'aar') {
+    /* compile(group: 'com.philips.cdp', name: 'dataServices', version: '0.2.0-SNAPSHOT', ext: 'aar') {
+                exclude group: 'com.android.support'
+                transitive = true
+            }*/
+    compile('com.philips.cdp:dicommClientLib:2.2.0-SNAPSHOT@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.2.0-SNAPSHOT', ext: 'aar') {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar'){
+    compile('com.philips.cdp:shinelib:2.2.0-SNAPSHOT@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
     compile project(':pluginreferenceboard')
-
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
-    testCompile "org.robolectric:robolectric:3.1.1"
-
+    testCompile 'org.robolectric:robolectric:3.1.1'
+    compile project(':dataServices-release')
+    compile 'net.danlew:android.joda:2.9.2'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.google.dagger:dagger:2.0.2'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
 }
 
 task copyToLib(type: Copy) {
