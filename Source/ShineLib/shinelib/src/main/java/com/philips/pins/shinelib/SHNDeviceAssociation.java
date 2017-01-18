@@ -202,8 +202,10 @@ public class SHNDeviceAssociation {
                 try {
                     initFuture.get();
                 } catch (InterruptedException e) {
+                    SHNLogger.e(TAG, e.getMessage(), e);
                     throw new InternalError("Caught unexpected InterruptedException");
                 } catch (ExecutionException e) {
+                    SHNLogger.e(TAG, e.getMessage(), e);
                     throw new InternalError("Caught unexpected ExecutionException");
                 }
             } else {
