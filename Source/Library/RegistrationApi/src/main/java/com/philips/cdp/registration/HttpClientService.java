@@ -14,9 +14,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-/**
- * Created by 310190722 on 10/19/2016.
- */
+
 public class HttpClientService extends IntentService{
 
     public HttpClientService(){
