@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -42,6 +43,7 @@ public class SecureStorage implements SecureStorageInterface {
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
+    private static final String DATA_FILE_NAME_FOR_SQLCIPHER_KEY = "AppInfra.StorageSqlCipherKey.file";
     private final Context mContext;
     private static KeyStore keyStore = null;
     private AppInfra mAppInfra;
@@ -167,6 +169,82 @@ public class SecureStorage implements SecureStorageInterface {
         return (deleteResultValue && deleteResultKey);
     }
 
+    @Override
+    public boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error) {
+        boolean returnResult = true;
+        String keyString = null;
+        try {
+            if (null == keyName || keyName.isEmpty() || keyName.trim().isEmpty() ) {
+                error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+                returnResult = false;
+                return false;
+            }
+            SecretKey secretKey = generateAESKey(); // generate AES key
+            Key key = (Key) new SecretKeySpec(secretKey.getEncoded(), "AES");
+
+            keyString = Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
+
+            returnResult = storeEncryptedData(keyName, keyString, DATA_FILE_NAME_FOR_SQLCIPHER_KEY);
+            if (!returnResult) {
+                // storing failed in shared preferences
+                error.setErrorCode(SecureStorageError.secureStorageError.StoreError);
+            }
+            keyString = returnResult ? keyString : null; // if save of encryption data fails return null
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "SqlCipher Data Key", keyString);
+        } catch (Exception e) {
+            error.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
+            returnResult = false;
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage  SqlCipher Data Key ", e.getMessage());
+            //Log.e("SecureStorage", Log.getStackTraceString(e));
+        } finally {
+            return returnResult;
+        }
+    }
+
+    @Override
+    public Key getKey(String keyName, SecureStorageError error) {
+        Key decryptedKey = null;
+        if (null == keyName || keyName.isEmpty()) {
+            error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+            return null;
+        }
+        String encryptedKey = fetchEncryptedData(keyName, error, DATA_FILE_NAME_FOR_SQLCIPHER_KEY);
+        if (null == encryptedKey ) {
+            error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+            return null; // if user entered key is not present
+        }
+        try {
+
+            byte[] encryptedValueBytes = Base64.decode(encryptedKey, Base64.DEFAULT);
+
+            SecretKey originalKey = new SecretKeySpec(encryptedValueBytes, 0, encryptedValueBytes.length, "AES");
+
+            decryptedKey = (Key) new SecretKeySpec(originalKey.getEncoded(), "AES");
+
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage SqlCipher Data Key", e.getMessage());
+            error.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
+            if (null != decryptedKey) {  // if exception is thrown at:  decryptedString = new String(decText);
+                decryptedKey = null;
+            }
+        } finally {
+            return decryptedKey;
+        }
+    }
+
+    @Override
+    public boolean clearKey(String keyName, SecureStorageError error) {
+        boolean deleteResultValue = false;
+        if (null == keyName || keyName.isEmpty()) {
+            return false;
+        }
+        deleteResultValue = deleteEncryptedData(keyName, DATA_FILE_NAME_FOR_SQLCIPHER_KEY);
+        return deleteResultValue ;
+    }
+
+
+
+
 
     private void generateKeyPair() {
         try {
@@ -195,6 +273,7 @@ public class SecureStorage implements SecureStorageInterface {
         }
 
     }
+
 
 
     private boolean storeEncryptedData(String key, String encryptedData, String filename) {

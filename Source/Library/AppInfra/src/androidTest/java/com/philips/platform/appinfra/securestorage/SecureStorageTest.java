@@ -7,10 +7,13 @@ package com.philips.platform.appinfra.securestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
 
+import java.security.Key;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
@@ -73,6 +76,41 @@ public class SecureStorageTest extends MockitoTestCase {
         assertNull(mSecureStorage.fetchValueForKey(null,sse));
         assertNull(mSecureStorage.fetchValueForKey("",sse));
         assertNull(mSecureStorage.fetchValueForKey("NotSavedKey",sse));
+
+    }
+
+
+    public void testCreateKey() throws Exception {
+
+        SecureStorage secureStorageMock = mock(SecureStorage.class);
+
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+
+
+        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "", sse));
+        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, null, sse));
+        assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
+        assertTrue(mSecureStorage.createKey(null, "KeyName", sse));
+        assertFalse(mSecureStorage.createKey(null, " ", sse));
+        assertFalse(mSecureStorage.createKey(null, null, sse));
+
+    }
+
+    public void testGetKey() throws Exception {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
+        Key key =mSecureStorage.getKey("KeyName", sse);
+        String keyString = Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
+        Log.v("SqlCipher Data Key" , keyString );
+    }
+
+    public void testClearKey() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+
+        assertFalse(mSecureStorage.clearKey(" ", sse));
+        assertFalse(mSecureStorage.clearKey(null, sse));
+        assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
+        assertTrue(mSecureStorage.clearKey("KeyName", sse));
 
     }
 
