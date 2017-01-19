@@ -56,8 +56,8 @@ public class SecureDataBaseQueryHelper<T> {
     }
 
     public SQLiteDatabase getWriteDbPermission() {
-
-        return getHelper().getWritableDatabase(dataBasePassword);
+        String pass=getHelper().getPassword();
+        return getHelper().getWritableDatabase(pass);
     }
 
 

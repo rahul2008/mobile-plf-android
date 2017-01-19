@@ -8,11 +8,18 @@ package com.philips.platform.securedblibrary.securestoragedb;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.securedblibrary.MockitoTestCase;
+import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.SecureDbOrmLiteSqliteOpenHelper;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
@@ -24,20 +31,41 @@ import static org.mockito.Mockito.when;
  */
 
 public class SecureStorageDBTest extends MockitoTestCase {
-    SecureStorageInterface mSecureStorage=null;
-   // Context context = Mockito.mock(Context.class);
+    SecureStorageInterface mSecureStorage = null;
+    // Context context = Mockito.mock(Context.class);
+    private static final String DATABASE_NAME = "address.db";
+    public static  String DATABASE_PASSWORD_KEY = "hi";
+    private static  int DATABASE_VERSION = 3;
 
     private Context context;
-    private AppInfra mAppInfra;
+    private SecureDbOrmLiteSqliteOpenHelper secureDbOrmLiteSqliteOpenHelper;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         context = getInstrumentation().getContext();
-        assertNotNull(context);
-        //mAppInfra =  new AppInfra.Builder().build(context);
-       // mSecureStorage = mAppInfra.getSecureStorage();
-        assertNotNull(mSecureStorage);
+       assertNotNull(context);
 
+    }
+
+    public void testDatabaseTable() throws Exception {
+        secureDbOrmLiteSqliteOpenHelper = new SecureDbOrmLiteSqliteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION,DATABASE_PASSWORD_KEY) {
+            @Override
+            public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource)  {
+                try {
+                    TableUtils.createTable(connectionSource, AddressBook.class);
+                }catch (SQLException e){
+
+                }
+
+            }
+
+            @Override
+            public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+
+            }
+        };
+        assertNotNull(secureDbOrmLiteSqliteOpenHelper);
 
 
     }
@@ -45,36 +73,77 @@ public class SecureStorageDBTest extends MockitoTestCase {
 
 
 
-    public void testStoreValueForKey() throws Exception {
 
-        SecureStorage secureStorageMock = mock(SecureStorage.class);
+    protected static class AddressBook {
+        public static final String ID_FIELD = "address_id";
 
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        // Primary key defined as an auto generated integer
+        // If the database table column name differs than the Model class variable name, the way to map to use columnName
+        @DatabaseField(generatedId = true, columnName = ID_FIELD)
+        public int addressId;
 
-        assertFalse(mSecureStorage.storeValueForKey("", "value",sse));
-        assertFalse(mSecureStorage.storeValueForKey("", "",sse));
-        assertFalse(mSecureStorage.storeValueForKey("key", null,sse));
-        assertFalse(mSecureStorage.storeValueForKey(null, "value",sse));
-        assertFalse(mSecureStorage.storeValueForKey(null, null,sse));
-        assertTrue(mSecureStorage.storeValueForKey("key", "",sse)); // value can be empty
-        assertFalse(mSecureStorage.storeValueForKey(" ", "val",sse)); // value can be empty
-        assertFalse(mSecureStorage.storeValueForKey("   ", "val",sse)); // value can be empty
+        @DatabaseField(columnName = "first_name")
+        public String firstName;
 
-        assertTrue(mSecureStorage.storeValueForKey("key", "value",sse)); // true condition
 
-        // value passed by user should not be same as that of its encrypted equivalent
+        @DatabaseField(columnName = "last_name")
+        public String lastName;
+
+        @DatabaseField
+        public String address;
+
+        @DatabaseField(columnName = "contact_number")
+        public long contactNumber;
+
+        public AddressBook() {
 
         }
 
 
-
-
-
-
-
-
-
-
-
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

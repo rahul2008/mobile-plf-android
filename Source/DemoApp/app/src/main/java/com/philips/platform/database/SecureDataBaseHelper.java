@@ -16,8 +16,8 @@ public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
 
 
 
-    public SecureDataBaseHelper(Context context, Class tableName, String dataBaseName, int databaseVersion, String dataBasePassword)  {
-        super(context, dataBaseName, null, databaseVersion, tableName, dataBasePassword);
+    public SecureDataBaseHelper(Context context, Class tableName, String dataBaseName, int databaseVersion, String databaseKey)  {
+        super(context, dataBaseName, null, databaseVersion, databaseKey);
         this.tableName=tableName;
         this.context=context;
 
