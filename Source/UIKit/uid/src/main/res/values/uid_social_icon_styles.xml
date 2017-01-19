@@ -9,13 +9,13 @@
         <item name="android:drawablePadding">0dp</item>
         <item name="uidButtonImageDrawableWidth">@dimen/uid_social_icons_width</item>
         <item name="uidButtonImageDrawableHeight">@dimen/uid_social_icons_height</item>
-        <item name="android:background">@drawable/uid_social_icons_button_background</item>
         <item name="uidButtonBackgroundColorList">
             @color/uid_social_icon_primary_button_background_selector
         </item>
         <item name="uidButtonDrawableColorList">
             @color/uid_social_icon_primary_button_text_selector
         </item>
+
     </style>
 
     <style name="UIDSocialIconWhite" parent="UIDSocialIconPrimary">
