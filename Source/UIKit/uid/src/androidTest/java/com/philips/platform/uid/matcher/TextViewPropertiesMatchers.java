@@ -4,8 +4,10 @@
  */
 package com.philips.platform.uid.matcher;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -227,6 +229,35 @@ public class TextViewPropertiesMatchers {
                 if (view instanceof TextView) {
                     setValues(((TextView) view).getCompoundDrawables()[index] == null, true);
 
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> doesIncludeFontPadding(final boolean includeFontPadding) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    TextView textView = (TextView) view;
+                    setValues(textView.getIncludeFontPadding(), includeFontPadding);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> sameBackgroundColor(final int attributeColor) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    TextView textView = (TextView) view;
+                    setValues(textView.getBackgroundTintList(), attributeColor);
                     return areEqual();
                 }
                 return false;
