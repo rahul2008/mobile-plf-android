@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/homescreen_left_margin"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/RA_Connectivity_Measure_Value"
             android:textColor="@color/uikit_philips_blue"
             android:textSize="17sp" />

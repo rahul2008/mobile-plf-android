@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
-import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureMomentHelper;
-import com.philips.platform.baseapp.screens.dataservices.temperature.TemperaturePresenter;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.trackers.DataServicesManager;
 

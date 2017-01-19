@@ -7,7 +7,6 @@
 package com.philips.platform.baseapp.screens.dataservices.database;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;

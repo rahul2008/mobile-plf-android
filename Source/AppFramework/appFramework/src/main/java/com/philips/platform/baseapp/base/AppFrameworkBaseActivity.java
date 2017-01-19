@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 /**
