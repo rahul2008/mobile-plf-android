@@ -137,7 +137,7 @@ public class RestClientActivity extends AppCompatActivity {
                                         String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                         showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                                     }
-                                }, null, null
+                                }, null, null,null
                         ) {
 
                             @Override
@@ -192,7 +192,7 @@ public class RestClientActivity extends AppCompatActivity {
                                 String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                 showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                             }
-                        }, null, null) {
+                        }, null, null,null) {
                             @Override
                             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                                 if (response != null && response.data != null) {
@@ -261,7 +261,7 @@ public class RestClientActivity extends AppCompatActivity {
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                         }
-                    }, null, null) {
+                    }, null, null,null) {
                         @Override
                         protected Response<String> parseNetworkResponse(NetworkResponse response) {
                             if (response != null && response.data != null) {
@@ -328,7 +328,7 @@ public class RestClientActivity extends AppCompatActivity {
                                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                     showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                                 }
-                            }, header, provider
+                            }, header,null, provider
                     ) {
 
                         @Override

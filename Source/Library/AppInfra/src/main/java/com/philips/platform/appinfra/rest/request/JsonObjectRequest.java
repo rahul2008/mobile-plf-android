@@ -20,30 +20,49 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
 
     private Map<String, String> mHeader;
     private TokenProviderInterface mProvider;
+    private Map<String, String> mParams;
+
 
     public JsonObjectRequest(int method, String url, JSONObject jsonRequest,
                              Response.Listener<JSONObject> listener,
-                             Response.ErrorListener errorListener , Map<String, String> header,
-                             TokenProviderInterface tokenProviderInterface )  {
+                             Response.ErrorListener errorListener, Map<String, String> header,
+                             Map<String, String> params,
+                             TokenProviderInterface tokenProviderInterface) {
         super(method, url, jsonRequest, listener, errorListener);
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
+        this.mParams = params;
     }
 
 
-    public JsonObjectRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref, String urlExtension, JSONObject jsonRequest,
-                             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener)  {
-        super(method, ServiceIDUrlFormatting.formatUrl(serviceID , pref, urlExtension), jsonRequest, listener, errorListener);
+    public JsonObjectRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
+                             String urlExtension, JSONObject jsonRequest,
+                             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), jsonRequest, listener, errorListener);
     }
 
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        if (mProvider != null) {
-            Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
-            mHeader.putAll(tokenHeader);
-            return mHeader;
+        if (mHeader != null) {
+            if (mProvider != null) {
+                Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+                mHeader.putAll(tokenHeader);
+                return mHeader;
+            } else {
+                return mHeader;
+            }
         }
         return super.getHeaders();
     }
+
+    @Override
+    protected Map<String, String> getParams()
+            throws AuthFailureError {
+        if (mParams != null)
+            return mParams;
+
+        return super.getParams();
+    }
+
 }

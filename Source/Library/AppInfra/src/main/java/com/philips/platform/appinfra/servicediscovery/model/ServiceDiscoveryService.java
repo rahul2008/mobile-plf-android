@@ -1,17 +1,15 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
-import java.util.Map;
-
 /**
- * Created by 310238655 on 8/8/2016.
+ * Created by 310243577 on 1/2/2017.
  */
-public class ServiceDiscoveryService {
 
+public class ServiceDiscoveryService {
 
     String locale;
     String configUrl;
 
-    public void init(String localeParam, String configUrlParam){
+    public void init(String localeParam, String configUrlParam) {
         locale = localeParam;
         configUrl = configUrlParam;
     }

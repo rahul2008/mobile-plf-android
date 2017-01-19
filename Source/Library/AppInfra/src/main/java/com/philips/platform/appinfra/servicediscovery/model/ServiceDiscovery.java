@@ -5,25 +5,38 @@
  */
 package com.philips.platform.appinfra.servicediscovery.model;
 
+import android.content.Context;
+
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.RequestManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by 310238114 on 6/7/2016.
  */
 public class ServiceDiscovery {
 
-
-    boolean success = false;
+    private boolean success = false;
     String httpStatus;
     String country;
-    MatchByCountryOrLanguage matchByCountry;
-    MatchByCountryOrLanguage matchByLanguage;
-
+    private MatchByCountryOrLanguage matchByCountry;
+    private MatchByCountryOrLanguage matchByLanguage;
+    private AppInfra mAppInfra;
+    private Context mContext;
 
     Error error = null;
 
+
     public static class Error {
-        private String message ;
+        private String message;
         private ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalue = null;
 
         public Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES e, String m) {
@@ -34,6 +47,7 @@ public class ServiceDiscovery {
         public String getMessage() {
             return message;
         }
+
         public void setMessage(String message) {
             this.message = message;
         }
@@ -41,6 +55,7 @@ public class ServiceDiscovery {
         public ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES getErrorvalue() {
             return errorvalue;
         }
+
         public void setErrorvalue(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues) {
             this.errorvalue = errorvalues;
         }
@@ -95,5 +110,125 @@ public class ServiceDiscovery {
 
     public void setError(Error error) {
         this.error = error;
+    }
+
+
+    public void parseResponse(Context context, AppInfra appInfra, JSONObject response) {
+        this.mAppInfra = appInfra;
+        this.mContext = context;
+        try {
+            setSuccess(response.optBoolean("success"));
+            setHttpStatus(response.optString("httpStatus"));
+            JSONObject payloadJSONObject = response.getJSONObject("payload");
+            String country = response.getJSONObject("payload").optString("country");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery country",
+                    country);
+            this.country = country.toUpperCase();
+            parseMatchByCountryJSON(payloadJSONObject.getJSONObject("matchByCountry"));
+            parseMatchByLanguageJSON(payloadJSONObject.getJSONObject("matchByLanguage"));
+        } catch (JSONException exception) {
+            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "ServiceDiscovery cannot find the locale");
+        }
+    }
+
+    private void parseMatchByLanguageJSON(JSONObject response) {
+        try {
+            matchByLanguage = new MatchByCountryOrLanguage();
+            matchByLanguage.setAvailable(response.optBoolean("available"));
+
+            JSONArray resultsLanguageJSONArray = response.optJSONArray("results");
+            if (null == resultsLanguageJSONArray) {
+                resultsLanguageJSONArray = new JSONArray();
+                resultsLanguageJSONArray.put(response.optJSONObject("results"));
+            } else if (resultsLanguageJSONArray.length() > 0) {
+                matchByLanguage.setLocale(resultsLanguageJSONArray.getJSONObject(0).optString("locale"));
+                ArrayList<MatchByCountryOrLanguage.Config> matchByLanguageConfigs = new ArrayList<>();
+                JSONArray configLanguageJSONArray = resultsLanguageJSONArray.getJSONObject(0).optJSONArray("configs");
+                if (configLanguageJSONArray != null) {
+                    for (int configCount = 0; configCount < configLanguageJSONArray.length(); configCount++) {
+                        MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
+                        config.parseConfigArray(configLanguageJSONArray.optJSONObject(configCount));
+                        matchByLanguageConfigs.add(config);
+                    }
+                }
+                matchByLanguage.setConfigs(matchByLanguageConfigs);
+            }
+            setMatchByLanguage(matchByLanguage);
+        } catch (JSONException exception) {
+            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                    "ServiceDiscovery cannot find the locale");
+        }
+    }
+
+    private void parseMatchByCountryJSON(JSONObject jsonObject) {
+        try {
+            matchByCountry = new MatchByCountryOrLanguage();
+            this.matchByCountry.setAvailable(jsonObject.optBoolean("available"));
+            JSONArray resultsJSONArray = jsonObject.optJSONArray("results");
+            if (null == resultsJSONArray) {
+                resultsJSONArray = new JSONArray();
+                resultsJSONArray.put(jsonObject.optJSONObject("results"));
+            }
+            JSONArray configCountryJSONArray = null;
+            String resConfig = getActualResultsForLocaleList(matchByCountry, resultsJSONArray);
+
+            if (resConfig != null) {
+                configCountryJSONArray = new JSONArray(resConfig);
+            } else {
+                if (resultsJSONArray.length() > 0) {
+                    matchByCountry.setLocale(resultsJSONArray.getJSONObject(0).optString("locale")); // return first locale if nothing matches
+                    configCountryJSONArray = resultsJSONArray.getJSONObject(0).optJSONArray("configs");
+                }
+            }
+            if (configCountryJSONArray != null) {
+                for (int configCount = 0; configCount < configCountryJSONArray.length(); configCount++) {
+                    MatchByCountryOrLanguage.Config config = new MatchByCountryOrLanguage.Config();
+                    config.parseConfigArray(configCountryJSONArray.optJSONObject(configCount));
+                    this.matchByCountry.configs.add(config);
+                }
+                matchByCountry.setConfigs(matchByCountry.configs);
+                setMatchByCountry(matchByCountry);
+            } else {
+                setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                        "ServiceDiscovery cannot find the locale");
+            }
+
+        } catch (JSONException e) {
+            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "Parse Error");
+        }
+    }
+
+    private String getActualResultsForLocaleList(MatchByCountryOrLanguage matchByCountry,
+                                                 JSONArray resultsJSONArray) {
+        try {
+            ArrayList<String> deviceLocaleList = new ArrayList<>(Arrays.asList(new RequestManager(mContext, mAppInfra)
+                    .getLocaleList().split(",")));
+
+            if (resultsJSONArray != null && resultsJSONArray.length() > 0) {
+                for (int i = 0; i < deviceLocaleList.size(); i++) {
+                    for (int j = 0; j < resultsJSONArray.length(); j++) {
+                        String resLocale = resultsJSONArray.getJSONObject(j).optString("locale");
+                        String deviceLocale = deviceLocaleList.get(i).replaceAll("[\\[\\]]", ""); // removing extra [] from locale list
+                        if (deviceLocale.equals(resLocale)) {
+                            matchByCountry.setLocale(resLocale);
+                            return resultsJSONArray.getJSONObject(j).optString("configs");
+                        } else if (deviceLocale.substring(0, 2).equals(resLocale.substring(0, 2))) { // comparing the language part of the locale
+                            matchByCountry.setLocale(resLocale);
+                            return resultsJSONArray.getJSONObject(0).optString("configs");
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "Parse Error");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private void setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES error, String message) {
+        Error err = new ServiceDiscovery.Error(error, message);
+        setError(err);
     }
 }

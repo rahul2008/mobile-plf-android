@@ -13,10 +13,10 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 public class ServiceDiscoveryServiceTest extends MockitoTestCase {
 
     private Context context;
-    ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    ServiceDiscoveryManager mServiceDiscoveryManager = null;
-    ServiceDiscoveryService mServiceDiscoveryService = null;
-    AppInfra mAppInfra;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
+    private ServiceDiscoveryManager mServiceDiscoveryManager = null;
+    private ServiceDiscoveryService mServiceDiscoveyService = null;
+    private AppInfra mAppInfra;
 
     @Override
     protected void setUp() throws Exception {
@@ -27,27 +27,26 @@ public class ServiceDiscoveryServiceTest extends MockitoTestCase {
         assertNotNull(mAppInfra);
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mServiceDiscoveryService = new ServiceDiscoveryService();
+        mServiceDiscoveyService = new ServiceDiscoveryService();
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
-        assertNotNull(mServiceDiscoveryService);
+        assertNotNull(mServiceDiscoveyService);
     }
 
-    public void testInit(){
-        mServiceDiscoveryService.init("TestLocal","TestConfig");
-        assertSame("TestLocal", mServiceDiscoveryService.locale);
-        assertSame("TestConfig", mServiceDiscoveryService.configUrl);
+    public void testInit() {
+        mServiceDiscoveyService.init("TestLocal", "TestConfig");
+        assertSame("TestLocal", mServiceDiscoveyService.locale);
+        assertSame("TestConfig", mServiceDiscoveyService.configUrl);
     }
 
-    public void testgetLocale(){
-        mServiceDiscoveryService.init("TestLocal","TestConfig");
-       assertNotNull(mServiceDiscoveryService.getLocale());
+    public void testgetLocale() {
+        mServiceDiscoveyService.init("TestLocal", "TestConfig");
+        assertNotNull(mServiceDiscoveyService.getLocale());
 
     }
-    public void testgetConfigUrls(){
-        mServiceDiscoveryService.init("TestLocal","TestConfig");
-        assertNotNull(mServiceDiscoveryService.getConfigUrls());
+
+    public void testgetConfigUrls() {
+        mServiceDiscoveyService.init("TestLocal", "TestConfig");
+        assertNotNull(mServiceDiscoveyService.getConfigUrls());
     }
-
-
 }

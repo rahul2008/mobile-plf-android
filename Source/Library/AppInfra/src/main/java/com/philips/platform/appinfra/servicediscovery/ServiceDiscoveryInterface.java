@@ -14,20 +14,6 @@ import java.util.Map;
 
 public interface ServiceDiscoveryInterface {
 
-
-    /**
-     * The type Service url and locale.
-     */
-    public class ServiceUrlandLocale {
-        public final URL serviceUrl;
-        public final String serviceLocale;
-
-        public ServiceUrlandLocale(URL serviceUrl, String serviceLocale) {
-            this.serviceUrl = serviceUrl;
-            this.serviceLocale = serviceLocale;
-        }
-    }
-
     /**
      * This is the callback method Error cases.
      * the call back will have Error method for actions completed with Errors.
@@ -36,7 +22,7 @@ public interface ServiceDiscoveryInterface {
     interface OnErrorListener {
         enum ERRORVALUES {
             NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR,
-            INVALID_RESPONSE
+            INVALID_RESPONSE , UNKNOWN_ERROR , NO_SERVICE_LOCALE_ERROR
         }
 
         void onError(ERRORVALUES error, String message);

@@ -18,10 +18,10 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
 
 
     private Context context;
-    ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    ServiceDiscoveryManager mServiceDiscoveryManager = null;
-    ServiceDiscovery mServiceDiscoveryModel = null;
-    AppInfra mAppInfra;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
+    private ServiceDiscoveryManager mServiceDiscoveryManager = null;
+    private ServiceDiscovery mServiceDiscoveryModel = null;
+    private AppInfra mAppInfra;
 
     @Override
     protected void setUp() throws Exception {
@@ -39,7 +39,6 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
     }
 
     public void testsetSuccess() {
-
         mServiceDiscoveryModel.setSuccess(false);
         assertFalse(mServiceDiscoveryModel.isSuccess());
     }
@@ -60,15 +59,13 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
     }
 
     public void testsetError() {
-
 //        Error error = new Error();
-        ServiceDiscovery.Error error= new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ErrorMessage");
+        ServiceDiscovery.Error error= new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.SERVER_ERROR, "ErrorMessage");
         error.setErrorvalue(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT);
         assertNotNull(error.getErrorvalue());
         error.setMessage("Test");
         assertNotNull(error.getMessage());
-
-
         mServiceDiscoveryModel.setError(error);
         assertNotNull(mServiceDiscoveryModel.getError());
         assertNotNull(mServiceDiscoveryModel.error);
@@ -99,7 +96,6 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
     }
 
     public void testgetMatchByCountry() {
-
         mServiceDiscoveryModel.setMatchByCountry(commonMatchByCountryOrLanguage());
         assertNotNull(mServiceDiscoveryModel.getMatchByCountry());
     }
@@ -109,7 +105,7 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
         assertNotNull(mServiceDiscoveryModel.getMatchByLanguage());
     }
 
-    public MatchByCountryOrLanguage commonMatchByCountryOrLanguage() {
+    private MatchByCountryOrLanguage commonMatchByCountryOrLanguage() {
 
         MatchByCountryOrLanguage.Config.Tag mTag = new MatchByCountryOrLanguage.Config.Tag();
         mTag.setId("TestTagId");
@@ -120,10 +116,10 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
         assertNotNull(mTag.getKey());
         assertNotNull(mTag.getName());
 
-        ArrayList mTagArray = new ArrayList();
+        ArrayList<MatchByCountryOrLanguage.Config.Tag> mTagArray = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
         mTagArray.add(mTag);
 
-        HashMap mMap = new HashMap<String, String>();
+        HashMap<String, String> mMap = new HashMap<String, String>();
         mMap.put("TestMapKey", "TestMapValue");
 
 
@@ -136,7 +132,7 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
         assertNotNull(mconfig.getTags());
         assertNotNull(mconfig.getUrls());
 
-        ArrayList mConfigArray = new ArrayList();
+        ArrayList<MatchByCountryOrLanguage.Config> mConfigArray = new ArrayList<MatchByCountryOrLanguage.Config>();
         mConfigArray.add(mconfig);
 
         MatchByCountryOrLanguage mMatchByCountryOrLanguage = new MatchByCountryOrLanguage();
@@ -154,7 +150,4 @@ public class ServiceDiscoveryModelTest extends MockitoTestCase {
         mServiceDiscoveryModel.setCountry("testCountry");
         assertNotNull(mServiceDiscoveryModel.getCountry());
     }
-
-
-
 }

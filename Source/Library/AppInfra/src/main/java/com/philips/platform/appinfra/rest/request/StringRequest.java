@@ -15,13 +15,15 @@ import java.util.Map;
 public class StringRequest extends com.android.volley.toolbox.StringRequest {
     private Map<String, String> mHeader;
     private TokenProviderInterface mProvider;
+    private Map<String, String> mParams;
 
     public StringRequest(int method, String url, Response.Listener<String> listener,
-                         Response.ErrorListener errorListener, Map<String, String> header,
-                         TokenProviderInterface tokenProviderInterface) {
+                         Response.ErrorListener errorListener, Map<String, String> header, Map<String, String>
+                                 params, TokenProviderInterface tokenProviderInterface) {
         super(method, url, listener, errorListener);
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
+        this.mParams = params;
     }
 
 
@@ -34,11 +36,24 @@ public class StringRequest extends com.android.volley.toolbox.StringRequest {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        if (mProvider != null) {
-            Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
-            mHeader.putAll(tokenHeader);
-            return mHeader;
+        if (mHeader != null) {
+            if (mProvider != null) {
+                Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+                mHeader.putAll(tokenHeader);
+                return mHeader;
+            } else {
+                return mHeader;
+            }
         }
         return super.getHeaders();
+    }
+
+    @Override
+    protected Map<String, String> getParams()
+            throws AuthFailureError {
+        if (mParams != null)
+            return mParams;
+
+        return super.getParams();
     }
 }

@@ -52,7 +52,7 @@ public class RestDemo extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Log.i("LOG", "" + error);
                 }
-            }, null, null);
+            }, null, null,null);
         } catch (Exception e) {
             Log.i("LOG", "" + e.toString());
         }

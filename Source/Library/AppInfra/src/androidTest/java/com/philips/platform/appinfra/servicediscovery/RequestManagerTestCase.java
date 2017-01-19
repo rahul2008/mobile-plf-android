@@ -21,7 +21,7 @@ public class RequestManagerTestCase extends MockitoTestCase {
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     ServiceDiscoveryManager mServiceDiscoveryManager = null;
     //    RequestManager mRequestManager = null;
-    RequestItemManager mRequestItemManager = null;
+    RequestManager mRequestItemManager = null;
     AppInfra mAppInfra;
 
     @Override
@@ -33,7 +33,7 @@ public class RequestManagerTestCase extends MockitoTestCase {
         assertNotNull(mAppInfra);
         mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mRequestItemManager = new RequestItemManager(context, mAppInfra);
+        mRequestItemManager = new RequestManager(context, mAppInfra);
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
         assertNotNull(mRequestItemManager);
@@ -41,24 +41,19 @@ public class RequestManagerTestCase extends MockitoTestCase {
 
     public void testRequestManager() {
 
-        RequestItemManager mRequestManagerTest = new RequestItemManager(context, mAppInfra);
+        RequestManager mRequestManagerTest = new RequestManager(context, mAppInfra);
         assertNotSame(mRequestItemManager, mRequestManagerTest);
     }
 
     public void testexecute() {
         mRequestItemManager.execute("https://acc.philips.com/api/v1/discovery/b2c/77000?locale=en_US&tags=apps%2b%2benv%2bstage&country=IN");
-
-
     }
 
     public void testexecuteNegetivePath() {
         mRequestItemManager.execute("https://acc");
-
     }
 
-    public JSONObject makJsonObject(boolean isSuccess, int resultJsonArraySize) {
-
-
+    private JSONObject makJsonObject(boolean isSuccess, int resultJsonArraySize) {
         JSONObject urls = new JSONObject();
         try {
             urls.put("userreg.janrain.cdn", "https://d1lqe9temigv1p.cloudfront.net");
@@ -143,9 +138,9 @@ public class RequestManagerTestCase extends MockitoTestCase {
 
         JSONObject MainObj = new JSONObject();
         try {
-            if(isSuccess){
+            if (isSuccess) {
                 MainObj.put("success", true);
-            }else {
+            } else {
                 MainObj.put("success", false);
             }
 
@@ -169,24 +164,20 @@ public class RequestManagerTestCase extends MockitoTestCase {
         Method method = null;
         try {
 
-            method = RequestItemManager.class.getDeclaredMethod("parseResponse", JSONObject.class);
+            method = RequestManager.class.getDeclaredMethod("parseResponse", JSONObject.class);
             method.setAccessible(true);
-            method.invoke(mRequestItemManager, makJsonObject(true,1));
-            method.invoke(mRequestItemManager, makJsonObject(false,2));
-            method.invoke(mRequestItemManager, makJsonObject(true,0));
+            method.invoke(mRequestItemManager, makJsonObject(true, 1));
+            method.invoke(mRequestItemManager, makJsonObject(false, 2));
+            method.invoke(mRequestItemManager, makJsonObject(true, 0));
 
-            method = RequestItemManager.class.getDeclaredMethod("execute", String.class);
+            method = RequestManager.class.getDeclaredMethod("execute", String.class);
             method.setAccessible(true);
             method.invoke(mRequestItemManager, "https://www.philips.com/api/v1/discovery/b2c/77000?locale=nl_NL&tags=apps%2b%2benv%2bprod&country=CN");
 
             method.invoke(mRequestItemManager, "http://www.philips.com/api/v1/discovery/b2c/77000?locale=nl_NL&tags=apps%2b%2benv%2bprod&country=CN");
 
             method.invoke(mRequestItemManager, "Test URL");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

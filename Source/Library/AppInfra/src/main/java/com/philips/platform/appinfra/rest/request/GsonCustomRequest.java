@@ -32,23 +32,25 @@ public class GsonCustomRequest<T> extends Request<T> {
     private final Class<T> clazz;
     private Map<String, String> mHeader;
     private TokenProviderInterface mProvider;
+    private Map<String, String> mParams;
 
 
     /**
      * Make a GET request and return a parsed object from JSON.
      *
-     * @param url     URL of the request to make
-     * @param clazz   Relevant class object, for Gson's reflection
-     * @param headers Map of request headers
+     * @param url    URL of the request to make
+     * @param clazz  Relevant class object, for Gson's reflection
+     * @param header Map of request headers
      */
-    public GsonCustomRequest(int method, String url, Class<T> clazz, Map<String, String> headers,
+    public GsonCustomRequest(int method, String url, Class<T> clazz,
                              Response.Listener<T> listener, Response.ErrorListener errorListener,
-                             Map<String, String> header,
+                             Map<String, String> header, Map<String, String> params,
                              TokenProviderInterface tokenProviderInterface) {
         super(method, url, errorListener);
         this.clazz = clazz;
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
+        this.mParams = params;
         this.listener = listener;
     }
 
@@ -63,12 +65,25 @@ public class GsonCustomRequest<T> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        if (mProvider != null) {
-            Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
-            mHeader.putAll(tokenHeader);
-            return mHeader;
+        if (mHeader != null) {
+            if (mProvider != null) {
+                Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
+                mHeader.putAll(tokenHeader);
+                return mHeader;
+            } else {
+                return mHeader;
+            }
         }
         return super.getHeaders();
+    }
+
+    @Override
+    protected Map<String, String> getParams()
+            throws AuthFailureError {
+        if (mParams != null)
+            return mParams;
+
+        return super.getParams();
     }
 
     @Override
