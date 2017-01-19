@@ -25,17 +25,34 @@ buildscript {
     }
 }
 
+task supplyBranchName() {
+    if (project.hasProperty('branch')) {
+      def branchName = args(branch)
+  }
+}
+
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
+def branchName = "git rev-parse --abbrev-ref HEAD".execute().text
+echo "branchName set to $branchName"
+
+def publishName = "snapshot"
+
+if (branchName.contains("release")) {
+    publishName = "stage"
+} else if (branchName == "master") {
+    publishName = "release"
+}
+echo "publishName set to $publishName"
+
 allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-		maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' } 
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-' + $publishName + '-local-android' }
     }
 
     apply plugin: 'com.jfrog.artifactory-upload'
@@ -66,7 +83,7 @@ artifactory {
     }
     resolve {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = 'libs-' + $publishName + '-local'
         }
     }
     clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
@@ -118,7 +135,7 @@ configurations.all {
 }
 
 dependencies {
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.3.0-SNAPSHOT', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '+', ext: 'aar', changing: true)
             {
                 transitive = true
             }
