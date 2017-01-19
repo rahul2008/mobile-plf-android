@@ -125,8 +125,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
-            mFragmentActivityContext.getResources().updateConfiguration(config,
-                    mFragmentActivityContext.getResources().getDisplayMetrics());
+            getActivity().getResources().updateConfiguration(config,
+                    getActivity().getResources().getDisplayMetrics());
         }
     }
 
