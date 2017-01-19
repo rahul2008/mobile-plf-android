@@ -45,6 +45,33 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
                 }
             }
         }
+
+        public static void Click(String btn)
+        {
+            _instance.ClickByName(btn);
+        }
+        public static bool WaitforCoCOScreen(string screenName)
+        {
+            int loopCount = 0;
+            IMobilePageControl homeScreenElement = null;
+            while (homeScreenElement == null)
+            {
+                homeScreenElement = _instance.GetElement(SearchBy.Name, screenName);
+                loopCount++;
+                if (homeScreenElement != null)
+                    break;
+                if (loopCount > 10)
+                {
+                    Thread.Sleep(1000);
+                    break;
+                }
+            }
+            if (homeScreenElement != null)
+                return true;
+            else
+                return false;
+        }
+
     }
 
     public class Log_In
