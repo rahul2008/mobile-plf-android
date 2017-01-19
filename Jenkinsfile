@@ -14,7 +14,7 @@ if (env.triggerBy == "ppc") {
   node_ext = "build_p"
 }
 
-node ('Ubuntu && 23.0.3 &&' + node_ext) {
+node ('androidppc &&' + node_ext) {
     timestamps {
         stage ('Checkout') {
             checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/pi/reference_app_android.git']]])
