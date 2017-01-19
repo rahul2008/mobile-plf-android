@@ -17,7 +17,7 @@
 		void onSuccess(String url);
     }
 <br>-- call  back onUrlReceived
->>- (NSString*) getCtn;
+>>-   String getCtn();
 >>- Added constructors in base class:
 <br>-- PrxRequest(String ctn, String serviceId)
 <br>-- PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog)
@@ -58,7 +58,7 @@ Model data for each request type.<br>
 ## Installation
 
 * Add prx to dependencies in gradle file
-compile(group: 'com.philips.cdp', name: 'prx', version: '1.0.1', ext: 'aar')
+compile(group: 'com.philips.cdp', name: 'prx', version: '3.0.0', ext: 'aar')
 
 ## Code Example - Quick integration
 
