@@ -6,7 +6,9 @@
 
 package com.philips.platform.baseapp.screens.introscreen;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,10 +21,12 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.screens.splash.SplashFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -116,6 +120,31 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     @Override
     public void updateActionBarIcon(boolean b) {
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        //Checking the request code of our request
+        if (requestCode == SplashFragment.STORAGE_PERMISSION_CODE) {
+
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                Fragment fragment = fragmentManager
+                        .findFragmentById(R.id.welcome_frame_container);
+                if (fragment instanceof SplashFragment) {
+                    SplashFragment splashFragment = (SplashFragment) fragment;
+                    splashFragment.permissionGranted();
+                }
+                //Displaying a toast
+                Toast.makeText(getFragmentActivity(), "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(getFragmentActivity(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
