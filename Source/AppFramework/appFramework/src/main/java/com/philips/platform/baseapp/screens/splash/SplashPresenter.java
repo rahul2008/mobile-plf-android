@@ -8,6 +8,7 @@ package com.philips.platform.baseapp.screens.splash;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
@@ -18,7 +19,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Splash presenter loads the splash screen and sets the next state after splash
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
-public class SplashPresenter extends UIBasePresenter implements UIStateListener{
+public class SplashPresenter extends UIBasePresenter implements UIStateListener {
     private final LaunchView uiView;
     private String APP_START = "onSplashTimeOut";
 

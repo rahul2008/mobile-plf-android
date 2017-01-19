@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
@@ -34,10 +35,6 @@ public class FlowManager extends BaseFlowManager {
 
     public FlowManager(Context context, String jsonPath, AppFlowJsonListener appFlowJsonListener) {
         super(context, jsonPath, appFlowJsonListener);
-    }
-
-    public FlowManager(){
-        super();
     }
 
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {

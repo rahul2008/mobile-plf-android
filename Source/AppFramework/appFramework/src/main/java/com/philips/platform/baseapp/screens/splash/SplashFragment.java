@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,25 +18,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
-import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends Fragment implements LaunchView, BackEventListener {
+public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, AppFlowJsonListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
     UIBasePresenter presenter;
     private boolean isVisible = false;
 	private boolean isMultiwindowEnabled = false;
-    private CircularProgressbar circularProgressbar;
+    private ProgressDialog progressDialog;
 
     /*
      * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
@@ -46,11 +46,12 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
+        initProgressDialog();
         ImageView logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()) );
 
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
-        CharSequence titleText = null;
+        CharSequence titleText;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             titleText = Html.fromHtml(splashScreenTitle, Html.FROM_HTML_MODE_LEGACY);
@@ -65,9 +66,22 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
         return view;
     }
 
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(getFragmentActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please wait...");
+    }
+
+    private void showProgressDialog(boolean show) {
+        if (show)
+            progressDialog.show();
+        else if (progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
+
     private void initializeFlowManager() {
-        circularProgressbar = (CircularProgressbar) getFragmentActivity().findViewById(R.id.splash_progress_bar);
-        circularProgressbar.setVisibility(View.VISIBLE);
+        showProgressDialog(true);
         FlowManager flowManager = new FlowManager(getFragmentActivity().getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
         getApplicationContext().setTargetFlowManager(flowManager);
     }
@@ -90,7 +104,6 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
     @Override
     public void onPause() {
         super.onPause();
-        //isVisible = false;
     }
 	
 	@Override
@@ -114,6 +127,7 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
                     // Start your app main activity
                     presenter = new SplashPresenter(SplashFragment.this);
                     presenter.onEvent(APP_START);
+                    showProgressDialog(false);
                 }
             }
         }, SPLASH_TIME_OUT);
@@ -134,5 +148,14 @@ public class SplashFragment extends Fragment implements LaunchView, BackEventLis
     @Override
     public boolean handleBackEvent() {
         return true;
+    }
+
+    @Override
+    public void onParseSuccess() {
+
+    }
+
+    public AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
     }
 }

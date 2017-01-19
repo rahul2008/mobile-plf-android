@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
@@ -26,12 +28,7 @@ import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapte
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.shamanland.fonticon.FontIconView;
 
-import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
-import philips.appframeworklibrary.flowmanager.exceptions.NoStateException;
-
 import static com.janrain.android.engage.JREngage.getApplicationContext;
-
-;
 
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>

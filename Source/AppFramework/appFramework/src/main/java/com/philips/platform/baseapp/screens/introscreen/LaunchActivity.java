@@ -41,7 +41,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
-        setContentView(R.layout.af_welcome_activity);
+        setContentView(R.layout.af_launch_activity);
         presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
     }
 
