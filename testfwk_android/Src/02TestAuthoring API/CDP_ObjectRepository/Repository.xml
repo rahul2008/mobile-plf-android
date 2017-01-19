@@ -245,7 +245,7 @@
   </SupportScreen>
   <ProductInformation>
     <Product_Manual>Download product manual</Product_Manual>
-    <Product_Information>Product information (on Philips.com)</Product_Information>
+    <Product_Information>Product information(on Philips.com)</Product_Information>
     <Back_to_Support>com.philips.platform.referenceapp:id/af_hamburger_imageview</Back_to_Support>
     <ProductDetail>com.philips.platform.referenceapp:id/name</ProductDetail>
     <ProductInfoTitle>com.philips.platform.referenceapp:id/af_actionbar_title</ProductInfoTitle>
