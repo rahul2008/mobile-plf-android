@@ -108,9 +108,10 @@ public class MatchByCountryOrLanguage {
                 }
                 //setTags(tags);
             } catch (JSONException e) {
-                ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Parsing error");
+                ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.
+                        OnErrorListener.ERRORVALUES.SERVER_ERROR, "Parsing error");
                 ServiceDiscovery result = new ServiceDiscovery();
-                result.setSuccess(false);
+                //result.setSuccess(false);
                 result.setError(err);
             }
         }
