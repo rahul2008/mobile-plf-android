@@ -204,7 +204,7 @@
     <None Include="US13421.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>US13421.feature.cs</LastGenOutput>
-
+    </None>
     <None Include="US14054.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>US14054.feature.cs</LastGenOutput>
