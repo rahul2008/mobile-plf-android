@@ -1,20 +1,12 @@
 package com.philips.cdp.prxclient.request;
 
 
-import android.util.Log;
-
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
-
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Description :
@@ -28,11 +20,12 @@ public class ProductSummaryRequest extends PrxRequest {
 
 
     public ProductSummaryRequest(String ctn, String requestTag) {
-        super(ctn,PRXSummaryDataServiceID);
+        super(ctn, PRXSummaryDataServiceID);
         this.mRequestTag = requestTag;
     }
+
     public ProductSummaryRequest(String ctn, Sector sector, Catalog catalog, String requestTag) {
-        super(ctn,PRXSummaryDataServiceID,sector,catalog);
+        super(ctn, PRXSummaryDataServiceID, sector, catalog);
         this.mRequestTag = requestTag;
     }
 
