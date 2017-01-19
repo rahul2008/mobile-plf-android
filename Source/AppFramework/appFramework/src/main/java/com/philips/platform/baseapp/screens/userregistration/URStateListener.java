@@ -6,7 +6,7 @@
 package com.philips.platform.baseapp.screens.userregistration;
 
 
-import philips.appframeworklibrary.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 
 public interface URStateListener extends UIStateListener {
 

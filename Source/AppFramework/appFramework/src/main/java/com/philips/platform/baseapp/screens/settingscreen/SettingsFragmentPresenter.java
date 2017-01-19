@@ -6,15 +6,15 @@
 package com.philips.platform.baseapp.screens.settingscreen;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.platform.appframework.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-
-import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
-import philips.appframeworklibrary.flowmanager.base.BaseState;
-import philips.appframeworklibrary.flowmanager.base.UIStateData;
-import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
 
 /**
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
@@ -102,4 +102,5 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
         }
         return null;
     }
+
 }

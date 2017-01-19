@@ -7,16 +7,14 @@ package com.philips.platform.baseapp.screens.introscreen;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-
-import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
-import philips.appframeworklibrary.flowmanager.base.BaseState;
-import philips.appframeworklibrary.flowmanager.base.UIStateData;
-import philips.appframeworklibrary.flowmanager.base.UIStateListener;
 
 /**
  * Welcome presenter handles the events inside welcome fragment
@@ -48,9 +46,9 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         if (event.equals(APP_LAUNCH))
-            baseState = new SplashState();
+            baseState = targetFlowManager.getFirstState();
         else if (event.equals(LAUNCH_BACK_PRESSED))
-            baseState = targetFlowManager.getBackState();
+            baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
 
         if (baseState != null) {
             baseState.setUiStateData(getUiStateData());
@@ -79,7 +77,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
 
     @NonNull
     protected UIStateData getUiStateData() {
-       UIStateData homeStateData = new UIStateData();
+        UIStateData homeStateData = new UIStateData();
         homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
         return homeStateData;
     }

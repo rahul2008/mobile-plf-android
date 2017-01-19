@@ -6,8 +6,6 @@
 
 package com.philips.platform.baseapp.screens.dataservices.database.table;
 
-import android.util.Log;
-
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.core.utils.DSLog;
 

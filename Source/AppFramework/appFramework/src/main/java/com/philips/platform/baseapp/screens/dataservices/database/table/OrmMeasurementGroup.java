@@ -7,7 +7,6 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 

@@ -6,11 +6,11 @@
 package com.philips.platform.modularui.statecontroller;
 
 
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;
-
-import philips.appframeworklibrary.flowmanager.base.UIStateData;
 
 
 public class BaseStateDataTest extends TestCase {

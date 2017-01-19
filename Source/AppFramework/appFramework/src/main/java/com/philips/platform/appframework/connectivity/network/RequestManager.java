@@ -1,3 +1,9 @@
+/*  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
 package com.philips.platform.appframework.connectivity.network;
 
 import android.content.Context;
@@ -6,10 +12,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class RequestManager {
     private static RequestManager mInstance;
     private RequestQueue mRequestQueue;

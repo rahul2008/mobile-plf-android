@@ -7,7 +7,6 @@ package com.philips.platform.baseapp.screens.dataservices.temperature;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.database.SQLException;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;

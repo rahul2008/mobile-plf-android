@@ -11,6 +11,11 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.platform.appframework.flowmanager.base.UIStateListener;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -20,36 +25,12 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import philips.appframeworklibrary.flowmanager.base.BaseFlowManager;
-import philips.appframeworklibrary.flowmanager.base.BaseState;
-import philips.appframeworklibrary.flowmanager.base.UIStateData;
-import philips.appframeworklibrary.flowmanager.exceptions.NoEventFoundException;
-
 /**
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class TabbedActivityPresenter extends UIBasePresenter{
+public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener{
 
-    /* event to state map */
-    final String HOME_SETTINGS = "settings";
-    final String HOME_IAP = "iap";
-    final String HOME_SUPPORT = "support";
-    final String SHOPPING_CART = "shopping_cart";
-    final String HOME_ABOUT = "about";
-    final String HOME_FRAGMENT = "home_fragment";
-    final String HOME_DATA_SYNC = "data_sync";
-    final String SUPPORT_PR = "pr";
-    final int MENU_OPTION_CONNECTIVITY = 6;
-    /*Event ID */
-    private final int MENU_OPTION_HOME = 0;
-    private final int MENU_OPTION_SETTINGS = 1;
-    private final int MENU_OPTION_SHOP = 2;
-    private final int MENU_OPTION_SUPPORT = 3;
-    private final int MENU_OPTION_ABOUT = 4;
-    private final int MENU_OPTION_DATA_SYNC = 5;
-    private final int MENU_OPTION_PR = 7;
-    final private String CONNECTIVITY = "connectivity";
     private FragmentView fragmentView;
     private AppFrameworkApplication appFrameworkApplication;
     private FragmentLauncher fragmentLauncher;
@@ -75,57 +56,10 @@ public class TabbedActivityPresenter extends UIBasePresenter{
         } catch (NoEventFoundException e) {
             e.printStackTrace();
         }
-        if (null != baseState) {
-            baseState.setUiStateData(setStateData(componentID));
-            fragmentLauncher = getFragmentLauncher();
-            baseState.navigate(fragmentLauncher);
-        }
-    }
-
-    protected UIStateData setStateData(final int componentID) {
-        switch (componentID) {
-            case MENU_OPTION_HOME:
-                UIStateData homeStateData = new UIStateData();
-                homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
-                return homeStateData;
-            case MENU_OPTION_SETTINGS:
-                UIStateData settingsStateData = new UIStateData();
-                settingsStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return settingsStateData;
-            case MENU_OPTION_SHOP:
-                UIStateData iapStateData = new UIStateData();
-                iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                return iapStateData;
-            case MENU_OPTION_SUPPORT:
-                UIStateData supportStateData = new UIStateData();
-                supportStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-                return supportStateData;
-            case MENU_OPTION_ABOUT:
-                UIStateData aboutStateData = new UIStateData();
-                aboutStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return aboutStateData;
-            // Commented as part of Plan A removal.
-            /*case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
-                IAPState.InAppStateData uiStateDataModel = new IAPState().new InAppStateData();
-                uiStateDataModel.setIapFlow(IAPState.IAP_SHOPPING_CART_VIEW);
-                uiStateDataModel.setCtnList(getCtnList());
-                return uiStateDataModel;*/
-            case MENU_OPTION_PR:
-                UIStateData prStateDataModel = new UIStateData();
-                return prStateDataModel;
-            case MENU_OPTION_DATA_SYNC:
-                UIStateData syncStateData = new UIStateData();
-                syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return syncStateData;
-            case MENU_OPTION_CONNECTIVITY:
-                UIStateData connectivityStateData = new UIStateData();
-                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return connectivityStateData;
-            default:
-                homeStateData = new UIStateData();
-                homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
-                return homeStateData;
-        }
+        baseState.setStateListener(this);
+        baseState.setUiStateData(setStateData(componentID));
+        fragmentLauncher = getFragmentLauncher();
+        baseState.navigate(fragmentLauncher);
     }
 
     public void showFragment(Fragment fragment, String fragmentTag) {
@@ -177,10 +111,13 @@ public class TabbedActivityPresenter extends UIBasePresenter{
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return  HOME_DATA_SYNC;
-            case MENU_OPTION_CONNECTIVITY:
-                return CONNECTIVITY;
             default:
                 return HOME_FRAGMENT;
         }
+    }
+
+    @Override
+    public void onStateComplete(BaseState baseState) {
+
     }
 }
