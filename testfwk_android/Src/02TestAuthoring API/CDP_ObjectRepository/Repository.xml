@@ -10,91 +10,91 @@
   </AppiumConfiguration>
 
   <LoginScreen>
-    <LoginTitle>com.philips.platform.referenceapp.leakcanary:id/tv_reg_header_title</LoginTitle>
-    <CreatePhilipsAccount>com.philips.platform.referenceapp.leakcanary:id/btn_reg_create_account</CreatePhilipsAccount>
-    <PhilipsAccount>com.philips.platform.referenceapp.leakcanary:id/fl_reg_provider_bg</PhilipsAccount>
-    <GooglePlus>com.philips.platform.referenceapp.leakcanary:id/fl_reg_provider_bg</GooglePlus>
-    <Facebook>com.philips.platform.referenceapp.leakcanary:id/fl_reg_provider_bg</Facebook>
-    <PhilipsAccountTitle>com.philips.platform.referenceapp.leakcanary:id/reg_welcome_id</PhilipsAccountTitle>
-    <UserName>com.philips.platform.referenceapp.leakcanary:id/et_reg_email</UserName>
-    <PassWord>com.philips.platform.referenceapp.leakcanary:id/et_reg_password</PassWord>
-    <LoginButton>com.philips.platform.referenceapp.leakcanary:id/btn_reg_sign_in</LoginButton>
-    <ForgotPassWord>com.philips.platform.referenceapp.leakcanary:id/fl_reg_provider_bg</ForgotPassWord>
-    <LoginBackButton>com.philips.platform.referenceapp.leakcanary:id/iv_reg_back</LoginBackButton>
-    <TermsCheckBox>com.philips.platform.referenceapp.leakcanary:id/rl_x_checkbox</TermsCheckBox>
-    <LoginContinue>com.philips.platform.referenceapp.leakcanary:id/reg_btn_continue</LoginContinue>
-    <LoginContinue_1>com.philips.platform.referenceapp.leakcanary:id/btn_reg_continue</LoginContinue_1>
-    <LogOut>com.philips.platform.referenceapp.leakcanary:id/btn_reg_sign_out</LogOut>
+    <LoginTitle>com.philips.platform.referenceapp:id/tv_reg_header_title</LoginTitle>
+    <CreatePhilipsAccount>com.philips.platform.referenceapp:id/btn_reg_create_account</CreatePhilipsAccount>
+    <PhilipsAccount>com.philips.platform.referenceapp:id/fl_reg_provider_bg</PhilipsAccount>
+    <GooglePlus>com.philips.platform.referenceapp:id/fl_reg_provider_bg</GooglePlus>
+    <Facebook>com.philips.platform.referenceapp:id/fl_reg_provider_bg</Facebook>
+    <PhilipsAccountTitle>com.philips.platform.referenceapp:id/reg_welcome_id</PhilipsAccountTitle>
+    <UserName>com.philips.platform.referenceapp:id/et_reg_email</UserName>
+    <PassWord>com.philips.platform.referenceapp:id/et_reg_password</PassWord>
+    <LoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</LoginButton>
+    <ForgotPassWord>com.philips.platform.referenceapp:id/fl_reg_provider_bg</ForgotPassWord>
+    <LoginBackButton>com.philips.platform.referenceapp:id/iv_reg_back</LoginBackButton>
+    <TermsCheckBox>com.philips.platform.referenceapp:id/rl_x_checkbox</TermsCheckBox>
+    <LoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</LoginContinue>
+    <LoginContinue_1>com.philips.platform.referenceapp:id/btn_reg_continue</LoginContinue_1>
+    <LogOut>com.philips.platform.referenceapp:id/btn_reg_sign_out</LogOut>
   </LoginScreen>
   <AccountSettings>
-    <rlxCheckBox>com.philips.platform.referenceapp.leakcanary:id/rl_x_checkbox</rlxCheckBox>
-    <PhilipsAnnouncementLink>com.philips.platform.referenceapp.leakcanary:id/tv_reg_philips_news</PhilipsAnnouncementLink>
-    <BackButton>com.philips.platform.referenceapp.leakcanary:id/reg_btn_back</BackButton>
+    <rlxCheckBox>com.philips.platform.referenceapp:id/rl_x_checkbox</rlxCheckBox>
+    <PhilipsAnnouncementLink>com.philips.platform.referenceapp:id/tv_reg_philips_news</PhilipsAnnouncementLink>
+    <BackButton>com.philips.platform.referenceapp:id/reg_btn_back</BackButton>
   </AccountSettings>
 
   <AppFramework>
-    <AppFrameworkHomeScreen>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</AppFrameworkHomeScreen>
-    <!--<HamburgerIcon>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_frame_layout</HamburgerIcon> -->
+    <AppFrameworkHomeScreen>com.philips.platform.referenceapp:id/af_actionbar_title</AppFrameworkHomeScreen>
+    <!--<HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon> -->
     <!--<Settings>//android.widget.TextView[@text='Settings']</Settings> -->
-    <HamburgerIcon>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_frame_layout</HamburgerIcon>
+    <HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon>
     <Support>//android.widget.TextView[@text='Support']</Support>
     <PhilipShop>//android.widget.TextView[@text='Philips Shop']</PhilipShop>
     <Settings>//android.widget.TextView[@text='Settings']</Settings>
     <Connectivity>//android.widget.TextView[@text='Connectivity']</Connectivity>
-    <DatacoreErrorMsg>com.philips.platform.referenceapp.leakcanary:id/datacre_error_text</DatacoreErrorMsg>
+    <DatacoreErrorMsg>com.philips.platform.referenceapp:id/datacre_error_text</DatacoreErrorMsg>
     <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
-    <ALoginButton>com.philips.platform.referenceapp.leakcanary:id/btn_reg_sign_in</ALoginButton>
-    <ALoginContinue>com.philips.platform.referenceapp.leakcanary:id/reg_btn_continue</ALoginContinue>
-    <ALoginContinueConfirm>com.philips.platform.referenceapp.leakcanary:id/btn_reg_continue</ALoginContinueConfirm>
-    <LoginSettings>com.philips.platform.referenceapp.leakcanary:id/ifo</LoginSettings>
-    <VerticalSettings>com.philips.platform.referenceapp.leakcanary:id/ifo</VerticalSettings>
-    <WelcomeScreen>com.philips.platform.referenceapp.leakcanary:id/welcome_slide_fragment_layout</WelcomeScreen>
-    <ReferenceDeviceIDValue>com.philips.platform.referenceapp.leakcanary:id/reference_device_id_editbox</ReferenceDeviceIDValue>
-    <MeasurementValue>com.philips.platform.referenceapp.leakcanary:id/measurement_value_editbox</MeasurementValue>
-    <WelcomeScreen>com.philips.platform.referenceapp.leakcanary:id/decor_content_parent</WelcomeScreen>
-    <NucleousValue>com.philips.platform.referenceapp.leakcanary:id/nucleous_value_editbox</NucleousValue>
-    <MomentValue>com.philips.platform.referenceapp.leakcanary:id/moment_value_editbox</MomentValue>
-    <MeasurementValueFromReferenceDevice>com.philips.platform.referenceapp.leakcanary:id/start_connectivity_button</MeasurementValueFromReferenceDevice>
-    <MomentValueFromDatacore>com.philips.platform.referenceapp.leakcanary:id/get_momentumvalue_button</MomentValueFromDatacore>
-    <RightArrow>com.philips.platform.referenceapp.leakcanary:id/appframework_rightarrow</RightArrow>
-    <LeftArrow>com.philips.platform.referenceapp.leakcanary:id/appframework_leftarrow</LeftArrow>
-    <Skip>com.philips.platform.referenceapp.leakcanary:id/welcome_skip_button</Skip>
-    <Done>com.philips.platform.referenceapp.leakcanary:id/start_registration_button</Done>
-    <AppPhilipsAccountReg>com.philips.platform.referenceapp.leakcanary:id/tv_reg_provider_name</AppPhilipsAccountReg>
-    <AUsername>com.philips.platform.referenceapp.leakcanary:id/et_reg_email</AUsername>
-    <APassWord>com.philips.platform.referenceapp.leakcanary:id/et_reg_password</APassWord>
-    <Terms>com.philips.platform.referenceapp.leakcanary:id/rl_x_checkbox</Terms>
-    <Alogout>com.philips.platform.referenceapp.leakcanary:id/ifo</Alogout>
-    <LoginSettings>com.philips.platform.referenceapp.leakcanary:id/btn_settings_logout</LoginSettings>
-    <LogoutSettings>com.philips.platform.referenceapp.leakcanary:id/btn_settings_logout</LogoutSettings>
+    <ALoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</ALoginButton>
+    <ALoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</ALoginContinue>
+    <ALoginContinueConfirm>com.philips.platform.referenceapp:id/btn_reg_continue</ALoginContinueConfirm>
+    <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
+    <VerticalSettings>com.philips.platform.referenceapp:id/ifo</VerticalSettings>
+    <WelcomeScreen>com.philips.platform.referenceapp:id/welcome_slide_fragment_layout</WelcomeScreen>
+    <ReferenceDeviceIDValue>com.philips.platform.referenceapp:id/reference_device_id_editbox</ReferenceDeviceIDValue>
+    <MeasurementValue>com.philips.platform.referenceapp:id/measurement_value_editbox</MeasurementValue>
+    <WelcomeScreen>com.philips.platform.referenceapp:id/decor_content_parent</WelcomeScreen>
+    <NucleousValue>com.philips.platform.referenceapp:id/nucleous_value_editbox</NucleousValue>
+    <MomentValue>com.philips.platform.referenceapp:id/moment_value_editbox</MomentValue>
+    <MeasurementValueFromReferenceDevice>com.philips.platform.referenceapp:id/start_connectivity_button</MeasurementValueFromReferenceDevice>
+    <MomentValueFromDatacore>com.philips.platform.referenceapp:id/get_momentumvalue_button</MomentValueFromDatacore>
+    <RightArrow>com.philips.platform.referenceapp:id/appframework_rightarrow</RightArrow>
+    <LeftArrow>com.philips.platform.referenceapp:id/appframework_leftarrow</LeftArrow>
+    <Skip>com.philips.platform.referenceapp:id/welcome_skip_button</Skip>
+    <Done>com.philips.platform.referenceapp:id/start_registration_button</Done>
+    <AppPhilipsAccountReg>com.philips.platform.referenceapp:id/tv_reg_provider_name</AppPhilipsAccountReg>
+    <AUsername>com.philips.platform.referenceapp:id/et_reg_email</AUsername>
+    <APassWord>com.philips.platform.referenceapp:id/et_reg_password</APassWord>
+    <Terms>com.philips.platform.referenceapp:id/rl_x_checkbox</Terms>
+    <Alogout>com.philips.platform.referenceapp:id/ifo</Alogout>
+    <LoginSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LoginSettings>
+    <LogoutSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LogoutSettings>
     <LogoutDialog>android:id/button1</LogoutDialog>
   </AppFramework>
 
   <!--IAP-->
   
   <homeScreen>
-    <DemoTitle>com.philips.platform.referenceapp.leakcanary:id/demo_title</DemoTitle>
-    <ProductList>com.philips.platform.referenceapp.leakcanary:id/product_list</ProductList>
+    <DemoTitle>com.philips.platform.referenceapp:id/demo_title</DemoTitle>
+    <ProductList>com.philips.platform.referenceapp:id/product_list</ProductList>
     <!--<TextView>android.widget.TextView</TextView>-->
-    <Shop_Now>com.philips.platform.referenceapp.leakcanary:id/btn_shop_now</Shop_Now>
-    <Country_Spinner>com.philips.platform.referenceapp.leakcanary:id/spinner</Country_Spinner>
+    <Shop_Now>com.philips.platform.referenceapp:id/btn_shop_now</Shop_Now>
+    <Country_Spinner>com.philips.platform.referenceapp:id/spinner</Country_Spinner>
     <Select_Country>android:id/text1</Select_Country>
-    <Register>com.philips.platform.referenceapp.leakcanary:id/btn_register</Register>
-    <TextView>com.philips.platform.referenceapp.leakcanary:id/name</TextView>
-    <ImageCart>com.philips.platform.referenceapp.leakcanary:id/cart_iv</ImageCart>
-    <BuyNow>com.philips.platform.referenceapp.leakcanary:id/buy_now</BuyNow>
-    <AddToCart>com.philips.platform.referenceapp.leakcanary:id/add_to_Cart</AddToCart>
-    <CartNumber>com.philips.platform.referenceapp.leakcanary:id/count_txt</CartNumber>
-    <username>com.philips.platform.referenceapp.leakcanary:id/et_username</username>
-    <password>com.philips.platform.referenceapp.leakcanary:id/et_userpassword</password>
-    <submitbutton>com.philips.platform.referenceapp.leakcanary:id/btn_submit</submitbutton>
+    <Register>com.philips.platform.referenceapp:id/btn_register</Register>
+    <TextView>com.philips.platform.referenceapp:id/name</TextView>
+    <ImageCart>com.philips.platform.referenceapp:id/cart_iv</ImageCart>
+    <BuyNow>com.philips.platform.referenceapp:id/buy_now</BuyNow>
+    <AddToCart>com.philips.platform.referenceapp:id/add_to_Cart</AddToCart>
+    <CartNumber>com.philips.platform.referenceapp:id/count_txt</CartNumber>
+    <username>com.philips.platform.referenceapp:id/et_username</username>
+    <password>com.philips.platform.referenceapp:id/et_userpassword</password>
+    <submitbutton>com.philips.platform.referenceapp:id/btn_submit</submitbutton>
     <PleaseWait>//android.widget.TextView[@text='Please Wait...']</PleaseWait>
   </homeScreen>
   <NetworkError>
-    <NetworkError_OK>com.philips.platform.referenceapp.leakcanary:id/btn_dialog_ok</NetworkError_OK>
+    <NetworkError_OK>com.philips.platform.referenceapp:id/btn_dialog_ok</NetworkError_OK>
   </NetworkError>
   <TimeoutError>
-    <TimeoutError_OK>com.philips.platform.referenceapp.leakcanary:id/dialogButtonCancel</TimeoutError_OK>
+    <TimeoutError_OK>com.philips.platform.referenceapp:id/dialogButtonCancel</TimeoutError_OK>
   </TimeoutError>
   <CrashedData>
     <Crash_Title>android:id/alertTitle</Crash_Title>
@@ -103,103 +103,103 @@
     <SEND>android:id/button1</SEND>
   </CrashedData>
   <ProductsScreen>
-    <productScreen_title>com.philips.platform.referenceapp.leakcanary:id/iap_header_title</productScreen_title>
-    <productScreen_BackButton>com.philips.platform.referenceapp.leakcanary:id/iap_iv_header_back_button</productScreen_BackButton>
-    <productScreen_ImageCart>com.philips.platform.referenceapp.leakcanary:id/cart_container</productScreen_ImageCart>
-    <productScreen_InfoButton>com.philips.platform.referenceapp.leakcanary:id/iap_iv_header_back_button</productScreen_InfoButton>
-    <productScreen_ProductId>com.philips.platform.referenceapp.leakcanary:id/tv_ctn</productScreen_ProductId>
-    <productScreen_ProductList>com.philips.platform.referenceapp.leakcanary:id/product_catalog_recycler_view</productScreen_ProductList>
-    <productDetailsarrow>com.philips.platform.referenceapp.leakcanary:id/arrow</productDetailsarrow>
+    <productScreen_title>com.philips.platform.referenceapp:id/iap_header_title</productScreen_title>
+    <productScreen_BackButton>com.philips.platform.referenceapp:id/iap_iv_header_back_button</productScreen_BackButton>
+    <productScreen_ImageCart>com.philips.platform.referenceapp:id/cart_container</productScreen_ImageCart>
+    <productScreen_InfoButton>com.philips.platform.referenceapp:id/iap_iv_header_back_button</productScreen_InfoButton>
+    <productScreen_ProductId>com.philips.platform.referenceapp:id/tv_ctn</productScreen_ProductId>
+    <productScreen_ProductList>com.philips.platform.referenceapp:id/product_catalog_recycler_view</productScreen_ProductList>
+    <productDetailsarrow>com.philips.platform.referenceapp:id/arrow</productDetailsarrow>
   </ProductsScreen>
   <ShoppingCartScreen>
     <QuantityDropDown>android.widget.ListView</QuantityDropDown>
-    <QuantitydropdownMenuItem>com.philips.platform.referenceapp.leakcanary:id/listtextview</QuantitydropdownMenuItem>
-    <UpButton>com.philips.platform.referenceapp.leakcanary:id/iap_iv_header_back_button</UpButton>
-    <Dots>com.philips.platform.referenceapp.leakcanary:id/frame</Dots>
-    <Checkout>com.philips.platform.referenceapp.leakcanary:id/checkout_btn</Checkout>
-    <ContinueShopping>com.philips.platform.referenceapp.leakcanary:id/continues_btn</ContinueShopping>
-    <Continues>com.philips.platform.referenceapp.leakcanary:id/btn_continue_shopping</Continues>
-    <Voucher>com.philips.platform.referenceapp.leakcanary:id/iap_tv_redeem_vochur</Voucher>
-    <VAT>com.philips.platform.referenceapp.leakcanary:id/iap_tv_vat_value</VAT>
-    <TotalCost>com.philips.platform.referenceapp.leakcanary:id/iap_tv_totalcost</TotalCost>
-    <ScreenTitle>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</ScreenTitle>
-    <ShortProductDesc>com.philips.platform.referenceapp.leakcanary:id/text1Name</ShortProductDesc>
+    <QuantitydropdownMenuItem>com.philips.platform.referenceapp:id/listtextview</QuantitydropdownMenuItem>
+    <UpButton>com.philips.platform.referenceapp:id/iap_iv_header_back_button</UpButton>
+    <Dots>com.philips.platform.referenceapp:id/frame</Dots>
+    <Checkout>com.philips.platform.referenceapp:id/checkout_btn</Checkout>
+    <ContinueShopping>com.philips.platform.referenceapp:id/continues_btn</ContinueShopping>
+    <Continues>com.philips.platform.referenceapp:id/btn_continue_shopping</Continues>
+    <Voucher>com.philips.platform.referenceapp:id/iap_tv_redeem_vochur</Voucher>
+    <VAT>com.philips.platform.referenceapp:id/iap_tv_vat_value</VAT>
+    <TotalCost>com.philips.platform.referenceapp:id/iap_tv_totalcost</TotalCost>
+    <ScreenTitle>com.philips.platform.referenceapp:id/af_actionbar_title</ScreenTitle>
+    <ShortProductDesc>com.philips.platform.referenceapp:id/text1Name</ShortProductDesc>
     <ShoppingCartProductList>android.widget.ListView</ShoppingCartProductList>
-    <Quantity>com.philips.platform.referenceapp.leakcanary:id/text2value</Quantity>
-    <Price>com.philips.platform.referenceapp.leakcanary:id/price</Price>
-    <UPSParcel>com.philips.platform.referenceapp.leakcanary:id/iap_tv_delivery_price</UPSParcel>
-    <ImageTongueCare>com.philips.platform.referenceapp.leakcanary:id/image</ImageTongueCare>
-    <TotalItems>com.philips.platform.referenceapp.leakcanary:id/iap_tv_totalItems</TotalItems>
-    <UPSDesc>com.philips.platform.referenceapp.leakcanary:id/iap_tv_delivery_description</UPSDesc>
+    <Quantity>com.philips.platform.referenceapp:id/text2value</Quantity>
+    <Price>com.philips.platform.referenceapp:id/price</Price>
+    <UPSParcel>com.philips.platform.referenceapp:id/iap_tv_delivery_price</UPSParcel>
+    <ImageTongueCare>com.philips.platform.referenceapp:id/image</ImageTongueCare>
+    <TotalItems>com.philips.platform.referenceapp:id/iap_tv_totalItems</TotalItems>
+    <UPSDesc>com.philips.platform.referenceapp:id/iap_tv_delivery_description</UPSDesc>
     <RecyclerView>android.support.v7.widget.RecyclerView</RecyclerView>
-    <CartItem>com.philips.platform.referenceapp.leakcanary:id/ratingtheme</CartItem>
+    <CartItem>com.philips.platform.referenceapp:id/ratingtheme</CartItem>
   </ShoppingCartScreen>
   <ShoppingCartItem>
-    <!--SAME AS SCREENTITLE<ShoppingCartItemTitle>com.philips.platform.referenceapp.leakcanary:id/text</ShoppingCartItemTitle>-->
+    <!--SAME AS SCREENTITLE<ShoppingCartItemTitle>com.philips.platform.referenceapp:id/text</ShoppingCartItemTitle>-->
     <ArrowButton>com.philips.cdp.di.iapdemo:iap_iv_header_back_button</ArrowButton>
     <View>android.view.View</View>
-    <ViewPager>com.philips.platform.referenceapp.leakcanary:id/pager</ViewPager>
-    <ProductDescription>com.philips.platform.referenceapp.leakcanary:id/product_description</ProductDescription>
-    <ShoppingCartItem_AddtoCart>com.philips.platform.referenceapp.leakcanary:id/add_to_cart</ShoppingCartItem_AddtoCart>
-    <BuyFromRetailer>com.philips.platform.referenceapp.leakcanary:id/buy_from_retailor</BuyFromRetailer>
-    <ShoppingCartItemScroll>com.philips.platform.referenceapp.leakcanary:id/scrollView</ShoppingCartItemScroll>
-    <CTN>com.philips.platform.referenceapp.leakcanary:id/ctn</CTN>
-    <ProductOverview>com.philips.platform.referenceapp.leakcanary:id/product_overview</ProductOverview>
-    <IndividualPrice>com.philips.platform.referenceapp.leakcanary:id/individual_price</IndividualPrice>
+    <ViewPager>com.philips.platform.referenceapp:id/pager</ViewPager>
+    <ProductDescription>com.philips.platform.referenceapp:id/product_description</ProductDescription>
+    <ShoppingCartItem_AddtoCart>com.philips.platform.referenceapp:id/add_to_cart</ShoppingCartItem_AddtoCart>
+    <BuyFromRetailer>com.philips.platform.referenceapp:id/buy_from_retailor</BuyFromRetailer>
+    <ShoppingCartItemScroll>com.philips.platform.referenceapp:id/scrollView</ShoppingCartItemScroll>
+    <CTN>com.philips.platform.referenceapp:id/ctn</CTN>
+    <ProductOverview>com.philips.platform.referenceapp:id/product_overview</ProductOverview>
+    <IndividualPrice>com.philips.platform.referenceapp:id/individual_price</IndividualPrice>
   </ShoppingCartItem>
   <RetailerScreen>
-    <CrossButton>com.philips.platform.referenceapp.leakcanary:id/iap_retailer_cross</CrossButton>
-    <RetailerInfo>com.philips.platform.referenceapp.leakcanary:id/retailer_arrow</RetailerInfo>
-    <RetailerScreenTitle>com.philips.platform.referenceapp.leakcanary:id/select_retailer</RetailerScreenTitle>
-    <RetailerProductName>com.philips.platform.referenceapp.leakcanary:id/iap_online_store_name</RetailerProductName>
-    <RetailerList>com.philips.platform.referenceapp.leakcanary:id/iap_retailer_list</RetailerList>
-    <RetailerProduct_Back>com.philips.platform.referenceapp.leakcanary:id/iap_header_back_button</RetailerProduct_Back>
-    <Retailer_Back>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</Retailer_Back>
+    <CrossButton>com.philips.platform.referenceapp:id/iap_retailer_cross</CrossButton>
+    <RetailerInfo>com.philips.platform.referenceapp:id/retailer_arrow</RetailerInfo>
+    <RetailerScreenTitle>com.philips.platform.referenceapp:id/select_retailer</RetailerScreenTitle>
+    <RetailerProductName>com.philips.platform.referenceapp:id/iap_online_store_name</RetailerProductName>
+    <RetailerList>com.philips.platform.referenceapp:id/iap_retailer_list</RetailerList>
+    <RetailerProduct_Back>com.philips.platform.referenceapp:id/iap_header_back_button</RetailerProduct_Back>
+    <Retailer_Back>com.philips.platform.referenceapp:id/af_hamburger_imageview</Retailer_Back>
    </RetailerScreen>
   <ShippingScreen>
-    <DeliverButton>com.philips.platform.referenceapp.leakcanary:id/btn_deliver</DeliverButton>
-    <NewAddressButton>com.philips.platform.referenceapp.leakcanary:id/btn_new_address</NewAddressButton>
-    <CancelButton>com.philips.platform.referenceapp.leakcanary:id/btn_cancel</CancelButton>
-    <RadioButton>com.philips.platform.referenceapp.leakcanary:id/rbtn_toggle</RadioButton>
-    <tv_Name>com.philips.platform.referenceapp.leakcanary:id/tv_name</tv_Name>
-    <tv_address>com.philips.platform.referenceapp.leakcanary:id/tv_address</tv_address>
-    <ContextMenu_Dots>com.philips.platform.referenceapp.leakcanary:id/img_options</ContextMenu_Dots>
-    <ShippingAddresses>com.philips.platform.referenceapp.leakcanary:id/shipping_addresses</ShippingAddresses>
-	<ShippingAddressesScroll>com.philips.platform.referenceapp.leakcanary:id/shipping_addresses</ShippingAddressesScroll>
+    <DeliverButton>com.philips.platform.referenceapp:id/btn_deliver</DeliverButton>
+    <NewAddressButton>com.philips.platform.referenceapp:id/btn_new_address</NewAddressButton>
+    <CancelButton>com.philips.platform.referenceapp:id/btn_cancel</CancelButton>
+    <RadioButton>com.philips.platform.referenceapp:id/rbtn_toggle</RadioButton>
+    <tv_Name>com.philips.platform.referenceapp:id/tv_name</tv_Name>
+    <tv_address>com.philips.platform.referenceapp:id/tv_address</tv_address>
+    <ContextMenu_Dots>com.philips.platform.referenceapp:id/img_options</ContextMenu_Dots>
+    <ShippingAddresses>com.philips.platform.referenceapp:id/shipping_addresses</ShippingAddresses>
+	<ShippingAddressesScroll>com.philips.platform.referenceapp:id/shipping_addresses</ShippingAddressesScroll>
   </ShippingScreen>
   <AddressScreen>
-    <FirstName>com.philips.platform.referenceapp.leakcanary:id/et_first_name</FirstName>
-    <LastName>com.philips.platform.referenceapp.leakcanary:id/et_last_name</LastName>
-    <AddressLine1>com.philips.platform.referenceapp.leakcanary:id/et_address_line_one</AddressLine1>
-    <!--<Address>com.philips.platform.referenceapp.leakcanary:id/et_address</Address>-->
-    <AddressLine2>com.philips.platform.referenceapp.leakcanary:id/et_address_line_two</AddressLine2>
-    <Salutation>com.philips.platform.referenceapp.leakcanary:id/et_salutation</Salutation>
-    <City>com.philips.platform.referenceapp.leakcanary:id/et_town</City>
-    <PostalCode>com.philips.platform.referenceapp.leakcanary:id/et_postal_code</PostalCode>
-    <Country>com.philips.platform.referenceapp.leakcanary:id/et_country</Country>
-    <State>com.philips.platform.referenceapp.leakcanary:id/et_state</State>
-    <Email>com.philips.platform.referenceapp.leakcanary:id/et_email</Email>
-    <Phone>com.philips.platform.referenceapp.leakcanary:id/et_phone_number</Phone>
-    <ContinueButton>com.philips.platform.referenceapp.leakcanary:id/btn_continue</ContinueButton>
-    <Title>com.philips.platform.referenceapp.leakcanary:id/tv_title</Title>
-    <Switch>com.philips.platform.referenceapp.leakcanary:id/switch_billing_address</Switch>
-    <ErrorText>com.philips.platform.referenceapp.leakcanary:id/error_text</ErrorText>
-    <ScrollView>com.philips.platform.referenceapp.leakcanary:id/input_field_container</ScrollView>
-	<BillingAddress>com.philips.platform.referenceapp.leakcanary:id/billing_address_tv</BillingAddress>
+    <FirstName>com.philips.platform.referenceapp:id/et_first_name</FirstName>
+    <LastName>com.philips.platform.referenceapp:id/et_last_name</LastName>
+    <AddressLine1>com.philips.platform.referenceapp:id/et_address_line_one</AddressLine1>
+    <!--<Address>com.philips.platform.referenceapp:id/et_address</Address>-->
+    <AddressLine2>com.philips.platform.referenceapp:id/et_address_line_two</AddressLine2>
+    <Salutation>com.philips.platform.referenceapp:id/et_salutation</Salutation>
+    <City>com.philips.platform.referenceapp:id/et_town</City>
+    <PostalCode>com.philips.platform.referenceapp:id/et_postal_code</PostalCode>
+    <Country>com.philips.platform.referenceapp:id/et_country</Country>
+    <State>com.philips.platform.referenceapp:id/et_state</State>
+    <Email>com.philips.platform.referenceapp:id/et_email</Email>
+    <Phone>com.philips.platform.referenceapp:id/et_phone_number</Phone>
+    <ContinueButton>com.philips.platform.referenceapp:id/btn_continue</ContinueButton>
+    <Title>com.philips.platform.referenceapp:id/tv_title</Title>
+    <Switch>com.philips.platform.referenceapp:id/switch_billing_address</Switch>
+    <ErrorText>com.philips.platform.referenceapp:id/error_text</ErrorText>
+    <ScrollView>com.philips.platform.referenceapp:id/input_field_container</ScrollView>
+	<BillingAddress>com.philips.platform.referenceapp:id/billing_address_tv</BillingAddress>
   </AddressScreen>
   <SummaryScreen>
-    <PayNow>com.philips.platform.referenceapp.leakcanary:id/btn_paynow</PayNow>
-    <OrderSummary>com.philips.platform.referenceapp.leakcanary:id/order_summary</OrderSummary>
-    <Billing_Address>com.philips.platform.referenceapp.leakcanary:id/tv_billing_address</Billing_Address>
-    <Shipping_Address>com.philips.platform.referenceapp.leakcanary:id/tv_shipping_address</Shipping_Address>
-    <Billing_Name>com.philips.platform.referenceapp.leakcanary:id/tv_billing_first_name</Billing_Name>
-    <Shipping_Name>com.philips.platform.referenceapp.leakcanary:id/tv_shipping_first_name</Shipping_Name>
-    <TotalPrice>com.philips.platform.referenceapp.leakcanary:id/tv_total_price</TotalPrice>
-    <DeliveryPrice>com.philips.platform.referenceapp.leakcanary:id/tv_delivery_price</DeliveryPrice>
-    <TotalLabel>com.philips.platform.referenceapp.leakcanary:id/tv_total_lable</TotalLabel>
-    <ProductName>com.philips.platform.referenceapp.leakcanary:id/tv_productName</ProductName>
-    <SummaryQuantity>com.philips.platform.referenceapp.leakcanary:id/tv_quantity</SummaryQuantity>
-    <SummaryScroll>com.philips.platform.referenceapp.leakcanary:id/order_summary</SummaryScroll>
+    <PayNow>com.philips.platform.referenceapp:id/btn_paynow</PayNow>
+    <OrderSummary>com.philips.platform.referenceapp:id/order_summary</OrderSummary>
+    <Billing_Address>com.philips.platform.referenceapp:id/tv_billing_address</Billing_Address>
+    <Shipping_Address>com.philips.platform.referenceapp:id/tv_shipping_address</Shipping_Address>
+    <Billing_Name>com.philips.platform.referenceapp:id/tv_billing_first_name</Billing_Name>
+    <Shipping_Name>com.philips.platform.referenceapp:id/tv_shipping_first_name</Shipping_Name>
+    <TotalPrice>com.philips.platform.referenceapp:id/tv_total_price</TotalPrice>
+    <DeliveryPrice>com.philips.platform.referenceapp:id/tv_delivery_price</DeliveryPrice>
+    <TotalLabel>com.philips.platform.referenceapp:id/tv_total_lable</TotalLabel>
+    <ProductName>com.philips.platform.referenceapp:id/tv_productName</ProductName>
+    <SummaryQuantity>com.philips.platform.referenceapp:id/tv_quantity</SummaryQuantity>
+    <SummaryScroll>com.philips.platform.referenceapp:id/order_summary</SummaryScroll>
   </SummaryScreen>
   <PaymentScreen>
     <cardNumber>cardNumber</cardNumber>
@@ -211,22 +211,22 @@
     <CancelPayment>cancelButton</CancelPayment>
     <WebViewByClassName>android.webkit.WebView</WebViewByClassName>
     <MonthYearListView>android.widget.ListView</MonthYearListView>
-    <RecyclerPaymentMethod>com.philips.platform.referenceapp.leakcanary:id/recycler_payment_method</RecyclerPaymentMethod>
-    <PaymentHeader>com.philips.platform.referenceapp.leakcanary:id/tv_payment_method</PaymentHeader>
-    <RadioButtonPayment>com.philips.platform.referenceapp.leakcanary:id/radio_btn_payment</RadioButtonPayment>
-    <CardName>com.philips.platform.referenceapp.leakcanary:id/tv_card_name</CardName>
-    <cardholdername>com.philips.platform.referenceapp.leakcanary:id/tv_card_holder_name</cardholdername>
-    <CardValidity>com.philips.platform.referenceapp.leakcanary:id/tv_card_validity</CardValidity>
-    <UseThisPaymentMethod>com.philips.platform.referenceapp.leakcanary:id/btn_use_payment_method</UseThisPaymentMethod>
-    <AddNewPayment>com.philips.platform.referenceapp.leakcanary:id/btn_add_new_payment</AddNewPayment>
+    <RecyclerPaymentMethod>com.philips.platform.referenceapp:id/recycler_payment_method</RecyclerPaymentMethod>
+    <PaymentHeader>com.philips.platform.referenceapp:id/tv_payment_method</PaymentHeader>
+    <RadioButtonPayment>com.philips.platform.referenceapp:id/radio_btn_payment</RadioButtonPayment>
+    <CardName>com.philips.platform.referenceapp:id/tv_card_name</CardName>
+    <cardholdername>com.philips.platform.referenceapp:id/tv_card_holder_name</cardholdername>
+    <CardValidity>com.philips.platform.referenceapp:id/tv_card_validity</CardValidity>
+    <UseThisPaymentMethod>com.philips.platform.referenceapp:id/btn_use_payment_method</UseThisPaymentMethod>
+    <AddNewPayment>com.philips.platform.referenceapp:id/btn_add_new_payment</AddNewPayment>
     <PaymentScroll>android.webkit.WebView</PaymentScroll>
   </PaymentScreen>
   <Confirmation>
-    <Thankyou_TV>com.philips.platform.referenceapp.leakcanary:id/tv_thank</Thankyou_TV>
-    <YourOrderNumber>com.philips.platform.referenceapp.leakcanary:id/tv_your_order_num</YourOrderNumber>
-    <OrderNumber>com.philips.platform.referenceapp.leakcanary:id/tv_order_num</OrderNumber>
-    <ConfirmEmail>com.philips.platform.referenceapp.leakcanary:id/tv_confirm_email</ConfirmEmail>
-    <OKButton>com.philips.platform.referenceapp.leakcanary:id/tv_confirm_ok</OKButton>
+    <Thankyou_TV>com.philips.platform.referenceapp:id/tv_thank</Thankyou_TV>
+    <YourOrderNumber>com.philips.platform.referenceapp:id/tv_your_order_num</YourOrderNumber>
+    <OrderNumber>com.philips.platform.referenceapp:id/tv_order_num</OrderNumber>
+    <ConfirmEmail>com.philips.platform.referenceapp:id/tv_confirm_email</ConfirmEmail>
+    <OKButton>com.philips.platform.referenceapp:id/tv_confirm_ok</OKButton>
   </Confirmation>
 
   <!-- Consumer Care-->
@@ -239,80 +239,80 @@
     <TellUs>Tell us what you think</TellUs>
     <MyPhilipsAccount>MyPhilips account</MyPhilipsAccount>
     <ChangeSelectedProduct>Change selected product</ChangeSelectedProduct>
-    <DemoTitle>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</DemoTitle>
-    <ReturnToHomeScreen>com.philips.platform.referenceapp.leakcanary:id/home_icon</ReturnToHomeScreen>
+    <DemoTitle>com.philips.platform.referenceapp:id/af_actionbar_title</DemoTitle>
+    <ReturnToHomeScreen>com.philips.platform.referenceapp:id/home_icon</ReturnToHomeScreen>
   </SupportScreen>
   <ProductInformation>
     <Product_Manual>Download product manual</Product_Manual>
     <Product_Information>Product information(on Philips.com)</Product_Information>
-    <Back_to_Support>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</Back_to_Support>
-    <ProductDetail>com.philips.platform.referenceapp.leakcanary:id/name</ProductDetail>
-    <ProductInfoTitle>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</ProductInfoTitle>
-    <ProductImage>com.philips.platform.referenceapp.leakcanary:id/productimage</ProductImage>
-    <VideoHeading>com.philips.platform.referenceapp.leakcanary:id/productVideoText</VideoHeading>
-    <VideoPlayButton>com.philips.platform.referenceapp.leakcanary:id/videoPlay</VideoPlayButton>
-    <WebViewofProductInfo>com.philips.platform.referenceapp.leakcanary:id/webView</WebViewofProductInfo>
-    <ProductVariant>com.philips.platform.referenceapp.leakcanary:id/variant</ProductVariant>
+    <Back_to_Support>com.philips.platform.referenceapp:id/af_hamburger_imageview</Back_to_Support>
+    <ProductDetail>com.philips.platform.referenceapp:id/name</ProductDetail>
+    <ProductInfoTitle>com.philips.platform.referenceapp:id/af_actionbar_title</ProductInfoTitle>
+    <ProductImage>com.philips.platform.referenceapp:id/productimage</ProductImage>
+    <VideoHeading>com.philips.platform.referenceapp:id/productVideoText</VideoHeading>
+    <VideoPlayButton>com.philips.platform.referenceapp:id/videoPlay</VideoPlayButton>
+    <WebViewofProductInfo>com.philips.platform.referenceapp:id/webView</WebViewofProductInfo>
+    <ProductVariant>com.philips.platform.referenceapp:id/variant</ProductVariant>
     <OK>android:id/button1</OK>
-    <Image>com.philips.platform.referenceapp.leakcanary:id/productImageTablet</Image>
+    <Image>com.philips.platform.referenceapp:id/productImageTablet</Image>
   </ProductInformation>
   <FAQScreen>
-    <Back_to_FAQHomePage>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</Back_to_FAQHomePage>
-    <FAQHeaderText>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</FAQHeaderText>
+    <Back_to_FAQHomePage>com.philips.platform.referenceapp:id/af_hamburger_imageview</Back_to_FAQHomePage>
+    <FAQHeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</FAQHeaderText>
   </FAQScreen>
   <QuestionAnswerScreen>
-    <QAHeaderText>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</QAHeaderText>
-    <BacktoFAQpage>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</BacktoFAQpage>
+    <QAHeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</QAHeaderText>
+    <BacktoFAQpage>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktoFAQpage>
   </QuestionAnswerScreen>
   <ContactUs>
     <OnTwitter>On Twitter</OnTwitter>
     <OnFacebook>On Facebook</OnFacebook>
-    <LiveChat>com.philips.platform.referenceapp.leakcanary:id/contactUsChat</LiveChat>
-    <SendEmail>com.philips.platform.referenceapp.leakcanary:id/contactUsEmail</SendEmail>
-    <Call>com.philips.platform.referenceapp.leakcanary:id/contactUsCall</Call>
-    <HeaderText>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</HeaderText>
-    <BackToHomePage>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</BackToHomePage>
+    <LiveChat>com.philips.platform.referenceapp:id/contactUsChat</LiveChat>
+    <SendEmail>com.philips.platform.referenceapp:id/contactUsEmail</SendEmail>
+    <Call>com.philips.platform.referenceapp:id/contactUsCall</Call>
+    <HeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderText>
+    <BackToHomePage>com.philips.platform.referenceapp:id/af_hamburger_imageview</BackToHomePage>
     <Ok>android:id/button1</Ok>
   </ContactUs>
   <ChatWithPhilipsScreen>
-    <BacktoContactUs>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</BacktoContactUs>
-    <HeaderText>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</HeaderText>
-    <ChatNow>com.philips.platform.referenceapp.leakcanary:id/chatNow</ChatNow>
-    <Cancel>com.philips.platform.referenceapp.leakcanary:id/chatNoThanks</Cancel>
+    <BacktoContactUs>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktoContactUs>
+    <HeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderText>
+    <ChatNow>com.philips.platform.referenceapp:id/chatNow</ChatNow>
+    <Cancel>com.philips.platform.referenceapp:id/chatNoThanks</Cancel>
   </ChatWithPhilipsScreen>
   <LocationAccess>
     <Allow>com.android.packageinstaller:id/permission_allow_button</Allow>
   </LocationAccess>
   <ChatNowScreen>
-    <BacktoHomeScreen>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</BacktoHomeScreen>
-    <HeaderText>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</HeaderText>
+    <BacktoHomeScreen>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktoHomeScreen>
+    <HeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderText>
     <FirstName>LC_h1g58krm</FirstName>
-    <LastName>com.philips.platform.referenceapp.leakcanary:id/LC_h1g59yxo</LastName>
-    <Email>com.philips.platform.referenceapp.leakcanary:id/LC_h1g5b1cm</Email>
-    <MobileNo>com.philips.platform.referenceapp.leakcanary:id/LC_hcsnriw4</MobileNo>
-    <CheckBox>com.philips.platform.referenceapp.leakcanary:id/LC_fsx4xhpb_0</CheckBox>
-    <StartChat>com.philips.platform.referenceapp.leakcanary:id/FORMSUBMIT</StartChat>
-    <QueryTextBox>com.philips.platform.referenceapp.leakcanary:id/inputBody</QueryTextBox>
-    <Send>com.philips.platform.referenceapp.leakcanary:id/android.view.View</Send>
-    <ChatFrame>com.philips.platform.referenceapp.leakcanary:id/chat-frame</ChatFrame>
-    <ChatBusy>com.philips.platform.referenceapp.leakcanary:id/webView</ChatBusy>
+    <LastName>com.philips.platform.referenceapp:id/LC_h1g59yxo</LastName>
+    <Email>com.philips.platform.referenceapp:id/LC_h1g5b1cm</Email>
+    <MobileNo>com.philips.platform.referenceapp:id/LC_hcsnriw4</MobileNo>
+    <CheckBox>com.philips.platform.referenceapp:id/LC_fsx4xhpb_0</CheckBox>
+    <StartChat>com.philips.platform.referenceapp:id/FORMSUBMIT</StartChat>
+    <QueryTextBox>com.philips.platform.referenceapp:id/inputBody</QueryTextBox>
+    <Send>com.philips.platform.referenceapp:id/android.view.View</Send>
+    <ChatFrame>com.philips.platform.referenceapp:id/chat-frame</ChatFrame>
+    <ChatBusy>com.philips.platform.referenceapp:id/webView</ChatBusy>
     <Close>closebutton</Close>
   </ChatNowScreen>
   <SendEmailScreen>
-    <BacktohomeScrn>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</BacktohomeScrn>
-    <Header>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</Header>
+    <BacktohomeScrn>com.philips.platform.referenceapp:id/af_hamburger_imageview</BacktohomeScrn>
+    <Header>com.philips.platform.referenceapp:id/af_actionbar_title</Header>
   </SendEmailScreen>
   <FindPhilips>
-    <HeaderFindPhilips>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</HeaderFindPhilips>
-    <BackToHome>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</BackToHome>
-    <Search>com.philips.platform.referenceapp.leakcanary:id/search_box</Search>
-    <SearchButton>com.philips.platform.referenceapp.leakcanary:id/search_icon</SearchButton>
+    <HeaderFindPhilips>com.philips.platform.referenceapp:id/af_actionbar_title</HeaderFindPhilips>
+    <BackToHome>com.philips.platform.referenceapp:id/af_hamburger_imageview</BackToHome>
+    <Search>com.philips.platform.referenceapp:id/search_box</Search>
+    <SearchButton>com.philips.platform.referenceapp:id/search_icon</SearchButton>
     <!--<ParentLayout>com.philips.cdp.sampledigitalcare:id/locateDialogParent</ParentLayout>-->
   </FindPhilips>
   <DialogsFindPhilips1>
-    <TextDesc>com.philips.platform.referenceapp.leakcanary:id/dialogTextViewDesc</TextDesc>
-    <GotoContactPage>com.philips.platform.referenceapp.leakcanary:id/dialogTextViewSupportPage</GotoContactPage>
-    <NoServiceAvailableOKButton>com.philips.platform.referenceapp.leakcanary:id/dialogTextViewOk</NoServiceAvailableOKButton>
+    <TextDesc>com.philips.platform.referenceapp:id/dialogTextViewDesc</TextDesc>
+    <GotoContactPage>com.philips.platform.referenceapp:id/dialogTextViewSupportPage</GotoContactPage>
+    <NoServiceAvailableOKButton>com.philips.platform.referenceapp:id/dialogTextViewOk</NoServiceAvailableOKButton>
   </DialogsFindPhilips1>
   <DialogsFindPhilips2>
     <NoDataOK>android:id/button1</NoDataOK>
@@ -327,37 +327,37 @@
     <ShareLocationToPhilipsOKButton>android:id/button1</ShareLocationToPhilipsOKButton>
   </DialogsFindPhilips4>
   <TellUsScreen>
-    <BackTo_Homescreen>com.philips.platform.referenceapp.leakcanary:id/af_hamburger_imageview</BackTo_Homescreen>
-    <AppReview>com.philips.platform.referenceapp.leakcanary:id/tellus_PlayStoreReviewButton</AppReview>
-    <ProductReview>com.philips.platform.referenceapp.leakcanary:id/tellus_PhilipsReviewButton</ProductReview>
-    <TellUsHeaderText>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</TellUsHeaderText>
+    <BackTo_Homescreen>com.philips.platform.referenceapp:id/af_hamburger_imageview</BackTo_Homescreen>
+    <AppReview>com.philips.platform.referenceapp:id/tellus_PlayStoreReviewButton</AppReview>
+    <ProductReview>com.philips.platform.referenceapp:id/tellus_PhilipsReviewButton</ProductReview>
+    <TellUsHeaderText>com.philips.platform.referenceapp:id/af_actionbar_title</TellUsHeaderText>
     <RetryButton>com.android.vending:id/retry_button</RetryButton>
     <PlayStore_View>com.android.vending:id/recycler_view</PlayStore_View>
     <PlayStoreRetryButton>com.android.vending:id/retry_button</PlayStoreRetryButton>
   </TellUsScreen>
   <ProductScreen>
-    <Backto_Home_old>com.philips.platform.referenceapp.leakcanary:id/productselection_arrow</Backto_Home_old>
-    <Backto_Home>com.philips.platform.referenceapp.leakcanary:id/action_bar_icon_parent</Backto_Home>
-    <ProductHeadertxt>com.philips.platform.referenceapp.leakcanary:id/productselection_actionbarTitle</ProductHeadertxt>
-    <Product_List_View>com.philips.platform.referenceapp.leakcanary:id/productListView</Product_List_View>
-    <Product_name>com.philips.platform.referenceapp.leakcanary:id/text1Name</Product_name>
-    <Product_Id>com.philips.platform.referenceapp.leakcanary:id/text2value</Product_Id>
+    <Backto_Home_old>com.philips.platform.referenceapp:id/productselection_arrow</Backto_Home_old>
+    <Backto_Home>com.philips.platform.referenceapp:id/action_bar_icon_parent</Backto_Home>
+    <ProductHeadertxt>com.philips.platform.referenceapp:id/productselection_actionbarTitle</ProductHeadertxt>
+    <Product_List_View>com.philips.platform.referenceapp:id/productListView</Product_List_View>
+    <Product_name>com.philips.platform.referenceapp:id/text1Name</Product_name>
+    <Product_Id>com.philips.platform.referenceapp:id/text2value</Product_Id>
     <!--<SelectedProduct>Lumea Prestige IPL - Hair regrowth prevention</SelectedProduct>
     <BluetouchProduct>BlueTouch App-controlled pain relief patch</BluetouchProduct>-->
   </ProductScreen>
   <SelectedProdutScreen>
-    <BacktoHome>com.philips.platform.referenceapp.leakcanary:id/productselection_arrow</BacktoHome>
-    <SelectProductButton>com.philips.platform.referenceapp.leakcanary:id/detailedscreen_select_button</SelectProductButton>
-    <TextHeader>com.philips.platform.referenceapp.leakcanary:id/af_actionbar_title</TextHeader>
-    <ProductCTN>com.philips.platform.referenceapp.leakcanary:id/detailed_screen_productctn</ProductCTN>
-    <ProductName>com.philips.platform.referenceapp.leakcanary:id/detailed_screen_productname</ProductName>
+    <BacktoHome>com.philips.platform.referenceapp:id/productselection_arrow</BacktoHome>
+    <SelectProductButton>com.philips.platform.referenceapp:id/detailedscreen_select_button</SelectProductButton>
+    <TextHeader>com.philips.platform.referenceapp:id/af_actionbar_title</TextHeader>
+    <ProductCTN>com.philips.platform.referenceapp:id/detailed_screen_productctn</ProductCTN>
+    <ProductName>com.philips.platform.referenceapp:id/detailed_screen_productname</ProductName>
   </SelectedProdutScreen>
   <ConfirmationScreen>
-    <Backto_Home>com.philips.platform.referenceapp.leakcanary:id/productselection_UpButton</Backto_Home>
-    <Changeutton>com.philips.platform.referenceapp.leakcanary:id/savedscreen_button_settings</Changeutton>
-    <ContinueButton>com.philips.platform.referenceapp.leakcanary:id/savedscreen_button_continue</ContinueButton>
-    <TextHeader>com.philips.platform.referenceapp.leakcanary:id/productselection_actionbarTitle</TextHeader>
-    <ProductVrnt>com.philips.platform.referenceapp.leakcanary:id/savedscreen_productvariant</ProductVrnt>
+    <Backto_Home>com.philips.platform.referenceapp:id/productselection_UpButton</Backto_Home>
+    <Changeutton>com.philips.platform.referenceapp:id/savedscreen_button_settings</Changeutton>
+    <ContinueButton>com.philips.platform.referenceapp:id/savedscreen_button_continue</ContinueButton>
+    <TextHeader>com.philips.platform.referenceapp:id/productselection_actionbarTitle</TextHeader>
+    <ProductVrnt>com.philips.platform.referenceapp:id/savedscreen_productvariant</ProductVrnt>
   </ConfirmationScreen>
   <GPSLocation>
     <Header>android:id/af_actionbar_title</Header>

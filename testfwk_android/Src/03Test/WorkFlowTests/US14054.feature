@@ -1,8 +1,11 @@
 ﻿Feature: US14054
-	
+As a User verify that the user can skip the welcome screen,
+Verify user is able to login with My Philips account with Receive promotional enabled,
+Verify user is able see the View product Information of a product 
+Verify the behavior of the setting screen when the user has logged in
 
 @Reliability
-Scenario: App Journey1
+Scenario: Leak Canary Tool Implementation : App Journey1
  	Given I am on the AppFramework Screen
 	Then I click on Skip
 	Then Verify that the user is in User Registration screen 

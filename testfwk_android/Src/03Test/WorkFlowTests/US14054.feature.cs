@@ -18,7 +18,10 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [TechTalk.SpecRun.FeatureAttribute("US14054", SourceFile="US14054.feature", SourceLine=0)]
+    [TechTalk.SpecRun.FeatureAttribute("US14054", Description=@"As a User verify that the user can skip the welcome screen,
+Verify user is able to login with My Philips account with Receive promotional enabled,
+Verify user is able see the View product Information of a product 
+Verify the behavior of the setting screen when the user has logged in", SourceFile="US14054.feature", SourceLine=0)]
     public partial class US14054Feature
     {
         
@@ -31,7 +34,10 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "US14054", "", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "US14054", @"As a User verify that the user can skip the welcome screen,
+Verify user is able to login with My Philips account with Receive promotional enabled,
+Verify user is able see the View product Information of a product 
+Verify the behavior of the setting screen when the user has logged in", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,36 +68,36 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             testRunner.CollectScenarioErrors();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("App Journey1", new string[] {
-                "Reliability"}, SourceLine=4)]
-        public virtual void AppJourney1()
+        [TechTalk.SpecRun.ScenarioAttribute("Leak Canary Tool Implementation : App Journey1", new string[] {
+                "Reliability"}, SourceLine=7)]
+        public virtual void LeakCanaryToolImplementationAppJourney1()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("App Journey1", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Leak Canary Tool Implementation : App Journey1", new string[] {
                         "Reliability"});
-#line 5
-this.ScenarioSetup(scenarioInfo);
-#line 6
-  testRunner.Given("I am on the AppFramework Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 7
- testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
- testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+this.ScenarioSetup(scenarioInfo);
 #line 9
- testRunner.Then("I log in with the email \"datacore@mailinator.com\" and password \"Philips@123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Given("I am on the AppFramework Screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
- testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I click on Skip", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
- testRunner.Then("I click on Support from Hamburger Menu List and verify support page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Verify that the user is in User Registration screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
+ testRunner.Then("I log in with the email \"datacore@mailinator.com\" and password \"Philips@123\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.Then("I click on Support from Hamburger Menu List and verify support page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
  testRunner.Then("verify selected product \"Sonicare DiamondClean Standard sonic toothbrush heads\" d" +
                     "etail in view product information with CTN \"HX6064/33\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
- testRunner.Then("verify product information (on Philips.com) button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
- testRunner.Then("come back to support screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
- testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 16
+ testRunner.Then("verify product information (on Philips.com) button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+ testRunner.Then("come back to support screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+ testRunner.Then("I click on Hamburger Menu Icon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
  testRunner.Then("I click on Settings from the Hamburger Menu List", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
