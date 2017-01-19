@@ -236,20 +236,6 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> doesIncludeFontPadding(final boolean includeFontPadding) {
-        return new BaseTypeSafteyMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(final View view) {
-                if (view instanceof TextView) {
-                    TextView textView = (TextView) view;
-                    setValues(textView.getIncludeFontPadding(), includeFontPadding);
-                    return areEqual();
-                }
-                return false;
-            }
-        };
-    }
-
     public static Matcher<? super View> sameBackgroundColor(final int attributeColor) {
         return new BaseTypeSafteyMatcher<View>() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
