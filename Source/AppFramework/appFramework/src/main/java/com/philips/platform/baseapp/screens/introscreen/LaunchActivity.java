@@ -138,8 +138,6 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
                     SplashFragment splashFragment = (SplashFragment) fragment;
                     splashFragment.permissionGranted();
                 }
-                //Displaying a toast
-                Toast.makeText(getFragmentActivity(), "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
             } else {
                 //Displaying another toast if permission is not granted
                 Toast.makeText(getFragmentActivity(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();

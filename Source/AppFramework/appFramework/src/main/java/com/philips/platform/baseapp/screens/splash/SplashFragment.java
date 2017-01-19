@@ -24,13 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
-import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, AppFlowJsonListener {
@@ -97,8 +95,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void setFlowManager() {
-        FlowManager flowManager = new FlowManager(getFragmentActivity().getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
-        getApplicationContext().setTargetFlowManager(flowManager);
+        getApplicationContext().setTargetFlowManager();
     }
 
     //Requesting permission

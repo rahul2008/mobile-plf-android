@@ -13,6 +13,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -31,7 +32,7 @@ import java.util.Locale;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application {
+public class AppFrameworkApplication extends Application implements AppFlowJsonListener {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
@@ -97,7 +98,12 @@ public class AppFrameworkApplication extends Application {
         return targetFlowManager;
     }
 
-    public void setTargetFlowManager(final FlowManager targetFlowManager) {
-        this.targetFlowManager = targetFlowManager;
+    public void setTargetFlowManager() {
+        this.targetFlowManager = new FlowManager(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
+    }
+
+    @Override
+    public void onParseSuccess() {
+
     }
 }
