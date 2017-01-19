@@ -369,7 +369,10 @@ public class DataServicesManager {
     }
 
     public void updateCharacteristics(DBRequestListener dbRequestListener) {
+
+        UserCharacteristics userCharacteristics = getUserCharacteristics();
         mEventing.post(new UserCharacteristicsSaveRequest(getUserCharacteristics(), dbRequestListener));
+        setUserCharacteristics(null);
     }
 
     public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
@@ -381,7 +384,6 @@ public class DataServicesManager {
         userCharacteristics = getUserCharacteristics();
         if (userCharacteristics == null) {
             userCharacteristics = createUCSync();
-            setUserCharacteristics(userCharacteristics);
         }
 
         Characteristics chDetail;
@@ -391,7 +393,6 @@ public class DataServicesManager {
             chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics);
         }
         userCharacteristics.addCharacteristicsDetail(chDetail);
-        setUserCharacteristics(userCharacteristics);
         return chDetail;
     }
 
