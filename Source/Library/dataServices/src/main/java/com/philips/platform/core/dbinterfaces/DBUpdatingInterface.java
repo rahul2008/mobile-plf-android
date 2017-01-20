@@ -1,5 +1,6 @@
 package com.philips.platform.core.dbinterfaces;
 
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -13,8 +14,14 @@ import java.util.List;
  * All rights reserved.
  */
 public interface DBUpdatingInterface {
-    void updateMoment(final Moment ormMoment,DBRequestListener dbRequestListener) throws SQLException;
-    boolean updateConsent(final Consent consent,DBRequestListener dbRequestListener) throws SQLException;
-    void updateFailed(Exception e,DBRequestListener dbRequestListener);
+    void updateMoment(final Moment ormMoment, DBRequestListener dbRequestListener) throws SQLException;
+
+    boolean updateConsent(final Consent consent, DBRequestListener dbRequestListener) throws SQLException;
+
+    void updateFailed(Exception e, DBRequestListener dbRequestListener);
+
+    boolean updateCharacteristics(final UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
+
     void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) throws SQLException;
+
 }

@@ -14,6 +14,11 @@ import com.philips.platform.core.monitors.UpdatingMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsConverter;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
@@ -76,4 +81,14 @@ public interface AppComponent {
     void injectFetchingMonitor(FetchingMonitor fetchingMonitor);
 
     void injectConsentsSegregator(ConsentsSegregator consentsSegregator);
+
+    void injectUserCharacteristicsMonitor(UserCharacteristicsMonitor userCharacteristicsMonitor);
+
+    void injectUserCharacteristicsSender(UserCharacteristicsSender userCharacteristicsSender);
+
+    void injectUserCharacteristicsFetcher(UserCharacteristicsFetcher userCharacteristicsFetcher);
+
+    void injectUserCharacteristicsConverter(UserCharacteristicsConverter userCharacteristicsConverter);
+
+    void injectUserCharacteristicsSegregator(UserCharacteristicsSegregator userCharacteristicsSegregator);
 }

@@ -24,6 +24,8 @@ import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -66,6 +68,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmConsent, Integer> consentDao;
     private Dao<OrmConsentDetail, Integer> consentDetailDao;
     private Dao <OrmSettings,Integer> settingDao;
+
+    private Dao<OrmCharacteristics, Integer> characteristicsesDao;
+    private Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
 
     public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -176,6 +181,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
+        TableUtils.createTable(connectionSource, OrmCharacteristics.class);
+        TableUtils.createTable(connectionSource, OrmCharacteristicsDetail.class);
         TableUtils.createTable(connectionSource, OrmSettings.class);
     }
 
@@ -238,6 +245,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmConsent.class, true);
         TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmSettings.class, true);
+        TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
+        TableUtils.dropTable(connectionSource, OrmCharacteristicsDetail.class, true);
     }
 
     public Dao<OrmMoment, Integer> getMomentDao() throws SQLException {
@@ -337,5 +346,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return consentDetailDao;
     }
+
+    public Dao<OrmCharacteristics, Integer> getCharacteristicsDao() throws SQLException {
+        if (characteristicsesDao == null) {
+            characteristicsesDao = getDao(OrmCharacteristics.class);
+        }
+        return characteristicsesDao;
+    }
+
+    public Dao<OrmCharacteristicsDetail, Integer> getCharacteristicsDetailsDao() throws SQLException {
+        if (characteristicsDetailsDao == null) {
+            characteristicsDetailsDao = getDao(OrmCharacteristicsDetail.class);
+        }
+        return characteristicsDetailsDao;
+    }
+
 
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.prxclient.datamodels.assets.Data;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
@@ -28,7 +29,7 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsent;
  * Created by sangamesh on 08/11/16.
  */
 
-public class ConsentDialogFragment extends DialogFragment implements DBRequestListener, View.OnClickListener {
+public class ConsentDialogFragment extends DialogFragment implements DBRequestListener,DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -127,6 +128,17 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
             });
         }
 
+        if(getActivity()!=null) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
     }
 
     @Override
@@ -152,7 +164,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onStop() {
         super.onStop();
-        DataServicesManager.getInstance().unRegisteredDBRequestListener();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
         dismissProgressDialog();
     }
 
@@ -169,7 +181,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
     @Override
     public void onStart() {
         super.onStart();
-        mDataServicesManager.registeredDBRequestListener(this);
+        mDataServicesManager.registerDBChangeListener(this);
         Dialog dialog = getDialog();
         dialog.setTitle(R.string.consents);
         if (dialog != null) {
@@ -181,7 +193,7 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
 
     private void showProgressDialog() {
         if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-            mProgressDialog.show();
+             mProgressDialog.show();
         }
     }
 
@@ -196,4 +208,19 @@ public class ConsentDialogFragment extends DialogFragment implements DBRequestLi
         DataServicesManager.getInstance().fetchConsent(this);
     }
 
+    @Override
+    public void dBChangeSuccess() {
+        fetchConsent();
+    }
+
+    @Override
+    public void dBChangeFailed(final Exception e) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

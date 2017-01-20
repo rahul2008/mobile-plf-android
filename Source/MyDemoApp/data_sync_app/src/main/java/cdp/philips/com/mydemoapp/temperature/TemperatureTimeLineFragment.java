@@ -13,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -23,6 +26,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 
 import cdp.philips.com.mydemoapp.DataSyncApplication;
 import cdp.philips.com.mydemoapp.R;
+import cdp.philips.com.mydemoapp.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogFragment;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.reciever.BaseAppBroadcastReceiver;
@@ -45,7 +50,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener {
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBRequestListener, DBChangeListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -55,13 +60,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    private TextView mTvSetCosents,mTvSettings;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
     UserRegistrationInterfaceImpl userRegistrationInterface;
     User mUser;
     Utility mUtility;
+
+    TextView mTvConsents, mTvCharacteristics , mTvSettings;
 
 
     @Override
@@ -73,8 +79,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mDataServicesManager.registeredDBRequestListener(this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
+        mDataServicesManager.registerDBChangeListener(this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -91,10 +97,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onStart() {
         super.onStart();
 
-        if(mUser!=null && !mUser.isUserSignIn()){
-            Toast.makeText(getContext(),"Please Login",Toast.LENGTH_SHORT).show();
+        if (mUser != null && !mUser.isUserSignIn()) {
+            Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
             mAddButton.setVisibility(View.INVISIBLE);
-            mTvSetCosents.setVisibility(View.INVISIBLE);
+            mTvConsents.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -108,30 +114,30 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         setUpBackendSynchronizationLoop();
 
-        if(!mUtility.isOnline(getContext())){
-            Toast.makeText(getContext(),"Please check your connection",Toast.LENGTH_LONG).show();
+        if (!mUtility.isOnline(getContext())) {
+            Toast.makeText(getContext(), "Please check your connection", Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (!mSharedPreferences.getBoolean("isSynced", false) ) {
+        if (!mSharedPreferences.getBoolean("isSynced", false)) {
             showProgressDialog();
         }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
-        if(getLastStoredEmail()==null){
+        if (getLastStoredEmail() == null) {
             storeLastEmail();
             return;
         }
 
-        if(!isSameEmail()){
-            userRegistrationInterface.clearUserData();
+        if (!isSameEmail()) {
+            userRegistrationInterface.clearUserData(this);
         }
         storeLastEmail();
     }
 
     private boolean isSameEmail() {
-        if(getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
+        if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
             return true;
         return false;
     }
@@ -139,7 +145,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
-        DataServicesManager.getInstance().unRegisteredDBRequestListener();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
         cancelPendingIntent();
         //mDataServicesManager.stopCore();
         dismissProgressDialog();
@@ -156,11 +162,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
-        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
-        mTvSetCosents.setOnClickListener(this);
-        mTvSettings.setOnClickListener(this);
+        mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
+        mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
 
+        mTvConsents.setOnClickListener(this);
+        mTvCharacteristics.setOnClickListener(this);
+        mTvSettings.setOnClickListener(this);
         return view;
     }
 
@@ -189,7 +197,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-       // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+        // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
         //mDataServicesManager.releaseDataServicesInstances();
     }
 
@@ -201,17 +209,27 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 break;
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                dFragment.show(getFragmentManager(), "consent");
+                dFragment.show(getFragmentManager(), "Dialog");
+
                 break;
             case R.id.tv_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
                 settingsFragment.show(getFragmentManager(), "settings");
+
+                break;
+
+            case R.id.tv_set_characteristics:
+
+                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+                characteristicsDialogFragment.show(getFragmentManager(), "Character");
+
                 break;
         }
     }
 
     @Override
     public void onSuccess(final ArrayList<? extends Object> data) {
+        if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -240,6 +258,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     private void onFailureRefresh(final Exception e) {
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -270,18 +289,35 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
     }
 
-    String getLastStoredEmail(){
+    String getLastStoredEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        String decryptedData= ssInterface.fetchValueForKey("last_email",ssError);
+        String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
         return decryptedData;
     }
 
-    void storeLastEmail(){
+    void storeLastEmail() {
         AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("last_email",mUser.getEmail(), ssError);
+        ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
+    }
+
+    @Override
+    public void dBChangeSuccess() {
+        mTemperaturePresenter.fetchData(this);
+    }
+
+    @Override
+    public void dBChangeFailed(final Exception e) {
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -9,6 +9,7 @@ import com.philips.platform.core.utils.DSLog;
  */
 
 public class ErrorHandlerInterfaceImpl implements ErrorHandlingInterface{
+    //Parse the error code from Retrofit and handle specific scenario
     @Override
     public void syncError(int error) {
         DSLog.e(DataServicesManager.TAG,"error = " + error);

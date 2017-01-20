@@ -12,6 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.utils.NotifyDBChangeListener;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -86,8 +87,10 @@ public class OrmUpdating {
     public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) throws SQLException {
         UpdateBuilder<OrmSettings, Integer> updateBuilder = settingsDao.updateBuilder();
         for(Settings settings:settingsList) {
-            updateBuilder.updateColumnValue("type",settings.getType());
+
             updateBuilder.updateColumnValue("value",settings.getValue());
+            updateBuilder.where().eq("type", settings.getType());
+
             updateBuilder.update();
         }
     }

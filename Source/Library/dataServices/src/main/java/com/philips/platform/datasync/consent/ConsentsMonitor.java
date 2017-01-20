@@ -42,7 +42,6 @@ public class ConsentsMonitor extends EventMonitor {
     @Inject
     UCoreAccessProvider uCoreAccessProvider;
 
-    private final DBRequestListener mDbRequestListener;
 
     @NonNull
     private final GsonConverter gsonConverter;
@@ -63,7 +62,6 @@ public class ConsentsMonitor extends EventMonitor {
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
         mDataServicesManager=DataServicesManager.getInstance();
-        this.mDbRequestListener = mDataServicesManager.getDbChangeListener();
     }
 
     //TODO: Commented part can you clearify with Ajay
@@ -121,9 +119,9 @@ public class ConsentsMonitor extends EventMonitor {
                     consentDetail.setBackEndSynchronized(true);
                 }
                 DSLog.i("***SPO***", "Get Consent called After ConsentsClient before sending consents response");
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK, mDbRequestListener));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), consent, HttpURLConnection.HTTP_OK, null));
             } else {
-                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, mDbRequestListener));
+                eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, null));
             }
         }  catch (RetrofitError ex) {
         eventing.post(new BackendMomentRequestFailed(ex));
@@ -175,7 +173,7 @@ public class ConsentsMonitor extends EventMonitor {
             for (ConsentDetail consentDetail : consent.getConsentDetails()) {
                 consentDetail.setBackEndSynchronized(true);
             }
-            eventing.post(new DatabaseConsentSaveRequest(consent, true, mDbRequestListener));
+            eventing.post(new DatabaseConsentSaveRequest(consent, true, null));
         } catch (RetrofitError error) {
             postError(event.getEventId(), error);
         }

@@ -6,7 +6,6 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DataClearResponse;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -58,7 +57,7 @@ public class DeletingMonitorTest {
     @Test
     public void DeletionAsked_WhenEventReceived() throws Exception {
         monitor.onEventBackgroundThread(new DataClearRequest(dbRequestListener));
-        verify(deletingMock).deleteAllMoments(dbRequestListener);
+        verify(deletingMock).deleteAll(dbRequestListener);
     }
 
     @Test
@@ -76,7 +75,7 @@ public class DeletingMonitorTest {
    /* @Test
     public void ExceptionEventRaised_WhenExceptionHappens() throws Exception {
         SQLException exception = new SQLException();
-        doThrow(exception).when(deletingMock).deleteAllMoments();
+        doThrow(exception).when(deletingMock).deleteAll();
 
         monitor.onEventBackgroundThread(new DataClearRequest());
 
@@ -89,7 +88,7 @@ public class DeletingMonitorTest {
     /*@Test
     public void ExceptionEventHasReferenceId_WhenExceptionHappens() throws Exception {
         SQLException exception = new SQLException("test");
-        doThrow(exception).when(deletingMock).deleteAllMoments();
+        doThrow(exception).when(deletingMock).deleteAll();
         DataClearRequest request = new DataClearRequest();
 
         monitor.onEventBackgroundThread(request);

@@ -5,39 +5,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<Button
-            android:id="@+id/add"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="?attr/uikit_baseColor"
-            android:text="@string/add"
-        />-->
-
-        <!--
-                <Button
-                    android:id="@+id/sync"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:background="?attr/uikit_baseColor"
-                    android:text="@string/sync"
-                />
-        -->
-
-
         <ImageButton
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
@@ -51,32 +24,43 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/tv_settings"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             android:divider="?attr/uikit_listDividerColor"
             android:dividerHeight="1dp"
             android:footerDividersEnabled="false"
             android:listSelector="?attr/uikit_listSelectorBackground"
             android:overScrollFooter="@android:color/transparent"
-            android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+            android:scrollbars="none">
 
-        <Switch
-            android:text="Consents"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="end"
-            android:checked="true"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone"
-            android:layout_marginStart="10dp"
-            android:id="@+id/switch_consents" />
+        </android.support.v7.widget.RecyclerView>
+
 
     <TextView
-        android:text="Set Consents"
+        android:text="@string/set_characteristics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_above="@+id/tv_set_consents"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/tv_set_characteristics" />
+
+    <TextView
+        android:text="User Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
+        android:textSize="20dp"
+        android:layout_above="@+id/tv_set_characteristics"
+        android:layout_marginStart="10dp"
+        android:id="@+id/tv_settings" />
+
+    <TextView
+        android:text="@string/consents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -87,16 +71,6 @@
         android:layout_marginStart="10dp"
         android:id="@+id/tv_set_consents" />
 
-    <TextView
-        android:text="User Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginBottom="10dp"
-        android:textSize="20dp"
-        android:layout_above="@+id/tv_set_consents"
-        android:layout_marginStart="10dp"
-        android:id="@+id/tv_settings" />
 
 
-    </RelativeLayout>
+</RelativeLayout>

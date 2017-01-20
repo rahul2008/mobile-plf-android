@@ -9,12 +9,13 @@ package com.philips.platform.core.trackers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -30,8 +31,11 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.LoadSettingsRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -42,6 +46,7 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
 import com.philips.platform.core.injection.DaggerAppComponent;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.EventingImpl;
@@ -72,7 +77,13 @@ public class DataServicesManager {
 
     private volatile boolean isPushComplete = true;
 
-    private DBRequestListener dbChangeListener;
+    private DBRequestListener dbRequestListener;
+
+    private DBChangeListener dbChangeListener;
+
+    public DBChangeListener getDbChangeListener() {
+        return dbChangeListener;
+    }
 
     @Inject
     Eventing mEventing;
@@ -108,6 +119,16 @@ public class DataServicesManager {
     private ArrayList<DataFetcher> fetchers;
     private ArrayList<DataSender> senders;
 
+    private UserCharacteristics getUserCharacteristics() {
+        return userCharacteristics;
+    }
+
+    private void setUserCharacteristics(UserCharacteristics userCharacteristics) {
+        this.userCharacteristics = userCharacteristics;
+    }
+
+    private UserCharacteristics userCharacteristics;
+
     @Singleton
     private DataServicesManager() {
     }
@@ -128,23 +149,23 @@ public class DataServicesManager {
     }*/
 
     @NonNull
-    public Moment save(@NonNull final Moment moment,DBRequestListener dbRequestListener) {
+    public Moment save(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
         DSLog.i("***SPO***", "In DataServicesManager.save for " + moment.toString());
-        mEventing.post(new MomentSaveRequest(moment,dbRequestListener));
+        mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
         return moment;
     }
 
-    public Moment update(@NonNull final Moment moment,DBRequestListener dbRequestListener) {
-        mEventing.post(new MomentUpdateRequest(moment,dbRequestListener));
+    public Moment update(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
+        mEventing.post(new MomentUpdateRequest(moment, dbRequestListener));
         return moment;
     }
 
-    public void fetch(DBRequestListener dbRequestListener,final @NonNull Integer... type) {
-        mEventing.post(new LoadMomentsRequest(dbRequestListener,type));
+    public void fetch(DBRequestListener dbRequestListener, final @NonNull Integer... type) {
+        mEventing.post(new LoadMomentsRequest(dbRequestListener, type));
     }
 
-    public void fetchMomentById(final int momentID,DBRequestListener dbRequestListener) {
-        mEventing.post(new LoadMomentsRequest(momentID,dbRequestListener));
+    public void fetchMomentById(final int momentID, DBRequestListener dbRequestListener) {
+        mEventing.post(new LoadMomentsRequest(momentID, dbRequestListener));
     }
 
     public void fetchAllData(DBRequestListener dbRequestListener) {
@@ -170,11 +191,11 @@ public class DataServicesManager {
         consent.addConsentDetails(consentDetail);
     }
 
-    public void saveConsent(Consent consent,DBRequestListener dbRequestListener) {
+    public void saveConsent(Consent consent, DBRequestListener dbRequestListener) {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
-    public void updateConsent(Consent consent,DBRequestListener dbRequestListener) {
+    public void updateConsent(Consent consent, DBRequestListener dbRequestListener) {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
@@ -232,12 +253,12 @@ public class DataServicesManager {
         return measurementDetail;
     }
 
-    public void deleteMoment(final Moment moment,DBRequestListener dbRequestListener) {
-        mEventing.post(new MomentDeleteRequest(moment,dbRequestListener));
+    public void deleteMoment(final Moment moment, DBRequestListener dbRequestListener) {
+        mEventing.post(new MomentDeleteRequest(moment, dbRequestListener));
     }
 
-    public void updateMoment(Moment moment,DBRequestListener dbRequestListener) {
-        mEventing.post((new MomentUpdateRequest(moment,dbRequestListener)));
+    public void updateMoment(Moment moment, DBRequestListener dbRequestListener) {
+        mEventing.post((new MomentUpdateRequest(moment, dbRequestListener)));
     }
 
     public void synchchronize() {
@@ -245,7 +266,7 @@ public class DataServicesManager {
     }
 
     @SuppressWarnings("rawtypes")
-    public void initializeSyncMonitors(Context context,ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
+    public void initializeSyncMonitors(Context context, ArrayList<DataFetcher> fetchers, ArrayList<DataSender> senders) {
         DSLog.i("***SPO***", "In DataServicesManager.initializeSyncMonitors");
         this.fetchers = fetchers;
         this.senders = senders;
@@ -264,7 +285,7 @@ public class DataServicesManager {
     }*/
 
     private void sendPullDataEvent() {
-        synchronized(this) {
+        synchronized (this) {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
             if (mCore != null) {
                 DSLog.i("***SPO***", "mCore not null, hence starting");
@@ -278,7 +299,7 @@ public class DataServicesManager {
         }
     }
 
-    public void initializeDBMonitors(Context context,DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
+    public void initializeDBMonitors(Context context, DBDeletingInterface deletingInterface, DBFetchingInterface fetchingInterface, DBSavingInterface savingInterface, DBUpdatingInterface updatingInterface) {
         this.mDeletingInterface = deletingInterface;
         this.mFetchingInterface = fetchingInterface;
         this.mSavingInterface = savingInterface;
@@ -286,7 +307,7 @@ public class DataServicesManager {
     }
 
     public void initialize(Context context, BaseAppDataCreator creator, UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
-        DSLog.i("SPO","initialize called");
+        DSLog.i("SPO", "initialize called");
         this.mDataCreater = creator;
         this.userRegistrationInterface = facade;
         this.errorHandlingInterface = errorHandlingInterface;
@@ -303,9 +324,9 @@ public class DataServicesManager {
 
 
     private void prepareInjectionsGraph(Context context) {
-        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()),mDataCreater, userRegistrationInterface,
-                mDeletingInterface,mFetchingInterface,mSavingInterface,mUpdatingInterface,
-                fetchers,senders,errorHandlingInterface);
+        BackendModule backendModule = new BackendModule(new EventingImpl(new EventBus(), new Handler()), mDataCreater, userRegistrationInterface,
+                mDeletingInterface, mFetchingInterface, mSavingInterface, mUpdatingInterface,
+                fetchers, senders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
         // initiating all application module events
@@ -355,6 +376,40 @@ public class DataServicesManager {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 
+    //User UserCharacteristics
+    @NonNull
+    private UserCharacteristics createUCSync() {
+        return mDataCreater.createCharacteristics(userRegistrationInterface.getUserProfile().getGUid());
+    }
+
+    public void updateCharacteristics(DBRequestListener dbRequestListener) {
+
+        UserCharacteristics userCharacteristics = getUserCharacteristics();
+        mEventing.post(new UserCharacteristicsSaveRequest(getUserCharacteristics(), dbRequestListener));
+        setUserCharacteristics(null);
+    }
+
+    public void fetchUserCharacteristics(DBRequestListener dbRequestListener) {
+        mEventing.post(new LoadUserCharacteristicsRequest(dbRequestListener));
+    }
+
+    public Characteristics createUserCharacteristics(@NonNull final String detailType, @NonNull final String detailValue, Characteristics characteristics) {
+
+        userCharacteristics = getUserCharacteristics();
+        if (userCharacteristics == null) {
+            userCharacteristics = createUCSync();
+        }
+
+        Characteristics chDetail;
+        if (characteristics != null) {
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics, characteristics);
+        } else {
+            chDetail = mDataCreater.createCharacteristicsDetails(detailType, detailValue, userCharacteristics);
+        }
+        userCharacteristics.addCharacteristicsDetail(chDetail);
+        return chDetail;
+    }
+
     public boolean isPullComplete() {
         return isPullComplete;
     }
@@ -371,18 +426,17 @@ public class DataServicesManager {
         isPushComplete = pushComplete;
     }
 
-    public void registeredDBRequestListener(DBRequestListener dbRequestListener){
-    this.dbChangeListener =dbRequestListener;
-    }
-    public void unRegisteredDBRequestListener(){
-        this.dbChangeListener =null;
+
+    public void registerDBChangeListener(DBChangeListener dbChangeListener) {
+        this.dbChangeListener = dbChangeListener;
     }
 
-    public DBRequestListener getDbChangeListener() {
-        return dbChangeListener;
+    public void unRegisterDBChangeListener() {
+        this.dbChangeListener = null;
     }
+
 
     public void fetchSettings(DBRequestListener dbRequestListener) {
-
+      mEventing.post(new LoadSettingsRequest(dbRequestListener));
     }
 }

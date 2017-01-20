@@ -64,7 +64,7 @@ public class MomentsSegregatorTest {
     @Test
     public void should_processMoment_when_processMomentsReceivedFromBackend_called(){
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
-        int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1));
+        int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1),dbRequestListener);
         assertEquals(count, 1);
     }
 
@@ -73,7 +73,7 @@ public class MomentsSegregatorTest {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
-        int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1));
+        int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1),dbRequestListener);
         assertEquals(count, 1);
     }
 
@@ -82,7 +82,7 @@ public class MomentsSegregatorTest {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
-        int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1));
+        int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1),dbRequestListener);
         assertEquals(count, 1);
     }
 

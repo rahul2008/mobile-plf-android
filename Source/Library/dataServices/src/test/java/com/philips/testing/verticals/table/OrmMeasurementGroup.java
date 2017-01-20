@@ -78,6 +78,11 @@ public class OrmMeasurementGroup implements MeasurementGroup, Serializable {
         this.id = id;
     }
 
+    @Override
+    public void setMeasurementGroups(Collection<? extends MeasurementGroup> groups) {
+
+    }
+
 
 /*    @Override
     public Collection<? extends OrmMeasurement> getMeasurements() {

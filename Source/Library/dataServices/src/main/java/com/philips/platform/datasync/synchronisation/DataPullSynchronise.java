@@ -1,7 +1,6 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 
 package com.philips.platform.datasync.synchronisation;
@@ -34,10 +33,6 @@ import javax.inject.Inject;
 
 import retrofit.RetrofitError;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
@@ -51,7 +46,7 @@ public class DataPullSynchronise {
     @NonNull
     MomentsDataFetcher mMomentsDataFetcher;
 
-    DBRequestListener mDbRequestListener;
+
 
     @NonNull
     private final Executor executor;
@@ -70,10 +65,9 @@ public class DataPullSynchronise {
     DataServicesManager mDataServicesManager;
 
     @Inject
-    public DataPullSynchronise(@NonNull final List<? extends com.philips.platform.datasync.synchronisation.DataFetcher> fetchers,
+    public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        mDbRequestListener = mDataServicesManager.getDbChangeListener();
         mDataServicesManager.mAppComponent.injectDataPullSynchronize(this);
         this.fetchers = fetchers;
         this.executor = executor;
@@ -113,7 +107,7 @@ public class DataPullSynchronise {
             DSLog.i("***SPO***","DataPullSynchronize isLogged-in is true");
             registerEvent();
             DSLog.i("***SPO***","Before calling GetNonSynchronizedMomentsRequest");
-            eventing.post(new GetNonSynchronizedMomentsRequest(mDbRequestListener));
+            eventing.post(new GetNonSynchronizedMomentsRequest(null));
         }
     }
 
@@ -161,7 +155,7 @@ public class DataPullSynchronise {
 
     private void postOk(final int referenceId) {
         DSLog.i("**SPO**","In Data Pull Synchronize postOK");
-        eventing.post(new ReadDataFromBackendResponse(referenceId, mDbRequestListener));
+        eventing.post(new ReadDataFromBackendResponse(referenceId, null));
     }
 
     private void initFetch() {
@@ -170,32 +164,25 @@ public class DataPullSynchronise {
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments ,final List<? extends ConsentDetail> consentDetails) {
-        DSLog.i("**SPO**","In Data Pull Synchronize fetchData");
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId, final List<? extends Moment> nonSynchronizedMoments, final List<? extends ConsentDetail> consentDetails) {
+        DSLog.i("**SPO**", "In Data Pull Synchronize fetchData");
         initFetch();
-        for(DataFetcher fetcher:fetchers){
-            /*if ((fetcher instanceof MomentsDataFetcher || fetcher instanceof ConsentsDataFetcher && nonSynchronizedMoments != null && !nonSynchronizedMoments.isEmpty())) {
-                numberOfRunningFetches.decrementAndGet();
-                continue;
-            }*/
-
-            if(fetcher instanceof ConsentsDataFetcher){
+        for (DataFetcher fetcher : fetchers) {
+            if (fetcher instanceof ConsentsDataFetcher) {
                 ((ConsentsDataFetcher) fetcher).setConsentDetails((List<ConsentDetail>) consentDetails);
             }
-            //if(fetcher instanceof  MomentsDataFetcher) {
-                startFetching(lastSyncDateTime, referenceId, fetcher);
-            //}
-        //startFetching(lastSyncDateTime, referenceId, mMomentsDataFetcher);
-    }}
+            startFetching(lastSyncDateTime, referenceId, fetcher);
+        }
+    }
 
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         synchronized (this) {
             DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");
             final List<? extends Moment> nonSynchronizedMoments = response.getNonSynchronizedMoments();
-            fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, response.getConsentDetails());
+            final List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
+            fetchData(lastSyncDateTime, referenceId, nonSynchronizedMoments, nonSynchronizedConsent);
         }
         mDataServicesManager.setPullComplete(true);
         eventing.post(new WriteDataToBackendRequest());
-       // unRegisterEvent();
     }
 }

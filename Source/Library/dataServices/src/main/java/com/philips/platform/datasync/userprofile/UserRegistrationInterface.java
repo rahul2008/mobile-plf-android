@@ -21,4 +21,5 @@ public interface UserRegistrationInterface {
     String getHSDHsdpUrl();
 
     void refreshAccessTokenUsingWorkAround();
+
 }

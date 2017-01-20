@@ -14,7 +14,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.philips.cdp.prxclient.datamodels.assets.Data;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
@@ -22,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
 import cdp.philips.com.mydemoapp.consents.ConsentDialogAdapter;
@@ -31,11 +36,10 @@ import cdp.philips.com.mydemoapp.database.table.OrmConsent;
  * Created by sangamesh on 09/01/17.
  */
 
-public class SettingsFragment extends DialogFragment implements DBRequestListener, View.OnClickListener {
+public class SettingsFragment extends DialogFragment implements DBRequestListener,DBChangeListener, View.OnClickListener {
 
     private Button mBtnOk;
     private Button mBtnCancel;
-    private ConsentDialogAdapter lConsentAdapter;
     SettingsFragmentPresenter settingsFragmentPresenter;
     private ProgressDialog mProgressDialog;
     ArrayList<? extends ConsentDetail> consentDetails;
@@ -53,12 +57,11 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         mDataServicesManager = DataServicesManager.getInstance();
         mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
-        mBtnOk.setEnabled(false);
         mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
         settingsFragmentPresenter = new SettingsFragmentPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
-        mDataServicesManager.registeredDBRequestListener(this);
+        mDataServicesManager.registerDBChangeListener(this);
 
         mSpinner_metrics = (Spinner)rootView.findViewById(R.id.spinner_metrics);
         mSpinner_Local = (Spinner)rootView.findViewById(R.id.spinner_locale);
@@ -72,6 +75,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         adapterLocale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner_Local.setAdapter(adapterLocale);
 
+
         fetchSettings();
         return rootView;
 
@@ -83,15 +87,37 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(final ArrayList<? extends Object> data) {
+    public void onSuccess(final ArrayList<? extends Object> ormObjectList) {
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if(ormObjectList!=null){
+                        ArrayList<Settings> settingses=(ArrayList<Settings>) ormObjectList;
+                        for(Settings settings:settingses){
+
+                            updateUi(settings.getType(),settings.getValue());
+
+                        }
+                    }
                     dismissProgressDialog();
                 }
             });
+        }
+    }
+
+    private void updateUi(String type, String value) {
+
+        switch (type){
+
+            case Settings.METRICS:
+                mSpinner_metrics.setSelection(Arrays.asList(getResources().getStringArray(R.array.metrics)).indexOf(value));
+                break;
+
+            case Settings.LOCALE:
+                mSpinner_Local.setSelection(Arrays.asList(getResources().getStringArray(R.array.locals)).indexOf(value));
+                break;
         }
     }
 
@@ -104,7 +130,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     @Override
     public void onSuccess(Object data) {
 
-        final OrmConsent ormConsent = (OrmConsent) data;
+       /* final OrmConsent ormConsent = (OrmConsent) data;
         if (getActivity() != null && ormConsent != null) {
 
             getActivity().runOnUiThread(new Runnable() {
@@ -116,7 +142,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
                     dismissProgressDialog();
                 }
             });
-        }
+        }*/
 
     }
 
@@ -140,7 +166,13 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOK:
-                lConsentAdapter.updateConsent();
+                Settings settingsMetrics = DataServicesManager.getInstance().createSettings(Settings.METRICS, mSpinner_metrics.getSelectedItem().toString());
+                Settings settingsLocale= DataServicesManager.getInstance().createSettings(Settings.LOCALE, mSpinner_Local.getSelectedItem().toString());
+                List<Settings> settingsList=new ArrayList<>();
+                settingsList.add(settingsMetrics);
+                settingsList.add(settingsLocale);
+
+                DataServicesManager.getInstance().updateSettings(settingsList,this);
                 dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:
@@ -159,7 +191,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     @Override
     public void onStop() {
         super.onStop();
-        DataServicesManager.getInstance().unRegisteredDBRequestListener();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
         dismissProgressDialog();
     }
 
@@ -199,15 +231,23 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
 
     public void fetchSettings() {
         showProgressDialog();
-        DataServicesManager.getInstance().fetchConsent(this);
-
-        JSONArray jsonArray=new JSONArray();
-
-        try {
-            JSONArray jsonArray1=new JSONArray(jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        DataServicesManager.getInstance().fetchSettings(this);
     }
 
+    @Override
+    public void dBChangeSuccess() {
+        DataServicesManager.getInstance().fetchSettings(this);
+    }
+
+    @Override
+    public void dBChangeFailed(final Exception e) {
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getActivity(),"Exception :"+e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

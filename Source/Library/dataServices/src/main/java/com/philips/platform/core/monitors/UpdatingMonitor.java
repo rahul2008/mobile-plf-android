@@ -1,8 +1,6 @@
 package com.philips.platform.core.monitors;
 
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -15,9 +13,12 @@ import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
-import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
+import com.philips.platform.core.utils.NotifyDBChangeListener;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import java.sql.SQLException;
@@ -39,18 +40,21 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBFetchingInterface dbFetchingInterface;
 
-    DBRequestListener mDbRequestListener;
+    NotifyDBChangeListener notifyDBChangeListener;
 
     @Inject
     MomentsSegregator momentsSegregator;
+
+    @Inject
+    UserCharacteristicsSegregator mUserCharacteristicsSegregator;
 
 
     public UpdatingMonitor(DBUpdatingInterface dbUpdatingInterface, DBDeletingInterface dbDeletingInterface, DBFetchingInterface dbFetchingInterface) {
         this.dbUpdatingInterface = dbUpdatingInterface;
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
-        DataServicesManager.mAppComponent.injectUpdatingMonitor(this);
-        this.mDbRequestListener = DataServicesManager.getInstance().getDbChangeListener();
+        DataServicesManager.getInstance().mAppComponent.injectUpdatingMonitor(this);
+        notifyDBChangeListener=new NotifyDBChangeListener();
     }
 
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
@@ -89,12 +93,10 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        int count = momentsSegregator.processMomentsReceivedFromBackend(moments);
-        if(count == moments.size()){
-            if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-                DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
-            }
-        }
+        int count = momentsSegregator.processMomentsReceivedFromBackend(moments,null);
+       /* if(count == moments.size()){
+           // new NotifyDBChangeListener().notifyDBChangeSuccess(momentSaveRequest.getDbChangeListener());
+        }*/
     }
 
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
@@ -102,19 +104,32 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processCreatedMoment(moments,momentSaveRequest.getDbRequestListener());
-        if(DataServicesManager.getInstance().getDbChangeListener()!=null){
-            DataServicesManager.getInstance().getDbChangeListener().onSuccess(moments);
-        }
+        momentsSegregator.processCreatedMoment(moments,null);
+       /* if(DataServicesManager.getInstance().getDbRequestListener()!=null){
+            DataServicesManager.getInstance().getDbRequestListener().onSuccess(moments);
+        }*/
     }
 
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         try {
-            dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), mDbRequestListener);
+            dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), null);
         }catch (SQLException e){
-            dbUpdatingInterface.updateFailed(e, mDbRequestListener);
+            dbUpdatingInterface.updateFailed(e, null);
         }
     }
+
+    public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
+        try {
+            DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync updateMonitor UCDBUpdateFromBackendRequest");
+            boolean isSynced = mUserCharacteristicsSegregator.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
+            if (isSynced) {
+                dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
+            }
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e, userCharacteristicsSaveBackendRequest.getDbRequestListener());
+        }
+    }
+
 
     public void onEventAsync(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException{
         try{

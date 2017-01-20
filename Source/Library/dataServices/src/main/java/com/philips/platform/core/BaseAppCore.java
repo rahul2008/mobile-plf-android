@@ -8,6 +8,8 @@ package com.philips.platform.core;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -140,5 +142,22 @@ public class BaseAppCore implements BaseAppDataCreator {
         return database.createSettings(type,value);
     }
 
+    @NonNull
+    @Override
+    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
+        return database.createCharacteristics(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
+        return database.createCharacteristicsDetails(type, value, userCharacteristics, characteristics);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
+        return database.createCharacteristicsDetails(type, value, userCharacteristics);
+    }
 
 }

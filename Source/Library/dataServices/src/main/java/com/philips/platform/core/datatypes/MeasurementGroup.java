@@ -20,4 +20,6 @@ public interface MeasurementGroup {
 
     int getId();
     void setId(int id);
+
+    void setMeasurementGroups(Collection<? extends MeasurementGroup> groups);
 }

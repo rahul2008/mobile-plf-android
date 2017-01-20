@@ -38,6 +38,8 @@ import cdp.philips.com.mydemoapp.database.OrmFetchingInterfaceImpl;
 import cdp.philips.com.mydemoapp.database.OrmSaving;
 import cdp.philips.com.mydemoapp.database.OrmUpdating;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -67,15 +69,14 @@ public class DataSyncApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
+        Stetho.initializeWithDefaults(this);
         mDataServicesManager = DataServicesManager.getInstance();
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
         setLocale();
-        Stetho.initializeWithDefaults(this);
 
        /* DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();*/
-      //  Stetho.initializeWithDefaults(this);
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
         init();
@@ -85,9 +86,9 @@ public class DataSyncApplication extends Application {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(this, new User(this));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
-        mDataServicesManager.initialize(this, creator, userRegistrationInterface,errorHandlerInterface);
+        mDataServicesManager.initialize(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
-        mDataServicesManager.initializeSyncMonitors(this,null, null);
+        mDataServicesManager.initializeSyncMonitors(this, null, null);
     }
 
     void injectDBInterfacesToCore() {
@@ -103,28 +104,30 @@ public class DataSyncApplication extends Application {
 
             Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
             Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
+            Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
+            Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
 
             Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
 
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails);
+                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, characteristicsDetailsDao);
 
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao, settingsDao);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, settingsDao);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao,settingsDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao, characteristicsesDao, characteristicsDetailsDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, settingsDao);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao ,settingsDao);
 
-            mDataServicesManager.initializeDBMonitors(this,ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDBMonitors(this, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
-            Toast.makeText(this,"db injection failed to dataservices",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
         }
     }
 

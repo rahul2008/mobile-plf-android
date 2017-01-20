@@ -2,7 +2,9 @@ package com.philips.platform.core.dbinterfaces;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
@@ -27,15 +29,26 @@ public interface DBFetchingInterface {
 
     List<?> fetchNonSynchronizedMoments() throws SQLException;
 
+    //TODO: Can the fetchNonSynchronized data types be called once for all the datatypes.
+
     Object fetchMomentById(final int id, DBRequestListener dbRequestListener) throws SQLException;
 
     void fetchConsents(DBRequestListener dbRequestListener) throws SQLException;
+
+    Map<Class, List<?>> putUserCharacteristicsForSync(Map<Class, List<?>> dataToSync) throws SQLException;
+
 
     Consent fetchConsent(DBRequestListener dbRequestListener) throws SQLException;
 
     void postError(Exception e, DBRequestListener dbRequestListener);
 
+    void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException;
+
     List<?> fetchNonSyncConsentDetails() throws SQLException;
 
+    UserCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException;
     List<?> fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
+
+
+    List<?> fetchNonSyncConsents() throws SQLException;
 }

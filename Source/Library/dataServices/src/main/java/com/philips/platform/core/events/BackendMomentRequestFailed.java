@@ -14,6 +14,7 @@ public class BackendMomentRequestFailed extends Event {
         exception = e;
     }
 
+
     public RetrofitError getException() {
         return exception;
     }

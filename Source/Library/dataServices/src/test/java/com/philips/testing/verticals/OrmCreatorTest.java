@@ -3,6 +3,8 @@ package com.philips.testing.verticals;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -18,6 +20,8 @@ import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
+import com.philips.testing.verticals.table.OrmCharacteristics;
+import com.philips.testing.verticals.table.OrmCharacteristicsDetail;
 import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmConsentDetail;
 import com.philips.testing.verticals.table.OrmMeasurement;
@@ -34,8 +38,6 @@ import com.philips.testing.verticals.table.OrmMomentType;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
-
-import java.util.Collection;
 
 import javax.inject.Singleton;
 
@@ -120,11 +122,30 @@ public class OrmCreatorTest implements BaseAppDataCreator {
     }
 
     @NonNull
+    @Override
+    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
+        return new OrmCharacteristics(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
+        return new OrmCharacteristicsDetail(type, value, (OrmCharacteristics) userCharacteristics, (OrmCharacteristicsDetail) characteristics);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
+        return new OrmCharacteristicsDetail(type, value, (OrmCharacteristics) userCharacteristics);
+    }
+
+    @NonNull
     public OrmMomentDetail createMomentDetail(@NonNull final String type,
                                               @NonNull final OrmMoment moment) {
         OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
         return new OrmMomentDetail(ormMomentDetailType, moment);
     }
+
     @NonNull
     public OrmMeasurement createMeasurement(@NonNull final String type,
                                             @NonNull final OrmMeasurementGroup ormMeasurementGroup) {

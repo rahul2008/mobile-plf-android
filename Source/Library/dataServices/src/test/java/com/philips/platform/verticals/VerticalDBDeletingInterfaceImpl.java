@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface{
     @Override
-    public void deleteAllMoments(DBRequestListener dbRequestListener) {
+    public void deleteAll(DBRequestListener dbRequestListener) {
 
     }
 
