@@ -28,9 +28,10 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.uikit.UiKitActivity;
 
 
-public abstract class DigitalCareBaseActivity extends FragmentActivity {
+public abstract class DigitalCareBaseActivity extends UiKitActivity {
     private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
 
     protected RelativeLayout mActionbarlayout = null;
