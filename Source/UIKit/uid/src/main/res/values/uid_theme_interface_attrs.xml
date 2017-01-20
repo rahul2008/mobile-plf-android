@@ -129,10 +129,10 @@
     </declare-styleable>
 
     <declare-styleable name="UIDSocialMediaButton">
-        <attr name="uidSocialIconPrimaryButtonTextColor" format="reference|color"/>
+        <attr name="uidSocialIconPrimaryButtonIconColor" format="reference|color"/>
         <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
         <attr name="uidSocialIconPrimaryButtonPressedColor" format="reference|color"/>
-        <attr name="uidSocialIconWhiteButtonTextColor" format="reference|color"/>
+        <attr name="uidSocialIconWhiteButtonIconColor" format="reference|color"/>
         <attr name="uidSocialIconWhiteButtonNormalFillColor" format="reference|color"/>
         <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
 

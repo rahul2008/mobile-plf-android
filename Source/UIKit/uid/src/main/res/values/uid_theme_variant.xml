@@ -133,7 +133,7 @@
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
 
 
-        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
         <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
         </item>
         <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
@@ -141,7 +141,7 @@
 
         <item name="uidSocialIconWhiteButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
         </item>
-        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidControlPrimaryTextColor</item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidControlPrimaryTextColor</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
         <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
 
@@ -190,7 +190,7 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
 
-        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
         <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
         </item>
         <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
@@ -198,7 +198,7 @@
 
         <item name="uidSocialIconWhiteButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
         </item>
-        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidControlPrimaryTextColor</item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidControlPrimaryTextColor</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
 
 
@@ -249,7 +249,7 @@
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
 
 
-        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
         <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
         </item>
         <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
@@ -257,7 +257,7 @@
 
         <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
         </item>
-        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel35</item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel35</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
@@ -302,7 +302,7 @@
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_25</item>
 
 
-        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
         <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
         </item>
         <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
@@ -310,7 +310,7 @@
 
         <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
         </item>
-        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel50</item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel50</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
@@ -357,7 +357,7 @@
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_35</item>
 
 
-        <item name="uidSocialIconPrimaryButtonTextColor">@color/uidColorWhite</item>
+        <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
         <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
         </item>
         <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
@@ -366,7 +366,7 @@
 
         <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
         </item>
-        <item name="uidSocialIconWhiteButtonTextColor">?attr/uidColorLevel80</item>
+        <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel80</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
