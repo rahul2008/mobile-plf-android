@@ -39,9 +39,10 @@ public class FileUtility {
             InputStream inputStream = getInputStream(resId);
             String filename = "tempFile";
             FileOutputStream outputStream;
-            FileOutputStream jsonFileOutputStream;
+            FileOutputStream jsonFileOutputStream = null;
             final File file = File.createTempFile(filename, null, context.getCacheDir());
             outputStream = new FileOutputStream(file);
+            if (sdCardFileCreated)
             jsonFileOutputStream = new FileOutputStream(new BaseAppUtil().getJsonFilePath());
             byte buffer[] = new byte[1024];
             int length;
@@ -52,6 +53,7 @@ public class FileUtility {
                 jsonFileOutputStream.write(buffer, 0, length);
             }
             outputStream.close();
+            if (sdCardFileCreated)
             jsonFileOutputStream.close();
             inputStream.close();
             return file;
