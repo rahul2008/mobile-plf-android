@@ -51,11 +51,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TAB_HOME), eventState);
-        } catch (NoEventFoundException e) {
-            e.printStackTrace();
-        }
+        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TAB_HOME), eventState);
         baseState.setStateListener(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();

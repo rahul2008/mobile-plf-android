@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -41,13 +40,9 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
             sharedPreferenceUtility.writePreferenceBoolean(Constants.DONE_PRESSED, true);
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            baseState = targetFlowManager.getNextState(eventState);
-        } catch (NoEventFoundException e) {
-            e.printStackTrace();
-        }
+        baseState = targetFlowManager.getNextState(eventState);
 
-        if(baseState!=null) {
+        if (baseState != null) {
             welcomeFragmentView.showActionBar();
             baseState.navigate(getFragmentLauncher());
         }

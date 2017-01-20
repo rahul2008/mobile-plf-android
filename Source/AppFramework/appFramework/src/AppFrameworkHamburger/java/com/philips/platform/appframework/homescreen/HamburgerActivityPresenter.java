@@ -11,7 +11,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -44,11 +43,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
     public void onEvent(int componentID) {
         String eventState = getEventState(componentID);
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
-        } catch (NoEventFoundException e) {
-            e.printStackTrace();
-        }
+        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
         if(null != baseState) {
             baseState.setUiStateData(setStateData(componentID));
             fragmentLauncher = getFragmentLauncher();
