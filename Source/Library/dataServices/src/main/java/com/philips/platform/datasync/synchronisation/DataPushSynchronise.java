@@ -46,7 +46,7 @@ public class DataPushSynchronise extends EventMonitor {
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders,
                                @NonNull final Executor executor) {
         mDataServicesManager = DataServicesManager.getInstance();
-        mDataServicesManager.mAppComponent.injectDataPushSynchronize(this);
+        mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
         this.executor = executor;
     }

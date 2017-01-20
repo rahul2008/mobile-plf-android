@@ -9,12 +9,10 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import retrofit.RetrofitError;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -43,7 +41,7 @@ public class ErrorMonitorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         errorMonitor = new ErrorMonitor(errorHandlingInterface);
         errorMonitor.userRegistrationInterface = userRegistrationInterfaceMock;
     }

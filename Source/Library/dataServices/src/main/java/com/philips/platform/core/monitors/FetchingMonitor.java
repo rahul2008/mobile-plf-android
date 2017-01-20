@@ -49,7 +49,7 @@ public class FetchingMonitor extends EventMonitor {
 
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
-        DataServicesManager.getInstance().mAppComponent.injectFetchingMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
     }
 
     public void onEventBackgroundThread(LoadTimelineEntryRequest event) {

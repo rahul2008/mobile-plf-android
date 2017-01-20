@@ -46,7 +46,7 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
     @Inject
     public UserCharacteristicsSender(@NonNull final UserCharacteristicsConverter userCharacteristicsConverter,
                                      @NonNull final GsonConverter gsonConverter) {
-        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsSender(this);
+        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsSender(this);
         this.mUserCharacteristicsConverter = userCharacteristicsConverter;
         this.mGsonConverter = gsonConverter;
     }

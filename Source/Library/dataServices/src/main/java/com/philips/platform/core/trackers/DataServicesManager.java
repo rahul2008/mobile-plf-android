@@ -85,7 +85,7 @@ public class DataServicesManager {
     Eventing mEventing;
 
     @NonNull
-    public static AppComponent mAppComponent;
+    private static AppComponent mAppComponent;
 
     private DBDeletingInterface mDeletingInterface;
     private DBFetchingInterface mFetchingInterface;
@@ -419,5 +419,13 @@ public class DataServicesManager {
 
     public void unRegisterDBChangeListener() {
         this.dbChangeListener = null;
+    }
+
+    public AppComponent getAppComponant(){
+        return mAppComponent;
+    }
+
+    public void setAppComponant(AppComponent appComponent){
+        mAppComponent = appComponent;
     }
 }

@@ -25,7 +25,7 @@ public class UserCharacteristicsConverter {
 
     @Inject
     public UserCharacteristicsConverter() {
-        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsConverter(this);
+        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsConverter(this);
     }
 
     //DataCore data type To Application type

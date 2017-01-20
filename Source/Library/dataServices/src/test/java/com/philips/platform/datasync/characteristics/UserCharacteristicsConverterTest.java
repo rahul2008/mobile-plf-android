@@ -20,8 +20,6 @@ import java.util.List;
 import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class UserCharacteristicsConverterTest {
@@ -55,7 +53,7 @@ public class UserCharacteristicsConverterTest {
         initMocks(this);
 
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         userCharacteristicsConvertor = new UserCharacteristicsConverter();
         userCharacteristicsConvertor.dataCreator = verticalDataCreater;
     }

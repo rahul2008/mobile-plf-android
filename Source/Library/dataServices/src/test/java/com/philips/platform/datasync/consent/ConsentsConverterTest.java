@@ -12,10 +12,7 @@ import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +53,7 @@ public class ConsentsConverterTest {
 
         DataServicesManager dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        dataServicesManager.mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         consentsConverter = new ConsentsConverter();
         consentsConverter.dataCreator = verticalDataCreater;
     }

@@ -9,11 +9,9 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.testing.verticals.DataServiceManagerMock;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -94,7 +92,7 @@ public class MomentsDataFetcherTest {
         momentsHistory.setUCoreMoments(uCoreMomentList);
         momentsHistory.setSyncurl(TEST_MOMENT_SYNC_URL);
 
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock);
         fetcher.eventing = eventingMock;
         fetcher.accessProvider = accessProviderMock;

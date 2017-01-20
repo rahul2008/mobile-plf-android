@@ -1,10 +1,11 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.sql.SQLException;
@@ -13,27 +14,19 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-/**
- * Created by 310218660 on 1/10/2017.
- */
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentsSegregator {
 
     @Inject
     DBFetchingInterface dbFetchingInterface;
 
-    public ConsentsSegregator(){
-        DataServicesManager.getInstance().mAppComponent.injectConsentsSegregator(this);
+    public ConsentsSegregator() {
+        DataServicesManager.getInstance().getAppComponant().injectConsentsSegregator(this);
     }
 
-    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) {
-        List<? extends Consent> consentList = null;
-        try {
-            consentList = (List<? extends Consent>) dbFetchingInterface.fetchNonSyncConsents();
-            dataToSync.put(Consent.class, consentList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Map<Class, List<?>> putConsentForSync(Map<Class, List<?>> dataToSync) throws SQLException {
+        List<? extends Consent> consentList = (List<? extends Consent>) dbFetchingInterface.fetchNonSyncConsents();
+        dataToSync.put(Consent.class, consentList);
         return dataToSync;
     }
 
