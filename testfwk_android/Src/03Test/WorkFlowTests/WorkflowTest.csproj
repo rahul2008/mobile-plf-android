@@ -67,6 +67,11 @@
   <ItemGroup>
     <Compile Include="BleApplianceSteps.cs" />
     <Compile Include="CC_Bindings.cs" />
+    <Compile Include="F1452_US13426.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>F1452_US13426.feature</DependentUpon>
+    </Compile>
     <Compile Include="F661.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -104,6 +109,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RefAppJourney02.feature</DependentUpon>
     </Compile>
+    <Compile Include="RefAppJourney03.cs" />
     <Compile Include="RefAppJourney03.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -131,6 +137,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>US13421.feature</DependentUpon>
     </Compile>
+    <Compile Include="US13426_Bindings.cs" />
+    <Compile Include="US14054.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>US14054.feature</DependentUpon>
+    </Compile>
     <Compile Include="UserRegistration.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -142,6 +154,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Default.srprofile" />
+    <None Include="F1452_US13426.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>F1452_US13426.feature.cs</LastGenOutput>
+    </None>
     <None Include="F661.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>F661.feature.cs</LastGenOutput>
@@ -189,6 +205,10 @@
     <None Include="US13421.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>US13421.feature.cs</LastGenOutput>
+    </None>
+    <None Include="US14054.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>US14054.feature.cs</LastGenOutput>
     </None>
     <None Include="UserRegistration.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

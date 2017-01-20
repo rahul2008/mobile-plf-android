@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.pluginreferenceboard;
 
 import android.os.Handler;
@@ -14,10 +19,10 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformationImpl
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 import com.philips.pins.shinelib.dicommsupport.DiCommChannel;
 import com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort;
+import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolByteStreamingVersionSwitcher;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
-import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreamingVersionSwitcher;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
-import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
+import com.philips.pins.shinelib.services.SHNServiceDiCommStreaming;
 import com.philips.pins.shinelib.utility.DeviceInformationCache;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
@@ -27,7 +32,7 @@ class DeviceDefinitionReferenceBoard implements SHNDeviceDefinitionInfo.SHNDevic
     public static final int RESPONSE_TIME_OUT = 4000;
 
     @Override
-    public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) throws IllegalArgumentException{
+    public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) {
         // using existing building block from BlueLib. It is also possible to create custom implementation inside the plugin
         SHNDeviceImpl device = new SHNDeviceImpl(shnCentral.getBTDevice(deviceAddress), shnCentral, shnDeviceDefinitionInfo.getDeviceTypeName());
 
@@ -56,13 +61,13 @@ class DeviceDefinitionReferenceBoard implements SHNDeviceDefinitionInfo.SHNDevic
     }
 
     private void registerFirmwareUpdateCapability(Handler internalHandler, SHNDeviceImpl device) {
-        SHNServiceMoonshineStreaming shnServiceMoonshineStreaming = new SHNServiceMoonshineStreaming();
+        SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
         // it is important to register the service for SHNDeviceImpl. SHNDeviceImpl is waiting for all registered services to indicate 'ready' before changing state to 'Connected'
-        device.registerService(shnServiceMoonshineStreaming);
+        device.registerService(shnServiceDiCommStreaming);
 
-        SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming = new SHNProtocolMoonshineStreamingVersionSwitcher(shnServiceMoonshineStreaming, internalHandler);
+        SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming = new SHNProtocolByteStreamingVersionSwitcher(shnServiceDiCommStreaming, internalHandler);
         // Let the protocol know about service state changes
-        shnServiceMoonshineStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
+        shnServiceDiCommStreaming.setShnServiceMoonshineStreamingListener(shnProtocolMoonshineStreaming);
 
         // create DiComm port and channel
         DiCommChannel commChannel = new DiCommChannel(shnProtocolMoonshineStreaming, RESPONSE_TIME_OUT);
