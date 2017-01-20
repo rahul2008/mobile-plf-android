@@ -109,6 +109,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RefAppJourney02.feature</DependentUpon>
     </Compile>
+    <Compile Include="RefAppJourney03.cs" />
     <Compile Include="RefAppJourney03.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

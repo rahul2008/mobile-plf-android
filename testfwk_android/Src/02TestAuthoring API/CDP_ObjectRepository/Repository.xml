@@ -47,7 +47,6 @@
     <ALoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</ALoginButton>
     <ALoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</ALoginContinue>
     <ALoginContinueConfirm>com.philips.platform.referenceapp:id/btn_reg_continue</ALoginContinueConfirm>
-    <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
     <VerticalSettings>com.philips.platform.referenceapp:id/ifo</VerticalSettings>
     <WelcomeScreen>com.philips.platform.referenceapp:id/welcome_slide_fragment_layout</WelcomeScreen>
     <ReferenceDeviceIDValue>com.philips.platform.referenceapp:id/reference_device_id_editbox</ReferenceDeviceIDValue>
@@ -69,6 +68,7 @@
     <LoginSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LoginSettings>
     <LogoutSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LogoutSettings>
     <LogoutDialog>android:id/button1</LogoutDialog>
+    <Login_Title_UR_Setting>com.philips.platform.referenceapp:id/af_actionbar_title</Login_Title_UR_Setting>
   </AppFramework>
 
   <!--IAP-->
