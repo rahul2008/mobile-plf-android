@@ -157,9 +157,9 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
                 if (isVisible) {
                     // This method will be executed once the timer is over
                     // Start your app main activity
+                    showProgressDialog(false);
                     presenter = new SplashPresenter(SplashFragment.this);
                     presenter.onEvent(APP_START);
-                    showProgressDialog(false);
                 }
             }
         }, SPLASH_TIME_OUT);

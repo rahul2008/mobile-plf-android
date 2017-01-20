@@ -13,7 +13,7 @@ public class BaseAppUtil {
     private File jsonFile;
 
     public boolean createDirIfNotExists() {
-        boolean ret = true;
+        boolean ret = false;
         File file = new File(Environment.getExternalStorageDirectory(), "/ReferenceApp");
         jsonFile = new File(file.getPath(), "appflow.json");
         if (!file.exists()) {

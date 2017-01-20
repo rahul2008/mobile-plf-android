@@ -33,7 +33,7 @@ public class FileUtility {
         return inputStream;
     }
 
-    public File createFileFromInputStream(final int resId) {
+    public File createFileFromInputStream(final int resId, boolean sdCardFileCreated) {
 
         try {
             InputStream inputStream = getInputStream(resId);
@@ -48,6 +48,7 @@ public class FileUtility {
 
             while ((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
+                if (sdCardFileCreated)
                 jsonFileOutputStream.write(buffer, 0, length);
             }
             outputStream.close();

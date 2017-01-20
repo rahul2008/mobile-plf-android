@@ -41,6 +41,7 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
     private IAPState iapState;
     private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
+    private boolean isSdCardFileCreated;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -53,10 +54,10 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
             }
             LeakCanary.install(this);
         }
-        new BaseAppUtil().createDirIfNotExists();
+        isSdCardFileCreated = new BaseAppUtil().createDirIfNotExists();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
-        fileUtility.createFileFromInputStream(resId);
+        fileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
         MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
