@@ -34,25 +34,16 @@ public class OrmUpdating {
     @NonNull
     private final Dao<OrmConsent, Integer> constentDao;
 
-    //TODO: Spoorti - Remove Unused
-    @NonNull
-    private final Dao<OrmConsentDetail, Integer> constentDetailsDao;
-
-
-
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao) {
+                       @NonNull final Dao<OrmConsent, Integer> constentDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.constentDao = constentDao;
-        this.constentDetailsDao = constentDetailsDao;
-
     }
 
     public void updateMoment(OrmMoment moment) throws SQLException {
