@@ -58,7 +58,7 @@ public class OrmCreator implements BaseAppDataCreator {
     @Singleton
     public OrmCreator(UuidGenerator uuidGenerator) {
         this.uuidGenerator = uuidGenerator;
-        
+
     }
 
     @Override
@@ -163,13 +163,14 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) userCharacteristics,(OrmCharacteristicsDetail) characteristics);
+        return new OrmCharacteristicsDetail(type, value, 1,
+                (OrmCharacteristics) userCharacteristics, (OrmCharacteristicsDetail) characteristics);
     }
 
     @NonNull
     @Override
     public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
-        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) userCharacteristics);
+        return new OrmCharacteristicsDetail(type, value, 0, (OrmCharacteristics) userCharacteristics);
     }
 
     @NonNull

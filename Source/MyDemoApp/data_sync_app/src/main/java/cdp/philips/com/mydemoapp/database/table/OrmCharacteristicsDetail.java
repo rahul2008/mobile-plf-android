@@ -31,6 +31,8 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
     @DatabaseField(canBeNull = true)
     private String value;
 
+    @DatabaseField(canBeNull = false)
+    private int parent;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = false, canBeNull = false)
     private OrmCharacteristics ormCharacteristics;
@@ -45,17 +47,19 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
     OrmCharacteristicsDetail() {
     }
 
-    public OrmCharacteristicsDetail(final String type, final String value,OrmCharacteristics ormCharacteristics, OrmCharacteristicsDetail ormCharacteristicsDetail) {
+    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics, OrmCharacteristicsDetail ormCharacteristicsDetail) {
         this.type = type;
-        this.ormCharacteristics = ormCharacteristics;
         this.value = value;
+        this.parent = parent;
+        this.ormCharacteristics = ormCharacteristics;
         this.ormCharacteristicsDetail = ormCharacteristicsDetail;
     }
 
-    public OrmCharacteristicsDetail(final String type, final String value, OrmCharacteristics ormCharacteristics) {
+    public OrmCharacteristicsDetail(final String type, final String value, int parent, OrmCharacteristics ormCharacteristics) {
         this.type = type;
-        this.ormCharacteristics = ormCharacteristics;
         this.value = value;
+        this.parent = parent;
+        this.ormCharacteristics = ormCharacteristics;
     }
 
     @Override
@@ -81,6 +85,16 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
     @Override
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public void setParent(int parentId) {
+        this.parent = parentId;
+    }
+
+    @Override
+    public int getParent() {
+        return parent;
     }
 
     @Override

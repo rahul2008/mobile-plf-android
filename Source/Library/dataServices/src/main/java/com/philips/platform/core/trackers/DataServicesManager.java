@@ -371,7 +371,7 @@ public class DataServicesManager {
     public void updateCharacteristics(DBRequestListener dbRequestListener) {
 
         UserCharacteristics userCharacteristics = getUserCharacteristics();
-        mEventing.post(new UserCharacteristicsSaveRequest(getUserCharacteristics(), dbRequestListener));
+        mEventing.post(new UserCharacteristicsSaveRequest(userCharacteristics, dbRequestListener));
         setUserCharacteristics(null);
     }
 

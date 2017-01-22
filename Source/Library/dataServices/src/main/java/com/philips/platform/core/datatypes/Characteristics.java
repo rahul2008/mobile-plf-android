@@ -17,6 +17,10 @@ public interface Characteristics extends BaseAppData, Serializable {
 
     String getValue();
 
+    void setParent(int parentId);
+
+    int getParent();
+
     Collection<? extends Characteristics> getCharacteristicsDetail();
 
     void setCharacteristicsDetail(Characteristics characteristics);

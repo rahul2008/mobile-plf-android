@@ -127,6 +127,7 @@ public class FetchingMonitor extends EventMonitor {
 
     public void onEventBackgroundThread(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
+           // dbInterface.fetchUserCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
             dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
         } catch (SQLException e) {
             e.printStackTrace();

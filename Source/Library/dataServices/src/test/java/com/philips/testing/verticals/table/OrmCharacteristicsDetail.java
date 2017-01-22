@@ -31,15 +31,15 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
 
     public OrmCharacteristicsDetail(final String type, final String value, final OrmCharacteristics ormCharacteristics, final OrmCharacteristicsDetail ormCharacteristicsDetail) {
         this.type = type;
-        this.ormCharacteristics = ormCharacteristics;
         this.value = value;
+        this.ormCharacteristics = ormCharacteristics;
         this.ormCharacteristicsDetail = ormCharacteristicsDetail;
     }
 
     public OrmCharacteristicsDetail(final String type, final String value, final OrmCharacteristics ormCharacteristics) {
         this.type = type;
-        this.ormCharacteristics = ormCharacteristics;
         this.value = value;
+        this.ormCharacteristics = ormCharacteristics;
     }
 
     @Override
@@ -65,6 +65,16 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
     @Override
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public void setParent(int parentId) {
+        this.parent = parentId;
+    }
+
+    @Override
+    public int getParent() {
+        return parent;
     }
 
     @Override
