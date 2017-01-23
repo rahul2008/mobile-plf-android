@@ -5,16 +5,9 @@
 package com.philips.platform.uid.matcher;
 
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -214,56 +207,6 @@ public class TextViewPropertiesMatchers {
                 return false;
             }
         };
-    }
-
-    public static Matcher<? super View> hasSameCompoundDrawable(final int index, @NonNull final int drawable) {
-        return new BaseTypeSafteyMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(final View view) {
-                if (view instanceof TextView) {
-                    final Drawable drawableFromIndex = ((TextView) view).getCompoundDrawables()[index];
-                    setValues(drawableFromIndex, drawable);
-                    final Bitmap bitmapFromVectorDrawable = getBitmapFromVectorDrawable(view.getContext(), drawable);
-                    final Bitmap bitmap = getBitmap(drawableFromIndex);
-                    return bitmap.sameAs(bitmapFromVectorDrawable);
-                }
-                return false;
-            }
-        };
-    }
-
-    public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-        Drawable drawable = AppCompatDrawableManager.get().getDrawable(context, drawableId);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            drawable = (DrawableCompat.wrap(drawable)).mutate();
-        }
-        Bitmap result;
-        if (drawable instanceof BitmapDrawable) {
-            result = ((BitmapDrawable) drawable).getBitmap();
-        } else {
-            result = getBitmap(drawable);
-        }
-        return result;
-    }
-
-    @NonNull
-    private static Bitmap getBitmap(final Drawable drawable) {
-        final Bitmap result;
-        int width = drawable.getIntrinsicWidth();
-        int height = drawable.getIntrinsicHeight();
-        // Some drawables have no intrinsic width - e.g. solid colours.
-        if (width <= 0) {
-            width = 1;
-        }
-        if (height <= 0) {
-            height = 1;
-        }
-
-        result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(result);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return result;
     }
 
     public static Matcher<? super View> hasNoText() {

@@ -7,8 +7,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
-import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.utils.UIDTestUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 import org.hamcrest.Matcher;
 
@@ -194,7 +194,10 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 ColorStateList colorStateList = UIDTestUtils.getColorStateListWithReflection(view, funcName);
-                return colorStateList.getColorForState(new int[]{state}, Color.MAGENTA) == expectedValue;
+                final int actual = colorStateList.getColorForState(new int[]{state}, Color.MAGENTA);
+
+                setValues(actual, expectedValue);
+                return areEqual();
             }
         };
     }
