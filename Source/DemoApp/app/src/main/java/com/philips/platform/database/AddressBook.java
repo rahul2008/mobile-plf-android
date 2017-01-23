@@ -29,13 +29,13 @@ public class AddressBook implements Serializable {
     public String address;
 
     @DatabaseField(columnName = "contact_number")
-    public long contactNumber;
+    public String contactNumber;
 
     public AddressBook() {
 
     }
 
-    public AddressBook(String firstName, String lastName, String address, long contactNumber) {
+    public AddressBook(String firstName, String lastName, String address, String contactNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;

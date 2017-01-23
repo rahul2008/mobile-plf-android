@@ -42,7 +42,7 @@ public class RecordArrayAdapter extends ArrayAdapter<String>{
 				((TextView)convertView.findViewById(R.id.txtFirstName)).setText(addressBookDetails.firstName);
 				((TextView)convertView.findViewById(R.id.txtLastName)).setText(addressBookDetails.lastName);
 				((TextView)convertView.findViewById(R.id.txtAddress)).setText(addressBookDetails.address);
-				((TextView)convertView.findViewById(R.id.txtContact)).setText(Long.toString(addressBookDetails.contactNumber));
+				((TextView)convertView.findViewById(R.id.txtContact)).setText(addressBookDetails.contactNumber);
 
 			}
 

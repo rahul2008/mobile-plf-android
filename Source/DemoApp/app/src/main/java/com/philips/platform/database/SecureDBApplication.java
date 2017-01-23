@@ -6,6 +6,7 @@
 package com.philips.platform.database;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -13,31 +14,30 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 
 public class SecureDBApplication extends Application {
-    SecureDataBaseHelper secureDataBaseHelper;
+    public static String DATABASE_PASSWORD_KEY = "hi";
+    static SecureStorageInterface mSecureStorage = null;
     static SecureDataBaseQueryHelper secureDataBaseQueryHelper;
-    private static final String DATABASE_NAME = "address.db";
-    public static  String DATABASE_PASSWORD_KEY = "hi";
-    private static  int DATABASE_VERSION = 3;
-   static SecureStorageInterface mSecureStorage=null;
+    SecureDataBaseHelper secureDataBaseHelper;
+    SharedPreferences sharedPreferences = null;
+    SharedPreferences.Editor editor;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        AppInfraInterface appInfra= new AppInfra.Builder().build(getApplicationContext());
-        mSecureStorage = appInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-        mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, DATABASE_PASSWORD_KEY, sse);
+        sharedPreferences = getSharedPreferences("com.myAppName", MODE_PRIVATE);
 
-        secureDataBaseHelper=new SecureDataBaseHelper<>(this, AddressBook.class,DATABASE_NAME,DATABASE_VERSION,DATABASE_PASSWORD_KEY);
-        secureDataBaseQueryHelper=new SecureDataBaseQueryHelper(this,secureDataBaseHelper, "hi");
+        if (sharedPreferences.getBoolean("firstRun", true)) {
+            AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
+            mSecureStorage = appInfra.getSecureStorage();
+            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+            mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, DATABASE_PASSWORD_KEY, sse);
 
+            editor = sharedPreferences.edit();
+            editor.putBoolean("firstRun", false);
+            editor.commit();
+
+        }
     }
 
-public static SecureDataBaseQueryHelper getSecureDataBaseQueryHelper()
-{
-    return secureDataBaseQueryHelper;
-}
-    public static SecureStorageInterface getSecureStorageInterface()
-    {
-        return mSecureStorage;
-    }
+
 }

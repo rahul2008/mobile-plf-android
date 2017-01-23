@@ -57,9 +57,8 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public SecureDbOrmLiteSqliteOpenHelper(Context context, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
         this.context = context;
-        this.databaseKey=databaseKey;
-        password=retrievePassword(databaseKey);
-        SQLiteDatabase.loadLibs(context);
+        this.databaseKey = databaseKey;
+        password = retrievePassword(databaseKey);
         connectionSource = new AndroidConnectionSource(this);
         logger.trace("{}: constructed connectionSource {}", this, connectionSource);
     }
@@ -111,9 +110,8 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
                                            InputStream stream, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
         this.context = context;
-        this.databaseKey=databaseKey;
-        password=retrievePassword(databaseKey);
-        SQLiteDatabase.loadLibs(context);
+        this.databaseKey = databaseKey;
+        password = retrievePassword(databaseKey);
         connectionSource = new AndroidConnectionSource(this);
         if (stream == null) {
             return;
@@ -258,7 +256,11 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     }
 
     public String getPassword() {
-        return password;
+        if (password != null) {
+            return password;
+        } else {
+            return retrievePassword(databaseKey);
+        }
     }
 
     /**

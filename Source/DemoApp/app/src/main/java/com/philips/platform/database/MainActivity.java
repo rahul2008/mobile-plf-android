@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.OpenHelperManager;
+
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +26,30 @@ import java.util.List;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-    SecureDataBaseQueryHelper secureDataBaseQueryHelper;
+    private static final String DATABASE_NAME = "address.db";
+    public static String DATABASE_PASSWORD_KEY = "hi";
+    static SecureDataBaseQueryHelper secureDataBaseQueryHelper;
+    static SecureStorageInterface mSecureStorage = null;
     static String UPDATE = "update";
-    static String UPDATE_ALL= "updateall";
+    static String UPDATE_ALL = "updateall";
     static String DELETE = "delete";
     static String GET = "getById";
-
+    private static int DATABASE_VERSION = 3;
+    SecureDataBaseHelper secureDataBaseHelper;
     private Button add_btn, del_btn, del_all_btn, view_btn, view_All_btn, update_all_btn, update_btn;
+
+    public static SecureDataBaseQueryHelper getSecureDataBaseQueryHelper() {
+        return secureDataBaseQueryHelper;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        secureDataBaseQueryHelper = SecureDBApplication.getSecureDataBaseQueryHelper();
+        SQLiteDatabase.loadLibs(this);
+        secureDataBaseHelper = new SecureDataBaseHelper<>(this, AddressBook.class, DATABASE_NAME, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
+        secureDataBaseQueryHelper = new SecureDataBaseQueryHelper(this, secureDataBaseHelper, "hi");
+
         add_btn = (Button) findViewById(R.id.createOrInsert_btn);
         del_btn = (Button) findViewById(R.id.deleteById_btn);
         del_all_btn = (Button) findViewById(R.id.deleteAll_btn);
@@ -58,7 +74,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.createOrInsert_btn:
-                startActivity(new Intent(this, AddAddressActivity.class));
+                startActivity(new Intent(getApplicationContext(), AddAddressActivity.class));
                 break;
             case R.id.deleteAll_btn:
                 deleteAllRecords();
@@ -70,7 +86,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 openDialog(GET);
                 break;
             case R.id.retrieveAll_btn:
-               viewAllRecords();
+                viewAllRecords();
                 break;
             case R.id.updateAll_btn:
                 updateAllRecords();
@@ -119,7 +135,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private void deleteByIdRecords(int id) {
         int deleteRecordCount = secureDataBaseQueryHelper.deleteById(AddressBook.class, id);
         if (deleteRecordCount > 0) {
-            showMessageDialog("Successfully deleted"+deleteRecordCount+" records");
+            showMessageDialog("Successfully deleted" + deleteRecordCount + " records");
         }
         Log.i("", "deleteById" + deleteRecordCount);
 
@@ -127,7 +143,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     private <T> void updateAllRecords() {
 
-        int updateRecordCount = secureDataBaseQueryHelper.updateAllRecords(AddressBook.class,"address","Bangalore");
+        int updateRecordCount = secureDataBaseQueryHelper.updateAllRecords(AddressBook.class, "address", "Bangalore");
 
         if (updateRecordCount > 0) {
             showMessageDialog("Successfully All records Updated");
@@ -138,9 +154,9 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
     private void updateByWhere(int id) {
-        int updateRecordCount = secureDataBaseQueryHelper.updateRecordByWhere(AddressBook.class,"Bangalore","address_id",id,"address");
+        int updateRecordCount = secureDataBaseQueryHelper.updateRecordByWhere(AddressBook.class, "Bangalore", "address_id", id, "address");
         if (updateRecordCount > 0) {
-            showMessageDialog("Successfully Updated"+updateRecordCount+" records");
+            showMessageDialog("Successfully Updated" + updateRecordCount + " records");
         }
         Log.i("MainActivity", "updateById" + updateRecordCount);
 
@@ -172,8 +188,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
                 } else if (type.equalsIgnoreCase(UPDATE)) {
                     updateByWhere(Integer.parseInt(subEditText.getText().toString()));
-                }
-                else if (type.equalsIgnoreCase(DELETE)) {
+                } else if (type.equalsIgnoreCase(DELETE)) {
                     deleteByIdRecords(Integer.parseInt(subEditText.getText().toString()));
                 }
 
@@ -188,5 +203,15 @@ public class MainActivity extends Activity implements OnClickListener {
         });
 
         builder.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        secureDataBaseQueryHelper.close();
+        secureDataBaseQueryHelper = null;
+        secureDataBaseHelper = null;
+        OpenHelperManager.releaseHelper();
+        super.onDestroy();
+
     }
 }
