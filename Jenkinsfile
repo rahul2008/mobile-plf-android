@@ -4,6 +4,17 @@ def getArchiveConfig() {
   return ( env.BRANCH_NAME == 'master' ) ? 'Release' : 'Debug'
 }
 
+      stage('Espresso testing') {
+        node('android && espresso && mobile') {
+            checkout scm
+            bat "cd Source"
+            bat "dir"
+          }
+      }
+
+      currentBuild.result = 'SUCCESS'
+
+
 node('Android && 25.0.0 && Ubuntu') {
   timestamps {
     def ARCHIVE_CONFIG = getArchiveConfig()
@@ -57,15 +68,6 @@ node('Android && 25.0.0 && Ubuntu') {
         }
       }
 
-      stage('Espresso testing') {
-        node('android && espresso && mobile') {
-            checkout scm
-            cd Source/CatalogApp
-            dir
-          }
-      }
-
-      currentBuild.result = 'SUCCESS'
     } catch(err) {
       currentBuild.result = 'FAILED'
     }
