@@ -7,7 +7,7 @@ def getArchiveConfig() {
       stage('Espresso testing') {
         node('android && espresso && mobile') {
             checkout scm
-            bat "cd Source/CatalogApp && dir && call gradlew clean"
+            bat "cd Source/CatalogApp && dir && call gradlew clean && call gradlew createDebugCoverageReport"
           }
       }
 
