@@ -463,9 +463,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         final User user = new User(mActivity);
         if (user.isUserSignIn()) {
-            if(isMarketingOptIn){
-                replacMarketingAccountFragment();
-            }else if (!isParentConsentRequested) {
+            if (!isParentConsentRequested) {
                 launchRegistrationFragmentOnLoggedIn(isAccountSettings);
             } else {
                 addParentalApprovalFragment();
@@ -546,6 +544,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+            bundle.putBoolean(RegConstants.MARKETING_OPT_IN, isMarketingOptIn);
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
             registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
@@ -609,19 +608,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             RLog.e(RLog.EXCEPTION,
                     "RegistrationCoppaActivity :FragmentTransaction Exception occured " +
                             "in addFragment  :" + e.getMessage());
-        }
-    }
-
-    private void replacMarketingAccountFragment() {
-        try {
-            MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(com.philips.cdp.registration.R.id.fl_reg_fragment_container, marketingAccountFragment);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
         }
     }
 
