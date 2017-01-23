@@ -55,6 +55,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         }
     };
     private boolean isAccountSettings = true;
+    private boolean isMarketingOptIn;
     private boolean isParentalConsent;
     private TextView ivBack;
 
@@ -77,6 +78,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         if (bundle != null) {
             isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
             isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
+            isMarketingOptIn = bundle.getBoolean(RegConstants.MARKETING_OPT_IN, true);
             final int sOrientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             setOrientation(sOrientation);
         }
@@ -190,6 +192,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         CoppaLaunchInput urLaunchInput;
         urLaunchInput = new CoppaLaunchInput();
         urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.setOptInMarketing(isMarketingOptIn);
         urLaunchInput.setParentalFragment(isParentalConsent);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.

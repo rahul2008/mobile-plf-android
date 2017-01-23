@@ -27,6 +27,8 @@ public class AppTaggingPages {
 
 	public static final String USER_PROFILE = "registration:userprofile";
 
+	public static final String MARKETING_OPT_IN = "registration:marketingoptin";
+
 	public static final String MERGE_SOCIAL_ACCOUNT = "registration:mergesocialaccount";
 
 	public static final String FORGOT_PASSWORD = "registration:forgotpassword";

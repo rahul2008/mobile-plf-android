@@ -10,6 +10,8 @@ public class CoppaLaunchInput extends UappLaunchInput {
 
     private boolean isAccountSettings;
 
+    private boolean isOptInMarketing;
+
     public boolean isParentalFragment() {
         return isParentalFragment;
     }
@@ -54,6 +56,14 @@ public class CoppaLaunchInput extends UappLaunchInput {
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
                                                            userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
+    }
+
+    public boolean isOptInMarketing() {
+        return isOptInMarketing;
+    }
+
+    public void setOptInMarketing(boolean optInMarketing) {
+        isOptInMarketing = optInMarketing;
     }
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {

@@ -38,6 +38,14 @@
                     android:text="Account Setting" />
 
                 <Button
+                    android:id="@+id/btn_marketing_opt_in"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="Marketing OptIn" />
+
+                <Button
                     android:id="@+id/btn_registration_without_account"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

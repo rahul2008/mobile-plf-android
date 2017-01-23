@@ -36,6 +36,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         ActionBarListener {
 
     private boolean isAccountSettings = true;
+    private boolean isMarketingOptIn = true;
     private TextView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -73,6 +74,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            isMarketingOptIn = bundle.getBoolean(RegConstants.MARKETING_OPT_IN, true);
             int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -182,6 +184,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     private void launchRegistrationFragment(boolean isAccountSettings) {
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setAccountSettings(isAccountSettings);
+        urLaunchInput.setOptInMarketing(isMarketingOptIn);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
         FragmentLauncher fragmentLauncher = new FragmentLauncher

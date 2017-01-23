@@ -35,6 +35,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -129,6 +130,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private int mtitleResourceId = -99;
     private boolean isAccountSettings = true;
+    private boolean isMarketingOptIn = true;
     private CoppaExtension coppaExtension;
 
     public void replaceWithParentalAccess() {
@@ -288,10 +290,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         Bundle bunble = getArguments();
         if (bunble != null) {
             isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            isMarketingOptIn = bunble.getBoolean(RegConstants.MARKETING_OPT_IN, true);
             isParentConsentRequested = bunble.getBoolean(
                     CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
         }
         RLog.d("RegistrationCoppaFragment", "isAccountSettings : " + isAccountSettings);
+        RLog.d("RegistrationCoppaFragment", "isMarketingOptIn : " + isMarketingOptIn);
         RLog.d("RegistrationCoppaFragment", "isParentConsentRequested : "
                 + isParentConsentRequested);
 
@@ -459,7 +463,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         final User user = new User(mActivity);
         if (user.isUserSignIn()) {
-            if (!isParentConsentRequested) {
+            if(isMarketingOptIn){
+                replacMarketingAccountFragment();
+            }else if (!isParentConsentRequested) {
                 launchRegistrationFragmentOnLoggedIn(isAccountSettings);
             } else {
                 addParentalApprovalFragment();
@@ -606,12 +612,26 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
+    private void replacMarketingAccountFragment() {
+        try {
+            MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(com.philips.cdp.registration.R.id.fl_reg_fragment_container, marketingAccountFragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+    }
+
     private void launchRegistrationFragmentOnLoggedIn(boolean isAccountSettings) {
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
             registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+            bundle.putBoolean(RegConstants.MARKETING_OPT_IN, isMarketingOptIn);
             registrationFragment.setArguments(bundle);
 
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {

@@ -45,6 +45,9 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
@@ -53,6 +56,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         RefreshLoginSessionHandler, ResendCoppaEmailConsentHandler {
 
     private Button mBtnRegistrationWithAccountSettings;
+    private Button mBtnRegistrationMarketingOptIn;
     private Button mBtnRegistrationWithOutAccountSettings;
     private Button mBtnRefresh;
     private Button mBtnParentalConsent;
@@ -79,6 +83,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         mUser.registerUserRegistrationListener(this);
         mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
+        mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.btn_marketing_opt_in);
+        mBtnRegistrationMarketingOptIn.setOnClickListener(this);
         mBtnParentalConsent = (Button)findViewById(R.id.btn_parental_consent);
         mBtnParentalConsent.setOnClickListener(this);
         mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
@@ -244,6 +250,22 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setAccountSettings(true);
+                urLaunchInput.setOptInMarketing(false);
+                urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+                urLaunchInput.setUserRegistrationUIEventListener(this);
+                activityLauncher = new ActivityLauncher(ActivityLauncher.
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+
+                urInterface = new CoppaInterface();
+                urInterface.launch(activityLauncher, urLaunchInput);
+                break;
+
+            case R.id.btn_marketing_opt_in:
+                RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                urLaunchInput = new CoppaLaunchInput();
+                urLaunchInput.setAccountSettings(true);
+                urLaunchInput.setOptInMarketing(true);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -259,6 +281,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
                 urLaunchInput = new CoppaLaunchInput();
                 urLaunchInput.setAccountSettings(false);
+                urLaunchInput.setOptInMarketing(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -294,6 +317,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                     urLaunchInput = new CoppaLaunchInput();
                     urLaunchInput.setAccountSettings(true);
                     urLaunchInput.setParentalFragment(true);
+                    urLaunchInput.setOptInMarketing(false);
                     urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                     urLaunchInput.setUserRegistrationUIEventListener(this);
                     activityLauncher = new ActivityLauncher(ActivityLauncher.

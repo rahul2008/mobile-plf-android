@@ -40,6 +40,8 @@ public class URInterface implements UappInterface {
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
                     uappLaunchInput).isAccountSettings());
+            bundle.putBoolean(RegConstants.MARKETING_OPT_IN, ((URLaunchInput)
+                    uappLaunchInput).isOptInMarketing());
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
@@ -85,6 +87,8 @@ public class URInterface implements UappInterface {
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
                     uappLaunchInput).isAccountSettings());
+            bundle.putBoolean(RegConstants.MARKETING_OPT_IN, ((URLaunchInput)
+                    uappLaunchInput).isOptInMarketing());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
 

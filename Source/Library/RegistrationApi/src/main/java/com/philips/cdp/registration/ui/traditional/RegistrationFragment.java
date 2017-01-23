@@ -58,6 +58,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private boolean isAccountSettings = true;
 
+    private boolean isMarketingOptin = true;
+
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;
     }
@@ -82,9 +84,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Bundle bunble = getArguments();
         if (bunble != null) {
             isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            isMarketingOptin = bunble.getBoolean(RegConstants.MARKETING_OPT_IN, true);
         }
 
         RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
+        RLog.d("RegistrationFragment", "isMarketingOptin : " + isMarketingOptin);
         super.onCreate(savedInstanceState);
     }
 
@@ -251,8 +255,22 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         boolean isEmailVerificationRequired  =RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
-        if (isAccountSettings) {
-            if ( isUserSignIn&& isEmailVerified) {
+        if (isMarketingOptin) {
+            if (isUserSignIn && isEmailVerified) {
+                AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
+                replacMarketingAccountFragment();
+                return;
+            }
+
+            if (isUserSignIn && !isEmailVerificationRequired) {
+                AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
+                replacMarketingAccountFragment();
+                return;
+            }
+            AppTagging.trackFirstPage(AppTaggingPages.HOME);
+            replaceWithHomeFragment();
+        }else if (isAccountSettings) {
+            if (isUserSignIn&& isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -377,6 +395,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             LogoutFragment logoutFragment = new LogoutFragment();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+    }
+
+    private void replacMarketingAccountFragment() {
+        try {
+            MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, marketingAccountFragment);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

@@ -10,6 +10,8 @@ public class URLaunchInput extends UappLaunchInput {
 
     private boolean isAccountSettings;
 
+    private boolean isOptInMarketing;
+
     public boolean isAddtoBackStack() {
         return isAddToBackStack;
     }
@@ -40,6 +42,13 @@ public class URLaunchInput extends UappLaunchInput {
         return isAccountSettings;
     }
 
+    public boolean isOptInMarketing() {
+        return isOptInMarketing;
+    }
+
+    public void setOptInMarketing(boolean optInMarketing) {
+        isOptInMarketing = optInMarketing;
+    }
 
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
                                                            userRegistrationListener) {
