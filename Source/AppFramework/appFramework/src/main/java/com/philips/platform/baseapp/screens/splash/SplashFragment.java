@@ -9,19 +9,18 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
@@ -33,7 +32,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, AppFlowJsonListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
-    public static int STORAGE_PERMISSION_CODE = 999;
+    public static int PERMISSION_ALL = 998;
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
     UIBasePresenter presenter;
@@ -77,7 +76,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void showProgressDialog(boolean show) {
-        if (show)
+        if (show && !getFragmentActivity().isFinishing())
             progressDialog.show();
         else if (progressDialog.isShowing())
             progressDialog.dismiss();
@@ -85,7 +84,8 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     private void initializeFlowManager() {
         showProgressDialog(true);
-        if (isPermissionGranted()) {
+        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (hasPermissions(PERMISSIONS)) {
             setFlowManager();
             if (!isMultiwindowEnabled)
                 startTimer();
@@ -100,11 +100,10 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     //Requesting permission
     private void requestStoragePermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getFragmentActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Toast.makeText(getFragmentActivity(), "Request to grant permission to read App flow Json", Toast.LENGTH_LONG).show();
+        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (!hasPermissions(PERMISSIONS)) {
+            ActivityCompat.requestPermissions(getFragmentActivity(), PERMISSIONS, PERMISSION_ALL);
         }
-        //And finally ask for the permission
-        ActivityCompat.requestPermissions(getFragmentActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
     }
 
     @Override
@@ -114,17 +113,15 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         launchActivity.hideActionBar();
     }
 
-    private boolean isPermissionGranted() {
-        //Getting the permission status
-        int result = ContextCompat.checkSelfPermission(getFragmentActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        //If permission is granted returning true
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
+    private boolean hasPermissions(String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getFragmentActivity() != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(getFragmentActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
         }
-
-        //If permission is not granted returning false
-        return false;
+        return true;
     }
 
     @Override

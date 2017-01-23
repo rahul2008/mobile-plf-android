@@ -13,6 +13,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
 import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -26,6 +27,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSta
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.io.File;
 import java.util.Locale;
 
 
@@ -42,6 +44,7 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
     private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
     private boolean isSdCardFileCreated;
+    private File tempFile;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -57,7 +60,7 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
         isSdCardFileCreated = new BaseAppUtil().createDirIfNotExists();
         final int resId = R.string.com_philips_app_fmwk_app_flow_url;
         FileUtility fileUtility = new FileUtility(this);
-        fileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
+        tempFile = fileUtility.createFileFromInputStream(resId, isSdCardFileCreated);
         MultiDex.install(this);
         super.onCreate();
         appInfra = new AppInfra.Builder().build(getApplicationContext());
@@ -100,7 +103,12 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
     }
 
     public void setTargetFlowManager() {
-        this.targetFlowManager = new FlowManager(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
+        try {
+            this.targetFlowManager = new FlowManager(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
+        } catch (JsonFileNotFoundException e) {
+            if (tempFile != null)
+                this.targetFlowManager = new FlowManager(getApplicationContext(), tempFile.getPath(), this);
+        }
     }
 
     @Override

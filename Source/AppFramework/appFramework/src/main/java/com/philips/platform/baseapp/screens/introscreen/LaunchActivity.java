@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
@@ -126,7 +125,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         //Checking the request code of our request
-        if (requestCode == SplashFragment.STORAGE_PERMISSION_CODE) {
+        if (requestCode == SplashFragment.PERMISSION_ALL) {
 
             //If permission is granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -140,7 +139,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
                 }
             } else {
                 //Displaying another toast if permission is not granted
-                Toast.makeText(getFragmentActivity(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+                finish();
             }
         }
     }
