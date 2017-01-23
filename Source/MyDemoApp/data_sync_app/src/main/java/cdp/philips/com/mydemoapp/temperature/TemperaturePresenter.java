@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.core.datatypes.Measurement;
@@ -27,27 +26,21 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.database.DatabaseHelper;
 import cdp.philips.com.mydemoapp.database.EmptyForeignCollection;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
 import cdp.philips.com.mydemoapp.database.datatypes.MomentDetailType;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
-import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.datatypes.MomentType;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 
 public class TemperaturePresenter {
     private final DBRequestListener dbRequestListener;
@@ -127,7 +120,7 @@ public class TemperaturePresenter {
     }
 
     void fetchData(DBRequestListener dbRequestListener) {
-        mDataServices.fetchAllData(dbRequestListener);
+        mDataServices.fetch(dbRequestListener, MomentType.getIDFromDescription(MomentType.TEMPERATURE));
     }
 
     private void saveRequest(Moment moment) {
