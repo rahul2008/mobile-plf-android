@@ -71,6 +71,7 @@ public class UserCharacteristicsConverter {
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
         List<Characteristics> mCharacteristicsList;
         if (characteristic != null) {
+
             for (int i = 0; i < characteristic.size(); i++) {
                 mCharacteristicsList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
                 if (mCharacteristicsList.size() > 0) {
