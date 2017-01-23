@@ -16,7 +16,6 @@ import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -39,8 +38,6 @@ public class IAPHandlerTest {
     AppInfra mAppInfra;
     @Mock
     Context mContext;
-    @Mock
-    ServiceDiscoveryInterface mServiceDiscoveryInterface;
 
     private IAPSettings mIAPSettings;
     private MockIAPDependencies mIAPDependencies;
@@ -54,59 +51,6 @@ public class IAPHandlerTest {
         mIAPDependencies = new MockIAPDependencies(mAppInfra);
         mIAPSettings = new IAPSettings(mContext);
         mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSettings);
-
-        //Service discovery
-        mServiceDiscoveryInterface = new ServiceDiscoveryInterface() {
-            @Override
-            public void getHomeCountry(OnGetHomeCountryListener onGetHomeCountryListener) {
-
-            }
-
-            @Override
-            public void setHomeCountry(String s) {
-
-            }
-
-            @Override
-            public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
-
-            }
-
-            @Override
-            public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-
-            }
-
-            @Override
-            public void getServiceUrlWithCountryPreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
-
-            }
-
-            @Override
-            public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-
-            }
-
-            @Override
-            public void getServiceLocaleWithLanguagePreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-
-            }
-
-            @Override
-            public void getServiceLocaleWithCountryPreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-
-            }
-
-            @Override
-            public void refresh(OnRefreshListener onRefreshListener) {
-
-            }
-
-            @Override
-            public void refresh(OnRefreshListener onRefreshListener, boolean b) {
-
-            }
-        };
 
         //IAP Listener
         mIapListener = new IAPListener() {
@@ -400,6 +344,6 @@ public class IAPHandlerTest {
 
     @Test
     public void testServiceDiscovery() {
-        mMockIAPHandler.fetchBaseUrl(mServiceDiscoveryInterface);
+//        mMockIAPHandler.fetchBaseUrl(mServiceDiscoveryInterface);
     }
 }
