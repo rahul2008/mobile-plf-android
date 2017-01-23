@@ -109,6 +109,7 @@ task tgzTask(type: Tar) {
 	extension = 'tgz'
 	compression = Compression.GZIP
 }
+
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
@@ -128,6 +129,14 @@ android {
         }
     }
 }
+
+
+task copyResDirectoryToClasses(type: Copy) {
+    from "${projectDir}/src/test/res"
+    into "${buildDir}/intermediates/classes/test/debug/res"
+}
+
+assembleDebug.dependsOn(copyResDirectoryToClasses)
 
 configurations.all {
     // check for updates every build
