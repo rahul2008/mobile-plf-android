@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.OpenHelperManager;
+
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +26,25 @@ import java.util.List;
 
 public class SecureDBMainActivity extends Activity implements OnClickListener {
 
-    SecureDataBaseQueryHelper secureDataBaseQueryHelper;
+    private static final String DATABASE_NAME = "address.db";
+    public static String DATABASE_PASSWORD_KEY = "hi";
+    static SecureDataBaseQueryHelper secureDataBaseQueryHelper;
     static String UPDATE = "update";
     static String UPDATE_ALL= "updateall";
     static String DELETE = "delete";
     static String GET = "getById";
-
+    private static int DATABASE_VERSION = 3;
+    SecureDataBaseHelper secureDataBaseHelper;
     private Button add_btn, del_btn, del_all_btn, view_btn, view_All_btn, update_all_btn, update_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        secureDataBaseQueryHelper = AppInfraApplication.getSecureDataBaseQueryHelper();
+        SQLiteDatabase.loadLibs(this);
+        secureDataBaseHelper = new SecureDataBaseHelper<>(this, AddressBook.class, DATABASE_NAME, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
+        secureDataBaseQueryHelper = new SecureDataBaseQueryHelper(this, secureDataBaseHelper, "hi");
+
         add_btn = (Button) findViewById(R.id.createOrInsert_btn);
         del_btn = (Button) findViewById(R.id.deleteById_btn);
         del_all_btn = (Button) findViewById(R.id.deleteAll_btn);
@@ -51,6 +62,11 @@ public class SecureDBMainActivity extends Activity implements OnClickListener {
         update_all_btn.setOnClickListener(this);
         update_btn.setOnClickListener(this);
     }
+
+    public static SecureDataBaseQueryHelper getSecureDataBaseQueryHelper() {
+        return secureDataBaseQueryHelper;
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -188,5 +204,15 @@ public class SecureDBMainActivity extends Activity implements OnClickListener {
         });
 
         builder.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        secureDataBaseQueryHelper.close();
+        secureDataBaseQueryHelper = null;
+        secureDataBaseHelper = null;
+        OpenHelperManager.releaseHelper();
+        super.onDestroy();
+
     }
 }

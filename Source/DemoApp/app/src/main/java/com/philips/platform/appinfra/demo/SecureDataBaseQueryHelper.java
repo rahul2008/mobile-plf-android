@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
@@ -14,11 +15,13 @@ import net.sqlcipher.database.SQLiteDatabase;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 
@@ -29,15 +32,14 @@ import java.util.concurrent.TimeUnit;
 public class SecureDataBaseQueryHelper<T> {
 
     public SecureDbOrmLiteSqliteOpenHelper secureDataBaseHelper;
+    String insertStartTime = null;
     private Context context;
-     SQLiteDatabase db ;
     private String dataBasePassword;
     private static SimpleDateFormat df;
 
     public SecureDataBaseQueryHelper(Context context, SecureDbOrmLiteSqliteOpenHelper secureDataBaseHelper) {
         this.context = context;
         this.secureDataBaseHelper = secureDataBaseHelper;
-        db = getWriteDbPermission();
         df = new SimpleDateFormat("HH:mm:ss.SSS a", Locale.ENGLISH);
 
     }
@@ -46,8 +48,9 @@ public class SecureDataBaseQueryHelper<T> {
         this.context = context;
         this.secureDataBaseHelper = secureDataBaseHelper;
         this.dataBasePassword=dataBasePassword;
-        db = getWriteDbPermission();
+        this.dataBasePassword = dataBasePassword;
         df = new SimpleDateFormat("HH:mm:ss.SSS a", Locale.ENGLISH);
+        getWriteDbPermission();
     }
 
     private SecureDbOrmLiteSqliteOpenHelper getHelper() {
@@ -60,61 +63,71 @@ public class SecureDataBaseQueryHelper<T> {
     }
 
 
-
     public void beginTransaction() {
-        db.beginTransaction();
+        getWriteDbPermission().beginTransaction();
     }
 
     public void endTransaction() {
-        db.endTransaction();
+        getWriteDbPermission().endTransaction();
     }
 
     public void setTransactionSuccessful() {
-        db.setTransactionSuccessful();
+        getWriteDbPermission().setTransactionSuccessful();
 
     }
 
     public boolean inTransaction() {
-        return db.inTransaction();
-
+        return getWriteDbPermission().inTransaction();
 
     }
 
 
     public void createOrInsert(Class clazz, T obj) {
 
+        getWriteDbPermission();
         create(clazz, obj);
     }
 
     public int deleteAll(Class clazz) {
+        getWriteDbPermission();
         return deleteAllRecords(clazz);
+
     }
 
     public int deleteById(Class clazz, T obj) {
+        getWriteDbPermission();
         return deleteRecordsById(clazz, obj);
     }
 
 
     public int updateAllRecords(Class clazz, String columnToBeUpdate, T valueToBeSet) {
+        getWriteDbPermission();
         return updateAll(clazz, columnToBeUpdate, valueToBeSet);
     }
 
     public int updateRecordByWhere(Class clazz, T obj, String whereCauseColumnName, T whereCauseValue, String columnToBeUpdate) {
+        getWriteDbPermission();
         return updateByWhere(clazz, obj, whereCauseColumnName, whereCauseValue, columnToBeUpdate);
     }
 
     public List retrieveByQuery(Class clazz, String columnName, T obj) {
+        getWriteDbPermission();
         return queryBywhere(clazz, columnName, obj);
     }
 
     public T retrieveById(Class clazz, T obj) {
+        getWriteDbPermission();
         return queryById(clazz, obj);
     }
 
     public List retrieveAll(Class<T> clazz) {
+        getWriteDbPermission();
         return queryForAll(clazz);
     }
 
+    public void close() {
+        getHelper().close();
+    }
 
     private List queryForAll(Class clazz) {
         String readStartTime = getLocalTimestamp();
@@ -196,13 +209,52 @@ public class SecureDataBaseQueryHelper<T> {
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
-        }
-        finally {
+        } finally {
             endTransaction();
             Log.d("Insert End Time: ", "Insert End .." + getLocalTimestamp());
             String insertEndTime = getLocalTimestamp();
             getFinalTime(insertStartTime, insertEndTime, "InsertTime");
         }
+    }
+
+
+    public int bulkInsert() {
+
+
+        try {
+            final Dao<T, ?> dao = (Dao<T, ?>) getHelper().getDao(AddressBook.class);
+
+            TransactionManager.callInTransaction(dao.getConnectionSource(),
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+
+                            List<AddressBook> addressBooksList = new ArrayList<>();
+                            for (int i = 0; i < 10000; i++) {
+                                addressBooksList.add(new AddressBook("A", "AZ", "BANGALORE", "98484848488"));
+                            }
+
+                            insertStartTime = getLocalTimestamp();
+                            Log.d("Insert Start Time: ", "Inserting .." + getLocalTimestamp());
+                            for (AddressBook c : addressBooksList) {
+                                beginTransaction();
+                                dao.createOrUpdate((T) c);
+                            }
+                            return null;
+                        }
+                    });
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            endTransaction();
+            Log.d("Insert End Time: ", "Insert End .." + getLocalTimestamp());
+            String insertEndTime = getLocalTimestamp();
+            getFinalTime(insertStartTime, insertEndTime, "InsertTime");
+        }
+        return 0;
     }
 
 

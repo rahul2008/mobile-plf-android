@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.demo;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -24,13 +25,10 @@ public class AppInfraApplication extends Application {
 
 
     //SecurDb
-    SecureDataBaseHelper secureDataBaseHelper;
-    static SecureDataBaseQueryHelper secureDataBaseQueryHelper;
-    private static final String DATABASE_NAME = "address.db";
-    public static String DATABASE_PASSWORD_KEY = "hi";
-    private static int DATABASE_VERSION = 3;
+    public static String DATABASE_PASSWORD_KEY = "philips@321";
     static SecureStorageInterface mSecureStorage = null;
-
+    SharedPreferences sharedPreferences = null;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -59,17 +57,18 @@ public class AppInfraApplication extends Application {
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
 
-        mSecureStorage = gAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-        mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, DATABASE_PASSWORD_KEY, sse);
+        sharedPreferences = getSharedPreferences("com.appinfra", MODE_PRIVATE);
 
-        secureDataBaseHelper = new SecureDataBaseHelper<>(this, AddressBook.class, DATABASE_NAME, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
-        secureDataBaseQueryHelper = new SecureDataBaseQueryHelper(this, secureDataBaseHelper, "hi");
+        if (sharedPreferences.getBoolean("firstRun", true)) {
+            mSecureStorage = gAppInfra.getSecureStorage();
+            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+            mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, DATABASE_PASSWORD_KEY, sse);
 
+            editor = sharedPreferences.edit();
+            editor.putBoolean("firstRun", false);
+            editor.commit();
 
-    }
+        }
 
-    public static SecureDataBaseQueryHelper getSecureDataBaseQueryHelper() {
-        return secureDataBaseQueryHelper;
     }
 }

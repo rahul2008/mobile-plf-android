@@ -29,7 +29,7 @@ public class AddAddressActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_address);
 
-		secureDataBaseQueryHelper=AppInfraApplication.getSecureDataBaseQueryHelper();
+        secureDataBaseQueryHelper = SecureDBMainActivity.getSecureDataBaseQueryHelper();
 
 		firstname_et = (EditText) findViewById(R.id.etFirstName);
 		lastname_et = (EditText) findViewById(R.id.etLasttName);
@@ -53,11 +53,7 @@ public class AddAddressActivity extends Activity implements OnClickListener {
 		super.onDestroy();
 
 
-		/*if (secureDataBaseHelper != null) {
-			secureDataBaseHelper.releaseHelper();
-			databaseHelper = null;
-		}*/
-	}
+    }
 
 	
 	@Override
@@ -77,6 +73,7 @@ public class AddAddressActivity extends Activity implements OnClickListener {
 
 
 					secureDataBaseQueryHelper.createOrInsert(AddressBook.class, addressBook);
+                //secureDataBaseQueryHelper.bulkInsert();
 
 					reset();
 					showDialog();
