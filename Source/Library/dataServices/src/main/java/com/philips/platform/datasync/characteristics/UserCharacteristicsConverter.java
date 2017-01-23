@@ -66,19 +66,25 @@ public class UserCharacteristicsConverter {
     }
 
     //Application data type to DataCore type
-    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<UserCharacteristics> characteristic) {
+    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<UserCharacteristics> userCharacteristicses) {
         UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
         List<Characteristics> mCharacteristicsList;
-        if (characteristic != null) {
-            for (int i = 0; i < characteristic.size(); i++) {
-                mCharacteristicsList = convertToCharacteristicDetail(characteristic.get(i).getCharacteristicsDetails());
-                if (mCharacteristicsList.size() > 0) {
-                        UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
-                        uCoreCharacteristics.setType(mCharacteristicsList.get(i).getType());
-                        uCoreCharacteristics.setValue(mCharacteristicsList.get(i).getValue());
-                        uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(mCharacteristicsList.get(i).getCharacteristicsDetail())));
-                        uCoreCharacteristicsList.add(uCoreCharacteristics);
+        if (userCharacteristicses != null) {
+            mCharacteristicsList = convertToCharacteristicDetail(userCharacteristicses.get(0).getCharacteristicsDetails());
+            List<Characteristics> characteristicsList = new ArrayList<>();
+            for (int i = 0; i < mCharacteristicsList.size(); i++) {
+                if (mCharacteristicsList.get(i).getParent() == 0) {
+                    characteristicsList.add(mCharacteristicsList.get(i));
+                }
+            }
+            for (int i = 0; i < characteristicsList.size(); i++) {
+                if (characteristicsList.size() > 0) {
+                    UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
+                    uCoreCharacteristics.setType(characteristicsList.get(i).getType());
+                    uCoreCharacteristics.setValue(characteristicsList.get(i).getValue());
+                    uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(characteristicsList.get(i).getCharacteristicsDetail())));
+                    uCoreCharacteristicsList.add(uCoreCharacteristics);
                 }
             }
         }
