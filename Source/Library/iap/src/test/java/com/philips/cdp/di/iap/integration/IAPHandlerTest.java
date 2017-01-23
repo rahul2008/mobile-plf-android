@@ -112,7 +112,7 @@ public class IAPHandlerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testInitHybrisDelegate(){
+    public void testInitHybrisDelegate() {
         mIAPSettings.setUseLocalData(true);
         mMockIAPHandler.initHybrisDelegate();
     }
@@ -340,10 +340,5 @@ public class IAPHandlerTest {
         Message msg = new Message();
         msg.obj = new IAPNetworkError(null, 0, null);
         mMockIAPHandler.getIAPErrorCode(msg);
-    }
-
-    @Test
-    public void testServiceDiscovery() {
-//        mMockIAPHandler.fetchBaseUrl(mServiceDiscoveryInterface);
     }
 }
