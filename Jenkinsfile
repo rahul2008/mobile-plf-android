@@ -56,7 +56,13 @@ node('Android && 25.0.0 && Ubuntu') {
           '''
         }
       }
-    
+
+      stage('Espresso testing') {
+        node('android && espresso && mobile') {
+            checkout scm
+          }
+      }
+
       currentBuild.result = 'SUCCESS'
     } catch(err) {
       currentBuild.result = 'FAILED'
