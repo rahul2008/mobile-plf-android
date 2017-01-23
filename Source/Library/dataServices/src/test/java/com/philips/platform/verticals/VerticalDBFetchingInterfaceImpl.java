@@ -91,4 +91,9 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     public void fetchUserCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
 
     }
+
+    @Override
+    public void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+
+    }
 }

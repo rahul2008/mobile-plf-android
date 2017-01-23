@@ -65,10 +65,10 @@ public class SavingMonitor extends EventMonitor {
             return;
         }
 
-        if (!userCharacteristicsSaveRequest.getUserCharacteristics().isSynchronized()) {
+       // if (!userCharacteristicsSaveRequest.getUserCharacteristics().isSynchronized()) {
             eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
                     userCharacteristicsSaveRequest.getUserCharacteristics()));
-        }
+       // }
     }
 
 

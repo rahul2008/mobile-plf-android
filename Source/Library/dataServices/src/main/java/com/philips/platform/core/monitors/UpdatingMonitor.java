@@ -13,6 +13,7 @@ import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
+import com.philips.platform.core.events.UCUpdateDBSyncBitRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
@@ -127,6 +128,11 @@ public class UpdatingMonitor extends EventMonitor {
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, userCharacteristicsSaveBackendRequest.getDbRequestListener());
         }
+    }
+
+    public void onEventAsync(final UCUpdateDBSyncBitRequest updateDBSyncBitRequest) throws SQLException {
+
+        boolean b = dbUpdatingInterface.setSynced(updateDBSyncBitRequest.getUserCharacteristics().getCreatorId(), updateDBSyncBitRequest.isSynced());
     }
 
 }

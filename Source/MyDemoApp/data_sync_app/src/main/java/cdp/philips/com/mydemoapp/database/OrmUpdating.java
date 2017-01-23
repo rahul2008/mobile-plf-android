@@ -13,6 +13,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -31,19 +32,24 @@ public class OrmUpdating {
     private final Dao<OrmMeasurement, Integer> measurementDao;
     private final Dao<OrmMeasurementDetail, Integer> measurementDetailDao;
 
+
+
     @NonNull
     private final Dao<OrmConsent, Integer> constentDao;
+
+    private final Dao<OrmCharacteristics, Integer> ormCharacteristicsDao;
 
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDao) {
+                       @NonNull final Dao<OrmConsent, Integer> constentDao, Dao<OrmCharacteristics, Integer> ormCharacteristicsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.constentDao = constentDao;
+        this.ormCharacteristicsDao = ormCharacteristicsDao;
     }
 
     public void updateMoment(OrmMoment moment) throws SQLException {
@@ -74,5 +80,13 @@ public class OrmUpdating {
         return updateBuilder.update();
     }
 
+    public int updateCharacteristicsSyncBit(String creaorID,boolean isSynced) throws SQLException {
 
+        //int synceValue= isSynced==true? 1:0;
+        UpdateBuilder<OrmCharacteristics, Integer> updateBuilder = ormCharacteristicsDao.updateBuilder();
+        updateBuilder.updateColumnValue("mIsSynchronized", isSynced);
+        updateBuilder.where().eq("creatorID", creaorID);
+
+        return updateBuilder.update();
+    }
 }

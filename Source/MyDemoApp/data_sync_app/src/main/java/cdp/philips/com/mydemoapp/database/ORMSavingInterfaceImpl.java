@@ -89,6 +89,8 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
     }
 
+
+
     private void updateUCUI(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {
             if(dbRequestListener==null){
                 return;

@@ -34,6 +34,11 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
+
+    @Override
+    public boolean setSynced(String creatorID, boolean isSynced) throws SQLException {
+        return false;
+    }
 //
 //    @Override
 //    public void processCharacteristicsReceivedFromDataCore(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {

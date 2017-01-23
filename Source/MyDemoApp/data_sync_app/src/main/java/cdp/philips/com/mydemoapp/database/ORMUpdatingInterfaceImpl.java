@@ -110,4 +110,12 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         }
 
     }
+
+    @Override
+    public boolean setSynced(String creaorID,boolean isSynced) throws SQLException {
+        updating.updateCharacteristicsSyncBit(creaorID,isSynced);
+        return false;
+    }
+
+
 }

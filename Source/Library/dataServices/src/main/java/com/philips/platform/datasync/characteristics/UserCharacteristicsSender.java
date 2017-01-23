@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.UCUpdateDBSyncBitRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -99,7 +100,9 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
         DSLog.d(DSLog.LOG, "Inder = Inside UC Sender postOk " + characteristic.getCharacteristicsDetails());
         //TODO: SPoorti - As of now I see that the below event is posted to saving monitor, genrally it could go to UpdatingMonitor.
         // We can get it one's verified with Ajay
-        mEventing.post(new UserCharacteristicsSaveRequest(characteristic, null));
+        //mEventing.post(new UserCharacteristicsSaveRequest(characteristic, null));
+
+        mEventing.post(new UCUpdateDBSyncBitRequest(characteristic,true));
     }
 
     @Override
