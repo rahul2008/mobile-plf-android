@@ -37,11 +37,11 @@ public abstract class BaseFlowManager {
     private String BACK = "back";
 
     public BaseFlowManager(final Context context, final String jsonPath) {
-        initFlowManager(context, jsonPath, null);
+        initialize(context, jsonPath, null);
     }
 
     public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
-        initFlowManager(context, jsonPath, appFlowJsonListener);
+        initialize(context, jsonPath, appFlowJsonListener);
     }
 
     protected BaseFlowManager(String data, AppFlowJsonListener appFlowJsonListener) {
@@ -53,7 +53,7 @@ public abstract class BaseFlowManager {
         populateConditionMap(conditionMap);
     }
 
-    private void initFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+    public void initialize(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
         this.context = context;
         mapAppFlowStates(jsonPath, appFlowJsonListener);
         flowManagerStack = new FlowManagerStack();
@@ -93,7 +93,7 @@ public abstract class BaseFlowManager {
         return currentState;
     }
 
-    public void setCurrentState(BaseState currentState) {
+    private void setCurrentState(BaseState currentState) {
         this.currentState = currentState;
     }
 
