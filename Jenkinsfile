@@ -60,6 +60,10 @@ node('Android && 25.0.0 && Ubuntu') {
       stage('Espresso testing') {
         node('android && espresso && mobile') {
             checkout scm
+            sh '''#!/bin/bash -l
+                cd Source/CatalogApp
+                ls -la
+            '''
           }
       }
 
