@@ -70,6 +70,7 @@ public interface SecureStorageInterface {
      * Remove value for passWord .
      *
      * @param keyName the user key to access the password
+     * @param error the secure storage error code if any
      * @return denote delete operation success or failure
      */
     public boolean clearKey(String keyName, SecureStorageError error) ;
@@ -93,7 +94,7 @@ public interface SecureStorageInterface {
     public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 
     public class SecureStorageError {
-        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError, NoDataFoundForKey, NullData}
+        public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData}
 
         ;
         private secureStorageError errorCode = null;

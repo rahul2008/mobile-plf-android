@@ -204,6 +204,10 @@ public class SecureStorage implements SecureStorageInterface {
             return false;
         }
         deleteResultValue = deleteEncryptedData(keyName, DATA_FILE_NAME_FOR_SQLCIPHER_KEY);
+        if (!deleteResultValue) {
+            //clear or deleting failed in shared preferences
+            error.setErrorCode(SecureStorageError.secureStorageError.DeleteError);
+        }
         return deleteResultValue ;
     }
 
