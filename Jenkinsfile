@@ -7,8 +7,7 @@ def getArchiveConfig() {
       stage('Espresso testing') {
         node('android && espresso && mobile') {
             checkout scm
-            bat "cd Source"
-            bat "dir"
+            bat "cd Source && dir"
           }
       }
 
