@@ -6,7 +6,6 @@ package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
@@ -67,19 +66,7 @@ public class BleTransportContext implements TransportContext {
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
     }
 
-    /**
-     * Gets the SHNCentral instance.
-     *
-     * @return the SHNCentral instance
-     * @deprecated only here for backwards compatibility
-     */
-    @Deprecated
-    public SHNCentral getShnCentral() {
-        return shnCentral;
-    }
-
-    @VisibleForTesting
-    public SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+    private SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
