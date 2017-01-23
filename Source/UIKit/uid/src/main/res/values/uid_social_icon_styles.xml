@@ -20,9 +20,10 @@
 
     <style name="UIDSocialIconWhite" parent="UIDSocialIconPrimary">
         <item name="uidButtonBackgroundColorList">
-            @color/uid_social_icon_white_button_background_selector
+            @color/uid_social_icon_white_button_icon_selector
         </item>
-        <item name="uidButtonDrawableColorList">@color/uid_social_icon_white_button_icon_selector
+        <item name="uidButtonDrawableColorList">
+            @color/uid_social_icon_white_button_background_selector
         </item>
     </style>
 
