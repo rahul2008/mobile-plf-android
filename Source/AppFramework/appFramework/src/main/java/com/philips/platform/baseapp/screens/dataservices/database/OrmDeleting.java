@@ -13,6 +13,8 @@ import android.util.Log;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -62,7 +64,11 @@ public class OrmDeleting {
     private final Dao<OrmConsentDetail, Integer> consentDetailDao;
 
 
+    @NonNull
+    private final Dao<OrmCharacteristics, Integer> characteristicsDao;
 
+    @NonNull
+    private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
 
 
     public OrmDeleting(@NonNull final Dao<OrmMoment, Integer> momentDao,
@@ -73,8 +79,8 @@ public class OrmDeleting {
                        @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailDao,
                        @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroupsDao,
                        @NonNull final Dao<OrmConsent, Integer> constentDao,
-                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao
-                       ) {
+                       @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
+                       @NonNull Dao<OrmCharacteristics, Integer> characteristicsesDao, @NonNull Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -85,10 +91,11 @@ public class OrmDeleting {
         this.consentDao = constentDao;
 
         this.consentDetailDao = constentDetailsDao;
+        this.characteristicsDao = characteristicsesDao;
+        this.characteristicsDetailsDao = characteristicsDetailsDao;
     }
 
     public void deleteAll() throws SQLException {
-        Log.i(DataServicesState.TAG,"In OrmDeleting");
         momentDao.executeRawNoArgs("DELETE FROM `ormmoment`");
         momentDetailDao.executeRawNoArgs("DELETE FROM `ormmomentdetail`");
         measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
@@ -96,6 +103,8 @@ public class OrmDeleting {
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
         consentDao.executeRawNoArgs("DELETE FROM `ormconsent`");
         consentDetailDao.executeRawNoArgs("DELETE FROM `ormconsentdetail`");
+        characteristicsDao.executeRawNoArgs("DELETE FROM `ormcharacteristics`");
+        characteristicsDetailsDao.executeRawNoArgs("DELETE FROM `ormcharacteristicsDetail`");
     }
 
     public void ormDeleteMoment(@NonNull final OrmMoment moment) throws SQLException {
@@ -105,7 +114,7 @@ public class OrmDeleting {
         momentDao.delete(moment);
     }
 
-    private void deleteMeasurementGroups(OrmMoment moment) throws SQLException {
+    public void deleteMeasurementGroups(OrmMoment moment) throws SQLException {
         ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(moment.getMeasurementGroups());
         for(OrmMeasurementGroup ormMeasurementGroup : measurementGroups) {
             deleteMeasurementGroupDetails(ormMeasurementGroup.getId());
@@ -213,6 +222,13 @@ public class OrmDeleting {
         for (OrmConsentDetail consentDetail : ormConsent.getConsentDetails()) {
             consentDetailDao.delete(consentDetail);
         }
+    }
+
+    public void deleteCharacteristics() throws SQLException{
+        DeleteBuilder<OrmCharacteristics, Integer> characteristicsDeleteBuilder = characteristicsDao.deleteBuilder();
+        characteristicsDeleteBuilder.delete();
+        DeleteBuilder<OrmCharacteristicsDetail, Integer> characteristicsDetailsDeleteBuilder = characteristicsDetailsDao.deleteBuilder();
+        characteristicsDetailsDeleteBuilder.delete();
     }
 
 }

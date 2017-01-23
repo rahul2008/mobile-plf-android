@@ -23,6 +23,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.OrmFetchingInt
 import com.philips.platform.baseapp.screens.dataservices.database.OrmSaving;
 import com.philips.platform.baseapp.screens.dataservices.database.OrmUpdating;
 import com.philips.platform.baseapp.screens.dataservices.database.table.BaseAppDateTime;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -91,28 +93,31 @@ public class DataServicesState extends BaseState {
 
             Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
             Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
+            Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
+            Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
 
 
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails);
+                    synchronisationDataDao, consentDao, consentDetailsDao, measurementGroup, measurementGroupDetails, characteristicsesDao, characteristicsDetailsDao);
 
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao, consentDetailsDao);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao);
+            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, consentDao);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao);
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao);
+                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDao, consentDetailsDao, characteristicsesDao, characteristicsDetailsDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDao, consentDetailsDao, characteristicsesDao);
 
-            DataServicesManager.getInstance().initializeDBMonitors(context,ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            DataServicesManager.getInstance().initializeDBMonitors(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
-            Toast.makeText(context,"db injection failed to dataservices",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void updateDataModel() {

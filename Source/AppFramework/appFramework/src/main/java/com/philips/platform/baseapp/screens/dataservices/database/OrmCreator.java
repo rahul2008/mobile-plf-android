@@ -13,6 +13,8 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Meas
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -28,6 +30,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.core.BaseAppDataCreator;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -36,6 +39,7 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
@@ -145,9 +149,26 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, boolean isSynchronized, @NonNull Consent consent) {
-        // OrmConsentDetailType ormConsentDetailType = new OrmConsentDetailType(type);
 
         return new OrmConsentDetail(type, status, version, deviceIdentificationNumber, (OrmConsent) consent, isSynchronized);
+    }
+
+    @NonNull
+    @Override
+    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
+        return new OrmCharacteristics(creatorId);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
+        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) userCharacteristics,(OrmCharacteristicsDetail) characteristics);
+    }
+
+    @NonNull
+    @Override
+    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
+        return new OrmCharacteristicsDetail(type,value,(OrmCharacteristics) userCharacteristics);
     }
 
     @NonNull
