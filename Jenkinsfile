@@ -6,8 +6,8 @@ node('Android') {
         checkout scm
     }
 
-    def Slack = load “Source/common/jenkins/Slack.groovy"
-    
+    def Slack = load "Source/common/jenkins/Slack.groovy"
+
     Slack.notify('#conartists') {
 
         stage('Build') {
