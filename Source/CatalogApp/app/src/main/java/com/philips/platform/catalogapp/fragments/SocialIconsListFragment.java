@@ -41,12 +41,17 @@ public class SocialIconsListFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         FragmentSocialiconGridBinding dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_socialicon_grid, container, false);
         dataBinding.setFragment(this);
-        final List<Integer> lists = initSocialIconsGridItems();
-        dataBinding.primarySocialIconsGridView.setAdapter(new PrimarySocialIconsAdapter(lists));
-        if (supportsWhiteSocialIcons()) {
-            dataBinding.whiteSocialIconsGridView.setAdapter(new WhiteSocialIconsAdapter(lists));
-        }
+        final List<Integer> socialIconsGridItems = initSocialIconsGridItems();
+        dataBinding.primarySocialIconsGridView.setAdapter(new PrimarySocialIconsAdapter(socialIconsGridItems));
+        showWhiteSocialIcons(dataBinding, socialIconsGridItems);
+
         return dataBinding.getRoot();
+    }
+
+    private void showWhiteSocialIcons(final FragmentSocialiconGridBinding dataBinding, final List<Integer> socialIconsGridItems) {
+        if (supportsWhiteSocialIcons()) {
+            dataBinding.whiteSocialIconsGridView.setAdapter(new WhiteSocialIconsAdapter(socialIconsGridItems));
+        }
     }
 
     @NonNull
@@ -133,14 +138,14 @@ public class SocialIconsListFragment extends BaseFragment {
             }
             holder = (SocialIconsViewHolder) convertView.getTag();
 
-            final Drawable icon = getIcon(drawableid, parent.getContext());
+            final Drawable icon = getIcon(drawableid, parent.getContext()).getConstantState().newDrawable();
             holder.getBindingView().setVariable(BR.icon, icon);
             holder.getBindingView().executePendingBindings();
             return holder.getBindingView().getRoot();
         }
 
         private Drawable getIcon(final int iconId, final Context context) {
-            return VectorDrawableCompat.create(context.getResources(), iconId, context.getTheme());
+            return VectorDrawableCompat.create(context.getResources(), iconId, context.getTheme()).mutate();
         }
 
         protected int getSocialIconId() {
