@@ -9,7 +9,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.condition.ConditionAppLaunch;
 import com.philips.platform.appframework.flowmanager.condition.ConditionIsDonePressed;
 import com.philips.platform.appframework.flowmanager.condition.ConditionIsLoggedIn;
-import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
+import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.flowmanager.states.AboutScreenState;
 import com.philips.platform.appframework.flowmanager.states.DataServicesState;
 import com.philips.platform.appframework.flowmanager.states.IAPRetailerFlowState;
@@ -40,9 +40,9 @@ public class BaseFlowManagerTest extends TestCase {
     @Before
     protected void setUp() throws Exception {
         super.setUp();
-        AppFlowJsonListener appFlowJsonListenerMock = mock(AppFlowJsonListener.class);
+        FlowManagerListener flowManagerListenerMock = mock(FlowManagerListener.class);
         context = mock(Context.class);
-        flowManagerTest = new FlowManagerTest(createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json")).getPath(), appFlowJsonListenerMock);
+        flowManagerTest = new FlowManagerTest(createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json")).getPath(), flowManagerListenerMock);
     }
 
     @Test
@@ -90,8 +90,8 @@ public class BaseFlowManagerTest extends TestCase {
 
     private class FlowManagerTest extends BaseFlowManager {
 
-        FlowManagerTest(final String jsonPath, AppFlowJsonListener appFlowJsonListener) {
-            super(jsonPath, appFlowJsonListener);
+        FlowManagerTest(final String jsonPath, FlowManagerListener flowManagerListener) {
+            super(jsonPath, flowManagerListener);
         }
 
         @Override

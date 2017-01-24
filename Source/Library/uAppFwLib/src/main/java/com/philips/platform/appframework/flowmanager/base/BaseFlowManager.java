@@ -15,7 +15,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
-import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
+import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
@@ -36,16 +36,19 @@ public abstract class BaseFlowManager {
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
 
+    @Deprecated
+    /**
+     * @deprecated  - Will be absolute soon , request to use default constructor with initialize api
+     */
     public BaseFlowManager(final Context context, final String jsonPath) {
         initialize(context, jsonPath, null);
     }
 
-    public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
-        initialize(context, jsonPath, appFlowJsonListener);
+    public BaseFlowManager() {
     }
 
-    protected BaseFlowManager(String data, AppFlowJsonListener appFlowJsonListener) {
-        mapAppFlowForTestCase(data, appFlowJsonListener);
+    protected BaseFlowManager(String data, FlowManagerListener flowManagerListener) {
+        mapAppFlowForTestCase(data, flowManagerListener);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
@@ -53,9 +56,9 @@ public abstract class BaseFlowManager {
         populateConditionMap(conditionMap);
     }
 
-    public void initialize(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+    public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         this.context = context;
-        mapAppFlowStates(jsonPath, appFlowJsonListener);
+        mapAppFlowStates(jsonPath, flowManagerListener);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
@@ -72,8 +75,16 @@ public abstract class BaseFlowManager {
         return conditionMap.get(conditionId);
     }
 
+    @Deprecated
+    /**
+     * @deprecated - Will be deprecated soon , will be replaced by factory approach
+     */
     public abstract void populateStateMap(final Map<String, BaseState> uiStateMap);
 
+    @Deprecated
+    /**
+     * @deprecated - Will be deprecated soon , will be replaced by factory approach
+     */
     public abstract void populateConditionMap(final Map<String, BaseCondition> baseConditionMap);
 
     /**
@@ -124,6 +135,10 @@ public abstract class BaseFlowManager {
         throw new NoStateException();
     }
 
+    @Deprecated
+    /**
+     * @deprecated - Will be absolute soon
+     */
     public BaseState getFirstState() throws NoStateException {
         BaseState firstState = stateMap.get(this.firstState);
         if (firstState != null) {
@@ -223,20 +238,20 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowStates(final String jsonPath, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (appFlowJsonListener != null)
-            appFlowJsonListener.onParseSuccess();
+        if (flowManagerListener != null)
+            flowManagerListener.onParseSuccess();
     }
 
-    private void mapAppFlowForTestCase(final String data, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowForTestCase(final String data, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlowTestCase(data);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (appFlowJsonListener != null)
-            appFlowJsonListener.onParseSuccess();
+        if (flowManagerListener != null)
+            flowManagerListener.onParseSuccess();
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
