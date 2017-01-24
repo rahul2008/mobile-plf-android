@@ -1,5 +1,4 @@
 Source/MicroApp/
-*.xml
 testfwk_android/Src/packages/
 testfwk_android/Src/02TestAuthoring API/CDP_TestPlugin/obj/
 testfwk_android/Src/02TestAuthoring API/CDP_ObjectRepository/obj/
@@ -42,3 +41,4 @@ Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android
 Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test/runner/0.5/jars/classes.jar
 Source/AppFramework/appframeworklib/build/intermediates/incremental/compileDebugAndroidTestAidl/dependency.store
 Source/AppFramework/appframeworklib/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
+Source/AppFramework/appframeworklibrary/build/
