@@ -24,10 +24,14 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 public class UpdateUserRecord implements UpdateUserRecordHandler {
 
@@ -89,52 +93,67 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
     public void updateUserRecordRegister() {
 
         if (Jump.getSignedInUser() != null) {
-            CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
-            JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
-            SharedPreferences myPrefs = mContext.getSharedPreferences(
-                    RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-            String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
 
-            RegistrationHelper userSettings = RegistrationHelper.getInstance();
-            // visitedMicroSites
-            try {
+            AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+            final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+            serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                @Override
+                public void onSuccess(String s, SOURCE source) {
+                    RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
+                    CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
+                    JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+                    SharedPreferences myPrefs = mContext.getSharedPreferences(
+                            RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
+                    String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
 
-                ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
-                String currentDate = ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT);
-                JSONObject visitedMicroSitesObject = new JSONObject();
-                visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
-                visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
-                JSONArray visitedMicroSitesArray = new JSONArray();
-                visitedMicroSitesArray.put(visitedMicroSitesObject);
-                // roles
-                JSONObject rolesObject = new JSONObject();
-                rolesObject.put(CONSUMER_ROLE, CONSUMER_NAME);
-                rolesObject.put(CONSUMER_ROLE_ASSIGNED, currentDate);
-                JSONArray rolesArray = new JSONArray();
-                rolesArray.put(rolesObject);
+                    RegistrationHelper userSettings = RegistrationHelper.getInstance();
+                    // visitedMicroSites
+                    try {
 
-                // PrimaryAddress
-                JSONObject primaryAddressObject = new JSONObject();
+                        ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
+                        String currentDate = ServerTime.getCurrentUTCTimeWithFormat(DATE_FORMAT);
+                        JSONObject visitedMicroSitesObject = new JSONObject();
+                        visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
+                        visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
+                        JSONArray visitedMicroSitesArray = new JSONArray();
+                        visitedMicroSitesArray.put(visitedMicroSitesObject);
+                        // roles
+                        JSONObject rolesObject = new JSONObject();
+                        rolesObject.put(CONSUMER_ROLE, CONSUMER_NAME);
+                        rolesObject.put(CONSUMER_ROLE_ASSIGNED, currentDate);
+                        JSONArray rolesArray = new JSONArray();
+                        rolesArray.put(rolesObject);
 
-                primaryAddressObject.put(CONSUMER_COUNTRY, UserRegistrationInitializer.getInstance().getRegistrationSettings()
-                        .getPreferredCountryCode());
-                JSONArray primaryAddressArray = new JSONArray();
-                primaryAddressArray.put(primaryAddressObject);
+                        // PrimaryAddress
+                        JSONObject primaryAddressObject = new JSONObject();
+                        // primaryAddressObject.put(CONSUMER_COUNTRY, UserRegistrationInitializer.getInstance().getRegistrationSettings().getPreferredCountryCode());
+                        primaryAddressObject.put(CONSUMER_COUNTRY,s);
+                        RLog.e(LOG_TAG,"GET_COUNTRY  : "+s);
+                        JSONArray primaryAddressArray = new JSONArray();
+                        primaryAddressArray.put(primaryAddressObject);
 
-                updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
-                updatedUser.put(CONSUMER_ROLES, rolesArray);
-                updatedUser.put(CONSUMER_PREFERED_LANGUAGE, UserRegistrationInitializer.getInstance().getRegistrationSettings()
-                        .getPreferredLangCode());
-                updatedUser.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
-                if (!(originalUserInfo.getBoolean(OLDER_THAN_AGE_LIMIT) && updatedUser.getBoolean(OLDER_THAN_AGE_LIMIT))) {
-                    updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
+                        updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
+                        updatedUser.put(CONSUMER_ROLES, rolesArray);
+                      //  updatedUser.put(CONSUMER_PREFERED_LANGUAGE, UserRegistrationInitializer.getInstance().getRegistrationSettings().getPreferredLangCode());
+                        updatedUser.put(CONSUMER_PREFERED_LANGUAGE, Locale.getDefault().getLanguage());
+                        RLog.e(LOG_TAG,"Preferef Lang  : "+ Locale.getDefault().getLanguage());
+                        updatedUser.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
+                        if (!(originalUserInfo.getBoolean(OLDER_THAN_AGE_LIMIT) && updatedUser.getBoolean(OLDER_THAN_AGE_LIMIT))) {
+                            updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
+                        }
+
+                        updateUserRecord(updatedUser, originalUserInfo);
+
+                    } catch (JSONException e) {
+                        RLog.e(LOG_TAG, "On success, Caught JSON Exception");
+                    }
                 }
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                    RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
+                }
+            });
 
-                updateUserRecord(updatedUser, originalUserInfo);
-
-            } catch (JSONException e) {
-                RLog.e(LOG_TAG, "On success, Caught JSON Exception");
-            }
         }
     }
 
