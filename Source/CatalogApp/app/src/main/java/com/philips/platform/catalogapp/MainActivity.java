@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
         edit.putString(key, name);
         edit.commit();
-        edit.apply();
     }
 
     @Override
@@ -184,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        navigationController.updateStack();
         super.onBackPressed();
         navigationController.processBackButton();
     }

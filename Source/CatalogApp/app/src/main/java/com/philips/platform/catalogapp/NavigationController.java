@@ -239,4 +239,22 @@ public class NavigationController {
         hamburgerIconVisible = savedInstanceState.getBoolean(HAMBURGER_BUTTON_DISPLAYED);
         themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
     }
+
+    public void updateStack() {
+        if (hasBackStack()) {
+            final List<Fragment> fragments = supportFragmentManager.getFragments();
+            final Fragment fragment = fragments.get(fragments.size() - 1);
+            if (fragment != null) {
+                removeFragmentInPreference(fragment.getClass().getName());
+            }
+        }
+    }
+
+    private void removeFragmentInPreference(String fragmentName) {
+        final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, new LinkedHashSet<String>());
+        if (stringSet != null && !stringSet.isEmpty()) {
+            stringSet.remove(fragmentName);
+            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).commit();
+        }
+    }
 }

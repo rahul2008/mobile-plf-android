@@ -23,7 +23,7 @@ import android.widget.BaseAdapter;
 
 import com.philips.platform.catalogapp.BR;
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.databinding.FragmentSocialiconGridBinding;
+import com.philips.platform.catalogapp.databinding.FragmentSocialiconListBinding;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.ContentColor;
 
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SocialIconsListFragment extends BaseFragment {
+
     @Override
     public int getPageTitle() {
         return R.string.page_title_social_icon;
@@ -39,18 +40,18 @@ public class SocialIconsListFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        FragmentSocialiconGridBinding dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_socialicon_grid, container, false);
-        dataBinding.setFragment(this);
+        FragmentSocialiconListBinding fragmentSocialiconGridBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_socialicon_list, container, false);
+        fragmentSocialiconGridBinding.setFragment(this);
         final List<Integer> socialIconsGridItems = initSocialIconsGridItems();
-        dataBinding.primarySocialIconsGridView.setAdapter(new PrimarySocialIconsAdapter(socialIconsGridItems));
-        showWhiteSocialIcons(dataBinding, socialIconsGridItems);
+        fragmentSocialiconGridBinding.primarySocialIconsGridView.setAdapter(new PrimarySocialIconsAdapter(socialIconsGridItems));
+        showWhiteSocialIcons(fragmentSocialiconGridBinding, socialIconsGridItems);
 
-        return dataBinding.getRoot();
+        return fragmentSocialiconGridBinding.getRoot();
     }
 
-    private void showWhiteSocialIcons(final FragmentSocialiconGridBinding dataBinding, final List<Integer> socialIconsGridItems) {
+    private void showWhiteSocialIcons(final FragmentSocialiconListBinding fragmentSocialiconGridBinding, final List<Integer> socialIconsGridItems) {
         if (supportsWhiteSocialIcons()) {
-            dataBinding.whiteSocialIconsGridView.setAdapter(new WhiteSocialIconsAdapter(socialIconsGridItems));
+            fragmentSocialiconGridBinding.whiteSocialIconsGridView.setAdapter(new WhiteSocialIconsAdapter(socialIconsGridItems));
         }
     }
 
