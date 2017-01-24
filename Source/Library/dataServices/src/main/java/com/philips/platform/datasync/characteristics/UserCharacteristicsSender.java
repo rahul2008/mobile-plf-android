@@ -69,16 +69,17 @@ public class UserCharacteristicsSender implements DataSender<UserCharacteristics
 
     private boolean sendUserCharacteristics(List<UserCharacteristics> userUserCharacteristicsList) {
 
-        if (userUserCharacteristicsList == null || userUserCharacteristicsList.size() == 0 ) return false;
+        if (userUserCharacteristicsList == null || userUserCharacteristicsList.size() == 0)
+            return false;
         try {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                             mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
             Response response = uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(),
-                            mUCoreAccessProvider.getUserId(),
-                            mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
-                            API_VERSION);
+                    mUCoreAccessProvider.getUserId(),
+                    mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
+                    API_VERSION);
 
             if (isResponseSuccess(response)) {
                 postOk(userUserCharacteristicsList.get(0));

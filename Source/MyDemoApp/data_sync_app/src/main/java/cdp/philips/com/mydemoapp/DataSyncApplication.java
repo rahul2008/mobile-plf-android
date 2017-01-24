@@ -19,11 +19,14 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -61,8 +64,14 @@ import cdp.philips.com.mydemoapp.registration.UserRegistrationInterfaceImpl;
 public class DataSyncApplication extends Application {
 
     public static AppInfraInterface gAppInfra;
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
     public static LoggingInterface loggingInterface;
+    private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
+    String mDataCoreUrl = null;
+    private static final String APP_NAME = "appname";
+    private static final String DATACORE_FALLBACK_URL = "dataCoreUrl";
+    private static final String DATASERVICES_KEY = "dataservices";
 
     @Override
     public void onCreate() {
@@ -70,15 +79,22 @@ public class DataSyncApplication extends Application {
         LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
         mDataServicesManager = DataServicesManager.getInstance();
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
+        initAppInfra();
         setLocale();
 
        /* DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
         databaseHelper.getWritableDatabase();*/
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
-        init();
+        fetchDataServicesUrl();
+    }
+
+    private void initAppInfra() {
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        serviceDiscoveryInterface = gAppInfra.getServiceDiscovery();
+        configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
     private void init() {
@@ -346,9 +362,7 @@ public class DataSyncApplication extends Application {
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 URConfigurationConstants.UR,
-                //"Datacore",
-                //"uGrow",
-                "HealthySleepSolutions",
+                loadAppNameFromConfigParams(APP_NAME),
                 configError);
 
         gAppInfra.
@@ -369,9 +383,39 @@ public class DataSyncApplication extends Application {
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 URConfigurationConstants.UR,
-                //"https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                //"https://referenceplatform-ds-platforminfradev.cloud.pcftest.com",
-                "https://healthysleep-ds-development.eu-west.philips-healthsuite.com",
+                mDataCoreUrl,
                 configError);
+    }
+
+    protected void fetchDataServicesUrl() {
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("ds.dataservice", new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        DSLog.e(DSLog.LOG,"Error");
+                        mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
+                    }
+
+                    @Override
+                    public void onSuccess(URL url) {
+                        DSLog.e(DSLog.LOG,"Success = " + url);
+                        if (url.toString().isEmpty()) {
+                            mDataCoreUrl = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+                        } else {
+
+                            mDataCoreUrl = url.toString();
+                        }
+                        initHSDP();
+                        init();
+                    }
+                });
+    }
+
+    private String loadAppNameFromConfigParams(String propertyKey) {
+        String appname = (String) gAppInfra.getConfigInterface().getPropertyForKey(propertyKey, DATASERVICES_KEY, configError);
+        if (configError.getErrorCode() != null) {
+            DSLog.e(DSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
+        }
+        return appname;
     }
 }
