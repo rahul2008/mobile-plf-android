@@ -22,7 +22,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.0.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
@@ -209,7 +209,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
-    compile(group: 'com.philips.cdp', name: 'prx', version: '2.7.0-rc.+', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'prx', version: '2.7.0-SNAPSHOT', ext: 'aar', changing: true)
             {
                 transitive = true
             }
