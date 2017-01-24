@@ -7,7 +7,7 @@ node('Android') {
     }
 
     def Slack = load “Source/common/jenkins/Slack.groovy"
-
+    
     Slack.notify('#conartists') {
 
         stage('Build') {
