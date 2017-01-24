@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
@@ -32,8 +33,8 @@ import java.util.Map;
 
 public class FlowManager extends BaseFlowManager {
 
-    public FlowManager(Context context, String jsonPath) {
-        super(context, jsonPath);
+    public FlowManager(Context context, String jsonPath, AppFlowJsonListener appFlowJsonListener) {
+        super(context, jsonPath, appFlowJsonListener);
     }
 
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
@@ -50,7 +51,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
-        uiStateMap.put(AppStates.CONNECTIVITY,new ConnectivityFragmentState());
+        uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

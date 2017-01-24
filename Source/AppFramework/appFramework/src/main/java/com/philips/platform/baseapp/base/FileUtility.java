@@ -8,6 +8,8 @@ package com.philips.platform.baseapp.base;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,24 +33,29 @@ public class FileUtility {
         return inputStream;
     }
 
-    public File createFileFromInputStream(final int resId) {
+    public File createFileFromInputStream(final int resId, boolean sdCardFileCreated) {
 
         try {
             InputStream inputStream = getInputStream(resId);
             String filename = "tempFile";
             FileOutputStream outputStream;
+            FileOutputStream jsonFileOutputStream = null;
             final File file = File.createTempFile(filename, null, context.getCacheDir());
             outputStream = new FileOutputStream(file);
+            if (sdCardFileCreated)
+            jsonFileOutputStream = new FileOutputStream(new BaseAppUtil().getJsonFilePath());
             byte buffer[] = new byte[1024];
             int length;
 
             while ((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
+                if (sdCardFileCreated)
+                jsonFileOutputStream.write(buffer, 0, length);
             }
-
             outputStream.close();
+            if (sdCardFileCreated)
+            jsonFileOutputStream.close();
             inputStream.close();
-
             return file;
         } catch (IOException e) {
             e.printStackTrace();

@@ -93,6 +93,26 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
             return bVisible;
         }
 
+        public static string ReceivePromotional()
+        {
+            return _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.ReceivePromotional).Text;
+
+        }
+
+        public static bool ReceiveProStatus()
+        {
+            bool isTrue = false;
+            IMobilePageControl control = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.toggleStatus);
+            string str = control.GetAttribute("checked");
+            if (str == "true")
+            {
+                isTrue = true;
+            }
+            return isTrue;
+
+        }
+
+
 
 
     }

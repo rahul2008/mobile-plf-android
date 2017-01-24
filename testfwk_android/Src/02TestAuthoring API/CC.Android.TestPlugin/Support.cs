@@ -144,7 +144,7 @@ namespace Philips.SIG.Automation.Android.CDPP.ConsumerCareTestPlugin
         /// <returns>boolean variable</returns>
         public static string GetHeaderText()
         {
-            return _instance.GetTextById(ConsumerCare.Android.SupportScreen.DemoTitle);
+            return _instance.GetTextById(AppFrameWork.Android.HomeScreen.SupportTitle);
         }
         public static bool IsVisible1()
         {

@@ -25,6 +25,7 @@
     <LoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</LoginContinue>
     <LoginContinue_1>com.philips.platform.referenceapp:id/btn_reg_continue</LoginContinue_1>
     <LogOut>com.philips.platform.referenceapp:id/btn_reg_sign_out</LogOut>
+    <SupportTitle>com.philips.platform.referenceapp:id/af_actionbar_title</SupportTitle>
   </LoginScreen>
   <AccountSettings>
     <rlxCheckBox>com.philips.platform.referenceapp:id/rl_x_checkbox</rlxCheckBox>
@@ -56,10 +57,10 @@
     <MomentValue>com.philips.platform.referenceapp:id/moment_value_editbox</MomentValue>
     <MeasurementValueFromReferenceDevice>com.philips.platform.referenceapp:id/start_connectivity_button</MeasurementValueFromReferenceDevice>
     <MomentValueFromDatacore>com.philips.platform.referenceapp:id/get_momentumvalue_button</MomentValueFromDatacore>
-    <RightArrow>com.philips.platform.referenceapp:id/appframework_rightarrow</RightArrow>
-    <LeftArrow>com.philips.platform.referenceapp:id/appframework_leftarrow</LeftArrow>
+    <RightArrow>com.philips.platform.referenceapp:id/welcome_rightarrow</RightArrow>
+    <LeftArrow>com.philips.platform.referenceapp:id/welcome_leftarrow</LeftArrow>
     <Skip>com.philips.platform.referenceapp:id/welcome_skip_button</Skip>
-    <Done>com.philips.platform.referenceapp:id/start_registration_button</Done>
+    <Done>com.philips.platform.referenceapp:id/welcome_start_registration_button</Done>
     <AppPhilipsAccountReg>com.philips.platform.referenceapp:id/tv_reg_provider_name</AppPhilipsAccountReg>
     <AUsername>com.philips.platform.referenceapp:id/et_reg_email</AUsername>
     <APassWord>com.philips.platform.referenceapp:id/et_reg_password</APassWord>
@@ -69,6 +70,10 @@
     <LogoutSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LogoutSettings>
     <LogoutDialog>android:id/button1</LogoutDialog>
     <Login_Title_UR_Setting>com.philips.platform.referenceapp:id/af_actionbar_title</Login_Title_UR_Setting>
+    <ReceivePromotional>Receive Philips'</ReceivePromotional>
+    <toggleStatus>com.philips.platform.referenceapp:id/switch_button</toggleStatus>
+    <Swipe_Welcome>com.philips.platform.referenceapp:id/welcome_pager</Swipe_Welcome>
+    <CarouselHighlighted>com.philips.platform.referenceapp:id/uikit_linear</CarouselHighlighted>
   </AppFramework>
 
   <!--IAP-->

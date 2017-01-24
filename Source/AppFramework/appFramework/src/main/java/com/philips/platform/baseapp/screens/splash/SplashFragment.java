@@ -5,11 +5,16 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.ActivityCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +24,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends OnboardingBaseFragment implements BackEventListener {
+public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, AppFlowJsonListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
+    public static int PERMISSION_ALL = 998;
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
     UIBasePresenter presenter;
@@ -33,6 +41,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 	private boolean isMultiwindowEnabled = false;
     ImageView logo;
     TextView title;
+    private ProgressDialog progressDialog;
     /*
      * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
      * suppressing "deprecation" for 'else' block.
@@ -41,23 +50,62 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.af_splash_fragment,container,false);
+        View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
+        initProgressDialog();
         logo = (ImageView) view.findViewById(R.id.splash_logo);
-        logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()) );
-
+        logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()));
+        initProgressDialog();
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
-        CharSequence titleText = null;
+        CharSequence titleText;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             titleText = Html.fromHtml(splashScreenTitle, Html.FROM_HTML_MODE_LEGACY);
-        }
-        else{
+        } else {
             titleText = Html.fromHtml(splashScreenTitle);
         }
 
         title = (TextView) view.findViewById(R.id.splash_title);
         title.setText(titleText);
+        initializeFlowManager();
         return view;
+    }
+
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(getFragmentActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please wait...");
+    }
+
+    private void showProgressDialog(boolean show) {
+        if (show && !getFragmentActivity().isFinishing())
+            progressDialog.show();
+        else if (progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
+
+    private void initializeFlowManager() {
+        showProgressDialog(true);
+        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (hasPermissions(PERMISSIONS)) {
+            setFlowManager();
+            if (!isMultiwindowEnabled)
+                startTimer();
+        } else {
+            requestStoragePermission();
+        }
+    }
+
+    private void setFlowManager() {
+        getApplicationContext().setTargetFlowManager();
+    }
+
+    //Requesting permission
+    private void requestStoragePermission() {
+        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (!hasPermissions(PERMISSIONS)) {
+            ActivityCompat.requestPermissions(getFragmentActivity(), PERMISSIONS, PERMISSION_ALL);
+        }
     }
 
     @Override
@@ -65,6 +113,17 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         super.onActivityCreated(savedInstanceState);
         final LaunchActivity launchActivity = (LaunchActivity) getActivity();
         launchActivity.hideActionBar();
+    }
+
+    private boolean hasPermissions(String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getFragmentActivity() != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(getFragmentActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -100,7 +159,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Override
     public void onPause() {
         super.onPause();
-        //isVisible = false;
     }
 
     @Override
@@ -125,17 +183,18 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
             @Override
             public void run() {
-                if(isVisible) {
+                if (isVisible) {
                     // This method will be executed once the timer is over
                     // Start your app main activity
+                    showProgressDialog(false);
                     presenter = new SplashPresenter(SplashFragment.this);
                     presenter.onEvent(APP_START);
                 }
             }
         }, SPLASH_TIME_OUT);
     }
-	
-	@Override
+
+    @Override
     public void onStop() {
         super.onStop();
         isVisible = false;
@@ -150,5 +209,20 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Override
     public boolean handleBackEvent() {
         return true;
+    }
+
+    @Override
+    public void onParseSuccess() {
+
+    }
+
+    public AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+    }
+
+    public void permissionGranted() {
+        setFlowManager();
+        if (!isMultiwindowEnabled)
+            startTimer();
     }
 }

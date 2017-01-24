@@ -32,14 +32,14 @@ public abstract class IAPState extends BaseState {
      IAP flow constants, values for IAP views should start from 4000 series
      */
     public static final int IAP_CATALOG_VIEW = 4001;
+    protected int launchType;
+    protected ArrayList<String> ctnList = null;
     // public static final int IAP_PURCHASE_HISTORY_VIEW = 4002;
     // public static final int IAP_SHOPPING_CART_VIEW = 4003;
     private Context activityContext;
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
-    protected int launchType;
-    protected ArrayList<String> ctnList = null;
 
     public IAPState() {
         super(AppStates.IAP);
