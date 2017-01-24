@@ -27,6 +27,9 @@ public class DicommDeviceMeasurementPort extends DiCommPort {
         if (value instanceof Integer) {
             return (Integer) value;
         }
+		if (value instanceof Double) {
+            return  ((Double) value).intValue();
+        }
         return -1;
     }
 
