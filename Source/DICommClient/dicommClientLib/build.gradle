@@ -8,23 +8,18 @@ apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 
 buildscript {
+    apply from: rootDir.absolutePath + '/../common/gradle/repos.gradle'
+    apply from: rootDir.absolutePath + '/../common/gradle/dependencies.gradle'
+
     repositories {
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter"
-        }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
-            credentials {
-                username = "readonly"
-                password = "readonly"
-            }
-        }
+        maven { url repos.jcenter }
+        maven { url repos.release }
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+        classpath(builddeps.dcendents)
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpscm)
     }
 }
 
@@ -39,7 +34,7 @@ group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    contextUrl = repos.base
     publish {
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
@@ -76,11 +71,11 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion versions.minsdk
         versionCode 1
         versionName version
         consumerProguardFiles 'proguard-rules.pro'
@@ -111,7 +106,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
-    compile 'com.google.code.gson:gson:2.7'
+    compile deps.gson
     testCompile 'com.philips.cdp:cloudcontroller:5.0.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
@@ -131,7 +126,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    provided 'com.android.support:support-annotations:24.2.0'
+    provided deps.support_annotations
 }
 
 task sourceJar(type: Jar) {

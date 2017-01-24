@@ -1,19 +1,14 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
-    }
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/buildscript.gradle', to: bs
 }
 
 allprojects {
+    apply from: rootDir.absolutePath + '/../common/gradle/repos.gradle'
+    apply from: rootDir.absolutePath + '/../common/gradle/dependencies.gradle'
+
     repositories {
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter"
-        }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
+        maven { url repos.jcenter }
+        maven { url repos.release }
+        maven { url repos.snapshot }
     }
 }
