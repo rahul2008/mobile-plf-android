@@ -7,7 +7,7 @@ node('Android') {
     def Slack = load "android-commlib-all/jenkinsfile-common/Slack.groovy"
 
     Slack.notify('#conartists') {
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master") {
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Build against binaries') {
                 sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew assemble'
             }
@@ -39,7 +39,7 @@ node('Android') {
             step([$class: 'ArtifactArchiver', artifacts: 'android-commlib-all/Source/commlib-all-parent/commlib-all-example/build/outputs/apk/*.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
         }
 
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master") {
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
             stage('Publish') {
                 sh 'cd android-commlib-all/Source/commlib-all-parent && ./gradlew artifactoryPublish'
             }
