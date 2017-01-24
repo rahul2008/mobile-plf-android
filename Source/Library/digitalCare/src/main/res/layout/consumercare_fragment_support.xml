@@ -2,6 +2,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/transparent">
 
     <LinearLayout
@@ -14,17 +15,18 @@
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin">
 
-        <!--<com.philips.cdp.digitalcare.customview.DigitalCareFontTextView-->
-            <!--android:id="@+id/optionHelp"-->
-            <!--style="@style/supportHomeHelpText"-->
-            <!--android:text="@string/how_can_we_help"-->
-            <!--custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />-->
         <TextView
             android:id="@+id/optionHelp"
             style="@style/supportHomeHelpText"
             android:text="@string/how_can_we_help"
-            android:textColor="@color/uikit_enricher4"
             fontPath="digitalcarefonts/CentraleSans-Light.otf" />
+
+        <com.philips.cdp.uikit.UikitSpringBoardLayout
+            android:id="@+id/optionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:uikit_opacityStyle="darker_color" />
     </LinearLayout>
 
 </ScrollView>

@@ -23,6 +23,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cl.di.dev.pa.R;
 //import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.AppInfra;
@@ -37,7 +38,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
  */
 
 
-public class MicroAppFragmentActivity extends FragmentActivity implements View.OnClickListener,
+public class MicroAppFragmentActivity extends UiKitActivity implements View.OnClickListener,
         CcListener {
     private static final String TAG = MicroAppFragmentActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
@@ -72,6 +73,9 @@ public class MicroAppFragmentActivity extends FragmentActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+        //super.getActionBar().hide();
+        setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
         DigiCareLogger.i(TAG, " onCreate ++ ");
         setContentView(R.layout.activity_sample);
 

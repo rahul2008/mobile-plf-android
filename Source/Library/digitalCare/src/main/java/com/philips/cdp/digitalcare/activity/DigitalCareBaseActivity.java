@@ -61,6 +61,7 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
      /*   DigiCareLogger.i(TAG, "onCreate");*/
         DigitalCareConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
