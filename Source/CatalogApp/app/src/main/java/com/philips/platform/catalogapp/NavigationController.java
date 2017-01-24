@@ -2,6 +2,7 @@ package com.philips.platform.catalogapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -13,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
@@ -33,17 +33,17 @@ public class NavigationController {
     private MenuItem themeSetting;
     private MenuItem setTheme;
     SharedPreferences fragmentPreference;
-    private ActivityMainBinding activityMainBinding;
+    private ViewDataBinding activityMainBinding;
     boolean hamburgerIconVisible;
     boolean themeSettingsIconVisible;
     private int titleResource;
     private Toolbar toolbar;
 
-    public NavigationController(final MainActivity mainActivity, final Intent intent, final ActivityMainBinding activityMainBinding) {
+    public NavigationController(final MainActivity mainActivity, final Intent intent, final ViewDataBinding activityMainBinding) {
         this.mainActivity = mainActivity;
         fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
         this.activityMainBinding = activityMainBinding;
-        toolbar = (Toolbar) activityMainBinding.appBar.findViewById(R.id.uid_toolbar);
+        toolbar = (Toolbar) activityMainBinding.getRoot().findViewById(R.id.uid_toolbar);
         clearLastFragmentOnFreshLaunch(intent);
     }
 
@@ -197,13 +197,13 @@ public class NavigationController {
     public void storeFragmentInPreference(String fragmentTag) {
 
         if (fragmentTag == null) {
-            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, null).commit();
+            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, null).apply();
             return;
         }
         Set<String> set = new LinkedHashSet<>();
         final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, set);
         stringSet.add(fragmentTag);
-        fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).commit();
+        fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).apply();
     }
 
     private Set<String> getLastActiveFragmentName() {
@@ -254,7 +254,7 @@ public class NavigationController {
         final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, new LinkedHashSet<String>());
         if (stringSet != null && !stringSet.isEmpty()) {
             stringSet.remove(fragmentName);
-            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).commit();
+            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).apply();
         }
     }
 }
