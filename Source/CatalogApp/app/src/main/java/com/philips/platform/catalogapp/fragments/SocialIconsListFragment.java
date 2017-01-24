@@ -82,11 +82,6 @@ public class SocialIconsListFragment extends BaseFragment {
         return !(contentColor == ContentColor.ULTRA_LIGHT || contentColor == ContentColor.VERY_LIGHT);
     }
 
-    private Drawable getIcon(final int iconId) {
-        return VectorDrawableCompat.create(getResources(), R.drawable.ic_social_media_facebook, getContext().getTheme());
-//        return VectorDrawableCompat.create(getResources(), iconId, getContext().getTheme());
-    }
-
     static class SocialIconsViewHolder extends RecyclerView.ViewHolder {
 
         private ViewDataBinding bindingView;
@@ -145,7 +140,7 @@ public class SocialIconsListFragment extends BaseFragment {
         }
 
         private Drawable getIcon(final int iconId, final Context context) {
-            return VectorDrawableCompat.create(context.getResources(), R.drawable.ic_social_media_facebook, context.getTheme());
+            return VectorDrawableCompat.create(context.getResources(), iconId, context.getTheme());
         }
 
         protected int getSocialIconId() {
