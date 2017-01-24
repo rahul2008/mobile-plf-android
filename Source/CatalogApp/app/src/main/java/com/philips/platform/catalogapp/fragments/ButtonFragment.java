@@ -95,11 +95,12 @@ public class ButtonFragment extends BaseFragment {
 
     private void hideAllProgressIndicators() {
         handler.removeCallbacksAndMessages(null);
-
-        fragmentBinding.progressButtonsNormalDeterminate.hideProgressIndicator();
-        fragmentBinding.progressButtonsNormalIndeterminate.hideProgressIndicator();
-        fragmentBinding.buttonsProgressIndicatorExtraWideDeterminate.hideProgressIndicator();
-        fragmentBinding.buttonsProgressIndicatorExtraWideIndeterminate.hideProgressIndicator();
+        if (fragmentBinding != null) {
+            fragmentBinding.progressButtonsNormalDeterminate.hideProgressIndicator();
+            fragmentBinding.progressButtonsNormalIndeterminate.hideProgressIndicator();
+            fragmentBinding.buttonsProgressIndicatorExtraWideDeterminate.hideProgressIndicator();
+            fragmentBinding.buttonsProgressIndicatorExtraWideIndeterminate.hideProgressIndicator();
+        }
     }
 
     private void setIcons(final ViewGroup buttonLayout, final Drawable drawable) {
