@@ -326,7 +326,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             mBtnCountMe.setEnabled(false);
             mBtnNoThanks.setEnabled(false);
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }

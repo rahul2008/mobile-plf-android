@@ -287,7 +287,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
             }
         } else {
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }

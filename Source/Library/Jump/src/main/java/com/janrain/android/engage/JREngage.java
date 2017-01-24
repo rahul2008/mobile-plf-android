@@ -136,7 +136,10 @@ import static com.janrain.android.utils.LogUtils.throwDebugException;
  * @nosubgrouping
  */
 public class JREngage {
-    public static final int UR_ERRORCODE = 67675438;
+    /*
+     * WeChat Sign-in fail Error
+     */
+    public static final int NATIVE_AUTHENTICATION_FAILED  = -30;
     /**
      * If not set library logging is automatically controlled via the "debuggable" flag for the application
      * which is normally automatically set by the build system
@@ -821,7 +824,7 @@ public class JREngage {
         LogUtils.loge("triggerOnFailure errorCode: " + errorCode.toString());
 
         //Added by philips
-        mSession.triggerAuthenticationDidFail(new JREngageError(message, UR_ERRORCODE,message));
+        mSession.triggerAuthenticationDidFail(new JREngageError(message, NATIVE_AUTHENTICATION_FAILED,message));
 
 
 

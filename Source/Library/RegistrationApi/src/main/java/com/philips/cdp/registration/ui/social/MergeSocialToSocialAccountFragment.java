@@ -267,7 +267,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         } else {
             scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
 

@@ -47,6 +47,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         UpdateUserDetailsHandler, NetworStateListener, LogoutHandler,
         XCheckBox.OnCheckedChangeListener {
 
+    private static final int FAILURE_TO_CONNECT = -1;
+
     private TextView mTvWelcome;
 
     private TextView mTvSignInEmail;
@@ -304,7 +306,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             }
             return;
         }
-        if (error == -1 || error == BAD_RESPONSE_ERROR_CODE) {
+        if (error == FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
         }
@@ -376,7 +378,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             }
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
 
