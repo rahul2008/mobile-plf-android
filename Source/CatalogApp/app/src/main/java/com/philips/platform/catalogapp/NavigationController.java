@@ -19,9 +19,12 @@ import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class NavigationController {
+    public static final String ACTIVE_FRAGMENTS = "activeFragments";
     protected static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
     protected static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
 
@@ -166,7 +169,7 @@ public class NavigationController {
             initDemoListFragment();
             showHamburgerIcon();
 
-            restoreLastActiveFragment();
+            restoreLastActiveFragment(getLastActiveFragmentName());
         } else {
             showUiFromPreviousState(savedInstanceState);
         }
@@ -192,25 +195,36 @@ public class NavigationController {
     }
 
     public void storeFragmentInPreference(String fragmentTag) {
-        fragmentPreference.edit().putString("activeFragment", fragmentTag).commit();
+
+        if (fragmentTag == null) {
+            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, null).commit();
+            return;
+        }
+        Set<String> set = new LinkedHashSet<>();
+        final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, set);
+        stringSet.add(fragmentTag);
+        fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).commit();
     }
 
-    private String getLastActiveFragmentName() {
-        return fragmentPreference.getString("activeFragment", null);
+    private Set<String> getLastActiveFragmentName() {
+        return fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, null);
     }
 
-    private void restoreLastActiveFragment() {
-        if (getLastActiveFragmentName() != null) {
-            String fragmentName = getLastActiveFragmentName();
-            try {
-                Class<BaseFragment> fragmentClass = (Class<BaseFragment>) Class.forName(fragmentName);
-                switchFragment(fragmentClass.newInstance());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+    private void restoreLastActiveFragment(final Set<String> lastActiveFragments) {
+        if (lastActiveFragments != null) {
+            for (String lastFragment : lastActiveFragments) {
+                if (lastFragment != null) {
+                    try {
+                        Class<BaseFragment> fragmentClass = (Class<BaseFragment>) Class.forName(lastFragment);
+                        switchFragment(fragmentClass.newInstance());
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
