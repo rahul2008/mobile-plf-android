@@ -150,6 +150,9 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.4.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.0.0-SNAPSHOT', ext: 'aar', changing: true) {
+        transitive = true
+    }
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "org.robolectric:robolectric:3.1.1"
