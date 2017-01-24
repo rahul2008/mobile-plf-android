@@ -8,55 +8,79 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.philips.cdp2.commlib.example.MainActivity">
+    tools:context="com.philips.cdp2.commlib.example.ExampleActivity">
 
-    <Button
-        android:id="@+id/btnStartDiscovery"
+    <RelativeLayout
+        android:id="@+id/discoveryControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/btnStartDiscovery" />
+        android:layout_alignParentTop="true">
 
-    <TextView
-        android:id="@+id/txtState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnStartDiscovery"
-        android:text="@string/lblResultNotApplicable"
-        android:textSize="18sp"
-        tools:text="Discovery state here" />
+        <Button
+            android:id="@+id/btnStartDiscovery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/btnStartDiscovery" />
 
-    <Button
-        android:id="@+id/btnGetTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtState"
-        android:layout_marginTop="12dp"
-        android:text="@string/btnGetTime" />
+        <TextView
+            android:id="@+id/txtState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/btnStartDiscovery"
+            android:text="@string/lblResultNotApplicable"
+            android:textSize="18sp"
+            tools:text="Discovery state here" />
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/btnSetTime"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/listViewAppliances"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnGetTime"
-        android:layout_marginTop="12dp"
-        android:text="@string/btnSetTime" />
+        android:layout_above="@+id/deviceControls"
+        android:layout_below="@id/discoveryControls" />
 
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/deviceControls"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnSetTime"
-        android:layout_marginTop="12dp"
-        android:textSize="18sp"
-        tools:text="Result here" />
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/timeButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnGetTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btnGetTime"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/btnSetTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btnSetTime"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/timeButtons"
+            android:layout_marginTop="12dp"
+            android:textSize="18sp"
+            tools:text="Result here" />
+    </RelativeLayout>
 
 </RelativeLayout>
