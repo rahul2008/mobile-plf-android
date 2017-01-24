@@ -145,4 +145,9 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     public int getContainerId() {
         return R.id.welcome_frame_container;
     }
+
+    @Override
+    public boolean isInMultiWindowMode() {
+        return super.isInMultiWindowMode();
+    }
 }

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
@@ -30,7 +31,8 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     UIBasePresenter presenter;
     private boolean isVisible = false;
 	private boolean isMultiwindowEnabled = false;
-
+    ImageView logo;
+    TextView title;
     /*
      * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
      * suppressing "deprecation" for 'else' block.
@@ -39,8 +41,8 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
-        ImageView logo = (ImageView) view.findViewById(R.id.splash_logo);
+        View view = inflater.inflate(R.layout.af_splash_fragment,container,false);
+        logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()) );
 
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
@@ -53,7 +55,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
             titleText = Html.fromHtml(splashScreenTitle);
         }
 
-        TextView title = (TextView) view.findViewById(R.id.splash_title);
+        title = (TextView) view.findViewById(R.id.splash_title);
         title.setText(titleText);
         return view;
     }
@@ -69,8 +71,30 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     public void onResume() {
         super.onResume();
         isVisible = true;
-		if(!isMultiwindowEnabled)
-           startTimer();
+        modifyLayoutforMultiWindow();
+        startTimer();
+
+    }
+
+    private void modifyLayoutforMultiWindow() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            if (getFragmentActivity().isInMultiWindowMode()) {
+                logo.getLayoutParams().width = (int) getResources().getDimension(R.dimen.uikit_hamburger_logo_width);
+                logo.getLayoutParams().height = (int) getResources().getDimension(R.dimen.uikit_hamburger_logo_height);
+                logo.setPadding(0,0,0,20);
+                logo.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uikit_philips_logo, getActivity().getTheme()));
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                );
+
+                params.setMargins(0, 0, 0, 0);
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                title.setLayoutParams(params);
+
+            }
+        }
     }
 
     @Override
@@ -78,11 +102,17 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         super.onPause();
         //isVisible = false;
     }
-	
-	@Override
+
+    @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         super.onMultiWindowModeChanged(isInMultiWindowMode);
-        isMultiwindowEnabled = true;
+       if(isInMultiWindowMode){
+           modifyLayoutforMultiWindow();
+       }
+        else {
+           getActivity().getWindow().getDecorView().requestLayout();
+       }
+
     }
 
     private void startTimer() {
