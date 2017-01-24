@@ -36,8 +36,13 @@ node('Android') {
         def platform = "android"
         def project = "CommLib"
         def project_tla = "cml"
+        def BranchName = env.BRANCH_NAME
+        if (BranchName =~ "/") {
+            BranchName = BranchName.replaceAll('/','%2F')
+            echo "BranchName changed to ${BranchName}"
+        }
         stage('Trigger Integration Pipeline') {
-            build job: "Platform-Infrastructure/ppc/ppc_${platform}/${env.BRANCH_NAME}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
+            build job: "Platform-Infrastructure/ppc/ppc_${platform}/${BranchName}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
         }
     }
 
