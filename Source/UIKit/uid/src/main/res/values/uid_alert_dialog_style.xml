@@ -9,6 +9,10 @@
         <item name="android:backgroundDimAmount">@dimen/uid_alpha_per_80</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="colorControlNormal">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="colorControlActivated">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="textColorAlertDialogListItem">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="colorAccent">@color/uid_aqua_level_35</item>
     </style>
 
     <style name="UIDAlertDialogTitleTextStyle">

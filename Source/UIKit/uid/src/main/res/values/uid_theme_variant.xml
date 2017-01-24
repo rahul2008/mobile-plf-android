@@ -130,6 +130,8 @@
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
 
         <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
@@ -175,6 +177,8 @@
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
 
         <item name="uidCheckBoxTextEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_70</item>
@@ -217,6 +221,8 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
 
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -257,6 +263,8 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+
 
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
@@ -301,6 +309,8 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerBackgroundColor">?attr/uidColorLevel75</item>
+
 
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_40</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>

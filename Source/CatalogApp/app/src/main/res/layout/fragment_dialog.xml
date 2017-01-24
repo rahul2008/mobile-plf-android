@@ -1,87 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/uidApplicationBackground">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+        <variable name="fragment"
+                  type="com.philips.platform.catalogapp.fragments.DialogComponentFragment"/>
+        <import type="android.view.View"/>
+    </data>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/uidContentPrimary"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RadioGroup
-                android:id="@+id/radio_content_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:layout_marginEnd="@dimen/layout_margin_left_right"
-                android:layout_marginTop="14dp">
-
-                <RadioButton
-                    android:id="@+id/short_content"
-                    style="@style/TestButtonTexts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textColor="?attr/uidTextPrimaryColor"
-                    android:text="@string/dialog_screen_text_short_content"/>
-
-                <RadioButton
-                    android:id="@+id/long_content"
-                    style="@style/TestButtonTexts"
-                    android:textColor="?attr/uidTextPrimaryColor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dialog_screen_text_long_content"/>
-            </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_layout_divider"
-                android:background="?attr/uidApplicationBackground"/>
-
-            <com.philips.platform.uid.view.widget.Switch
-                android:id="@+id/toggle_switch_with_title"
-                fontPath="fonts/centralesansbook.ttf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_margin_left_right"
-                android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="12dp"
-                android:checked="true"
-                android:text="@string/dialog_screen_text_with_title"
-                android:textColor="?attr/uidTextPrimaryColor"
-                android:textSize="@dimen/button_toggle_text_size"/>
-
-            <CheckBox
-                android:id="@+id/checkbox_title_with_icon"
-                style="@style/TestButtonTexts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/layout_margin_left_right"
-                android:background="@android:color/transparent"
-                android:checked="true"
-                android:text="@string/dialog_screen_text_title_with_icon"
-                android:textColor="?attr/uidTextPrimaryColor"/>
-        </LinearLayout>
-
-        <TextView
-            style="@style/ButtonsCategoryStyle"
-            android:layout_height="32dp"
-            android:layout_marginTop="12dp"
-            android:background="?attr/uidApplicationBackground"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:text="@string/dialog_screen_text_dialogs"
-            android:textColor="?attr/uidTextPrimaryColor"/>
+        android:layout_height="match_parent"
+        android:background="?attr/uidApplicationBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,18 +19,84 @@
             android:background="?attr/uidContentPrimary"
             android:orientation="vertical">
 
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/dialog_with_text"
-                style="@style/UIDExtraWideButton"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="@dimen/layout_margin_left_right"
-                android:layout_marginRight="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_left_right"
-                android:text="@string/dialog_screen_button_text_dialog_with_text"/>
+                android:orientation="vertical">
 
-            <!--<com.philips.platform.uit.view.widget.Button-->
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggle_switch_with_long_short_content"
+                    fontPath="fonts/centralesansbook.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="12dp"
+                    android:checked="@{fragment.withLongContent}"
+                    android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithLongContent(isChecked)}"
+                    android:text="@string/dialog_screen_text_long_content"
+                    android:textColor="?attr/uidTextPrimaryColor"
+                    android:textSize="@dimen/button_toggle_text_size"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggle_switch_with_title"
+                    fontPath="fonts/centralesansbook.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="12dp"
+                    android:checked="@{fragment.withTitle}"
+                    android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithTitle(isChecked)}"
+                    android:text="@string/dialog_screen_text_with_title"
+                    android:textColor="?attr/uidTextPrimaryColor"
+                    android:textSize="@dimen/button_toggle_text_size"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/checkbox_title_with_icon"
+                    fontPath="fonts/centralesansbook.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="12dp"
+                    android:checked="true"
+                    android:enabled="@{fragment.withTitle}"
+                    android:onCheckedChanged="@{(v, isChecked) -> fragment.setWithIcon(isChecked)}"
+                    android:text="@string/dialog_screen_text_title_with_icon"
+                    android:textColor="?attr/uidTextPrimaryColor"
+                    android:textSize="@dimen/button_toggle_text_size"/>
+            </LinearLayout>
+
+            <TextView
+                style="@style/ButtonsCategoryStyle"
+                android:layout_height="32dp"
+                android:layout_marginTop="12dp"
+                android:background="?attr/uidApplicationBackground"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"
+                android:text="@string/dialog_screen_text_dialogs"
+                android:textColor="?attr/uidTextPrimaryColor"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/uidContentPrimary"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/dialog_with_text"
+                    style="@style/UIDExtraWideButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/layout_margin_left_right"
+                    android:onClick="@{()  -> fragment.onDialogWithTextClicked()}"
+                    android:text="@string/dialog_screen_button_text_dialog_with_text"/>
+
+                <!--<com.philips.platform.uit.view.widget.Button-->
                 <!--android:id="@+id/dialog_with_list"-->
                 <!--style="@style/UITExtraWideButton"-->
                 <!--android:layout_width="match_parent"-->
@@ -109,6 +105,7 @@
                 <!--android:layout_marginLeft="@dimen/layout_margin_left_right"-->
                 <!--android:layout_marginRight="@dimen/layout_margin_left_right"-->
                 <!--android:text="@string/dialog_screen_button_text_dialog_with_list"/>-->
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</layout>

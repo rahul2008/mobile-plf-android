@@ -6,6 +6,16 @@
         <item name="windowNoTitle">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
 
+        <item name="switchStyle">@style/UIDSwitchStyle</item>
+        <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
+        <item name="alertDialogStyle">@style/UIDAlertDialog</item>
+
+        <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">
+            @style/UIDDatePicker
+        </item>
+        <item name="android:datePickerDialogTheme" tools:targetApi="lollipop">@style/UIDDatePicker
+        </item>
+
         <!-- Action bar and toolbar style-->
         <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
          <item name="android:actionBarStyle">@style/UIDToolbar</item>
