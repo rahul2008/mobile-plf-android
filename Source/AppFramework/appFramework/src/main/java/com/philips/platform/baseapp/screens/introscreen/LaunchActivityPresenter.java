@@ -47,7 +47,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         if (event.equals(APP_LAUNCH))
-            baseState = new SplashState();
+            baseState = getSplashState();
         else if (event.equals(LAUNCH_BACK_PRESSED))
             baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
 
@@ -55,6 +55,11 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
             baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
         }
+    }
+
+    @NonNull
+    protected SplashState getSplashState() {
+        return new SplashState();
     }
 
     protected void showActionBar() {
