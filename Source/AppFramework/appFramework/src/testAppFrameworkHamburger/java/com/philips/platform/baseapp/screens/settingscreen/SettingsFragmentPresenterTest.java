@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 
+import philips.appframeworklibrary.flowmanager.base.UIStateData;
+
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

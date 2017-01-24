@@ -6,7 +6,9 @@
 
 package com.philips.platform.baseapp.screens.introscreen;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.screens.splash.SplashFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -41,7 +44,7 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
-        setContentView(R.layout.af_welcome_activity);
+        setContentView(R.layout.af_launch_activity);
         presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
     }
 
@@ -116,6 +119,29 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     @Override
     public void updateActionBarIcon(boolean b) {
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        //Checking the request code of our request
+        if (requestCode == SplashFragment.PERMISSION_ALL) {
+
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                Fragment fragment = fragmentManager
+                        .findFragmentById(R.id.welcome_frame_container);
+                if (fragment instanceof SplashFragment) {
+                    SplashFragment splashFragment = (SplashFragment) fragment;
+                    splashFragment.permissionGranted();
+                }
+            } else {
+                //Displaying another toast if permission is not granted
+                finish();
+            }
+        }
     }
 
     @Override

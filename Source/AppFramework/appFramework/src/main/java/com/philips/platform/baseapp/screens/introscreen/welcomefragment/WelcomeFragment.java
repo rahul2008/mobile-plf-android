@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
@@ -27,8 +26,6 @@ import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.shamanland.fonticon.FontIconView;
-
-import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
@@ -51,18 +48,13 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     private ViewPager pager;
 
     public void onBackPressed() {
-        if(pager.getCurrentItem() == 0) {
-            AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getApplicationContext();
+        if (pager.getCurrentItem() == 0) {
+            AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
             BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
-            try {
-                targetFlowManager.getBackState(targetFlowManager.getCurrentState());
-            } catch (NoStateException e) {
-                e.printStackTrace();
-            }
+            targetFlowManager.getBackState(targetFlowManager.getCurrentState());
             targetFlowManager.clearStates();
             getActivity().finishAffinity();
-        }
-        else{
+        } else {
             pager.arrowScroll(View.FOCUS_LEFT);
         }
     }

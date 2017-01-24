@@ -16,6 +16,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+
 public class UserRegistrationOnBoardingState extends UserRegistrationState implements UserRegistrationUIEventListener {
 
     private BaseState baseState;
