@@ -258,6 +258,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_left_right"
                 android:gravity="center"
+                android:onClick="@{(v) -> frag.showGridFragment()}"
                 android:orientation="horizontal"
                 android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}">
 

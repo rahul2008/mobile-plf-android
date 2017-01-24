@@ -112,4 +112,6 @@
     <string name="title4">Title 4</string>
     <string name="title5">Title 5</string>
     <string name="title6">Title 6</string>
+    <string name="primary_social_media_icons">Primary social icons</string>
+    <string name="white_social_media_icons">White social icons</string>
 </resources>
