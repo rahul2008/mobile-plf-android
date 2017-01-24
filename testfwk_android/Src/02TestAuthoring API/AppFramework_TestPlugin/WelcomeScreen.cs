@@ -122,12 +122,71 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
 
         }
 
+        public static void SwipeLeft(int scrollcount)
+        {
+            IMobilePageControl control = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Swipe_Welcome);
+            //int[] coords = new int[2];
+            //coords = control.Coordinates;
+            int[] sz = new int[2];
+            sz = control.Size;
+            int Srcx = sz[0] / 2;
+            int Srcy = sz[1] / 2;
+            double count = (double)Srcx;
+            count = count - scrollcount;
+            MobileDriver.Swipe((double)Srcx, (double)Srcy, count, (double)Srcy);
+        }
 
 
-        
-    
+        public static void SwipeRight(int scrollcount)
+        {
+            IMobilePageControl control = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Swipe_Welcome);
+            int[] sz = new int[2];
+            sz = control.Size;
+            int Srcx = sz[0] / 4;
+            int Srcy = sz[1] / 4;
+            double count = (double)Srcx;
+            count = count + scrollcount;
+            MobileDriver.Swipe((double)Srcx, (double)Srcy, count, (double)Srcy);
+        }
 
-}
+        public static int CarouselNumber()
+        {
+            IMobilePageControl indicator = _instance.GetElement(null, SearchBy.Id, AppFrameWork.Android.HomeScreen.CarouselHighlighted);
+            List<IMobilePageControl> dots = _instance.GetElements(indicator, SearchBy.ClassName, "android.view.View");
+            int i = dots.Count();
+            return i;
+        }
+
+        public static int CarouselHighlighted()
+        {
+            IMobilePageControl indicator = _instance.GetElement(null, SearchBy.Id, AppFrameWork.Android.HomeScreen.CarouselHighlighted);
+            List<IMobilePageControl> dots = _instance.GetElements(indicator, SearchBy.ClassName, "android.view.View");
+            int i = dots.Count();
+
+
+
+            for (int x = 0; x < i; x++)
+            {
+                try
+                {
+                    string a = dots[x].GetAttribute("clickable");
+                    if (a.Equals("false"))
+                    {
+                        Logger.Info("Verify that the dot which is highlighted indicates me on which screen number I am at");
+                        return x;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Info("dots: Exception");
+                }
+
+
+            }
+            return -1;
+        }
+
+    }
 
 }
 

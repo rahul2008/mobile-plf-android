@@ -2094,11 +2094,51 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
 
                 }
 
+                public static string SupportTitle
+                {
+                    get
+                    {
+                        return GetData("SupportTitle");
+                    }
+                }
+
                 public static string Login
                 {
                     get
                     {
                         return GetData("LoginSettings");
+                    }
+                }
+                public static string CarouselHighlighted
+                {
+                    get
+                    {
+                        return GetData("CarouselHighlighted");
+                    }
+                }
+
+                public static string Swipe_Welcome
+                {
+                    get
+                    {
+                        return GetData("Swipe_Welcome");
+                    }
+                }
+
+                public static string toggleStatus
+                {
+                    get
+                    {
+                        return GetData("toggleStatus");
+                    }
+
+                }
+
+                public static string ReceivePromotional
+                {
+                    get
+                    {
+                        return GetData("ReceivePromotional");
                     }
                 }
 
