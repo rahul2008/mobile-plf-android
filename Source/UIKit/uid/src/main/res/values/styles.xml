@@ -48,8 +48,6 @@
         <item name="buttonStyle">@style/UIDDefaultButton</item>
         <item name="imageButtonStyle">@style/UIDImageButton</item>
         <item name="editTextStyle">@style/UIDEditTextBox</item>
-        <item name="switchStyle">@style/UIDSwitchStyle</item>
-        <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
 
         <item name="android:listDivider">?attr/uidSeparatorColor</item>
