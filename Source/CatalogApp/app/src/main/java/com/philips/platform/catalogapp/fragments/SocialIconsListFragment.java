@@ -138,14 +138,14 @@ public class SocialIconsListFragment extends BaseFragment {
             }
             holder = (SocialIconsViewHolder) convertView.getTag();
 
-            final Drawable icon = getIcon(drawableid, parent.getContext()).getConstantState().newDrawable();
+            final Drawable icon = getIcon(drawableid, parent.getContext()).getConstantState().newDrawable().mutate();
             holder.getBindingView().setVariable(BR.icon, icon);
             holder.getBindingView().executePendingBindings();
             return holder.getBindingView().getRoot();
         }
 
         private Drawable getIcon(final int iconId, final Context context) {
-            return VectorDrawableCompat.create(context.getResources(), iconId, context.getTheme()).mutate();
+            return VectorDrawableCompat.create(context.getResources(), iconId, context.getTheme());
         }
 
         protected int getSocialIconId() {
