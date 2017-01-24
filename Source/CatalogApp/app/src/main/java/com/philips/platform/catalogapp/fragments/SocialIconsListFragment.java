@@ -6,6 +6,7 @@
 
 package com.philips.platform.catalogapp.fragments;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
@@ -20,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.philips.platform.catalogapp.BR;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSocialiconGridBinding;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
@@ -40,7 +41,7 @@ public class SocialIconsListFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         FragmentSocialiconGridBinding dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_socialicon_grid, container, false);
         dataBinding.setFragment(this);
-        final List<Drawable> lists = initSocialIconsGridItems();
+        final List<Integer> lists = initSocialIconsGridItems();
         dataBinding.primarySocialIconsGridView.setAdapter(new PrimarySocialIconsAdapter(lists));
         if (supportsWhiteSocialIcons()) {
             dataBinding.whiteSocialIconsGridView.setAdapter(new WhiteSocialIconsAdapter(lists));
@@ -49,28 +50,28 @@ public class SocialIconsListFragment extends BaseFragment {
     }
 
     @NonNull
-    private List<Drawable> initSocialIconsGridItems() {
-        final List<Drawable> lists = new ArrayList<>();
-        lists.add(getIcon(R.drawable.ic_social_media_amazon));
-        lists.add(getIcon(R.drawable.ic_social_media_blog));
-        lists.add(getIcon(R.drawable.ic_social_media_facebook));
-        lists.add(getIcon(R.drawable.ic_social_media_google));
-        lists.add(getIcon(R.drawable.ic_social_media_googleplus));
-        lists.add(getIcon(R.drawable.ic_social_media_imgres));
-        lists.add(getIcon(R.drawable.ic_social_media_instagram));
-        lists.add(getIcon(R.drawable.ic_social_media_kaixin));
-        lists.add(getIcon(R.drawable.ic_social_media_linkedin));
-        lists.add(getIcon(R.drawable.ic_social_media_pinterest));
-        lists.add(getIcon(R.drawable.ic_social_media_qq));
-        lists.add(getIcon(R.drawable.ic_social_media_qzone));
-        lists.add(getIcon(R.drawable.ic_social_media_renren));
-        lists.add(getIcon(R.drawable.ic_social_media_sinaweibo));
-        lists.add(getIcon(R.drawable.ic_social_media_stumbleupon));
-        lists.add(getIcon(R.drawable.ic_social_media_twitter));
-        lists.add(getIcon(R.drawable.ic_social_media_vkontacte));
-        lists.add(getIcon(R.drawable.ic_social_media_wechat));
-        lists.add(getIcon(R.drawable.ic_social_media_weibo));
-        lists.add(getIcon(R.drawable.ic_social_media_youtube));
+    private List<Integer> initSocialIconsGridItems() {
+        final List<Integer> lists = new ArrayList<>();
+        lists.add(R.drawable.ic_social_media_amazon);
+        lists.add(R.drawable.ic_social_media_blog);
+        lists.add(R.drawable.ic_social_media_facebook);
+        lists.add(R.drawable.ic_social_media_google);
+        lists.add(R.drawable.ic_social_media_googleplus);
+        lists.add(R.drawable.ic_social_media_imgres);
+        lists.add(R.drawable.ic_social_media_instagram);
+        lists.add(R.drawable.ic_social_media_kaixin);
+        lists.add(R.drawable.ic_social_media_linkedin);
+        lists.add(R.drawable.ic_social_media_pinterest);
+        lists.add(R.drawable.ic_social_media_qq);
+        lists.add(R.drawable.ic_social_media_qzone);
+        lists.add(R.drawable.ic_social_media_renren);
+        lists.add(R.drawable.ic_social_media_sinaweibo);
+        lists.add(R.drawable.ic_social_media_stumbleupon);
+        lists.add(R.drawable.ic_social_media_twitter);
+        lists.add(R.drawable.ic_social_media_vkontacte);
+        lists.add(R.drawable.ic_social_media_wechat);
+        lists.add(R.drawable.ic_social_media_weibo);
+        lists.add(R.drawable.ic_social_media_youtube);
         return lists;
     }
 
@@ -82,7 +83,8 @@ public class SocialIconsListFragment extends BaseFragment {
     }
 
     private Drawable getIcon(final int iconId) {
-        return VectorDrawableCompat.create(getResources(), iconId, getContext().getTheme());
+        return VectorDrawableCompat.create(getResources(), R.drawable.ic_social_media_facebook, getContext().getTheme());
+//        return VectorDrawableCompat.create(getResources(), iconId, getContext().getTheme());
     }
 
     static class SocialIconsViewHolder extends RecyclerView.ViewHolder {
@@ -101,9 +103,9 @@ public class SocialIconsListFragment extends BaseFragment {
 
     static class PrimarySocialIconsAdapter extends BaseAdapter {
 
-        final private List<Drawable> data;
+        final private List<Integer> data;
 
-        public PrimarySocialIconsAdapter(@NonNull final List<Drawable> lists) {
+        public PrimarySocialIconsAdapter(@NonNull final List<Integer> lists) {
             this.data = lists;
         }
 
@@ -124,19 +126,30 @@ public class SocialIconsListFragment extends BaseFragment {
 
         @Override
         public View getView(final int position, @NonNull View convertView, @NonNull final ViewGroup parent) {
-            final Drawable drawable = data.get(position);
+            final int drawableid = data.get(position);
             SocialIconsViewHolder holder = null;
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                View view = inflater.inflate(getLayoutId(), parent, false);
+                final ViewDataBinding inflate = DataBindingUtil.inflate(inflater, getLayoutId(), parent, false);
+                final View view = inflate.getRoot();
                 holder = new SocialIconsViewHolder(view);
                 convertView = view;
                 convertView.setTag(holder);
             }
             holder = (SocialIconsViewHolder) convertView.getTag();
-            holder.getBindingView().setVariable(BR.icon, drawable);
+
+            final Drawable icon = getIcon(drawableid, parent.getContext());
+            holder.getBindingView().setVariable(BR.icon, icon);
             holder.getBindingView().executePendingBindings();
             return holder.getBindingView().getRoot();
+        }
+
+        private Drawable getIcon(final int iconId, final Context context) {
+            return VectorDrawableCompat.create(context.getResources(), R.drawable.ic_social_media_facebook, context.getTheme());
+        }
+
+        protected int getSocialIconId() {
+            return R.id.primarySocialIcon;
         }
 
         protected int getLayoutId() {
@@ -145,13 +158,17 @@ public class SocialIconsListFragment extends BaseFragment {
     }
 
     static class WhiteSocialIconsAdapter extends PrimarySocialIconsAdapter {
-        public WhiteSocialIconsAdapter(final List<Drawable> lists) {
+        public WhiteSocialIconsAdapter(final List<Integer> lists) {
             super(lists);
         }
 
         @Override
         protected int getLayoutId() {
             return R.layout.white_social_icon_item;
+        }
+
+        protected int getSocialIconId() {
+            return R.id.whiteSocialIcon;
         }
     }
 }
