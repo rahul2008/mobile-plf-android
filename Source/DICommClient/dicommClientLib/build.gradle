@@ -1,16 +1,18 @@
 /*
- * © Koninklijke Philips N.V., 2016.
+ * © Koninklijke Philips N.V., 2016, 2017.
  *   All rights reserved.
  */
+
+import com.philips.cdp.cdpSCM
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'cdpSCM'
+
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
 
 buildscript {
-    apply from: rootDir.absolutePath + '/../common/gradle/repos.gradle'
-    apply from: rootDir.absolutePath + '/../common/gradle/dependencies.gradle'
-
     repositories {
         maven { url repos.jcenter }
         maven { url repos.release }
@@ -23,14 +25,8 @@ buildscript {
     }
 }
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-
-// maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
 artifactory {
@@ -53,22 +49,6 @@ artifactory {
         }
     }
 }
-
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-    from files(docfiles) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
     compileSdkVersion versions.sdk
@@ -127,9 +107,4 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
     provided deps.support_annotations
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
 }

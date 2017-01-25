@@ -1,14 +1,12 @@
+/*
+ * © Koninklijke Philips N.V., 2017.
+ *   All rights reserved.
+ */
+
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/buildscript.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
 }
 
-allprojects {
-    apply from: rootDir.absolutePath + '/../common/gradle/repos.gradle'
-    apply from: rootDir.absolutePath + '/../common/gradle/dependencies.gradle'
-
-    repositories {
-        maven { url repos.jcenter }
-        maven { url repos.release }
-        maven { url repos.snapshot }
-    }
+subprojects {
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 }
