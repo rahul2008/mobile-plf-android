@@ -24,23 +24,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
+import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, AppFlowJsonListener {
+public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, FlowManagerListener {
     public static String TAG = LaunchActivity.class.getSimpleName();
     public static int PERMISSION_ALL = 998;
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
     UIBasePresenter presenter;
-    private boolean isVisible = false;
-	private boolean isMultiwindowEnabled = false;
     ImageView logo;
     TextView title;
+    private boolean isVisible = false;
+    private boolean isMultiwindowEnabled = false;
     private ProgressDialog progressDialog;
     /*
      * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
