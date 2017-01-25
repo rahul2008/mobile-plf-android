@@ -5,3 +5,9 @@ if (new File(localDiCommLibDir).exists()) {
     include ':dicommClientLib'
     project(':dicommClientLib').projectDir = new File(localDiCommLibDir)
 }
+
+def commonDir = '../common'
+if (new File(commonDir).exists()) {
+    include ':common'
+    project(':common').projectDir = new File(commonDir)
+}
