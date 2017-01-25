@@ -130,6 +130,7 @@
 
     <declare-styleable name="UIDPickers">
         <attr name="uidDatePickerBackgroundColor" format="reference|color"/>
+        <attr name="uidDatePickerText" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDCheckBox">

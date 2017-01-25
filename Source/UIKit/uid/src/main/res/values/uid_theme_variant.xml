@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Base">
         <item name="uidControlPrimaryTextColor">@color/uidColorWhite</item>
         <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel55</item>
@@ -79,9 +80,13 @@
         <item name="uidCheckBoxTextDisabledColor">?attr/uidCheckBoxTextEnabledColor</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_45</item>
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel45</item>
-        <item name="uidCheckBoxBackgroundUncheckedEnabledColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
+        <item name="uidCheckBoxBackgroundUncheckedEnabledColor">
+            ?attr/uidCheckBoxBackgroundCheckedEnabledColor
+        </item>
         <item name="uidCheckBoxBackgroundUncheckedEnabledAlpha">@dimen/uid_alpha_per_60</item>
-        <item name="uidCheckBoxBackgroundDisabledColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
+        <item name="uidCheckBoxBackgroundDisabledColor">
+            ?attr/uidCheckBoxBackgroundCheckedEnabledColor
+        </item>
         <item name="uidCheckBoxBackgroundDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidCheckBoxTickEnabledColor">@color/uidColorWhite</item>
         <item name="uidCheckBoxTickDisabledColor">@color/uidColorWhite</item>
@@ -130,8 +135,6 @@
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
-
 
         <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
@@ -139,6 +142,10 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
+
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
+
     </style>
 
     <style name="VeryLight">
@@ -177,14 +184,15 @@
         <item name="uidTextSecondary">?attr/uidColorLevel65</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidColorLevel45</item>
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
-
 
         <item name="uidCheckBoxTextEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_70</item>
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
     </style>
 
     <style name="Light">
@@ -221,8 +229,6 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
-
 
         <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -230,6 +236,10 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
+
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
+
     </style>
 
     <style name="Bright">
@@ -263,7 +273,6 @@
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
         <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
 
 
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -273,6 +282,9 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
     </style>
 
     <style name="VeryDark">
@@ -309,8 +321,6 @@
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_40</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerBackgroundColor">?attr/uidColorLevel75</item>
-
 
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_40</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -318,5 +328,9 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidDatePickerBackgroundColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerText">@color/uidColorWhite</item>
+
     </style>
 </resources>

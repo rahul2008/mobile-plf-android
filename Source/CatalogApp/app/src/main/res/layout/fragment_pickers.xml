@@ -1,27 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="fragment"
-                  type="com.philips.platform.catalogapp.fragments.PickersFragment"></variable>
+                  type="com.philips.platform.catalogapp.fragments.PickersFragment"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/date_picker"
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:layout_marginTop="@dimen/uid_page_marging_left_right"
+            android:text="@string/date_time_picker"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/uid_page_marging_left_right"
-            android:onClick="@{(v) ->fragment.showDatePicker()}"
-            android:text="@string/show_date_picker"/>
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/time_picker"
+            android:layout_marginEnd="@dimen/uid_page_marging_left_right"
+            android:layout_marginStart="@dimen/uid_page_marging_left_right"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDQuietButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="32dp"
+                android:onClick="@{(v) ->fragment.showDatePicker()}"
+                android:text="@{fragment.updatedDate}"
+                app:uidButtonCenter="false"
+                app:uidButtonImageDrawableSrc="@drawable/ic_calender_event"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/range_picker"
+                style="@style/UIDQuietButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onClick="@{(v) ->fragment.showTimePicker()}"
+                android:text="@{fragment.updatedTime}"/>
+        </LinearLayout>
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:layout_marginTop="@dimen/uid_page_marging_left_right"
+            android:text="@string/range_picker"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/uid_page_marging_left_right"
-            android:onClick="@{(v) ->fragment.showTimePicker()}"
-            android:text="@string/show_time_picker"/>
+            android:layout_marginEnd="@dimen/uid_page_marging_left_right"
+            android:layout_marginStart="@dimen/uid_page_marging_left_right"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDQuietButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="32dp"
+                android:onClick="@{(v) ->fragment.showDatePicker()}"
+                android:text="@{fragment.updatedDate}"
+                app:uidButtonCenter="false"
+                app:uidButtonImageDrawableSrc="@drawable/ic_calender_event"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/range_picker_start_time_picker"
+                style="@style/UIDQuietButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onClick="@{(v) ->fragment.showTimePicker()}"
+                android:text="@{fragment.updatedTime}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/uid_page_marging_left_right"
+            android:layout_marginStart="@dimen/uid_page_marging_left_right"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDQuietButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="32dp"
+                android:onClick="@{(v) ->fragment.showDatePicker()}"
+                android:text="@{fragment.updatedDate}"
+                app:uidButtonCenter="false"
+                app:uidButtonImageDrawableSrc="@drawable/ic_calender_event"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/range_picker_ends_time_picker"
+                style="@style/UIDQuietButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onClick="@{(v) ->fragment.showTimePicker()}"
+                android:text="@{fragment.updatedTime}"/>
+        </LinearLayout>
+
+        <TextView
+            style="@style/ButtonsCategoryStyle"
+            android:layout_marginTop="@dimen/uid_page_marging_left_right"
+            android:text="@string/timeslot_picker"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/uid_page_marging_left_right"
+            android:layout_marginStart="@dimen/uid_page_marging_left_right"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDQuietButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="32dp"
+                android:onClick="@{(v) ->fragment.showDatePicker()}"
+                android:text="@string/start"
+                app:uidButtonCenter="false"
+                app:uidButtonImageDrawableSrc="@drawable/ic_query"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/timeslot_picker_ends_time_picker"
+                style="@style/UIDQuietButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onClick="@{(v) ->fragment.showTimePicker()}"
+                android:text="@{fragment.updatedTime}"/>
+        </LinearLayout>
     </LinearLayout>
 </layout>

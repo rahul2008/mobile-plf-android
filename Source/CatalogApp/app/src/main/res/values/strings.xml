@@ -111,4 +111,8 @@
     <string name="page_title_date_time_picker">Pickers</string>
     <string name="show_date_picker">show date picker</string>
     <string name="show_time_picker">Show time picker</string>
+    <string name="date_time_picker"><![CDATA[Date & Time picker]]></string>
+    <string name="range_picker">Range picker</string>
+    <string name="timeslot_picker">Timeslot picker</string>
+    <string name="start">Start</string>
 </resources>

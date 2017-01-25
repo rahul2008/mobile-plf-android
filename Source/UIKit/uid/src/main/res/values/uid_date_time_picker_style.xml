@@ -7,11 +7,11 @@
         <item name="colorControlHighlight">?attr/uidControlPrimaryEnabledColor</item>
         <item name="textColorAlertDialogListItem">?attr/uidControlPrimaryEnabledColor</item>
         <item name="colorAccent">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="android:textColorPrimary">?attr/uidTextPrimary</item>
+        <item name="android:textColorPrimary">?attr/uidDatePickerText</item>
         <item name="android:windowBackground">?attr/uidDatePickerBackgroundColor</item>
         <item name="android:windowTitleStyle">@style/UIDPickerTitleText</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:textColor">?attr/uidDatePickerText</item>
     </style>
 
 
@@ -20,13 +20,13 @@
         <item name="colorAccent">?attr/uidNavigationPrimaryColor</item>
         <item name="android:timePickerMode">clock</item>
         <item name="android:headerBackground">?attr/uidNavigationPrimaryColor</item>
-        <item name="android:numbersTextColor">?attr/uidTextPrimary</item>
+        <item name="android:numbersTextColor">?attr/uidDatePickerText</item>
         <item name="android:numbersSelectorColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:numbersBackgroundColor">?attr/uidControlPrimaryEnabledColor</item>
     </style>
 
     <style name="UIDPickerTitleText">
-        <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:textColor">?attr/uidDatePickerText</item>
     </style>
 
 
@@ -37,7 +37,7 @@
         <item name="android:yearListSelectorColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:focusedMonthDateColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:calendarViewStyle">@style/UIDCalendarViewStyle</item>
-        <item name="android:calendarTextColor">?attr/uidTextPrimary</item>
+        <item name="android:calendarTextColor">?attr/uidDatePickerText</item>
         <item name="android:colorAccent">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:colorControlActivated">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:colorControlHighlight">?attr/uidControlPrimaryEnabledColor</item>
@@ -49,7 +49,7 @@
         <item name="android:headerBackground">?attr/uidNavigationSecondaryColor</item>
         <item name="android:amPmTextColor">?attr/uidTextPrimary</item>
         <item name="android:colorAccent">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="android:numbersTextColor">?attr/uidTextPrimary</item>
+        <item name="android:numbersTextColor">?attr/uidDatePickerText</item>
         <item name="android:layout_gravity">center</item>
 
     </style>
@@ -60,7 +60,7 @@
         </item>
         <item name="android:weekNumberColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="android:colorAccent">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:textColor">?attr/uidDatePickerText</item>
     </style>
 
 </resources>
