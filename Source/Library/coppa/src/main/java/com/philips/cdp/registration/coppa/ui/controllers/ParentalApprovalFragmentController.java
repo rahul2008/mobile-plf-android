@@ -17,6 +17,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
@@ -42,6 +43,7 @@ import java.util.TimeZone;
 
 public class ParentalApprovalFragmentController implements RefreshUserHandler,
         View.OnClickListener {
+    public static final String COUNTRY_CODE = "US";
     private boolean isParentalConsent = false;
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
@@ -83,7 +85,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     public boolean isCountryUs() {
         boolean isCountryUs;
         if (getCoppaExtension().getConsent().getLocale() != null) {
-            isCountryUs = getCoppaExtension().getConsent().getLocale().equalsIgnoreCase("en_US");
+            isCountryUs = getCoppaExtension().getConsent().getLocale().substring(3,5).equalsIgnoreCase("US");
         } else {
             isCountryUs = RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US");
         }
@@ -149,7 +151,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
             addParentalConsentFragment(coppaStatus);
         } else {
             //first consent success
-            if (mCoppaExtension.getConsent().getLocale().substring(3,5).equalsIgnoreCase("US")) {
+            if (isCountryUS()) {
                 if ((hoursSinceLastConsent() >= 24L)) {
                     new User(mParentalApprovalFragment.getContext()).refreshUser(
                             new RefreshUserHandler() {
@@ -315,5 +317,11 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         final ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension,
                 mParentalApprovalFragment.getContext());
         consentHandler.disAgreeConsent( mParentalApprovalFragment,locale);
+    }
+    // check local from US or Not
+    private boolean isCountryUS() {
+        Consent consent = mCoppaExtension.getConsent();
+        String locale = consent.getLocale();
+        return locale.substring(3,5).equalsIgnoreCase(COUNTRY_CODE);
     }
 }

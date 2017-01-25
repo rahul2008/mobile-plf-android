@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
@@ -29,6 +30,8 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+
+import static com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmentController.COUNTRY_CODE;
 
 public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener, NetworStateListener {
 
@@ -142,7 +145,7 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         mTextDetailsContant = (TextView) view.findViewById(R.id.tv_coppa_reg_thanks_consent_details);
         mTextContantTitle = (TextView) view.findViewById(R.id.coppa_reg_thank_you_id);
         RLog.d(RegConstants.COPPA_STATUS, "Status : " + mCoppaStatus);
-        if (mCoppaStatus == CoppaStatus.kDICOPPAConsentGiven.toString() && RegistrationHelper.getInstance().getLocale(mContext).toString().substring(3,5).equalsIgnoreCase("US")) {
+        if (mCoppaStatus == CoppaStatus.kDICOPPAConsentGiven.toString() && isCountryUS()) {
             mTextDetailsContant.setText(getUsText());
             mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_US_Parental_Access_Thank_You_Txt));
             if(getActivity()!=null){
@@ -194,5 +197,9 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     @Override
     public void onNetWorkStateReceived(final boolean isOnline) {
 
+    }
+    // check local from US or Not
+    private boolean isCountryUS() {
+        return RegistrationHelper.getInstance().getLocale(mContext).toString().substring(3,5).equalsIgnoreCase(COUNTRY_CODE);
     }
 }

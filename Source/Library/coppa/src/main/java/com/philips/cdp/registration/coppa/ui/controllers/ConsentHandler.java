@@ -18,6 +18,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
@@ -190,7 +191,7 @@ public class ConsentHandler implements RefreshUserHandler {
     }
 
     private void completeConsentActions(final CoppaStatus coppaStatus) {
-        if (mCoppaExtension.getConsent().getLocale().substring(3,5).equalsIgnoreCase("US")) {
+        if (isCountryUS()) {
             //show thank you and 24 hour screen
             addParentalConsentFragment(coppaStatus);
         } else {
@@ -237,6 +238,12 @@ public class ConsentHandler implements RefreshUserHandler {
                                 + e.getMessage());
             }
         }
+    }
+    // check local from US or Not
+    private boolean isCountryUS() {
+        Consent consent = mCoppaExtension.getConsent();
+        String locale = consent.getLocale();
+        return locale.substring(3,5).equalsIgnoreCase("US");
     }
 
 }
