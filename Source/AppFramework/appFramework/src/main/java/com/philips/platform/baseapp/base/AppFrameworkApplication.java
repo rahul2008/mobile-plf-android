@@ -14,7 +14,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
-import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
+import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -34,7 +34,7 @@ import java.util.Locale;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application implements AppFlowJsonListener {
+public class AppFrameworkApplication extends Application implements FlowManagerListener {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
@@ -104,10 +104,13 @@ public class AppFrameworkApplication extends Application implements AppFlowJsonL
 
     public void setTargetFlowManager() {
         try {
-            this.targetFlowManager = new FlowManager(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
+            this.targetFlowManager = new FlowManager();
+            this.targetFlowManager.initialize(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
         } catch (JsonFileNotFoundException e) {
-            if (tempFile != null)
-                this.targetFlowManager = new FlowManager(getApplicationContext(), tempFile.getPath(), this);
+            if (tempFile != null) {
+                this.targetFlowManager = new FlowManager();
+                this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
+            }
         }
     }
 
