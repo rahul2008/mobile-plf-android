@@ -50,15 +50,6 @@ public abstract class BaseFlowManager {
     public BaseFlowManager() {
     }
 
-    protected BaseFlowManager(String data, FlowManagerListener flowManagerListener) {
-        mapAppFlowForTestCase(data, flowManagerListener);
-        flowManagerStack = new FlowManagerStack();
-        stateMap = new TreeMap<>();
-        conditionMap = new TreeMap<>();
-        populateStateMap(stateMap);
-        populateConditionMap(conditionMap);
-    }
-
     public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
@@ -255,14 +246,6 @@ public abstract class BaseFlowManager {
     private void mapAppFlowStates(final String jsonPath, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
-        getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (flowManagerListener != null)
-            flowManagerListener.onParseSuccess();
-    }
-
-    private void mapAppFlowForTestCase(final String data, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
-        final AppFlowParser appFlowParser = new AppFlowParser();
-        AppFlowModel appFlowModel = appFlowParser.getAppFlowTestCase(data);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
         if (flowManagerListener != null)
             flowManagerListener.onParseSuccess();

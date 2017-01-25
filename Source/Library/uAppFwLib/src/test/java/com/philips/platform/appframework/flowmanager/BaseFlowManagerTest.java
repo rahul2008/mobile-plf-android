@@ -21,13 +21,14 @@ import com.philips.platform.appframework.flowmanager.states.UserRegistrationOnBo
 import junit.framework.TestCase;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+
+import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("deprecation")
 public class BaseFlowManagerTest extends TestCase {
@@ -38,15 +39,15 @@ public class BaseFlowManagerTest extends TestCase {
     @Before
     protected void setUp() throws Exception {
         super.setUp();
-//        FlowManagerListener flowManagerListenerMock = mock(FlowManagerListener.class);
-//        context = mock(Context.class);
-//        flowManagerTest = new FlowManagerTest(createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json")).getPath(), flowManagerListenerMock);
+        FlowManagerListener flowManagerListenerMock = mock(FlowManagerListener.class);
+        context = mock(Context.class);
+        flowManagerTest = new FlowManagerTest();
+        flowManagerTest.initialize(context, createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json")).getPath(), flowManagerListenerMock);
     }
 
-    @Test
     public void testGetFirstState() {
-//        final BaseState firstState = flowManagerTest.getFirstState();
-//        assertTrue(firstState != null);
+        final BaseState firstState = flowManagerTest.getFirstState();
+        assertTrue(firstState != null);
     }
 
     private File createFileFromInputStream(final InputStream inputStream) {
@@ -87,10 +88,6 @@ public class BaseFlowManagerTest extends TestCase {
     }
 
     private class FlowManagerTest extends BaseFlowManager {
-
-        FlowManagerTest(final String jsonPath, FlowManagerListener flowManagerListener) {
-            super(jsonPath, flowManagerListener);
-        }
 
         @Override
         public void populateStateMap(final Map<String, BaseState> uiStateMap) {
