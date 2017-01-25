@@ -44,7 +44,7 @@ allprojects {
     ext.buildToolsVer = '23.0.3'
     ext.minSdkVer = 19
     ext.targetSdkVer = 22
-    ext.appVersion = '0.0.1'
+    ext.appVersion = '0.2.5'
     ext.appVersionCode = 2
 
     //Support library
