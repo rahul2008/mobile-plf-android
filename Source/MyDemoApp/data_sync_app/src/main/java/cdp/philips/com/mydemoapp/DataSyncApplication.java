@@ -69,9 +69,9 @@ public class DataSyncApplication extends Application {
     private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
     String mDataCoreUrl = null;
-    private static final String APP_NAME = "appname";
-    private static final String DATACORE_FALLBACK_URL = "dataCoreUrl";
-    private static final String DATASERVICES_KEY = "dataservices";
+    private final String APP_NAME = "appname";
+    private final String DATACORE_FALLBACK_URL = "dataCoreUrl";
+    private final String DATASERVICES_KEY = "dataservices";
 
     @Override
     public void onCreate() {
@@ -82,6 +82,7 @@ public class DataSyncApplication extends Application {
         initAppInfra();
         setLocale();
         initializeUserRegistrationLibrary(Configuration.STAGING);
+        init();
         fetchDataServicesUrl();
     }
 
@@ -393,13 +394,12 @@ public class DataSyncApplication extends Application {
                     public void onSuccess(URL url) {
                         DSLog.e(DSLog.LOG,"Success = " + url);
                         if (url.toString().isEmpty()) {
-                            mDataCoreUrl = "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com";
+                            mDataCoreUrl = loadAppNameFromConfigParams(DATACORE_FALLBACK_URL);
                         } else {
 
                             mDataCoreUrl = url.toString();
                         }
                         initHSDP();
-                        init();
                     }
                 });
     }

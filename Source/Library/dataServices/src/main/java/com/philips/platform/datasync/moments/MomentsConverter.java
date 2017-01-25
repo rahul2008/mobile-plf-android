@@ -72,11 +72,44 @@ public class MomentsConverter {
             addToUCoreMomentDetails(moment, details);
         }
 
-        List<UCoreMeasurementGroups> measurementGroups = uCoreMoment.getMeasurementGroups();//only one entry will come here
-        if (measurementGroups != null) {
-            addMeasurementGroupsToMoment(moment, measurementGroups);
+        List<UCoreMeasurementGroups> measurementGroups = uCoreMoment.getMeasurementGroups();
+        if (measurementGroups != null && measurementGroups.size() != 0) {
+            //DSLog.i(DSLog.LOG, "BEFORE addMeasurementGroupsToMomentNoRecursion" + moment.toString() + "and UcoreMoment = " + uCoreMoment);
+            addMeasurementGroupsToMomentNoRecursion(true,moment, null,measurementGroups);
         }
         return moment;
+    }
+
+    private void addMeasurementGroupsToMomentNoRecursion(final boolean isRoot, final Moment moment, final MeasurementGroup parents, final List<UCoreMeasurementGroups> measurementGroups) {
+       // DSLog.i(DSLog.LOG, "BEFORE addMeasurementGroupsToMomentNoRecursion" + moment.toString() + "and list of uCoremeaurement = " + measurementGroups.toString());
+        for (UCoreMeasurementGroups uCoreMeasurementGroups : measurementGroups) {
+
+        //    DSLog.i(DSLog.LOG, "Inside for loop for uCoreMeasurementGroup = " + uCoreMeasurementGroups);
+            MeasurementGroup parentOrm;
+            if(!isRoot){
+                parentOrm = baseAppDataCreater.createMeasurementGroup(parents);
+            }else {
+                parentOrm = baseAppDataCreater.createMeasurementGroup(moment);
+            }
+            addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroups, parentOrm);
+
+            if(!isRoot)
+            parents.addMeasurementGroup(parentOrm);
+            if(uCoreMeasurementGroups.getMeasurementGroups()!=null && uCoreMeasurementGroups.getMeasurementGroups().size()>0)
+            {
+            //    MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
+                addMeasurementGroupsToMomentNoRecursion(false, moment, parentOrm,uCoreMeasurementGroups.getMeasurementGroups());
+               // addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroups, childOrm);
+
+          //      DSLog.i(DSLog.LOG, "inside if condition" + parentOrm.toString() + "for uCoreMeasurement = " + uCoreMeasurementGroups.getMeasurementGroups());
+            }
+
+          //  addMeasurementGroupsToMomentNoRecursion(moment,parentOrm,uCoreMeasurementGroups.getMeasurementGroups());
+
+            if(isRoot)
+            moment.addMeasurementGroup(parentOrm);
+            //DSLog.i(DSLog.LOG, "AFETR for loop" + moment.toString());
+        }
     }
 
     private MeasurementGroup addMeasurementGroupsRecursively(MeasurementGroup parentOrmToAttachMoment, MeasurementGroup parentOrm, final UCoreMeasurementGroups parentUCore) {
