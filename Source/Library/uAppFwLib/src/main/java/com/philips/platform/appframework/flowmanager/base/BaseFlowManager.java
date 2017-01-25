@@ -61,6 +61,8 @@ public abstract class BaseFlowManager {
 
     public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
         if (appFlowMap != null) {
+            throw new JsonAlreadyParsedException();
+        } else {
             this.context = context;
             mapAppFlowStates(jsonPath, flowManagerListener);
             flowManagerStack = new FlowManagerStack();
@@ -68,8 +70,6 @@ public abstract class BaseFlowManager {
             conditionMap = new TreeMap<>();
             populateStateMap(stateMap);
             populateConditionMap(conditionMap);
-        } else {
-            throw new JsonAlreadyParsedException();
         }
 
     }
