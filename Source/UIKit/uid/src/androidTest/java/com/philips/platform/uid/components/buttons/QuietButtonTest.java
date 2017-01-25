@@ -16,7 +16,6 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -122,11 +121,10 @@ public class QuietButtonTest {
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
-    @Ignore
     @Test
     public void verifyQuietTextOnlyPressedButtonFontColor() {
         final int expectedColor = ContextCompat.getColor(instrumentationContext, GroupBlue55);
-        getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_pressed, expectedColor)));
+        getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
     }
 
     @Test

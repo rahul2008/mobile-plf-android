@@ -16,7 +16,6 @@ import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -97,13 +96,12 @@ public class SocialIconsTest {
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
 
-    @Ignore
     @Test
     public void verifySocialMediaPrimaryButtonPressedFillColor() {
         final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidSocialIconPrimaryButtonPressedColor);
 
         getSocialIconPrimaryButton().check(matches(FunctionDrawableMatchers
-                .isSameColor(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_pressed, expectedColor)));
+                .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 1, expectedColor)));
     }
 
     @Test
@@ -120,12 +118,11 @@ public class SocialIconsTest {
         getSocialIconWhiteButton().check(matches(FunctionDrawableMatchers.isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
 
-    @Ignore
     @Test
     public void verifySocialMediaWhiteButtonPressedColor() {
         final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidSocialIconWhitePressedColor);
 
-        getSocialIconWhiteButton().check(matches(FunctionDrawableMatchers.isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_pressed, expectedColor)));
+        getSocialIconWhiteButton().check(matches(FunctionDrawableMatchers.isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 1, expectedColor)));
     }
 
     private ViewInteraction getSocialIconPrimaryButton() {

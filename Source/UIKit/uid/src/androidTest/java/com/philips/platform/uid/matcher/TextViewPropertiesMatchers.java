@@ -5,12 +5,15 @@
 package com.philips.platform.uid.matcher;
 
 import android.annotation.TargetApi;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.hamcrest.Matcher;
 
@@ -247,6 +250,22 @@ public class TextViewPropertiesMatchers {
                     return areEqual();
                 }
                 return false;
+            }
+        };
+    }
+
+    public static Matcher<View> isSameTextColorWithReflection(final int index, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    final ColorStateList textColors = ((TextView) view).getTextColors();
+                    final int[] colors = UIDTestUtils.getColorsWithReflection(textColors);
+
+                    setValues(colors[index], expectedValue);
+                    return areEqual();
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
         };
     }

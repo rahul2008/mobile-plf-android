@@ -294,4 +294,24 @@ public class FunctionDrawableMatchers {
             }
         };
     }
+
+    /**
+     * @param funcName      Its menthod name to be invoked on drawable
+     * @param index         index in selector to which you want expected color to be compared
+     * @param expectedValue
+     * @param flag
+     * @return
+     */
+    public static Matcher<View> isSameColorFromColorListWithReflection(final String funcName, final int index, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ColorStateList colorStateList = UIDTestUtils.getColorStateListWithReflection(view, funcName);
+                final int[] colors = UIDTestUtils.getColorsWithReflection(colorStateList);
+                final int color = colors[index];
+                setValues(color, expectedValue);
+                return areEqual();
+            }
+        };
+    }
 }

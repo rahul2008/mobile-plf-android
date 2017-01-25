@@ -82,6 +82,16 @@ public class UIDTestUtils {
         return colorList;
     }
 
+    public static int[] getColorsWithReflection(Object object) {
+        int[] colorList;
+        try {
+            colorList = (int[]) MethodUtils.invokeMethod(object, "getColors");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return colorList;
+    }
+
     public static int getMaxRippleRadius(RippleDrawable ripple) {
         int radius = 0;
         try {
