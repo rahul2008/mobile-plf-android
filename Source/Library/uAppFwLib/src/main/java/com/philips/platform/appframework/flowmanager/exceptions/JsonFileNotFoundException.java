@@ -7,6 +7,8 @@ package com.philips.platform.appframework.flowmanager.exceptions;
 
 public class JsonFileNotFoundException extends RuntimeException {
 
+    private static final long serialVersionUID = 4217034065087436031L;
+
     public JsonFileNotFoundException() {
         super("No Json file found");
     }

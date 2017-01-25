@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class FlowManagerStack extends ArrayList<BaseState> {
 
+    private static final long serialVersionUID = -4411367948251552512L;
+
     public void push(BaseState baseState) {
         add(baseState);
     }

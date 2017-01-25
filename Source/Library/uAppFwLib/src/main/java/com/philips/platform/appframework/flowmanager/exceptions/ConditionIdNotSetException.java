@@ -7,6 +7,8 @@ package com.philips.platform.appframework.flowmanager.exceptions;
 
 public class ConditionIdNotSetException extends RuntimeException {
 
+    private static final long serialVersionUID = -9041759584034509458L;
+
     public ConditionIdNotSetException() {
         super("No condition id set on constructor");
     }

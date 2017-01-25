@@ -7,6 +7,8 @@ package com.philips.platform.appframework.flowmanager.exceptions;
 
 public class NullEventException extends RuntimeException {
 
+    private static final long serialVersionUID = -1493290864496896236L;
+
     public NullEventException() {
         super("Null Event Found");
     }
