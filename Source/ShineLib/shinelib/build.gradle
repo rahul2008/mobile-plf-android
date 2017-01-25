@@ -2,6 +2,7 @@
  * Copyright (c) Koninklijke Philips N.V., 2016
  * All rights reserved.
  */
+
 import com.philips.cdp.cdpSCM
 
 apply plugin: 'com.android.library'
@@ -40,9 +41,8 @@ android {
 }
 
 dependencies {
-    provided 'com.android.support:support-annotations:23.1.1'
-
-    compile 'com.google.code.gson:gson:2.7'
+    compile deps.support_annotations
+    compile deps.gson
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile 'junit:junit:4.12'

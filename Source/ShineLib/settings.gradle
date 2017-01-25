@@ -1,6 +1,12 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
 include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp', ':bluelibexampleapp'
+
+def commonDir = '../common'
+if (new File(commonDir).exists()) {
+    include ':common'
+    project(':common').projectDir = new File(commonDir)
+}
