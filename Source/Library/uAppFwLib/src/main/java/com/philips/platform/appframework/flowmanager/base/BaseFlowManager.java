@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
@@ -42,7 +43,7 @@ public abstract class BaseFlowManager {
     /**
      * @deprecated  - Will be absolute soon , request to use default constructor with initialize api
      */
-    public BaseFlowManager(final Context context, final String jsonPath) {
+    public BaseFlowManager(final Context context, final String jsonPath) throws JsonAlreadyParsedException {
         initialize(context, jsonPath, null);
     }
 
@@ -58,14 +59,19 @@ public abstract class BaseFlowManager {
         populateConditionMap(conditionMap);
     }
 
-    public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
-        this.context = context;
-        mapAppFlowStates(jsonPath, flowManagerListener);
-        flowManagerStack = new FlowManagerStack();
-        stateMap = new TreeMap<>();
-        conditionMap = new TreeMap<>();
-        populateStateMap(stateMap);
-        populateConditionMap(conditionMap);
+    public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
+        if (appFlowMap != null) {
+            this.context = context;
+            mapAppFlowStates(jsonPath, flowManagerListener);
+            flowManagerStack = new FlowManagerStack();
+            stateMap = new TreeMap<>();
+            conditionMap = new TreeMap<>();
+            populateStateMap(stateMap);
+            populateConditionMap(conditionMap);
+        } else {
+            throw new JsonAlreadyParsedException();
+        }
+
     }
     /**
      * This method will create and return the object of BaseCondition depending on Condition ID.
