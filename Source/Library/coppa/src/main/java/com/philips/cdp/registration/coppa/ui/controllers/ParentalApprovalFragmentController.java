@@ -31,6 +31,8 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,6 +46,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
     private FragmentManager mFragmentManager;
+    private String mLocal;
     private View.OnClickListener mOkBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -146,7 +149,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
             addParentalConsentFragment(coppaStatus);
         } else {
             //first consent success
-            if (mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
+            if (mCoppaExtension.getConsent().getLocale().substring(3,5).equalsIgnoreCase("US")) {
                 if ((hoursSinceLastConsent() >= 24L)) {
                     new User(mParentalApprovalFragment.getContext()).refreshUser(
                             new RefreshUserHandler() {
@@ -234,14 +237,12 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     @Override
     public void onClick(View v) {
         final int id = v.getId();
-        final ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension,
-                mParentalApprovalFragment.getContext());
+
         if (id == R.id.reg_btn_agree) {
-            consentHandler.agreeConsent(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.
-                    FIRST_LEVEL_CONSENT, mParentalApprovalFragment);
+          handleAgree();
         } else if (id == R.id.reg_btn_dis_agree) {
 
-            consentHandler.disAgreeConsent(mParentalApprovalFragment);
+           handleDisAgree();
 
             if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven
                     || mCoppaExtension.getCoppaEmailConsentStatus() ==
@@ -272,5 +273,47 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
                                 + e.getMessage());
             }
         }
+    }
+    private void handleAgree() {
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                agreeConstent(Locale.getDefault().getLanguage()+"_"+s.trim());
+            }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                agreeConstent(Locale.getDefault().getLanguage()+"_"+s.trim());
+            }
+        });
+    }
+    private void handleDisAgree() {
+        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                disAgreeConstent(Locale.getDefault().getLanguage()+"_"+s.trim());
+
+            }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                disAgreeConstent(Locale.getDefault().getLanguage()+"_"+s.trim());
+            }
+        });
+    }
+
+    private void agreeConstent(String locale) {
+        final ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension,
+                mParentalApprovalFragment.getContext());
+        consentHandler.agreeConsent(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.
+                FIRST_LEVEL_CONSENT, mParentalApprovalFragment,locale);
+    }
+
+    private void disAgreeConstent(String locale) {
+        final ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension,
+                mParentalApprovalFragment.getContext());
+        consentHandler.disAgreeConsent( mParentalApprovalFragment,locale);
     }
 }

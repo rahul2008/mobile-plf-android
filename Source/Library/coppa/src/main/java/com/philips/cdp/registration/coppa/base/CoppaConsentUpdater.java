@@ -37,7 +37,7 @@ class CoppaConsentUpdater {
      * @param coppaConsentUpdateCallback call back  to get onSuccess or onFailure
      */
     public void updateCoppaConsentStatus(
-            final boolean coppaConsentStatus,
+            final boolean coppaConsentStatus,final String mLocal,
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         //  if(Jump.getSignedInUser() != null){
         ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
@@ -49,19 +49,19 @@ class CoppaConsentUpdater {
 
             if (!CoppaConfiguration.isCampaignIdPresent()) {
                 if (CoppaConfiguration.getCurrentConsentsArray().length() == 0) {
-                    buildConsentStatus(coppaConsentStatus, consentsObject);
+                    buildConsentStatus(coppaConsentStatus,mLocal, consentsObject);
                     JSONArray newArray = new JSONArray();
                     newArray.put(consentsObject);
                     updatedUser.put(CoppaConfiguration.CONSENTS, newArray);
                 } else {
                     JSONArray consents = CoppaConfiguration.getCurrentConsentsArray();
-                    buildConsentStatus(coppaConsentStatus, consentsObject);
+                    buildConsentStatus(coppaConsentStatus,mLocal, consentsObject);
                     consents.put(consentsObject);
                     updatedUser.put(CoppaConfiguration.CONSENTS, consents);
                 }
             } else {
                 JSONArray consents = CoppaConfiguration.getCurrentConsentsArray();
-                buildConsentStatus(coppaConsentStatus, consentsObject);
+                buildConsentStatus(coppaConsentStatus,mLocal, consentsObject);
                 consents.put(CoppaConfiguration.consentIndex(), consentsObject);
                 updatedUser.put(CoppaConfiguration.CONSENTS, consents);
             }
@@ -77,15 +77,14 @@ class CoppaConsentUpdater {
 
     }
 
-    private void buildConsentStatus(boolean coppaConsentStatus,
+    private void buildConsentStatus(boolean coppaConsentStatus,String locale,
                                     JSONObject consentsObject) throws JSONException {
         consentsObject.put(CoppaConfiguration.CAMPAIGN_ID,
                 RegistrationConfiguration.getInstance().getCampaignId());
         consentsObject.put(CoppaConfiguration.MICRO_SITE_ID,
                 RegistrationConfiguration.getInstance().getMicrositeId());
         consentsObject.put(CoppaConfiguration.GIVEN, Boolean.toString(coppaConsentStatus));
-        consentsObject.put(CoppaConfiguration.LOCALE,
-                RegistrationHelper.getInstance().getLocale(mContext).toString());
+        consentsObject.put(CoppaConfiguration.LOCALE,locale);
         consentsObject.put(CoppaConfiguration.STORED_AT,
                 ServerTime.
                         getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
@@ -145,4 +144,6 @@ class CoppaConsentUpdater {
             e.printStackTrace();
         }
     }
+
 }
+

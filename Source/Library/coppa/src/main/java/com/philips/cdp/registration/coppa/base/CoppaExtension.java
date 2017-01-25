@@ -68,13 +68,13 @@ public class CoppaExtension {
                 } else if (consent.getGiven() != null && (hoursSinceLastConsent() >= 24L) && consent.getConfirmationGiven() == null) {
                     RLog.d("Consent", "Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = CoppaStatus.kDICOPPAConfirmationPending;
-                    if (!consent.getLocale().equals("en_US")) {
+                    if (!consent.getLocale().substring(3,5).equals("US")) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     }
                     RLog.d("Consent", "Consent coppaconfirmationPending");
                 }else{
                     coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
-                    if (!consent.getLocale().equals("en_US")) {
+                    if (!consent.getLocale().substring(3,5).equals("US")) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     }
                 }
@@ -118,8 +118,8 @@ public class CoppaExtension {
      * @param coppaConsentStatus         this will give the coppa consent status as true or false
      * @param coppaConsentUpdateCallback call back  to get onSuccess or onFailure
      */
-    public void updateCoppaConsentStatus(final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
-        new CoppaConsentUpdater(mContext).updateCoppaConsentStatus(coppaConsentStatus, coppaConsentUpdateCallback);
+    public void updateCoppaConsentStatus(final boolean coppaConsentStatus,final String locale, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
+        new CoppaConsentUpdater(mContext).updateCoppaConsentStatus(coppaConsentStatus, locale,coppaConsentUpdateCallback);
     }
 
     /**

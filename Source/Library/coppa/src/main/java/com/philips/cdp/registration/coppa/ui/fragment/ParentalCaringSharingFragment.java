@@ -142,7 +142,7 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         mTextDetailsContant = (TextView) view.findViewById(R.id.tv_coppa_reg_thanks_consent_details);
         mTextContantTitle = (TextView) view.findViewById(R.id.coppa_reg_thank_you_id);
         RLog.d(RegConstants.COPPA_STATUS, "Status : " + mCoppaStatus);
-        if (mCoppaStatus == CoppaStatus.kDICOPPAConsentGiven.toString() && RegistrationHelper.getInstance().getLocale(mContext).toString().equalsIgnoreCase("en_US")) {
+        if (mCoppaStatus == CoppaStatus.kDICOPPAConsentGiven.toString() && RegistrationHelper.getInstance().getLocale(mContext).toString().substring(3,5).equalsIgnoreCase("US")) {
             mTextDetailsContant.setText(getUsText());
             mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_US_Parental_Access_Thank_You_Txt));
             if(getActivity()!=null){
