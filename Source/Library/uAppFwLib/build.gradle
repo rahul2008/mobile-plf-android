@@ -1,4 +1,11 @@
 apply plugin: 'com.android.library'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'jacoco'
+
+def coverageSourceDirs = [
+        '../uAppFwLib/src/main/java'
+]
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -161,6 +168,32 @@ dependencies {
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../uAppFwLib/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/listener/*.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../uAppFwLib/build/jacoco/testDebugUnitTest.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
 }
 
 //apply from: "resolution.gradle"
