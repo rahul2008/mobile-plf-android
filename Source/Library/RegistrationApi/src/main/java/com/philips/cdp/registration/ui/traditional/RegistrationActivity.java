@@ -35,9 +35,8 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         ActionBarListener {
 
-    private boolean isAccountSettings = true;
-    private boolean isMarketingOptIn = true;
     private TextView ivBack;
+    private String mRegistrationLaunchMode;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -73,8 +72,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
-            isMarketingOptIn = bundle.getBoolean(RegConstants.MARKETING_OPT_IN, true);
+            mRegistrationLaunchMode = bundle.getString(RegConstants.REGISTRATION_LAUNCH_MODE);
             int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -178,13 +176,12 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     }
 
     private void initUI() {
-        launchRegistrationFragment(isAccountSettings);
+        launchRegistrationFragment(mRegistrationLaunchMode);
     }
 
-    private void launchRegistrationFragment(boolean isAccountSettings) {
+    private void launchRegistrationFragment(String mRegistrationLaunchMode) {
         URLaunchInput urLaunchInput = new URLaunchInput();
-        urLaunchInput.setAccountSettings(isAccountSettings);
-        urLaunchInput.setOptInMarketing(isMarketingOptIn);
+        urLaunchInput.setRegistrationLaunchMode(mRegistrationLaunchMode);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
         FragmentLauncher fragmentLauncher = new FragmentLauncher

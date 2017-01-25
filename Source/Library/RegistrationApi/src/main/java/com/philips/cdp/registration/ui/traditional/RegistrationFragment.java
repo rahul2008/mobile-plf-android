@@ -27,6 +27,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLauncMode;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -54,11 +55,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private ActionBarListener mActionBarListener;
 
+    private String mRegistrationLaunchMode;
+
     private int titleResourceID = -99;
-
-    private boolean isAccountSettings = true;
-
-    private boolean isMarketingOptin = true;
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;
@@ -81,14 +80,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
-        Bundle bunble = getArguments();
-        if (bunble != null) {
-            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
-            isMarketingOptin = bunble.getBoolean(RegConstants.MARKETING_OPT_IN, true);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mRegistrationLaunchMode = bundle.getString(RegConstants.REGISTRATION_LAUNCH_MODE);
         }
 
-        RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
-        RLog.d("RegistrationFragment", "isMarketingOptin : " + isMarketingOptin);
+        RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
         super.onCreate(savedInstanceState);
     }
 
@@ -255,7 +252,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         boolean isEmailVerificationRequired  =RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
-        if (isMarketingOptin) {
+        if (mRegistrationLaunchMode.equalsIgnoreCase(String.valueOf(RegistrationLauncMode.MARKETINGOPT))) {
             if (isUserSignIn && isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
                 replacMarketingAccountFragment();
@@ -269,7 +266,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
-        }else if (isAccountSettings) {
+        }else if (mRegistrationLaunchMode.equalsIgnoreCase(String.valueOf(RegistrationLauncMode.ACCOUNTSETTING))) {
             if (isUserSignIn&& isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
