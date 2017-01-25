@@ -235,7 +235,7 @@
                     app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
 
                 <com.philips.platform.uid.view.widget.ImageButton
-                    android:id="@+id/quiet_icon_only"
+                    android:id="@+id/quietIconOnly"
                     style="@style/UIDQuietIconButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
                 android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}">
 
                 <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/uid_social_facebook"
+                    android:id="@+id/socialIconFacebook"
                     style="@style/UIDSocialIconPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -289,7 +289,7 @@
                     android:enabled="@{frag.isButtonsEnabled}"/>
 
                 <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/uid_social_twitter"
+                    android:id="@+id/socialIconTwitter"
                     style="@style/UIDSocialIconWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

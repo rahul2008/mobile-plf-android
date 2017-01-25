@@ -147,5 +147,8 @@
 
     <dimen name="uid_social_icons_width">32dp</dimen>
     <dimen name="uid_social_icons_height">32dp</dimen>
+    <dimen name="uid_social_icons_padding">0px</dimen>
+    <dimen name="uid_social_icons_drawable_padding">0dp</dimen>
+
 
 </resources>

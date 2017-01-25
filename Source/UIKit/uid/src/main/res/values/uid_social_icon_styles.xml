@@ -2,11 +2,11 @@
 <resources>
 
     <style name="UIDSocialIconPrimary" parent="UIDDefaultButton">
-        <item name="android:paddingLeft">0px</item>
-        <item name="android:paddingRight">0px</item>
+        <item name="android:paddingLeft">@dimen/uid_social_icons_padding</item>
+        <item name="android:paddingRight">@dimen/uid_social_icons_padding</item>
         <item name="android:minHeight">@dimen/uid_social_icons_width</item>
         <item name="android:minWidth">@dimen/uid_social_icons_height</item>
-        <item name="android:drawablePadding">0dp</item>
+        <item name="android:drawablePadding">@dimen/uid_social_icons_drawable_padding</item>
         <item name="uidButtonImageDrawableWidth">@dimen/uid_social_icons_width</item>
         <item name="uidButtonImageDrawableHeight">@dimen/uid_social_icons_height</item>
         <item name="uidButtonBackgroundColorList">

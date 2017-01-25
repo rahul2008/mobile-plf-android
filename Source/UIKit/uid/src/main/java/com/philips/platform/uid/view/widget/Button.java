@@ -59,7 +59,6 @@ public class Button extends AppCompatButton {
         int detaultMinWidth = getResources().getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
         drawableWidth = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableWidth, detaultMinWidth);
         drawableHeight = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableHeight, detaultMinWidth);
-        //Store the color state list
         int resourceId = typedArray.getResourceId(R.styleable.UIDButton_uidButtonDrawableColorList, -1);
         if (resourceId != -1) {
             drawableColorlist = ThemeUtils.buildColorStateList(getResources(), theme, resourceId);
