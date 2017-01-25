@@ -152,12 +152,10 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
+    testCompile 'junit:junit:4.12'
     compile('com.philips.cdp:AppInfra:1.4.0-SNAPSHOT@aar') {
-        transitive = true
-    }
-    compile('com.philips.cdp:uikitLib:3.0.0-SNAPSHOT@aar') {
+        exclude group: 'com.android.support'
         transitive = true
     }
     testCompile 'junit:junit:4.12'
