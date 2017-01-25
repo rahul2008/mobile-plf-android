@@ -1,7 +1,6 @@
 package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -9,6 +8,8 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.condition.ConditionAppLaunch;
 import com.philips.platform.appframework.flowmanager.condition.ConditionIsDonePressed;
 import com.philips.platform.appframework.flowmanager.condition.ConditionIsLoggedIn;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.flowmanager.states.AboutScreenState;
 import com.philips.platform.appframework.flowmanager.states.DataServicesState;
@@ -22,6 +23,8 @@ import com.philips.platform.appframework.flowmanager.states.UserRegistrationOnBo
 import junit.framework.TestCase;
 
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,20 +33,27 @@ import java.io.InputStream;
 import java.util.Map;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("deprecation")
 public class BaseFlowManagerTest extends TestCase {
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
     private FlowManagerTest flowManagerTest;
     private Context context;
+    private String path;
+    private FlowManagerListener flowManagerListenerMock;
 
     @Before
     protected void setUp() throws Exception {
         super.setUp();
-        FlowManagerListener flowManagerListenerMock = mock(FlowManagerListener.class);
+        flowManagerListenerMock = mock(FlowManagerListener.class);
         context = mock(Context.class);
         flowManagerTest = new FlowManagerTest();
-        flowManagerTest.initialize(context, createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json")).getPath(), flowManagerListenerMock);
+        path = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json")).getPath();
+        flowManagerTest.initialize(context, path, flowManagerListenerMock);
+        verify(flowManagerListenerMock).onParseSuccess();
     }
 
     public void testGetFirstState() {
@@ -51,10 +61,27 @@ public class BaseFlowManagerTest extends TestCase {
         assertTrue(firstState != null);
     }
 
-    private File createFileFromInputStream(final InputStream inputStream) {
-
+    public void testConditionIdException() {
+        exception.expect(ConditionIdNotSetException.class);
         try {
+            flowManagerTest = new FlowManagerTest();
+            flowManagerTest.initialize(context, path, flowManagerListenerMock);
+        } catch (ConditionIdNotSetException e) {
+            assertTrue(e.getMessage().equals("No condition id set on constructor"));
+        }
+    }
 
+    public void testErrorCases() {
+        exception.expect(JsonAlreadyParsedException.class);
+        try {
+            flowManagerTest.initialize(context, path, flowManagerListenerMock);
+        } catch (JsonAlreadyParsedException e) {
+            assertTrue(e.getMessage().equals("Json already parsed"));
+        }
+    }
+
+    private File createFileFromInputStream(final InputStream inputStream) {
+        try {
             String filename = "tempFile";
             FileOutputStream outputStream;
             final File file = File.createTempFile(filename, null, context.getCacheDir());
@@ -77,17 +104,6 @@ public class BaseFlowManagerTest extends TestCase {
         return null;
     }
 
-    @Nullable
-    private InputStream getInputStream(final int resId) {
-        InputStream inputStream = null;
-        try {
-            inputStream = context.getAssets().open(context.getString(resId));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return inputStream;
-    }
-
     private class FlowManagerTest extends BaseFlowManager {
 
         @Override
@@ -107,6 +123,7 @@ public class BaseFlowManagerTest extends TestCase {
             baseConditionMap.put(AppConditions.IS_LOGGED_IN, new ConditionIsLoggedIn());
             baseConditionMap.put(AppConditions.IS_DONE_PRESSED, new ConditionIsDonePressed());
             baseConditionMap.put(AppConditions.CONDITION_APP_LAUNCH, new ConditionAppLaunch());
+            baseConditionMap.put(AppConditions.TEST, new ConditionAppLaunch());
         }
     }
 }
