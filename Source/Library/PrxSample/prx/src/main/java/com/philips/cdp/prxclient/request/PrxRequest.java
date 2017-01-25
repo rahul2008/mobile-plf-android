@@ -31,7 +31,7 @@ public abstract class PrxRequest {
      * @param ctn ctn of the product.
      * @param serviceId PRX ServiceId.
      */
-    PrxRequest(String ctn, String serviceId) {
+    public PrxRequest(String ctn, String serviceId) {
         this.mCtn = ctn;
         this.mServiceId = serviceId;
     }
@@ -42,7 +42,7 @@ public abstract class PrxRequest {
      * @param sector sector.
      * @param catalog catalog.
      */
-    PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
+    public PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
         this.mCtn = ctn;
         this.mServiceId = serviceID;
         this.mSector = sector;
