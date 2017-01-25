@@ -149,4 +149,13 @@
         <attr name="uidSeparatorColor" format="reference|color"/>
         <attr name="uidSeparatorAlpha" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDShadowFrameLayout">
+        <attr name="uidShadowDrawable" format="reference"/>
+        <attr name="uidShadowOffset" format="dimension|integer"/>
+        <attr name="uidShadowType" format="enum">
+            <enum name="primary" value="0"/>
+            <enum name="secondary" value="1"/>
+        </attr>
+    </declare-styleable>
 </resources>
