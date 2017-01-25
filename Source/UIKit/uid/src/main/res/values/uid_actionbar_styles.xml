@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+           tools:targetApi="21" >
 
     <style name="UIDNavigationbarUltraLight">
         <item name="uidActionBarBackground">@color/uidColorWhite</item>
@@ -55,6 +56,7 @@
         <item name="android:minWidth">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:minHeight">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:maxHeight">?attr/actionBarSize</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="UIDToolbarNavigationButton" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation">
@@ -88,7 +90,8 @@
         <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle
         </item>
         <item name="titleTextColor">?attr/uidNavigationTextColor</item>
-
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="UIDToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -115,4 +118,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="UIDActionBarStyle" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+    </style>
 </resources>

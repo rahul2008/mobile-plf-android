@@ -1,17 +1,6 @@
-/*
- * Copyright 2014 Google Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/**
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
  */
 
 package com.philips.platform.uid.view.widget;
@@ -26,9 +15,44 @@ import android.widget.FrameLayout;
 
 import com.philips.platform.uid.R;
 
+/**
+ * Top level layout to provide shadows as per DLS specs below action bar if used as primary shadowType.
+ *
+ * <p>
+ *     If AppBarLayout is used, elevation attribute must be set to 0, failing which results in 2 level shadows.
+ * </p>
+ *
+ *
+ *  <p>The attributes mapping follows below table.</p>
+ * <table border="2" width="85%" align="center" cellpadding="5">
+ * <thead>
+ * <tr><th>ResourceID</th> <th>Configuration</th></tr>
+ * </thead>
+ * <p>
+ * <tbody>
+ * <tr>
+ * <td rowspan="1">uidShadowOffset</td>
+ * <td rowspan="1">Offset for the shadow. Default value is actionBar height.</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidShadowDrawable</td>
+ * <td rowspan="1">Drawable to be used as shadow drawable</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidShadowType</td>
+ * <td rowspan="1">Enum value. 1. primary-> Top offset is same as actionBar Height<br>
+ *                             2. secondary-> Top offset defaults to 0</td>
+ * </tr>
+ * <p>
+ * </tbody>
+ * <p>
+ * </table>
+ *
+ */
 public class ShadowFrameLayout extends FrameLayout {
     private Drawable shadowDrawable;
     private int shadowTopOffset;
+    private int width;
 
     public ShadowFrameLayout(Context context) {
         this(context, null, 0);
@@ -48,13 +72,19 @@ public class ShadowFrameLayout extends FrameLayout {
         shadowDrawable.setCallback(this);
         shadowTopOffset = a.getDimensionPixelSize(R.styleable.UIDShadowFrameLayout_uidShadowOffset, getActionBarSize());
 
+        setWillNotDraw(shadowDrawable == null);//Necessary to draw the shadow
         a.recycle();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        shadowDrawable.setBounds(0, shadowTopOffset, w, shadowTopOffset + shadowDrawable.getIntrinsicHeight());
+        width = w;
+        updateShadowDrawableBounds();
+    }
+
+    private void updateShadowDrawableBounds() {
+        shadowDrawable.setBounds(0, shadowTopOffset, width, shadowTopOffset + shadowDrawable.getIntrinsicHeight());
     }
 
     @Override
@@ -76,8 +106,22 @@ public class ShadowFrameLayout extends FrameLayout {
 
         if (shadowDrawable == null) {
             int primary = array.getInt(R.styleable.UIDShadowFrameLayout_uidShadowType, 0);
-            int drawableID = primary == 0 ? R.drawable.uid_navigation_shadow_primary : R.drawable.uid_navigation_shadow_secondary;
-            shadowDrawable = ResourcesCompat.getDrawable(getResources(), drawableID, context.getTheme());
+            getDefaultDrawable(context, primary);
+            setShadowTopOffset(0);
         }
+    }
+
+    private void getDefaultDrawable(final Context context, final int primary) {
+        int drawableID = primary == 0 ? R.drawable.uid_navigation_shadow_primary : R.drawable.uid_navigation_shadow_secondary;
+        shadowDrawable = ResourcesCompat.getDrawable(getResources(), drawableID, context.getTheme());
+    }
+
+    /**
+     * Offset from where the shadow drawable should be drawn.
+     * @param drawableTopOffset
+     */
+    public void setShadowTopOffset(final int drawableTopOffset) {
+        this.shadowTopOffset = drawableTopOffset;
+        updateShadowDrawableBounds();
     }
 }
