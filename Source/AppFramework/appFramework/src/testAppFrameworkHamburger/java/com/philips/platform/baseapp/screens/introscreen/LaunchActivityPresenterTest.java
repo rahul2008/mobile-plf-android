@@ -109,6 +109,12 @@ public class LaunchActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
+            protected SplashState getSplashState() {
+                return splashStateMock;
+            }
+
+            @NonNull
+            @Override
             protected UIStateData getUiStateData() {
                 return uiStateData;
             }
@@ -116,8 +122,6 @@ public class LaunchActivityPresenterTest extends TestCase {
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(splashStateMock.getStateID()).thenReturn("something");
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(splashStateMock);
-        when(uiFlowManagerMock.getFirstState()).thenReturn(splashStateMock);
         launchActivityPresenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
         verify(splashStateMock, atLeastOnce()).setUiStateData(uiStateData);
         verify(splashStateMock).navigate(fragmentLauncherMock);

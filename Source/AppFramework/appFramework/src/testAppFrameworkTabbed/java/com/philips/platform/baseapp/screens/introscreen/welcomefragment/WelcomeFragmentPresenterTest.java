@@ -45,7 +45,6 @@ public class WelcomeFragmentPresenterTest extends TestCase {
 
     public void testOnClick() throws Exception {
         final UserRegistrationState userRegStateMock = mock(UserRegistrationState.class);
-        final WelcomeState welcomeState = mock(WelcomeState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -75,7 +74,6 @@ public class WelcomeFragmentPresenterTest extends TestCase {
 
     public void testOnBackPress() throws Exception {
         final HomeTabbedActivityState homeTabbedActivityStateMock = mock(HomeTabbedActivityState.class);
-        final WelcomeState welcomeState = mock(WelcomeState.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);

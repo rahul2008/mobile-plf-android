@@ -86,7 +86,6 @@ public class LaunchActivityPresenterTest extends TestCase {
     public void testOnLoad() throws NoEventFoundException {
         final UIStateData uiStateData = mock(UIStateData.class);
         final SplashState splashStateMock = mock(SplashState.class);
-        final SplashState launchActivityState = mock(SplashState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
