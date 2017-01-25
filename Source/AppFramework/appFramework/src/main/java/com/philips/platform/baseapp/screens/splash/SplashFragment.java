@@ -38,7 +38,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     private final int APP_START = 1;
     UIBasePresenter presenter;
     private boolean isVisible = false;
-	private boolean isMultiwindowEnabled = false;
     ImageView logo;
     TextView title;
     private ProgressDialog progressDialog;
@@ -89,8 +88,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (hasPermissions(PERMISSIONS)) {
             setFlowManager();
-            if (!isMultiwindowEnabled)
-                startTimer();
+            startTimer();
         } else {
             requestStoragePermission();
         }
@@ -131,8 +129,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         super.onResume();
         isVisible = true;
         modifyLayoutforMultiWindow();
-        startTimer();
-
     }
 
     private void modifyLayoutforMultiWindow() {
@@ -222,7 +218,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     public void permissionGranted() {
         setFlowManager();
-        if (!isMultiwindowEnabled)
-            startTimer();
+        startTimer();
     }
 }
