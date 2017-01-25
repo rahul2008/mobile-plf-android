@@ -1,3 +1,9 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
 package com.philips.platform.catalogapp.fragments;
 
 import android.app.DatePickerDialog;
@@ -13,7 +19,6 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.philips.platform.catalogapp.R;
-import com.philips.platform.catalogapp.databinding.FragmentPickersBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,7 +28,7 @@ import java.util.Locale;
 public class PickersFragment extends BaseFragment {
     public static final String DATE_FORMATTER = "EEE, MMM d, yyyy";
     public static final String TIME_FORMATTER = "h:mm a";
-    private FragmentPickersBinding fragmentPickersBinding;
+    private com.philips.platform.catalogapp.databinding.FragmentPickersBinding fragmentPickersBinding;
     public final ObservableField<String> updatedDate = new ObservableField<String>();
     public final ObservableField<String> updatedTime = new ObservableField<String>();
     private Date date;
