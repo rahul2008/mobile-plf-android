@@ -140,6 +140,8 @@ public class ExampleActivity extends AppCompatActivity {
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultNotApplicable));
+
                 bleReferenceAppliance = (BleReferenceAppliance) applianceAdapter.getItem(position);
                 if (bleReferenceAppliance == null) {
                     return;
@@ -152,7 +154,7 @@ public class ExampleActivity extends AppCompatActivity {
         });
 
         // Init view
-        updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultNotApplicable));
+        updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultNotApplicable));
     }
 
     @Override
@@ -198,7 +200,7 @@ public class ExampleActivity extends AppCompatActivity {
 
     private void stopDiscovery() {
         this.commCentral.stopDiscovery();
-        updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultNotApplicable));
+        updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultNotApplicable));
     }
 
     private void updateStateAndResult(final String state, final String result) {
@@ -216,12 +218,12 @@ public class ExampleActivity extends AppCompatActivity {
         appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
             @Override
             public void onPortUpdate(FirmwarePort firmwarePort) {
-                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsSuccess, firmwarePort.getPortProperties().getVersion()));
+                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultGetPropsSuccess, firmwarePort.getPortProperties().getVersion()));
             }
 
             @Override
             public void onPortError(FirmwarePort diCommPort, Error error, String s) {
-                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultGetPropsFailed, s));
+                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultGetPropsFailed, s));
             }
         });
 
@@ -234,12 +236,12 @@ public class ExampleActivity extends AppCompatActivity {
                 DateTimeFormatter fmt = DateTimeFormat.forPattern("DD-MM-YYYY HH:mm:ss");
                 String dateTimeString = fmt.print(dt);
 
-                updateStateAndResult(getString(R.string.lblStateDone), dateTimeString);
+                updateStateAndResult(getString(R.string.lblStateIdle), dateTimeString);
             }
 
             @Override
             public void onPortError(TimePort timePort, Error error, final String s) {
-                updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultPortError, s));
+                updateStateAndResult(getString(R.string.lblStateIdle), getString(R.string.lblResultPortError, s));
             }
         });
     }

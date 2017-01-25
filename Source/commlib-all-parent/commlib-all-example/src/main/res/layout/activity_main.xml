@@ -55,7 +55,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/deviceControls"
-        android:layout_below="@id/discoveryControls" />
+        android:layout_below="@id/discoveryControls"
+        android:choiceMode="singleChoice"
+        android:listSelector="?android:attr/colorMultiSelectHighlight" />
 
     <RelativeLayout
         android:id="@+id/deviceControls"
