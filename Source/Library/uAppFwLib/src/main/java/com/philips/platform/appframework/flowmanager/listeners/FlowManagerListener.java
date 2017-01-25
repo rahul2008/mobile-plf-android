@@ -1,5 +1,5 @@
 package com.philips.platform.appframework.flowmanager.listeners;
 
-public interface AppFlowJsonListener {
+public interface FlowManagerListener {
     void onParseSuccess();
 }

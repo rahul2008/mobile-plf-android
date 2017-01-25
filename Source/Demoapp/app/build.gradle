@@ -23,5 +23,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile project(':uAppFwLib')
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.2.0-rc.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.3.0-rc.1', ext: 'aar')
 }

@@ -9,13 +9,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
-import com.philips.platform.appframework.flowmanager.listeners.AppFlowJsonListener;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.flowmanager.models.AppFlowEvent;
 import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appframework.flowmanager.models.AppFlowNextState;
@@ -36,16 +39,19 @@ public abstract class BaseFlowManager {
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
 
-    public BaseFlowManager(final Context context, final String jsonPath) {
-        initFlowManager(context, jsonPath, null);
+    @Deprecated
+    /**
+     * @deprecated  - Will be absolute soon , request to use default constructor with initialize api
+     */
+    public BaseFlowManager(final Context context, final String jsonPath) throws JsonAlreadyParsedException {
+        initialize(context, jsonPath, null);
     }
 
-    public BaseFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) {
-        initFlowManager(context, jsonPath, appFlowJsonListener);
+    public BaseFlowManager() {
     }
 
-    protected BaseFlowManager(String data, AppFlowJsonListener appFlowJsonListener) {
-        mapAppFlowForTestCase(data, appFlowJsonListener);
+    protected BaseFlowManager(String data, FlowManagerListener flowManagerListener) {
+        mapAppFlowForTestCase(data, flowManagerListener);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
@@ -53,14 +59,19 @@ public abstract class BaseFlowManager {
         populateConditionMap(conditionMap);
     }
 
-    private void initFlowManager(final Context context, final String jsonPath, final AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
-        this.context = context;
-        mapAppFlowStates(jsonPath, appFlowJsonListener);
-        flowManagerStack = new FlowManagerStack();
-        stateMap = new TreeMap<>();
-        conditionMap = new TreeMap<>();
-        populateStateMap(stateMap);
-        populateConditionMap(conditionMap);
+    public void initialize(@NonNull final Context context, @NonNull final String jsonPath, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
+        if (appFlowMap != null) {
+            this.context = context;
+            mapAppFlowStates(jsonPath, flowManagerListener);
+            flowManagerStack = new FlowManagerStack();
+            stateMap = new TreeMap<>();
+            conditionMap = new TreeMap<>();
+            populateStateMap(stateMap);
+            populateConditionMap(conditionMap);
+        } else {
+            throw new JsonAlreadyParsedException();
+        }
+
     }
     /**
      * This method will create and return the object of BaseCondition depending on Condition ID.
@@ -68,12 +79,23 @@ public abstract class BaseFlowManager {
      * @param conditionId Condition ID for which the BaseCondition object needs to be created.
      * @return Object of BaseCondition type.
      */
-    public BaseCondition getCondition(String conditionId) {
-        return conditionMap.get(conditionId);
+    public BaseCondition getCondition(String conditionId) throws ConditionIdNotSetException {
+        if (conditionId != null && conditionId.length() != 0)
+            return conditionMap.get(conditionId);
+
+        throw new ConditionIdNotSetException();
     }
 
+    @Deprecated
+    /**
+     * @deprecated - Will be deprecated soon , will be replaced by factory approach
+     */
     public abstract void populateStateMap(final Map<String, BaseState> uiStateMap);
 
+    @Deprecated
+    /**
+     * @deprecated - Will be deprecated soon , will be replaced by factory approach
+     */
     public abstract void populateConditionMap(final Map<String, BaseCondition> baseConditionMap);
 
     /**
@@ -93,7 +115,7 @@ public abstract class BaseFlowManager {
         return currentState;
     }
 
-    public void setCurrentState(BaseState currentState) {
+    private void setCurrentState(BaseState currentState) {
         this.currentState = currentState;
     }
 
@@ -103,13 +125,13 @@ public abstract class BaseFlowManager {
      * @param currentState current state of the app.
      * @return Object to next BaseState if available or 'null'.
      */
-    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
+    public BaseState getNextState(BaseState currentState, String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         setCurrentState(currentState);
         return getNextState(eventId);
     }
 
     @NonNull
-    public BaseState getNextState(String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException {
+    public BaseState getNextState(String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         if (null == eventId)
             throw new NullEventException();
         else if (null != currentState) {
@@ -124,6 +146,10 @@ public abstract class BaseFlowManager {
         throw new NoStateException();
     }
 
+    @Deprecated
+    /**
+     * @deprecated - Will be absolute soon
+     */
     public BaseState getFirstState() throws NoStateException {
         BaseState firstState = stateMap.get(this.firstState);
         if (firstState != null) {
@@ -135,7 +161,7 @@ public abstract class BaseFlowManager {
     }
 
     @Nullable
-    private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException, NoConditionFoundException {
+    private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException, NoConditionFoundException, ConditionIdNotSetException {
         String appFlowEventId;
         if (appFlowEvents != null && appFlowEvents.size() != 0) {
             for (final AppFlowEvent appFlowEvent : appFlowEvents) {
@@ -152,11 +178,11 @@ public abstract class BaseFlowManager {
             return null;
     }
 
-    public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException {
+    public BaseState getBackState(BaseState currentState) throws NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         return getBackState();
     }
 
-    public BaseState getBackState() throws NoStateException, NoConditionFoundException {
+    public BaseState getBackState() throws NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
         if (currentState != null && flowManagerStack.contains(currentState)) {
             List<AppFlowEvent> appFlowEvents = getAppFlowEvents(currentState.getStateID());
             BaseState nextState = null;
@@ -188,12 +214,15 @@ public abstract class BaseFlowManager {
         flowManagerStack.clear();
     }
 
-    private List<AppFlowEvent> getAppFlowEvents(String currentState) {
-        return appFlowMap.get(currentState);
+    private List<AppFlowEvent> getAppFlowEvents(String currentState) throws StateIdNotSetException {
+        if (currentState != null)
+            return appFlowMap.get(currentState);
+
+        throw new StateIdNotSetException();
     }
 
     @Nullable
-    private BaseState getUiState(final List<AppFlowNextState> appFlowNextStates) throws NoConditionFoundException {
+    private BaseState getUiState(final List<AppFlowNextState> appFlowNextStates) throws NoConditionFoundException, ConditionIdNotSetException {
         for (AppFlowNextState appFlowNextState : appFlowNextStates) {
             List<String> conditionsTypes = appFlowNextState.getCondition();
             boolean isConditionSatisfies = true;
@@ -208,7 +237,7 @@ public abstract class BaseFlowManager {
         return null;
     }
 
-    private boolean isConditionSatisfies(final List<String> conditionsTypes) throws NoConditionFoundException {
+    private boolean isConditionSatisfies(final List<String> conditionsTypes) throws NoConditionFoundException, ConditionIdNotSetException {
         boolean isConditionSatisfies = true;
         for (final String conditionType : conditionsTypes) {
             BaseCondition condition = getCondition(conditionType);
@@ -223,20 +252,20 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowStates(final String jsonPath, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (appFlowJsonListener != null)
-            appFlowJsonListener.onParseSuccess();
+        if (flowManagerListener != null)
+            flowManagerListener.onParseSuccess();
     }
 
-    private void mapAppFlowForTestCase(final String data, AppFlowJsonListener appFlowJsonListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowForTestCase(final String data, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlowTestCase(data);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (appFlowJsonListener != null)
-            appFlowJsonListener.onParseSuccess();
+        if (flowManagerListener != null)
+            flowManagerListener.onParseSuccess();
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
