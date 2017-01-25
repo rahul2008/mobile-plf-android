@@ -25,6 +25,7 @@
     <LoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</LoginContinue>
     <LoginContinue_1>com.philips.platform.referenceapp:id/btn_reg_continue</LoginContinue_1>
     <LogOut>com.philips.platform.referenceapp:id/btn_reg_sign_out</LogOut>
+    <SupportTitle>com.philips.platform.referenceapp:id/af_actionbar_title</SupportTitle>
   </LoginScreen>
   <AccountSettings>
     <rlxCheckBox>com.philips.platform.referenceapp:id/rl_x_checkbox</rlxCheckBox>
@@ -37,16 +38,16 @@
     <!--<HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon> -->
     <!--<Settings>//android.widget.TextView[@text='Settings']</Settings> -->
     <HamburgerIcon>com.philips.platform.referenceapp:id/af_hamburger_frame_layout</HamburgerIcon>
+    <MobileAppHome>//android.widget.TextView[@text='Mobile App Home']</MobileAppHome>
     <Support>//android.widget.TextView[@text='Support']</Support>
     <PhilipShop>//android.widget.TextView[@text='Philips Shop']</PhilipShop>
     <Settings>//android.widget.TextView[@text='Settings']</Settings>
     <Connectivity>//android.widget.TextView[@text='Connectivity']</Connectivity>
     <DatacoreErrorMsg>com.philips.platform.referenceapp:id/datacre_error_text</DatacoreErrorMsg>
-    <HamburgerList>philips.di.cl.appframework:id/hamburger_item_text</HamburgerList>
+    <HamburgerList>com.philips.platform.referenceapp:id/hamburger_list</HamburgerList>
     <ALoginButton>com.philips.platform.referenceapp:id/btn_reg_sign_in</ALoginButton>
     <ALoginContinue>com.philips.platform.referenceapp:id/reg_btn_continue</ALoginContinue>
     <ALoginContinueConfirm>com.philips.platform.referenceapp:id/btn_reg_continue</ALoginContinueConfirm>
-    <LoginSettings>com.philips.platform.referenceapp:id/ifo</LoginSettings>
     <VerticalSettings>com.philips.platform.referenceapp:id/ifo</VerticalSettings>
     <WelcomeScreen>com.philips.platform.referenceapp:id/welcome_slide_fragment_layout</WelcomeScreen>
     <ReferenceDeviceIDValue>com.philips.platform.referenceapp:id/reference_device_id_editbox</ReferenceDeviceIDValue>
@@ -56,10 +57,10 @@
     <MomentValue>com.philips.platform.referenceapp:id/moment_value_editbox</MomentValue>
     <MeasurementValueFromReferenceDevice>com.philips.platform.referenceapp:id/start_connectivity_button</MeasurementValueFromReferenceDevice>
     <MomentValueFromDatacore>com.philips.platform.referenceapp:id/get_momentumvalue_button</MomentValueFromDatacore>
-    <RightArrow>com.philips.platform.referenceapp:id/appframework_rightarrow</RightArrow>
-    <LeftArrow>com.philips.platform.referenceapp:id/appframework_leftarrow</LeftArrow>
+    <RightArrow>com.philips.platform.referenceapp:id/welcome_rightarrow</RightArrow>
+    <LeftArrow>com.philips.platform.referenceapp:id/welcome_leftarrow</LeftArrow>
     <Skip>com.philips.platform.referenceapp:id/welcome_skip_button</Skip>
-    <Done>com.philips.platform.referenceapp:id/start_registration_button</Done>
+    <Done>com.philips.platform.referenceapp:id/welcome_start_registration_button</Done>
     <AppPhilipsAccountReg>com.philips.platform.referenceapp:id/tv_reg_provider_name</AppPhilipsAccountReg>
     <AUsername>com.philips.platform.referenceapp:id/et_reg_email</AUsername>
     <APassWord>com.philips.platform.referenceapp:id/et_reg_password</APassWord>
@@ -68,6 +69,11 @@
     <LoginSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LoginSettings>
     <LogoutSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LogoutSettings>
     <LogoutDialog>android:id/button1</LogoutDialog>
+    <Login_Title_UR_Setting>com.philips.platform.referenceapp:id/af_actionbar_title</Login_Title_UR_Setting>
+    <ReceivePromotional>Receive Philips'</ReceivePromotional>
+    <toggleStatus>com.philips.platform.referenceapp:id/switch_button</toggleStatus>
+    <Swipe_Welcome>com.philips.platform.referenceapp:id/welcome_pager</Swipe_Welcome>
+    <CarouselHighlighted>com.philips.platform.referenceapp:id/uikit_linear</CarouselHighlighted>
   </AppFramework>
 
   <!--IAP-->
@@ -244,7 +250,7 @@
   </SupportScreen>
   <ProductInformation>
     <Product_Manual>Download product manual</Product_Manual>
-    <Product_Information>Product information (on Philips.com)</Product_Information>
+    <Product_Information>Product information(on Philips.com)</Product_Information>
     <Back_to_Support>com.philips.platform.referenceapp:id/af_hamburger_imageview</Back_to_Support>
     <ProductDetail>com.philips.platform.referenceapp:id/name</ProductDetail>
     <ProductInfoTitle>com.philips.platform.referenceapp:id/af_actionbar_title</ProductInfoTitle>

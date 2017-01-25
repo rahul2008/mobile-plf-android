@@ -7,7 +7,6 @@ package com.philips.platform.baseapp.screens.settingscreen;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
@@ -16,11 +15,8 @@ import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-
 import junit.framework.TestCase;
-
 import org.junit.Before;
-
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

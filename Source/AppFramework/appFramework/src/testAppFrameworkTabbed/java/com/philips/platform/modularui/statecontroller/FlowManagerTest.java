@@ -7,7 +7,6 @@
 package com.philips.platform.modularui.statecontroller;
 
 import android.support.v4.app.FragmentActivity;
-
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -19,9 +18,7 @@ import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
-
 import junit.framework.TestCase;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

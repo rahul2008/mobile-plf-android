@@ -41,6 +41,10 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     private Context applicationContext;
     private ArrayList<String> ctnList = null;
 
+    public ProductRegistrationState() {
+        super(AppStates.PR);
+    }
+
     public ArrayList<String> getCtnList() {
         return ctnList;
     }
@@ -58,10 +62,6 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
         return products;
-    }
-
-    public ProductRegistrationState(){
-        super(AppStates.PR);
     }
 
     /**

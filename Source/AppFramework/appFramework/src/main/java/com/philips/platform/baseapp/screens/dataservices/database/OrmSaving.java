@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristicsDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsent;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConsentDetail;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMeasurement;
@@ -54,7 +56,11 @@ public class OrmSaving {
     @NonNull
     private final Dao<OrmConsentDetail, Integer> consentDetailsDao;
 
+    @NonNull
+    private final Dao<OrmCharacteristics, Integer> characteristicsesDao;
 
+    @NonNull
+    private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
     @NonNull
     private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailsDao;
 
@@ -66,7 +72,9 @@ public class OrmSaving {
                      @NonNull final Dao<OrmConsent, Integer> constentDao,
                      @NonNull final Dao<OrmConsentDetail, Integer> constentDetailsDao,
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
-                     @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails) {
+                     @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
+                     @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
+                     @NonNull final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -77,6 +85,8 @@ public class OrmSaving {
         this.consentDetailsDao = constentDetailsDao;
         this.measurementGroupDao = measurementGroup;
         this.measurementGroupDetailsDao = measurementGroupDetails;
+        this.characteristicsesDao = characteristicsesDao;
+        this.characteristicsDetailsDao = characteristicsDetailsDao;
     }
 
     public void saveMoment(OrmMoment moment) throws SQLException {
@@ -186,4 +196,19 @@ public class OrmSaving {
         consentDetailsDao.createOrUpdate(consentDetail);
     }
 
+    //User AppUserCharacteristics
+    public void saveCharacteristics(OrmCharacteristics ormCharacteristics) throws SQLException {
+        characteristicsesDao.createOrUpdate(ormCharacteristics);
+        assureCharacteristicDetailsAreSaved((Collection<? extends OrmCharacteristicsDetail>) ormCharacteristics.getCharacteristicsDetails());
+    }
+
+    private void assureCharacteristicDetailsAreSaved(Collection<? extends OrmCharacteristicsDetail> characteristicsDetails) throws SQLException {
+        for (OrmCharacteristicsDetail characteristicsDetail : characteristicsDetails) {
+            saveCharacteristicsDetail(characteristicsDetail);
+        }
+    }
+
+    public void saveCharacteristicsDetail(OrmCharacteristicsDetail characteristicsDetail) throws SQLException {
+        characteristicsDetailsDao.createOrUpdate(characteristicsDetail);
+    }
 }

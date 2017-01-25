@@ -191,15 +191,39 @@ namespace Philips.H2H.Foundation.AutomationCore
         public void ClickById(string sId)
         {
             Logger.Debug("Clicking on Element By Id : " + sId);
+            bool tried = false;
+
+            bool reliability = Convert.ToBoolean (ConfigurationManager.AppSettings["Reliability"]);
+
             try
             {
                 GetElement(SearchBy.Id, sId).Click();
-
+                tried = true;
             }
             catch (Exception)
             {                
                // throw new Exception("Could not find page control to click with Id: " + sId);
             }
+
+            if(reliability)
+            {
+                try
+                {
+                    if (!tried)
+                    {
+                        Thread.Sleep(10000);
+                        GetElement(SearchBy.Id, sId).Click();
+                        tried = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    Logger.Info("could not find the element");
+                }
+
+            }
+
+
         }
 
         public void ClickByText(string sText)

@@ -1,8 +1,6 @@
 package com.philips.platform.baseapp.screens.dataservices.temperature;
 
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
-import com.philips.platform.baseapp.screens.dataservices.listener.DBChangeListener;
-import com.philips.platform.baseapp.screens.dataservices.listener.EventHelper;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -55,6 +53,7 @@ public class TemperatureMomentHelper {
         }
     }
 
+
     String getNotes(Moment moment) {
         try {
 
@@ -79,49 +78,4 @@ public class TemperatureMomentHelper {
         //return null;
     }
 
-    public void notifySuccessToAll(final ArrayList<? extends Object> ormMoments) {
-        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-        if (dbChangeListeners != null) {
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
-
-    public void notifyAllSuccess(Object ormMoments) {
-        final ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-        if (dbChangeListeners != null) {
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onSuccess(ormMoments);
-            }
-        }
-    }
-
-    public void notifyAllFailure(Exception e) {
-        Map<Integer, ArrayList<DBChangeListener>> eventMap = EventHelper.getInstance().getEventMap();
-        Set<Integer> integers = eventMap.keySet();
-        if (integers.contains(EventHelper.MOMENT)) {
-            ArrayList<DBChangeListener> dbChangeListeners = EventHelper.getInstance().getEventMap().get(EventHelper.MOMENT);
-            for (DBChangeListener listener : dbChangeListeners) {
-                listener.onFailure(e);
-            }
-        }
-    }
-
-    Moment updateMoment(Moment moment, String phase, String temperature, String notes) {
-        ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
-        int momentDetailsSize = momentDetails.size();
-        MomentDetail momentDetail = momentDetails.get(momentDetailsSize - 1);
-        momentDetail.setValue(phase);
-
-        //  ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
-        // Measurement measurement = measurements.get(0);
-        // measurement.setValue(Double.parseDouble(temperature));
-
-        //  ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
-        // MeasurementDetail measurementDetail = measurementDetails.get(0);
-        //measurementDetail.setValue(notes);
-
-        return moment;
-    }
 }

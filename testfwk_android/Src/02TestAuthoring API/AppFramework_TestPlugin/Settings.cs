@@ -65,13 +65,53 @@ namespace Philips.SIG.Automation.Android.CDPP.AppFramework_TestPlugin
         public static bool IsVisibleButton(Button btn)
         {
             bool IsVisible = false;
+            try
+            {
 
-            if (btn == Button.Logout)
-                IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Logout).Displayed;
-
+                if (btn == Button.Logout)
+                    IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Logout).Displayed;
+                else if (btn == Button.Login)
+                    IsVisible = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.Login).Displayed;
+            }
+            catch (Exception e)
+            {
+                IsVisible = false;
+            }
             return IsVisible;
 
         }
+
+        public static string GetHeaderUserReg()
+        {
+            return _instance.GetTextById(AppFrameWork.Android.HomeScreen.Login_Title_UR_Setting);
+        }
+        public static bool Login_Screen()
+        {
+            bool bVisible = false;
+            if (GetHeaderUserReg() == "Log In")
+                bVisible = true;
+            return bVisible;
+        }
+
+        public static string ReceivePromotional()
+        {
+            return _instance.GetElement(SearchBy.Name, AppFrameWork.Android.HomeScreen.ReceivePromotional).Text;
+
+        }
+
+        public static bool ReceiveProStatus()
+        {
+            bool isTrue = false;
+            IMobilePageControl control = _instance.GetElement(SearchBy.Id, AppFrameWork.Android.HomeScreen.toggleStatus);
+            string str = control.GetAttribute("checked");
+            if (str == "true")
+            {
+                isTrue = true;
+            }
+            return isTrue;
+
+        }
+
 
 
 

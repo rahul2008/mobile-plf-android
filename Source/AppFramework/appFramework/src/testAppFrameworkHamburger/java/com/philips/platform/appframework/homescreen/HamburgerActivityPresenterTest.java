@@ -3,6 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
+
 package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Resources;
@@ -32,10 +33,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class HamburgerActivityPresenterTest extends TestCase {
 
     FragmentView fragmentViewMock;

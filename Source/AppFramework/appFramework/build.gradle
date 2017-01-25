@@ -211,7 +211,6 @@ android {
     }
 
     dexOptions {
-        incremental = false;
         preDexLibraries = false
         jumboMode = false
     }
@@ -221,7 +220,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled = true
+            testCoverageEnabled = false
         }
 
 
@@ -230,7 +229,6 @@ android {
             shrinkResources false
             debuggable true
             signingConfig signingConfigs.debug
-            applicationIdSuffix ".leakcanary"
         }
         release {
             minifyEnabled true
