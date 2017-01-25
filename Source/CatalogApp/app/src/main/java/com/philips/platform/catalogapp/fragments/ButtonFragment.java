@@ -45,8 +45,8 @@ public class ButtonFragment extends BaseFragment {
         restoreViews(savedInstanceState);
         fragmentBinding.imageShare.setImageDrawable(shareDrawable);
         fragmentBinding.quietIconOnly.setVectorResource(R.drawable.ic_share_icon);
-        fragmentBinding.uidSocialFacebook.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.ic_social_media_facebook, getContext().getTheme()));
-        fragmentBinding.uidSocialTwitter.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.ic_social_media_wechat, getContext().getTheme()));
+        fragmentBinding.uidSocialFacebook.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uid_social_media_facebook_icon, getContext().getTheme()));
+        fragmentBinding.uidSocialTwitter.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uid_social_media_wechat_icon, getContext().getTheme()));
 
         return fragmentBinding.getRoot();
     }

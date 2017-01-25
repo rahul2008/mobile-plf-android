@@ -58,26 +58,26 @@ public class SocialIconsListFragment extends BaseFragment {
     @NonNull
     private List<Integer> initSocialIconsGridItems() {
         final List<Integer> lists = new ArrayList<>();
-        lists.add(R.drawable.ic_social_media_amazon);
-        lists.add(R.drawable.ic_social_media_blog);
-        lists.add(R.drawable.ic_social_media_facebook);
-        lists.add(R.drawable.ic_social_media_google);
-        lists.add(R.drawable.ic_social_media_googleplus);
-        lists.add(R.drawable.ic_social_media_imgres);
-        lists.add(R.drawable.ic_social_media_instagram);
-        lists.add(R.drawable.ic_social_media_kaixin);
-        lists.add(R.drawable.ic_social_media_linkedin);
-        lists.add(R.drawable.ic_social_media_pinterest);
-        lists.add(R.drawable.ic_social_media_qq);
-        lists.add(R.drawable.ic_social_media_qzone);
-        lists.add(R.drawable.ic_social_media_renren);
-        lists.add(R.drawable.ic_social_media_sinaweibo);
-        lists.add(R.drawable.ic_social_media_stumbleupon);
-        lists.add(R.drawable.ic_social_media_twitter);
-        lists.add(R.drawable.ic_social_media_vkontacte);
-        lists.add(R.drawable.ic_social_media_wechat);
-        lists.add(R.drawable.ic_social_media_weibo);
-        lists.add(R.drawable.ic_social_media_youtube);
+        lists.add(R.drawable.uid_social_media_amazon_icon);
+        lists.add(R.drawable.uid_social_media_blog_icon);
+        lists.add(R.drawable.uid_social_media_facebook_icon);
+        lists.add(R.drawable.uid_social_media_google_icon);
+        lists.add(R.drawable.uid_social_media_googleplus_icon);
+        lists.add(R.drawable.uid_social_media_imgres_icon);
+        lists.add(R.drawable.uid_social_media_instagram_icon);
+        lists.add(R.drawable.uid_social_media_kaixin_icon);
+        lists.add(R.drawable.uid_social_media_linkedin_icon);
+        lists.add(R.drawable.uid_social_media_pinterest_icon);
+        lists.add(R.drawable.uid_social_media_qq_icon);
+        lists.add(R.drawable.uid_social_media_qzone_icon);
+        lists.add(R.drawable.uid_social_media_renren_icon);
+        lists.add(R.drawable.uid_social_media_sinaweibo_icon);
+        lists.add(R.drawable.uid_social_media_stumbleupon_icon);
+        lists.add(R.drawable.uid_social_media_twitter_icon);
+        lists.add(R.drawable.uid_social_media_vkontacte_icon);
+        lists.add(R.drawable.uid_social_media_wechat_icon);
+        lists.add(R.drawable.uid_social_media_weibo_icon);
+        lists.add(R.drawable.uid_social_media_youtube_icon);
         return lists;
     }
 
