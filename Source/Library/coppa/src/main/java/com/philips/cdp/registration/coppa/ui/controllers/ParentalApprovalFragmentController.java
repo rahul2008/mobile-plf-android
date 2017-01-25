@@ -43,7 +43,7 @@ import java.util.TimeZone;
 
 public class ParentalApprovalFragmentController implements RefreshUserHandler,
         View.OnClickListener {
-    public static final String COUNTRY_CODE = "US";
+    public static final String COUNTRY_CODE_US = "US";
     private boolean isParentalConsent = false;
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
@@ -322,6 +322,6 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     private boolean isCountryUS() {
         Consent consent = mCoppaExtension.getConsent();
         String locale = consent.getLocale();
-        return locale.substring(3,5).equalsIgnoreCase(COUNTRY_CODE);
+        return locale.substring(3,5).equalsIgnoreCase(COUNTRY_CODE_US);
     }
 }

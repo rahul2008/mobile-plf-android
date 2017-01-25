@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
-import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
@@ -30,8 +29,6 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-
-import static com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmentController.COUNTRY_CODE;
 
 public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener, NetworStateListener {
 
@@ -41,6 +38,7 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     private Context mContext;
     private TextView mTextContantTitle;
     private String mCoppaStatus;
+    public static final String COUNTRY_CODE_US = "US";
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -200,6 +198,6 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     }
     // check local from US or Not
     private boolean isCountryUS() {
-        return RegistrationHelper.getInstance().getLocale(mContext).toString().substring(3,5).equalsIgnoreCase(COUNTRY_CODE);
+        return RegistrationHelper.getInstance().getLocale(mContext).toString().substring(3,5).equalsIgnoreCase(COUNTRY_CODE_US);
     }
 }

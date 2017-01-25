@@ -35,6 +35,7 @@ import java.util.Locale;
 
 public class ConsentHandler implements RefreshUserHandler {
 
+    public static final String COUNTRY_CODE_US = "US";
     final private CoppaExtension mCoppaExtension;
     private final Context mContext;
     private final User mUser;
@@ -243,7 +244,7 @@ public class ConsentHandler implements RefreshUserHandler {
     private boolean isCountryUS() {
         Consent consent = mCoppaExtension.getConsent();
         String locale = consent.getLocale();
-        return locale.substring(3,5).equalsIgnoreCase("US");
+        return locale.substring(3,5).equalsIgnoreCase(COUNTRY_CODE_US);
     }
 
 }
