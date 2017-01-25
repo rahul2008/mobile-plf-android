@@ -161,33 +161,45 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
      * Start scanning nearby devices using given strategy
      */
     private void startDiscovery() {
-        try {
-            bleScanDialogFragment = new BLEScanDialogFragment();
-            bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
-            bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
-                @Override
-                public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
-                    updateConnectionStateText(getString(R.string.connected));
-                    connectivityPresenter.setUpApplicance(bleRefAppliance);
-                    bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
-                }
-            });
-            this.commCentral.startDiscovery();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(commCentral!=null){
-                        commCentral.stopDiscovery();
-                        if(bleScanDialogFragment!=null) {
-                            bleScanDialogFragment.hideProgressBar();
-                        }
+                    try {
+                        bleScanDialogFragment = new BLEScanDialogFragment();
+                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+                        bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
+                            @Override
+                            public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                                updateConnectionStateText(getString(R.string.connected));
+                                connectivityPresenter.setUpApplicance(bleRefAppliance);
+                                bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
+                            }
+                        });
+                        commCentral.startDiscovery();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(commCentral!=null){
+                                    commCentral.stopDiscovery();
+                                    if(bleScanDialogFragment!=null) {
+                                        bleScanDialogFragment.hideProgressBar();
+                                    }
+                                }
+                            }
+                        },30000);
+                        updateConnectionStateText(getString(R.string.disconnected));
+                    } catch (MissingPermissionException e) {
+                        Log.e(TAG,"Permission missing");
                     }
                 }
-            },30000);
-            updateConnectionStateText(getString(R.string.disconnected));
-        } catch (MissingPermissionException e) {
-            Log.e(TAG,"Permissio missing");
-        }
+            },100);
+//            getActivity().runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                }
+//            });
+
     }
 
 
