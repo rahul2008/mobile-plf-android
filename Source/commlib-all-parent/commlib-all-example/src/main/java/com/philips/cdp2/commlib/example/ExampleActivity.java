@@ -101,7 +101,8 @@ public class ExampleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Setup CommCentral
-        final BleTransportContext bleTransportContext = new BleTransportContext(this);
+        final boolean showPopupIfBleIsTurnedOff = false;
+        final BleTransportContext bleTransportContext = new BleTransportContext(this, showPopupIfBleIsTurnedOff);
         this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
         this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
