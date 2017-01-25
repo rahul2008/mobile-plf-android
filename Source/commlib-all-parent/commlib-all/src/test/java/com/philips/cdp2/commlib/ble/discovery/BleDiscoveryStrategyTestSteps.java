@@ -54,6 +54,7 @@ public class BleDiscoveryStrategyTestSteps {
 
     private BleDiscoveryStrategy bleDiscoveryStrategy;
     private BleDeviceCache bleDeviceCache;
+    private static int cppId = 0;
 
     @Before
     public void setup() throws SHNBluetoothHardwareUnavailableException {
@@ -88,7 +89,7 @@ public class BleDiscoveryStrategyTestSteps {
             @Override
             public Appliance createApplianceForNode(final NetworkNode networkNode) {
                 if (canCreateApplianceForNode(networkNode)) {
-                    return new Appliance(networkNode, new BleCommunicationStrategy("aa:bb:cc:11:22:33", bleDeviceCache)) {
+                    return new Appliance(networkNode, new BleCommunicationStrategy(networkNode.getCppId(), bleDeviceCache)) {
                         @Override
                         public String getDeviceType() {
                             return networkNode.getModelName();
@@ -104,6 +105,10 @@ public class BleDiscoveryStrategyTestSteps {
             }
         };
         commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
+    }
+
+    private static String createCppId() {
+        return String.valueOf(++cppId);
     }
 
     @When("^starting discovery for BLE appliances$")
@@ -160,21 +165,29 @@ public class BleDiscoveryStrategyTestSteps {
         assertTrue("Available appliances set was not empty: " + availableAppliances, availableAppliances.isEmpty());
     }
 
-    @When("^(.*?) is discovered by BlueLib$")
-    public void applianceIsDiscoveredByBlueLib(String applianceName) {
+    @When("^(.*?) is discovered (\\d+) times? by BlueLib$")
+    public void shaverIsDiscoveredMultipleTimesByBlueLib(String applianceName, int times) {
         SHNDevice shnDeviceMock = mock(SHNDevice.class);
         when(shnDeviceMock.getState()).thenReturn(SHNDevice.State.Connected);
-        when(shnDeviceMock.getAddress()).thenReturn("00:11:22:33:44:55");
+        when(shnDeviceMock.getAddress()).thenReturn(createCppId());
         when(shnDeviceMock.getName()).thenReturn(applianceName);
         when(shnDeviceMock.getDeviceTypeName()).thenReturn(getApplianceTypeByName(applianceName));
 
         SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
 
-        bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
+        for (int i = 0; i < times; i++) {
+            bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
+        }
     }
 
     private String getApplianceTypeByName(final @NonNull String applianceName) {
         return applianceName.substring(0, applianceName.length() - 1);
+    }
+
+    @Then("^the number of created appliances is (\\d+)$")
+    public void theNumberOfCreatedAppliancesIs(int numberOfAppliances) {
+        final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
+        assertTrue("Number of created appliances doesn't match expected number.", availableAppliances.size() == numberOfAppliances);
     }
 }
