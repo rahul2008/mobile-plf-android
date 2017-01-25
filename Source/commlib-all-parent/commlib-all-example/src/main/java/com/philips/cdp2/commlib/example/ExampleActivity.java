@@ -64,6 +64,7 @@ public class ExampleActivity extends AppCompatActivity {
         @Override
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
             Log.d(TAG, "Found appliance: " + foundAppliance.getNetworkNode().getCppId());
+
             applianceAdapter.clear();
             applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
         }
@@ -80,6 +81,9 @@ public class ExampleActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.btnStartDiscovery:
                     startDiscovery();
+                    break;
+                case R.id.btnStopDiscovery:
+                    stopDiscovery();
                     break;
                 case R.id.btnGetTime:
                     bleReferenceAppliance.getTimePort().reloadProperties();
@@ -110,6 +114,7 @@ public class ExampleActivity extends AppCompatActivity {
 
         // Setup buttons
         findViewById(R.id.btnStartDiscovery).setOnClickListener(buttonClickListener);
+        findViewById(R.id.btnStopDiscovery).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
 
@@ -174,6 +179,7 @@ public class ExampleActivity extends AppCompatActivity {
 
     private void startDiscovery() {
         applianceAdapter.clear();
+        applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
 
         try {
             this.commCentral.startDiscovery();
@@ -188,6 +194,11 @@ public class ExampleActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void stopDiscovery() {
+        this.commCentral.stopDiscovery();
+        updateStateAndResult(getString(R.string.lblStateDone), getString(R.string.lblResultNotApplicable));
     }
 
     private void updateStateAndResult(final String state, final String result) {
