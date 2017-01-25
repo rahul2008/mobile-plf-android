@@ -37,10 +37,9 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
     UIBasePresenter presenter;
+    private boolean isVisible = false;
     ImageView logo;
     TextView title;
-    private boolean isVisible = false;
-    private boolean isMultiwindowEnabled = false;
     private ProgressDialog progressDialog;
     /*
      * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
@@ -89,8 +88,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (hasPermissions(PERMISSIONS)) {
             setFlowManager();
-            if (!isMultiwindowEnabled)
-                startTimer();
+            startTimer();
         } else {
             requestStoragePermission();
         }
@@ -131,8 +129,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         super.onResume();
         isVisible = true;
         modifyLayoutforMultiWindow();
-        startTimer();
-
     }
 
     private void modifyLayoutforMultiWindow() {
@@ -222,7 +218,6 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     public void permissionGranted() {
         setFlowManager();
-        if (!isMultiwindowEnabled)
-            startTimer();
+        startTimer();
     }
 }
