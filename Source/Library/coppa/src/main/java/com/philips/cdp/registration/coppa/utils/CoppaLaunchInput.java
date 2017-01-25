@@ -8,9 +8,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 public class CoppaLaunchInput extends UappLaunchInput {
 
 
-    private boolean isAccountSettings;
-
-    private boolean isOptInMarketing;
+    private String registrationLaunchMode;
 
     public boolean isParentalFragment() {
         return isParentalFragment;
@@ -44,29 +42,20 @@ public class CoppaLaunchInput extends UappLaunchInput {
         this.registrationFunction = registrationFunction;
     }
 
-    public void setAccountSettings(boolean isAccountSettings) {
-        this.isAccountSettings = isAccountSettings;
-    }
-
-    public boolean isAccountSettings() {
-        return isAccountSettings;
-    }
-
-
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
                                                            userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
     }
 
-    public boolean isOptInMarketing() {
-        return isOptInMarketing;
-    }
-
-    public void setOptInMarketing(boolean optInMarketing) {
-        isOptInMarketing = optInMarketing;
-    }
-
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return this.userRegistrationListener;
+    }
+
+    public String getRegistrationLaunchMode() {
+        return registrationLaunchMode;
+    }
+
+    public void setRegistrationLaunchMode(String registrationLaunchMode) {
+        this.registrationLaunchMode = registrationLaunchMode;
     }
 }

@@ -31,6 +31,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLauncMode;
 import com.philips.cdp.registration.coppa.base.CoppaResendError;
 import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
@@ -243,14 +244,15 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         CoppaLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         CoppaInterface urInterface;
+        String registrationLauncMode = String.valueOf(RegistrationLauncMode.DEFAULT);
         switch (v.getId()) {
 
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                registrationLauncMode = String.valueOf(RegistrationLauncMode.ACCOUNTSETTING);
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setAccountSettings(true);
-                urLaunchInput.setOptInMarketing(false);
+                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -263,9 +265,9 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             case R.id.btn_marketing_opt_in:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                registrationLauncMode = String.valueOf(RegistrationLauncMode.MARKETINGOPT);
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setAccountSettings(true);
-                urLaunchInput.setOptInMarketing(true);
+                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -278,10 +280,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setAccountSettings(false);
-                urLaunchInput.setOptInMarketing(false);
+                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -315,9 +315,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 User user = new User(mContext);
                 if(user.isUserSignIn()){
                     urLaunchInput = new CoppaLaunchInput();
-                    urLaunchInput.setAccountSettings(true);
                     urLaunchInput.setParentalFragment(true);
-                    urLaunchInput.setOptInMarketing(false);
+                    urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
                     urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                     urLaunchInput.setUserRegistrationUIEventListener(this);
                     activityLauncher = new ActivityLauncher(ActivityLauncher.

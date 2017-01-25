@@ -54,10 +54,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             AppTagging.collectLifecycleData(RegistrationCoppaActivity.this);
         }
     };
-    private boolean isAccountSettings = true;
-    private boolean isMarketingOptIn;
     private boolean isParentalConsent;
     private TextView ivBack;
+    private String mRegistrationLaunchMode;
 
     public static UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;
@@ -76,9 +75,8 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         super.onCreate(savedInstanceState);
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            mRegistrationLaunchMode = bundle.getString(RegConstants.REGISTRATION_LAUNCH_MODE);
             isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
-            isMarketingOptIn = bundle.getBoolean(RegConstants.MARKETING_OPT_IN, true);
             final int sOrientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             setOrientation(sOrientation);
         }
@@ -180,19 +178,16 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
 
             super.onBackPressed();
         }
-
-
     }
 
     private void initUi() {
-        launchRegistrationFragment(isAccountSettings, isParentalConsent);
+        launchRegistrationFragment(mRegistrationLaunchMode, isParentalConsent);
     }
 
-    private void launchRegistrationFragment(boolean isAccountSettings, boolean isParentalConsent) {
+    private void launchRegistrationFragment(String isAccountSettings, boolean isParentalConsent) {
         CoppaLaunchInput urLaunchInput;
         urLaunchInput = new CoppaLaunchInput();
-        urLaunchInput.setAccountSettings(isAccountSettings);
-        urLaunchInput.setOptInMarketing(isMarketingOptIn);
+        urLaunchInput.setRegistrationLaunchMode(isAccountSettings);
         urLaunchInput.setParentalFragment(isParentalConsent);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.

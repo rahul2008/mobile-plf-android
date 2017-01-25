@@ -40,10 +40,8 @@ public class CoppaInterface implements UappInterface {
                     getSupportFragmentManager();
             final RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
             final Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
-                    uappLaunchInput).isAccountSettings());
-            bundle.putBoolean(RegConstants.MARKETING_OPT_IN, ((CoppaLaunchInput)
-                    uappLaunchInput).isOptInMarketing());
+            bundle.putString(RegConstants.REGISTRATION_LAUNCH_MODE, ((CoppaLaunchInput)
+                    uappLaunchInput).getRegistrationLaunchMode());
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
                     uappLaunchInput).isParentalFragment());
             registrationFragment.setArguments(bundle);
@@ -86,10 +84,8 @@ public class CoppaInterface implements UappInterface {
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationCoppaActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
-                    uappLaunchInput).isAccountSettings());
-            bundle.putBoolean(RegConstants.MARKETING_OPT_IN, ((CoppaLaunchInput)
-                    uappLaunchInput).isOptInMarketing());
+            bundle.putString(RegConstants.REGISTRATION_LAUNCH_MODE, ((CoppaLaunchInput)
+                    uappLaunchInput).getRegistrationLaunchMode());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
