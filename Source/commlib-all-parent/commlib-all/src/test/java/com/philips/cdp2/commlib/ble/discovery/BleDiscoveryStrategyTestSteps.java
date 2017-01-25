@@ -33,6 +33,7 @@ import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.atLeast;
@@ -188,6 +189,6 @@ public class BleDiscoveryStrategyTestSteps {
     @Then("^the number of created appliances is (\\d+)$")
     public void theNumberOfCreatedAppliancesIs(int numberOfAppliances) {
         final Set<? extends Appliance> availableAppliances = commCentral.getApplianceManager().getAvailableAppliances();
-        assertTrue("Number of created appliances doesn't match expected number.", availableAppliances.size() == numberOfAppliances);
+        assertEquals("Number of created appliances doesn't match expected number.", numberOfAppliances, availableAppliances.size());
     }
 }
