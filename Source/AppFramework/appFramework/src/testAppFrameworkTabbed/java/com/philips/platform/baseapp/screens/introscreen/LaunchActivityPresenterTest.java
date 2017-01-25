@@ -86,7 +86,6 @@ public class LaunchActivityPresenterTest extends TestCase {
     public void testOnLoad() throws NoEventFoundException {
         final UIStateData uiStateData = mock(UIStateData.class);
         final SplashState splashStateMock = mock(SplashState.class);
-        final SplashState launchActivityState = mock(SplashState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
@@ -109,6 +108,12 @@ public class LaunchActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
+            protected SplashState getSplashState() {
+                return splashStateMock;
+            }
+
+            @NonNull
+            @Override
             protected UIStateData getUiStateData() {
                 return uiStateData;
             }
@@ -116,8 +121,6 @@ public class LaunchActivityPresenterTest extends TestCase {
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(splashStateMock.getStateID()).thenReturn("something");
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(launchActivityState);
-        when(uiFlowManagerMock.getFirstState()).thenReturn(splashStateMock);
         launchActivityPresenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
         verify(splashStateMock, atLeastOnce()).setUiStateData(uiStateData);
         verify(splashStateMock).navigate(fragmentLauncherMock);
