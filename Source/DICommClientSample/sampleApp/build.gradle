@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        applicationId "com.philips.cdp.dicommclientsample"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion versions.sdk
 
+        applicationId "com.philips.cdp.dicommclientsample"
         testApplicationId "com.philips.cdp.dicommclient"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }

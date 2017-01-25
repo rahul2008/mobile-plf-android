@@ -84,6 +84,8 @@ android {
 }
 
 dependencies {
+    provided deps.support_annotations
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
     compile deps.gson
@@ -106,5 +108,4 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    provided deps.support_annotations
 }
