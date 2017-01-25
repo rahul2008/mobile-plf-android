@@ -31,13 +31,15 @@ public class PrimaryButtonWithTextAndIconTest {
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         mActivityTestRule.getActivity().switchTo(com.philips.platform.uid.test.R.layout.layout_buttons);
         button = new Button(mActivityTestRule.getActivity());
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    /************************************************Layout************************************************/
+    /************************************************
+     * Layout
+     ************************************************/
 
     @Test
     public void verifyTextandIconButtonCompoundPadding() {
@@ -46,10 +48,11 @@ public class PrimaryButtonWithTextAndIconTest {
         getIconandTextButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawablePadding(expectedCompoundPadding)));
     }
 
-    /************************************************Theming************************************************/
+    /************************************************
+     * Theming
+     ************************************************/
 
     private ViewInteraction getIconandTextButton() {
         return onView(withId(com.philips.platform.uid.test.R.id.demo_image_text_button));
     }
-
-        }
+}

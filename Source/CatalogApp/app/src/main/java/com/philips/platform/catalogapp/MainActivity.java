@@ -6,10 +6,12 @@
 
 package com.philips.platform.catalogapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -18,7 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.TonalRangeChangedEvent;
@@ -36,7 +37,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-
 public class MainActivity extends AppCompatActivity {
 
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences defaultSharedPreferences;
 
     private NavigationController navigationController;
-    private ActivityMainBinding activityMainBinding;
+    private ViewDataBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,11 +160,11 @@ public class MainActivity extends AppCompatActivity {
         return new ThemeConfiguration(colorRange, contentColor, navigationColor, this);
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void saveThemeValues(final String key, final String name) {
         final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
         edit.putString(key, name);
         edit.commit();
-        edit.apply();
     }
 
     @Override
@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        navigationController.updateStack();
         super.onBackPressed();
         navigationController.processBackButton();
     }

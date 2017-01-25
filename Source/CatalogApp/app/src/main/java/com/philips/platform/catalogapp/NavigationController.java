@@ -2,6 +2,7 @@ package com.philips.platform.catalogapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -13,15 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.philips.platform.catalogapp.databinding.ActivityMainBinding;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class NavigationController {
+    public static final String ACTIVE_FRAGMENTS = "activeFragments";
     protected static final String HAMBURGER_BUTTON_DISPLAYED = "HAMBURGER_BUTTON_DISPLAYED";
     protected static final String THEMESETTINGS_BUTTON_DISPLAYED = "THEMESETTINGS_BUTTON_DISPLAYED";
 
@@ -30,17 +33,17 @@ public class NavigationController {
     private MenuItem themeSetting;
     private MenuItem setTheme;
     SharedPreferences fragmentPreference;
-    private ActivityMainBinding activityMainBinding;
+    private ViewDataBinding activityMainBinding;
     boolean hamburgerIconVisible;
     boolean themeSettingsIconVisible;
     private int titleResource;
     private Toolbar toolbar;
 
-    public NavigationController(final MainActivity mainActivity, final Intent intent, final ActivityMainBinding activityMainBinding) {
+    public NavigationController(final MainActivity mainActivity, final Intent intent, final ViewDataBinding activityMainBinding) {
         this.mainActivity = mainActivity;
         fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
         this.activityMainBinding = activityMainBinding;
-        toolbar = (Toolbar) activityMainBinding.appBar.findViewById(R.id.uid_toolbar);
+        toolbar = (Toolbar) activityMainBinding.getRoot().findViewById(R.id.uid_toolbar);
         clearLastFragmentOnFreshLaunch(intent);
     }
 
@@ -166,7 +169,7 @@ public class NavigationController {
             initDemoListFragment();
             showHamburgerIcon();
 
-            restoreLastActiveFragment();
+            restoreLastActiveFragment(getLastActiveFragmentName());
         } else {
             showUiFromPreviousState(savedInstanceState);
         }
@@ -192,25 +195,36 @@ public class NavigationController {
     }
 
     public void storeFragmentInPreference(String fragmentTag) {
-        fragmentPreference.edit().putString("activeFragment", fragmentTag).commit();
+
+        if (fragmentTag == null) {
+            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, null).apply();
+            return;
+        }
+        Set<String> set = new LinkedHashSet<>();
+        final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, set);
+        stringSet.add(fragmentTag);
+        fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).apply();
     }
 
-    private String getLastActiveFragmentName() {
-        return fragmentPreference.getString("activeFragment", null);
+    private Set<String> getLastActiveFragmentName() {
+        return fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, null);
     }
 
-    private void restoreLastActiveFragment() {
-        if (getLastActiveFragmentName() != null) {
-            String fragmentName = getLastActiveFragmentName();
-            try {
-                Class<BaseFragment> fragmentClass = (Class<BaseFragment>) Class.forName(fragmentName);
-                switchFragment(fragmentClass.newInstance());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+    private void restoreLastActiveFragment(final Set<String> lastActiveFragments) {
+        if (lastActiveFragments != null) {
+            for (String lastFragment : lastActiveFragments) {
+                if (lastFragment != null) {
+                    try {
+                        Class<BaseFragment> fragmentClass = (Class<BaseFragment>) Class.forName(lastFragment);
+                        switchFragment(fragmentClass.newInstance());
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -224,5 +238,23 @@ public class NavigationController {
     public void initIconState(final Bundle savedInstanceState) {
         hamburgerIconVisible = savedInstanceState.getBoolean(HAMBURGER_BUTTON_DISPLAYED);
         themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
+    }
+
+    public void updateStack() {
+        if (hasBackStack()) {
+            final List<Fragment> fragments = supportFragmentManager.getFragments();
+            final Fragment fragment = fragments.get(fragments.size() - 1);
+            if (fragment != null) {
+                removeFragmentInPreference(fragment.getClass().getName());
+            }
+        }
+    }
+
+    private void removeFragmentInPreference(String fragmentName) {
+        final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, new LinkedHashSet<String>());
+        if (stringSet != null && !stringSet.isEmpty()) {
+            stringSet.remove(fragmentName);
+            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).apply();
+        }
     }
 }

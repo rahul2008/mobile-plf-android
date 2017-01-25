@@ -7,8 +7,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
-import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.utils.UIDTestUtils;
+import com.philips.platform.uid.utils.UIDUtils;
 
 import org.hamcrest.Matcher;
 
@@ -194,7 +194,10 @@ public class FunctionDrawableMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 ColorStateList colorStateList = UIDTestUtils.getColorStateListWithReflection(view, funcName);
-                return colorStateList.getColorForState(new int[]{state}, Color.MAGENTA) == expectedValue;
+                final int actual = colorStateList.getColorForState(new int[]{state}, Color.MAGENTA);
+
+                setValues(actual, expectedValue);
+                return areEqual();
             }
         };
     }
@@ -288,6 +291,26 @@ public class FunctionDrawableMatchers {
                 boolean matches = colorMatcher.matches(drawable);
                 setValues(colorMatcher.actual, colorMatcher.expected);
                 return matches;
+            }
+        };
+    }
+
+    /**
+     * @param funcName      Its menthod name to be invoked on drawable
+     * @param index         index in selector to which you want expected color to be compared
+     * @param expectedValue
+     * @param flag
+     * @return
+     */
+    public static Matcher<View> isSameColorFromColorListWithReflection(final String funcName, final int index, final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ColorStateList colorStateList = UIDTestUtils.getColorStateListWithReflection(view, funcName);
+                final int[] colors = UIDTestUtils.getColorsWithReflection(colorStateList);
+                final int color = colors[index];
+                setValues(color, expectedValue);
+                return areEqual();
             }
         };
     }
