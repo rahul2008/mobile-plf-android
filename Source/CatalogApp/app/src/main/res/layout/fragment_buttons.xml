@@ -247,10 +247,28 @@
 
             <include layout="@layout/divider_layout"/>
 
-            <TextView
-                style="@style/ButtonsCategoryStyle"
-                android:text="@string/social_media_icons"
-                android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}"/>
+            <RelativeLayout
+                style="@style/ButtonsCategoryStyle">
+
+                <TextView
+                    style="@style/ButtonsCategoryStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:onClick="@{(v) -> frag.showGridFragment()}"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="0dp"
+                    android:text="@string/social_media_icons"
+                    android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}"/>
+
+                <ImageButton
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/ic_right_arrow_show_more"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/socialMediaIcons"
@@ -258,7 +276,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_left_right"
                 android:gravity="center"
-                android:onClick="@{(v) -> frag.showGridFragment()}"
                 android:orientation="horizontal"
                 android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}">
 
