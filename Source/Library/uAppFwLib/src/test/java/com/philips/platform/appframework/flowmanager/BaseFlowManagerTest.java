@@ -15,6 +15,7 @@ import com.philips.platform.appframework.flowmanager.states.DataServicesState;
 import com.philips.platform.appframework.flowmanager.states.IAPRetailerFlowState;
 import com.philips.platform.appframework.flowmanager.states.ProductRegistrationState;
 import com.philips.platform.appframework.flowmanager.states.SettingsFragmentState;
+import com.philips.platform.appframework.flowmanager.states.SplashState;
 import com.philips.platform.appframework.flowmanager.states.SupportFragmentState;
 import com.philips.platform.appframework.flowmanager.states.UserRegistrationOnBoardingState;
 
@@ -98,6 +99,7 @@ public class BaseFlowManagerTest extends TestCase {
             uiStateMap.put(AppStates.PR, new ProductRegistrationState());
             uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
             uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
+            uiStateMap.put(AppStates.SPLASH, new SplashState());
         }
 
         @Override
