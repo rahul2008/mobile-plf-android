@@ -55,7 +55,6 @@
         <item name="selectableItemBackground">@android:color/transparent</item>
         <item name="android:minWidth">@dimen/uid_navigation_bar_icon_size</item>
         <item name="android:minHeight">@dimen/uid_navigation_bar_icon_size</item>
-        <item name="android:maxHeight">?attr/actionBarSize</item>
         <item name="android:elevation">0dp</item>
     </style>
 
@@ -69,11 +68,6 @@
     <style name="UIDToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:gravity">center_vertical</item>
         <item name="android:buttonGravity" tools:targetApi="n">top</item>
-        <!-- Below properties are for toolbar height-->
-        <item name="height">@dimen/uid_navigation_bar_height</item>
-        <item name="android:maxHeight">?attr/actionBarSize</item>
-        <item name="actionBarSize">@dimen/uid_navigation_bar_height</item>
-        <item name="android:actionBarSize">@dimen/uid_navigation_bar_height</item>
 
         <item name="buttonGravity">top</item>
         <item name="titleTextAppearance">@style/UIDToolbarTitleStyle</item>
@@ -95,7 +89,6 @@
     </style>
 
     <style name="UIDToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="collapseContentDescription">@dimen/uid_navigation_bar_title_margin_left_right
         </item>
         <item name="android:textColor">?attr/uidNavigationTextColor</item>
