@@ -25,6 +25,10 @@ public class FlowManagerStackTest extends TestCase {
     public void testPop() {
         BaseState aboutState = new AboutScreenState();
         BaseState iapRetailer = new IAPRetailerFlowState();
+        assertEquals(flowManagerStack.pop(), null);
+        flowManagerStack.push(aboutState);
+        flowManagerStack.pop();
+        assertEquals(flowManagerStack.size(), 0);
         flowManagerStack.push(aboutState);
         flowManagerStack.push(aboutState);
         flowManagerStack.push(iapRetailer);

@@ -43,6 +43,11 @@ public class AppFlowParserTest extends TestCase {
         } catch (JsonFileNotFoundException e) {
             assertTrue(e.getMessage().equals("No Json file found"));
         }
+        try {
+            appFlowParser.getAppFlow("data");
+        } catch (JsonFileNotFoundException e) {
+            assertTrue(e.getMessage().equals("No Json file found"));
+        }
 
         appFlowParser = new AppFlowParser() {
             @NonNull
