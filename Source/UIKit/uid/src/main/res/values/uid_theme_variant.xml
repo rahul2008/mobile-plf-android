@@ -156,9 +156,10 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
 
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
-
+        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
+        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor"></item>
     </style>
 
     <style name="VeryLight">
@@ -216,8 +217,10 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
+        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
+        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+
     </style>
 
     <style name="Light">
@@ -274,8 +277,9 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
 
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
+        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
+        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
 
     </style>
 
@@ -332,8 +336,10 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
-        <item name="uidDatePickerBackgroundColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
+        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
+        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+
     </style>
 
     <style name="VeryDark">
@@ -391,8 +397,9 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
-        <item name="uidDatePickerBackgroundColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerText">@color/uidColorWhite</item>
+        <item name="uidDatePickerFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerTextColor">@color/uidColorWhite</item>
+        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
 
     </style>
 </resources>

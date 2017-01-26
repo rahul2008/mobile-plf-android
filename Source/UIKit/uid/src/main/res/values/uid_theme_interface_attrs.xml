@@ -129,8 +129,12 @@
     </declare-styleable>
 
     <declare-styleable name="UIDPickers">
-        <attr name="uidDatePickerBackgroundColor" format="reference|color"/>
-        <attr name="uidDatePickerText" format="reference|color"/>
+        <attr name="uidDatePickerFillColor" format="reference|color"/>
+        <attr name="DatePickerHeaderFillColor" format="reference|color"/>
+        <attr name="DatePickerSelectedFillColor" format="reference|color"/>
+        <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
+        <attr name="uidDatePickerTextColor" format="reference|color"/>
+        <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDSocialMediaButton">
