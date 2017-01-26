@@ -11,7 +11,7 @@ public class UserRegistrationOnBoardingState extends BaseState {
      * AppFlowState constructor
      */
     public UserRegistrationOnBoardingState() {
-        super("UR");
+        super("onBoarding_registration");
     }
 
     @Override

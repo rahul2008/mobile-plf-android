@@ -70,9 +70,14 @@ public abstract class BaseFlowManager {
      * @param conditionId Condition ID for which the BaseCondition object needs to be created.
      * @return Object of BaseCondition type.
      */
-    public BaseCondition getCondition(String conditionId) throws ConditionIdNotSetException {
-        if (conditionId != null && conditionId.length() != 0)
-            return conditionMap.get(conditionId);
+    private BaseCondition getCondition(String conditionId) throws ConditionIdNotSetException {
+        if (conditionId != null && conditionId.length() != 0) {
+            BaseCondition baseCondition = conditionMap.get(conditionId);
+            if (baseCondition != null && baseCondition.getConditionID() != null && baseCondition.getConditionID().length() != 0)
+                return baseCondition;
+            else
+                throw new ConditionIdNotSetException();
+        }
 
         throw new ConditionIdNotSetException();
     }

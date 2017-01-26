@@ -41,7 +41,9 @@
             "eventId": "URComplete",
             "nextStates": [
               {
-                "condition": [],
+                "condition": [
+                  "test"
+                ],
                 "nextState": "home"
               }
             ]

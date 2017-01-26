@@ -16,6 +16,11 @@ public abstract class BaseCondition {
         this.conditionID = conditionID;
     }
 
+
+    public String getConditionID() {
+        return conditionID;
+    }
+
     /**
      * This Method will return true if the condition satisfies otherwise return false.
      *

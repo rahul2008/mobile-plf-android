@@ -8,6 +8,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.condition.ConditionAppLaunch;
 import com.philips.platform.appframework.flowmanager.condition.ConditionIsDonePressed;
 import com.philips.platform.appframework.flowmanager.condition.ConditionIsLoggedIn;
+import com.philips.platform.appframework.flowmanager.condition.ConditionTest;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
@@ -69,8 +70,7 @@ public class BaseFlowManagerTest extends TestCase {
     public void testConditionIdException() {
         exception.expect(ConditionIdNotSetException.class);
         try {
-            flowManagerTest = new FlowManagerTest();
-            flowManagerTest.initialize(context, path, flowManagerListenerMock);
+            flowManagerTest.getNextState(flowManagerTest.getState(AppStates.ON_BOARDING_REGISTRATION), "URComplete");
         } catch (ConditionIdNotSetException e) {
             assertTrue(e.getMessage().equals("No condition id set on constructor"));
         }
@@ -150,7 +150,7 @@ public class BaseFlowManagerTest extends TestCase {
             baseConditionMap.put(AppConditions.IS_LOGGED_IN, new ConditionIsLoggedIn());
             baseConditionMap.put(AppConditions.IS_DONE_PRESSED, new ConditionIsDonePressed());
             baseConditionMap.put(AppConditions.CONDITION_APP_LAUNCH, new ConditionAppLaunch());
-            baseConditionMap.put(AppConditions.TEST, new ConditionAppLaunch());
+            baseConditionMap.put(AppConditions.TEST, new ConditionTest());
         }
     }
 }
