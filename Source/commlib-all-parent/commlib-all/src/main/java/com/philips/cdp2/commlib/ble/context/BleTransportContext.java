@@ -18,6 +18,7 @@ import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class BleTransportContext implements TransportContext {
     private static final long BLE_DISCOVERY_TIMEOUT_MS = 20000L;
@@ -48,6 +49,7 @@ public class BleTransportContext implements TransportContext {
     public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) throws TransportUnavailableException {
         this.deviceCache = new BleDeviceCache();
         try {
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new TransportUnavailableException(e);
