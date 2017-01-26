@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -126,6 +127,13 @@ public class UCoreMoment {
 
     public void setMeasurementGroups(@Nullable final List<UCoreMeasurementGroups> measurementGroups) {
         this.measurementGroups = measurementGroups;
+    }
+
+    public void addMeasurementGroup(final UCoreMeasurementGroups measurementGroup) {
+        if(measurementGroups == null){
+            measurementGroups = new ArrayList<>();
+        }
+        measurementGroups.add(measurementGroup);
     }
 
     @Nullable

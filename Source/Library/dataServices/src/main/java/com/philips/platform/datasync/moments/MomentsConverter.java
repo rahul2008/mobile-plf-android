@@ -7,6 +7,7 @@
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;
@@ -52,7 +53,7 @@ public class MomentsConverter {
                 Moment moment = createMoment(uCoreMoment);
                 momentList.add(moment);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return momentList;
@@ -74,80 +75,34 @@ public class MomentsConverter {
 
         List<UCoreMeasurementGroups> measurementGroups = uCoreMoment.getMeasurementGroups();
         if (measurementGroups != null && measurementGroups.size() != 0) {
-            //DSLog.i(DSLog.LOG, "BEFORE addMeasurementGroupsToMomentNoRecursion" + moment.toString() + "and UcoreMoment = " + uCoreMoment);
-            addMeasurementGroupsToMomentNoRecursion(true,moment, null,measurementGroups);
+            //DSLog.i(DSLog.LOG, "BEFORE addMeasurementGroupsToMomentRecursively" + moment.toString() + "and UcoreMoment = " + uCoreMoment);
+            addMeasurementGroupsToMomentRecursively(true, moment, null, measurementGroups);
         }
         return moment;
     }
 
-    private void addMeasurementGroupsToMomentNoRecursion(final boolean isRoot, final Moment moment, final MeasurementGroup parents, final List<UCoreMeasurementGroups> measurementGroups) {
-       // DSLog.i(DSLog.LOG, "BEFORE addMeasurementGroupsToMomentNoRecursion" + moment.toString() + "and list of uCoremeaurement = " + measurementGroups.toString());
+    private void addMeasurementGroupsToMomentRecursively(final boolean isRoot, final Moment moment, final MeasurementGroup parents, final List<UCoreMeasurementGroups> measurementGroups) {
         for (UCoreMeasurementGroups uCoreMeasurementGroups : measurementGroups) {
 
-        //    DSLog.i(DSLog.LOG, "Inside for loop for uCoreMeasurementGroup = " + uCoreMeasurementGroups);
             MeasurementGroup parentOrm;
-            if(!isRoot){
+            if (!isRoot) {
                 parentOrm = baseAppDataCreater.createMeasurementGroup(parents);
-            }else {
+            } else {
                 parentOrm = baseAppDataCreater.createMeasurementGroup(moment);
             }
             addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroups, parentOrm);
 
-            if(!isRoot)
-            parents.addMeasurementGroup(parentOrm);
-            if(uCoreMeasurementGroups.getMeasurementGroups()!=null && uCoreMeasurementGroups.getMeasurementGroups().size()>0)
-            {
-            //    MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
-                addMeasurementGroupsToMomentNoRecursion(false, moment, parentOrm,uCoreMeasurementGroups.getMeasurementGroups());
-               // addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroups, childOrm);
-
-          //      DSLog.i(DSLog.LOG, "inside if condition" + parentOrm.toString() + "for uCoreMeasurement = " + uCoreMeasurementGroups.getMeasurementGroups());
+            if (!isRoot) {
+                parents.addMeasurementGroup(parentOrm);
+            }
+            if (uCoreMeasurementGroups.getMeasurementGroups() != null && uCoreMeasurementGroups.getMeasurementGroups().size() > 0) {
+                addMeasurementGroupsToMomentRecursively(false, moment, parentOrm, uCoreMeasurementGroups.getMeasurementGroups());
             }
 
-          //  addMeasurementGroupsToMomentNoRecursion(moment,parentOrm,uCoreMeasurementGroups.getMeasurementGroups());
-
-            if(isRoot)
-            moment.addMeasurementGroup(parentOrm);
-            //DSLog.i(DSLog.LOG, "AFETR for loop" + moment.toString());
-        }
-    }
-
-    private MeasurementGroup addMeasurementGroupsRecursively(MeasurementGroup parentOrmToAttachMoment, MeasurementGroup parentOrm, final UCoreMeasurementGroups parentUCore) {
-        List<UCoreMeasurementGroups> childUCoreList = parentUCore.getMeasurementGroups();
-        if(childUCoreList == null){
-            return parentOrmToAttachMoment;
-        }
-
-        for(UCoreMeasurementGroups uCoreMeasurementGroup : childUCoreList){
-
-            if(uCoreMeasurementGroup ==null){
-                return parentOrmToAttachMoment;
+            if (isRoot) {
+                moment.addMeasurementGroup(parentOrm);
             }
-
-            MeasurementGroup childOrm = baseAppDataCreater.createMeasurementGroup(parentOrm);
-            addMeasurementsAndDeatilsToMeasurementGroup(uCoreMeasurementGroup, childOrm);
-            parentOrm.addMeasurementGroup(childOrm);
-            parentOrmToAttachMoment = addMeasurementGroupsRecursively(parentOrm,childOrm,uCoreMeasurementGroup);
         }
-        return parentOrmToAttachMoment;
-    }
-
-
-    @NonNull
-    private void addMeasurementGroupsToMoment(Moment moment, List<UCoreMeasurementGroups> measurementGroups) {
-        MeasurementGroup parentOrmToAttachMoment = null;
-        for (UCoreMeasurementGroups uCoreMeasurementGroups : measurementGroups) {
-            MeasurementGroup parentOrm = baseAppDataCreater.createMeasurementGroup(moment);
-            parentOrmToAttachMoment = parentOrm;
-
-            UCoreMeasurementGroups parentUCore = uCoreMeasurementGroups;
-
-            addMeasurementsAndDeatilsToMeasurementGroup(parentUCore, parentOrm);
-
-            addMeasurementGroupsRecursively(parentOrm, parentOrm, parentUCore);
-        }
-
-        moment.addMeasurementGroup(parentOrmToAttachMoment);
     }
 
     private void addMeasurementsAndDeatilsToMeasurementGroup(UCoreMeasurementGroups uCoreMeasurementGroups, MeasurementGroup parent) {
@@ -220,7 +175,6 @@ public class MomentsConverter {
         }
     }
 
-
     public UCoreMoment convertToUCoreMoment(Moment moment) {
         UCoreMoment uCoreMoment = new UCoreMoment();
 
@@ -229,49 +183,43 @@ public class MomentsConverter {
             String momentTypeString = moment.getType();
             uCoreMoment.setType(momentTypeString);
 
-            List<UCoreMeasurementGroups> uCoreMeasurementGroupList = new ArrayList<>();
-            List<UCoreMeasurementGroupDetail> uCoreMeasurementGroupDetails = new ArrayList<>();
             List<UCoreDetail> uCoreMomentList = new ArrayList<>();
 
             addToUCoreMomentDetails(moment.getMomentDetails(), uCoreMomentList);
-            //addToUCoreMeasurements(moment.getMeasurements(), uCoreMeasurementList);
             uCoreMoment.setDetails(uCoreMomentList);
 
-            uCoreMeasurementGroupList = addToUCoreMeasurementGroups(moment.getMeasurementGroups(), uCoreMeasurementGroupList);
-            uCoreMoment.setMeasurementGroups(uCoreMeasurementGroupList);
+            final Collection<? extends MeasurementGroup> measurementGroups = moment.getMeasurementGroups();
+            if (measurementGroups != null && measurementGroups.size() != 0) {
+                uCoreMoment = addToUCoreMeasurementGroupsRecursively(true, uCoreMoment, null, measurementGroups);
+            }
 
             setVersion(uCoreMoment, moment.getSynchronisationData());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return uCoreMoment;
     }
 
-    private List<UCoreMeasurementGroups> addToUCoreMeasurementGroups(Collection<? extends MeasurementGroup> measurementGroups, List<UCoreMeasurementGroups> uCoreMeasurementGroupList) {
+    private UCoreMoment addToUCoreMeasurementGroupsRecursively(final boolean isRoot, UCoreMoment uCoreMoment, UCoreMeasurementGroups parent, Collection<? extends MeasurementGroup> measurementGroups) {
         ArrayList<MeasurementGroup> measurementGroupsArray = new ArrayList(measurementGroups);
-        int size = measurementGroups.size();
-        for (int i = 0, j = 0; i < size; i++) {
-            UCoreMeasurementGroups uCoreMeasurementGroup = new UCoreMeasurementGroups();
-            uCoreMeasurementGroup = convertMeasurementGroupToUCoreMeasurementGroup(measurementGroupsArray.get(i), uCoreMeasurementGroup);
-            uCoreMeasurementGroupList.add(uCoreMeasurementGroup);
+        for (MeasurementGroup measurementGroup : measurementGroupsArray) {
+            UCoreMeasurementGroups parentUCore = new UCoreMeasurementGroups();
 
-            ArrayList<MeasurementGroup> childGroupsArray = new ArrayList(measurementGroupsArray.get(i).getMeasurementGroups());
-            int size1 = childGroupsArray.size();
-            while (childGroupsArray != null && size1 > 0) {
-                for (int i1 = 0, j1 = 0; i1 < size1; i++) {
-                    UCoreMeasurementGroups uCoreMeasurementGroup1 = new UCoreMeasurementGroups();
-                    uCoreMeasurementGroup1 = convertMeasurementGroupToUCoreMeasurementGroup(childGroupsArray.get(i1), uCoreMeasurementGroup1);
-                    List<UCoreMeasurementGroups> uCoreMeasurementGroupses = new ArrayList<>();
-                    uCoreMeasurementGroupses.add(uCoreMeasurementGroup1);
-                    uCoreMeasurementGroupList.get(i).setMeasurementGroups(uCoreMeasurementGroupses);
+            parentUCore = convertMeasurementGroupToUCoreMeasurementGroup(measurementGroup, parentUCore);
 
-                    //TODO: Check the size before doing a get(i)
-                    childGroupsArray = new ArrayList(childGroupsArray.get(i).getMeasurementGroups());
-                    size1 = childGroupsArray.size();
-                }
+            if (!isRoot) {
+                parent.addMeasurementGroups(parentUCore);
             }
+            if (measurementGroup.getMeasurementGroups() != null && measurementGroup.getMeasurementGroups().size() > 0) {
+                return addToUCoreMeasurementGroupsRecursively(false, uCoreMoment, parentUCore, measurementGroup.getMeasurementGroups());
+            }
+
+//            if (isRoot) {
+            Log.i("****TAG", "ROOT hence entering parent to attach to moment ");
+            uCoreMoment.addMeasurementGroup(parent);
+            //          }
         }
-        return uCoreMeasurementGroupList;
+        return uCoreMoment;
     }
 
     private UCoreMeasurementGroups convertMeasurementGroupToUCoreMeasurementGroup(MeasurementGroup measurementGroup, UCoreMeasurementGroups uCoreMeasurementGroups) {
@@ -287,7 +235,6 @@ public class MomentsConverter {
 
         return uCoreMeasurementGroups;
     }
-
 
     private void setVersion(final UCoreMoment uCoreMoment, final SynchronisationData synchronisationData) {
         if (synchronisationData != null) {
@@ -346,5 +293,4 @@ public class MomentsConverter {
         }
         uCoreMeasurement.setDetails(uCoreDetailList);
     }
-
 }

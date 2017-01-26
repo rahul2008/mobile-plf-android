@@ -1,10 +1,10 @@
 package com.philips.platform.datasync.moments;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,5 +50,12 @@ public class UCoreMeasurementGroups {
 
     public void setMeasurements(@Nullable List<UCoreMeasurement> measurements) {
         this.measurements = measurements;
+    }
+
+    public void addMeasurementGroups(final UCoreMeasurementGroups parentUCore) {
+        if(measurementGroups == null){
+            measurementGroups = new ArrayList<>();
+        }
+        this.measurementGroups.add(parentUCore);
     }
 }
