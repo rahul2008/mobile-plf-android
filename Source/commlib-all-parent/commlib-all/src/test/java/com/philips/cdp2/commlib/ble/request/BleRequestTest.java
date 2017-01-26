@@ -23,6 +23,7 @@ import org.mockito.stubbing.Answer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.TIMED_OUT;
 import static com.philips.pins.shinelib.SHNDevice.State.Connected;
@@ -96,7 +97,7 @@ public class BleRequestTest {
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
 
-        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, new AtomicBoolean(true));
         request.inProgressLatch = mockInProgressLatch;
     }
 

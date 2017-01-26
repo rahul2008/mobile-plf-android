@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The type BleCommunicationStrategy.
@@ -39,6 +40,8 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @NonNull
     private final ScheduledThreadPoolExecutor mExecutor;
 
+    private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+
     /**
      * Instantiates a new BleCommunicationStrategy.
      *
@@ -53,13 +56,13 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler);
+        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler);
+        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
@@ -90,14 +93,16 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
             SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
             device.connect();
         }
+        disconnectAfterRequest.set(false);
     }
 
     @Override
     public void disableCommunication() {
-        if (isAvailable()) {
+        if (isAvailable() && mExecutor.getQueue().isEmpty() && mExecutor.getActiveCount() == 0) {
             SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
             device.disconnect();
         }
+        disconnectAfterRequest.set(true);
     }
 
     private void dispatchRequest(final BleRequest request) {
