@@ -92,6 +92,9 @@
         <item name="uidCheckBoxTickDisabledColor">@color/uidColorWhite</item>
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
+
+        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
+
     </style>
 
     <style name="UltraLight">
@@ -159,7 +162,7 @@
         <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
         <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
         <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerHeaderTextColor"></item>
+        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
     </style>
 
     <style name="VeryLight">
