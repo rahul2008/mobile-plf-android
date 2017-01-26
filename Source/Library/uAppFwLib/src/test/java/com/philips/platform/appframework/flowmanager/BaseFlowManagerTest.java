@@ -10,6 +10,9 @@ import com.philips.platform.appframework.flowmanager.condition.ConditionIsDonePr
 import com.philips.platform.appframework.flowmanager.condition.ConditionIsLoggedIn;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.flowmanager.states.AboutScreenState;
 import com.philips.platform.appframework.flowmanager.states.DataServicesState;
@@ -18,7 +21,9 @@ import com.philips.platform.appframework.flowmanager.states.ProductRegistrationS
 import com.philips.platform.appframework.flowmanager.states.SettingsFragmentState;
 import com.philips.platform.appframework.flowmanager.states.SplashState;
 import com.philips.platform.appframework.flowmanager.states.SupportFragmentState;
+import com.philips.platform.appframework.flowmanager.states.TestState;
 import com.philips.platform.appframework.flowmanager.states.UserRegistrationOnBoardingState;
+import com.philips.platform.appframework.flowmanager.states.WelcomeScreenState;
 
 import junit.framework.TestCase;
 
@@ -71,6 +76,26 @@ public class BaseFlowManagerTest extends TestCase {
         }
     }
 
+    public void testGetNextState() {
+        try {
+            flowManagerTest.getNextState(flowManagerTest.getCurrentState(), null);
+        } catch (NullEventException e) {
+            assertTrue(e.getMessage().equals("Null Event Found"));
+        }
+        try {
+            flowManagerTest.getNextState(flowManagerTest.getState(AppStates.TEST), "test");
+        } catch (StateIdNotSetException e) {
+            assertTrue(e.getMessage().equals("No State id set on constructor"));
+        }
+        try {
+            flowManagerTest.getNextState(flowManagerTest.getState("unknown"), "test");
+        } catch (NoStateException e) {
+            assertTrue(e.getMessage().equals("No State Found"));
+        }
+        assertEquals(flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut"), flowManagerTest.getState(AppStates.WELCOME));
+
+    }
+
     public void testErrorCases() {
         exception.expect(JsonAlreadyParsedException.class);
         try {
@@ -110,12 +135,14 @@ public class BaseFlowManagerTest extends TestCase {
         public void populateStateMap(final Map<String, BaseState> uiStateMap) {
             uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
             uiStateMap.put(AppStates.ABOUT, new AboutScreenState());
+            uiStateMap.put(AppStates.WELCOME, new WelcomeScreenState());
             uiStateMap.put(AppStates.SETTINGS, new SettingsFragmentState());
             uiStateMap.put(AppStates.IAP, new IAPRetailerFlowState());
             uiStateMap.put(AppStates.PR, new ProductRegistrationState());
             uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
             uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
             uiStateMap.put(AppStates.SPLASH, new SplashState());
+            uiStateMap.put(AppStates.TEST, new TestState());
         }
 
         @Override

@@ -5,12 +5,12 @@ import android.content.Context;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class SplashState extends BaseState {
+public class TestState extends BaseState {
     /**
      * AppFlowState constructor
      */
-    public SplashState() {
-        super("splash");
+    public TestState() {
+        super("");
     }
 
     @Override

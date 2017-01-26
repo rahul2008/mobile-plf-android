@@ -206,7 +206,7 @@ public abstract class BaseFlowManager {
     }
 
     private List<AppFlowEvent> getAppFlowEvents(String currentState) throws StateIdNotSetException {
-        if (currentState != null)
+        if (currentState != null && currentState.length() != 0)
             return appFlowMap.get(currentState);
 
         throw new StateIdNotSetException();

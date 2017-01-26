@@ -19,6 +19,6 @@ public class ConditionIsDonePressed extends BaseCondition {
 
     @Override
     public boolean isSatisfied(final Context context) {
-        return true;
+        return false;
     }
 }

@@ -19,6 +19,6 @@ public class ConditionIsLoggedIn extends BaseCondition {
 
     @Override
     public boolean isSatisfied(Context context) {
-        return true;
+        return false;
     }
 }
