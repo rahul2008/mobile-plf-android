@@ -175,7 +175,7 @@ public abstract class Appliance {
 
     @Override
     public int hashCode() {
-        return mNetworkNode.getCppId().hashCode();
+        return mNetworkNode.hashCode();
     }
 
     @Override
@@ -186,6 +186,6 @@ public abstract class Appliance {
         if (!(other instanceof Appliance)) {
             return false;
         }
-        return mNetworkNode.getCppId().equals(((Appliance) other).getNetworkNode().getCppId());
+        return mNetworkNode.equals(((Appliance) other).getNetworkNode());
     }
 }
