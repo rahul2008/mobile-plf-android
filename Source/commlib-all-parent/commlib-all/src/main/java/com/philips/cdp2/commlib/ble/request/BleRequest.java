@@ -276,12 +276,8 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void finishRequest() {
-        if (bleDevice != null) {
-            if (bleDevice.getState() == Disconnected || !disconnectAfterRequest.get()) {
-                onDisconnected();
-            } else {
-                bleDevice.disconnect();
-            }
+        if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
+            bleDevice.disconnect();
         } else {
             onDisconnected();
         }
