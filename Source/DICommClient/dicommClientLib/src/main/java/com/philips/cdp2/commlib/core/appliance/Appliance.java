@@ -52,8 +52,6 @@ public abstract class Appliance {
         addPort(mWifiUIPort);
     }
 
-    // TODO DIComm Refactor - remove from public interface
-
     /**
      * @return DeviceType used by CPP to identify this appliance
      */
@@ -188,6 +186,6 @@ public abstract class Appliance {
         if (!(other instanceof Appliance)) {
             return false;
         }
-        return getNetworkNode().getCppId().equals(((Appliance) other).getNetworkNode().getCppId());
+        return mNetworkNode.getCppId().equals(((Appliance) other).getNetworkNode().getCppId());
     }
 }
