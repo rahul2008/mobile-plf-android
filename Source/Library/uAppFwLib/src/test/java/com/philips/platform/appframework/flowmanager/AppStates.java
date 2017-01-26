@@ -19,4 +19,5 @@ public class AppStates {
     public static final String DATA_SYNC = "data_sync";
     public static final String WELCOME = "welcome";
     public static final String TEST = "test";
+    public static final String HOME = "home";
 }

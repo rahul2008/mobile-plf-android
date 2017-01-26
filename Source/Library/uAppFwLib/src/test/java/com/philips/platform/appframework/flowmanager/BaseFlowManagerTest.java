@@ -11,12 +11,14 @@ import com.philips.platform.appframework.flowmanager.condition.ConditionIsLogged
 import com.philips.platform.appframework.flowmanager.condition.ConditionTest;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.flowmanager.states.AboutScreenState;
 import com.philips.platform.appframework.flowmanager.states.DataServicesState;
+import com.philips.platform.appframework.flowmanager.states.HomeState;
 import com.philips.platform.appframework.flowmanager.states.IAPRetailerFlowState;
 import com.philips.platform.appframework.flowmanager.states.ProductRegistrationState;
 import com.philips.platform.appframework.flowmanager.states.SettingsFragmentState;
@@ -57,7 +59,9 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerListenerMock = mock(FlowManagerListener.class);
         context = mock(Context.class);
         flowManagerTest = new FlowManagerTest();
-        path = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json")).getPath();
+        File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
+        if (fileFromInputStream != null)
+            path = fileFromInputStream.getPath();
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
         verify(flowManagerListenerMock).onParseSuccess();
     }
@@ -65,6 +69,14 @@ public class BaseFlowManagerTest extends TestCase {
     public void testGetFirstState() {
         final BaseState firstState = flowManagerTest.getFirstState();
         assertTrue(firstState != null);
+    }
+
+    public void testNoEventFoundException() {
+        try {
+            flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "testing");
+        } catch (NoEventFoundException e) {
+            assertEquals(e.getMessage(), "No Event Found");
+        }
     }
 
     public void testConditionIdException() {
@@ -93,7 +105,35 @@ public class BaseFlowManagerTest extends TestCase {
             assertTrue(e.getMessage().equals("No State Found"));
         }
         assertEquals(flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut"), flowManagerTest.getState(AppStates.WELCOME));
+    }
 
+    public void testBackState() {
+        flowManagerTest = new FlowManagerTest();
+        flowManagerTest.initialize(context, path, flowManagerListenerMock);
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
+        assertNull(flowManagerTest.getBackState());
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.WELCOME), "welcome_done");
+        flowManagerTest.getBackState();
+        assertEquals(flowManagerTest.getState(AppStates.HOME), flowManagerTest.getCurrentState());
+
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.WELCOME), "welcome_done");
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
+        flowManagerTest.getBackState(flowManagerTest.getCurrentState());
+        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
+
+        flowManagerTest = new FlowManagerTest(context, path);
+        try {
+            flowManagerTest.getBackState();
+        } catch (NoStateException e) {
+            assertEquals(e.getMessage(), "No State Found");
+        }
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "support");
+        flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
+        flowManagerTest.getBackState();
+        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
     }
 
     public void testErrorCases() {
@@ -131,6 +171,13 @@ public class BaseFlowManagerTest extends TestCase {
 
     private class FlowManagerTest extends BaseFlowManager {
 
+        public FlowManagerTest() {
+        }
+
+        public FlowManagerTest(Context context, String path) {
+            super(context, path);
+        }
+
         @Override
         public void populateStateMap(final Map<String, BaseState> uiStateMap) {
             uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
@@ -143,6 +190,7 @@ public class BaseFlowManagerTest extends TestCase {
             uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
             uiStateMap.put(AppStates.SPLASH, new SplashState());
             uiStateMap.put(AppStates.TEST, new TestState());
+            uiStateMap.put(AppStates.HOME, new HomeState());
         }
 
         @Override

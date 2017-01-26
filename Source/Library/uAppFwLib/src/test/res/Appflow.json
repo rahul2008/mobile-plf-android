@@ -200,6 +200,15 @@
             ]
           },
           {
+            "eventId": "back",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
+          },
+          {
             "eventId": "logout",
             "nextStates": [
               {
