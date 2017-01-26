@@ -95,7 +95,7 @@ public class ShadowFrameLayout extends FrameLayout {
 
     private int getActionBarSize() {
         final TypedArray styledAttributes = getContext().getTheme()
-                .obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
+                .obtainStyledAttributes(new int[]{R.attr.actionBarSize});
         int size = (int) styledAttributes.getDimension(0, 0);
         styledAttributes.recycle();
         return size;
