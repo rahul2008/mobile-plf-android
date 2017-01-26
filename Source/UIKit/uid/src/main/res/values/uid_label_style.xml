@@ -38,4 +38,24 @@
     <style name="UIDLabelDescription.SliderMarginBottom">
         <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
     </style>
+
+    <style name="UIDLabel.ListViewSingleItemTitleText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
+    </style>
+
+    <style name="UIDLabel.ListViewMultipleItemTitleText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
+    </style>
+
+    <style name="UIDLabel.ListViewItemSubtitleText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_subtitle_text_size</item>
+    </style>
+
+    <style name="UIDLabel.ListViewItemDescriptionText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_description_text_size</item>
+    </style>
 </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.RecyclerViewFragment"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/uid_recyclerview_item_two_lines_height"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.ListViewMultipleItemTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/uid_recyclerview_two_line_item"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.ListViewItemDescriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/uid_recyclerview_the_description_goes_here"/>
+    </LinearLayout>
+</layout>

@@ -61,6 +61,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(5, getString(R.string.page_title_label));
         itemsMap.put(6, getString(R.string.page_title_checkbox));
         itemsMap.put(7, getString(R.string.page_title_separator));
+        itemsMap.put(8, getString(R.string.page_title_recyclerview));
         return sortMap(itemsMap);
     }
 
@@ -109,6 +110,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 7:
                 navigationController.switchFragment(new SeparatorFragment());
+                break;
+            case 8:
+                navigationController.switchFragment(new RecyclerViewFragment());
                 break;
         }
     }

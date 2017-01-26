@@ -145,4 +145,12 @@
     <!-- Separator -->
     <dimen name="uid_divider_Height">1dp</dimen>
 
+    <!-- RecyclerView -->
+    <dimen name="uid_recyclerview_title_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_title_text_size">16sp</dimen>
+    <dimen name="uid_recyclerview_item_subtitle_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_description_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_one_line_height">48dp</dimen>
+    <dimen name="uid_recyclerview_item_two_lines_height">72dp</dimen>
+    <dimen name="uid_recyclerview_item_three_lines_height">88dp</dimen>
 </resources>

@@ -108,4 +108,7 @@
     <string name="title4">Title 4</string>
     <string name="title5">Title 5</string>
     <string name="title6">Title 6</string>
+
+    <string name="page_title_recyclerview">RecyclerView</string>
+    <string name="recyclerview_settings">RecyclerView settings</string>
 </resources>
