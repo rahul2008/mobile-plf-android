@@ -19,6 +19,7 @@
         <attr name="uidControlPrimaryEnabledColor" format="reference|color"/>
         <attr name="uidControlPrimaryPressedColor" format="reference|color"/>
         <attr name="uidControlPrimaryTextColor" format="reference|color"/>
+        <attr name="uidControlPrimaryDetail" format="reference|color"/>
 
         <attr name="uidControlPrimaryTextPressedColor" format="reference|color"/>
         <attr name="uidControlPrimaryDisabledAlpha" format="reference|float"/>

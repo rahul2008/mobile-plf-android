@@ -93,8 +93,6 @@
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
 
-        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
-
     </style>
 
     <style name="UltraLight">
@@ -104,6 +102,7 @@
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
         <item name="uidNavigationTextColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidTextPrimaryColor">@color/uid_gray_level_75</item>
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
 
         <item name="uidApplicationBackground">?attr/uidColorLevel05</item>
 
@@ -159,17 +158,21 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
 
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
         <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
         <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
+        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
     </style>
 
     <style name="VeryLight">
         <item name="uidContentPrimary">?attr/uidColorLevel20</item>
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
+
         <item name="uidContentSecondary">?attr/uidColorLevel15</item>
         <item name="uidNavigationPrimaryColor">@color/uidColorWhite</item>
-        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel05</item>
+        <item name="uidNavigationSecondaryColor">?attr/uidColorLevel15</item>
         <item name="uidNavigationTextColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidTextPrimaryColor">?attr/uidColorLevel75</item>
 
@@ -220,14 +223,19 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
         <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
         <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
 
     </style>
 
     <style name="Light">
         <item name="uidContentPrimary">?attr/uidColorLevel35</item>
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+
         <item name="uidContentSecondary">?attr/uidColorLevel30</item>
         <item name="uidNavigationPrimaryColor">?attr/uidColorLevel25</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel30</item>
@@ -280,14 +288,18 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
 
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
         <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
         <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
 
     </style>
 
     <style name="Bright">
         <item name="uidContentPrimary">?attr/uidColorLevel50</item>
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidContentSecondary">?attr/uidColorLevel45</item>
         <item name="uidNavigationPrimaryColor">?attr/uidColorLevel40</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel45</item>
@@ -339,14 +351,18 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
         <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
         <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
 
     </style>
 
     <style name="VeryDark">
         <item name="uidContentPrimary">?attr/uidColorLevel80</item>
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
         <item name="uidContentSecondary">?attr/uidColorLevel75</item>
         <item name="uidNavigationPrimaryColor">?attr/uidColorLevel70</item>
         <item name="uidNavigationSecondaryColor">?attr/uidColorLevel75</item>
@@ -400,9 +416,12 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
         <item name="uidDatePickerFillColor">?attr/uidNavigationSecondaryColor</item>
         <item name="uidDatePickerTextColor">@color/uidColorWhite</item>
-        <item name="DatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
+        </item>
 
     </style>
 </resources>

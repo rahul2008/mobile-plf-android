@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="UIDDatePicker" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorControlActivated">?attr/uidDatePickerSelectedFillColor</item>
+        <item name="colorControlHighlight">?attr/uidDatePickerSelectedFillColor</item>
+        <item name="colorAccent">?attr/uidDatePickerHeaderFillColor</item>
+        <item name="android:textColorPrimary">?attr/uidDatePickerTextColor</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:windowBackground">?attr/uidDatePickerFillColor</item>
+    </style>
+</resources>

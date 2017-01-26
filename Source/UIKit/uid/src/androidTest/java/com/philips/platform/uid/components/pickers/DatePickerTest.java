@@ -1,0 +1,97 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
+
+package com.philips.platform.uid.components.pickers;
+
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.rule.ActivityTestRule;
+
+import com.philips.platform.uid.R;
+import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
+import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.utils.UIDTestUtils;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
+public class DatePickerTest {
+
+    @Rule
+    public ActivityTestRule<BaseTestActivity> activityActivityTestRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class);
+    private BaseTestActivity activity;
+
+    @Before
+    public void setUp() throws Exception {
+        activity = activityActivityTestRule.getActivity();
+        activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
+        activity.switchFragment(new PickersFragment());
+    }
+
+    @Test
+    public void verifyHeaderBackgroundColor() throws Exception {
+        int titleId = getViewId("date_picker_header");
+
+        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+    }
+
+    @Test
+    public void verifyHeaderTextColor() throws Exception {
+        int titleId = getViewId("date_picker_header_date");
+
+        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderTextColor);
+        onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyCancelButtonTextColor() throws Exception {
+        int titleId = getViewId("button2");
+
+        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyOkButtonTextColor() throws Exception {
+        int titleId = getViewId("button1");
+
+        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+//    @Test
+//    public void verifyPreviousButtonColor() throws Exception {
+//        int titleId = getViewId("prev");
+//
+//        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+//        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerTextColor);
+//        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameIconColor(color)));
+//    }
+//
+//    @Test
+//    public void verifyNextButtonColor() throws Exception {
+//        int titleId = getViewId("next");
+//
+//        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+//        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerTextColor);
+//        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameIconColor(color)));
+//    }
+
+    private int getViewId(final String viewName) {
+        return activity.getResources()
+                .getIdentifier(viewName, "id", "android");
+    }
+}
