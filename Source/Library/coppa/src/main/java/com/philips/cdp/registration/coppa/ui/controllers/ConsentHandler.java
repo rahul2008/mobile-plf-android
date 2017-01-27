@@ -18,6 +18,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
@@ -29,8 +30,12 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+
+import java.util.Locale;
 
 public class ConsentHandler implements RefreshUserHandler {
+
 
     final private CoppaExtension mCoppaExtension;
     private final Context mContext;
@@ -46,7 +51,7 @@ public class ConsentHandler implements RefreshUserHandler {
     }
 
     public void agreeConsent(final String taggingState, final String taggingKey,
-                             ParentalApprovalFragment parentalApprovalFragment) {
+                             ParentalApprovalFragment parentalApprovalFragment,final String locale) {
         mParentalApprovalFragment = parentalApprovalFragment;
         mTaggingState = taggingState;
         mTaggingKey = taggingKey;
@@ -56,7 +61,7 @@ public class ConsentHandler implements RefreshUserHandler {
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                mCoppaExtension.updateCoppaConsentStatus(true, new CoppaConsentUpdateCallback() {
+                mCoppaExtension.updateCoppaConsentStatus(true, locale, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
@@ -90,7 +95,7 @@ public class ConsentHandler implements RefreshUserHandler {
         });
     }
 
-    public void disAgreeConsent(ParentalApprovalFragment parentalApprovalFragment) {
+    public void disAgreeConsent(ParentalApprovalFragment parentalApprovalFragment,final String locale) {
         mParentalApprovalFragment = parentalApprovalFragment;
         mParentalApprovalFragment.getRegistrationFragment();
         RegistrationCoppaFragment.showRefreshProgress(
@@ -98,7 +103,7 @@ public class ConsentHandler implements RefreshUserHandler {
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                mCoppaExtension.updateCoppaConsentStatus(false, new CoppaConsentUpdateCallback() {
+                mCoppaExtension.updateCoppaConsentStatus(false, locale,new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         mUser.refreshUser(new RefreshUserHandler() {
@@ -188,7 +193,7 @@ public class ConsentHandler implements RefreshUserHandler {
     }
 
     private void completeConsentActions(final CoppaStatus coppaStatus) {
-        if (mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
+        if (RegUtility.isCountryUS(mCoppaExtension.getConsent().getLocale())) {
             //show thank you and 24 hour screen
             addParentalConsentFragment(coppaStatus);
         } else {

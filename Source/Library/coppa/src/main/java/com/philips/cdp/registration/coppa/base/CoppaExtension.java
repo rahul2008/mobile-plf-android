@@ -15,6 +15,8 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 
@@ -68,13 +70,13 @@ public class CoppaExtension {
                 } else if (consent.getGiven() != null && (hoursSinceLastConsent() >= 24L) && consent.getConfirmationGiven() == null) {
                     RLog.d("Consent", "Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = CoppaStatus.kDICOPPAConfirmationPending;
-                    if (!consent.getLocale().equals("en_US")) {
+                    if (!RegUtility.isCountryUS(consent.getLocale())) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     }
                     RLog.d("Consent", "Consent coppaconfirmationPending");
                 }else{
                     coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
-                    if (!consent.getLocale().equals("en_US")) {
+                    if (!RegUtility.isCountryUS(consent.getLocale())) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     }
                 }
@@ -118,8 +120,8 @@ public class CoppaExtension {
      * @param coppaConsentStatus         this will give the coppa consent status as true or false
      * @param coppaConsentUpdateCallback call back  to get onSuccess or onFailure
      */
-    public void updateCoppaConsentStatus(final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
-        new CoppaConsentUpdater(mContext).updateCoppaConsentStatus(coppaConsentStatus, coppaConsentUpdateCallback);
+    public void updateCoppaConsentStatus(final boolean coppaConsentStatus,final String locale, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
+        new CoppaConsentUpdater(mContext).updateCoppaConsentStatus(coppaConsentStatus, locale,coppaConsentUpdateCallback);
     }
 
     /**

@@ -100,7 +100,7 @@
 <string name="reg_xing">XING</string>
 <string name="reg_wechat">WeChat</string>
 <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">لطفاً %s و %s ما را بخوانید.</string>
-<string name="reg_LegalNoticeText">لطفاً %s و خوانید.</string>
+<string name="reg_LegalNoticeText" formatted="false">لطفاً %s و %خوانید.</string>
 <string name="reg_AgeLimitText">با ایجاد یک حساب یا ورود به آن تأیید می‌کنید که سن شما %s سال یا بیشتر است.\n</string>
 <string name="reg_TermsAndConditionsAcceptanceText">من %s برنامه را می‌پذیرم</string>
 <string name="reg_TermsAndConditionsAcceptanceText_Error">لطفاً شرایط و ضوابط را بپذیرید</string>
@@ -240,7 +240,9 @@
 <string name="reg_Country_US">ایالات متحده</string>
 <string name="reg_Country_VN">ویتنام</string>
 <string name="reg_Country_Search_Text">جستجو..</string>
-<string name="reg_AppNotInstalled_Alert_Title">App not installed</string>
-<string name="reg_App_NotInstalled_AlertMessage">Please install %s app to avail this feature.</string>
-<string name="reg_App_NotInstalled_InstallButton">Install</string>
+<string name="reg_AppNotInstalled_Alert_Title">برنامه نصب نیست</string>
+<string name="reg_App_NotInstalled_AlertMessage">برای دسترسی به این ویژگی، لطفاً برنامه %s را نصب کنید.</string>
+<string name="reg_App_NotInstalled_InstallButton">نصب</string>
+<string name="reg_Phonenumbernotfound">شماره تلفن یافت نشد</string>
+<string name="reg_InvalidMobilenumber">شماره تلفن همراه نامعتبر است</string>
 </resources>

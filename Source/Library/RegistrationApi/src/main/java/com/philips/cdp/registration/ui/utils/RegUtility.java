@@ -230,4 +230,17 @@ public class RegUtility {
     public static void setCreateAccountStartTime(long createAccountStartTime) {
         RegUtility.createAccountStartTime = createAccountStartTime;
     }
+
+    /**
+     *
+     * @param local : This parameter passes language and Country Code to Check weather Counter code
+     *                 is US or Not
+     * @return      Country code US return true  or False
+     */
+    public static boolean isCountryUS(String local) {
+        if (local!=null && local.length()==5){
+            return local.substring(3,5).equalsIgnoreCase(RegConstants.COUNTRY_CODE_US);
+        }
+        return false;
+    }
 }
