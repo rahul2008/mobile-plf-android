@@ -149,12 +149,12 @@
         </item>
         <item name="uidSocialIconWhiteButtonIconColor">?attr/uidControlPrimaryTextColor</item>
         <item name="uidSocialIconWhitePressedColor">?attr/uidControlPrimaryPressedColor</item>
-        <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
 
         <item name="uidCheckBoxTextEnabledColor">@color/uid_gray_level_75</item>
         <item name="uidCheckBoxTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_100</item>
 
+        <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
 
