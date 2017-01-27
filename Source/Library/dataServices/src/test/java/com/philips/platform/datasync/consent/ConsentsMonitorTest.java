@@ -1,7 +1,5 @@
 package com.philips.platform.datasync.consent;
 
-import android.app.Application;
-
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -22,12 +20,9 @@ import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,7 +39,6 @@ import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -123,7 +117,7 @@ public class ConsentsMonitorTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImplTest = new ErrorHandlerImplTest();
 
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         consentsMonitor = new ConsentsMonitor(uCoreAdapterMock, consentsConverterMock, gsonConverterMock);
         consentsMonitor.uCoreAccessProvider = accessProviderMock;
         consentsMonitor.start(eventingMock);

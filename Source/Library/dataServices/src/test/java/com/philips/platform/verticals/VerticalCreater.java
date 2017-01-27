@@ -36,12 +36,12 @@ public class VerticalCreater implements BaseAppDataCreator {
         return new OrmMoment(creatorId, subjectId, ormMomentType);
     }
 
-    @NonNull
+/*    @NonNull
     @Override
     public Moment createMomentWithoutUUID(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type) {
         final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
         return new OrmMoment(creatorId, subjectId, ormMomentType);
-    }
+    }*/
 
     @NonNull
     @Override

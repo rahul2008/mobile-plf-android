@@ -32,8 +32,8 @@ public interface BaseAppDataCreator {
     @NonNull
     Moment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type);
 
-    @NonNull
-    Moment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type);
+    /*@NonNull
+    Moment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type);*/
 
     @NonNull
     MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment);

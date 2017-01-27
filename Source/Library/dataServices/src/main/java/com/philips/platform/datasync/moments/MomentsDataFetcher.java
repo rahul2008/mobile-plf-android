@@ -49,7 +49,7 @@ public class MomentsDataFetcher extends DataFetcher {
         super(uCoreAdapter);
         this.converter = converter;
         this.gsonConverter = gsonConverter;
-        DataServicesManager.getInstance().mAppComponent.injectMomentsDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponant().injectMomentsDataFetcher(this);
     }
 
     UCoreMomentsHistory momentsHistory;

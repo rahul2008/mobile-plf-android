@@ -16,6 +16,7 @@ import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendResponse;
+import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
@@ -97,7 +98,7 @@ public class UpdatingMonitorTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;
         updatingMonitor.start(eventingMock);
@@ -147,8 +148,8 @@ public class UpdatingMonitorTest {
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadIsCalled() throws Exception {
 
         when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
-        updatingMonitor.onEventBackgroundThread(backendDataRequestFailedMock);
-        verify(dbUpdatingInterface).updateFailed(backendDataRequestFailedMock.getException());
+        updatingMonitor.onEventBackgroundThread(backendMomentRequestFailedMock);
+        verify(dbUpdatingInterface).updateFailed(backendMomentRequestFailedMock.getException());
     }*/
 
     @Test

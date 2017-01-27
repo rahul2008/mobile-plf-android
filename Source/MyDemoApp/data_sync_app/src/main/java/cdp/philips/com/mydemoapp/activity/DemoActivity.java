@@ -103,6 +103,8 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
+        DataServicesManager.getInstance().stopCore();
+        DataServicesManager.getInstance().startMonitors();
     }
 
     @Override

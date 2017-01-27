@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.datatypes.UserCharacteristics;
@@ -10,10 +15,7 @@ import java.sql.SQLException;
 
 import javax.inject.Inject;
 
-/**
- * Created by indrajitkumar on 1/18/17.
- */
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class UserCharacteristicsSegregator {
     @Inject
     DBFetchingInterface dbFetchingInterface;
@@ -21,21 +23,21 @@ public class UserCharacteristicsSegregator {
     DBUpdatingInterface dbUpdatingInterface;
 
     public UserCharacteristicsSegregator() {
-        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsSegregator(this);
+        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsSegregator(this);
     }
 
 
-    public boolean processCharacteristicsReceivedFromDataCore(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {
-        UserCharacteristics dbUC;
+    public boolean processCharacteristicsReceivedFromDataCore(UserCharacteristics userCharacteristics,
+                                                              DBRequestListener dbRequestListener) {
         try {
-            dbUC = dbFetchingInterface.fetchUCByCreatorId(userCharacteristics.getCreatorId());
-            if (dbUC != null) {
-                if (!dbUC.isSynchronized()) {
+            UserCharacteristics dbUc = dbFetchingInterface.fetchUCByCreatorId(userCharacteristics.getCreatorId());
+            if (dbUc != null) {
+                if (!dbUc.isSynchronized()) {
                     return false;
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            dbFetchingInterface.postError(e, dbRequestListener);
         }
         return true;
     }

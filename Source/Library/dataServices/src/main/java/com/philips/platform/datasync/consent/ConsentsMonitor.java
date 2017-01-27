@@ -56,7 +56,7 @@ public class ConsentsMonitor extends EventMonitor {
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final ConsentsConverter consentsConverter,
                            @NonNull final GsonConverter gsonConverter) {
-        DataServicesManager.getInstance().mAppComponent.injectConsentsMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectConsentsMonitor(this);
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;

@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentsSegregator {
 
     @Inject
@@ -26,7 +27,7 @@ public class MomentsSegregator {
 
 
     public MomentsSegregator(){
-        DataServicesManager.getInstance().mAppComponent.injectMomentsSegregator(this);
+        DataServicesManager.getInstance().getAppComponant().injectMomentsSegregator(this);
     }
 
     public int processMomentsReceivedFromBackend(final List<? extends Moment> moments,DBRequestListener dbRequestListener) {

@@ -8,11 +8,9 @@ import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
-import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.testing.verticals.AssertHelper;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
@@ -24,16 +22,11 @@ import com.philips.testing.verticals.datatyes.MomentType;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -96,7 +89,7 @@ public class MomentsConverterTest {
 
         ormCreatorTest = new OrmCreatorTest(new UuidGenerator());
 
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         momentsConverter = new MomentsConverter();
         momentsConverter.baseAppDataCreater = verticalDataCreater;

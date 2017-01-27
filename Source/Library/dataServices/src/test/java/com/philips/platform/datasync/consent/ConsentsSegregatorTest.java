@@ -1,15 +1,10 @@
 package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.datatypes.Consent;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.moments.MomentsSegregator;
-import com.philips.testing.verticals.datatyes.MomentType;
 import com.philips.testing.verticals.table.OrmConsent;
-import com.philips.testing.verticals.table.OrmMoment;
-import com.philips.testing.verticals.table.OrmMomentType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -40,7 +34,7 @@ public class ConsentsSegregatorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         consentsSegregator = new ConsentsSegregator();
         consentsSegregator.dbFetchingInterface=mockDBDbFetchingInterface;
     }

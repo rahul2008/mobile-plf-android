@@ -15,7 +15,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -26,6 +25,7 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -38,10 +38,12 @@ import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
+import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.injection.ApplicationModule;
 import com.philips.platform.core.injection.BackendModule;
@@ -89,7 +91,7 @@ public class DataServicesManager {
     Eventing mEventing;
 
     @NonNull
-    public static AppComponent mAppComponent;
+    private static AppComponent mAppComponent;
 
     private DBDeletingInterface mDeletingInterface;
     private DBFetchingInterface mFetchingInterface;
@@ -154,6 +156,12 @@ public class DataServicesManager {
         mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
         return moment;
     }
+
+   /* @NonNull
+    public List<Moment> save(@NonNull final List<Moment> momentList, DBRequestListener dbRequestListener) {
+        mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
+        return momentList;
+    }*/
 
     public Moment update(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
         mEventing.post(new MomentUpdateRequest(moment, dbRequestListener));
@@ -271,6 +279,7 @@ public class DataServicesManager {
         this.fetchers = fetchers;
         this.senders = senders;
         prepareInjectionsGraph(context);
+        startMonitors();
     }
 
  /*   private void sendPushEvent() {
@@ -287,15 +296,19 @@ public class DataServicesManager {
     private void sendPullDataEvent() {
         synchronized (this) {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
-            if (mCore != null) {
-                DSLog.i("***SPO***", "mCore not null, hence starting");
-                mCore.start();
-            }
-            if (mSynchronisationMonitor != null) {
-                DSLog.i("***SPO***", "In DataServicesManager.mSynchronisationMonitor.start");
-                mSynchronisationMonitor.start(mEventing);
-            }
+            startMonitors();
             mEventing.post(new ReadDataFromBackendRequest(null));
+        }
+    }
+
+    public void startMonitors() {
+        if (mCore != null) {
+            DSLog.i("***SPO***", "mCore not null, hence starting");
+            mCore.start();
+        }
+        if (mSynchronisationMonitor != null) {
+            DSLog.i("***SPO***", "In DataServicesManager.mSynchronisationMonitor.start");
+            mSynchronisationMonitor.start(mEventing);
         }
     }
 
@@ -438,5 +451,13 @@ public class DataServicesManager {
 
     public void fetchSettings(DBRequestListener dbRequestListener) {
       mEventing.post(new LoadSettingsRequest(dbRequestListener));
+    }
+
+    public AppComponent getAppComponant(){
+        return mAppComponent;
+    }
+
+    public void setAppComponant(AppComponent appComponent){
+        mAppComponent = appComponent;
     }
 }

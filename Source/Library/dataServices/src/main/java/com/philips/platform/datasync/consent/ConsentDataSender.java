@@ -30,7 +30,7 @@ public class ConsentDataSender extends EventMonitor implements DataSender<Consen
 
     @Inject
     public ConsentDataSender() {
-        DataServicesManager.getInstance().mAppComponent.injectConsentsSender(this);
+        DataServicesManager.getInstance().getAppComponant().injectConsentsSender(this);
     }
 
     @Override

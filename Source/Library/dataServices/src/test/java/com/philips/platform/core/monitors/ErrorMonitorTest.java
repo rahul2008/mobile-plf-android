@@ -41,7 +41,7 @@ public class ErrorMonitorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         errorMonitor = new ErrorMonitor(errorHandlingInterface);
         errorMonitor.userRegistrationInterface = userRegistrationInterfaceMock;
     }

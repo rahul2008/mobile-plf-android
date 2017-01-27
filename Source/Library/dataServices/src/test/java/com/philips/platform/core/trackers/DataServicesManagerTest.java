@@ -53,7 +53,6 @@ import org.mockito.Spy;
 
 import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Matchers.anyListOf;
@@ -155,7 +154,7 @@ public class DataServicesManagerTest {
         MockitoAnnotations.initMocks(this);
 
         tracker = DataServicesManager.getInstance();
-        tracker.mAppComponent = appComponantMock;
+        tracker.setAppComponant(appComponantMock);
 
         baseAppDataCreator = new VerticalCreater();
         userRegistrationInterface = new VerticalUserRegistrationInterface();
