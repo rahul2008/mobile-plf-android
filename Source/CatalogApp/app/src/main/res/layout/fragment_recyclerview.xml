@@ -17,11 +17,29 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.philips.platform.uid.view.widget.Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/UIDQuietButton"
-            android:text="@string/recyclerview_settings"/>
+        <RelativeLayout
+            style="@style/ButtonsCategoryStyle"
+            android:onClick="@{(v) -> frag.showRecyclerViewSettingsFragment()}"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/ButtonsCategoryStyle"
+                android:layout_width="wrap_content"
+                android:layout_alignParentStart="true"
+                android:paddingEnd="0dp"
+                android:paddingStart="0dp"
+                android:text="@string/recyclerview_settings"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:clickable="false"
+                android:gravity="center"
+                app:srcCompat="@drawable/ic_right_arrow_show_more"/>
+        </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.RecyclerView
             android:id="@+id/recyclerview_recyclerview"

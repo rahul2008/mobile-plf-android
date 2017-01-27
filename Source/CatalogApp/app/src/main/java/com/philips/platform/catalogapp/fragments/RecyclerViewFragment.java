@@ -1,7 +1,12 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
@@ -19,8 +24,11 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.DataHolder;
 import com.philips.platform.catalogapp.DataHolderView;
+import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.RecyclerViewSettingsHelper;
 import com.philips.platform.catalogapp.databinding.FragmentRecyclerviewBinding;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -40,7 +48,12 @@ public class RecyclerViewFragment extends BaseFragment {
         fragmentRecyclerviewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recyclerview, container, false);
         fragmentRecyclerviewBinding.setFrag(this);
 
-        fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+        RecyclerViewSettingsHelper settingsHelper = new RecyclerViewSettingsHelper(context);
+        fragmentRecyclerviewBinding.recyclerviewRecyclerview.setHeaderEnabled(settingsHelper.isHeaderEnabled());
+
+        if(settingsHelper.isSeperatorEnabled()) {
+            fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+        }
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -73,7 +86,6 @@ public class RecyclerViewFragment extends BaseFragment {
 
     static class RecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<DataHolder> dataHolders;
-        private int selectedStateColor = Color.TRANSPARENT;
 
         public RecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
             this.dataHolders = dataHolders;
@@ -84,7 +96,6 @@ public class RecyclerViewFragment extends BaseFragment {
             int layoutId = isIconLayout.get() ? R.layout.recyclerview_one_line_icon : R.layout.recyclerview_two_line_text_item;
             View v = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
             RecyclerViewAdapter.BindingHolder holder = new RecyclerViewAdapter.BindingHolder(v);
-            selectedStateColor = getSelectedStateColor(parent.getContext());
             return holder;
         }
 
@@ -93,6 +104,11 @@ public class RecyclerViewFragment extends BaseFragment {
             final DataHolder dataHolder = dataHolders.get(position);
             ((RecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
+
+            Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
+            ColorStateList colorStateList = ThemeUtils.buildColorStateList(holder.itemView.getResources(), theme, R.color.uid_recyclerview_background_selector);
+            final int selectedStateColor = colorStateList.getDefaultColor();
+
             ((BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -130,5 +146,9 @@ public class RecyclerViewFragment extends BaseFragment {
     @Override
     public int getPageTitle() {
         return R.string.page_title_recyclerview;
+    }
+
+    public void showRecyclerViewSettingsFragment() {
+        ((MainActivity) getActivity()).getNavigationController().switchFragment(new RecyclerViewSettingsFragment());
     }
 }

@@ -114,6 +114,7 @@
     <string name="title6">Title 6</string>
 
     <string name="page_title_recyclerview">RecyclerView</string>
+    <string name="page_title_recyclerview_settings">RecyclerView Settings</string>
     <string name="recyclerview_settings">RecyclerView settings</string>
     <string name="description1">Description 1</string>
     <string name="description2">Description 2</string>
@@ -128,6 +129,8 @@
     <string name="listview_title_4">ListView Title 4</string>
     <string name="listview_title_5">ListView Title 5</string>
     <string name="listview_title_6">ListView Title 6</string>
+    <string name="show_separators">Show separators</string>
+    <string name="show_header">Show header</string>
 
     <string name="primary_social_media_icons">Primary social icons</string>
     <string name="white_social_media_icons">White social icons</string>

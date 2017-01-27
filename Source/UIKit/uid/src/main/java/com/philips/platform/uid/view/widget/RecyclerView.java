@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
@@ -23,5 +27,9 @@ public class RecyclerView extends RelativeLayout {
 
     public android.support.v7.widget.RecyclerView getRecyclerView() {
         return (android.support.v7.widget.RecyclerView) findViewById(R.id.uid_recyclerview_recyclerview);
+    }
+
+    public void setHeaderEnabled(boolean enabled) {
+        findViewById(R.id.uid_recyclerview_title).setVisibility(enabled ? View.VISIBLE : View.GONE);
     }
 }
