@@ -115,7 +115,7 @@ public class SecureStorage implements SecureStorageInterface {
             return null; // if user entered key is not present
         }
         try {
-            Key key2 = fetchKey(encryptedAESString, SINGLE_UNIVERSAL_KEY, secureStorageError);
+            Key key2 = fetchKey(encryptedAESString, secureStorageError);
 
             Cipher cipher2 = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
             byte[] ivBlockSize = new byte[cipher2.getBlockSize()];
@@ -184,7 +184,7 @@ public class SecureStorage implements SecureStorageInterface {
             return null; // if user entered key is not present
         }
         try {
-            decryptedKey = fetchKey(encryptedAESString, SINGLE_UNIVERSAL_KEY, error);
+            decryptedKey = fetchKey(encryptedAESString, error);
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage SqlCipher Data Key", e.getMessage());
             error.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
@@ -211,24 +211,24 @@ public class SecureStorage implements SecureStorageInterface {
     }
 
     private boolean storeKey(String userKeyOrKeyName, SecretKey secretKey, String keyFileName) throws Exception {
-        boolean returnResult=false;
-        String aesEncryptedString=generateKeyPair(secretKey);
-        if(null!=aesEncryptedString || !aesEncryptedString.isEmpty()) {
+        boolean returnResult = false;
+        String aesEncryptedString = generateKeyPair(secretKey);
+        if (null != aesEncryptedString) {
             returnResult = storeEncryptedData(userKeyOrKeyName, aesEncryptedString, keyFileName); // save encrypted AES key in file
         }
-            return returnResult;
+        return returnResult;
     }
 
-    private Key fetchKey(String encryptedAESString, String alias, SecureStorageError secureStorageError) throws Exception {
+    private Key fetchKey(String encryptedAESString, SecureStorageError secureStorageError) throws Exception {
         keyStore = KeyStore.getInstance("AndroidKeyStore");
         keyStore.load(null);
-        if (!keyStore.containsAlias(alias)) {
+        if (!keyStore.containsAlias(SINGLE_UNIVERSAL_KEY)) {
             // if someone tries to fetch key even before it is created
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.AccessKeyFailure); // key store not accessible
             return null;
         }
 
-        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(alias, null);
+        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
         Cipher output = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
         output.init(Cipher.UNWRAP_MODE, privateKeyEntry.getPrivateKey());
         SecretKey AESkey = (SecretKey) output.unwrap(Base64.decode(encryptedAESString, Base64.DEFAULT), "AES", Cipher.SECRET_KEY);// Unwrap AES key using RSA
@@ -257,20 +257,22 @@ public class SecureStorage implements SecureStorageInterface {
                 KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
                 generator.initialize(spec);
                 KeyPair keyPair = generator.generateKeyPair();
+            }
 
-                KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
-                RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
-                Cipher input = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
-                input.init(Cipher.WRAP_MODE, publicKey);
-                byte[] AESbytes = input.wrap(secretKey);  // Wrap AES key using RSA
-                String aesEncryptedString = Base64.encodeToString(AESbytes, Base64.DEFAULT);
+
+            KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
+            RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
+            Cipher input = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
+            input.init(Cipher.WRAP_MODE, publicKey);
+            byte[] AESbytes = input.wrap(secretKey);  // Wrap AES key using RSA
+            String aesEncryptedString = Base64.encodeToString(AESbytes, Base64.DEFAULT);
+
 
             return aesEncryptedString;
-            }
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
         }
-        return  null;
+        return null;
 
     }
 
@@ -327,7 +329,7 @@ public class SecureStorage implements SecureStorageInterface {
             }
 
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"SecureStorage",e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
             deleteResult = false;
         }
         return deleteResult;
