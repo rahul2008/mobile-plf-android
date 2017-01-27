@@ -285,7 +285,7 @@ public class DataServicesManager {
         }
     }
 
-    private void startMonitors() {
+    public void startMonitors() {
         if (mCore != null) {
             DSLog.i("***SPO***", "mCore not null, hence starting");
             mCore.start();
