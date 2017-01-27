@@ -31,7 +31,18 @@
             android:name=".SecureStoragePasswordActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".AddAddressActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewAddressRecordActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SecureDBMainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SecureStorageMenuActivity"
             android:label="@string/app_name"
