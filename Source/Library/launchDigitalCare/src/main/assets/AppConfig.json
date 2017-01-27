@@ -1,0 +1,8 @@
+{
+  "appinfra": {
+    "appidentity.micrositeId": "77000",
+    "appidentity.sector": "b2c",
+    "appidentity.appState": "PRODUCTION",
+    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION"
+  }
+}
