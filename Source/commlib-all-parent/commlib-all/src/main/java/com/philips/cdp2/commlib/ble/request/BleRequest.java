@@ -198,7 +198,7 @@ public abstract class BleRequest implements Runnable {
             if (shnDevice.getState() == Connected) {
                 onConnected();
             } else if (shnDevice.getState() == Disconnected) {
-                onDisconnected();
+                completeRequest();
             }
         }
 
@@ -279,11 +279,11 @@ public abstract class BleRequest implements Runnable {
         if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
             bleDevice.disconnect();
         } else {
-            onDisconnected();
+            completeRequest();
         }
     }
 
-    private void onDisconnected() {
+    private void completeRequest() {
         if (setStateIfStateIs(FINALIZED, COMPLETED)) {
             inProgressLatch.countDown();
         }

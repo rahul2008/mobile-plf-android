@@ -87,6 +87,11 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         return mDeviceCache.getDeviceMap().containsKey(mCppId);
     }
 
+    /**
+     * Enables continuous connection to the appliance, allowing for faster data transfer.
+     *
+     * @param subscriptionEventListener
+     */
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
@@ -96,6 +101,12 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         disconnectAfterRequest.set(false);
     }
 
+    /**
+     * Disables continuous connection to the appliance, after each request the connection will
+     * be severed to preserve battery life.
+     *
+     * Note that
+     */
     @Override
     public void disableCommunication() {
         if (isAvailable() && mExecutor.getQueue().isEmpty() && mExecutor.getActiveCount() == 0) {
