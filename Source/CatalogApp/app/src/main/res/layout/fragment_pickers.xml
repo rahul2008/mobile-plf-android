@@ -7,6 +7,34 @@
         <variable
             name="fragment"
             type="com.philips.platform.catalogapp.fragments.PickersFragment"/>
+
+        <variable
+            name="datePickerDate"
+            type="android.databinding.ObservableField"/>
+
+        <variable
+            name="dateTimePickerTime"
+            type="android.databinding.ObservableField"/>
+
+        <variable
+            name="rangePickerStartDate"
+            type="android.databinding.ObservableField"/>
+
+        <variable
+            name="rangePickerStartTime"
+            type="android.databinding.ObservableField"/>
+
+        <variable
+            name="rangePickerEndDate"
+            type="android.databinding.ObservableField"/>
+
+        <variable
+            name="rangePickerEndTime"
+            type="android.databinding.ObservableField"/>
+
+        <variable
+            name="timeslotPickerTime"
+            type="android.databinding.ObservableField"/>
     </data>
 
     <LinearLayout
@@ -39,8 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/uid_date_margin_start"
-                android:onClick="@{(v) ->fragment.showDatePicker()}"
-                android:text="@{fragment.updatedDate}"
+                android:onClick="@{(v) ->fragment.showDatePicker(datePickerDate)}"
+                android:text="@{fragment.dateTimePickerDate}"
                 android:textColor="?attr/uidTextPrimary"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -48,8 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:onClick="@{(v) ->fragment.showTimePicker()}"
-                android:text="@{fragment.updatedTime}"
+                android:onClick="@{(v) ->fragment.showTimePicker(dateTimePickerTime)}"
+                android:text="@{fragment.dateTimePickerTime}"
                 android:textColor="?attr/uidTextPrimary"/>
         </LinearLayout>
 
@@ -77,8 +105,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/uid_date_margin_start"
-                android:onClick="@{(v) ->fragment.showDatePicker()}"
-                android:text="@{fragment.updatedDate}"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate)}"
+                android:text="@{fragment.rangePickerStartDate}"
                 android:textColor="?attr/uidTextPrimary"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -86,8 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:onClick="@{(v) ->fragment.showTimePicker()}"
-                android:text="@{fragment.updatedTime}"
+                android:onClick="@{(v) ->fragment.showTimePicker(rangePickerStartTime)}"
+                android:text="@{fragment.rangePickerStartTime}"
                 android:textColor="?attr/uidTextPrimary"/>
         </LinearLayout>
 
@@ -111,8 +139,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/uid_date_margin_start"
-                android:onClick="@{(v) ->fragment.showDatePicker()}"
-                android:text="@{fragment.updatedDate}"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerEndDate)}"
+                android:text="@{fragment.rangePickerEndDate}"
                 android:textColor="?attr/uidTextPrimary"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -120,8 +148,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:onClick="@{(v) ->fragment.showTimePicker()}"
-                android:text="@{fragment.updatedTime}"
+                android:onClick="@{(v) ->fragment.showTimePicker(rangePickerEndTime)}"
+                android:text="@{fragment.rangePickerEndTime}"
                 android:textColor="?attr/uidTextPrimary"/>
         </LinearLayout>
 
@@ -156,8 +184,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:onClick="@{(v) ->fragment.showTimePicker()}"
-                android:text="@{fragment.updatedTime}"
+                android:onClick="@{(v) ->fragment.showTimePicker(timeslotPickerTime)}"
+                android:text="@{fragment.timeslotPickerTime}"
                 android:textColor="?attr/uidTextPrimary"/>
         </LinearLayout>
 

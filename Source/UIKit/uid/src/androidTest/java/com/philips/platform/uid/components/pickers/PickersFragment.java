@@ -54,8 +54,6 @@ public class PickersFragment extends Fragment {
             }
         });
 
-//        updatedDate.set(getFormattedDate(date));
-//        updatedTime.set(getFormattedTime(date));
         return view;
     }
 
@@ -75,8 +73,6 @@ public class PickersFragment extends Fragment {
         @Override
         public void onDateSet(final DatePicker view, final int year, final int month, final int dayOfMonth) {
             calendar.set(year, month, dayOfMonth);
-
-//            updatedDate.set(getFormattedDate(calendar.getTime()));
         }
     }
 
@@ -93,7 +89,6 @@ public class PickersFragment extends Fragment {
         public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
             final Date time = calendar.getTime();
             calendar.set(time.getYear(), time.getMonth(), time.getDate(), hourOfDay, minute);
-//            updatedTime.set(getFormattedTime(time));
         }
     }
 }

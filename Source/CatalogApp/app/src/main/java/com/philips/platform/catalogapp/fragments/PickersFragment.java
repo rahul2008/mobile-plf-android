@@ -11,6 +11,7 @@ import android.app.TimePickerDialog;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.philips.platform.catalogapp.BR;
 import com.philips.platform.catalogapp.R;
 
 import java.text.SimpleDateFormat;
@@ -29,8 +31,13 @@ public class PickersFragment extends BaseFragment {
     public static final String DATE_FORMATTER = "EEE, MMM d, yyyy";
     public static final String TIME_FORMATTER = "h:mm a";
     private com.philips.platform.catalogapp.databinding.FragmentPickersBinding fragmentPickersBinding;
-    public final ObservableField<String> updatedDate = new ObservableField<String>();
-    public final ObservableField<String> updatedTime = new ObservableField<String>();
+    public final ObservableField<String> dateTimePickerDate = new ObservableField<String>();
+    public final ObservableField<String> dateTimePickerTime = new ObservableField<String>();
+    public final ObservableField<String> rangePickerStartDate = new ObservableField<String>();
+    public final ObservableField<String> rangePickerStartTime = new ObservableField<String>();
+    public final ObservableField<String> rangePickerEndDate = new ObservableField<String>();
+    public final ObservableField<String> rangePickerEndTime = new ObservableField<String>();
+    public final ObservableField<String> timeslotPickerTime = new ObservableField<String>();
     private Date date;
     private Calendar calendar;
 
@@ -44,47 +51,85 @@ public class PickersFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         fragmentPickersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_pickers, container, false);
         fragmentPickersBinding.setFragment(this);
-        date = new Date(System.currentTimeMillis());
-        calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        updatedDate.set(getFormattedDate(date));
-        updatedTime.set(getFormattedTime(date));
+        initDateTimeFields();
+
         return fragmentPickersBinding.getRoot();
     }
 
-    public void showDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getActivity(), new MyOnDateSetListener(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+    private void initDateTimeFields() {
+        fragmentPickersBinding.setVariable(BR.datePickerDate, dateTimePickerDate);
+        fragmentPickersBinding.setVariable(BR.dateTimePickerTime, dateTimePickerTime);
+        fragmentPickersBinding.setVariable(BR.rangePickerStartDate, rangePickerStartDate);
+        fragmentPickersBinding.setVariable(BR.rangePickerStartTime, rangePickerStartTime);
+        fragmentPickersBinding.setVariable(BR.rangePickerEndDate, rangePickerEndDate);
+        fragmentPickersBinding.setVariable(BR.rangePickerEndTime, rangePickerEndTime);
+        fragmentPickersBinding.setVariable(BR.timeslotPickerTime, timeslotPickerTime);
+
+        date = new Date(System.currentTimeMillis());
+        calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        final String formattedDate = getFormattedDate(date);
+        final String formattedTime = getFormattedTime(date);
+        dateTimePickerDate.set(formattedDate);
+        dateTimePickerTime.set(formattedTime);
+        rangePickerStartDate.set(formattedDate);
+        rangePickerStartTime.set(formattedTime);
+        rangePickerEndDate.set(formattedDate);
+        rangePickerEndTime.set(formattedTime);
+        timeslotPickerTime.set(formattedTime);
+    }
+
+    public void showDatePicker(@NonNull final ObservableField datePickerDate) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getActivity(), new DateSetListener(datePickerDate), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
 
-    public void showTimePicker() {
+    public void showTimePicker(@NonNull final ObservableField timePickerTime) {
         date = calendar.getTime();
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getActivity(), new MyOnTimeSetListener(), date.getHours(), date.getMinutes(), true);
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int minutes = calendar.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getActivity(), new TimeSetListener(timePickerTime), hour, minutes, true);
         timePickerDialog.show();
     }
 
-    private class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
+    private class DateSetListener implements DatePickerDialog.OnDateSetListener {
+        final private ObservableField<String> dateValue;
+
+        private DateSetListener(@NonNull final ObservableField<String> datePickerDate) {
+            this.dateValue = datePickerDate;
+        }
+
         @Override
-        public void onDateSet(final DatePicker view, final int year, final int month, final int dayOfMonth) {
+        public void onDateSet(@NonNull final DatePicker view, final int year, final int month, final int dayOfMonth) {
             calendar.set(year, month, dayOfMonth);
-            updatedDate.set(getFormattedDate(calendar.getTime()));
+            dateValue.set(getFormattedDate(calendar.getTime()));
         }
     }
 
-    private String getFormattedDate(Date date) {
+    private String getFormattedDate(@NonNull Date date) {
         return new SimpleDateFormat(DATE_FORMATTER, Locale.getDefault()).format(date);
     }
 
-    private String getFormattedTime(Date date) {
+    private String getFormattedTime(@NonNull Date date) {
         return new SimpleDateFormat(TIME_FORMATTER, Locale.getDefault()).format(date);
     }
 
-    private class MyOnTimeSetListener implements TimePickerDialog.OnTimeSetListener {
+    private class TimeSetListener implements TimePickerDialog.OnTimeSetListener {
+        final private ObservableField<String> timeValue;
+
+        private TimeSetListener(@NonNull final ObservableField timeValue) {
+            this.timeValue = timeValue;
+        }
+
         @Override
-        public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
-            calendar.set(date.getYear(), date.getMonth(), date.getDate(), hourOfDay, minute);
-            updatedTime.set(getFormattedTime(calendar.getTime()));
+        public void onTimeSet(@NonNull final TimePicker view, final int hourOfDay, final int minute) {
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            calendar.set(year, month, day, hourOfDay, minute);
+            final Date time = calendar.getTime();
+            timeValue.set(getFormattedTime(time));
         }
     }
 }

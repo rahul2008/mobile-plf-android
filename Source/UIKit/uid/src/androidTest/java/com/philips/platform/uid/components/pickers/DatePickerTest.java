@@ -16,12 +16,14 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class DatePickerTest {
 
@@ -72,26 +74,83 @@ public class DatePickerTest {
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
-//    @Test
-//    public void verifyPreviousButtonColor() throws Exception {
-//        int titleId = getViewId("prev");
-//
-//        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
-//        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerTextColor);
-//        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameIconColor(color)));
-//    }
-//
-//    @Test
-//    public void verifyNextButtonColor() throws Exception {
-//        int titleId = getViewId("next");
-//
-//        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
-//        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerTextColor);
-//        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameIconColor(color)));
-//    }
+    @Test
+    public void verifyTimePickerHeaderBackgroundColor() throws Exception {
+        int titleId = getViewId("time_header");
+
+        onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+    }
+
+    @Test
+    public void verifyHourTextColor() throws Exception {
+        int hours = getViewId("hours");
+        int minutes = getViewId("minutes");
+
+        onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderTextColor);
+        onView(withId(hours)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyTimePickerCancelButtonTextColor() throws Exception {
+        int titleId = getViewId("button2");
+
+        onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyTimePickerOkButtonTextColor() throws Exception {
+        int titleId = getViewId("button1");
+
+        onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyTimePickerBackgroundColor() throws Exception {
+        int titleId = getViewId("content");
+
+        onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+    }
+
+    @Ignore
+    @Test
+    public void verifyCalenderContentBackgroundColor() throws Exception {
+        int titleId = getViewId("buttonPanel");
+
+        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerFillColor);
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+    }
+
+    @Ignore
+    @Test
+    public void verifyPreviousButtonColor() throws Exception {
+        int titleId = getViewId("month_view");
+
+        onView(withText(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerTextColor);
+        onView(withText(titleId)).check(matches(ViewPropertiesMatchers.hasChildrensWithSameTextColor(color)));
+    }
+
+    @Ignore
+    @Test
+    public void verifyNextButtonColor() throws Exception {
+        int titleId = getViewId("month_view");
+
+        onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerTextColor);
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasChildrensWithSameTextColor(color)));
+    }
 
     private int getViewId(final String viewName) {
-        return activity.getResources()
-                .getIdentifier(viewName, "id", "android");
+        return activity.getResources().getIdentifier(viewName, "id", "android");
     }
 }
