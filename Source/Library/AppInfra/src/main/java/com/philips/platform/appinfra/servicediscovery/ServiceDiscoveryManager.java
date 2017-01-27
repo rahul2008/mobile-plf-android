@@ -71,6 +71,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private final AppInfra mAppInfra;
     private final Context context;
     private ServiceDiscovery serviceDiscovery = null;
+
+    private ServiceDiscovery mPlatformServiceModel = null;
+    private ServiceDiscovery mPropositionServiceModel = null;
+
+
     private String countryCode;
     private long holdbackTime = 0l;
 
@@ -104,7 +109,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     @Override
                     public void run() {
                         boolean forceRefresh = false;
-                        ServiceDiscovery service;
+                      //  ServiceDiscovery service;
+                        ServiceDiscovery
                         ArrayList<DownloadItemListener> stalledAwaiters = new ArrayList<DownloadItemListener>();
                         do {
                             if (forceRefresh)
@@ -155,16 +161,51 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     /**
      * Precondition: download lock is acquired
      */
-    private ServiceDiscovery downloadServices() {
-        String urlBuild = getSDURLForType(AISDURLType.AISDURLTypeProposition);
+//    private ServiceDiscovery downloadServices() {
+//        String platformURL = getSDURLForType(AISDURLType.AISDURLTypePlatform);
+//
+//        if (propositionURL != null) {
+//            ServiceDiscovery propositionService = new ServiceDiscovery();
+//            propositionService = processRequest(propositionURL, propositionService)
+//        }
+//
+//        if (platformURL != null) {
+//            ServiceDiscovery platformService = new ServiceDiscovery();
+//            processRequest(platformURL, platformService);
+//        }
+//
+//
+//        return service;
+//    }
 
-        ServiceDiscovery service = new ServiceDiscovery();
+
+    private ServiceDiscovery downloadPlatformService() {
+        String platformURL = getSDURLForType(AISDURLType.AISDURLTypePlatform);
+        ServiceDiscovery platformService = new ServiceDiscovery();
+        if (platformURL != null) {
+            platformService = processRequest(platformURL, platformService);
+        }
+        return platformService;
+    }
+
+
+    private ServiceDiscovery downloadPropositionService() {
+        String propositionURL = getSDURLForType(AISDURLType.AISDURLTypeProposition);
+        ServiceDiscovery propositionService = new ServiceDiscovery();
+        if (propositionURL != null) {
+            propositionService = processRequest(propositionURL, propositionService);
+        }
+        return propositionService;
+    }
+
+
+    private ServiceDiscovery processRequest(String urlBuild, ServiceDiscovery service) {
         ServiceDiscovery SDcache = mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
         if (null == SDcache) {
             if (!isOnline()) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
                 service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
-               // service.setSuccess(false);
+                // service.setSuccess(false);
             } else {
                 //urlBuild = buildUrl();
                 if (urlBuild != null) {
@@ -188,7 +229,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }
         return service;
     }
-
 
     private String getSDURLForType(AISDURLType aisdurlType) {
         try {
@@ -644,7 +684,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     private void filterDataForUrlbyCountry(ServiceDiscovery service, ArrayList<String> serviceIds,
-                                           OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> replacement) {
+                                           OnGetServiceUrlMapListener onGetServiceUrlMapListener,
+                                           Map<String, String> replacement) {
         String dataByUrl = "urlbycountry";
         if (onGetServiceUrlMapListener != null && serviceIds != null && service.getMatchByCountry().getConfigs() != null) {
             final int configSize = service.getMatchByCountry().getConfigs().size();
