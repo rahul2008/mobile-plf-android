@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
@@ -13,6 +14,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -103,5 +105,7 @@ public class CoppaInterface implements UappInterface {
         RegistrationHelper.getInstance().setAppInfraInstance(((CoppaDependancies) uappDependencies).getAppInfra());
         RegistrationHelper.getInstance().setUrSettings(((CoppaSettings) uappSettings));
         RegistrationHelper.getInstance().initializeUserRegistration(((CoppaSettings) uappSettings).getContext());
+        Jump.init(((CoppaDependancies)
+                uappDependencies).getAppInfra().getSecureStorage());
     }
 }
