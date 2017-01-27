@@ -111,6 +111,7 @@ public class DatePickerTest {
         onView(withId(titleId)).check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
+    @Ignore
     @Test
     public void verifyTimePickerBackgroundColor() throws Exception {
         int titleId = getViewId("content");
