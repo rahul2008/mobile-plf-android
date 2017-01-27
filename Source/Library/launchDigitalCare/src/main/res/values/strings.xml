@@ -106,6 +106,7 @@
 
     <!-- Country -->
     <string-array name="country">
+        <item>Defalut country from Sim or GPS(if no sim)</item>
         <item>United Kingdom (GB)</item>
         <item>India (IN)</item>
         <item>United States (US)</item>
@@ -168,6 +169,7 @@
 
     <!-- country code -->
     <string-array name="country_code">
+        <item>Defalut country from Sim or GPS(if no sim)</item>
         <item>GB</item>
         <item>IN</item>
         <item>US</item>

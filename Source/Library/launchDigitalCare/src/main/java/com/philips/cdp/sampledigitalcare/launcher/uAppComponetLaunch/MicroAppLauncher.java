@@ -22,7 +22,6 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
@@ -34,11 +33,12 @@ import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-//import com.philips.platform.appinfra.AppInfraSingleton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+//import com.philips.platform.appinfra.AppInfraSingleton;
 
 /*
     This is sample class which will try to simulate, "how to use APIs and integrate digitalcare.
@@ -199,9 +199,15 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
        /* if (AppInfraSingleton.getInstance() == null)
             AppInfraSingleton.setInstance(new AppInfra.Builder().build(this));*/
 //  localeManager.setInputLocale("ar", "SA");
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
-                mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+       // PILLocaleManager localeManager = new PILLocaleManager(this);
+        //localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()],
+          //      mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+
+        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+
+        if(!(mCountry_spinner.getSelectedItemId() == 0)){
+            mAppInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        }
     }
 
     @Override
@@ -284,7 +290,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
-                mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+//                mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
                 CcInterface ccInterface = new CcInterface();
                 if (ccSettings == null) ccSettings = new CcSettings(this);
