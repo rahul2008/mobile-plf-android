@@ -112,7 +112,7 @@
     <string name="title4">Title 4</string>
     <string name="title5">Title 5</string>
     <string name="title6">Title 6</string>
-    <string name="page_title_date_time_picker">Pickers</string>
+    <string name="page_title_date_time_picker">Datepicker</string>
     <string name="show_date_picker">show date picker</string>
     <string name="show_time_picker">Show time picker</string>
     <string name="date_time_picker"><![CDATA[Date & Time picker]]></string>
