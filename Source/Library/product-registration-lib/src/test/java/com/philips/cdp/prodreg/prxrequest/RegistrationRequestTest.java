@@ -23,6 +23,7 @@ public class RegistrationRequestTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
         sector = Sector.B2C;
         catalog = Catalog.CONSUMER;
         registrationRequest = new RegistrationRequest(mCtn, mSerialNumber,sector,catalog);

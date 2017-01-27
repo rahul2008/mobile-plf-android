@@ -491,9 +491,13 @@ public class UserWithProductsTest extends TestCase {
         verify(userWithProductsMock).retryRequests(context, product);
     }
 
+    String mCTN = "HD8967/01", mSerialNumber = "1344", mAccessToken = "abq21238xbshs";
+    Sector sector;
+    Catalog catalog;
+
     @Test
     public void testRegistrationRequest() {
-        final RegistrationRequest registrationRequest = new RegistrationRequest(null, null, null);
+        final RegistrationRequest registrationRequest = new RegistrationRequest(mCTN,mSerialNumber, sector,catalog);
         final RegisteredProduct productMock = mock(RegisteredProduct.class);
         final RequestManager requestManagerMock = mock(RequestManager.class);
         final ResponseListener responseListenerMock = mock(ResponseListener.class);
