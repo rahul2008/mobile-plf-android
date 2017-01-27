@@ -1,6 +1,28 @@
 # Release Notes MobileUitoolkit Android
 
-Version 0.1.1
+
+SPRINT - MUITK.PI17.1.Sprint4
+EHUFA-1222 - Android: Social Icons
+EHUFA-1259 - [Android Test][Toggle Switch] Disabled color of thumb shadow is not as per color mapping
+EHUFA-1300 - [Android Test]][Text Box Password] Keypad doesn't launch when text box is disabled and enabled
+EHUFA-1303 - SPIKE-Android: NavigationBar: Shadow levels 1 and 2
+
+SPRINT - MUITK.PI17.1.Sprint3
+EHUFA-1215 - Migrating old jobs from old build server (mobteam one)
+EHUFA-1216 - Configuration Management: Branching and tagging schema
+EHUFA-1250 - Android: Create custom indeterminate linear progress indicator
+EHUFA-1265 - Android: Separator
+EHUFA-1267 - Android: Checkbox
+EHUFA-1268 - iOS: Checkbox
+EHUFA-1269 - Android: Checkbox with text
+EHUFA-1276 - Android: SPIKE Applying DLS Art direction in Date Picker
+EHUFA-1281 - Inject version information in Android/iOS CatalogApp
+EHUFA-1289 - [Android Test] Text leading is not implemented in KITKAT devices.
+EHUFA-1291 - [Android Test][Navigation Bar] Bottom navigation bar is not themed in landscape mode
+EHUFA-1295 - iOS: Update Release Notes
+EHUFA-1296 - iOS: AlertController, UIAlertAction bridge header not generating
+EHUFA-1297 - Android SPIKE: Extend parser
+EHUFA-1299 - iOS:Update Release notes
 
 SPRINT - MUITK.PI17.1.Sprint2
 EHUFA-1249 - Memory problem in pager implementation causing crash in welcome screens on multiwindow mode (please see the log attached) 
