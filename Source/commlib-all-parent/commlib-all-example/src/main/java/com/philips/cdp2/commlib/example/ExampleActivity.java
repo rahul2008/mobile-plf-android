@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -99,6 +100,17 @@ public class ExampleActivity extends AppCompatActivity {
         }
     };
 
+    private final CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+            if (isChecked) {
+                bleReferenceAppliance.enableCommunication();
+            } else {
+                bleReferenceAppliance.disableCommunication();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +129,7 @@ public class ExampleActivity extends AppCompatActivity {
         findViewById(R.id.btnStopDiscovery).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
         findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
+        ((CompoundButton) findViewById(R.id.switchStayConnected)).setOnCheckedChangeListener(checkedChangeListener);
 
         // Text fields
         txtState = (TextView) findViewById(R.id.txtState);
@@ -147,6 +160,10 @@ public class ExampleActivity extends AppCompatActivity {
                     return;
                 }
                 setupAppliance(bleReferenceAppliance);
+
+                findViewById(R.id.btnGetTime).setEnabled(true);
+                findViewById(R.id.btnSetTime).setEnabled(true);
+                findViewById(R.id.switchStayConnected).setEnabled(true);
 
                 // Perform request on port
                 bleReferenceAppliance.getFirmwarePort().getPortProperties();
