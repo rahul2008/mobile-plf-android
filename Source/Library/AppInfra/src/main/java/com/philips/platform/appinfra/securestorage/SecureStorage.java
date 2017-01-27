@@ -38,13 +38,12 @@ import javax.security.auth.x500.X500Principal;
  */
 public class SecureStorage implements SecureStorageInterface {
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
-    private static final String SINGLE_UNIVERSAL_KEY_FOR_SQLCIPHER = "AppInfra.SecureStorageSqlCipher key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
     private static final String AES_ENCRYPTION_ALGORITHM = "AES/CTR/NoPadding";
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
-    private static final String KEY_FILE_NAME_FOR_SQLCIPHER_KEY = "AppInfra.StorageSqlCipherKey.kfile";
+    private static final String KEY_FILE_NAME_FOR_PLAIN_KEY = "AppInfra.StoragePlainKey.kfile";
     private static KeyStore keyStore = null;
     private final Context mContext;
     private AppInfra mAppInfra;
@@ -77,7 +76,7 @@ public class SecureStorage implements SecureStorageInterface {
             encryptedString = Base64.encodeToString(encText, Base64.DEFAULT);
             returnResult = storeEncryptedData(userKey, encryptedString, DATA_FILE_NAME);// save encrypted value in data file
             if (returnResult) {
-                returnResult = storeValue(userKey, secretKey, KEY_FILE_NAME);
+                returnResult = storeKey(userKey, secretKey, KEY_FILE_NAME);
                 if (!returnResult) { // if key is not saved then remove previously saved value
                     deleteEncryptedData(userKey, DATA_FILE_NAME);
                 }
@@ -116,7 +115,7 @@ public class SecureStorage implements SecureStorageInterface {
             return null; // if user entered key is not present
         }
         try {
-            Key key2 = fetchValue(encryptedAESString, SINGLE_UNIVERSAL_KEY, secureStorageError);
+            Key key2 = fetchKey(encryptedAESString, SINGLE_UNIVERSAL_KEY, secureStorageError);
 
             Cipher cipher2 = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
             byte[] ivBlockSize = new byte[cipher2.getBlockSize()];
@@ -161,7 +160,7 @@ public class SecureStorage implements SecureStorageInterface {
                 return false;
             }
             SecretKey secretKey = generateAESKey(); // generate AES key
-            returnResult = storeValue(keyName, secretKey, KEY_FILE_NAME_FOR_SQLCIPHER_KEY);
+            returnResult = storeKey(keyName, secretKey, KEY_FILE_NAME_FOR_PLAIN_KEY);
         } catch (Exception e) {
             error.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
             returnResult = false;
@@ -179,13 +178,13 @@ public class SecureStorage implements SecureStorageInterface {
             error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             return null;
         }
-        String encryptedAESString = fetchEncryptedData(keyName, error, KEY_FILE_NAME_FOR_SQLCIPHER_KEY);
+        String encryptedAESString = fetchEncryptedData(keyName, error, KEY_FILE_NAME_FOR_PLAIN_KEY);
         if (null == encryptedAESString) {
             error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             return null; // if user entered key is not present
         }
         try {
-            decryptedKey = fetchValue(encryptedAESString, SINGLE_UNIVERSAL_KEY_FOR_SQLCIPHER, error);
+            decryptedKey = fetchKey(encryptedAESString, SINGLE_UNIVERSAL_KEY, error);
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage SqlCipher Data Key", e.getMessage());
             error.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
@@ -203,7 +202,7 @@ public class SecureStorage implements SecureStorageInterface {
         if (null == keyName || keyName.isEmpty()) {
             return false;
         }
-        deleteResultValue = deleteEncryptedData(keyName, KEY_FILE_NAME_FOR_SQLCIPHER_KEY);
+        deleteResultValue = deleteEncryptedData(keyName, KEY_FILE_NAME_FOR_PLAIN_KEY);
         if (!deleteResultValue) {
             //clear or deleting failed in shared preferences
             error.setErrorCode(SecureStorageError.secureStorageError.DeleteError);
@@ -211,27 +210,16 @@ public class SecureStorage implements SecureStorageInterface {
         return deleteResultValue;
     }
 
-    private boolean storeValue(String userKeyOrKeyName, SecretKey secretKey, String keyFileName) throws Exception {
-        boolean returnResult;
-        KeyStore.PrivateKeyEntry privateKeyEntry = null;
-        if (keyFileName.equalsIgnoreCase(KEY_FILE_NAME)) {
-            generateKeyPair(SINGLE_UNIVERSAL_KEY);
-            privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
-        } else if (keyFileName.equalsIgnoreCase(KEY_FILE_NAME_FOR_SQLCIPHER_KEY)) {
-            generateKeyPair(SINGLE_UNIVERSAL_KEY_FOR_SQLCIPHER);
-            privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY_FOR_SQLCIPHER, null);
+    private boolean storeKey(String userKeyOrKeyName, SecretKey secretKey, String keyFileName) throws Exception {
+        boolean returnResult=false;
+        String aesEncryptedString=generateKeyPair(secretKey);
+        if(null!=aesEncryptedString || !aesEncryptedString.isEmpty()) {
+            returnResult = storeEncryptedData(userKeyOrKeyName, aesEncryptedString, keyFileName); // save encrypted AES key in file
         }
-
-        RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
-        Cipher input = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
-        input.init(Cipher.WRAP_MODE, publicKey);
-        byte[] AESbytes = input.wrap(secretKey);  // Wrap AES key using RSA
-        String aeSencryptedString = Base64.encodeToString(AESbytes, Base64.DEFAULT);
-        returnResult = storeEncryptedData(userKeyOrKeyName, aeSencryptedString, keyFileName); // save encrypted AES key in file
-        return returnResult;
+            return returnResult;
     }
 
-    private Key fetchValue(String encryptedAESString, String alias, SecureStorageError secureStorageError) throws Exception {
+    private Key fetchKey(String encryptedAESString, String alias, SecureStorageError secureStorageError) throws Exception {
         keyStore = KeyStore.getInstance("AndroidKeyStore");
         keyStore.load(null);
         if (!keyStore.containsAlias(alias)) {
@@ -250,17 +238,17 @@ public class SecureStorage implements SecureStorageInterface {
     }
 
 
-    private void generateKeyPair(String alias) {
+    private String generateKeyPair(SecretKey secretKey) {
         try {
             keyStore = KeyStore.getInstance("AndroidKeyStore");
             keyStore.load(null);
-            if (!keyStore.containsAlias(alias)) {
+            if (!keyStore.containsAlias(SINGLE_UNIVERSAL_KEY)) {
                 // if key is not generated
                 Calendar start = Calendar.getInstance();
                 Calendar end = Calendar.getInstance();
                 end.add(Calendar.YEAR, 50);
                 KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(mContext)
-                        .setAlias(alias)
+                        .setAlias(SINGLE_UNIVERSAL_KEY)
                         .setSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
                         .setSerialNumber(BigInteger.ONE)
                         .setStartDate(start.getTime())
@@ -270,11 +258,19 @@ public class SecureStorage implements SecureStorageInterface {
                 generator.initialize(spec);
                 KeyPair keyPair = generator.generateKeyPair();
 
+                KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
+                RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
+                Cipher input = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
+                input.init(Cipher.WRAP_MODE, publicKey);
+                byte[] AESbytes = input.wrap(secretKey);  // Wrap AES key using RSA
+                String aesEncryptedString = Base64.encodeToString(AESbytes, Base64.DEFAULT);
 
+            return aesEncryptedString;
             }
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
         }
+        return  null;
 
     }
 
