@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.prodreg.prxrequest;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.registration.configuration.Configuration;
 
@@ -13,12 +15,16 @@ import org.junit.Test;
 
 public class RegisteredProductsRequestTest extends TestCase {
     private RegisteredProductsRequest registeredProductsRequest;
-    private String mCtn = "HC5410/83";
+    String mCtn = "HC5410/83", mSerialNumber = "1344";
+    Sector sector;
+    Catalog catalog;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        registeredProductsRequest = new RegisteredProductsRequest();
+        sector = Sector.B2C;
+        catalog = Catalog.CONSUMER;
+        registeredProductsRequest = new RegisteredProductsRequest(mCtn, mSerialNumber,sector,catalog);
     }
 
 //    @Test

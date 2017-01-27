@@ -8,8 +8,11 @@ package com.philips.cdp.prodreg.prxrequest;
 import android.net.Uri;
 import android.util.Log;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -23,6 +26,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class RegistrationRequest extends PrxRequest {
@@ -43,46 +47,61 @@ public class RegistrationRequest extends PrxRequest {
     private String Zip;
     private String state;
     private String country;
+    private String serviceID;
 
     private String shouldSendEmailAfterRegistration = "true";
 
-    public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
+    public RegistrationRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
+        super(ctn, serviceID, sector, catalog);
         this.ctn = ctn;
-        this.productSerialNumber = serialNumber;
+        this.serviceID = serviceID;
+    }
+
+    //public RegistrationRequest(String ctn, String serviceId) {
+      //  super(ctn, serviceId);
+   // }
+
+//    public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
+//        this.ctn = ctn;
+//        this.productSerialNumber = serialNumber;
+//        this.accessToken = accessToken;
+//    }
+
+    public void setAccessToken(String accessToken){
         this.accessToken = accessToken;
     }
 
-    public String getServerInfo() {
-//        String mConfiguration = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
-//        if (mConfiguration.equalsIgnoreCase("Development")) {
-//            mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
-//        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
-//            mServerInfo = "https://tst.philips.com/prx/registration/";
-//        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
-//            mServerInfo = "https://acc.philips.com/prx/registration/";
-//        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
-//            mServerInfo = "https://dev.philips.com/prx/registration/";
-//        } else if (mConfiguration.equalsIgnoreCase("Production")) {
-//            mServerInfo = "https://www.philips.com/prx/registration/";
-//        }
-        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("prodreg.productregistrationrequest"
-                , new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        Log.d(TAG, " Response Error : " + s);
-
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        mServerInfo = url.toString();
-                    }
-                });
-        return mServerInfo;
-    }
+//    public String getServerInfo() {
+////        String mConfiguration = RegistrationConfiguration.getInstance().getRegistrationEnvironment();
+////        if (mConfiguration.equalsIgnoreCase("Development")) {
+////            mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
+////        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
+////            mServerInfo = "https://tst.philips.com/prx/registration/";
+////        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
+////            mServerInfo = "https://acc.philips.com/prx/registration/";
+////        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
+////            mServerInfo = "https://dev.philips.com/prx/registration/";
+////        } else if (mConfiguration.equalsIgnoreCase("Production")) {
+////            mServerInfo = "https://www.philips.com/prx/registration/";
+////        }
+//        AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+//        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+//
+//        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("prodreg.productregistrationrequest"
+//                , new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+//                    @Override
+//                    public void onError(ERRORVALUES errorvalues, String s) {
+//                        Log.d(TAG, " Response Error : " + s);
+//
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(URL url) {
+//                        mServerInfo = url.toString();
+//                    }
+//                });
+//        return mServerInfo;
+//    }
 
     public String getProductSerialNumber() {
         return productSerialNumber;
@@ -193,12 +212,12 @@ public class RegistrationRequest extends PrxRequest {
         this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
-    @Override
-    public String getRequestUrl() {
-        Uri builtUri = Uri.parse(getServerInfo())
+
+    public String getRequestUrl(String serviceURL) {
+        Uri builtUri = Uri.parse(serviceURL)
                 .buildUpon()
                 .appendPath(getSector().name())
-                .appendPath(getLocaleMatchResult())
+                .appendPath(Locale.getDefault().getLanguage()+"_"+Locale.getDefault().getCountry())
                 .appendPath(getCatalog().name())
                 .appendPath("products")
                 .appendPath(ctn + ".register.type.product")
@@ -212,6 +231,26 @@ public class RegistrationRequest extends PrxRequest {
         ProdRegLogger.d(getClass() + "", url);
         return url;
     }
+
+    public void getRequestUrlFromAppInfra(AppInfraInterface appInfra, final PrxRequest.OnUrlReceived listener) {
+        HashMap replaceUrl = new HashMap();
+        replaceUrl.put("ctn", ctn);
+        replaceUrl.put("sector", this.getSector().toString());
+        replaceUrl.put("catalog", this.getCatalog().toString());
+        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            public void onSuccess(URL url) {
+                PrxLogger.i("SUCCESS ***", "" + url);
+                Log.d(TAG, " Request URL " + getRequestUrl(url.toString()));
+                listener.onSuccess(getRequestUrl(url.toString()));
+            }
+
+            public void onError(ERRORVALUES error, String message) {
+                PrxLogger.i("ERRORVALUES ***", "" + message);
+                listener.onError(error, message);
+            }
+        });
+    }
+
 
     @Override
     public int getRequestType() {

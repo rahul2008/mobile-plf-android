@@ -10,16 +10,20 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prodreg.prxrequest.ProductSummaryRequest;
+import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.io.Serializable;
 
@@ -69,7 +73,7 @@ public class Product implements Serializable {
 
     @NonNull
     protected ProductSummaryRequest getProductSummaryRequest(final Product product) {
-        return new ProductSummaryRequest(product.getCtn());
+        return new ProductSummaryRequest(product.getCtn(),ProdRegConstants.PRODUCTSUMMERYREQUEST_SERVICE_ID,getSector(),getCatalog());
     }
 
     @NonNull
@@ -110,8 +114,11 @@ public class Product implements Serializable {
 
     @NonNull
     RequestManager getRequestManager(final Context context) {
+        AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
+        PRXDependencies   prxDependencies = new PRXDependencies(context , appInfra); // use existing appinfra instance
         RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(context);
+        mRequestManager.init(prxDependencies); // pass prxdependency
+
         return mRequestManager;
     }
 
@@ -214,7 +221,8 @@ public class Product implements Serializable {
      * @return ctn as string
      */
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {
-        return new ProductMetadataRequest(ctn);
+        System.out.println("ctn--"+ctn);
+        return new ProductMetadataRequest(ctn, ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,getSector(),getCatalog());
     }
 
 }

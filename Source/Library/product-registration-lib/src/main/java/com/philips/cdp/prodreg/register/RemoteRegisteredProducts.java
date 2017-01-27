@@ -9,16 +9,21 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
+import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.AppInfraInterface;
+
 public class RemoteRegisteredProducts {
     private static final String TAG = RemoteRegisteredProducts.class.getSimpleName();
     @NonNull
@@ -61,15 +66,19 @@ public class RemoteRegisteredProducts {
 
     @NonNull
     protected RegisteredProductsRequest getRegisteredProductsRequest(final User user) {
-        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
+
+        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest(null, ProdRegConstants.REGISTEREDPRODUCTSREQUEST_SERVICE_ID,null,null);
         registeredProductsRequest.setAccessToken(user.getAccessToken());
         return registeredProductsRequest;
     }
 
     @NonNull
     protected RequestManager getRequestManager(final Context context) {
+        AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
+        PRXDependencies prxDependencies = new PRXDependencies(context , appInfra); // use existing appinfra instance
         RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(context);
+        mRequestManager.init(prxDependencies); // pass prxdependency
+
         return mRequestManager;
     }
 }

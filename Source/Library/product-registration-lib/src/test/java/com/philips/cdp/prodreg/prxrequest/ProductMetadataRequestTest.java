@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.prxrequest;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.registration.configuration.Configuration;
 
@@ -18,11 +20,16 @@ public class ProductMetadataRequestTest extends TestCase {
     ProductMetadataRequest productMetadataRequest;
     @Mock
     String mCtn = "HD8967/01";
+    String mSerialNumber = "1344";
+    Sector sector;
+    Catalog catalog;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        productMetadataRequest = new ProductMetadataRequest(mCtn);
+        sector = Sector.B2C;
+        catalog = Catalog.CONSUMER;
+        productMetadataRequest = new ProductMetadataRequest(mCtn, mSerialNumber,sector,catalog);
     }
 
     public void testGetRequestType() throws Exception {

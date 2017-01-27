@@ -9,9 +9,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
@@ -23,6 +25,7 @@ import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
+import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -30,6 +33,7 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.List;
 
@@ -172,8 +176,11 @@ public class UserWithProducts {
 
     @NonNull
     protected RequestManager getRequestManager(final Context context) {
+        AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
+        PRXDependencies prxDependencies = new PRXDependencies(context , appInfra); // use existing appinfra instance
         RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(context);
+        mRequestManager.init(prxDependencies); // pass prxdependency
+
         return mRequestManager;
     }
 
@@ -273,13 +280,15 @@ public class UserWithProducts {
 
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
-        RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
+        RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), ProdRegConstants.REGISTRATIONREQUEST_SERVICE_ID,registeredProduct.getSector(),
+        registeredProduct.getCatalog());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setRegistrationChannel(getUserProduct().getRegistrationChannel());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
+        registrationRequest.setAccessToken(getUser().getAccessToken());
         return registrationRequest;
     }
 
