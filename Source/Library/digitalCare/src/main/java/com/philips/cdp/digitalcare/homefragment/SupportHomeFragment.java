@@ -58,10 +58,15 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -869,7 +874,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 mPrxWrapper.executePrxAssetRequestWithSummaryData(productSummaryModel);
 */
                 setDataToModels(productSummaryModel);
-                executeSubcategoryRequest();
+                initialiseServiceDiscoveryRequests();
+//                executeSubcategoryRequest();
             }
         }
     }
@@ -944,7 +950,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         String subCategory = consumerProductInfo.getSubCategory();
         Locale locale = digitalCareConfigManager.getLocaleMatchResponseWithCountryFallBack();
 
-        return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subCategory);
+        //return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subCategory);
+        return DigitalCareConfigManager.getInstance().getSubCategoryUrl();
     }
 
 
@@ -1018,7 +1025,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     mProductViewProductButton.setVisibility(View.VISIBLE);
 
                 setDataToModels(productSummaryModel);
-                executeSubcategoryRequest();
+                initialiseServiceDiscoveryRequests();
+              //  executeSubcategoryRequest();
+
             } finally {
                 createMainMenu();
             }
@@ -1126,4 +1135,81 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_HOME;
     }
+
+    private void initialiseServiceDiscoveryRequests(){
+
+        ArrayList<String> var1 = new ArrayList<>();
+        var1.add("cc.cdls");
+        var1.add("cc.emailformurl");
+        var1.add("cc.prx.category");
+        var1.add("cc.productreviewurl");
+        //var1.add("cc.atos");
+
+      /*  LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();*/
+        HashMap<String,String> hm=new HashMap<String,String>();
+
+        hm.put("productSector",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
+        hm.put("productCatalog",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
+        hm.put("productCategory",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
+        hm.put("productSubcategory",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
+        hm.put("productReviewURL",""+DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
+
+        Log.i("servicediscovery",""+DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
+
+        hm.put("appName",""+getAppName());
+       // hm.put("lattitude",""+longitude);
+       // hm.put("longitude",""+latitude);
+
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+
+                //disableProgressDialog();
+                ServiceDiscoveryService serviceDiscoveryService = map.get("cc.prx.category");
+                if(serviceDiscoveryService != null){
+                    DigitalCareConfigManager.getInstance().setSubCategoryUrl(serviceDiscoveryService.getConfigUrls());
+                    Log.i("ServiceDiscoveryurl","setSubCategoryUrl - "+serviceDiscoveryService.getConfigUrls());
+                }
+
+                serviceDiscoveryService = map.get("cc.cdls");
+                if(serviceDiscoveryService != null){
+                    DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
+                    Log.i("ServiceDiscoveryurl","setCdlsUrl - "+serviceDiscoveryService.getConfigUrls());
+                }
+
+                serviceDiscoveryService = map.get("cc.emailformurl");
+                if(serviceDiscoveryService != null){
+                    DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
+                    Log.i("ServiceDiscoveryurl","setEmailUrl - "+serviceDiscoveryService.getConfigUrls());
+                }
+
+                /*serviceDiscoveryService = map.get("cc.atos");
+                if(serviceDiscoveryService != null){
+                    DigitalCareConfigManager.getInstance().setAtosUrl(serviceDiscoveryService.getConfigUrls());
+                    Log.i("ServiceDiscoveryurl","setAtosUrl - "+serviceDiscoveryService.getConfigUrls());
+                }*/
+
+                serviceDiscoveryService = map.get("cc.productreviewurl");
+                if(serviceDiscoveryService != null){
+                    DigitalCareConfigManager.getInstance().setProductReviewUrl(serviceDiscoveryService.getConfigUrls());
+                    Log.i("ServiceDiscoveryurl","setProductReviewUrl - "+serviceDiscoveryService.getConfigUrls());
+                }
+
+                executeSubcategoryRequest();
+
+                mProgressDialog.cancel();
+                mProgressDialog.dismiss();
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                Log.i("ServiceDiscoveryurl","error service discovery - "+s);
+            }
+        }, hm);
+    }
+
 }

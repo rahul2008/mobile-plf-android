@@ -25,7 +25,6 @@ import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
@@ -62,6 +61,12 @@ public class DigitalCareConfigManager {
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
     private String liveChatUrl = null;
+    private String subCategoryUrl = null;
+    private String cdlsUrl = null;
+    private String atosUrl = null;
+    private String emailUrl = null;
+    private String productReviewUrl = null;
+    private String country = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -117,11 +122,10 @@ public class DigitalCareConfigManager {
 
         ProductModelSelectionHelper.getInstance().initialize(mContext, mAppInfraInterface);
 
-        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        //PILLocaleManager localeManager = new PILLocaleManager(mContext);
         String[] localeArray = new String[2];
-        String locale = localeManager.getInputLocale();
+        String locale = Locale.getDefault().getLanguage()+"_"+getCountry();//localeManager.getInputLocale();
         localeArray = locale.split("_");
-
         mLocale = new Locale(localeArray[0], localeArray[1]);
         if (mLocaleMatchWithCountryFallBack == null)
             mLocaleMatchWithCountryFallBack = mLocale;
@@ -415,6 +419,56 @@ public class DigitalCareConfigManager {
 
     public void setLiveChatUrl(String liveChatUrl) {
         this.liveChatUrl = liveChatUrl;
+    }
+
+
+    public String getSubCategoryUrl() {
+        return subCategoryUrl;
+    }
+
+    public void setSubCategoryUrl(String subCategoryUrl) {
+        this.subCategoryUrl = subCategoryUrl;
+    }
+
+    public String getCdlsUrl() {
+        return cdlsUrl;
+    }
+
+    public void setCdlsUrl(String cdlsUrl) {
+        this.cdlsUrl = cdlsUrl;
+    }
+
+    public String getAtosUrl() {
+        return atosUrl;
+    }
+
+    public void setAtosUrl(String atosUrl) {
+        this.atosUrl = atosUrl;
+    }
+
+    public String getEmailUrl() {
+        return emailUrl;
+    }
+
+    public void setEmailUrl(String emailUrl) {
+        this.emailUrl = emailUrl;
+    }
+
+    public String getProductReviewUrl() {
+        return productReviewUrl;
+    }
+
+    public void setProductReviewUrl(String productReviewUrl) {
+        this.productReviewUrl = productReviewUrl;
+    }
+
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     /**

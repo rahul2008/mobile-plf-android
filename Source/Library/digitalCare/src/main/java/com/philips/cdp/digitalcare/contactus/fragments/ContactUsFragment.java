@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -54,10 +55,11 @@ import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -314,20 +316,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Forming CDLS url. This url will be different for US and other countries.
      */
     protected String getCdlsUrl() {
-        final Locale localeCoutryFallback = DigitalCareConfigManager.getInstance().
+        /*final Locale localeCoutryFallback = DigitalCareConfigManager.getInstance().
                 getLocaleMatchResponseWithCountryFallBack();
 
         if (localeCoutryFallback == null) {
             return null;
-        }
+        }*/
         final ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
 
-        return getCdlsUrl(consumerProductInfo.getSector(),
-                localeCoutryFallback.toString(),
-                consumerProductInfo.getCatalog(),
-                isFirstTimeCdlsCall ? consumerProductInfo.getSubCategory()
-                        : consumerProductInfo.getCategory());
+        return loadCdlsUrl();
     }
 /*
     @Override
@@ -340,14 +338,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		showFragment(new TwitterSupportFragment());
 	}*/
 
-    protected String getCdlsUrl(String sector, String locale, String catalog,
-                                String subcategory) {
+    private String loadCdlsUrl(){
 
-        String cdlsUrl = String.format(CDLS_URL_PORT, sector, locale, catalog,
-                subcategory);
-        DigiCareLogger.i(TAG, "CDLS Request URL : " + cdlsUrl);
-
-        return cdlsUrl;
+        return DigitalCareConfigManager.getInstance().getCdlsUrl();
     }
 
     @Override
