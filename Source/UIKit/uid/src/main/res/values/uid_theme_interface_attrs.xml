@@ -128,6 +128,16 @@
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
 
+    <declare-styleable name="UIDSocialMediaButton">
+        <attr name="uidSocialIconPrimaryButtonIconColor" format="reference|color"/>
+        <attr name="uidSocialIconPrimaryButtonNormalFillColor" format="reference|color"/>
+        <attr name="uidSocialIconPrimaryButtonPressedColor" format="reference|color"/>
+        <attr name="uidSocialIconWhiteButtonIconColor" format="reference|color"/>
+        <attr name="uidSocialIconWhiteButtonNormalFillColor" format="reference|color"/>
+        <attr name="uidSocialIconWhitePressedColor" format="reference|color"/>
+
+    </declare-styleable>
+
     <declare-styleable name="UIDCheckBox">
         <attr name="uidCheckBoxTextEnabledColor" format="reference|color"/>
         <attr name="uidCheckBoxTextDisabledColor" format="reference|color"/>
