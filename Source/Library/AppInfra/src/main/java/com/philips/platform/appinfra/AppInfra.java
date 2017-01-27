@@ -6,6 +6,8 @@
 package com.philips.platform.appinfra;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -348,6 +350,17 @@ public class AppInfra implements AppInfraInterface {
 
     public void setConfigInterface(AppConfigurationInterface configInterface) {
         this.configInterface = configInterface;
+    }
+
+    /**
+     * Method to check the network connectivity.
+     *
+     * @return boolean true/false.
+     */
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connMgr = (ConnectivityManager) appInfraContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
 }

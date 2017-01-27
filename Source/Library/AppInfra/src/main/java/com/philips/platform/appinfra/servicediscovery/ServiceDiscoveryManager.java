@@ -6,8 +6,6 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
@@ -141,7 +139,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         ServiceDiscovery service = new ServiceDiscovery();
         ServiceDiscovery SDcache = mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
         if (null == SDcache) {
-            if (!isOnline()) {
+            if (!mAppInfra.isNetworkAvailable()) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
                 service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
                 service.setSuccess(false);
@@ -667,11 +665,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
 
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 
     @Override
     public void refresh(final OnRefreshListener listener) { // TODO RayKlo: refresh only works if we have no data?

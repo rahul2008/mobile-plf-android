@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.SntpClient;
 import android.util.Log;
 
@@ -147,7 +145,7 @@ public class TimeSyncSntpClient implements TimeInterface {
                 @Override
                 public void run() {
                     try {
-                        if (isOnline()) {
+                        if (mAppInfra.isNetworkAvailable()) {
                             refreshOffset();
                         } else {
 //                            if (mAppInfra != null && mAppInfra.getLogging() != null) {
@@ -187,10 +185,4 @@ public class TimeSyncSntpClient implements TimeInterface {
         }
     }
 
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                mAppInfra.getAppInfraContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 }
