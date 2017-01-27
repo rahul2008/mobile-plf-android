@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Commlib BLE Example</string>
 
-    <string name="lblStateDiscovering">Starting discovery…</string>
-    <string name="lblStateDone">Done</string>
+    <string name="lblStateDiscovering">Discovering new appliances…</string>
+    <string name="lblStateIdle">Idle</string>
     <string name="lblStateError">Error</string>
     <string name="lblStatePermissionError">Permission error</string>
     <string name="lblStateScanning">Scanning…</string>

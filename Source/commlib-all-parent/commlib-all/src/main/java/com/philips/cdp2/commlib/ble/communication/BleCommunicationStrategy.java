@@ -29,9 +29,9 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     /**
      * The constant DICOMM_MESSAGE_TIMEOUT_MS.
      * <p>
-     * This defines the default duration for a request timeout as 5000 ms.
+     * This defines the default duration for a request timeout as 30 s.
      */
-    private static final long DICOMM_MESSAGE_TIMEOUT_MS = 5000L;
+    private static final long DICOMM_MESSAGE_TIMEOUT_MS = 30000L;
 
     @NonNull
     private final String mCppId;
