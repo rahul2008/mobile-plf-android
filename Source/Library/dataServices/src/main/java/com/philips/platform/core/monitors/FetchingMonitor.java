@@ -24,6 +24,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsSegregator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -48,6 +49,9 @@ public class FetchingMonitor extends EventMonitor {
 
     @Inject
     ConsentsSegregator consentsSegregator;
+
+    @Inject
+    SettingsSegregator settingsSegregator;
 
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
@@ -74,12 +78,18 @@ public class FetchingMonitor extends EventMonitor {
         DSLog.i("***SPO***","In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
+
             DSLog.i("***SPO***","In Fetching Monitor before putMomentsForSync");
             dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
+
             DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
             dataToSync = consentsSegregator.putConsentForSync(dataToSync);
+
             DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
+
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+            dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
 
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {

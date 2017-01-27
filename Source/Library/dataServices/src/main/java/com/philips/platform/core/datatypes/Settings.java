@@ -9,9 +9,9 @@ public interface Settings extends BaseAppData, Serializable {
 
     String METRICS="Metrics";
     String LOCALE="Locale";
-    public void setType(String type);
-    public String getType();
-    public void setValue(String value);
-    public String getValue();
-    public int getId();
+     void setType(String type);
+     String getType();
+     void setValue(String value);
+     String getValue();
+     int getId();
 }

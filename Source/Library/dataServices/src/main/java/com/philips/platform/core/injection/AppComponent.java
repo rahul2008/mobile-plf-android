@@ -7,6 +7,7 @@
 package com.philips.platform.core.injection;
 
 import com.philips.platform.core.BaseAppCore;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.monitors.FetchingMonitor;
@@ -28,6 +29,11 @@ import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsConverter;
+import com.philips.platform.datasync.settings.SettingsDataFetcher;
+import com.philips.platform.datasync.settings.SettingsDataSender;
+import com.philips.platform.datasync.settings.SettingsMonitor;
+import com.philips.platform.datasync.settings.SettingsSegregator;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
 import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
@@ -91,4 +97,14 @@ public interface AppComponent {
     void injectUserCharacteristicsConverter(UserCharacteristicsConverter userCharacteristicsConverter);
 
     void injectUserCharacteristicsSegregator(UserCharacteristicsSegregator userCharacteristicsSegregator);
+
+    void injectUserSettingsMonitor(SettingsMonitor settingsMonitor);
+
+    void injectSettingsDataSender(SettingsDataSender settingsDataSender);
+
+    void injectSettingsDataFetcher(SettingsDataFetcher settingsDataFetcher);
+
+    void injectSettingsConverter(SettingsConverter settingsConverter);
+
+    void injectSettingsSegregator(SettingsSegregator segregator);
 }

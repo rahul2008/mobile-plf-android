@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.BackendMomentRequestFailed;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -88,7 +88,7 @@ public class MomentsDataFetcher extends DataFetcher {
         } catch (RetrofitError ex) {
             //TODO: - Veritcals should be forced to call this
             DSLog.e(TAG, "RetrofitError: " + ex.getMessage() + ex);
-            eventing.post(new BackendMomentRequestFailed(ex));
+            eventing.post(new BackendDataRequestFailed(ex));
             return ex;
         }
     }

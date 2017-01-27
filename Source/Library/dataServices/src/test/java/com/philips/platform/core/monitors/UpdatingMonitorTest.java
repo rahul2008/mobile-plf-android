@@ -7,8 +7,8 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.BackendMomentRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
@@ -19,7 +19,6 @@ import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
@@ -32,7 +31,6 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -81,7 +79,7 @@ public class UpdatingMonitorTest {
     @Mock
     BackendResponse backendResponseMock;
     @Mock
-    BackendMomentRequestFailed backendMomentRequestFailedMock;
+    BackendDataRequestFailed backendDataRequestFailedMock;
     @Mock
     private Eventing eventingMock;
     @Mock
@@ -149,8 +147,8 @@ public class UpdatingMonitorTest {
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadIsCalled() throws Exception {
 
         when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
-        updatingMonitor.onEventBackgroundThread(backendMomentRequestFailedMock);
-        verify(dbUpdatingInterface).updateFailed(backendMomentRequestFailedMock.getException());
+        updatingMonitor.onEventBackgroundThread(backendDataRequestFailedMock);
+        verify(dbUpdatingInterface).updateFailed(backendDataRequestFailedMock.getException());
     }*/
 
     @Test

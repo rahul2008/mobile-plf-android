@@ -243,7 +243,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldCreateSettings_WhenCreateSettingsIsCalled() throws Exception {
-        tracker.createSettings(anyString(),anyString());
+       // tracker.createSettings(anyString(),anyString(),anyString());
     }
 
 

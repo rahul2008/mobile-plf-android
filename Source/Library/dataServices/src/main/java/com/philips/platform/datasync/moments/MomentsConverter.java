@@ -61,7 +61,7 @@ public class MomentsConverter {
 //    @NonNull
 //    private Moment createMoment(@NonNull final UCoreMoment uCoreMoment) {
 //        Moment moment = baseAppDataCreater.createMomentWithoutUUID(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
-//                momentTypeMap.getMomentType(uCoreMoment.getType()));
+//                momentTypeMap.getMomentType(uCoreMoment.getTableType()));
 //        moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
 //
 //        addSynchronisationData(moment, uCoreMoment);
@@ -171,8 +171,8 @@ public class MomentsConverter {
 
     private void addToMeasurementGroupDeatil(UCoreMeasurementGroups uCoreMeasurementGroups, MeasurementGroup measurementGroup) {
         for (UCoreMeasurementGroupDetail uCoreDetail : uCoreMeasurementGroups.getMeasurementGroupDetails()) {
-            // MeasurementGroupDetailType type = momentTypeMap.getMeasurementGroupDeatilType(uCoreDetail.getType());
-//            if (!MomentDetailType.UNKNOWN.equals(uCoreDetail.getType())) {
+            // MeasurementGroupDetailType type = momentTypeMap.getMeasurementGroupDeatilType(uCoreDetail.getTableType());
+//            if (!MomentDetailType.UNKNOWN.equals(uCoreDetail.getTableType())) {
             MeasurementGroupDetail measurementGroupDetail = baseAppDataCreater.createMeasurementGroupDetail(uCoreDetail.getType(), measurementGroup);
             measurementGroupDetail.setValue(uCoreDetail.getValue());
             measurementGroup.addMeasurementGroupDetail(measurementGroupDetail);
@@ -184,7 +184,7 @@ public class MomentsConverter {
     /*
         private MeasurementGroup createMeasurementGroup(UCoreMeasurementGroups uCoreMeasurementGroups) {
             MeasurementGroup measurementGroup = baseAppDataCreater.createMeasurementGroup(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
-                    momentTypeMap.getMomentType(uCoreMoment.getType()));
+                    momentTypeMap.getMomentType(uCoreMoment.getTableType()));
             moment.setDateTime(new DateTime(uCoreMoment.getTimestamp()));
 
             addSynchronisationData(moment, uCoreMoment);
@@ -210,7 +210,7 @@ public class MomentsConverter {
 
     private void addToUCoreMomentDetails(@NonNull final Moment moment, @NonNull final List<UCoreDetail> uCoreDetailList) {
         for (UCoreDetail uCoreDetail : uCoreDetailList) {
-            //MomentDetailType type = momentTypeMap.getMomentDetailType(uCoreDetail.getType());
+            //MomentDetailType type = momentTypeMap.getMomentDetailType(uCoreDetail.getTableType());
             //if (!MomentDetailType.UNKNOWN.equals(type)) {
             MomentDetail momentDetail = baseAppDataCreater.createMomentDetail(uCoreDetail.getType(), moment);
             momentDetail.setValue(uCoreDetail.getValue());
@@ -221,7 +221,7 @@ public class MomentsConverter {
 
     private void addMeasurements(@NonNull final MeasurementGroup measurementGroup, @NonNull final List<UCoreMeasurement> uCoreMeasurementList) {
         for (UCoreMeasurement uCoreMeasurement : uCoreMeasurementList) {
-            //MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getType());
+            //MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getTableType());
             //if (!MeasurementType.UNKNOWN.equals(type)) {
             Measurement measurement = baseAppDataCreater.createMeasurement(uCoreMeasurement.getType(), measurementGroup);
             measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
@@ -240,7 +240,7 @@ public class MomentsConverter {
 
 /*    private void addMeasurements(@NonNull final Moment moment, @NonNull final List<UCoreMeasurement> uCoreMeasurementList) {
         for (UCoreMeasurement uCoreMeasurement : uCoreMeasurementList) {
-            MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getType());
+            MeasurementType type = momentTypeMap.getMeasurementType(uCoreMeasurement.getTableType());
             if (!MeasurementType.UNKNOWN.equals(type)) {
                 Measurement measurement = baseAppDataCreater.createMeasurement(type, moment);
                 measurement.setDateTime(new DateTime(uCoreMeasurement.getTimestamp()));
@@ -258,7 +258,7 @@ public class MomentsConverter {
 
     private void addMeasurementDetails(@NonNull final Measurement measurement, @NonNull final List<UCoreDetail> uCoreDetailList) {
         for (UCoreDetail uCoreDetail : uCoreDetailList) {
-//            MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
+//            MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getTableType());
 //            if (!MeasurementDetailType.UNKNOWN.equals(type)) {
             final MeasurementDetail measurementDetail = baseAppDataCreater.createMeasurementDetail(uCoreDetail.getType(), measurement);
             String value = uCoreDetail.getValue();
@@ -272,7 +272,7 @@ public class MomentsConverter {
 
   /*  private void addMeasurementGroupDetails(@NonNull final MeasurementGroup measurementGroup, @NonNull final List<UCoreMeasurementGroupDetail> uCoreDetailList) {
         for (UCoreMeasurementGroupDetail uCoreDetail : uCoreDetailList) {
-            MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getType());
+            MeasurementDetailType type = momentTypeMap.getMeasurementDetailType(uCoreDetail.getTableType());
             if (!MeasurementDetailType.UNKNOWN.equals(type)) {
                 final MeasurementGroupDetail measurementGroupDetail = baseAppDataCreater.createMeasurementGroupDetail(type, measurementGroup);
                 String value = uCoreDetail.getValue();
@@ -289,7 +289,7 @@ public class MomentsConverter {
 //        UCoreMoment uCoreMoment = new UCoreMoment();
 //
 //        uCoreMoment.setTimestamp(moment.getDateTime().toString());
-//        String momentTypeString = momentTypeMap.getMomentTypeString(moment.getType());
+//        String momentTypeString = momentTypeMap.getMomentTypeString(moment.getTableType());
 //        uCoreMoment.setType(momentTypeString);
 //
 //        List<UCoreMeasurement> uCoreMeasurementList = new ArrayList<>();

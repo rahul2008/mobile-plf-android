@@ -24,4 +24,6 @@ public interface DBUpdatingInterface {
 
     void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) throws SQLException;
 
+    boolean updateSyncBit(int tableID,boolean isSynced) throws SQLException;
+
 }

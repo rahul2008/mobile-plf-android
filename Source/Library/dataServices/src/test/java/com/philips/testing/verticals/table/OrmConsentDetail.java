@@ -41,8 +41,8 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
     }
 
    /* @Override
-    public ConsentDetailType getType() {
-        return type.getType();
+    public ConsentDetailType getTableType() {
+        return type.getTableType();
     }*/
 
     @Override

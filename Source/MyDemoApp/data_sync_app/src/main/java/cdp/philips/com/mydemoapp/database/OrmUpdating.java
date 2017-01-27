@@ -19,6 +19,7 @@ import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
@@ -42,17 +43,21 @@ public class OrmUpdating {
     @NonNull
     private final Dao<OrmSettings, Integer> settingsDao;
 
+    @NonNull
+    private final Dao<OrmDCSync, Integer> dcSyncDao;
+
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDao, @NonNull Dao<OrmSettings, Integer> settingsDao) {
+                       @NonNull final Dao<OrmConsent, Integer> constentDao, @NonNull Dao<OrmSettings, Integer> settingsDao, @NonNull Dao<OrmDCSync, Integer> dcSyncDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
         this.measurementDetailDao = measurementDetailDao;
         this.constentDao = constentDao;
         this.settingsDao = settingsDao;
+        this.dcSyncDao = dcSyncDao;
     }
 
     public void updateMoment(OrmMoment moment) throws SQLException {
@@ -93,5 +98,14 @@ public class OrmUpdating {
 
             updateBuilder.update();
         }
+    }
+
+    public void updateDCSync(int tableID,boolean isSynced) throws SQLException{
+
+        UpdateBuilder<OrmDCSync, Integer> updateBuilder = dcSyncDao.updateBuilder();
+        updateBuilder.updateColumnValue("isSynced",isSynced);
+        updateBuilder.where().eq("tableID", tableID);
+
+        updateBuilder.update();
     }
 }

@@ -199,10 +199,10 @@ public class DataServicesManager {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
-    public Settings createSettings(String type,String value) {
+   /* public Settings createSettings(String type,String value) {
         Settings settings = mDataCreater.createSettings(type,value);
         return settings;
-    }
+    }*/
 
     public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) {
         mEventing.post(new DatabaseSettingsUpdateRequest(settingsList,dbRequestListener));

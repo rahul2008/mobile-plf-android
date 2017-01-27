@@ -28,6 +28,7 @@ import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -75,6 +76,9 @@ public class BackendModuleTest {
     ConsentsMonitor consentsMonitor;
     @Mock
     UserCharacteristicsMonitor userCharacteristicsMonitor;
+
+    @Mock
+    SettingsMonitor settingsMonitor;
 
     ExecutorService executorService;
     @Mock

@@ -1,7 +1,7 @@
 package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.ErrorHandlingInterface;
-import com.philips.platform.core.events.BackendMomentRequestFailed;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -28,7 +28,7 @@ public class ErrorMonitor extends EventMonitor {
         mErrorHandlingInterface = errorHandlingInterface;
     }
 
-    public void onEventBackgroundThread(final BackendMomentRequestFailed momentSaveRequestFailed) {
+    public void onEventBackgroundThread(final BackendDataRequestFailed momentSaveRequestFailed) {
         RetrofitError exception = momentSaveRequestFailed.getException();
         postError(exception);
     }
