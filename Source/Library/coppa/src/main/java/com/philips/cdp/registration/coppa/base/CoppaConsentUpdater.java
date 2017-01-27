@@ -37,7 +37,7 @@ class CoppaConsentUpdater {
      * @param coppaConsentUpdateCallback call back  to get onSuccess or onFailure
      */
     public void updateCoppaConsentStatus(
-            final boolean coppaConsentStatus,final String mLocale,
+            final boolean coppaConsentStatus,final String locale,
             final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         //  if(Jump.getSignedInUser() != null){
         ServerTime.init(RegistrationHelper.getInstance().getAppInfraInstance().getTime());
@@ -49,19 +49,19 @@ class CoppaConsentUpdater {
 
             if (!CoppaConfiguration.isCampaignIdPresent()) {
                 if (CoppaConfiguration.getCurrentConsentsArray().length() == 0) {
-                    buildConsentStatus(coppaConsentStatus,mLocale, consentsObject);
+                    buildConsentStatus(coppaConsentStatus,locale, consentsObject);
                     JSONArray newArray = new JSONArray();
                     newArray.put(consentsObject);
                     updatedUser.put(CoppaConfiguration.CONSENTS, newArray);
                 } else {
                     JSONArray consents = CoppaConfiguration.getCurrentConsentsArray();
-                    buildConsentStatus(coppaConsentStatus,mLocale, consentsObject);
+                    buildConsentStatus(coppaConsentStatus,locale, consentsObject);
                     consents.put(consentsObject);
                     updatedUser.put(CoppaConfiguration.CONSENTS, consents);
                 }
             } else {
                 JSONArray consents = CoppaConfiguration.getCurrentConsentsArray();
-                buildConsentStatus(coppaConsentStatus,mLocale, consentsObject);
+                buildConsentStatus(coppaConsentStatus,locale, consentsObject);
                 consents.put(CoppaConfiguration.consentIndex(), consentsObject);
                 updatedUser.put(CoppaConfiguration.CONSENTS, consents);
             }

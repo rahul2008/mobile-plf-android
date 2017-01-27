@@ -230,4 +230,8 @@ public class RegUtility {
     public static void setCreateAccountStartTime(long createAccountStartTime) {
         RegUtility.createAccountStartTime = createAccountStartTime;
     }
+    // check local from US or Not
+    public static boolean isCountryUS(String local) {
+        return local.substring(3,5).equalsIgnoreCase(RegConstants.COUNTRY_CODE_US);
+    }
 }

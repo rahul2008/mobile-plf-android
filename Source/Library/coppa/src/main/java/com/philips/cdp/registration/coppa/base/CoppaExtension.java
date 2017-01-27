@@ -15,6 +15,8 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 
@@ -68,13 +70,13 @@ public class CoppaExtension {
                 } else if (consent.getGiven() != null && (hoursSinceLastConsent() >= 24L) && consent.getConfirmationGiven() == null) {
                     RLog.d("Consent", "Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = CoppaStatus.kDICOPPAConfirmationPending;
-                    if (!consent.getLocale().substring(3,5).equals("US")) {
+                    if (!RegUtility.isCountryUS(consent.getLocale())) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     }
                     RLog.d("Consent", "Consent coppaconfirmationPending");
                 }else{
                     coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
-                    if (!consent.getLocale().substring(3,5).equals("US")) {
+                    if (!RegUtility.isCountryUS(consent.getLocale())) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     }
                 }

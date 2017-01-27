@@ -30,12 +30,13 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import java.util.Locale;
 
 public class ConsentHandler implements RefreshUserHandler {
 
-    public static final String COUNTRY_CODE_US = "US";
+
     final private CoppaExtension mCoppaExtension;
     private final Context mContext;
     private final User mUser;
@@ -192,7 +193,7 @@ public class ConsentHandler implements RefreshUserHandler {
     }
 
     private void completeConsentActions(final CoppaStatus coppaStatus) {
-        if (isCountryUS()) {
+        if (RegUtility.isCountryUS(mCoppaExtension.getConsent().getLocale())) {
             //show thank you and 24 hour screen
             addParentalConsentFragment(coppaStatus);
         } else {
@@ -240,11 +241,4 @@ public class ConsentHandler implements RefreshUserHandler {
             }
         }
     }
-    // check local from US or Not
-    private boolean isCountryUS() {
-        Consent consent = mCoppaExtension.getConsent();
-        String locale = consent.getLocale();
-        return locale.substring(3,5).equalsIgnoreCase(COUNTRY_CODE_US);
-    }
-
 }

@@ -30,6 +30,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -43,12 +44,10 @@ import java.util.TimeZone;
 
 public class ParentalApprovalFragmentController implements RefreshUserHandler,
         View.OnClickListener {
-    public static final String COUNTRY_CODE_US = "US";
-    private boolean isParentalConsent = false;
+   private boolean isParentalConsent = false;
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
     private FragmentManager mFragmentManager;
-    private String mLocal;
     private View.OnClickListener mOkBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -85,9 +84,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
     public boolean isCountryUs() {
         boolean isCountryUs;
         if (getCoppaExtension().getConsent().getLocale() != null) {
-            isCountryUs = getCoppaExtension().getConsent().getLocale().substring(3,5).equalsIgnoreCase("US");
+            isCountryUs = getCoppaExtension().getConsent().getLocale().substring(3,5).equalsIgnoreCase(RegConstants.COUNTRY_CODE_US);
         } else {
-            isCountryUs = RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US");
+            isCountryUs = RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase(RegConstants.COUNTRY_CODE_US);
         }
         return isCountryUs;
     }
@@ -151,7 +150,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
             addParentalConsentFragment(coppaStatus);
         } else {
             //first consent success
-            if (isCountryUS()) {
+            if (RegUtility.isCountryUS(mCoppaExtension.getConsent().getLocale())) {
                 if ((hoursSinceLastConsent() >= 24L)) {
                     new User(mParentalApprovalFragment.getContext()).refreshUser(
                             new RefreshUserHandler() {
@@ -317,11 +316,5 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
         final ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension,
                 mParentalApprovalFragment.getContext());
         consentHandler.disAgreeConsent( mParentalApprovalFragment,locale);
-    }
-    // check local from US or Not
-    private boolean isCountryUS() {
-        Consent consent = mCoppaExtension.getConsent();
-        String locale = consent.getLocale();
-        return locale.substring(3,5).equalsIgnoreCase(COUNTRY_CODE_US);
     }
 }

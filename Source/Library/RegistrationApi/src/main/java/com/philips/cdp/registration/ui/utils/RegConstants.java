@@ -164,4 +164,6 @@ public class RegConstants {
 
     public static final int UR_ERRORCODE = 67675438;
 
+    public static final String COUNTRY_CODE_US = "US";
+
 }
