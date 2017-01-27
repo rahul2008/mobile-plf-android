@@ -18,15 +18,28 @@ public class DataHolder extends BaseObservable {
     public final int icon;
     @StringRes
     public final int text;
-    final private Context context;
+    @StringRes
+    public final int description;
 
-    public DataHolder(@DrawableRes final int icon, @StringRes final int text, final Context context) {
+    final private Context context;
+    public boolean isSelected;
+
+    public DataHolder(@DrawableRes final int icon, @StringRes final int text, @StringRes final int description, final Context context) {
         this.icon = icon;
         this.text = text;
+        this.description = description;
         this.context = context;
     }
 
     public Drawable getIcon() {
         return VectorDrawableCompat.create(context.getResources(), icon, context.getTheme());
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 }

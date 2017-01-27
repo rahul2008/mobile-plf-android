@@ -3,11 +3,11 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.platform.uid.R;
 
-public class RecyclerView extends LinearLayout {
+public class RecyclerView extends RelativeLayout {
     public RecyclerView(final Context context) {
         this(context, null);
     }

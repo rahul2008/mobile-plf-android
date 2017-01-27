@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.philips.platform.catalogapp.DataHolder"></variable>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.ListViewSingleItemTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+            android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+            android:drawablePadding="@dimen/separator_drawable_padding"
+            android:drawableStart="@{data.getIcon()}"
+            android:gravity="start|center_vertical"
+            android:text="@{data.text}"/>
+    </LinearLayout>
+</layout>

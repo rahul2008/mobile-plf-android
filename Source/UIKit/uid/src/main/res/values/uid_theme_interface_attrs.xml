@@ -149,4 +149,9 @@
         <attr name="uidSeparatorColor" format="reference|color"/>
         <attr name="uidSeparatorAlpha" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDRecyclerView">
+        <attr name="uidListPressedColor" format="reference|color"/>
+        <attr name="uidListPressedAlpha" format="float"/>
+    </declare-styleable>
 </resources>

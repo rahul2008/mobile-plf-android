@@ -87,6 +87,9 @@
         <item name="uidCheckBoxTickDisabledColor">@color/uidColorWhite</item>
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
+
+        <item name="uidListPressedColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidListPressedAlpha">@dimen/uid_alpha_per_35</item>
     </style>
 
     <style name="UltraLight">
@@ -137,6 +140,8 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
+
+        <item name="uidListPressedAlpha">@dimen/uid_alpha_per_10</item>
     </style>
 
     <style name="VeryLight">
@@ -181,6 +186,8 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidListPressedAlpha">@dimen/uid_alpha_per_25</item>
     </style>
 
     <style name="Light">
@@ -308,5 +315,7 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidListPressedAlpha">@dimen/uid_alpha_per_25</item>
     </style>
 </resources>
