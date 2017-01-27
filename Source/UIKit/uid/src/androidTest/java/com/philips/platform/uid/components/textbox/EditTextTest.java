@@ -283,7 +283,7 @@ public class EditTextTest {
 
         getPasswordTextbox().perform(new GeneralClickAction(Tap.DOUBLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
 
-        getClearTextbox().perform(ViewActions.click());
+//        getClearTextbox().perform(ViewActions.click());
         getPasswordTextbox().check(matches(TextViewPropertiesMatchers.hasMasking()));
     }
 

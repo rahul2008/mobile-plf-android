@@ -21,8 +21,8 @@ public abstract class EditTextIconHandler {
     private boolean isIconActionUpDetected;
     private boolean isIconActionDownDetected;
     private boolean isIconDisplayed;
+    private Drawable icon;
     protected EditText editText;
-    protected Drawable icon;
 
     protected EditTextIconHandler(@NonNull final EditText editText) {
         this.editText = editText;
