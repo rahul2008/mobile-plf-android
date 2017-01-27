@@ -95,6 +95,7 @@
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
 
             <ImageView
+                android:id="@+id/rangePickerStartCalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/date_time_picker"
@@ -129,6 +130,7 @@
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
 
             <ImageView
+                android:id="@+id/rangePickerEndCalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/date_time_picker"
@@ -167,6 +169,7 @@
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
 
             <ImageView
+                android:id="@+id/timeslotCalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/date_time_picker"
