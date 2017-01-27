@@ -98,9 +98,9 @@
 <string name="reg_vk">VK</string>
 <string name="reg_wordpress">Wordpress</string>
 <string name="reg_xing">XING</string>
-<string name="reg_wechat">WeChat</string>
+<string name="reg_wechat"></string>
 <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">קרא את ה%s וה%s שלנו.</string>
-<string name="reg_LegalNoticeText"> וה%s שלנו</string>
+<string name="reg_LegalNoticeText">וה%s שלנו</string>
 <string name="reg_AgeLimitText">בעצם יצירת החשבון או הכניסה למערכת אתה מאשר כי גילך %s שנים או יותר.\n</string>
 <string name="reg_TermsAndConditionsAcceptanceText">אני מאשר את ה%s של היישום</string>
 <string name="reg_TermsAndConditionsAcceptanceText_Error">אשר את התנאים והתניות</string>
@@ -240,7 +240,9 @@
 <string name="reg_Country_US">ארצות הברית</string>
 <string name="reg_Country_VN">וייטנאם</string>
 <string name="reg_Country_Search_Text">חיפוש..</string>
-<string name="reg_AppNotInstalled_Alert_Title">App not installed</string>
-<string name="reg_App_NotInstalled_AlertMessage">Please install %s app to avail this feature.</string>
-<string name="reg_App_NotInstalled_InstallButton">Install</string>
+<string name="reg_AppNotInstalled_Alert_Title"></string>
+<string name="reg_App_NotInstalled_AlertMessage"></string>
+<string name="reg_App_NotInstalled_InstallButton"></string>
+<string name="reg_Phonenumbernotfound"></string>
+<string name="reg_InvalidMobilenumber"></string>
 </resources>

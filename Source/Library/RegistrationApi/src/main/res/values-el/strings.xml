@@ -240,7 +240,9 @@
 <string name="reg_Country_US">Ελλάδα</string>
 <string name="reg_Country_VN">Βιετνάμ</string>
 <string name="reg_Country_Search_Text">Αναζήτηση..</string>
-<string name="reg_AppNotInstalled_Alert_Title">App not installed</string>
-<string name="reg_App_NotInstalled_AlertMessage">Please install %s app to avail this feature.</string>
-<string name="reg_App_NotInstalled_InstallButton">Install</string>
+<string name="reg_AppNotInstalled_Alert_Title">Η εφαρμογή δεν είναι εγκατεστημένη</string>
+<string name="reg_App_NotInstalled_AlertMessage">Εγκαταστήστε την εφαρμογή %s για να γίνει διαθέσιμη αυτή η λειτουργία.</string>
+<string name="reg_App_NotInstalled_InstallButton">Εγκατά/ση</string>
+<string name="reg_Phonenumbernotfound">Ο αριθμός τηλεφώνου δεν βρέθηκε</string>
+<string name="reg_InvalidMobilenumber">Μη έγκυρος αριθμός κινητού τηλεφώνου</string>
 </resources>
