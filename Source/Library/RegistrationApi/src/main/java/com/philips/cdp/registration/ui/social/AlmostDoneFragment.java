@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
@@ -34,7 +35,6 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XEmail;
@@ -45,12 +45,12 @@ import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.UIFlow;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -506,18 +506,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (v.getId() == R.id.reg_btn_continue) {
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
-            if(mEtEmail.isShown()&&!mEtEmail.isValidEmail()) return;
+            if (mEtEmail.isShown() && !mEtEmail.isValidEmail()) return;
             if (mBundle == null) {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
-
-                        RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
-                        if (!registrationSettingsURL.isChinaFlow()) {
-                            storeEmailInPreference();
-                        } else {
-                            storeMobileInPreference();
-                        }
-
+                        storeEmailOrMobileInPreference();
                         launchWelcomeFragment();
                     } else {
                         mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -540,28 +533,24 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
-    private void storeEmailInPreference() {
+    private void storeEmailOrMobileInPreference() {
         if (mEmail != null) {
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
-        } else {
-            User user = new User(mContext);
-            String email = user.getEmail();
-            if (email != null) {
-                RegPreferenceUtility.storePreference(mContext, email, true);
-            }
-
+            return;
         }
-    }
 
-    private void storeMobileInPreference() {
         User user = new User(mContext);
-        String email = user.getMobile();
+        String email = user.getEmail();
         if (email != null) {
             RegPreferenceUtility.storePreference(mContext, email, true);
+            return;
+        }
+
+        String mobileNo = user.getMobile();
+        if (mobileNo != null) {
+            RegPreferenceUtility.storePreference(mContext, mobileNo, true);
         }
     }
-
-
     private void register() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegAccptTermsError.setVisibility(View.GONE);
@@ -634,7 +623,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
         }
-        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!= LOGIN_FAILURE) {
+        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode() != LOGIN_FAILURE) {
             trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         }
     }
@@ -726,7 +715,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
         }
     }
-
 
 
     private void launchWelcomeFragment() {
