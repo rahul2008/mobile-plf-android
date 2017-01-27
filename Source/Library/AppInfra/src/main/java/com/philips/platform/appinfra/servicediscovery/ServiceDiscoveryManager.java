@@ -46,6 +46,26 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         public abstract void onDownloadDone(ServiceDiscovery result);
     }
 
+    private enum AISDURLType {AISDURLTypeProposition, AISDURLTypePlatform}
+
+
+    private static final String URLTagTest = "apps%2b%2benv%2btest";
+    private static final String URLTagDevelopment = "apps%2b%2benv%2bdev";
+    private static final String URLTagStaging = "apps%2b%2benv%2bstage";
+    private static final String URLTagAcceptance = "apps%2b%2benv%2bacc";
+    private static final String URLTagProduction = "apps%2b%2benv%2bprod";
+
+    private static final String baseURLProduction = "www.philips.com";
+    private static final String baseURLTesting = "tst.philips.com";
+    private static final String baseURLStaging = "dev.philips.com";
+    private static final String baseURLAcceptance = "acc.philips.com";
+
+    private static final String stateTesting = "TEST";
+    private static final String stateDevelopment = "DEVELOPMENT";
+    private static final String stateStaging = "STAGING";
+    private static final String stateAccepteance = "ACCEPTANCE";
+    private static final String stateProduction = "PRODUCTION";
+
 
     private OnGetHomeCountryListener.SOURCE countryCodeSource;
     private final AppInfra mAppInfra;
@@ -136,7 +156,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
      * Precondition: download lock is acquired
      */
     private ServiceDiscovery downloadServices() {
-        String urlBuild = buildUrl();
+        String urlBuild = getSDURLForType(AISDURLType.AISDURLTypeProposition);
 
         ServiceDiscovery service = new ServiceDiscovery();
         ServiceDiscovery SDcache = mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
@@ -144,7 +164,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (!isOnline()) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
                 service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
-                service.setSuccess(false);
+               // service.setSuccess(false);
             } else {
                 //urlBuild = buildUrl();
                 if (urlBuild != null) {
@@ -170,71 +190,97 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
 
-    private String buildUrl() {
+    private String getSDURLForType(AISDURLType aisdurlType) {
         try {
-            final AppIdentityInterface identityManager = mAppInfra.getAppIdentity(); // TODO RayKlo don't recreate existing instances
-            final InternationalizationInterface localManager = mAppInfra.getInternationalization();
-            Locale localeForURL = localManager.getUILocale();
-            final AppIdentityInterface.AppState state = identityManager.getAppState();
-            String service_environment = identityManager.getServiceDiscoveryEnvironment();
-            String tags = null;
-            String environment = null;
-            if (state != null && service_environment != null) {
-                switch (state) {
-                    case DEVELOPMENT:
-                        tags = "apps%2b%2benv%2bdev";
-                        break;
-                    case STAGING:
-                        tags = "apps%2b%2benv%2bstage";
-                        break;
-                    case ACCEPTANCE:
-                        tags = "apps%2b%2benv%2bacc";
-                        break;
-                    case TEST:
-                        tags = "apps%2b%2benv%2btest";
-                        break;
-                    case PRODUCTION:
-                        tags = "apps%2b%2benv%2bprod";
-                        break;
-                    default:
-                        tags = "apps%2b%2benv%2btest";
-                }
-
-                if (service_environment.equalsIgnoreCase("PRODUCTION")) {
-                    environment = "www.philips.com";
-                } else if (service_environment.equalsIgnoreCase("TEST")) {
-                    environment = "tst.philips.com";
-                } else if (service_environment.equalsIgnoreCase("STAGING")) {
-                    environment = "dev.philips.com";
-                } else if (service_environment.equalsIgnoreCase("ACCEPTANCE")) {
-                    environment = "acc.philips.com";
-                } else {
-                    environment = "tst.philips.com";
-                }
-            } else {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Build URL in SD", "" + "AppState is null");
-            }
-
+            String sector = null, micrositeid = null, environment = null;
             String url = null;
+            final AppIdentityInterface identityManager = mAppInfra.getAppIdentity();
+            final InternationalizationInterface localManager = mAppInfra.getInternationalization();
+            final String locale = localManager.getUILocaleString();
+            final AppIdentityInterface.AppState state = identityManager.getAppState();
+            final String service_environment = identityManager.getServiceDiscoveryEnvironment();
 
-            if (identityManager.getSector() != null && identityManager.getMicrositeId() != null &&
-                    localManager.getUILocale() != null && tags != null) {
+            final String appState = getAppStateStringFromState(state);
+
+            switch (aisdurlType) {
+                case AISDURLTypePlatform:
+                    sector = "B2C";
+                    micrositeid = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                            ("servicediscovery.platformMicrositeId", "appinfra", null);
+                    environment = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                            ("servicediscovery.platformMicrositeId", "appinfra", null);
+                    environment = getSDBaseURLForEnvironment(environment);
+                    break;
+
+                case AISDURLTypeProposition:
+                    sector = identityManager.getSector();
+                    micrositeid = identityManager.getMicrositeId();
+                    environment = getSDBaseURLForEnvironment(service_environment);
+                    break;
+            }
+            if (sector != null && micrositeid != null &&
+                    localManager.getUILocale() != null && appState != null) {
+
                 url = "https://" + environment + "/api/v1/discovery/" + identityManager.getSector()
-                        + "/" + identityManager.getMicrositeId() + "?locale=" + localeForURL.getLanguage() + "_" + localeForURL.getCountry() + "&tags=" + tags;
+                        + "/" + identityManager.getMicrositeId() + "?locale=" +
+                        locale + "&tags=" + appState;
+
 
                 String countryHome = getCountry(serviceDiscovery);
                 if (countryHome != null) {
                     url += "&country=" + countryHome;
+                    saveToSecureStore(countryHome, true);
                 }
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
             } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Build URL in SD", "" + "Appidentity values are null");
             }
             return url;
-        } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery", e.toString());
+
+        } catch (Exception exception) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery",
+                    exception.toString());
         }
         return null;
+    }
+
+    private String getSDBaseURLForEnvironment(String serviceEnv) {
+        String baseUrl;
+        if (serviceEnv.equalsIgnoreCase(stateProduction)) {
+            baseUrl = baseURLProduction;
+        } else if (serviceEnv.equalsIgnoreCase(stateTesting)) {
+            baseUrl = baseURLTesting;
+        } else if (serviceEnv.equalsIgnoreCase(stateStaging)) {
+            baseUrl = baseURLStaging;
+        } else if (serviceEnv.equalsIgnoreCase(stateAccepteance)) {
+            baseUrl = baseURLAcceptance;
+        } else {
+            baseUrl = baseURLTesting;
+        }
+        return baseUrl;
+    }
+
+
+    private String getAppStateStringFromState(AppIdentityInterface.AppState appState) {
+        String appstate = null;
+        switch (appState) {
+            case TEST:
+                appstate = URLTagTest;
+                break;
+            case DEVELOPMENT:
+                appstate = URLTagDevelopment;
+                break;
+            case STAGING:
+                appstate = URLTagStaging;
+                break;
+            case PRODUCTION:
+                appstate = URLTagProduction;
+                break;
+            case ACCEPTANCE:
+                appstate = URLTagAcceptance;
+                break;
+        }
+        return appstate;
     }
 
 

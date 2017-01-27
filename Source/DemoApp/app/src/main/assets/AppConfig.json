@@ -26,6 +26,8 @@
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId, language"] ,
     "abtest.precache":["philipsmobileappabtest1content","philipsmobileappabtest1success"],
-    "contentLoader.limitSize":100
+    "contentLoader.limitSize":100,
+    "servicediscovery.platformMicrositeId":"77001",
+    "servicediscovery.platformEnvironment":"production"
   }
 }
