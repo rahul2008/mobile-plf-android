@@ -117,7 +117,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private void setLocaleLanguage() {
         PILLocaleManager localeManager = new PILLocaleManager(getActivity().getApplicationContext());
         String[] localeArray = new String[2];
-        String localeAsString = localeManager.getInputLocale();
+        String localeAsString = Locale.getDefault().getLanguage()+"_"+DigitalCareConfigManager.getInstance().getCountry();//localeManager.getInputLocale();
         localeArray = localeAsString.split("_");
 
         Locale locale = new Locale(localeArray[0], localeArray[1]);

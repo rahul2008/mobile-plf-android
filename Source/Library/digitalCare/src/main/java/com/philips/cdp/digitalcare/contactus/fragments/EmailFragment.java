@@ -9,6 +9,7 @@ package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,10 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,19 +109,19 @@ public class EmailFragment extends DigitalCareBaseFragment {
     }
 
     private String getEmailUrl() {
-        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
+       if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
             return null;
-        String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
+        /*String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getLanguage().toLowerCase();
 
         String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getCountry().toUpperCase();
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-                .getInstance().getConsumerProductInfo();
+                .getInstance().getConsumerProductInfo();*/
 
-        return String.format(EMAIL_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), consumerProductInfo.getSector(),
-                language, country, consumerProductInfo.getCategory());
+       
+        return DigitalCareConfigManager.getInstance().getEmailUrl();
     }
 
     @Override
