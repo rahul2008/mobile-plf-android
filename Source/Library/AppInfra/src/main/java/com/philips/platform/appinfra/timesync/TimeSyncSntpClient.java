@@ -145,7 +145,7 @@ public class TimeSyncSntpClient implements TimeInterface {
                 @Override
                 public void run() {
                     try {
-                        if (mAppInfra.isNetworkAvailable()) {
+                        if (mAppInfra.getRestClient().isNetworkAvailable()) {
                             refreshOffset();
                         } else {
 //                            if (mAppInfra != null && mAppInfra.getLogging() != null) {

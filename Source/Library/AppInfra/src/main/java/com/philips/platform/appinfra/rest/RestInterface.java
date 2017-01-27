@@ -16,4 +16,12 @@ public interface RestInterface {
      * @return the REST request queue
      */
     public RequestQueue getRequestQueue();
+
+    /**
+     * Method to check the network connectivity.
+     *
+     * @return boolean true/false.
+     */
+    public boolean isNetworkAvailable() ;
+
 }

@@ -352,15 +352,5 @@ public class AppInfra implements AppInfraInterface {
         this.configInterface = configInterface;
     }
 
-    /**
-     * Method to check the network connectivity.
-     *
-     * @return boolean true/false.
-     */
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connMgr = (ConnectivityManager) appInfraContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 
 }

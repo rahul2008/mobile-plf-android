@@ -139,7 +139,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         ServiceDiscovery service = new ServiceDiscovery();
         ServiceDiscovery SDcache = mRequestItemManager.getServiceDiscoveryFromCache(urlBuild);
         if (null == SDcache) {
-            if (!mAppInfra.isNetworkAvailable()) {
+            if (!mAppInfra.getRestClient().isNetworkAvailable()) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "NO_NETWORK");
                 service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.NO_NETWORK, "NO_NETWORK"));
                 service.setSuccess(false);
