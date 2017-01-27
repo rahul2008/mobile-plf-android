@@ -162,7 +162,7 @@ public class ProductModelSelectionHelper {
         }
 
 
-        PrxWrapper prxWrapperCode = new PrxWrapper(mContext, null,
+        PrxWrapper prxWrapperCode = new PrxWrapper(mContext, mAppInfraInterface, null,
                 productModelSelectionType.getSector(),
                 getLocale().toString(),
                 productModelSelectionType.getCatalog());

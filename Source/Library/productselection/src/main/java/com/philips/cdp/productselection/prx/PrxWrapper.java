@@ -7,6 +7,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -15,6 +16,7 @@ import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +37,12 @@ public class PrxWrapper {
     private String mLocale = null;
     private Catalog mCatalogCode = null;
     private Context mContext = null;
+    private AppInfraInterface mAppInfraInterface = null;
 
 
-    public PrxWrapper(Context context, String ctn, Sector sectorCode, String locale, Catalog catalog) {
+    public PrxWrapper(Context context, AppInfraInterface appInfraInterface, String ctn, Sector sectorCode, String locale, Catalog catalog) {
         this.mContext = context;
+        this.mAppInfraInterface = appInfraInterface;
         this.mCtn = ctn;
         this.mSectorCode = sectorCode;
         this.mLocale = locale;
@@ -60,8 +64,10 @@ public class PrxWrapper {
         summaryBuilder.setCatalog(mCatalogCode);
         //  summaryBuilder.setLocale(mLocale);
 
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface);
+
         RequestManager requestManager = new RequestManager();
-        requestManager.init(mContext);
+        requestManager.init(prxDependencies);
         requestManager.executeRequest(summaryBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -96,8 +102,10 @@ public class PrxWrapper {
         // assetBuilder.setLocale(mLocale);
         assetBuilder.setCatalog(mCatalogCode);
 
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface);
+
         RequestManager requestManager = new RequestManager();
-        requestManager.init(mContext);
+        requestManager.init(prxDependencies);
         PrxLogger.enablePrxLogger(true);
         requestManager.executeRequest(assetBuilder, new ResponseListener() {
             @Override
@@ -138,8 +146,10 @@ public class PrxWrapper {
             summaryBuilder.setCatalog(mCatalogCode);
             //summaryBuilder.setLocale(mLocale);
 
+            PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface);
+
             RequestManager requestManager = new RequestManager();
-            requestManager.init(mContext);
+            requestManager.init(prxDependencies);
             final String finalI = ctnList[i];
             final int ctnPosition = i;
             final int ctnListLength = ctnList.length;
