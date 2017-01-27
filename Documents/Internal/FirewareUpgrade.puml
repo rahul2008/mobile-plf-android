@@ -1,0 +1,50 @@
+@startuml
+
+class App {
+}
+
+class Appliance {
+    + FirmwarePort getFirmwarePort()
+}
+
+class FirmwarePort {
+    + uploadFirmware(final byte[] firmwareData)
+    + abortFirmwareUpload()
+    + deployFirmware()
+    + getUploadedFirmwareInfo(FirmwareInfoResultCallback callback)
+    + addUpdateListener(FirmwareUpdateListener listener)
+    + removeUpdateListener(FirmwareUpdateListener listener)
+}
+
+interface FirmwareUpdateListener {
+    + onStateChange(FirmwarePort port, FirmwareUpdateState state)
+    + onProgressUpdate(FirmwarePort port, float progress)
+    + onUploadFailed(FirmwarePort port, Result result)
+    + onUploadFinished(FirmwarePort port)
+    + onDeployFailed(FirmwarePort port, Result result)
+    + onDeployFinished(FirmwarePort port)
+}
+
+abstract class CommunicationStrategy {
+    + getProperties()
+    + putProperties()
+    + subscribe()
+    + unsubscribe()
+}
+
+class LanCommunicationStrategy {
+}
+note left : Subscriptions should be\nimplemented with udp messages
+
+class BleCommunicationStrategy {
+}
+note right : Subscriptions should be\nimplemented with polling
+
+App --> Appliance
+Appliance --> FirmwarePort
+FirmwarePort .right. FirmwareUpdateListener
+CommunicationStrategy <|-- LanCommunicationStrategy
+CommunicationStrategy <|-- BleCommunicationStrategy
+FirmwarePort --> CommunicationStrategy
+
+@enduml
