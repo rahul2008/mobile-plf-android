@@ -117,9 +117,9 @@ public class IAPHandlerTest {
         mMockIAPHandler.initHybrisDelegate();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSetLocale() throws Exception {
-        mMockIAPHandler.setLangAndCountry();
+        mMockIAPHandler.setLangAndCountry("US");
     }
 
     //Init IAP

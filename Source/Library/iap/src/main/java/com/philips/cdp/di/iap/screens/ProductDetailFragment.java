@@ -378,6 +378,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onModelDataError(Message msg) {
         mDetailLayout.setVisibility(View.GONE);
+        mBuyFromRetailers.setVisibility(View.GONE);
         showErrorDialog(msg);
         if (isProgressDialogShowing())
             dismissProgressDialog();

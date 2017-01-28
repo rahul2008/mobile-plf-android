@@ -32,7 +32,7 @@ public class DemoApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         initAppInfra();
-        setLocale();
+       // setLocale();
         initRegistration(Configuration.PRODUCTION);
     }
 

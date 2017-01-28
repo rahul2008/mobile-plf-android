@@ -13,12 +13,15 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +31,7 @@ public class PRXSummaryExecutor {
     Context mContext;
     ArrayList<String> mCtns;
     AbstractModel.DataLoadListener mDataLoadListener;
-    private HashMap<String,SummaryModel> mPRXSummaryData;
+    private HashMap<String, SummaryModel> mPRXSummaryData;
 
     //Handling error cases where Product is in Hybris but not in PRX store.
     protected volatile int mProductUpdateCount;
@@ -41,14 +44,14 @@ public class PRXSummaryExecutor {
         mPRXSummaryData = new HashMap<>();
     }
 
-    public void preparePRXDataRequest(){
-        for(String ctn: mCtns){
+    public void preparePRXDataRequest() {
+        for (String ctn : mCtns) {
             if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
                 mProductUpdateCount++;
                 mProductPresentInPRX++;
                 mPRXSummaryData.put(ctn, CartModelContainer.getInstance().getProductSummary(ctn));
-            }else {
-                executeRequest(ctn,prepareSummaryRequest(ctn));
+            } else {
+                executeRequest(ctn, prepareSummaryRequest(ctn));
             }
         }
 
@@ -59,16 +62,17 @@ public class PRXSummaryExecutor {
         }
     }
 
-    protected void executeRequest(final String ctn,final ProductSummaryRequest productSummaryBuilder) {
+    protected void executeRequest(final String ctn, final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(mContext);
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance());
+        mRequestManager.init(prxDependencies);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 mProductUpdateCount++;
                 mProductPresentInPRX++;
-                SummaryModel summaryModel = (SummaryModel)responseData;
-                if(summaryModel.isSuccess()) {
+                SummaryModel summaryModel = (SummaryModel) responseData;
+                if (summaryModel.isSuccess()) {
                     CartModelContainer.getInstance().addProductSummary(ctn, summaryModel);
                 }
                 notifySuccess((SummaryModel) responseData);
@@ -77,7 +81,10 @@ public class PRXSummaryExecutor {
             @Override
             public void onResponseError(final PrxError prxError) {
                 mProductUpdateCount++;
-                notifyError(prxError.getDescription());
+                if (prxError.getStatusCode() == 404) {
+                    notifyError("Product not found in your store");
+                } else
+                    notifyError(prxError.getDescription());
             }
         });
     }
@@ -110,7 +117,7 @@ public class PRXSummaryExecutor {
 
         ProductSummaryRequest productSummaryRequest = new ProductSummaryRequest(code, null);
         productSummaryRequest.setSector(Sector.B2C);
-        productSummaryRequest.setLocaleMatchResult(locale);
+        // productSummaryRequest.setLocaleMatchResult(locale);
         productSummaryRequest.setCatalog(Catalog.CONSUMER);
         return productSummaryRequest;
     }

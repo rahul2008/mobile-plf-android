@@ -58,11 +58,11 @@ allprojects {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
         }
         maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
-        maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
         }
+//        maven {
+//            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+//        }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
@@ -197,6 +197,9 @@ dependencies {
             }
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.3.0-SNAPSHOT', ext: 'aar', changing: true) {
 
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'prx', version: '3.0.0-SNAPSHOT', ext: 'aar', changing: true) {
         transitive = true
     }
     // Tests

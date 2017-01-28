@@ -56,9 +56,9 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
         }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
+//        maven {
+//            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+//        }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
         }
@@ -70,10 +70,9 @@ allprojects {
 dependencies {
     compile project(':iap')
     compile 'com.android.support:appcompat-v7:24.2.1'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.3.0-SNAPSHOT', ext: 'aar', changing: true) {
-
-        transitive = true
-            }
+//    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '8.3.0-SNAPSHOT', ext: 'aar', changing: true) {
+//        transitive = true
+//    }
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

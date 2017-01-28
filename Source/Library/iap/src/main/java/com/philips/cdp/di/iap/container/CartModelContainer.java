@@ -9,6 +9,7 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class CartModelContainer {
 
     private String language;
     private String country;
+
+    private AppInfraInterface appInfraInstance;
 
     private CartModelContainer() {
         mPRXSummaryObjects = new HashMap<>();
@@ -188,6 +191,13 @@ public class CartModelContainer {
         mProductList.clear();
     }
 
+    public AppInfraInterface getAppInfraInstance() {
+        return appInfraInstance;
+    }
+
+    public void setAppInfraInstance(AppInfraInterface appInfraInstance) {
+        this.appInfraInstance = appInfraInstance;
+    }
     public void resetApplicationFields() {
         mBillingAddress = null;
         mShippingAddressFields = null;

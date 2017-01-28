@@ -57,26 +57,28 @@ class IAPHandler {
         initServiceDiscovery();
     }
 
-    void initIAPRequisite() {
+    void initIAPRequisite(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         initControllerFactory();
         initHybrisDelegate();
-        setLangAndCountry();
+        setHomeCountry(serviceDiscoveryInterface);
     }
 
     protected void initServiceDiscovery() {
         AppInfraInterface appInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+
         fetchBaseUrl(serviceDiscoveryInterface);
     }
 
-    protected void fetchBaseUrl(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    protected void fetchBaseUrl(final ServiceDiscoveryInterface serviceDiscoveryInterface) {
+
         serviceDiscoveryInterface.getServiceUrlWithLanguagePreference("iap.baseurl", new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         mIAPSetting.setUseLocalData(true);
-                        initIAPRequisite();
+                        initIAPRequisite(serviceDiscoveryInterface);
                     }
 
                     @Override
@@ -89,9 +91,24 @@ class IAPHandler {
                             mIAPSetting.setHostPort(urlPort.substring(0, urlPort.length() - 5));
                         }
                         mIAPSetting.setProposition(loadConfigParams());
-                        initIAPRequisite();
+                        initIAPRequisite(serviceDiscoveryInterface);
                     }
                 });
+    }
+
+    private void setHomeCountry(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry " + s);
+                setLangAndCountry(s);
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry error " + s);
+            }
+        });
     }
 
     private String loadConfigParams() {
@@ -117,15 +134,10 @@ class IAPHandler {
         HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
     }
 
-    protected void setLangAndCountry() {
-        PILLocaleManager localeManager = new PILLocaleManager(mIAPSetting.getContext());
-        String[] localeArray;
-        String localeAsString = localeManager.getInputLocale();
-        localeArray = localeAsString.split("_");
-        Locale locale = new Locale(localeArray[0], localeArray[1]);
-        CartModelContainer.getInstance().setLanguage(locale.getLanguage());
-        CartModelContainer.getInstance().setCountry(locale.getCountry());
-        HybrisDelegate.getInstance().getStore().setLangAndCountry(locale.getLanguage(), locale.getCountry());
+    protected void setLangAndCountry(String country) {
+        CartModelContainer.getInstance().setLanguage(Locale.getDefault().getLanguage());
+        CartModelContainer.getInstance().setCountry(country);
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(Locale.getDefault().getLanguage(),country);
     }
 
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
