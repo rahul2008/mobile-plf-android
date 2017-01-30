@@ -28,6 +28,8 @@ import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsDataFetcher;
+import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
@@ -77,6 +79,7 @@ public class BackendModuleTest {
     @Mock
     UserCharacteristicsMonitor userCharacteristicsMonitor;
 
+
     @Mock
     SettingsMonitor settingsMonitor;
 
@@ -85,6 +88,9 @@ public class BackendModuleTest {
     MomentsDataFetcher momentsDataFetcher;
     @Mock
     UserCharacteristicsFetcher userCharacteristicsFetcher;
+
+    @Mock
+    SettingsDataFetcher settingsDataFetcher;
     @Mock
     ConsentsDataFetcher consentsDataFetcher;
     @Mock
@@ -93,6 +99,10 @@ public class BackendModuleTest {
     ConsentDataSender consentDataSender;
     @Mock
     UserCharacteristicsSender userCharacteristicsSender;
+
+    @Mock
+    SettingsDataSender settingsDataSender;
+
     @Mock
     OkClientFactory okClientFactory;
     @Mock
@@ -176,7 +186,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor);
+        final Backend backend = backendModule.providesBackend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }
@@ -232,14 +242,14 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnDataPullSynchronise_WhenProvidesDataPullSynchroniseIsCalled() throws Exception {
-        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher, executorService);
+        final DataPullSynchronise dataPullSynchronise = backendModule.providesDataSynchronise(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher, executorService);
         assertThat(dataPullSynchronise).isNotNull();
         assertThat(dataPullSynchronise).isInstanceOf(DataPullSynchronise.class);
     }
 
     @Test
     public void ShouldReturnDataPushSynchronise_WhenProvidesDataPushSynchroniseIsCalled() throws Exception {
-        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender);
+        final DataPushSynchronise dataPushSynchronise = backendModule.providesDataPushSynchronise(momentsDataSender, consentDataSender, userCharacteristicsSender,settingsDataSender);
         assertThat(dataPushSynchronise).isNotNull();
         assertThat(dataPushSynchronise).isInstanceOf(DataPushSynchronise.class);
     }

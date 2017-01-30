@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
+import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
@@ -58,6 +59,8 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     private final Dao<OrmCharacteristics, Integer> characteristicsDao;
 
+    private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailDao;
+
     private final Dao<OrmDCSync, Integer> ormDCSyncDao;
 
 
@@ -65,7 +68,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
 
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
@@ -75,6 +78,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         this.consentDao = consentDao;
         this.consentDetailsDao = consentDetailsDao;
         this.settingsDao = settingsDao;
+        this.characteristicsDetailDao = characteristicsDetailDao;
         this.ormDCSyncDao = ormDCSyncDao;
 
         notifyDBRequestListener = new NotifyDBRequestListener();
@@ -109,15 +113,27 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+    public void fetchUserCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmCharacteristics, Integer> queryBuilder = characteristicsDao.queryBuilder();
         List<OrmCharacteristics> ormCharacteristicsList = characteristicsDao.query(queryBuilder.prepare());
-        if (ormCharacteristicsList.size() != 0) {
-            dbRequestListener.onSuccess(ormCharacteristicsList.get(0));
+            if (ormCharacteristicsList.size() != 0) {
+                dbRequestListener.onSuccess(ormCharacteristicsList.get(0));
+            } else {
+                dbRequestListener.onSuccess(null);
+            }
+
+    }
+
+    @Override
+    public void fetchCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+        QueryBuilder<OrmCharacteristicsDetail, Integer> queryBuilder = characteristicsDetailDao.queryBuilder();
+        queryBuilder.where().in("parent", 0);
+        List<OrmCharacteristicsDetail> ormCharacteristicsDetailList = characteristicsDetailDao.query(queryBuilder.prepare());
+        if (ormCharacteristicsDetailList.size() != 0) {
+            dbRequestListener.onSuccess(ormCharacteristicsDetailList);
         } else {
             dbRequestListener.onSuccess(null);
         }
-
     }
 
     @Override

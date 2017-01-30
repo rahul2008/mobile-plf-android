@@ -34,12 +34,14 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
         this.ormCharacteristicsDetail = ormCharacteristicsDetail;
+        parent=0;
     }
 
     public OrmCharacteristicsDetail(final String type, final String value, final OrmCharacteristics ormCharacteristics) {
         this.type = type;
         this.ormCharacteristics = ormCharacteristics;
         this.value = value;
+        parent=1;
     }
 
     @Override
@@ -75,6 +77,11 @@ public class OrmCharacteristicsDetail implements Characteristics, Serializable {
     @Override
     public void setCharacteristicsDetail(Characteristics characteristics) {
         ormCharacteristicsDetails.add((OrmCharacteristicsDetail) characteristics);
+    }
+
+    @Override
+    public int getParent() {
+        return parent;
     }
 
     @Override
