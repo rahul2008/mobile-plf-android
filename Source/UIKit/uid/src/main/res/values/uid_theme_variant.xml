@@ -88,6 +88,8 @@
         <item name="uidCheckBoxTickDisabledColor">@color/uidColorWhite</item>
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
+        <item name="uidControlBufferAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlBuffer">?attr/uidControlPrimaryDetail</item>
     </style>
 
     <style name="UltraLight">
@@ -155,8 +157,6 @@
         <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
-        <item name="uidControlBufferAlpha">@dimen/uid_alpha_per_30</item>
-        <item name="uidControlBuffer">?attr/uidControlPrimaryDetail</item>
     </style>
 
     <style name="VeryLight">
