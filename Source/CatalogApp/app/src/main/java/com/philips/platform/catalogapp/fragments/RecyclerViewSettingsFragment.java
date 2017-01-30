@@ -20,6 +20,7 @@ public class RecyclerViewSettingsFragment extends BaseFragment {
 
     public ObservableBoolean isSeparatorEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean isHeaderEnabled = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean isIconTemplateSelected = new ObservableBoolean(Boolean.TRUE);
 
     private FragmentRecyclerviewSettingsBinding recyclerviewSettingsBinding;
     private RecyclerViewSettingsHelper settingsHelper;
@@ -31,8 +32,7 @@ public class RecyclerViewSettingsFragment extends BaseFragment {
         recyclerviewSettingsBinding.setFrag(this);
 
         settingsHelper = new RecyclerViewSettingsHelper(getContext());
-        setHeaderEnabled(settingsHelper.isHeaderEnabled());
-        setSeparatorEnabled(settingsHelper.isSeperatorEnabled());
+        initSavedSettings();
 
         return recyclerviewSettingsBinding.getRoot();
     }
@@ -43,17 +43,18 @@ public class RecyclerViewSettingsFragment extends BaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        settingsHelper.setHeaderEnabled(isHeaderEnabled.get());
-        settingsHelper.setSeperatorEnabled(isSeparatorEnabled.get());
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
+        getCheckedRadioButtonTemplate();
         settingsHelper.setHeaderEnabled(isHeaderEnabled.get());
         settingsHelper.setSeperatorEnabled(isSeparatorEnabled.get());
+        settingsHelper.setIconTemplateSelected(isIconTemplateSelected.get());
+    }
+
+    private void initSavedSettings() {
+        setHeaderEnabled(settingsHelper.isHeaderEnabled());
+        setSeparatorEnabled(settingsHelper.isSeperatorEnabled());
+        setIsIconTemplateSelected(settingsHelper.isIconTemplateSelected());
     }
 
     public void setHeaderEnabled(boolean isheaderEnabled) {
@@ -62,5 +63,18 @@ public class RecyclerViewSettingsFragment extends BaseFragment {
 
     public void setSeparatorEnabled(boolean isSeparatorEnabled) {
         this.isSeparatorEnabled.set(isSeparatorEnabled);
+    }
+
+    public void setIsIconTemplateSelected(boolean isIconTemplateSelected) {
+        this.isIconTemplateSelected.set(isIconTemplateSelected);
+    }
+
+    private void getCheckedRadioButtonTemplate() {
+        int checkedRadioButtonId = recyclerviewSettingsBinding.radioGroupTemplates.getCheckedRadioButtonId();
+        if (checkedRadioButtonId == R.id.single_line_with_icon) {
+            setIsIconTemplateSelected(true);
+        } else if (checkedRadioButtonId == R.id.two_lines) {
+            setIsIconTemplateSelected(false);
+        }
     }
 }

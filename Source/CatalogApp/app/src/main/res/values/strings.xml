@@ -134,4 +134,6 @@
 
     <string name="primary_social_media_icons">Primary social icons</string>
     <string name="white_social_media_icons">White social icons</string>
+    <string name="single_line_with_icon">Single line with icon</string>
+    <string name="two_lines">Two lines</string>
 </resources>

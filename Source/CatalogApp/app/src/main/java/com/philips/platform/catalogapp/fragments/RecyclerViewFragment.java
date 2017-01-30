@@ -9,7 +9,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,31 +28,31 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.RecyclerViewSettingsHelper;
 import com.philips.platform.catalogapp.databinding.FragmentRecyclerviewBinding;
 import com.philips.platform.uid.thememanager.ThemeUtils;
-import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 public class RecyclerViewFragment extends BaseFragment {
 
-    public static ObservableBoolean isIconLayout = new ObservableBoolean(Boolean.FALSE);
     private FragmentRecyclerviewBinding fragmentRecyclerviewBinding;
+    private static boolean isIconTemplateSelected;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final Context context = getContext();
+        RecyclerViewSettingsHelper settingsHelper = new RecyclerViewSettingsHelper(context);
+        isIconTemplateSelected = settingsHelper.isIconTemplateSelected();
 
-        DataHolderView dataHolderView = isIconLayout.get() ? getIconDataHolderView(context) : getTwoLinesDataHolderView(context);
+        DataHolderView dataHolderView = isIconTemplateSelected ? getIconDataHolderView(context) : getTwoLinesDataHolderView(context);
 
         fragmentRecyclerviewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recyclerview, container, false);
         fragmentRecyclerviewBinding.setFrag(this);
 
-        RecyclerViewSettingsHelper settingsHelper = new RecyclerViewSettingsHelper(context);
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.setHeaderEnabled(settingsHelper.isHeaderEnabled());
 
         if(settingsHelper.isSeperatorEnabled()) {
             fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         }
+
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -93,7 +92,7 @@ public class RecyclerViewFragment extends BaseFragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-            int layoutId = isIconLayout.get() ? R.layout.recyclerview_one_line_icon : R.layout.recyclerview_two_line_text_item;
+            int layoutId = isIconTemplateSelected ? R.layout.recyclerview_one_line_icon : R.layout.recyclerview_two_line_text_item;
             View v = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
             RecyclerViewAdapter.BindingHolder holder = new RecyclerViewAdapter.BindingHolder(v);
             return holder;

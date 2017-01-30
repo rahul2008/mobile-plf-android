@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 public class RecyclerViewSettingsHelper {
     public static final String IS_SEPERATOR_ENABLED = "isSeparatorEnabled";
     public static final String IS_HEADER_ENABLED = "isHeaderEnabled";
+    public static final String IS_ICON_TEMPLATE_SELECTED = "isIconTemplateSelected";
 
     final SharedPreferences sharedPreferences;
     final SharedPreferences.Editor editor;
@@ -34,5 +35,13 @@ public class RecyclerViewSettingsHelper {
 
     public void setHeaderEnabled(boolean enabled) {
         editor.putBoolean(IS_HEADER_ENABLED, enabled).apply();
+    }
+
+    public boolean isIconTemplateSelected() {
+        return sharedPreferences.getBoolean(IS_ICON_TEMPLATE_SELECTED, false);
+    }
+
+    public void setIconTemplateSelected(boolean selected) {
+        editor.putBoolean(IS_ICON_TEMPLATE_SELECTED, selected).apply();
     }
 }

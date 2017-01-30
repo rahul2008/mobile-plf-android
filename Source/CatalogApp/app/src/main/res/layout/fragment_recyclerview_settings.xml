@@ -58,5 +58,45 @@
                 android:checked="@={frag.isHeaderEnabled}"
                 android:onCheckedChanged="@{(v, isChecked) -> frag.setHeaderEnabled(isChecked)}"/>
         </LinearLayout>
+
+        <RelativeLayout
+            style="@style/ButtonsCategoryStyle"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/ButtonsCategoryStyle"
+                android:layout_width="wrap_content"
+                android:layout_alignParentStart="true"
+                android:paddingEnd="0dp"
+                android:paddingStart="0dp"
+                android:text="Template selection"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right">
+
+            <RadioGroup
+                android:id="@+id/radioGroupTemplates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/single_line_with_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@{frag.isIconTemplateSelected}"
+                    android:text="@string/single_line_with_icon"/>
+
+                <RadioButton
+                    android:id="@+id/two_lines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@{!frag.isIconTemplateSelected}"
+                    android:text="@string/two_lines"/>
+            </RadioGroup>
+        </LinearLayout>
     </LinearLayout>
 </layout>
