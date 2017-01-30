@@ -4,9 +4,12 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,7 @@ public class AppConfigurationTest extends MockitoTestCase {
 
     private Context context;
     private AppInfra mAppInfra;
+    private Method method;
 
     @Override
     protected void setUp() throws Exception {
@@ -44,31 +48,7 @@ public class AppConfigurationTest extends MockitoTestCase {
                         total.append(line).append('\n');
                     }
                     result = new JSONObject(total.toString());*/
-                    String testJson = "{\n" +
-                            "  \"UR\": {\n" +
-                            "\n" +
-                            "    \"Development\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
-                            "    \"Testing\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
-                            "    \"Evaluation\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
-                            "    \"Staging\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
-                            "    \"Production\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
-                            "\n" +
-                            "  },\n" +
-                            "  \"AI\": {\n" +
-                            "    \"MicrositeID\": 77001,\n" +
-                            "    \"RegistrationEnvironment\": \"Staging\",\n" +
-                            "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
-                            "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
-                            "    \"Map\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
-                            "    \"EE\": [123,234 ]\n" +
-                            "  }, \n" +
-                            " \"appinfra\": { \n" +
-                            "   \"appidentity.micrositeId\" : \"77000\",\n" +
-                            "  \"appidentity.sector\"  : \"B2C\",\n" +
-                            " \"appidentity.appState\"  : \"Staging\",\n" +
-                            "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
-                            "\"restclient.cacheSizeInKB\"  : 1024 \n" +
-                            "} \n" + "}";
+                    String testJson = getJSONString();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -79,6 +59,34 @@ public class AppConfigurationTest extends MockitoTestCase {
         };
         assertNotNull(mConfigInterface);
 
+    }
+
+    private String getJSONString() {
+        return "{\n" +
+                "  \"UR\": {\n" +
+                "\n" +
+                "    \"Development\": \"ad7nn99y2mv5berw5jxewzagazafbyhu\",\n" +
+                "    \"Testing\": \"xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7\",\n" +
+                "    \"Evaluation\": \"4r36zdbeycca933nufcknn2hnpsz6gxu\",\n" +
+                "    \"Staging\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\",\n" +
+                "    \"Production\": \"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3\"\n" +
+                "\n" +
+                "  },\n" +
+                "  \"AI\": {\n" +
+                "    \"MICROSITEID\": 77001,\n" +
+                "    \"RegistrationEnvironment\": \"Staging\",\n" +
+                "    \"NL\": [\"googleplus\", \"facebook\"  ],\n" +
+                "    \"US\": [\"facebook\",\"googleplus\" ],\n" +
+                "    \"Map\": {\"one\": \"123\", \"two\": \"123.45\"},\n" +
+                "    \"EE\": [123,234 ]\n" +
+                "  }, \n" +
+                " \"appinfra\": { \n" +
+                "   \"appidentity.micrositeId\" : \"77000\",\n" +
+                "  \"appidentity.sector\"  : \"B2C\",\n" +
+                " \"appidentity.appState\"  : \"Staging\",\n" +
+                "\"appidentity.serviceDiscoveryEnvironment\"  : \"Staging\",\n" +
+                "\"restclient.cacheSizeInKB\"  : 1024 \n" +
+                "} \n" + "}";
     }
 
     public void testGetPropertyForKey() throws IllegalArgumentException {
@@ -217,7 +225,7 @@ public class AppConfigurationTest extends MockitoTestCase {
 
         // Modify a existing Key
         configError.setErrorCode(null);// reset error code to null
-        String existingKey = "MicrositeID";
+        String existingKey = "MICROSITEID";
 
         assertNotNull(mConfigInterface.getPropertyForKey(existingKey, existingGroup, configError));//  Existing Group and  Existing key
         // make sure AI and MicrositeID exist in configuration file else this test case will fail
@@ -232,13 +240,13 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertTrue(mConfigInterface.setPropertyForKey(existingKey, existingGroup, "NewValue", configError));//  Existing Group  and Non Existing key
 
         configError.setErrorCode(null);// reset error code to null
-        assertTrue(mConfigInterface.setPropertyForKey("NewKey", "AI", "test", configError));//  Existing Group  and Non Existing key
+        assertTrue(mConfigInterface.setPropertyForKey("NEWKEY", "AI", "test", configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
         assertEquals(null, configError.getErrorCode());
 
         // Add a new String value
         configError.setErrorCode(null);// reset error code to null
-        String newlyAddedKey1 = "NewKeyAdded1";
+        String newlyAddedKey1 = "NEWKEYADDED1";
         String newlyAddedValue1 = "New Value";
         assertTrue(mConfigInterface.setPropertyForKey(newlyAddedKey1, existingGroup, newlyAddedValue1, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
@@ -250,7 +258,7 @@ public class AppConfigurationTest extends MockitoTestCase {
 
         // Add a new Integer value
         configError.setErrorCode(null);// reset error code to null
-        String newlyAddedKey2 = "NewKeyAdded2";
+        String newlyAddedKey2 = "NEWKEYADDED2";
         Integer integer = new Integer(23);
         assertTrue(mConfigInterface.setPropertyForKey(newlyAddedKey2, existingGroup, integer, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
@@ -262,7 +270,7 @@ public class AppConfigurationTest extends MockitoTestCase {
 
         // Add a new String Arraylist value
         configError.setErrorCode(null);// reset error code to null
-        String newlyAddedKey3 = "NewKeyAdded3";
+        String newlyAddedKey3 = "NEWKEYADDED3";
         ArrayList<String> stringArrayList = new ArrayList<String>();
         stringArrayList.add("item1");
         stringArrayList.add("item2");
@@ -280,7 +288,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         integerArrayList.add(new Integer(34));
         integerArrayList.add(new Integer(84));
         configError.setErrorCode(null);// reset error code to null
-        String newlyAddedKey4 = "NewKeyAdded4";
+        String newlyAddedKey4 = "NEWKEYADDED4";
         assertTrue(mConfigInterface.setPropertyForKey(newlyAddedKey4, existingGroup, integerArrayList, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
@@ -293,7 +301,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         assertTrue(mConfigInterface.setPropertyForKey("NewKeyAdded5", existingGroup, null, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
-        assertEquals(null, mConfigInterface.getPropertyForKey("NewKeyAdded5", existingGroup, configError));//  Existing Group and  Existing key
+        assertEquals(null, mConfigInterface.getPropertyForKey("NEWKEYADDED5", existingGroup, configError));//  Existing Group and  Existing key
         // assertEquals(null, mConfigInterface.getDefaultPropertyForKey("NewKeyAdded5", existingGroup, configError));//  Existing Group and  Existing key
 
         assertEquals(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.KeyNotExists, configError.getErrorCode()); // success
@@ -394,6 +402,38 @@ public class AppConfigurationTest extends MockitoTestCase {
 
         } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
+        }
+
+    }
+
+    /*public void testMakeKeyUppercase() {
+        try {
+            AppConfigurationManager  appConfigurationManager =(AppConfigurationManager) mConfigInterface;
+
+            method = appConfigurationManager.getClass().getDeclaredMethod("makeKeyUppercase", new Class[]{JSONObject.class});
+            method.setAccessible(true);
+            JSONObject jsonObj = new JSONObject(getJSONString());
+            method.invoke(mConfigInterface, jsonObj);
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfig",
+                    e.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }*/
+
+    public void testgetMasterConfigFromApp() {
+        mConfigInterface = mAppInfra.getConfigInterface();
+        try {
+            method = mConfigInterface.getClass().getDeclaredMethod("getMasterConfigFromApp");
+            method.setAccessible(true);
+            method.invoke(mConfigInterface);
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfig",
+                    e.getMessage());
         }
 
     }
