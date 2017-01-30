@@ -6,9 +6,11 @@
 package com.philips.platform.appinfra.demo;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.tagging.ApplicationLifeCycleHandler;
 import com.squareup.leakcanary.LeakCanary;
@@ -20,6 +22,14 @@ public class AppInfraApplication extends Application {
     public static AppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
     private AppInfra mAppInfra;
+
+
+    //SecurDb
+    public static String DATABASE_PASSWORD_KEY = "philips@321";
+    static SecureStorageInterface mSecureStorage = null;
+    SharedPreferences sharedPreferences = null;
+    SharedPreferences.Editor editor;
+
 
     @Override
     public void onCreate() {
@@ -47,6 +57,18 @@ public class AppInfraApplication extends Application {
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
 
-    }
+        sharedPreferences = getSharedPreferences("com.appinfra", MODE_PRIVATE);
 
+        if (sharedPreferences.getBoolean("firstRun", true)) {
+            mSecureStorage = gAppInfra.getSecureStorage();
+            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+            mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, DATABASE_PASSWORD_KEY, sse);
+
+            editor = sharedPreferences.edit();
+            editor.putBoolean("firstRun", false);
+            editor.commit();
+
+        }
+
+    }
 }

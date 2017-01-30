@@ -361,7 +361,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             for (Map.Entry<String, String> param : parameters.entrySet()) {
                 String key = param.getKey();
                 String value = param.getValue();
-                url = url.replace('%' + key + '%', value);
+                if(key != null && value != null)
+                     url = url.replace('%' + key + '%', value);
             }
         }
         try {
