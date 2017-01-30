@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -54,16 +55,30 @@ public abstract class BaseFlowManager {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
         } else {
-            this.context = context;
-            mapAppFlowStates(jsonPath, flowManagerListener);
-            flowManagerStack = new FlowManagerStack();
-            stateMap = new TreeMap<>();
-            conditionMap = new TreeMap<>();
-            populateStateMap(stateMap);
-            populateConditionMap(conditionMap);
+            final boolean isMainThread = Looper.myLooper() == Looper.getMainLooper();
+            if (isMainThread) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        testMethod(context, jsonPath, flowManagerListener);
+                    }
+                }).start();
+            } else
+                testMethod(context, jsonPath, flowManagerListener);
         }
 
     }
+
+    private void testMethod(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
+        this.context = context;
+        mapAppFlowStates(jsonPath, flowManagerListener);
+        flowManagerStack = new FlowManagerStack();
+        stateMap = new TreeMap<>();
+        conditionMap = new TreeMap<>();
+        populateStateMap(stateMap);
+        populateConditionMap(conditionMap);
+    }
+
     /**
      * This method will create and return the object of BaseCondition depending on Condition ID.
      *
