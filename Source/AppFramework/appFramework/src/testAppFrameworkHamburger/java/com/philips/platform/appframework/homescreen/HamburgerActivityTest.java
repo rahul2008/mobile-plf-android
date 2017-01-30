@@ -27,15 +27,15 @@ public class HamburgerActivityTest {
     private HamburgerActivity hamburgerActivity = null;
     private TextView actionBarTitle = null;
     private Resources resource = null;
-    private TestAppFrameworkApplication application = null;
+//    private TestAppFrameworkApplication application = null;
 
     @Before
     public void setup() {
+//        application = new TestAppFrameworkApplication();
+//        application.setTargetFlowManager();
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().get();
         actionBarTitle = (TextView) hamburgerActivity.findViewById(R.id.af_actionbar_title);
         resource = hamburgerActivity.getResources();
-        application = new TestAppFrameworkApplication();
-        application.setTargetFlowManager();
     }
 
     @Test
