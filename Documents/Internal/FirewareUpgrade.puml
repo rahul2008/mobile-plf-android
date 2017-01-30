@@ -11,6 +11,7 @@ class FirmwarePort {
     + pushFirmware(final byte[] firmwareData)
     + pullFirmware(String version)
     + cancel()
+    + checkForNewerFirmware()
     + deployFirmware()
     + addFirmwarePortListener(FirmwarePortListener listener)
     + removeFirmwarePortListener(FirmwarePortListener listener)
@@ -21,6 +22,7 @@ interface FirmwarePortListener {
     + onProgressUpdated(FirmwarePortProgressType type, int progress)
     + onDownloadingFailed(FirmwarePortException exception)
     + onDownloadingFinished()
+    + onFirmwareAvailable(String version)
     + onDeployFailed(FirmwarePortException exception)
     + onDeployFinished()
 }
