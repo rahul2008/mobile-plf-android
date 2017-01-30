@@ -1,6 +1,8 @@
 package com.philips.platform.appframework.flowmanager;
 
 import android.content.Context;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -42,6 +44,7 @@ import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("deprecation")
 public class BaseFlowManagerTest extends TestCase {
@@ -52,17 +55,37 @@ public class BaseFlowManagerTest extends TestCase {
     private Context context;
     private String path;
     private FlowManagerListener flowManagerListenerMock;
+    private Handler handlerMock;
+    private Runnable runnableMock;
 
     @Before
     protected void setUp() throws Exception {
         super.setUp();
         flowManagerListenerMock = mock(FlowManagerListener.class);
         context = mock(Context.class);
-        flowManagerTest = new FlowManagerTest();
+        runnableMock = mock(Runnable.class);
+        handlerMock = mock(Handler.class);
+        when(handlerMock.post(runnableMock)).thenReturn(true);
+        flowManagerTest = new FlowManagerTest() {
+            @NonNull
+            @Override
+            protected Handler getHandler() {
+                return handlerMock;
+            }
+
+            @NonNull
+            @Override
+            protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
+                return runnableMock;
+            }
+        };
         File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
         if (fileFromInputStream != null)
             path = fileFromInputStream.getPath();
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
+    }
+
+    public void testListener() {
         verify(flowManagerListenerMock).onParseSuccess();
     }
 

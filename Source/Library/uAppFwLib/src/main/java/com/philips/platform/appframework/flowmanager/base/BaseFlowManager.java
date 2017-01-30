@@ -56,7 +56,7 @@ public abstract class BaseFlowManager {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
         } else {
-            flowManagerHandler = new Handler();
+            flowManagerHandler = getHandler();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -65,6 +65,11 @@ public abstract class BaseFlowManager {
                 }).start();
         }
 
+    }
+
+    @NonNull
+    protected Handler getHandler() {
+        return new Handler();
     }
 
     private void testMethod(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
@@ -265,12 +270,17 @@ public abstract class BaseFlowManager {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        flowManagerHandler.post(new Runnable() {
+        flowManagerHandler.post(getRunnable(flowManagerListener));
+    }
+
+    @NonNull
+    protected Runnable getRunnable(final FlowManagerListener flowManagerListener) {
+        return new Runnable() {
             @Override
             public void run() {
                 flowManagerListener.onParseSuccess();
             }
-        });
+        };
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
