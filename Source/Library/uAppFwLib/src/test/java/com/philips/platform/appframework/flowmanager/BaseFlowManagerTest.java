@@ -66,6 +66,25 @@ public class BaseFlowManagerTest extends TestCase {
         verify(flowManagerListenerMock).onParseSuccess();
     }
 
+    public void testAlreadyInitialize() {
+        try {
+            flowManagerTest.initialize(context, path, flowManagerListenerMock);
+        } catch (JsonAlreadyParsedException e) {
+            assertEquals(e.getMessage(), "Json already parsed");
+        }
+    }
+
+    public void testGetCondition() {
+        final BaseCondition condition = flowManagerTest.getCondition(AppConditions.CONDITION_APP_LAUNCH);
+        assertTrue(condition instanceof ConditionAppLaunch);
+        assertFalse(condition.isSatisfied(context));
+        try {
+            flowManagerTest.getCondition("");
+        } catch (ConditionIdNotSetException e) {
+            assertEquals(e.getMessage(), "No condition id set on constructor");
+        }
+    }
+
     public void testGetFirstState() {
         final BaseState firstState = flowManagerTest.getFirstState();
         assertTrue(firstState != null);
@@ -121,7 +140,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.WELCOME), "welcome_done");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
         flowManagerTest.getBackState(flowManagerTest.getCurrentState());
-        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
+        assertEquals(flowManagerTest.getState(AppStates.ON_BOARDING_REGISTRATION), flowManagerTest.getCurrentState());
 
         flowManagerTest = new FlowManagerTest(context, path);
         try {
@@ -133,7 +152,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "support");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
         flowManagerTest.getBackState();
-        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
+        assertEquals(flowManagerTest.getState(AppStates.SUPPORT), flowManagerTest.getCurrentState());
     }
 
     public void testErrorCases() {
