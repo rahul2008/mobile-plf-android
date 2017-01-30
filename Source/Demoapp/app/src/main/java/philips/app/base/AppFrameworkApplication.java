@@ -26,7 +26,7 @@ import philips.app.R;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application implements FlowManagerListener {
+public class AppFrameworkApplication extends Application {
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
     public LoggingInterface loggingInterface;
@@ -69,20 +69,15 @@ public class AppFrameworkApplication extends Application implements FlowManagerL
         return targetFlowManager;
     }
 
-    public void setTargetFlowManager() {
+    public void setTargetFlowManager(FlowManagerListener flowManagerListener) {
         try {
             this.targetFlowManager = new FlowManager();
-            this.targetFlowManager.initialize(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), this);
+            this.targetFlowManager.initialize(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
         } catch (JsonFileNotFoundException e) {
             if (tempFile != null) {
                 this.targetFlowManager = new FlowManager();
-                this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
+                this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), flowManagerListener);
             }
         }
-    }
-
-    @Override
-    public void onParseSuccess() {
-
     }
 }
