@@ -6,7 +6,7 @@
 package com.philips.platform.appframework.flowmanager.base;
 
 import android.content.Context;
-import android.os.Looper;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -39,6 +39,7 @@ public abstract class BaseFlowManager {
     private String firstState;
     private FlowManagerStack flowManagerStack;
     private String BACK = "back";
+    private Handler flowManagerHandler;
 
     @Deprecated
     /**
@@ -55,16 +56,13 @@ public abstract class BaseFlowManager {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
         } else {
-            final boolean isMainThread = Looper.myLooper() == Looper.getMainLooper();
-            if (isMainThread) {
+            flowManagerHandler = new Handler();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         testMethod(context, jsonPath, flowManagerListener);
                     }
                 }).start();
-            } else
-                testMethod(context, jsonPath, flowManagerListener);
         }
 
     }
@@ -263,12 +261,16 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath, FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowStates(final String jsonPath, final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (flowManagerListener != null)
-            flowManagerListener.onParseSuccess();
+        flowManagerHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                flowManagerListener.onParseSuccess();
+            }
+        });
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {

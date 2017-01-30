@@ -21,6 +21,6 @@ public class MainActivity extends AppCompatActivity implements FlowManagerListen
 
     @Override
     public void onParseSuccess() {
-        Toast.makeText(this, "Parsing success", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Parsing success", Toast.LENGTH_SHORT).show();
     }
 }
