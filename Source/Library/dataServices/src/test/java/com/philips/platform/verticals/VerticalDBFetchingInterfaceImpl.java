@@ -73,6 +73,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
+    public void fetchUserCharacteristics(DBRequestListener dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
     public List<?> fetchNonSyncConsentDetails() throws SQLException {
         return null;
     }
