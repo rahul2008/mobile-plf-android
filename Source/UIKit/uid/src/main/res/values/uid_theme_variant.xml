@@ -416,7 +416,7 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
 
-        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationPrimaryColor</item>
         <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
         <item name="uidDatePickerFillColor">?attr/uidNavigationSecondaryColor</item>
         <item name="uidDatePickerTextColor">@color/uidColorWhite</item>
