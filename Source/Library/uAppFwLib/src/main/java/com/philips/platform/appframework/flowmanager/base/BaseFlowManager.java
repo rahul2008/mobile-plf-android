@@ -56,7 +56,7 @@ public abstract class BaseFlowManager {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
         } else {
-            flowManagerHandler = getHandler();
+            flowManagerHandler = getHandler(context);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -68,8 +68,8 @@ public abstract class BaseFlowManager {
     }
 
     @NonNull
-    protected Handler getHandler() {
-        return new Handler();
+    protected Handler getHandler(Context context) {
+        return new Handler(context.getMainLooper());
     }
 
     private void parseFlowManagerJson(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {

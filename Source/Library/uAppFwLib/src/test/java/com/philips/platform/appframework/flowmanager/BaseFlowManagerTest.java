@@ -70,7 +70,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest = new FlowManagerTest() {
             @NonNull
             @Override
-            protected Handler getHandler() {
+            protected Handler getHandler(Context context) {
                 return handlerMock;
             }
 
@@ -161,7 +161,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest = new FlowManagerTest() {
             @NonNull
             @Override
-            protected Handler getHandler() {
+            protected Handler getHandler(Context context) {
                 return handlerMock;
             }
 
@@ -190,7 +190,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest = new FlowManagerTest(context, path) {
             @NonNull
             @Override
-            protected Handler getHandler() {
+            protected Handler getHandler(Context context) {
                 return handlerMock;
             }
 

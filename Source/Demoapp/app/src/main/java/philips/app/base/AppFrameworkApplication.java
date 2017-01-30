@@ -6,6 +6,7 @@
 package philips.app.base;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -69,14 +70,14 @@ public class AppFrameworkApplication extends Application {
         return targetFlowManager;
     }
 
-    public void setTargetFlowManager(FlowManagerListener flowManagerListener) {
+    public void setTargetFlowManager(FlowManagerListener flowManagerListener, Context context) {
         try {
             this.targetFlowManager = new FlowManager();
-            this.targetFlowManager.initialize(getApplicationContext(), new BaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
+            this.targetFlowManager.initialize(context, new BaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
         } catch (JsonFileNotFoundException e) {
             if (tempFile != null) {
                 this.targetFlowManager = new FlowManager();
-                this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), flowManagerListener);
+                this.targetFlowManager.initialize(context, tempFile.getPath(), flowManagerListener);
             }
         }
     }
