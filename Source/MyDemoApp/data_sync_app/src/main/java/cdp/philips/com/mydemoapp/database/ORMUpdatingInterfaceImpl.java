@@ -14,6 +14,7 @@ import java.util.List;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
@@ -41,11 +42,15 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) {
+    public void updateSettings(Settings settings, DBRequestListener dbRequestListener) {
         try {
-            updating.updateSettings(settingsList,dbRequestListener);
+            deleting.deleteSettings();
+            OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
+            saving.saveSettings(ormSettings);
             notifyDBRequestListener.notifySuccess(dbRequestListener);
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();
         }
     }

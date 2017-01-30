@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.listeners.DBRequestListener;
 
@@ -50,7 +51,7 @@ public interface DBFetchingInterface {
 
     UserCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException;
 
-    List<?> fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
+    Settings fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
 
     List<?> fetchNonSyncSettings() throws SQLException;
 

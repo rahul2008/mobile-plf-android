@@ -38,7 +38,7 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) throws SQLException {
+    public void updateSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
 
     }
 
@@ -46,9 +46,5 @@ public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
     public boolean updateSyncBit(int tableID, boolean isSynced) throws SQLException {
         return false;
     }
-//
-//    @Override
-//    public void processCharacteristicsReceivedFromDataCore(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
-//
-//    }
+
 }

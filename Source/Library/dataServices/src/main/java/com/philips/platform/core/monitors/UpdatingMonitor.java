@@ -134,9 +134,9 @@ public class UpdatingMonitor extends EventMonitor {
 
     public void onEventAsync(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException{
         try{
-            dbUpdatingInterface.updateSettings(databaseSettingsUpdateRequest.getSettingsList(), databaseSettingsUpdateRequest.getDbRequestListener());
+            dbUpdatingInterface.updateSettings(databaseSettingsUpdateRequest.getSettings(), databaseSettingsUpdateRequest.getDbRequestListener());
             dbUpdatingInterface.updateSyncBit(OrmTableType.SETTINGS.getId(),false);
-            eventing.post(new SettingsBackendSaveRequest(databaseSettingsUpdateRequest.getSettingsList()));
+            eventing.post(new SettingsBackendSaveRequest(databaseSettingsUpdateRequest.getSettings()));
         }catch (SQLException e){
             dbUpdatingInterface.updateFailed(e, databaseSettingsUpdateRequest.getDbRequestListener());
         }
@@ -154,7 +154,7 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventAsync(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException{
         try{
             if(dbFetchingInterface.isSynced(OrmTableType.SETTINGS.getId())){
-                dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettingsList(),null);
+                dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(),null);
             }
 
         }catch (SQLException e){

@@ -1,5 +1,6 @@
 package com.philips.platform.verticals;
 
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
@@ -32,6 +33,11 @@ public class VerticalDBSavingInterface implements DBSavingInterface{
 
     @Override
     public boolean saveUserCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
         return false;
     }
 }

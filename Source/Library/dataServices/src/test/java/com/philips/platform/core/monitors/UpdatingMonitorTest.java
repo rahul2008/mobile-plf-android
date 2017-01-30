@@ -32,6 +32,7 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -131,7 +132,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldUpdateSettings_whenDatabaseSettingsUpdateRequestIsCalled() throws Exception {
-        when(databaseSettingsUpdateRequestMock.getSettingsList()).thenReturn(anyListOf(Settings.class));
+        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(any(Settings.class));
         updatingMonitor.onEventAsync(databaseSettingsUpdateRequestMock);
     }
 

@@ -21,20 +21,40 @@ public class OrmSettings implements Settings, Serializable {
     private int id;
 
     @DatabaseField(canBeNull = false)
-    private String type;
+    private String locale;
 
     @DatabaseField(canBeNull = false)
-    private String value;
+    private String unit;
 
 
     @DatabaseConstructor
     OrmSettings() {
     }
 
-    public OrmSettings(final String type,final String value) {
-        this.type = type;
-        this.value=value;
+    public OrmSettings(final String unit, final String locale) {
+        this.unit = unit;
+        this.locale = locale;
 
+    }
+
+    @Override
+    public String getUnit() {
+        return unit;
+    }
+
+    @Override
+    public String getLocale() {
+        return locale;
+    }
+
+    @Override
+    public void setUnit(String unit) {
+       this.unit=unit;
+    }
+
+    @Override
+    public void setLocale(String locale) {
+       this.locale=locale;
     }
 
     @Override
@@ -44,28 +64,7 @@ public class OrmSettings implements Settings, Serializable {
 
 
     @Override
-    public void setType(String type) {
-        this.type=type;
-    }
-
-    @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public void setValue(String value) {
-     this.value=value;
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
-
-
-    @Override
     public String toString() {
-        return  type +" "+value;
+        return unit + " " + locale;
     }
 }

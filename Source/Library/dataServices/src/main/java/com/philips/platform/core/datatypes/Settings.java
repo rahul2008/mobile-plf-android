@@ -7,11 +7,15 @@ import java.io.Serializable;
  */
 public interface Settings extends BaseAppData, Serializable {
 
-    String METRICS="Metrics";
-    String LOCALE="Locale";
-     void setType(String type);
-     String getType();
-     void setValue(String value);
-     String getValue();
-     int getId();
+     String UNIT ="Unit";
+     String LOCALE="Locale";
+
+    String getUnit();
+    String getLocale();
+
+    void setUnit(String unit);
+    void setLocale(String locale);
+
+
+    int getId();
 }

@@ -10,12 +10,13 @@ import java.util.List;
  */
 public class SettingsBackendSaveResponse extends Event {
 
-    private final List<Settings> settingsList;
-    public SettingsBackendSaveResponse(List<Settings> settingsList) {
-        this.settingsList = settingsList;
+    private final Settings settings;
+    public SettingsBackendSaveResponse(Settings settings) {
+
+        this.settings = settings;
     }
 
-    public List<Settings> getSettingsList() {
-        return settingsList;
+    public Settings getSettings() {
+        return settings;
     }
 }

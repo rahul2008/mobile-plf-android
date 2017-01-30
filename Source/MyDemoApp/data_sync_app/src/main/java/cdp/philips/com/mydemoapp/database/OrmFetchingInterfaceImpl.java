@@ -278,13 +278,12 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public List<OrmSettings> fetchSettings(DBRequestListener dbRequestListener) throws SQLException {
+    public OrmSettings fetchSettings(DBRequestListener dbRequestListener) throws SQLException {
         QueryBuilder<OrmSettings, Integer> settingsQueryBuilder = settingsDao.queryBuilder();
 
-        List<OrmSettings> ormSettingsList = settingsQueryBuilder.query();
-        notifyDBRequestListener.notifySuccess(settingsQueryBuilder.query(), dbRequestListener);
-
-        return ormSettingsList;
+        OrmSettings ormSettings = settingsQueryBuilder.queryForFirst();
+        notifyDBRequestListener.notifySuccess(dbRequestListener,ormSettings);
+        return ormSettings;
     }
 
     @Override

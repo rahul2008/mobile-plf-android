@@ -3,10 +3,7 @@ package com.philips.platform.datasync.settings;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.events.ConsentBackendListSaveRequest;
-import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -38,7 +35,7 @@ public class SettingsDataSender extends EventMonitor implements DataSender<Setti
     public boolean sendDataToBackend(@NonNull List<? extends Settings> dataToSend) {
 
         if (dataToSend!=null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
-            eventing.post(new SettingsBackendSaveRequest((List<Settings>) dataToSend));
+            eventing.post(new SettingsBackendSaveRequest(dataToSend.get(0)));
         }
 
         return false;

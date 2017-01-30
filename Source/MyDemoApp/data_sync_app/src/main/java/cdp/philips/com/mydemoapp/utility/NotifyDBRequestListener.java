@@ -43,6 +43,17 @@ public class NotifyDBRequestListener {
         }
     }
 
+    public void notifySuccess(DBRequestListener dbRequestListener,Settings settings) {
+        if(dbRequestListener!=null) {
+            dbRequestListener.onSuccess(settings);
+        }else if(DataServicesManager.getInstance().getDbChangeListener()!=null){
+            DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess();
+        }else {
+            //Callback not registered
+            DSLog.i(DataServicesManager.TAG,"Callback not registered");
+        }
+    }
+
     public void notifySuccess(DBRequestListener dbRequestListener, ArrayList<OrmConsent> ormConsents) {
         if(dbRequestListener!=null) {
             dbRequestListener.onSuccess(ormConsents.get(0));

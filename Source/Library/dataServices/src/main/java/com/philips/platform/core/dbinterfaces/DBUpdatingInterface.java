@@ -22,7 +22,7 @@ public interface DBUpdatingInterface {
 
     boolean updateCharacteristics(final UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
 
-    void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) throws SQLException;
+    void updateSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException;
 
     boolean updateSyncBit(int tableID,boolean isSynced) throws SQLException;
 

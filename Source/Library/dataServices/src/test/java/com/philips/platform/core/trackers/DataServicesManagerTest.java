@@ -272,7 +272,7 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() throws Exception {
         //noinspection ConstantConditions
-        tracker.updateSettings(anyListOf(Settings.class),dbRequestListener);
+        tracker.updateSettings(any(Settings.class),dbRequestListener);
 
         verify(eventingMock).post(any(DatabaseSettingsUpdateRequest.class));
     }

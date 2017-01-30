@@ -31,6 +31,7 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
+import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
@@ -207,13 +208,18 @@ public class DataServicesManager {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
-   /* public Settings createSettings(String type,String value) {
-        Settings settings = mDataCreater.createSettings(type,value);
+    public Settings createSettings(String unit,String locale) {
+        Settings settings = mDataCreater.createSettings(unit,locale);
         return settings;
-    }*/
+    }
 
-    public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseSettingsUpdateRequest(settingsList,dbRequestListener));
+    public void saveSettings(Settings settings, DBRequestListener dbRequestListener) {
+        mEventing.post(new DatabaseSettingsSaveRequest(settings,dbRequestListener));
+    }
+
+
+    public void updateSettings(Settings settings, DBRequestListener dbRequestListener) {
+        mEventing.post(new DatabaseSettingsUpdateRequest(settings,dbRequestListener));
     }
 
 

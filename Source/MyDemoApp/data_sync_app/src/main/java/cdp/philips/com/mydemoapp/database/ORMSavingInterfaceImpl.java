@@ -5,6 +5,7 @@
 
 package cdp.philips.com.mydemoapp.database;
 
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 
 import com.philips.platform.core.datatypes.Consent;
@@ -20,6 +21,7 @@ import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
+import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
@@ -87,6 +89,22 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean saveSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
+
+        try {
+            deleting.deleteSettings();
+            OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
+            saving.saveSettings(ormSettings);
+            notifyDBRequestListener.notifySuccess(dbRequestListener);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
+            return false;
+        }
+
     }
 
     private void updateUCUI(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) {

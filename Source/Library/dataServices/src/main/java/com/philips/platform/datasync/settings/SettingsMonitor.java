@@ -84,8 +84,8 @@ public class SettingsMonitor extends EventMonitor {
 
         try {
             UCoreSettings settings = client.getSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreAdapter.API_VERSION);
-            List<Settings> settingsList = settingsConverter.convertUcoreToAppSettings(settings);
-            eventing.post(new SettingsBackendSaveResponse(settingsList));
+            Settings appSettings = settingsConverter.convertUcoreToAppSettings(settings);
+            eventing.post(new SettingsBackendSaveResponse(appSettings));
         }catch (RetrofitError retrofitError){
             eventing.post(new BackendDataRequestFailed(retrofitError));
         }
@@ -104,10 +104,10 @@ public class SettingsMonitor extends EventMonitor {
         if (uCoreAccessProvider == null) {
             return;
         }
-        List<Settings> settingsList = event.getSettingsList();
+       Settings settings = event.getSettings();
 
         try {
-            UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settingsList);
+            UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
             SettingsClient appFrameworkClient = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
             Response response=appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(),uCoreAccessProvider.getUserId(), uCoreSettings);
             eventing.post(new SyncBitUpdateRequest(OrmTableType.SETTINGS, true));

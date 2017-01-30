@@ -9,7 +9,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -22,22 +21,16 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import cdp.philips.com.mydemoapp.R;
-import cdp.philips.com.mydemoapp.consents.ConsentDialogAdapter;
-import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 
 /**
  * Created by sangamesh on 09/01/17.
  */
 
-public class SettingsFragment extends DialogFragment implements DBRequestListener,DBChangeListener, View.OnClickListener {
+public class SettingsFragment extends DialogFragment implements DBRequestListener, DBChangeListener, View.OnClickListener {
 
     private Button mBtnOk;
     private Button mBtnCancel;
@@ -46,9 +39,9 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     ArrayList<? extends ConsentDetail> consentDetails;
     private Context mContext;
     private DataServicesManager mDataServicesManager;
-    private Spinner mSpinner_metrics,mSpinner_Local;
-    private ArrayList<Settings> settingses;
-    boolean isDataChanged=false;
+    private Spinner mSpinner_Unit, mSpinner_Local;
+    private Settings settings;
+    boolean isDataChanged = false;
 
     @Nullable
     @Override
@@ -66,12 +59,12 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         mProgressDialog = new ProgressDialog(getActivity());
         mDataServicesManager.registerDBChangeListener(this);
 
-        mSpinner_metrics = (Spinner)rootView.findViewById(R.id.spinner_metrics);
-        mSpinner_Local = (Spinner)rootView.findViewById(R.id.spinner_locale);
+        mSpinner_Unit = (Spinner) rootView.findViewById(R.id.spinner_metrics);
+        mSpinner_Local = (Spinner) rootView.findViewById(R.id.spinner_locale);
         ArrayAdapter<CharSequence> adapterMetrics = ArrayAdapter.createFromResource(getActivity(),
                 R.array.metrics, android.R.layout.simple_spinner_item);
         adapterMetrics.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner_metrics.setAdapter(adapterMetrics);
+        mSpinner_Unit.setAdapter(adapterMetrics);
 
         ArrayAdapter<CharSequence> adapterLocale = ArrayAdapter.createFromResource(getActivity(),
                 R.array.locals, android.R.layout.simple_spinner_item);
@@ -91,36 +84,14 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     @Override
     public void onSuccess(final ArrayList<? extends Object> ormObjectList) {
 
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(ormObjectList!=null){
-                        settingses=(ArrayList<Settings>) ormObjectList;
-                        for(Settings settings:settingses){
 
-                            updateUi(settings.getType(),settings.getValue());
-
-                        }
-                    }
-                    dismissProgressDialog();
-                }
-            });
-        }
     }
 
-    private void updateUi(String type, String value) {
+    private void updateUi(String unit, String locale) {
 
-        switch (type){
+        mSpinner_Unit.setSelection(Arrays.asList(getResources().getStringArray(R.array.metrics)).indexOf(unit));
+        mSpinner_Local.setSelection(Arrays.asList(getResources().getStringArray(R.array.locals)).indexOf(locale));
 
-            case Settings.METRICS:
-                mSpinner_metrics.setSelection(Arrays.asList(getResources().getStringArray(R.array.metrics)).indexOf(value));
-                break;
-
-            case Settings.LOCALE:
-                mSpinner_Local.setSelection(Arrays.asList(getResources().getStringArray(R.array.locals)).indexOf(value));
-                break;
-        }
     }
 
     @Override
@@ -130,22 +101,21 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     }
 
     @Override
-    public void onSuccess(Object data) {
+    public void onSuccess(final Object data) {
 
-       /* final OrmConsent ormConsent = (OrmConsent) data;
-        if (getActivity() != null && ormConsent != null) {
-
+        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (data != null) {
+                        settings = (Settings) data;
+                        updateUi(settings.getUnit(), settings.getLocale());
 
-
-                    mBtnOk.setEnabled(true);
+                    }
                     dismissProgressDialog();
                 }
             });
-        }*/
-
+        }
     }
 
     @Override
@@ -169,24 +139,10 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         switch (v.getId()) {
             case R.id.btnOK:
 
+                    settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
+                    settings.setLocale(mSpinner_Local.getSelectedItem().toString());
 
-                for (Settings settings:settingses){
-
-                    switch (settings.getType()){
-
-                        case Settings.METRICS:
-                            settings.setValue(mSpinner_metrics.getSelectedItem().toString());
-                            break;
-
-                        case Settings.LOCALE:
-                            settings.setValue(mSpinner_Local.getSelectedItem().toString());
-                            break;
-
-                    }
-
-                }
-
-                DataServicesManager.getInstance().updateSettings(settingses,this);
+                DataServicesManager.getInstance().updateSettings(settings, this);
                 dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:
@@ -260,7 +216,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
             @Override
             public void run() {
 
-                Toast.makeText(getActivity(),"Exception :"+e.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
