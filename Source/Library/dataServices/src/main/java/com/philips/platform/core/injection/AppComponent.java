@@ -7,8 +7,6 @@
 package com.philips.platform.core.injection;
 
 import com.philips.platform.core.BaseAppCore;
-import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.monitors.FetchingMonitor;
 import com.philips.platform.core.monitors.UpdatingMonitor;
