@@ -9,6 +9,7 @@ class Appliance {
 
 class FirmwarePort {
     + uploadFirmware(final byte[] firmwareData)
+    + downloadFirmware(String version)
     + abortFirmwareUpload()
     + deployFirmware()
     + getUploadedFirmwareInfo(FirmwareInfoResultCallback callback)
