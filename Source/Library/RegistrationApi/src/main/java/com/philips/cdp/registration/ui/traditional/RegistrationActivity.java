@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -36,7 +37,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         ActionBarListener {
 
     private TextView ivBack;
-    private String mRegistrationLaunchMode;
+    private RegistrationLaunchMode mRegistrationLaunchMode;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -72,7 +73,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            mRegistrationLaunchMode = bundle.getString(RegConstants.REGISTRATION_LAUNCH_MODE);
+            mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -179,9 +180,9 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         launchRegistrationFragment(mRegistrationLaunchMode);
     }
 
-    private void launchRegistrationFragment(String mRegistrationLaunchMode) {
+    private void launchRegistrationFragment(RegistrationLaunchMode registrationLaunchMode) {
         URLaunchInput urLaunchInput = new URLaunchInput();
-        urLaunchInput.setRegistrationLaunchMode(mRegistrationLaunchMode);
+        urLaunchInput.setRegistrationLaunchMode(registrationLaunchMode);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
@@ -197,33 +198,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             onBackPressed();
         }
     }
-
-/*
-    @Override
-    public void updateRegistrationTitle(int titleResourceID) {
-        // Update title and show hamberger
-        //ivBack.setVisibility(View.INVISIBLE);
-        ivBack.setVisibility(View.VISIBLE);
-        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceID));
-    }
-
-    @Override
-    public void updateRegistrationTitleWithBack(int titleResourceID) {
-        // update title and show back
-        ivBack.setVisibility(View.VISIBLE);
-        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceID));
-    }
-
-    @Override
-    public void updateRegistrationTitleWithOutBack(int titleResourceID) {
-        // update title and show back
-        ivBack.setVisibility(View.INVISIBLE);
-        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceID));
-    }
-*/
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {

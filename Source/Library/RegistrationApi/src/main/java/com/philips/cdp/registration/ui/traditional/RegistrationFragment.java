@@ -27,7 +27,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationLauncMode;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -55,7 +55,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private ActionBarListener mActionBarListener;
 
-    private String mRegistrationLaunchMode;
+    private RegistrationLaunchMode mRegistrationLaunchMode;
 
     private int titleResourceID = -99;
 
@@ -82,7 +82,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationBaseFragment.mHeight = 0;
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mRegistrationLaunchMode = bundle.getString(RegConstants.REGISTRATION_LAUNCH_MODE);
+            mRegistrationLaunchMode = (RegistrationLaunchMode)bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
         }
 
         RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
@@ -252,21 +252,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         boolean isEmailVerificationRequired  =RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
-        if (mRegistrationLaunchMode.equalsIgnoreCase(String.valueOf(RegistrationLauncMode.MARKETINGOPT))) {
+        if (RegistrationLaunchMode.MARKETINGOPT.equals(mRegistrationLaunchMode)){
             if (isUserSignIn && isEmailVerified) {
-                AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
-                replacMarketingAccountFragment();
+                launchMarketingAccountFragment();
                 return;
             }
 
             if (isUserSignIn && !isEmailVerificationRequired) {
-                AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
-                replacMarketingAccountFragment();
+                launchMarketingAccountFragment();
                 return;
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
-        }else if (mRegistrationLaunchMode.equalsIgnoreCase(String.valueOf(RegistrationLauncMode.ACCOUNTSETTING))) {
+        }else if (RegistrationLaunchMode.ACCOUNTSETTING.equals(mRegistrationLaunchMode)) {
             if (isUserSignIn&& isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
@@ -294,6 +292,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         }
+    }
+
+    private void launchMarketingAccountFragment() {
+        AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
+        replacMarketingAccountFragment();
     }
 
     private void trackPage(String currPage) {

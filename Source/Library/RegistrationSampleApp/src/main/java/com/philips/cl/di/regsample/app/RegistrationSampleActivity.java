@@ -35,7 +35,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationLauncMode;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -293,14 +293,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         URLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         URInterface urInterface;
-        String registrationLauncMode = String.valueOf(RegistrationLauncMode.DEFAULT);
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                registrationLauncMode = String.valueOf(RegistrationLauncMode.ACCOUNTSETTING);
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNTSETTING);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -325,9 +323,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             case R.id.btn_marketing_opt_in:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                registrationLauncMode = String.valueOf(RegistrationLauncMode.MARKETINGOPT);
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.MARKETINGOPT);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -346,7 +343,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 }
-                //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
 
@@ -357,13 +353,11 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
-                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.DEFAULT);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-
-                // RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_user:

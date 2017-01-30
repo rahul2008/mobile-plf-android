@@ -2,11 +2,7 @@ package com.philips.cdp.registration.configuration;
 
 import com.philips.cdp.registration.ui.utils.RLog;
 
-/**
- * Created by 310190722 on 1/25/2017.
- */
-
-public enum RegistrationLauncMode {
+public enum RegistrationLaunchMode {
 
     DEFAULT("Default"),
     ACCOUNTSETTING("AccountSetting"),
@@ -14,12 +10,11 @@ public enum RegistrationLauncMode {
 
     private String mValue;
 
-    private RegistrationLauncMode(final String value) {
+    RegistrationLaunchMode(final String value) {
         mValue = value;
     }
 
     public String getValue() {
-        RLog.i("RegistrationLauncMode :","value : "+mValue);
         return mValue;
     }
 }

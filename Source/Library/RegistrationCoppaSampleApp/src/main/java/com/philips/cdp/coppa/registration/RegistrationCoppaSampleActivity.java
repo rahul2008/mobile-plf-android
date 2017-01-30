@@ -31,7 +31,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationLauncMode;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.base.CoppaResendError;
 import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
@@ -46,9 +46,6 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
@@ -244,15 +241,13 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         CoppaLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         CoppaInterface urInterface;
-        String registrationLauncMode = String.valueOf(RegistrationLauncMode.DEFAULT);
         switch (v.getId()) {
 
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                registrationLauncMode = String.valueOf(RegistrationLauncMode.ACCOUNTSETTING);
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNTSETTING);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -265,9 +260,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             case R.id.btn_marketing_opt_in:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-                registrationLauncMode = String.valueOf(RegistrationLauncMode.MARKETINGOPT);
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.MARKETINGOPT);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -281,7 +275,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.DEFAULT);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -316,7 +310,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 if(user.isUserSignIn()){
                     urLaunchInput = new CoppaLaunchInput();
                     urLaunchInput.setParentalFragment(true);
-                    urLaunchInput.setRegistrationLaunchMode(registrationLauncMode);
+                    urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.DEFAULT);
                     urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                     urLaunchInput.setUserRegistrationUIEventListener(this);
                     activityLauncher = new ActivityLauncher(ActivityLauncher.

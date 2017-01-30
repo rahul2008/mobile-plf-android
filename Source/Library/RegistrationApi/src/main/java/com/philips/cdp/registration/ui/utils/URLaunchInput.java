@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -7,7 +8,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class URLaunchInput extends UappLaunchInput {
 
-    private String registrationLaunchMode;
+    private RegistrationLaunchMode registrationLaunchMode;
 
     public boolean isAddtoBackStack() {
         return isAddToBackStack;
@@ -40,11 +41,11 @@ public class URLaunchInput extends UappLaunchInput {
         return this.userRegistrationListener;
     }
 
-    public String getRegistrationLaunchMode() {
+    public RegistrationLaunchMode getRegistrationLaunchMode() {
         return registrationLaunchMode;
     }
 
-    public void setRegistrationLaunchMode(String registrationLaunchMode) {
+    public void setRegistrationLaunchMode(RegistrationLaunchMode registrationLaunchMode) {
         this.registrationLaunchMode = registrationLaunchMode;
     }
 }

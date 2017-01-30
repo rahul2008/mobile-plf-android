@@ -23,6 +23,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
@@ -35,7 +36,6 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -51,7 +51,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private static FragmentManager mFragmentManager;
 
-    private String mRegistrationLaunchMode;
+    private RegistrationLaunchMode mRegistrationLaunchMode;
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationCoppaUIEventListener;
@@ -289,7 +289,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RegistrationCoppaBaseFragment.mHeight = 0;
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mRegistrationLaunchMode = bundle.getString(RegConstants.REGISTRATION_LAUNCH_MODE);
+            mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             isParentConsentRequested = bundle.getBoolean(
                     CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
         }
@@ -541,7 +541,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
-            bundle.putString(RegConstants.REGISTRATION_LAUNCH_MODE, mRegistrationLaunchMode);
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, mRegistrationLaunchMode);
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
             registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
@@ -608,12 +608,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    private void launchRegistrationFragmentOnLoggedIn(String registrationLaunchMode) {
+    private void launchRegistrationFragmentOnLoggedIn(RegistrationLaunchMode registrationLaunchMode) {
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
             registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
-            bundle.putString(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             registrationFragment.setArguments(bundle);
 
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
