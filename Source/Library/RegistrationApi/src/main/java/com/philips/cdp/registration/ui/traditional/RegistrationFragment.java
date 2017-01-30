@@ -27,6 +27,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -54,9 +55,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private ActionBarListener mActionBarListener;
 
-    private int titleResourceID = -99;
+    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.Default;
 
-    private boolean isAccountSettings = true;
+    private int titleResourceID = -99;
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;
@@ -79,12 +80,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
-        Bundle bunble = getArguments();
-        if (bunble != null) {
-            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mRegistrationLaunchMode = (RegistrationLaunchMode)bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
         }
 
-        RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
+        RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
         super.onCreate(savedInstanceState);
     }
 
@@ -251,8 +252,20 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         boolean isEmailVerificationRequired  =RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
-        if (isAccountSettings) {
-            if ( isUserSignIn&& isEmailVerified) {
+        if (RegistrationLaunchMode.MarketingOpt.equals(mRegistrationLaunchMode)){
+            if (isUserSignIn && isEmailVerified) {
+                launchMarketingAccountFragment();
+                return;
+            }
+
+            if (isUserSignIn && !isEmailVerificationRequired) {
+                launchMarketingAccountFragment();
+                return;
+            }
+            AppTagging.trackFirstPage(AppTaggingPages.HOME);
+            replaceWithHomeFragment();
+        }else if (RegistrationLaunchMode.AccountSettings.equals(mRegistrationLaunchMode)) {
+            if (isUserSignIn&& isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -279,6 +292,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         }
+    }
+
+    private void launchMarketingAccountFragment() {
+        AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
+        replacMarketingAccountFragment();
     }
 
     private void trackPage(String currPage) {
@@ -377,6 +395,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             LogoutFragment logoutFragment = new LogoutFragment();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+    }
+
+    private void replacMarketingAccountFragment() {
+        try {
+            MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, marketingAccountFragment);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

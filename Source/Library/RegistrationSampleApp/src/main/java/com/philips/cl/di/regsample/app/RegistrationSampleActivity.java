@@ -35,6 +35,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -63,6 +64,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
     private Button mBtnRegistrationWithAccountSettings;
+    private Button mBtnRegistrationMarketingOptIn;
     private Button mBtnRegistrationWithOutAccountSettings;
     private Button mBtnHsdpRefreshAccessToken;
     private Button mBtnRefresh;
@@ -97,6 +99,9 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
         mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
+
+        mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.btn_marketing_opt_in);
+        mBtnRegistrationMarketingOptIn.setOnClickListener(this);
 
         mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
@@ -292,9 +297,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setAccountSettings(true);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.AccountSettings);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -316,23 +320,44 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
-            case R.id.btn_registration_without_account:
+            case R.id.btn_marketing_opt_in:
+                RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+                RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
+                urLaunchInput = new URLaunchInput();
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.MarketingOpt);
+                urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+                urLaunchInput.setUserRegistrationUIEventListener(this);
+                activityLauncher = new ActivityLauncher(ActivityLauncher.
+                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 
+                urInterface = new URInterface();
+                urInterface.launch(activityLauncher, urLaunchInput);
+                final UIFlow uiFlow=RegUtility.getUiFlow();
+                if (uiFlow.equals(UIFlow.STRING_EXPERIENCE_A)){
+                    Toast.makeText(mContext,"UI Flow Type A",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                }else  if (uiFlow.equals(UIFlow.STRING_EXPERIENCE_B)){
+                    Toast.makeText(mContext,"UI Flow Type B",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                }else  if (uiFlow.equals(UIFlow.STRING_EXPERIENCE_C)){
+                    Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
+                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                }
+                break;
+
+
+            case R.id.btn_registration_without_account:
 
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
-
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.Default);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-
-                // RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_user:
@@ -354,9 +379,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 break;
 
             case R.id.btn_update_gender:
-
-
-                    User user1 = new User(mContext);
+                User user1 = new User(mContext);
                 System.out.println("before login"+user1.getGender());
 
                 if (!user1.isUserSignIn()) {
@@ -376,8 +399,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 } else {
                     System.out.println("pre  login"+user.getDateOfBirth());
                     handleDoBUpdate(user.getDateOfBirth());
-
-
                 }
                 break;
 
@@ -488,8 +509,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
                 }
 
-                ;
-
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
                     System.out.println("Message " + message);
@@ -580,6 +599,4 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onRefreshLoginSessionInProgress(String message) {
         showToast(message);
     }
-
-
 }

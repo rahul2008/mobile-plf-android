@@ -284,12 +284,14 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onUpdateSuccess() {
+        RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
         hideRefreshProgress();
         handleRegistrationSuccess();
     }
 
     @Override
     public void onUpdateFailedWithError(final int error) {
+        RLog.i("MarketingAccountFragment", "onUpdateFailedWithError ");
         hideRefreshProgress();
     }
 

@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.utils;
 
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -8,7 +9,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 public class CoppaLaunchInput extends UappLaunchInput {
 
 
-    private boolean isAccountSettings;
+    private RegistrationLaunchMode registrationLaunchMode;
 
     public boolean isParentalFragment() {
         return isParentalFragment;
@@ -42,15 +43,6 @@ public class CoppaLaunchInput extends UappLaunchInput {
         this.registrationFunction = registrationFunction;
     }
 
-    public void setAccountSettings(boolean isAccountSettings) {
-        this.isAccountSettings = isAccountSettings;
-    }
-
-    public boolean isAccountSettings() {
-        return isAccountSettings;
-    }
-
-
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
                                                            userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
@@ -58,5 +50,13 @@ public class CoppaLaunchInput extends UappLaunchInput {
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return this.userRegistrationListener;
+    }
+
+    public RegistrationLaunchMode getRegistrationLaunchMode() {
+        return registrationLaunchMode;
+    }
+
+    public void setRegistrationLaunchMode(RegistrationLaunchMode registrationLaunchMode) {
+        this.registrationLaunchMode = registrationLaunchMode;
     }
 }

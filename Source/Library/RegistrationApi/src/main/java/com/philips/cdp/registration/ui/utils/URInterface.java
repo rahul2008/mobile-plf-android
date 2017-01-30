@@ -38,8 +38,8 @@ public class URInterface implements UappInterface {
                     getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
-                    uappLaunchInput).isAccountSettings());
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((URLaunchInput)
+                    uappLaunchInput).getRegistrationLaunchMode());
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
@@ -70,7 +70,6 @@ public class URInterface implements UappInterface {
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
-
         if (null != uappLaunchInput) {
             RegistrationFunction registrationFunction = ((URLaunchInput) uappLaunchInput).
                     getRegistrationFunction();
@@ -83,8 +82,8 @@ public class URInterface implements UappInterface {
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
-                    uappLaunchInput).isAccountSettings());
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((URLaunchInput)
+                    uappLaunchInput).getRegistrationLaunchMode());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
 

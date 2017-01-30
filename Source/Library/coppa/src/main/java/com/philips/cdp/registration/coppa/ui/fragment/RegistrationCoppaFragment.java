@@ -23,6 +23,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
@@ -49,6 +50,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private static final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
     private static FragmentManager mFragmentManager;
+
+    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.Default;
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationCoppaUIEventListener;
@@ -128,7 +131,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private ActionBarListener mActionBarListener;
 
     private int mtitleResourceId = -99;
-    private boolean isAccountSettings = true;
     private CoppaExtension coppaExtension;
 
     public void replaceWithParentalAccess() {
@@ -285,13 +287,13 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
-        Bundle bunble = getArguments();
-        if (bunble != null) {
-            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
-            isParentConsentRequested = bunble.getBoolean(
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+            isParentConsentRequested = bundle.getBoolean(
                     CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
         }
-        RLog.d("RegistrationCoppaFragment", "isAccountSettings : " + isAccountSettings);
+        RLog.d("RegistrationCoppaFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
         RLog.d("RegistrationCoppaFragment", "isParentConsentRequested : "
                 + isParentConsentRequested);
 
@@ -460,7 +462,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         final User user = new User(mActivity);
         if (user.isUserSignIn()) {
             if (!isParentConsentRequested) {
-                launchRegistrationFragmentOnLoggedIn(isAccountSettings);
+                launchRegistrationFragmentOnLoggedIn(mRegistrationLaunchMode);
             } else {
                 addParentalApprovalFragment();
             }
@@ -539,7 +541,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, mRegistrationLaunchMode);
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
             registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
@@ -606,12 +608,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    private void launchRegistrationFragmentOnLoggedIn(boolean isAccountSettings) {
+    private void launchRegistrationFragmentOnLoggedIn(RegistrationLaunchMode registrationLaunchMode) {
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
             registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             registrationFragment.setArguments(bundle);
 
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
