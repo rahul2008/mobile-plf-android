@@ -366,7 +366,7 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
             isPresent = Support.IsVisible1();
             if (!isPresent)
             {
-                IapReport.Fail("The user is in support screen");
+                IapReport.Fail("The user is not in support screen");
             }
 
         }

@@ -349,16 +349,10 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '2.2.0-SNAPSHOT', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.1.0-SNAPSHOT', classifier: 'release', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar'){
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-    compile project(':pluginreferenceboard')
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
