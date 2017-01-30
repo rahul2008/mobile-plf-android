@@ -6,7 +6,6 @@
         <item name="colorControlHighlight">?attr/uidDatePickerSelectedFillColor</item>
         <item name="colorAccent">?attr/uidDatePickerHeaderFillColor</item>
         <item name="android:textColorPrimary">?attr/uidDatePickerTextColor</item>
-        <item name="android:layout_gravity">center</item>
         <item name="android:windowBackground">?attr/uidDatePickerFillColor</item>
     </style>
 </resources>
