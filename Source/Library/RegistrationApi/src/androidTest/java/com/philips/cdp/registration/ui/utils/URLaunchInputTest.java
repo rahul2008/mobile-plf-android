@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 
@@ -45,11 +46,6 @@ public class URLaunchInputTest extends InstrumentationTestCase{
         };
         mURLaunchInput.setUserRegistrationUIEventListener(mUserRegistrationUIEventListener);
         assertNotNull(mURLaunchInput.getUserRegistrationUIEventListener());
-        mURLaunchInput.setAccountSettings(false);
-        assertFalse(mURLaunchInput.isAccountSettings());
-        mURLaunchInput.setAccountSettings(true);
-        assertTrue(mURLaunchInput.isAccountSettings());
-
         mURLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         assertNotNull(mURLaunchInput.getRegistrationFunction());
 
@@ -59,5 +55,10 @@ public class URLaunchInputTest extends InstrumentationTestCase{
         assertTrue(mURLaunchInput.isAddtoBackStack());
         mURLaunchInput.enableAddtoBackStack(false);
         assertFalse(mURLaunchInput.isAddtoBackStack());
+    }
+
+    public void testIsAccountSettingsTrue(){
+        mURLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.AccountSettings);
+        assertEquals(RegistrationLaunchMode.AccountSettings,mURLaunchInput.getRegistrationLaunchMode());
     }
 }

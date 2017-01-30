@@ -3,6 +3,7 @@ package com.philips.cdp.registration.coppa.utils;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 
@@ -36,18 +37,14 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
     }
 
     public void testIsAccountSettingsTrue(){
-        coppaLaunchInput.setAccountSettings(true);
-        assertEquals(true,coppaLaunchInput.isAccountSettings());
+        coppaLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.AccountSettings);
+        assertEquals(RegistrationLaunchMode.AccountSettings,coppaLaunchInput.getRegistrationLaunchMode());
     }
     public void testIsParentalFragmentTrue(){
         coppaLaunchInput.setParentalFragment(true);
         assertEquals(true,coppaLaunchInput.isParentalFragment());
     }
 
-    public void testIsAccountSettingsFalse(){
-        coppaLaunchInput.setAccountSettings(false);
-        assertEquals(false,coppaLaunchInput.isAccountSettings());
-    }
     public void testIsParentalFragmentFalse(){
         coppaLaunchInput.setParentalFragment(false);
         assertEquals(false,coppaLaunchInput.isParentalFragment());
