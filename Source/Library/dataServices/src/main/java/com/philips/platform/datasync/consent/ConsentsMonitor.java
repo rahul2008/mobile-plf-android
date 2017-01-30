@@ -18,6 +18,9 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,12 +68,14 @@ public class ConsentsMonitor extends EventMonitor {
 
     //TODO: Commented part can you clearify with Ajay
     //TODO: NO need to check to SAVE
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ConsentBackendSaveRequest event) {
         if (event.getRequestType() == ConsentBackendSaveRequest.RequestType.SAVE) {
             sendToBackend(event);
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ConsentBackendListSaveRequest event) {
         for (Consent consent : event.getConsentList()) {
             sendToBackend(new ConsentBackendSaveRequest(ConsentBackendSaveRequest.RequestType.SAVE, consent));
@@ -78,6 +83,7 @@ public class ConsentsMonitor extends EventMonitor {
         eventing.post(new ConsentBackendListSaveResponse());
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ConsentBackendGetRequest event) {
         getConsent(event);
     }

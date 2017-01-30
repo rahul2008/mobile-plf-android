@@ -10,6 +10,9 @@ import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -24,6 +27,7 @@ public class DeletingMonitor extends EventMonitor {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(DataClearRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
@@ -34,6 +38,7 @@ public class DeletingMonitor extends EventMonitor {
         //eventing.post(new DataClearResponse(event.getEventId()));
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(MomentDeleteRequest event) {
         final DBRequestListener dbRequestListener = event.getDbRequestListener();
         try {
@@ -45,6 +50,7 @@ public class DeletingMonitor extends EventMonitor {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(MomentBackendDeleteResponse backendDeleteResponse) {
         final DBRequestListener dbRequestListener = backendDeleteResponse.getDbRequestListener();
         try {

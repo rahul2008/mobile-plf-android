@@ -7,12 +7,11 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.events.Event;
 
+import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.robolectric.RuntimeEnvironment;
-
-import de.greenrobot.event.EventBus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;

@@ -16,6 +16,9 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.net.HttpURLConnection;
 import java.util.List;
 
@@ -59,12 +62,13 @@ public class SettingsMonitor extends EventMonitor {
         mDataServicesManager = DataServicesManager.getInstance();
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendSaveRequest event) {
         sendToBackend(event);
         System.out.println("In onEventAsync(SettingsBackendSaveRequest event) ");
     }
 
-
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendGetRequest event) {
         getSettings(event);
     }

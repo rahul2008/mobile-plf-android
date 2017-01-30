@@ -11,13 +11,13 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.events.MomentChangeEvent;
 import com.philips.platform.core.monitors.EventMonitor;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.util.Collections;
 
 import javax.inject.Inject;
-
-import retrofit.RetrofitError;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -39,6 +39,7 @@ public class MomentsMonitor extends EventMonitor {
     }
 
     @SuppressWarnings("CheckResult")
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(MomentChangeEvent momentChangeEvent) {
 
         if (momentsDataSender.sendDataToBackend(Collections.singletonList(momentChangeEvent.getMoment()))) {

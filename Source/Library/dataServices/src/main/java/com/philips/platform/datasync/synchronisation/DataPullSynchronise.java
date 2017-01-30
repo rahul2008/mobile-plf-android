@@ -22,6 +22,8 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -174,6 +176,7 @@ public class DataPullSynchronise {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
         synchronized (this) {
             DSLog.i("**SPO**", "In Data Pull Synchronize GetNonSynchronizedMomentsResponse");

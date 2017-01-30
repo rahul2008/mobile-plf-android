@@ -24,6 +24,9 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -58,6 +61,7 @@ public class UpdatingMonitor extends EventMonitor {
         DataServicesManager.getInstance().getAppComponant().injectUpdatingMonitor(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {
         Moment moment = momentUpdateRequest.getMoment();
         moment.setSynced(false);
@@ -71,11 +75,12 @@ public class UpdatingMonitor extends EventMonitor {
         //     eventing.post(new MomentChangeEvent(requestId, moment));
     }
 
-
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseConsentUpdateRequest consentUpdateRequest) {
         consentUpdateRequest.getConsent();
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventBackgroundThread(ReadDataFromBackendResponse response) {
         DSLog.i("**SPO**", "In Updating Monitor ReadDataFromBackendResponse");
         try {
@@ -89,6 +94,7 @@ public class UpdatingMonitor extends EventMonitor {
         // eventing.post(new WriteDataToBackendRequest());
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
@@ -100,6 +106,7 @@ public class UpdatingMonitor extends EventMonitor {
         }*/
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(final MomentDataSenderCreatedRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
@@ -111,6 +118,7 @@ public class UpdatingMonitor extends EventMonitor {
         }*/
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         try {
             dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsent(), null);
@@ -119,6 +127,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
             DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync updateMonitor UCDBUpdateFromBackendRequest");
@@ -131,7 +140,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
-
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException{
         try{
             dbUpdatingInterface.updateSettings(databaseSettingsUpdateRequest.getSettingsList(), databaseSettingsUpdateRequest.getDbRequestListener());
@@ -142,6 +151,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final SyncBitUpdateRequest syncBitUpdateRequest) throws SQLException{
         try{
 
@@ -151,6 +161,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException{
         try{
             if(dbFetchingInterface.isSynced(OrmTableType.SETTINGS.getId())){

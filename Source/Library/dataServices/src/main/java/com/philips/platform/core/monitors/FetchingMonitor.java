@@ -25,6 +25,9 @@ import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsSegregator;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +60,7 @@ public class FetchingMonitor extends EventMonitor {
         DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadTimelineEntryRequest event) {
         try {
             dbInterface.fetchMoments(event.getDbRequestListener());
@@ -64,7 +68,8 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e,event.getDbRequestListener());
         }
     }
-    
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType(),event.getDbRequestListener());
@@ -73,6 +78,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(GetNonSynchronizedDataRequest event) {
         DSLog.i("***SPO***","In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
@@ -97,6 +103,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadMomentsRequest event) {
         try {
            // Log.d(this.getClass().getName(),"Fetching Monitor");
@@ -112,6 +119,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadConsentsRequest event) {
         try {
             dbInterface.fetchConsents(event.getDbRequestListener());
@@ -120,6 +128,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(sticky = true, threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(GetNonSynchronizedMomentsRequest event) {
         DSLog.i("**SPO**","in Fetching Monitor GetNonSynchronizedMomentsRequest");
         try {
@@ -136,6 +145,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
             dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbRequestListener());
@@ -144,6 +154,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(LoadSettingsRequest loadSettingsRequest) {
 
         try {

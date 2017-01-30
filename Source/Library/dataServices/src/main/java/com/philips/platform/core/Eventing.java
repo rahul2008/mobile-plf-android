@@ -26,7 +26,7 @@ public interface Eventing {
 
     boolean isRegistered(@NonNull final Object subscriber);
 
-    void registerSticky(@NonNull final Object subscriber);
+   // void registerSticky(@NonNull final Object subscriber);
 
     void removeSticky(@NonNull final Event event);
 }
