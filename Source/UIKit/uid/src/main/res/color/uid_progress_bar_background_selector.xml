@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:alpha="?attr/uidControlPrimaryTrackOffAlpha" android:color="?attr/uidControlPrimaryTrackOff"/>
+    <item android:alpha="?attr/uidControlTrackOffAlpha" android:color="?attr/uidControlTrackOff"/>
 </selector>
