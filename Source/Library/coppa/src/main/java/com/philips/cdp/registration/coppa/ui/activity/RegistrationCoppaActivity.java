@@ -57,7 +57,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     };
     private boolean isParentalConsent;
     private TextView ivBack;
-    private RegistrationLaunchMode mRegistrationLaunchMode;
+    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.Default;
 
     public static UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;

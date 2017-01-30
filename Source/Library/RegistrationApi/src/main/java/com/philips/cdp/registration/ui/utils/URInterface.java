@@ -70,7 +70,6 @@ public class URInterface implements UappInterface {
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
-
         if (null != uappLaunchInput) {
             RegistrationFunction registrationFunction = ((URLaunchInput) uappLaunchInput).
                     getRegistrationFunction();

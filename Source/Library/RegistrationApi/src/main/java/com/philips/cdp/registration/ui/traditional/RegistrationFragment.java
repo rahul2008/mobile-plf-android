@@ -55,7 +55,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private ActionBarListener mActionBarListener;
 
-    private RegistrationLaunchMode mRegistrationLaunchMode;
+    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.Default;
 
     private int titleResourceID = -99;
 
@@ -252,7 +252,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         boolean isEmailVerificationRequired  =RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
-        if (RegistrationLaunchMode.MARKETINGOPT.equals(mRegistrationLaunchMode)){
+        if (RegistrationLaunchMode.MarketingOpt.equals(mRegistrationLaunchMode)){
             if (isUserSignIn && isEmailVerified) {
                 launchMarketingAccountFragment();
                 return;
@@ -264,7 +264,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
-        }else if (RegistrationLaunchMode.ACCOUNTSETTING.equals(mRegistrationLaunchMode)) {
+        }else if (RegistrationLaunchMode.AccountSettings.equals(mRegistrationLaunchMode)) {
             if (isUserSignIn&& isEmailVerified) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();

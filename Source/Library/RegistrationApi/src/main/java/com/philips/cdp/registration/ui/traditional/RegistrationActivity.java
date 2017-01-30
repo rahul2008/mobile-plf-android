@@ -37,7 +37,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         ActionBarListener {
 
     private TextView ivBack;
-    private RegistrationLaunchMode mRegistrationLaunchMode;
+    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.Default;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
