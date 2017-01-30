@@ -9,7 +9,6 @@ package com.philips.platform.core;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -20,21 +19,16 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
 
 import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class BaseAppCore implements BaseAppDataCreator {
     @Inject
     Eventing eventing;
@@ -53,7 +47,7 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @Inject
     public BaseAppCore() {
-        DataServicesManager.getInstance().mAppComponent.injectBaseAppCore(this);
+        DataServicesManager.getInstance().getAppComponant().injectBaseAppCore(this);
     }
 
     public void start() {
@@ -62,8 +56,7 @@ public class BaseAppCore implements BaseAppDataCreator {
             appBackend.start(eventing);
             errorMonitor.start(eventing);
         } catch (NullPointerException e) {
-            if (e.getMessage() != null)
-                DSLog.i("***SPO***", "e = " + e.getMessage());
+
         }
     }
 
@@ -74,53 +67,61 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     @NonNull
-    public Moment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull String type) {
+    public Moment createMoment(final String creatorId,
+                               final String subjectId, String type) {
         return database.createMoment(creatorId, subjectId, type);
     }
 
-    @NonNull
+  /*  @NonNull
     @Override
-    public Moment createMomentWithoutUUID(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type) {
+    public Moment createMomentWithoutUUID(@NonNull final String creatorId,
+                                          @NonNull final String subjectId, @NonNull final String type) {
         return database.createMomentWithoutUUID(creatorId, subjectId, type);
-    }
+    }*/
 
     @NonNull
-    public MomentDetail createMomentDetail(@NonNull final String type, @NonNull final Moment moment) {
+    public MomentDetail createMomentDetail(final String type,
+                                           final Moment moment) {
         return database.createMomentDetail(type, moment);
     }
 
     @NonNull
-    public Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup) {
+    public Measurement createMeasurement(final String type,
+                                         final MeasurementGroup measurementGroup) {
         return database.createMeasurement(type, measurementGroup);
     }
 
     @NonNull
-    public MeasurementDetail createMeasurementDetail(@NonNull final String type,
-                                                     @NonNull final Measurement measurement) {
+    public MeasurementDetail createMeasurementDetail(final String type,
+                                                     final Measurement measurement) {
         return database.createMeasurementDetail(type, measurement);
     }
 
     @NonNull
     @Override
-    public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
+    public MeasurementGroup createMeasurementGroup(MeasurementGroup measurementGroup) {
         return database.createMeasurementGroup(measurementGroup);
     }
 
     @NonNull
     @Override
-    public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
+    public MeasurementGroup createMeasurementGroup(Moment moment) {
         return database.createMeasurementGroup(moment);
     }
 
     @NonNull
     @Override
-    public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
+    public MeasurementGroupDetail createMeasurementGroupDetail(String type,
+                                                               MeasurementGroup measurementGroup) {
         return database.createMeasurementGroupDetail(type, measurementGroup);
     }
 
     @NonNull
     @Override
-    public SynchronisationData createSynchronisationData(@NonNull String guid, boolean inactive, @NonNull DateTime lastModifiedTime, int version) {
+    public SynchronisationData createSynchronisationData(String guid,
+                                                         boolean inactive,
+                                                         DateTime lastModifiedTime,
+                                                         int version) {
         return database.createSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
 
@@ -132,8 +133,12 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public ConsentDetail createConsentDetail(@NonNull String type, @NonNull String status, @NonNull String version, String deviceIdentificationNumber, @NonNull boolean isSynchronized, @NonNull Consent consent) {
-        return database.createConsentDetail(type, status, version, deviceIdentificationNumber, isSynchronized, consent);
+    public ConsentDetail createConsentDetail(String type,
+                                             String status, String version,
+                                             String deviceIdentificationNumber,
+                                             boolean isSynchronized, Consent consent) {
+        return database.createConsentDetail(type, status, version,
+                deviceIdentificationNumber, isSynchronized, consent);
     }
 
     @NonNull
@@ -144,19 +149,23 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public UserCharacteristics createCharacteristics(@NonNull String creatorId) {
+    public UserCharacteristics createCharacteristics(String creatorId) {
         return database.createCharacteristics(creatorId);
     }
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
-        return database.createCharacteristicsDetails(type, value, userCharacteristics, characteristics);
+    public Characteristics createCharacteristicsDetails(String type, String value,
+                                                        UserCharacteristics userCharacteristics,
+                                                        Characteristics characteristics) {
+        return database.createCharacteristicsDetails(type, value, userCharacteristics,
+                characteristics);
     }
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
+    public Characteristics createCharacteristicsDetails(String type,
+                                                        String value, UserCharacteristics userCharacteristics) {
         return database.createCharacteristicsDetails(type, value, userCharacteristics);
     }
 

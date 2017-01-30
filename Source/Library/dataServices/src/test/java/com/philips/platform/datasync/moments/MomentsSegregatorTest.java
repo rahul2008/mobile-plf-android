@@ -54,7 +54,7 @@ public class MomentsSegregatorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         momentsSegregator = new MomentsSegregator();
         momentsSegregator.updatingInterface = updatingInterface;
         momentsSegregator.dbFetchingInterface = dbFetchingInterface;

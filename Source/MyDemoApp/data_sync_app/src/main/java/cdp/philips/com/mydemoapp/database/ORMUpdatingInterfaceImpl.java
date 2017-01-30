@@ -6,7 +6,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -15,7 +14,6 @@ import java.util.List;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
-import cdp.philips.com.mydemoapp.temperature.TemperatureMomentHelper;
 import cdp.philips.com.mydemoapp.utility.NotifyDBRequestListener;
 
 public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
@@ -46,10 +44,25 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     public void updateSettings(List<Settings> settingsList, DBRequestListener dbRequestListener) {
         try {
             updating.updateSettings(settingsList,dbRequestListener);
+            notifyDBRequestListener.notifySuccess(dbRequestListener);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean updateSyncBit(int tableID,boolean isSynced) {
+
+        try {
+            updating.updateDCSync(tableID,isSynced);
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
     @Override
     public boolean updateConsent(Consent consent, DBRequestListener dbRequestListener) throws SQLException {

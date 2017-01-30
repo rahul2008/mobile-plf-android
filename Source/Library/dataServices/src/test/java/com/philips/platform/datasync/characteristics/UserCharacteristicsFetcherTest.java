@@ -48,7 +48,7 @@ public class UserCharacteristicsFetcherTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         userCharacteristicsFetcher = new UserCharacteristicsFetcher(uCoreAdapterMock, gsonConverterMock);
         userCharacteristicsFetcher.eventing = eventingMock;
         userCharacteristicsFetcher.mUCoreAccessProvider = accessProviderMock;

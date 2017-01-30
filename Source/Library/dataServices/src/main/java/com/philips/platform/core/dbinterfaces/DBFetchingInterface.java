@@ -47,8 +47,13 @@ public interface DBFetchingInterface {
     List<?> fetchNonSyncConsentDetails() throws SQLException;
 
     UserCharacteristics fetchUCByCreatorId(@NonNull final String creatorId) throws SQLException;
+
     List<?> fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
+
+    List<?> fetchNonSyncSettings() throws SQLException;
 
 
     List<?> fetchNonSyncConsents() throws SQLException;
+
+    boolean isSynced(int tableID) throws SQLException;
 }

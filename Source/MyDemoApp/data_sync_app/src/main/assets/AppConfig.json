@@ -29,6 +29,10 @@
     "hostport": "dev.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
+  "dataservices": {
+    "appname": "uGrow",
+    "dataCoreUrl": "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com"
+  },
   "appinfra": {
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",

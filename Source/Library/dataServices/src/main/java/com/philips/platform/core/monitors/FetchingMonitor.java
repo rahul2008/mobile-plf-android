@@ -5,7 +5,6 @@
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
@@ -14,16 +13,17 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
-import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadTimelineEntryRequest;
+import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsSegregator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,9 +49,12 @@ public class FetchingMonitor extends EventMonitor {
     @Inject
     ConsentsSegregator consentsSegregator;
 
+    @Inject
+    SettingsSegregator settingsSegregator;
+
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
-        DataServicesManager.getInstance().mAppComponent.injectFetchingMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
     }
 
     public void onEventBackgroundThread(LoadTimelineEntryRequest event) {
@@ -74,12 +77,18 @@ public class FetchingMonitor extends EventMonitor {
         DSLog.i("***SPO***","In Fetching Monitor GetNonSynchronizedDataRequest");
         try {
             Map<Class, List<?>> dataToSync = new HashMap<>();
+
             DSLog.i("***SPO***","In Fetching Monitor before putMomentsForSync");
             dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
+
             DSLog.i("***SPO***","In Fetching Monitor before sending GetNonSynchronizedDataResponse");
             dataToSync = consentsSegregator.putConsentForSync(dataToSync);
+
             DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
+
+            DSLog.i("***SPO***", "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
+            dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
 
             eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
         } catch (SQLException e) {

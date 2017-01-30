@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.events.BackendMomentRequestFailed;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendGetRequest;
 import com.philips.platform.core.events.ConsentBackendListSaveRequest;
@@ -12,7 +12,6 @@ import com.philips.platform.core.events.ConsentBackendListSaveResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -57,7 +56,7 @@ public class ConsentsMonitor extends EventMonitor {
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final ConsentsConverter consentsConverter,
                            @NonNull final GsonConverter gsonConverter) {
-        DataServicesManager.getInstance().mAppComponent.injectConsentsMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectConsentsMonitor(this);
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
@@ -124,7 +123,7 @@ public class ConsentsMonitor extends EventMonitor {
                 eventing.post(new ConsentBackendSaveResponse(event.getEventId(), null, HttpURLConnection.HTTP_OK, null));
             }
         }  catch (RetrofitError ex) {
-        eventing.post(new BackendMomentRequestFailed(ex));
+        eventing.post(new BackendDataRequestFailed(ex));
 
         }
     }

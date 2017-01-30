@@ -9,12 +9,13 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.cdp.prxclient.datamodels.assets.Data;
+
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -46,6 +47,8 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     private Context mContext;
     private DataServicesManager mDataServicesManager;
     private Spinner mSpinner_metrics,mSpinner_Local;
+    private ArrayList<Settings> settingses;
+    boolean isDataChanged=false;
 
     @Nullable
     @Override
@@ -75,7 +78,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         adapterLocale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner_Local.setAdapter(adapterLocale);
 
-
         fetchSettings();
         return rootView;
 
@@ -94,7 +96,7 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
                 @Override
                 public void run() {
                     if(ormObjectList!=null){
-                        ArrayList<Settings> settingses=(ArrayList<Settings>) ormObjectList;
+                        settingses=(ArrayList<Settings>) ormObjectList;
                         for(Settings settings:settingses){
 
                             updateUi(settings.getType(),settings.getValue());
@@ -166,13 +168,25 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOK:
-                Settings settingsMetrics = DataServicesManager.getInstance().createSettings(Settings.METRICS, mSpinner_metrics.getSelectedItem().toString());
-                Settings settingsLocale= DataServicesManager.getInstance().createSettings(Settings.LOCALE, mSpinner_Local.getSelectedItem().toString());
-                List<Settings> settingsList=new ArrayList<>();
-                settingsList.add(settingsMetrics);
-                settingsList.add(settingsLocale);
 
-                DataServicesManager.getInstance().updateSettings(settingsList,this);
+
+                for (Settings settings:settingses){
+
+                    switch (settings.getType()){
+
+                        case Settings.METRICS:
+                            settings.setValue(mSpinner_metrics.getSelectedItem().toString());
+                            break;
+
+                        case Settings.LOCALE:
+                            settings.setValue(mSpinner_Local.getSelectedItem().toString());
+                            break;
+
+                    }
+
+                }
+
+                DataServicesManager.getInstance().updateSettings(settingses,this);
                 dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:

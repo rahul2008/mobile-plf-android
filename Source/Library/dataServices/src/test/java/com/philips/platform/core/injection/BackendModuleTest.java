@@ -28,6 +28,7 @@ import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -76,6 +77,9 @@ public class BackendModuleTest {
     @Mock
     UserCharacteristicsMonitor userCharacteristicsMonitor;
 
+    @Mock
+    SettingsMonitor settingsMonitor;
+
     ExecutorService executorService;
     @Mock
     MomentsDataFetcher momentsDataFetcher;
@@ -116,8 +120,7 @@ public class BackendModuleTest {
         VerticalDBFetchingInterfaceImpl dbFetchingInterface = new VerticalDBFetchingInterfaceImpl();
         VerticalDBSavingInterface dbSavingInterface = new VerticalDBSavingInterface();
         VerticalDBUpdatingInterfaceImpl dbUpdatingInterface = new VerticalDBUpdatingInterfaceImpl();
-
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
         backendModule = new BackendModule(eventingMock, baseAppDataCreator, userRegistrationInterface,
                 dbDeletingInterface, dbFetchingInterface, dbSavingInterface, dbUpdatingInterface,
@@ -244,7 +247,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnUCoreAdapter_WhenProvidesUCoreAdapterIsCalled() throws Exception {
-        DataServicesManager.getInstance().mAppComponent = appComponantMock;
+        DataServicesManager.getInstance().setAppComponant(appComponantMock);
         final UCoreAdapter uCoreAdapter = backendModule.providesUCoreAdapter(okClientFactory, builder, context);
         assertThat(uCoreAdapter).isNotNull();
         assertThat(uCoreAdapter).isInstanceOf(UCoreAdapter.class);

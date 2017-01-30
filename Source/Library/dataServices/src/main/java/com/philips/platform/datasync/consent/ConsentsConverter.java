@@ -25,7 +25,7 @@ public class ConsentsConverter {
 
     @Inject
     public ConsentsConverter() {
-        DataServicesManager.getInstance().mAppComponent.injectConsentsConverter(this);
+        DataServicesManager.getInstance().getAppComponant().injectConsentsConverter(this);
     }
 
     @NonNull

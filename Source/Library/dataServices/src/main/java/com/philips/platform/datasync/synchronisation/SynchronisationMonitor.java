@@ -6,9 +6,6 @@
 
 package com.philips.platform.datasync.synchronisation;
 
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
@@ -33,7 +30,7 @@ public class SynchronisationMonitor extends EventMonitor {
     @Singleton
     @Inject
     public SynchronisationMonitor() {
-        DataServicesManager.getInstance().mAppComponent.injectSynchronizationMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectSynchronizationMonitor(this);
     }
 
     public void onEventAsync(ReadDataFromBackendRequest event) {

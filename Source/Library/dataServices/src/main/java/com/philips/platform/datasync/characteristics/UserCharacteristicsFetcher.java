@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.UserCharacteristics;
-import com.philips.platform.core.events.BackendMomentRequestFailed;
+import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -39,7 +39,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                                       @NonNull final GsonConverter gsonConverter) {
         super(uCoreAdapter);
         this.mGsonConverter = gsonConverter;
-        DataServicesManager.getInstance().mAppComponent.injectUserCharacteristicsFetcher(this);
+        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsFetcher(this);
     }
 
     @Nullable
@@ -66,7 +66,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
             }
             return null;
         } catch (RetrofitError exception) {
-            eventing.post(new BackendMomentRequestFailed(exception));
+            eventing.post(new BackendDataRequestFailed(exception));
             return exception;
         }
     }

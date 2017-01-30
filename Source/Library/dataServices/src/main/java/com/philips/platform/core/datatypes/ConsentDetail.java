@@ -11,7 +11,7 @@ public interface ConsentDetail extends BaseAppData, Serializable {
     void setStatus(String status);
     void setVersion(String version);
     void setDeviceIdentificationNumber(String deviceIdentificationNumber);
-    //ConsentDetailType getType();
+    //ConsentDetailType getTableType();
     String getType();
 
     String getStatus();

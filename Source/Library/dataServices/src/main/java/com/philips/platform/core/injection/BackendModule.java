@@ -42,6 +42,10 @@ import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.moments.MomentsMonitor;
 import com.philips.platform.datasync.moments.MomentsSegregator;
+import com.philips.platform.datasync.settings.SettingsDataFetcher;
+import com.philips.platform.datasync.settings.SettingsDataSender;
+import com.philips.platform.datasync.settings.SettingsMonitor;
+import com.philips.platform.datasync.settings.SettingsSegregator;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -67,6 +71,7 @@ import retrofit.converter.GsonConverter;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 @Module
 public class BackendModule {
 
@@ -134,8 +139,9 @@ public class BackendModule {
     Backend providesBackend(
             @NonNull final MomentsMonitor momentsMonitor,
             @NonNull final ConsentsMonitor consentsMonitor,
-            @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor) {
-        return new Backend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor);
+            @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
+            @NonNull final SettingsMonitor settingsMonitor) {
+        return new Backend(momentsMonitor, consentsMonitor, userCharacteristicsMonitor,settingsMonitor);
     }
 
     @Provides
@@ -144,8 +150,9 @@ public class BackendModule {
             @NonNull final MomentsDataFetcher momentsDataFetcher,
             @NonNull final ConsentsDataFetcher consentsDataFetcher,
             @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
+            @NonNull final SettingsDataFetcher settingsDataFetcher,
             @NonNull final ExecutorService executor) {
-        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher);
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher);
         if (fetchers != null && fetchers.size() != 0) {
             for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
@@ -159,9 +166,10 @@ public class BackendModule {
     DataPushSynchronise providesDataPushSynchronise(
             @NonNull final MomentsDataSender momentsDataSender,
             @NonNull final ConsentDataSender consentDataSender,
-            @NonNull final UserCharacteristicsSender userCharacteristicsSender) {
+            @NonNull final UserCharacteristicsSender userCharacteristicsSender,
+            @NonNull final SettingsDataSender settingsDataSender) {
 
-        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender);
+        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender,settingsDataSender);
         if (senders != null && senders.size() != 0) {
             for (DataSender sender : senders) {
                 dataSenders.add(sender);
@@ -251,6 +259,11 @@ public class BackendModule {
     @Provides
     public ConsentsSegregator providesConsentsSegregater() {
         return new ConsentsSegregator();
+    }
+
+    @Provides
+    public SettingsSegregator providesSettingsSegregater() {
+        return new SettingsSegregator();
     }
 
     @Provides

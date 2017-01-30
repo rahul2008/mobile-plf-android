@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
@@ -26,6 +27,7 @@ import java.util.Map;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
 import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
@@ -56,12 +58,14 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     private final Dao<OrmCharacteristics, Integer> characteristicsDao;
 
+    private final Dao<OrmDCSync, Integer> ormDCSyncDao;
+
 
     private TemperatureMomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,
-                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao) {
+                                    final @NonNull Dao<OrmSynchronisationData, Integer> synchronisationDataDao, Dao<OrmConsent, Integer> consentDao, Dao<OrmConsentDetail, Integer> consentDetailsDao, Dao<OrmCharacteristics, Integer> characteristicsDao, Dao<OrmSettings, Integer> settingsDao, Dao<OrmDCSync, Integer> ormDCSyncDao) {
 
         this.momentDao = momentDao;
         this.synchronisationDataDao = synchronisationDataDao;
@@ -71,6 +75,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         this.consentDao = consentDao;
         this.consentDetailsDao = consentDetailsDao;
         this.settingsDao = settingsDao;
+        this.ormDCSyncDao = ormDCSyncDao;
 
         notifyDBRequestListener = new NotifyDBRequestListener();
     }
@@ -266,6 +271,21 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         return ormSettingsList;
     }
 
+    @Override
+    public List<?> fetchNonSyncSettings() throws SQLException {
+
+        List<OrmSettings> ormSettingsList=new ArrayList<>();
+
+        if(isSynced(OrmTableType.SETTINGS.getId()) == true){
+            return ormSettingsList;
+        }else{
+            QueryBuilder<OrmSettings, Integer> settingsQueryBuilder = settingsDao.queryBuilder();
+
+            ormSettingsList = settingsQueryBuilder.query();
+            return ormSettingsList;
+        }
+    }
+
     public OrmConsent fetchConsentByCreatorId(@NonNull final String creatorId) throws SQLException {
         QueryBuilder<OrmConsent, Integer> consentQueryBuilder = consentDao.queryBuilder();
         consentQueryBuilder.where().eq("creatorId", creatorId);
@@ -325,6 +345,15 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         //consentQueryBuilder.where().eq("beSynchronized", false);
 
         return query;
+    }
+
+    @Override
+    public boolean isSynced(int tableID) throws SQLException {
+        QueryBuilder<OrmDCSync, Integer> lDCSyncQueryBuilder = ormDCSyncDao.queryBuilder();
+        lDCSyncQueryBuilder.where().eq("tableID", tableID);
+        OrmDCSync ormDCSync = lDCSyncQueryBuilder.queryForFirst();
+        if(ormDCSync==null)return false;
+        return ormDCSync.isSynced();
     }
 
 

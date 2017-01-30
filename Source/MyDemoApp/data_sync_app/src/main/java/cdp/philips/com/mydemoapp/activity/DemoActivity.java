@@ -103,6 +103,9 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
+        DSLog.i(DSLog.LOG,"CALLBACK FROM UR RECIEVED");
+        DataServicesManager.getInstance().stopCore();
+        DataServicesManager.getInstance().startMonitors();
     }
 
     @Override
