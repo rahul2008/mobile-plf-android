@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -83,10 +84,17 @@ public class BaseFlowManagerTest extends TestCase {
         if (fileFromInputStream != null)
             path = fileFromInputStream.getPath();
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
+
+        sleep(2);
+        verify(handlerMock).post(runnableMock);
     }
 
-    public void testListener() {
-        verify(flowManagerListenerMock).onParseSuccess();
+    private void sleep(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void testAlreadyInitialize() {
@@ -150,8 +158,22 @@ public class BaseFlowManagerTest extends TestCase {
     }
 
     public void testBackState() {
-        flowManagerTest = new FlowManagerTest();
+        flowManagerTest = new FlowManagerTest() {
+            @NonNull
+            @Override
+            protected Handler getHandler() {
+                return handlerMock;
+            }
+
+            @NonNull
+            @Override
+            protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
+                return runnableMock;
+            }
+
+        };
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
+        sleep(2);
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
         assertNull(flowManagerTest.getBackState());
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
@@ -163,9 +185,23 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.WELCOME), "welcome_done");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
         flowManagerTest.getBackState(flowManagerTest.getCurrentState());
-        assertEquals(flowManagerTest.getState(AppStates.ON_BOARDING_REGISTRATION), flowManagerTest.getCurrentState());
+        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
 
-        flowManagerTest = new FlowManagerTest(context, path);
+        flowManagerTest = new FlowManagerTest(context, path) {
+            @NonNull
+            @Override
+            protected Handler getHandler() {
+                return handlerMock;
+            }
+
+            @NonNull
+            @Override
+            protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
+                return runnableMock;
+            }
+
+        };
+        sleep(2);
         try {
             flowManagerTest.getBackState();
         } catch (NoStateException e) {
@@ -175,7 +211,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "support");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
         flowManagerTest.getBackState();
-        assertEquals(flowManagerTest.getState(AppStates.SUPPORT), flowManagerTest.getCurrentState());
+        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
     }
 
     public void testErrorCases() {
