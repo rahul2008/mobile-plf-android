@@ -25,6 +25,11 @@ interface FirmwareUpdateListener {
     + onDeployFinished(FirmwarePort port)
 }
 
+interface DICommPortListener {
+    + onPortUpdate(FirmwarePort port)
+    + onPortError(FirmwarePort port, Error error, String errorData)
+}
+
 abstract class CommunicationStrategy {
     + getProperties()
     + putProperties()
@@ -32,17 +37,22 @@ abstract class CommunicationStrategy {
     + unsubscribe()
 }
 
-class LanCommunicationStrategy {
-}
-note left : Subscriptions should be\nimplemented with udp messages
 
 class BleCommunicationStrategy {
 }
-note right : Subscriptions should be\nimplemented with polling
+note left : Subscriptions should be\nimplemented with polling
 
-App --> Appliance
-Appliance --> FirmwarePort
-FirmwarePort .right. FirmwareUpdateListener
+class LanCommunicationStrategy {
+}
+note right : Subscriptions should be\nimplemented with udp messages
+
+
+App -down-> Appliance
+App ..|> FirmwareUpdateListener : implements
+Appliance -down-> FirmwarePort
+FirmwarePort .. FirmwareUpdateListener
+FirmwarePort .left.> DICommPortListener: has
+DICommPortListener -up-> FirmwareUpdateListener
 CommunicationStrategy <|-- LanCommunicationStrategy
 CommunicationStrategy <|-- BleCommunicationStrategy
 FirmwarePort --> CommunicationStrategy
