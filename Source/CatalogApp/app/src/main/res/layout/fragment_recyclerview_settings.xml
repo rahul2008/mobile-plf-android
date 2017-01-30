@@ -60,15 +60,17 @@
         </LinearLayout>
 
         <RelativeLayout
-            style="@style/ButtonsCategoryStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+            android:background="?attr/uidContentTertiary"
             android:orientation="horizontal">
 
             <TextView
-                style="@style/ButtonsCategoryStyle"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:paddingEnd="0dp"
-                android:paddingStart="0dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:text="Template selection"/>
         </RelativeLayout>
 

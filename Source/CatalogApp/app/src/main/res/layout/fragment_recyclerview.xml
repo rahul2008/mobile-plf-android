@@ -18,16 +18,17 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            style="@style/ButtonsCategoryStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
             android:onClick="@{(v) -> frag.showRecyclerViewSettingsFragment()}"
             android:orientation="horizontal">
 
             <TextView
-                style="@style/ButtonsCategoryStyle"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:paddingEnd="0dp"
-                android:paddingStart="0dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
                 android:text="@string/recyclerview_settings"/>
 
             <ImageButton
@@ -35,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
                 android:clickable="false"
                 android:gravity="center"
                 app:srcCompat="@drawable/ic_right_arrow_show_more"/>

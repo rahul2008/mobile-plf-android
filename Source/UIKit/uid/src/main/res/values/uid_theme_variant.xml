@@ -18,6 +18,9 @@
 
         <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+
+        <item name="uidContentTertiary">?attr/uidColorLevel05</item>
+
         <item name="uidQuietButtonDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidNavigationTextColor">@color/uidColorWhite</item>
         <item name="uidNavigationShadowLevelOne">@color/uidColorBlack</item>
@@ -119,6 +122,8 @@
         <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
+        <item name="uidContentTertiary">?attr/uidColorLevel05</item>
+
         <item name="uidInputTextFillColor">@color/uidColorWhite</item>
         <item name="uidInputTextBorderColor">@color/uid_gray_level_20</item>
         <item name="uidInputTextBorderDisabledColor">@color/uid_gray_level_10</item>
@@ -181,6 +186,8 @@
         <item name="uidControlSecondaryTextColor">@color/uidColorWhite</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_70</item>
 
+        <item name="uidContentTertiary">?attr/uidColorLevel25</item>
+
         <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_edittext_border_20_alpha</item>
         <item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
@@ -239,6 +246,9 @@
         <item name="uidControlSecondaryTextColor">@color/uidColorWhite</item>
         <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_50</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+
+        <item name="uidContentTertiary">?attr/uidColorLevel40</item>
+
         <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
         <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
         <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_edittext_border_20_alpha</item>
@@ -292,6 +302,9 @@
         <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel15</item>
         <item name="uidControlSecondaryTextColor">?attr/uidColorLevel75</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+
+        <item name="uidContentTertiary">?attr/uidColorLevel55</item>
+
         <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
         <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_edittext_border_25_alpha</item>
         <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
@@ -346,6 +359,8 @@
         <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel15</item>
         <item name="uidControlSecondaryTextColor">?attr/uidColorLevel75</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+
+        <item name="uidContentTertiary">?attr/uidColorLevel85</item>
 
         <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
         <item name="uidInputTextFillColor">?attr/uidColorLevel10</item>

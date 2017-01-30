@@ -66,9 +66,10 @@
     <style name="UIDLabel.RecyclerViewTitleText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_title_text_size</item>
-        <item name="android:layout_marginStart">@dimen/uid_recyclerview_margin_left_right</item>
-        <item name="android:layout_marginEnd">@dimen/uid_recyclerview_margin_left_right</item>
+        <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
+        <item name="android:paddingEnd">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_recyclerview_title_min_height</item>
         <item name="uidLabelTextColor">?attr/uidTextPrimaryColor</item>
+        <item name="android:background">?attr/uidContentTertiary</item>
     </style>
 </resources>

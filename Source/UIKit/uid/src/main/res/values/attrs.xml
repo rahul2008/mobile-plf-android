@@ -3,6 +3,7 @@
     <declare-styleable name="Philipsuid">
         <attr name="uidContentPrimary" format="reference|color"/>
         <attr name="uidContentSecondary" format="reference|color"/>
+        <attr name="uidContentTertiary" format="reference|color"/>
         <attr name="uidContentTextColor" format="reference|color"/>
         <attr name="uidTextPrimaryColor" format="reference|color"/>
 
