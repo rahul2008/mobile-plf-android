@@ -38,7 +38,7 @@ public class SettingsDataFetcher extends DataFetcher {
                                @NonNull final GsonConverter gsonConverter) {
         super(uCoreAdapter);
         this.mGsonConverter = gsonConverter;
-        DataServicesManager.getInstance().mAppComponent.injectSettingsDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponant().injectSettingsDataFetcher(this);
     }
 
     @Nullable

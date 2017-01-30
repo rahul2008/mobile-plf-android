@@ -52,7 +52,7 @@ public class SettingsMonitor extends EventMonitor {
     public SettingsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
                            @NonNull final SettingsConverter settingsConverter,
                            @NonNull final GsonConverter gsonConverter) {
-        DataServicesManager.getInstance().mAppComponent.injectUserSettingsMonitor(this);
+        DataServicesManager.getInstance().getAppComponant().injectUserSettingsMonitor(this);
         this.uCoreAdapter = uCoreAdapter;
         this.settingsConverter = settingsConverter;
         this.gsonConverter = gsonConverter;

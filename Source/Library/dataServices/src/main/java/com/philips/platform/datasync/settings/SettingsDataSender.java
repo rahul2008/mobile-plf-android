@@ -31,7 +31,7 @@ public class SettingsDataSender extends EventMonitor implements DataSender<Setti
 
     @Inject
     public SettingsDataSender() {
-        DataServicesManager.getInstance().mAppComponent.injectSettingsDataSender(this);
+        DataServicesManager.getInstance().getAppComponant().injectSettingsDataSender(this);
     }
 
     @Override

@@ -22,7 +22,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
-import com.philips.platform.core.utils.NotifyDbChangeListener;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 
 import java.sql.SQLException;
@@ -44,7 +43,6 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     DBFetchingInterface dbFetchingInterface;
 
-    NotifyDbChangeListener notifyDBChangeListener;
 
     @Inject
     MomentsSegregator momentsSegregator;
@@ -58,7 +56,6 @@ public class UpdatingMonitor extends EventMonitor {
         this.dbDeletingInterface = dbDeletingInterface;
         this.dbFetchingInterface = dbFetchingInterface;
         DataServicesManager.getInstance().getAppComponant().injectUpdatingMonitor(this);
-        notifyDBChangeListener=new NotifyDbChangeListener();
     }
 
     public void onEventAsync(final MomentUpdateRequest momentUpdateRequest) {

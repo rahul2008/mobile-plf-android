@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.cdp.prxclient.datamodels.assets.Data;
+
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -60,7 +60,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         mDataServicesManager = DataServicesManager.getInstance();
         mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
-        mBtnOk.setEnabled(false);
         mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
         settingsFragmentPresenter = new SettingsFragmentPresenter(getActivity(), this);
@@ -78,19 +77,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
                 R.array.locals, android.R.layout.simple_spinner_item);
         adapterLocale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner_Local.setAdapter(adapterLocale);
-        mSpinner_metrics.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mBtnOk.setEnabled(true);
-            }
-        });
-
-        mSpinner_Local.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mBtnOk.setEnabled(true);
-            }
-        });
 
         fetchSettings();
         return rootView;

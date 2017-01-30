@@ -12,7 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.utils.NotifyDBChangeListener;
+
 
 import java.sql.SQLException;
 import java.util.List;

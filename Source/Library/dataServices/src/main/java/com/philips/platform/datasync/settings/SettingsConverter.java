@@ -26,7 +26,7 @@ public class SettingsConverter {
 
     @Inject
     public SettingsConverter() {
-        DataServicesManager.getInstance().mAppComponent.injectSettingsConverter(this);
+        DataServicesManager.getInstance().getAppComponant().injectSettingsConverter(this);
     }
     public List<Settings> convertUcoreToAppSettings(UCoreSettings uCoreSettings){
 
