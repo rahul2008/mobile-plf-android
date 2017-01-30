@@ -103,10 +103,12 @@ public class ExampleActivity extends AppCompatActivity {
     private final CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-            if (isChecked) {
-                bleReferenceAppliance.enableCommunication();
-            } else {
-                bleReferenceAppliance.disableCommunication();
+            if (bleReferenceAppliance != null) {
+                if (isChecked) {
+                    bleReferenceAppliance.enableCommunication();
+                } else {
+                    bleReferenceAppliance.disableCommunication();
+                }
             }
         }
     };
@@ -163,7 +165,6 @@ public class ExampleActivity extends AppCompatActivity {
 
                 findViewById(R.id.btnGetTime).setEnabled(true);
                 findViewById(R.id.btnSetTime).setEnabled(true);
-                findViewById(R.id.switchStayConnected).setEnabled(true);
 
                 // Perform request on port
                 bleReferenceAppliance.getFirmwarePort().getPortProperties();
@@ -231,6 +232,14 @@ public class ExampleActivity extends AppCompatActivity {
     }
 
     private void setupAppliance(@NonNull BleReferenceAppliance appliance) {
+        boolean stayConnected = ((CompoundButton) findViewById(R.id.switchStayConnected)).isChecked();
+
+        if (stayConnected) {
+            appliance.enableCommunication();
+        } else {
+            appliance.disableCommunication();
+        }
+
         // Setup firmware port
         appliance.getFirmwarePort().addPortListener(new DICommPortListener<FirmwarePort>() {
             @Override
