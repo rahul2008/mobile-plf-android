@@ -8,8 +8,11 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,16 +33,18 @@ import java.util.Locale;
 public class PickersFragment extends BaseFragment {
     public static final String DATE_FORMATTER = "EEE, MMM d, yyyy";
     public static final String TIME_FORMATTER = "h:mm a";
+    public static final String PICKER_DATE = "PICKER_DATE";
+    public static final String PICKER_START_DATE = "PICKER_START_DATE";
+    public static final String PICKER_END_DATE = "PICKER_END_DATE";
+    public static final String PICKER_TIMESLOT = "PICKER_TIMESLOT";
     private com.philips.platform.catalogapp.databinding.FragmentPickersBinding fragmentPickersBinding;
-    public final ObservableField<String> dateTimePickerDate = new ObservableField<String>();
-    public final ObservableField<String> dateTimePickerTime = new ObservableField<String>();
-    public final ObservableField<String> rangePickerStartDate = new ObservableField<String>();
-    public final ObservableField<String> rangePickerStartTime = new ObservableField<String>();
-    public final ObservableField<String> rangePickerEndDate = new ObservableField<String>();
-    public final ObservableField<String> rangePickerEndTime = new ObservableField<String>();
-    public final ObservableField<String> timeslotPickerTime = new ObservableField<String>();
+    public final ObservableField<Date> dateTimePickerDate = new ObservableField<>();
+    public final ObservableField<Date> rangePickerStartDate = new ObservableField<>();
+    public final ObservableField<Date> rangePickerEndDate = new ObservableField<>();
+    public final ObservableField<Date> timeslotPickerTime = new ObservableField<>();
     private Date date;
     private Calendar calendar;
+    public ObservableBoolean isValidRange = new ObservableBoolean(false);
 
     @Override
     public int getPageTitle() {
@@ -51,74 +56,102 @@ public class PickersFragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         fragmentPickersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_pickers, container, false);
         fragmentPickersBinding.setFragment(this);
-        initDateTimeFields();
+        initDateTimeFields(savedInstanceState);
 
         return fragmentPickersBinding.getRoot();
     }
 
-    private void initDateTimeFields() {
-        fragmentPickersBinding.setVariable(BR.datePickerDate, dateTimePickerDate);
-        fragmentPickersBinding.setVariable(BR.dateTimePickerTime, dateTimePickerTime);
-        fragmentPickersBinding.setVariable(BR.rangePickerStartDate, rangePickerStartDate);
-        fragmentPickersBinding.setVariable(BR.rangePickerStartTime, rangePickerStartTime);
-        fragmentPickersBinding.setVariable(BR.rangePickerEndDate, rangePickerEndDate);
-        fragmentPickersBinding.setVariable(BR.rangePickerEndTime, rangePickerEndTime);
-        fragmentPickersBinding.setVariable(BR.timeslotPickerTime, timeslotPickerTime);
-
+    private void initDateTimeFields(final Bundle savedInstanceState) {
         date = new Date(System.currentTimeMillis());
         calendar = Calendar.getInstance();
         calendar.setTime(date);
-        final String formattedDate = getFormattedDate(date);
-        final String formattedTime = getFormattedTime(date);
+        final Date formattedDate = date;
+        final Date formattedTime = date;
         dateTimePickerDate.set(formattedDate);
-        dateTimePickerTime.set(formattedTime);
         rangePickerStartDate.set(formattedDate);
-        rangePickerStartTime.set(formattedTime);
         rangePickerEndDate.set(formattedDate);
-        rangePickerEndTime.set(formattedTime);
         timeslotPickerTime.set(formattedTime);
+
+        initFieldsUsingBundle(savedInstanceState);
+
+        fragmentPickersBinding.setVariable(BR.dateTimePickerDate, dateTimePickerDate);
+        fragmentPickersBinding.setVariable(BR.rangePickerStartDate, rangePickerStartDate);
+        fragmentPickersBinding.setVariable(BR.rangePickerEndDate, rangePickerEndDate);
+        fragmentPickersBinding.setVariable(BR.timeslotPickerTime, timeslotPickerTime);
     }
 
-    public void showDatePicker(@NonNull final ObservableField datePickerDate) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getActivity(), new DateSetListener(datePickerDate), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+    private void initFieldsUsingBundle(final Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            Date pickerDate = (Date) savedInstanceState.getSerializable(PICKER_DATE);
+            Date pickerStartDate = (Date) savedInstanceState.getSerializable(PICKER_START_DATE);
+            Date pickerEndDate = (Date) savedInstanceState.getSerializable(PICKER_END_DATE);
+            Date pickerTimeslot = (Date) savedInstanceState.getSerializable(PICKER_TIMESLOT);
+
+            dateTimePickerDate.set(pickerDate);
+            rangePickerStartDate.set(pickerStartDate);
+            rangePickerEndDate.set(pickerEndDate);
+            timeslotPickerTime.set(pickerTimeslot);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putSerializable(PICKER_DATE, dateTimePickerDate.get());
+        outState.putSerializable(PICKER_START_DATE, rangePickerStartDate.get());
+        outState.putSerializable(PICKER_END_DATE, rangePickerEndDate.get());
+        outState.putSerializable(PICKER_TIMESLOT, timeslotPickerTime.get());
+        super.onSaveInstanceState(outState);
+    }
+
+    public void showDatePicker(@NonNull final ObservableField datePickerDate, final boolean isRangeType) {
+        calendar.setTime((Date) datePickerDate.get());
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getActivity(), new DateSetListener(datePickerDate, isRangeType), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
 
-    public void showTimePicker(@NonNull final ObservableField timePickerTime) {
+    public void showTimePicker(@NonNull final ObservableField timePickerTime, final boolean isRangeType) {
+        calendar.setTime((Date) timePickerTime.get());
         date = calendar.getTime();
         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
         final int minutes = calendar.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getActivity(), new TimeSetListener(timePickerTime), hour, minutes, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getActivity(), new TimeSetListener(timePickerTime, isRangeType), hour, minutes, true);
         timePickerDialog.show();
     }
 
     private class DateSetListener implements DatePickerDialog.OnDateSetListener {
-        final private ObservableField<String> dateValue;
+        final private ObservableField<Date> dateValue;
+        final private boolean isRangeType;
 
-        private DateSetListener(@NonNull final ObservableField<String> datePickerDate) {
+        private DateSetListener(@NonNull final ObservableField<Date> datePickerDate, final boolean isRangeType) {
             this.dateValue = datePickerDate;
+            this.isRangeType = isRangeType;
         }
 
         @Override
         public void onDateSet(@NonNull final DatePicker view, final int year, final int month, final int dayOfMonth) {
             calendar.set(year, month, dayOfMonth);
-            dateValue.set(getFormattedDate(calendar.getTime()));
+            dateValue.set(calendar.getTime());
+            if (isRangeType) {
+                updateHasError();
+            }
         }
     }
 
-    private String getFormattedDate(@NonNull Date date) {
+    public String getFormattedDate(@NonNull Date date) {
         return new SimpleDateFormat(DATE_FORMATTER, Locale.getDefault()).format(date);
     }
 
-    private String getFormattedTime(@NonNull Date date) {
+    public String getFormattedTime(@NonNull Date date) {
         return new SimpleDateFormat(TIME_FORMATTER, Locale.getDefault()).format(date);
     }
 
     private class TimeSetListener implements TimePickerDialog.OnTimeSetListener {
-        final private ObservableField<String> timeValue;
+        final private ObservableField<Date> timeValue;
+        final private boolean isRangeType;
 
-        private TimeSetListener(@NonNull final ObservableField timeValue) {
+        private TimeSetListener(@NonNull final ObservableField timeValue, final boolean isRangeType) {
             this.timeValue = timeValue;
+            this.isRangeType = isRangeType;
         }
 
         @Override
@@ -129,7 +162,26 @@ public class PickersFragment extends BaseFragment {
 
             calendar.set(year, month, day, hourOfDay, minute);
             final Date time = calendar.getTime();
-            timeValue.set(getFormattedTime(time));
+            timeValue.set(time);
+            if (isRangeType) {
+                updateHasError();
+            }
         }
+    }
+
+    private void updateHasError() {
+        isValidRange.set(rangePickerStartDate.get().after(rangePickerEndDate.get()));
+    }
+
+    public int getTextColor() {
+        int color = Color.RED;
+        if (!isValidRange.get()) {
+            TypedArray typedArray = getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uidTextPrimary});
+            if (typedArray != null) {
+                color = typedArray.getColor(0, Color.WHITE);
+                typedArray.recycle();
+            }
+        }
+        return color;
     }
 }
