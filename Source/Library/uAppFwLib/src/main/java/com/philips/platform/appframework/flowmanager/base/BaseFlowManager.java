@@ -60,7 +60,7 @@ public abstract class BaseFlowManager {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        testMethod(context, jsonPath, flowManagerListener);
+                        parseFlowManagerJson(context, jsonPath, flowManagerListener);
                     }
                 }).start();
         }
@@ -72,7 +72,7 @@ public abstract class BaseFlowManager {
         return new Handler();
     }
 
-    private void testMethod(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
+    private void parseFlowManagerJson(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
         this.context = context;
         mapAppFlowStates(jsonPath, flowManagerListener);
         flowManagerStack = new FlowManagerStack();
