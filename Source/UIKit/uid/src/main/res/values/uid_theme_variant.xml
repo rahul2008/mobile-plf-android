@@ -151,6 +151,12 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
+
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
+        <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
+        <item name="uidControlBufferAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlBuffer">?attr/uidControlPrimaryDetail</item>
     </style>
 
     <style name="VeryLight">
@@ -207,6 +213,10 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidControlPrimaryDetail">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
     </style>
 
     <style name="Light">
@@ -262,6 +272,10 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
+
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlTrackOff">@color/uidColorWhite</item>
     </style>
 
     <style name="Bright">
@@ -315,6 +329,10 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
+        <item name="uidControlTrackOff">@color/uidColorWhite</item>
     </style>
 
     <style name="VeryDark">
@@ -371,5 +389,9 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
+
+        <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+        <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+        <item name="uidControlTrackOff">?attr/uidColorLevel30</item>
     </style>
 </resources>
