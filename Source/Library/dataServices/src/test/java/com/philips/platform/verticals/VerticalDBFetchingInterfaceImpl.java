@@ -88,6 +88,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
+    public List<?> fetchNonSyncSettings() throws SQLException {
+        return null;
+    }
+
+    @Override
     public List<?> fetchNonSyncConsents() throws SQLException {
         return null;
     }
