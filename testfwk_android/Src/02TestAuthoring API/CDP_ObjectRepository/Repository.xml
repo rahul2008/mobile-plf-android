@@ -65,7 +65,7 @@
     <AUsername>com.philips.platform.referenceapp:id/et_reg_email</AUsername>
     <APassWord>com.philips.platform.referenceapp:id/et_reg_password</APassWord>
     <Terms>com.philips.platform.referenceapp:id/rl_x_checkbox</Terms>
-    <Alogout>com.philips.platform.referenceapp:id/ifo</Alogout>
+    <Alogout>com.philips.platform.referenceapp:id/btn_settings_logout</Alogout>
     <LoginSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LoginSettings>
     <LogoutSettings>com.philips.platform.referenceapp:id/btn_settings_logout</LogoutSettings>
     <LogoutDialog>android:id/button1</LogoutDialog>
