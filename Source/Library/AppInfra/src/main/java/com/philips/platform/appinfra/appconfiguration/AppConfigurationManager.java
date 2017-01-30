@@ -136,6 +136,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         } else {
             getjSONFromCache(); // fetch from cache
             key = key.toUpperCase();
+            group = group.toUpperCase();
             try {
                 boolean isCocoPresent = configJsonCache.has(group);
                 JSONObject cocoJSONobject;
