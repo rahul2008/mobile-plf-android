@@ -45,6 +45,7 @@ node('Android && 25.0.0 && Ubuntu') {
 
       stage('Archive Apps') {
         step([$class: 'ArtifactArchiver', artifacts: 'Source/CatalogApp/app/build/outputs/apk/*debug.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+        step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/outputs/aar/uid-debug.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
       }
 
       if(env.BRANCH_NAME == "develop") {
