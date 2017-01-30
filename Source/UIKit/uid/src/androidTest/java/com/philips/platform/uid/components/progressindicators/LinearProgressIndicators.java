@@ -106,8 +106,8 @@ public class LinearProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlTrackOff);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidControlTrackOffAlpha);
+        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidProgressBarBGColor);
+        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidProgressBarBGColorAlpha);
         return modulateColorAlpha(attributeColor, alpha);
     }
 

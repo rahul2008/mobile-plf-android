@@ -33,7 +33,7 @@
         <item name="android:indeterminate">false</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_small</item>
-        <item name="uidProgressBarCircularEndColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidProgressBarCircularEndColor">?attr/uidProgressBarProgressColor</item>
     </style>
 
     <style name="UIDProgressBarCircularIndeterminateSmall" parent="UIDProgressBarCircularDeterminateSmall">
@@ -55,7 +55,7 @@
         <item name="android:indeterminate">false</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_middle</item>
-        <item name="uidProgressBarCircularEndColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidProgressBarCircularEndColor">?attr/uidProgressBarProgressColor</item>
     </style>
 
     <style name="UIDProgressBarCircularIndeterminateMiddle" parent="UIDProgressBarCircularDeterminateMiddle">
@@ -77,7 +77,7 @@
         <item name="android:indeterminate">false</item>
         <item name="uidLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_big</item>
-        <item name="uidProgressBarCircularEndColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidProgressBarCircularEndColor">?attr/uidProgressBarProgressColor</item>
     </style>
 
     <style name="UIDProgressBarCircularIndeterminateBig" parent="UIDProgressBarCircularDeterminateBig">
@@ -91,10 +91,10 @@
     </style>
     
     <style name="UIDIndeterminateLinearProgress">
-        <item name="uidIndeterminateLinearProgressBGColor">?attr/uidControlTrackOff</item>
-        <item name="uidIndeterminateLinearProgressBGAlpha">?attr/uidControlTrackOffAlpha</item>
+        <item name="uidIndeterminateLinearProgressBGColor">?attr/uidProgressBarBGColor</item>
+        <item name="uidIndeterminateLinearProgressBGAlpha">?attr/uidProgressBarBGColorAlpha</item>
         <item name="uidIndeterminateLinearProgressStartColor">@android:color/transparent</item>
-        <item name="uidIndeterminateLinearProgressCenterColor">?attr/uidControlPrimaryDetail</item>
+        <item name="uidIndeterminateLinearProgressCenterColor">?attr/uidProgressBarProgressColor</item>
         <item name="uidIndeterminateLinearProgressEndColor">@android:color/transparent</item>
         <item name="uidIndeterminateLinearProgressAnimDuration">@integer/uid_indeterminate_progressbar_anim_duration</item>
     </style>

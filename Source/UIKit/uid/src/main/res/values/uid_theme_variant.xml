@@ -11,10 +11,11 @@
         <item name="uidControlPrimaryAlternatePressedColor">?attr/uidColorLevel85</item>
         <item name="uidControlPrimaryAltDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-        <item name="uidControlPrimaryTrackOff">@color/uidColorWhite</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_60</item>
-        <item name="uidControlPrimaryBuffer">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="uidControlPrimaryBufferAlpha">@dimen/uid_alpha_per_50</item>
+        <item name="uidProgressBarBGColor">?attr/uidControlTrackOff</item>
+        <item name="uidProgressBarBGColorAlpha">?attr/uidControlTrackOffAlpha</item>
+        <item name="uidProgressBarSecondaryColor">?attr/uidControlBuffer</item>
+        <item name="uidProgressBarSecondaryColorAlpha">?attr/uidControlBufferAlpha</item>
+        <item name="uidProgressBarProgressColor">?attr/uidControlPrimaryDetail</item>
 
         <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
@@ -126,8 +127,6 @@
         <item name="uidSwitchTrackOffColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidSwitchThumbDisabledColor">@color/uidColorWhite</item>
-        <item name="uidControlPrimaryTrackOff">?attr/uidControlPrimaryEnabledColor</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_30</item>
 
         <item name="uidTextPrimary">@color/uid_gray_level_75</item>
         <item name="uidTextSecondary">@color/uid_gray_level_65</item>
@@ -188,7 +187,6 @@
 
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel10</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_15</item>
 
         <item name="uidTextPrimary">?attr/uidColorLevel75</item>
@@ -248,7 +246,6 @@
 
         <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel20</item>
-        <item name="uidControlPrimaryTrackOffAlpha">@dimen/uid_alpha_per_70</item>
         <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_25</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">@color/uidColorWhite</item>
