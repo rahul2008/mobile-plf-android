@@ -93,7 +93,7 @@ public class LinearProgressIndicators {
 
     @Test
     public void verifySecondaryProgressBarSecondaryProgressColor() {
-        final int expectedSecProgressBarSecondaryColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.50f);
+        final int expectedSecProgressBarSecondaryColor = modulateColorAlpha(ContextCompat.getColor(instrumentationContext, GroupBlue45), 0.30f);
         getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarSecondaryColor, progressSecondaryID(), true)));
 
     }
@@ -106,8 +106,8 @@ public class LinearProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryTrackOff);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidControlPrimaryTrackOffAlpha);
+        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlTrackOff);
+        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidControlTrackOffAlpha);
         return modulateColorAlpha(attributeColor, alpha);
     }
 
