@@ -98,6 +98,18 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
         tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
         utils.setTitle(tab, R.string.RA_Support_Menu_Title);
         topLayout.addTab(tab);
+
+        tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
+        utils.setTitle(tab, "About");
+        topLayout.addTab(tab);
+
+        tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
+        utils.setTitle(tab, "Data Sync");
+        topLayout.addTab(tab);
+
+        tab = utils.newTab(R.string.uikit_splash_title, android.R.drawable.btn_star_big_off, 0);
+        utils.setTitle(tab, "Connectivity");
+        topLayout.addTab(tab);
     }
 
     @Override

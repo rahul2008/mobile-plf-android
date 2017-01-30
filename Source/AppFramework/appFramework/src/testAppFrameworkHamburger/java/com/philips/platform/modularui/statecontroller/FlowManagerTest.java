@@ -7,7 +7,6 @@
 package com.philips.platform.modularui.statecontroller;
 
 import android.support.v4.app.FragmentActivity;
-
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;

@@ -45,7 +45,10 @@ namespace UserRegistration_TestPlugin
             Philips_Announcements,
             FacebookSign,
             SwitchAccount,
-            SocialMergeGoogle
+            SocialMergeGoogle,
+            Country,
+            CountrySelect,
+
         }
 
         public enum CheckBox
@@ -116,6 +119,18 @@ namespace UserRegistration_TestPlugin
             else
             {
                 return 0;
+            }
+        }
+
+        public static void Select_Country(string countyName)
+        {
+            _instance.GetElement(SearchBy.Id, UserRegistration.Android.HomeScreen.countrypicker).SetText(countyName);
+            Thread.Sleep(3000);
+            IMobilePageControl ele = _instance.GetElement(SearchBy.Id, UserRegistration.Android.HomeScreen.countryenter);
+            string text = ele.Text;
+            if(text == countyName)
+            {
+                _instance.GetElement(SearchBy.Id, UserRegistration.Android.HomeScreen.countryenter).Click();
             }
         }
         /// <summary>
@@ -229,6 +244,8 @@ namespace UserRegistration_TestPlugin
             _instance.GetElement(SearchBy.Id, UserRegistration.Android.LoginScreen.Password).SetText(password);
         }
 
+    
+
         /// <summary>
         /// Buttons Clickable or not
         /// </summary>
@@ -252,7 +269,11 @@ namespace UserRegistration_TestPlugin
                 _instance.GetElement(SearchBy.Id, UserRegistration.Android.HomeScreen.SwitchAccount).Click();
             if (btn == Button.FacebookSign)
                 _instance.GetElement(SearchBy.Id, UserRegistration.Android.HomeScreen.FacebookSign).Click();
-            if(btn == Button.SocialMergeGoogle)
+            if (btn == Button.Country)
+                _instance.GetElement(SearchBy.Id, UserRegistration.Android.HomeScreen.countrycode).Click();
+            if (btn == Button.CountrySelect)
+                _instance.GetElement(SearchBy.Id, "com.philips.platform.referenceapp:id/reg_country_picker_search").Click();
+            if (btn == Button.SocialMergeGoogle)
                 _instance.GetElementByXpath(UserRegistration.Android.HomeScreen.SocialMergeGoogle).Click();
             if (btn == Button.LogintoGoogle)
             {
@@ -576,7 +597,7 @@ namespace UserRegistration_TestPlugin
         public static void Enter_Details(string googleEmail, string googlePassword)
         {
             Enter_Email(googleEmail);
-            LoginGooglePlus.Click(LoginGooglePlus.Button.Next);
+            //LoginGooglePlus.Click(LoginGooglePlus.Button.Next);
             Enter_Password(googlePassword);
         }
         public static void Enter_Email(string str)
@@ -587,7 +608,9 @@ namespace UserRegistration_TestPlugin
                 cnt.Click();
                 cnt.Clear();
                 cnt.SetText(str);
+                MobileDriver.FireKeyEvent(66);
                 break;
+
             }
         }
         /// <summary>

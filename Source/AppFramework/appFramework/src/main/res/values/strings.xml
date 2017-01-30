@@ -67,6 +67,14 @@
     <string name="ds_screen_title">Data Services</string>
     <string name="create_moment">Create moment</string>
     <string name="invalid_temperature">Invalid temperature entry</string>
+    <string name="set_characteristics">User Characteristics</string>
+    <string name="view_characteristics">View Characteristics</string>
+    <string name="hide_characteristics">Hide Characteristics</string>
+    <string name="edit">Edit</string>
+    <string name="consents">User Consents</string>
+    <string name="characteristics">User Characteristics</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
 
     <!-- Connectivity component -->
     <string name="RA_Connectivity_DeviceID">Device ID</string>

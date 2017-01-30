@@ -14,7 +14,6 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
-import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -49,11 +48,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
         appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TAB_HOME), eventState);
-        } catch (NoEventFoundException e) {
-            e.printStackTrace();
-        }
+        baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TAB_HOME), eventState);
         baseState.setStateListener(this);
         baseState.setUiStateData(setStateData(componentID));
         fragmentLauncher = getFragmentLauncher();
@@ -109,6 +104,8 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
                 return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return  HOME_DATA_SYNC;
+            case MENU_OPTION_CONNECTIVITY:
+                return CONNECTIVITY;
             default:
                 return HOME_FRAGMENT;
         }

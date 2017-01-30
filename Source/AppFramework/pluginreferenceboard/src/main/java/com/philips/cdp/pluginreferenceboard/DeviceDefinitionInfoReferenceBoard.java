@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.pluginreferenceboard;
 
 import android.bluetooth.BluetoothDevice;
@@ -7,6 +12,7 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.associationprocedures.SHNAssociationProcedureNearestDevice;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
+import com.philips.pins.shinelib.services.SHNServiceDiCommStreaming;
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import java.util.HashSet;
@@ -15,7 +21,7 @@ import java.util.UUID;
 
 public class DeviceDefinitionInfoReferenceBoard implements SHNDeviceDefinitionInfo {
 
-//    public static final String PHILIPS_CUSTOM_SERVICE_UUID = "477EA600-A260-11E4-AE37-0002A5D50010";
+    //    public static final String PHILIPS_CUSTOM_SERVICE_UUID = "477EA600-A260-11E4-AE37-0002A5D50010";
     public static final String DEVICE_INFORMATION_SERVICE_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180A);
     public static final String DEVICE_TYPE_NAME = "ReferenceBoard";
 
@@ -31,7 +37,7 @@ public class DeviceDefinitionInfoReferenceBoard implements SHNDeviceDefinitionIn
     public Set<UUID> getPrimaryServiceUUIDs() {
         if (primaryServiceUUIDs == null) {
             primaryServiceUUIDs = new HashSet<>();
-            primaryServiceUUIDs.add(UUID.fromString(DEVICE_INFORMATION_SERVICE_UUID));
+            primaryServiceUUIDs.add(SHNServiceDiCommStreaming.SERVICE_UUID);
         }
         return primaryServiceUUIDs;
     }

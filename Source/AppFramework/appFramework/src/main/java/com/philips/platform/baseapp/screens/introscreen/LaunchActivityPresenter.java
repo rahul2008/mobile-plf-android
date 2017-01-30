@@ -13,6 +13,7 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -46,7 +47,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         if (event.equals(APP_LAUNCH))
-            baseState = targetFlowManager.getFirstState();
+            baseState = getSplashState();
         else if (event.equals(LAUNCH_BACK_PRESSED))
             baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
 
@@ -54,6 +55,11 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
             baseState.setUiStateData(getUiStateData());
             baseState.navigate(fragmentLauncher);
         }
+    }
+
+    @NonNull
+    protected SplashState getSplashState() {
+        return new SplashState();
     }
 
     protected void showActionBar() {

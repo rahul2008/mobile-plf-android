@@ -120,12 +120,10 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [TechTalk.SpecRun.ScenarioAttribute("Verify behaviour of \"No Retailer\" for a selected product.", new string[] {
-                "E2ETesting"}, SourceLine=29)]
+        [TechTalk.SpecRun.ScenarioAttribute("Verify behaviour of \"No Retailer\" for a selected product.", SourceLine=29)]
         public virtual void VerifyBehaviourOfNoRetailerForASelectedProduct_()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify behaviour of \"No Retailer\" for a selected product.", new string[] {
-                        "E2ETesting"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify behaviour of \"No Retailer\" for a selected product.", ((string[])(null)));
 #line 30
 this.ScenarioSetup(scenarioInfo);
 #line 31

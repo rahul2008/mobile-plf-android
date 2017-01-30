@@ -5,8 +5,6 @@
 */
 package com.philips.platform.appframework.flowmanager;
 
-import android.content.Context;
-
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -32,10 +30,6 @@ import java.util.Map;
 
 public class FlowManager extends BaseFlowManager {
 
-    public FlowManager(Context context, String jsonPath) {
-        super(context, jsonPath);
-    }
-
     public void populateStateMap(final Map<String, BaseState> uiStateMap) {
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
         uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
@@ -50,7 +44,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
-        uiStateMap.put(AppStates.CONNECTIVITY,new ConnectivityFragmentState());
+        uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

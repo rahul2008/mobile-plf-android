@@ -75,6 +75,7 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                 return GetData("LoginTitle");
             }
         }
+
         public static string CreatePhilipsAccount
         {
             get
@@ -2093,11 +2094,59 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
 
                 }
 
+                public static string SupportTitle
+                {
+                    get
+                    {
+                        return GetData("SupportTitle");
+                    }
+                }
+
                 public static string Login
                 {
                     get
                     {
                         return GetData("LoginSettings");
+                    }
+                }
+                public static string CarouselHighlighted
+                {
+                    get
+                    {
+                        return GetData("CarouselHighlighted");
+                    }
+                }
+
+                public static string Swipe_Welcome
+                {
+                    get
+                    {
+                        return GetData("Swipe_Welcome");
+                    }
+                }
+
+                public static string toggleStatus
+                {
+                    get
+                    {
+                        return GetData("toggleStatus");
+                    }
+
+                }
+
+                public static string ReceivePromotional
+                {
+                    get
+                    {
+                        return GetData("ReceivePromotional");
+                    }
+                }
+
+                public static string Login_Title_UR_Setting
+                {
+                    get
+                    {
+                        return GetData("Login_Title_UR_Setting");
                     }
                 }
                 public static string Logout
@@ -3651,6 +3700,28 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     get
                     {
                         return GetData("LoogedIn_Continue");
+                    }
+                }
+                public static string countrycode
+                {
+                    get
+                    {
+                        return GetData("countrycode");
+                    }
+                }
+                
+                 public static string countryenter
+                {
+                    get
+                    {
+                        return GetData("countryenter");
+                    }
+                }
+                public static string countrypicker
+                {
+                    get
+                    {
+                        return GetData("countrypicker");
                     }
                 }
                 public static string PhilipsAccountName

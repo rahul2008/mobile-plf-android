@@ -30,14 +30,15 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
-import com.philips.platform.baseapp.screens.dataservices.listener.DBChangeListener;
-import com.philips.platform.baseapp.screens.dataservices.listener.EventHelper;
 import com.philips.platform.baseapp.screens.dataservices.reciever.BaseAppBroadcastReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
@@ -51,7 +52,7 @@ import static android.content.Context.ALARM_SERVICE;
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBChangeListener {
+public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBRequestListener,DBChangeListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -61,7 +62,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     ImageButton mAddButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
-    private TextView mTvSetCosents;
+    TextView mTvConsents, mTvCharacteristics;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
@@ -98,8 +99,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
         mTemperatureMomentHelper = new TemperatureMomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
-        EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE);
+        //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
+        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE,this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -122,6 +123,18 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         t.start();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+     mDataServicesManager.registerDBChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mDataServicesManager.unRegisterDBChangeListener();
+    }
+
     public class BuildModel implements Runnable {
 
         @Override
@@ -135,7 +148,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                             if (isFragmentAlive()) {
                                 Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
                                 mAddButton.setVisibility(View.INVISIBLE);
-                                mTvSetCosents.setVisibility(View.INVISIBLE);
+                                mTvConsents.setVisibility(View.INVISIBLE);
                                 setProgressBarVisibility(false);
                                 return;
                             }
@@ -147,7 +160,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
                 if (isFragmentAlive())
                     deleteUserDataIfNewUserLoggedIn();
                 Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment on start - before fetchData");
-                mTemperaturePresenter.fetchData();
+                mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
 
                 //Reseting the sync Flags
                 mDataServicesManager.setPullComplete(true);
@@ -205,7 +218,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - before email same check");
         if(!isSameEmail()){
             Log.i(DataServicesState.TAG,"TemperatureTimeLieFragment - !isSameEmail() clear data called");
-            userRegistrationInterface.clearUserData();
+            userRegistrationInterface.clearUserData(this);
         }
         storeLastEmail();
     }
@@ -236,9 +249,11 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         mAddButton = (ImageButton) view.findViewById(R.id.add);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
-        mTvSetCosents = (TextView) view.findViewById(R.id.tv_set_consents);
-        mTvSetCosents.setOnClickListener(this);
+        mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
+        mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
 
+        mTvConsents.setOnClickListener(this);
+        mTvCharacteristics.setOnClickListener(this);
         return view;
     }
 
@@ -267,7 +282,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
+       // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
         //mDataServicesManager.releaseDataServicesInstances();
     }
 
@@ -280,6 +295,13 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             case R.id.tv_set_consents:
                 ConsentDialogFragment dFragment = new ConsentDialogFragment();
                 dFragment.show(getFragmentManager(), "Dialog");
+
+                break;
+            case R.id.tv_set_characteristics:
+
+                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+                characteristicsDialogFragment.show(getFragmentManager(), "Character");
+
                 break;
         }
     }
@@ -306,7 +328,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public void onSuccess(final Object data) {
-        mTemperaturePresenter.fetchData();
+        mTemperaturePresenter.fetchData(this);
     }
 
     @Override
@@ -365,5 +387,22 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
             Log.i(DataServicesState.TAG, "TemperatureTimeLieFragment - storeLastEmail = " + mUser.getEmail());
         }
+    }
+
+    @Override
+    public void dBChangeSuccess() {
+        mTemperaturePresenter.fetchData(this);
+    }
+
+    @Override
+    public void dBChangeFailed(final Exception e) {
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 5
         versionName "1.0"
     }
@@ -33,5 +33,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
-    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.0.4-SNAPSHOT', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.2.0-SNAPSHOT', ext: 'aar')
 }
