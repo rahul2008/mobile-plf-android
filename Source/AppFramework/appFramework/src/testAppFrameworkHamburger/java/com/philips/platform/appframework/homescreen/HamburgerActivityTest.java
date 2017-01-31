@@ -7,6 +7,13 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Resources;
+import android.support.annotation.StringRes;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.BuildConfig;
@@ -27,6 +34,11 @@ public class HamburgerActivityTest {
     private HamburgerActivity hamburgerActivity = null;
     private TextView actionBarTitle = null;
     private Resources resource = null;
+    private NavigationView navigationView;
+    private DrawerLayout philipsDrawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private FrameLayout hamburgerClick = null;
+
 //    private TestAppFrameworkApplication application = null;
 
     @Before
@@ -35,23 +47,91 @@ public class HamburgerActivityTest {
 //        application.setTargetFlowManager();
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().get();
         actionBarTitle = (TextView) hamburgerActivity.findViewById(R.id.af_actionbar_title);
+        navigationView = (NavigationView) hamburgerActivity.findViewById(R.id.navigation_view);
+        philipsDrawerLayout = (DrawerLayout) hamburgerActivity.findViewById(R.id.philips_drawer_layout);
+
+        View customView = LayoutInflater.from(hamburgerActivity).
+                inflate(R.layout.af_action_bar_shopping_cart, null);
+        hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
         resource = hamburgerActivity.getResources();
     }
 
     @Test
-    public void titleShouldContainValue() throws Exception {
+    public void titleShouldShouldNotBeEmpty() throws Exception {
         String title = resource.getString(com.philips.cdp.di.iap.R.string.app_name);
         hamburgerActivity.setTitle(title);
 
         assertNotNull(title);
-
-
 //        assertThat("Show error for title field ", actionBarTitle.getError(), is(CoreMatchers.notNullValue()));
     }
 
-//    @Test
-//    public void titleShouldNotBeNull() throws Exception {
-//        String title = null;
-//        hamburgerActivity.setTitle(title);
-//    }
+    @Test
+    public void ActionBarDrawableToggelShouldNotBeNull() {
+        ActionBarDrawerToggle drawerToggle = hamburgerActivity.configureDrawer();
+
+        assertNotNull(drawerToggle);
+    }
+
+    @Test
+    public void ActionBarDrawableToggleClickListener() {
+        ActionBarDrawerToggle drawerToggle = hamburgerActivity.configureDrawer();
+
+        philipsDrawerLayout.addDrawerListener(drawerToggle);
+        hamburgerClick.performClick();
+//        assertTrue(!philipsDrawerLayout.isShown());
+        philipsDrawerLayout.openDrawer(navigationView);
+        assertTrue(philipsDrawerLayout.isDrawerVisible(navigationView));
+    }
+
+    @Test
+    public void updateActionBarWithStringAndTrueValue() {
+        String title = resource.getString(com.philips.cdp.di.iap.R.string.app_name);
+        hamburgerActivity.updateActionBar(title, true);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.left_arrow), tag);
+    }
+
+    @Test
+    public void updateActionBarWithStringAndFalseValue() {
+        String title = resource.getString(com.philips.cdp.di.iap.R.string.app_name);
+        hamburgerActivity.updateActionBar(title, false);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.uikit_hamburger_icon), tag);
+    }
+
+    @Test
+    public void updateActionBarWithIntAndTrueValue() {
+        hamburgerActivity.updateActionBar(android.R.string.ok, true);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.left_arrow), tag);
+    }
+
+    @Test
+    public void updateActionBarWithIntAndFalseValue() {
+        hamburgerActivity.updateActionBar(android.R.string.ok, false);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.uikit_hamburger_icon), tag);
+    }
+
+    @Test
+    public void containerIdShouldNotBeNull() {
+        int containerId = hamburgerActivity.getContainerId();
+
+        assertNotNull(containerId);
+    }
+
+    @Test
+    public void presenterShouldNotBeNull() {
+        HamburgerActivityPresenter presenter = new HamburgerActivityPresenter(hamburgerActivity);
+        presenter.onEvent(0);
+        assertNotNull(presenter);
+    }
 }
