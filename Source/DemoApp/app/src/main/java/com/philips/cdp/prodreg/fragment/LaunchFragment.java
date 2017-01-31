@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -82,7 +83,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         URInterface urInterface;
         RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
         urLaunchInput = new URLaunchInput();
-        urLaunchInput.setAccountSettings(true);
+        urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(new UserRegistrationUIEventListener() {
             @Override

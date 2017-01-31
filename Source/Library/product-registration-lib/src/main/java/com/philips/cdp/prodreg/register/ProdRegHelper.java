@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -100,7 +101,7 @@ public class ProdRegHelper {
     private static class UserRegistrationObserver {
         protected static void registerListerOnUserSignIn() {
             final URLaunchInput urLaunchInput = new URLaunchInput();
-            urLaunchInput.setAccountSettings(true);
+            urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setUserRegistrationUIEventListener(getUserRegistrationListener());
         }
