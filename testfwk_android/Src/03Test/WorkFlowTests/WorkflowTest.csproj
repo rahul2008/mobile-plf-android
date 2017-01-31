@@ -144,6 +144,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>US14054.feature</DependentUpon>
     </Compile>
+    <Compile Include="US14412.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>US14412.feature</DependentUpon>
+    </Compile>
     <Compile Include="UserRegistration.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -210,6 +215,10 @@
     <None Include="US14054.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>US14054.feature.cs</LastGenOutput>
+    </None>
+    <None Include="US14412.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>US14412.feature.cs</LastGenOutput>
     </None>
     <None Include="UserRegistration.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
