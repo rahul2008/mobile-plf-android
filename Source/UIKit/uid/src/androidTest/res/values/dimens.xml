@@ -113,5 +113,7 @@
     <dimen name="checkbox_leftrightmargin">12dp</dimen>
     <dimen name="checkbox_tickmarkheightwidth">16dp</dimen>
 
+    <!--RecyclerView dimens-->
+    <dimen name="recyclerview_header_text_size">14sp</dimen>
 
 </resources>
