@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="46dip"
         android:duplicateParentState="true"
-        android:gravity="center_vertical"
+        android:gravity="left|center_vertical"
         android:minHeight="@dimen/reg_btn_height"
         android:minWidth="0dip"
         android:paddingLeft="2dip"
