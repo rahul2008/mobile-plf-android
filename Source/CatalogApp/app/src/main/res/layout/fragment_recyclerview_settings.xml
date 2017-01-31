@@ -65,15 +65,14 @@
             android:background="?attr/uidContentTertiary"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.philips.platform.uid.view.widget.Label
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:text="Template selection"
-                android:textColor="?attr/uidTextPrimaryColor"
-                android:textSize="@dimen/uid_recyclerview_item_title_text_size"/>
+                style="@style/UIDLabel.RecyclerViewTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Template selection"/>
         </RelativeLayout>
 
         <LinearLayout
