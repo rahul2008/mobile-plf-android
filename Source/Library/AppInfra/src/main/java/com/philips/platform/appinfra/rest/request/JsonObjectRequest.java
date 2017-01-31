@@ -48,10 +48,8 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
             if (mProvider != null) {
                 Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
-                return mHeader;
-            } else {
-                return mHeader;
             }
+            return mHeader;
         }
         return super.getHeaders();
     }
@@ -59,9 +57,9 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
     @Override
     protected Map<String, String> getParams()
             throws AuthFailureError {
-        if (mParams != null)
+        if (mParams != null) {
             return mParams;
-
+        }
         return super.getParams();
     }
 

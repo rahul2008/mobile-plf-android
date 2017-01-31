@@ -44,10 +44,8 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
             if (mProvider != null) {
                 Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
-                return mHeader;
-            } else {
-                return mHeader;
             }
+            return mHeader;
         }
         return super.getHeaders();
     }
@@ -55,8 +53,9 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
     @Override
     protected Map<String, String> getParams()
             throws AuthFailureError {
-        if (mParams != null)
+        if (mParams != null) {
             return mParams;
+        }
 
         return super.getParams();
     }
