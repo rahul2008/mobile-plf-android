@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.ble.communication;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
@@ -16,8 +17,6 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -25,13 +24,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * The type BleCommunicationStrategy.
  */
 public class BleCommunicationStrategy extends CommunicationStrategy {
-
-    /**
-     * The constant DICOMM_MESSAGE_TIMEOUT_MS.
-     * <p>
-     * This defines the default duration for a request timeout as 30 s.
-     */
-    private static final long DICOMM_MESSAGE_TIMEOUT_MS = 30000L;
 
     @NonNull
     private final String mCppId;
@@ -116,29 +108,8 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         disconnectAfterRequest.set(true);
     }
 
-    private void dispatchRequest(final BleRequest request) {
-        addTimeoutToRequest(request);
+    @VisibleForTesting
+    protected void dispatchRequest(final BleRequest request) {
         mExecutor.execute(request);
-    }
-
-    /**
-     * Add timeout to request.
-     * <p>
-     * When set, {@link BleRequest#cancel(String)} will be invoked as soon as the number of
-     * milliseconds have passed as defined in {@link BleCommunicationStrategy#DICOMM_MESSAGE_TIMEOUT_MS}.
-     *
-     * @param request the request
-     * @return the timer
-     */
-    protected Timer addTimeoutToRequest(final BleRequest request) {
-        final Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                request.cancel("Timeout occurred.");
-            }
-        }, DICOMM_MESSAGE_TIMEOUT_MS);
-
-        return t;
     }
 }

@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.regex.Matcher;
@@ -117,11 +116,11 @@ public class BleCommunicationStrategyTestSteps {
     @Given("^the BleStrategy is initialized with id '(.*?)'$")
     public void the_BleStrategy_is_initialized_with_id(String deviceId) {
         mStrategy = new BleCommunicationStrategy(deviceId, mDeviceCache) {
-            @Override
-            protected Timer addTimeoutToRequest(BleRequest request) {
-                mRequestQueue.peekLast().request = request;
 
-                return null;
+            @Override
+            protected void dispatchRequest(final BleRequest request) {
+                mRequestQueue.peekLast().request = request;
+                super.dispatchRequest(request);
             }
         };
     }

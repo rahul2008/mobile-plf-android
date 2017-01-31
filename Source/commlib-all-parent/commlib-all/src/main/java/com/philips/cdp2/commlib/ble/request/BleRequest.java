@@ -27,6 +27,8 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeExcep
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -53,7 +55,9 @@ import static com.philips.pins.shinelib.dicommsupport.StatusCode.NoError;
  * dispatched in a queue are processed sequentially.
  */
 public abstract class BleRequest implements Runnable {
-    static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
+    public static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
+
+    private static final long REQUEST_TIMEOUT_MS = 30000L;
 
     enum State {
         CREATED,
@@ -160,6 +164,7 @@ public abstract class BleRequest implements Runnable {
     @Override
     public void run() {
         if (setStateIfStateIs(STARTED, CREATED)) {
+            addTimeoutToRequest();
             execute();
 
             try {
@@ -169,6 +174,15 @@ public abstract class BleRequest implements Runnable {
             }
             cleanup();
         }
+    }
+
+    private void addTimeoutToRequest() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                BleRequest.this.cancel("Timeout occurred.");
+            }
+        }, REQUEST_TIMEOUT_MS);
     }
 
     private void execute() {
