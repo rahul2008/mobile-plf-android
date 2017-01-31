@@ -8,15 +8,14 @@ class Appliance {
 }
 
 class FirmwarePort {
-    + pushFirmware(final byte[] firmwareData)
-    + pullFirmware(String version)
+    + pushLocalFirmwareToAppliance(final byte[] firmwareData)
+    + pullRemoteFirmwareToAppliance(String version)
     + cancel()
     + checkForNewerFirmware()
     + deployFirmware()
     + addFirmwarePortListener(FirmwarePortListener listener)
     + removeFirmwarePortListener(FirmwarePortListener listener)
 }
-note right: Pushing is from phone to device.\nPulling is from the internet to device.
 
 interface FirmwarePortListener {
     + onProgressUpdated(FirmwarePortProgressType type, int progress)
