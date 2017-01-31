@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The type BleCommunicationStrategy.
@@ -28,9 +29,9 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     /**
      * The constant DICOMM_MESSAGE_TIMEOUT_MS.
      * <p>
-     * This defines the default duration for a request timeout as 5000 ms.
+     * This defines the default duration for a request timeout as 30 s.
      */
-    private static final long DICOMM_MESSAGE_TIMEOUT_MS = 5000L;
+    private static final long DICOMM_MESSAGE_TIMEOUT_MS = 30000L;
 
     @NonNull
     private final String mCppId;
@@ -38,6 +39,8 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     private final BleDeviceCache mDeviceCache;
     @NonNull
     private final ScheduledThreadPoolExecutor mExecutor;
+
+    private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
 
     /**
      * Instantiates a new BleCommunicationStrategy.
@@ -53,13 +56,13 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler);
+        final BleRequest request = new BleGetRequest(mDeviceCache, mCppId, portName, productId, responseHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler);
+        final BleRequest request = new BlePutRequest(mDeviceCache, mCppId, portName, productId, dataMap, responseHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
@@ -84,20 +87,33 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         return mDeviceCache.getDeviceMap().containsKey(mCppId);
     }
 
+    /**
+     * Enables continuous connection to the appliance, allowing for faster data transfer.
+     *
+     * @param subscriptionEventListener
+     */
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
             SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
             device.connect();
         }
+        disconnectAfterRequest.set(false);
     }
 
+    /**
+     * Disables continuous connection to the appliance, after each request the connection will
+     * be severed to preserve battery life.
+     *
+     * Note that
+     */
     @Override
     public void disableCommunication() {
-        if (isAvailable()) {
+        if (isAvailable() && mExecutor.getQueue().isEmpty() && mExecutor.getActiveCount() == 0) {
             SHNDevice device = mDeviceCache.getDeviceMap().get(mCppId);
             device.disconnect();
         }
+        disconnectAfterRequest.set(true);
     }
 
     private void dispatchRequest(final BleRequest request) {

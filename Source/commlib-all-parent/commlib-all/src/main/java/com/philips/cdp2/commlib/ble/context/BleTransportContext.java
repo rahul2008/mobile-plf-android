@@ -6,7 +6,6 @@ package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
@@ -19,6 +18,7 @@ import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class BleTransportContext implements TransportContext {
     private static final long BLE_DISCOVERY_TIMEOUT_MS = 20000L;
@@ -49,6 +49,7 @@ public class BleTransportContext implements TransportContext {
     public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) throws TransportUnavailableException {
         this.deviceCache = new BleDeviceCache();
         try {
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new TransportUnavailableException(e);
@@ -67,19 +68,7 @@ public class BleTransportContext implements TransportContext {
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
     }
 
-    /**
-     * Gets the SHNCentral instance.
-     *
-     * @return the SHNCentral instance
-     * @deprecated only here for backwards compatibility
-     */
-    @Deprecated
-    public SHNCentral getShnCentral() {
-        return shnCentral;
-    }
-
-    @VisibleForTesting
-    public SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+    private SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
