@@ -287,6 +287,15 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
+    public Settings fetchSettings() throws SQLException {
+        QueryBuilder<OrmSettings, Integer> settingsQueryBuilder = settingsDao.queryBuilder();
+
+        OrmSettings ormSettings = settingsQueryBuilder.queryForFirst();
+
+        return ormSettings;
+    }
+
+    @Override
     public List<?> fetchNonSyncSettings() throws SQLException {
 
         List<OrmSettings> ormSettingsList=new ArrayList<>();

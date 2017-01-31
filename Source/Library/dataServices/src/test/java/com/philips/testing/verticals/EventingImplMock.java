@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.utils.EventingImpl;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by indrajitkumar on 13/12/16.

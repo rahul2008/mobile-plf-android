@@ -14,8 +14,10 @@ import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.sql.SQLException;
 
@@ -28,6 +30,7 @@ public class SavingMonitor extends EventMonitor {
         this.dbInterface = dbInterface;
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final MomentSaveRequest momentSaveRequest) throws SQLException {
         boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(),momentSaveRequest.getDbRequestListener());
         if (saved) {
@@ -37,6 +40,7 @@ public class SavingMonitor extends EventMonitor {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
         Consent consent = consentSaveRequest.getConsent();
         boolean saved = dbInterface.saveConsent(consent,consentSaveRequest.getDbRequestListener());
@@ -51,10 +55,12 @@ public class SavingMonitor extends EventMonitor {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseSettingsSaveRequest databaseSettingsSaveRequest) throws SQLException {
         dbInterface.saveSettings(databaseSettingsSaveRequest.getSettings(),databaseSettingsSaveRequest.getDbRequestListener());
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest onEventAsync");
         if (userCharacteristicsSaveRequest.getUserCharacteristics() == null)

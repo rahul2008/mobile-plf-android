@@ -16,6 +16,9 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.net.HttpURLConnection;
 import java.util.List;
 
@@ -44,8 +47,6 @@ public class SettingsMonitor extends EventMonitor {
     @NonNull
     private final SettingsConverter settingsConverter;
 
-    private DataServicesManager mDataServicesManager;
-
 
 
     @Inject
@@ -56,15 +57,15 @@ public class SettingsMonitor extends EventMonitor {
         this.uCoreAdapter = uCoreAdapter;
         this.settingsConverter = settingsConverter;
         this.gsonConverter = gsonConverter;
-        mDataServicesManager = DataServicesManager.getInstance();
     }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendSaveRequest event) {
         sendToBackend(event);
         System.out.println("In onEventAsync(SettingsBackendSaveRequest event) ");
     }
 
-
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendGetRequest event) {
         getSettings(event);
     }
@@ -86,7 +87,7 @@ public class SettingsMonitor extends EventMonitor {
             UCoreSettings settings = client.getSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreAdapter.API_VERSION);
             Settings appSettings = settingsConverter.convertUcoreToAppSettings(settings);
             eventing.post(new SettingsBackendSaveResponse(appSettings));
-        }catch (RetrofitError retrofitError){
+        } catch (RetrofitError retrofitError) {
             eventing.post(new BackendDataRequestFailed(retrofitError));
         }
 
@@ -96,7 +97,7 @@ public class SettingsMonitor extends EventMonitor {
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private void sendToBackend(SettingsBackendSaveRequest event) {
+    public void sendToBackend(SettingsBackendSaveRequest event) {
         if (isUserInvalid()) {
             postError(event.getEventId(), getNonLoggedInError());
             return;
@@ -104,19 +105,19 @@ public class SettingsMonitor extends EventMonitor {
         if (uCoreAccessProvider == null) {
             return;
         }
-       Settings settings = event.getSettings();
+        Settings settings = event.getSettings();
 
         try {
             UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
             SettingsClient appFrameworkClient = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-            Response response=appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(),uCoreAccessProvider.getUserId(), uCoreSettings);
+            Response response = appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreSettings);
             eventing.post(new SyncBitUpdateRequest(OrmTableType.SETTINGS, true));
 
             if (isResponseSuccess(response)) {
-                Log.d(getClass().getName(),"Response is :=="+isResponseSuccess(response));
+                Log.d(getClass().getName(), "Response is :==" + isResponseSuccess(response));
             }
 
-        }catch (RetrofitError retrofitError){
+        } catch (RetrofitError retrofitError) {
             eventing.post(new BackendDataRequestFailed(retrofitError));
         }
 

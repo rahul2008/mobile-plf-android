@@ -12,10 +12,11 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.Event;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import de.greenrobot.event.EventBus;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -77,10 +78,10 @@ public class EventingImpl implements Eventing {
         return eventBus.isRegistered(subscriber);
     }
 
-    @Override
+ /*   @Override
     public void registerSticky(@NonNull final Object subscriber) {
-        eventBus.registerSticky(subscriber);
-    }
+        eventBus.register(subscriber);
+    }*/
 
     @Override
     public void removeSticky(@NonNull final Event event) {

@@ -15,8 +15,11 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
+import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.joda.time.DateTime;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
@@ -25,7 +28,6 @@ import retrofit.converter.GsonConverter;
 
 public class SettingsDataFetcher extends DataFetcher {
     private static final int API_VERSION = 9;
-    private GsonConverter mGsonConverter;
     @Inject
     UCoreAccessProvider mUCoreAccessProvider;
     @Inject
@@ -33,11 +35,12 @@ public class SettingsDataFetcher extends DataFetcher {
     @Inject
     Eventing eventing;
 
+    @NonNull
+    protected final AtomicInteger synchronizationState = new AtomicInteger(0);
+
     @Inject
-    public SettingsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter,
-                               @NonNull final GsonConverter gsonConverter) {
+    public SettingsDataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
         super(uCoreAdapter);
-        this.mGsonConverter = gsonConverter;
         DataServicesManager.getInstance().getAppComponant().injectSettingsDataFetcher(this);
     }
 
@@ -45,8 +48,9 @@ public class SettingsDataFetcher extends DataFetcher {
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
         try {
-
-            eventing.post(new SettingsBackendGetRequest());
+            if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
+                eventing.post(new SettingsBackendGetRequest());
+            }
             return null;
         } catch (RetrofitError exception) {
             eventing.post(new BackendDataRequestFailed(exception));

@@ -18,4 +18,5 @@ public interface Settings extends BaseAppData, Serializable {
 
 
     int getId();
+    void setID(int id);
 }

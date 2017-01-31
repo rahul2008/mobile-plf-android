@@ -44,10 +44,21 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     @Override
     public void updateSettings(Settings settings, DBRequestListener dbRequestListener) {
         try {
-            deleting.deleteSettings();
             OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
-            saving.saveSettings(ormSettings);
+
+            Settings existingSettings = fetching.fetchSettings();
+            OrmSettings ormExistingSettings = OrmTypeChecking.checkOrmType(existingSettings, OrmSettings.class);
+
+            if(ormExistingSettings==null){
+                saving.saveSettings(ormSettings);
+                notifyDBRequestListener.notifySuccess(dbRequestListener);
+                return;
+            }
+
+            ormSettings.setID(ormExistingSettings.getId());
+            updating.updateSettings(ormSettings);
             notifyDBRequestListener.notifySuccess(dbRequestListener);
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (OrmTypeChecking.OrmTypeException e) {
@@ -57,11 +68,9 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     @Override
     public boolean updateSyncBit(int tableID,boolean isSynced) {
-
         try {
             updating.updateDCSync(tableID,isSynced);
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
         return false;
@@ -130,8 +139,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             deleting.deleteCharacteristics();
             saving.saveCharacteristics(ormCharacteristics);
             notifyDBRequestListener.notifySuccess(null);
-            //mTemperatureMomentHelper.notifySuccess(dbRequestListener, ormCharacteristics);
-           // dbRequestListener.fetchData();
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
             e.printStackTrace();

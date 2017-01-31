@@ -89,8 +89,8 @@ public class OrmUpdating {
     }
 
 
-    public void updateSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException {
-        UpdateBuilder<OrmSettings, Integer> updateBuilder = settingsDao.updateBuilder();
+    public void updateSettings(OrmSettings ormSettings) throws SQLException {
+            settingsDao.update(ormSettings);
     }
 
     public void updateDCSync(int tableID,boolean isSynced) throws SQLException{

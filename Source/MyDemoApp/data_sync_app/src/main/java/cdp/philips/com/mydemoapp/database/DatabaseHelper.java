@@ -13,6 +13,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.philips.platform.core.datatypes.Consent;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -22,6 +24,7 @@ import com.philips.platform.core.utils.UuidGenerator;
 import java.sql.SQLException;
 import java.util.List;
 
+import cdp.philips.com.mydemoapp.consents.ConsentDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementGroupDetailType;
 import cdp.philips.com.mydemoapp.database.datatypes.MeasurementType;
@@ -101,6 +104,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         insertMeasurementGroupDetailType();
         insertDefaultSettings();
         insertDefaultDCSyncValues();
+        insertDefaultConsent();
+    }
+
+    private void insertDefaultConsent() {
+            DataServicesManager mDataServices = DataServicesManager.getInstance();
+            Consent consent = mDataServices.createConsent();
+            mDataServices.createConsentDetail
+                    (consent, ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+            mDataServices.createConsentDetail
+                    (consent, ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+            mDataServices.createConsentDetail
+                    (consent, ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,
+                            Consent.DEFAULT_DEVICE_IDENTIFICATION_NUMBER);
+            mDataServices.saveConsent(consent,null);
     }
 
     private void insertDefaultDCSyncValues() {

@@ -20,10 +20,8 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import cdp.philips.com.mydemoapp.R;
 
 /**
@@ -36,12 +34,10 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
     private Button mBtnCancel;
     SettingsFragmentPresenter settingsFragmentPresenter;
     private ProgressDialog mProgressDialog;
-    ArrayList<? extends ConsentDetail> consentDetails;
-    private Context mContext;
     private DataServicesManager mDataServicesManager;
     private Spinner mSpinner_Unit, mSpinner_Local;
     private Settings settings;
-    boolean isDataChanged = false;
+    private Context mContext;
 
     @Nullable
     @Override
@@ -139,10 +135,10 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         switch (v.getId()) {
             case R.id.btnOK:
 
-                    settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
-                    settings.setLocale(mSpinner_Local.getSelectedItem().toString());
+                settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
+                settings.setLocale(mSpinner_Local.getSelectedItem().toString());
+                settingsFragmentPresenter.updateSettings(settings);
 
-                DataServicesManager.getInstance().updateSettings(settings, this);
                 dismissConsentDialog(getDialog());
                 break;
             case R.id.btnCancel:
@@ -215,7 +211,6 @@ public class SettingsFragment extends DialogFragment implements DBRequestListene
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

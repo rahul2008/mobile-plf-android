@@ -74,6 +74,9 @@ public class UpdatingMonitorTest {
 
     @Mock
     Consent consentMock;
+
+    @Mock
+    Settings settingsMock;
     @Mock
     DBFetchingInterface dbFetchingInterface;
 
@@ -132,7 +135,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldUpdateSettings_whenDatabaseSettingsUpdateRequestIsCalled() throws Exception {
-        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(any(Settings.class));
+        when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         updatingMonitor.onEventAsync(databaseSettingsUpdateRequestMock);
     }
 

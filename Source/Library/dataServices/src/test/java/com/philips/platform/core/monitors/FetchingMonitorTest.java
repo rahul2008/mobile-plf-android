@@ -21,6 +21,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
+import com.philips.platform.datasync.settings.SettingsSegregator;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -85,6 +86,9 @@ public class FetchingMonitorTest {
     ConsentsSegregator consentsSegregatorMock;
 
     @Mock
+    SettingsSegregator settingsSegregatorMock;
+
+    @Mock
     private SynchronisationData synchronizationDataMock;
     @Mock
     private ConsentDetail consentDetailsMock;
@@ -106,6 +110,7 @@ public class FetchingMonitorTest {
         fetchingMonitor = new FetchingMonitor(fetching);
         fetchingMonitor.momentsSegregator = momentsSegregatorMock;
         fetchingMonitor.consentsSegregator=consentsSegregatorMock;
+        fetchingMonitor.settingsSegregator=settingsSegregatorMock;
         uGrowDateTime = new DateTime();
         fetchingMonitor.start(eventingMock);
     }

@@ -7,11 +7,15 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ErrorMonitor extends EventMonitor {
 
@@ -28,6 +32,7 @@ public class ErrorMonitor extends EventMonitor {
         mErrorHandlingInterface = errorHandlingInterface;
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(final BackendDataRequestFailed momentSaveRequestFailed) {
         RetrofitError exception = momentSaveRequestFailed.getException();
         postError(exception);
@@ -39,13 +44,19 @@ public class ErrorMonitor extends EventMonitor {
             return;
         }
         if (!isTokenExpired(exception)) {
-            mErrorHandlingInterface.syncError(exception.getResponse().getStatus());
+
+            Response response = exception.getResponse();
+            if (response != null)
+                mErrorHandlingInterface.syncError(response.getStatus());
+            else
+                mErrorHandlingInterface.syncError(UNKNOWN);
 
         }
 //        if (retrofitError != null)
 //            mErrorHandlingInterface.syncError(retrofitError.getResponse().getStatus());
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(final BackendResponse error) {
         RetrofitError exception = error.getCallException();
 

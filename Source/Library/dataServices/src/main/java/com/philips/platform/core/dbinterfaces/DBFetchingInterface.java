@@ -53,6 +53,8 @@ public interface DBFetchingInterface {
 
     Settings fetchSettings(DBRequestListener dbRequestListener) throws SQLException;
 
+    Settings fetchSettings() throws SQLException;
+
     List<?> fetchNonSyncSettings() throws SQLException;
 
 

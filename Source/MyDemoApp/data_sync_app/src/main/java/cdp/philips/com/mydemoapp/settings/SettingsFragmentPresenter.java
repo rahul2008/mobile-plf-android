@@ -2,7 +2,9 @@ package cdp.philips.com.mydemoapp.settings;
 
 import android.content.Context;
 
+import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 /**
  * Created by sangamesh on 09/01/17.
@@ -16,4 +18,10 @@ public class SettingsFragmentPresenter {
         this.mContext = mContext;
         this.dbRequestListener = dbRequestListener;
     }
+
+    public void updateSettings(Settings settings) {
+        DataServicesManager.getInstance().updateSettings(settings, dbRequestListener);
+    }
+
+
 }
