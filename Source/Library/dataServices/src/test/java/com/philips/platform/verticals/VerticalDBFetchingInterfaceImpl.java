@@ -94,6 +94,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface{
     }
 
     @Override
+    public Settings fetchSettings() throws SQLException {
+        return null;
+    }
+
+    @Override
     public List<?> fetchNonSyncSettings() throws SQLException {
         return null;
     }

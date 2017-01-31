@@ -55,6 +55,11 @@ public class OrmSettings implements Settings, Serializable {
         return id;
     }
 
+    @Override
+    public void setID(int id) {
+
+    }
+
 
     @Override
     public String toString() {
