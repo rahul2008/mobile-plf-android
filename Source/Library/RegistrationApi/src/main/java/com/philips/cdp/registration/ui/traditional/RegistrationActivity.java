@@ -36,6 +36,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         ActionBarListener {
 
+    private boolean isAccountSettings;
     private TextView ivBack;
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
     private Handler mSiteCatalistHandler = new Handler();
@@ -73,7 +74,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, false);
+            mRegistrationLaunchMode = isAccountSettings?RegistrationLaunchMode.ACCOUNT_SETTINGS:(RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -182,7 +184,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     private void launchRegistrationFragment(RegistrationLaunchMode registrationLaunchMode) {
         URLaunchInput urLaunchInput = new URLaunchInput();
-        urLaunchInput.setRegistrationLaunchMode(registrationLaunchMode);
+        urLaunchInput.setEndPointScreen(registrationLaunchMode);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
         FragmentLauncher fragmentLauncher = new FragmentLauncher

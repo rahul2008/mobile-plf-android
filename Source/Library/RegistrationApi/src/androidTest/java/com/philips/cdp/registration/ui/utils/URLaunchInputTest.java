@@ -58,7 +58,7 @@ public class URLaunchInputTest extends InstrumentationTestCase{
     }
 
     public void testIsAccountSettingsTrue(){
-        mURLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-        assertEquals(RegistrationLaunchMode.ACCOUNT_SETTINGS,mURLaunchInput.getRegistrationLaunchMode());
+        mURLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+        assertEquals(RegistrationLaunchMode.ACCOUNT_SETTINGS,mURLaunchInput.getEndPointScreen());
     }
 }

@@ -11,6 +11,9 @@ public class CoppaLaunchInput extends UappLaunchInput {
 
     private RegistrationLaunchMode registrationLaunchMode;
 
+    @Deprecated
+    private boolean isAccountSettings;
+
     public boolean isParentalFragment() {
         return isParentalFragment;
     }
@@ -58,5 +61,15 @@ public class CoppaLaunchInput extends UappLaunchInput {
 
     public void setRegistrationLaunchMode(RegistrationLaunchMode registrationLaunchMode) {
         this.registrationLaunchMode = registrationLaunchMode;
+    }
+
+    @Deprecated
+    public void setAccountSettings(boolean isAccountSettings) {
+        this.isAccountSettings = isAccountSettings;
+    }
+
+    @Deprecated
+    public boolean isAccountSettings() {
+        return isAccountSettings;
     }
 }

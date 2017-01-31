@@ -44,6 +44,8 @@ public class CoppaInterface implements UappInterface {
             final Bundle bundle = new Bundle();
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((CoppaLaunchInput)
                     uappLaunchInput).getRegistrationLaunchMode());
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
+                    uappLaunchInput).isAccountSettings());
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
                     uappLaunchInput).isParentalFragment());
             registrationFragment.setArguments(bundle);
@@ -88,6 +90,8 @@ public class CoppaInterface implements UappInterface {
             Bundle bundle = new Bundle();
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((CoppaLaunchInput)
                     uappLaunchInput).getRegistrationLaunchMode());
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
+                    uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
