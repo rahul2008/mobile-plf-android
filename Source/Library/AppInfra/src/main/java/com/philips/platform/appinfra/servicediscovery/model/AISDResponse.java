@@ -1,6 +1,5 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,21 +35,18 @@ public class AISDResponse {
 
     public URL getServiceURL(String serviceId, AISDPreference preference,
                              Map<String, String> replacement) {
-
+        URL url;
         if (getPropositionURLs() != null) {
-            try {
-                return getPropositionURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            url = getPropositionURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
+            if (url != null) {
+                return url;
             }
         }
         if (getPlatformURLs() != null) {
-            try {
-                return getPlatformURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            url = getPlatformURLs().getServiceURLWithServiceID(serviceId, preference, replacement);
+            if (url != null) {
+                return url;
             }
-
         }
         return null;
     }
@@ -58,36 +54,57 @@ public class AISDResponse {
     public HashMap<String, ServiceDiscoveryService> getServicesUrl(ArrayList<String> serviceIds,
                                                                    AISDResponse.AISDPreference preference,
                                                                    Map<String, String> replacement) {
+        HashMap<String, ServiceDiscoveryService> response;
+
         if (getPropositionURLs() != null) {
-            return getPropositionURLs().getServicesWithServiceID(serviceIds, preference, replacement);
+            response = getPropositionURLs().getServicesWithServiceID(serviceIds, preference, replacement);
+            if (response != null && response.size() > 0) {
+                return response;
+            }
         }
 
         if (getPlatformURLs() != null) {
-
-            return getPlatformURLs().getServicesWithServiceID(serviceIds, preference, replacement);
+            response = getPlatformURLs().getServicesWithServiceID(serviceIds, preference, replacement);
+            if (response != null && response.size() > 0) {
+                return response;
+            }
         }
 
         return null;
     }
 
     public String getLocaleWithPreference(AISDPreference preference) {
+        String locale;
 
         if (getPropositionURLs() != null) {
-            return getPropositionURLs().getLocaleWithPreference(preference);
+            locale = getPropositionURLs().getLocaleWithPreference(preference);
+            if (locale != null) {
+                return locale;
+            }
         }
 
         if (getPlatformURLs() != null) {
-            return getPlatformURLs().getLocaleWithPreference(preference);
+            locale = getPlatformURLs().getLocaleWithPreference(preference);
+            if (locale != null) {
+                return locale;
+            }
         }
         return null;
     }
 
     public String getCountryCode() {
+        String country;
         if (getPropositionURLs() != null) {
-            return getPropositionURLs().getCountry();
+            country = getPropositionURLs().getCountry();
+            if (country != null) {
+                return country;
+            }
         }
         if (getPlatformURLs() != null) {
-            return getPlatformURLs().getCountry();
+            country = getPlatformURLs().getCountry();
+            if (country != null) {
+                return country;
+            }
         }
         return null;
     }
@@ -107,7 +124,6 @@ public class AISDResponse {
         if (getPropositionURLs() != null) {
             return getPropositionURLs().isSuccess();
         }
-
         return getPlatformURLs() != null && getPlatformURLs().isSuccess();
     }
 }
