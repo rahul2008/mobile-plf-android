@@ -7,6 +7,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.catalogapp.MainActivity;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,19 +40,8 @@ public class MainActivityTest {
 
     @Test
     public void verifyButtonsPage() throws Exception {
-        MainActivityTest.waitFor(activity, 4000);
+        UIDTestUtils.waitFor(activity, 4000);
         onView(withText("Buttons")).perform(ViewActions.click());
-        MainActivityTest.waitFor(activity, 4000);
-    }
-
-    public static void waitFor(final Object object, final int seconds) {
-        Thread thread = Thread.currentThread();
-        synchronized (object) {
-            try {
-                object.wait(seconds);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        UIDTestUtils.waitFor(activity, 4000);
     }
 }

@@ -44,7 +44,7 @@ public class DatePickerTest {
 
         onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
-        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(color)));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class DatePickerTest {
 
         onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
-        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(color)));
     }
 
     @Test
@@ -118,7 +118,7 @@ public class DatePickerTest {
 
         onView(withId(com.philips.platform.uid.test.R.id.timePicker)).perform(ViewActions.click());
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerHeaderFillColor);
-        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(color)));
     }
 
     @Ignore
@@ -128,7 +128,7 @@ public class DatePickerTest {
 
         onView(withId(com.philips.platform.uid.test.R.id.datePicker)).perform(ViewActions.click());
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidDatePickerFillColor);
-        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameBackgroundColor(color)));
+        onView(withId(titleId)).check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(color)));
     }
 
     @Ignore

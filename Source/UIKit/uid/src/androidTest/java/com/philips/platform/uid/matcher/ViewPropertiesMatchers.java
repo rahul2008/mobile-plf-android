@@ -195,19 +195,19 @@ public class ViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<? super View> hasSameBackgroundColor(final int color) {
+    public static Matcher<? super View> hasSameColorDrawableBackgroundColor(final int color) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
                 if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
                     final int drawablecolor = ((ColorDrawable) group.getBackground()).getColor();
-                    setValues(drawablecolor, color);
+                    setValues(Integer.toHexString(drawablecolor), Integer.toHexString(color));
                     return areEqual();
                 }
                 if (view instanceof View) {
                     final int drawablecolor = ((ColorDrawable) view.getBackground()).getColor();
-                    setValues(drawablecolor, color);
+                    setValues(Integer.toHexString(drawablecolor), Integer.toHexString(color));
                     return areEqual();
                 }
                 return false;
@@ -223,7 +223,7 @@ public class ViewPropertiesMatchers {
                     ViewGroup group = (ViewGroup) view;
 
                     final int drawablecolor = ((AppCompatTextView) group.getChildAt(0)).getTextColors().getDefaultColor();
-                    setValues(drawablecolor, color);
+                    setValues(Integer.toHexString(drawablecolor), Integer.toHexString(color));
                     return areEqual();
                 }
                 return false;
