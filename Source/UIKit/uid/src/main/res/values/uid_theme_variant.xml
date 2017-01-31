@@ -93,6 +93,7 @@
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
 
+        <item name="uidDatePickerButtonTextColor">?attr/uidControlPrimaryDetail</item>
     </style>
 
     <style name="UltraLight">

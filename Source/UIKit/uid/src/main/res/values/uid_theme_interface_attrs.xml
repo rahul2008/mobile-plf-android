@@ -134,6 +134,7 @@
         <attr name="uidDatePickerFillColor" format="reference|color"/>
         <attr name="uidDatePickerTextColor" format="reference|color"/>
         <attr name="uidDatePickerSelectedFillColor" format="reference|color"/>
+        <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="UIDSocialMediaButton">

@@ -150,5 +150,6 @@
     <dimen name="uid_social_icons_padding">0px</dimen>
     <dimen name="uid_social_icons_drawable_padding">0dp</dimen>
 
-
+    <!--date picker-->
+    <dimen name="uid_date_picker_header_text_size">16sp</dimen>
 </resources>

@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="UIDDatePicker" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="UIDDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorControlActivated">?attr/uidDatePickerSelectedFillColor</item>
         <item name="colorControlHighlight">?attr/uidDatePickerSelectedFillColor</item>
         <item name="colorAccent">?attr/uidDatePickerHeaderFillColor</item>
         <item name="android:textColorPrimary">?attr/uidDatePickerTextColor</item>
         <item name="android:windowBackground">?attr/uidDatePickerFillColor</item>
+        <item name="android:calendarViewStyle">@style/UIDCalendarViewStyle</item>
+        <item name="android:datePickerStyle">@style/UIDDatePicker</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/UIDCalendarButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/UIDCalendarButtonStyle</item>
+        <item name="android:textColorSecondaryInverse">?attr/uidDatePickerHeaderTextColor</item>
+        <item name="android:disabledAlpha">1</item>
+        <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
+        <item name="android:selectableItemBackground">@null</item>
+    </style>
+
+    <style name="UIDCalendarViewStyle" parent="@android:style/Widget.Material.Light.CalendarView">
+        <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
+    </style>
+    <style name="UIDWeekDayTextAppearance">
+        <item name="android:textColor">?attr/uidDatePickerTextColor</item>
+    </style>
+
+    <style name="UIDHeaderMonthAppearance">
+        <item name="android:textColor">?attr/uidDatePickerHeaderTextColor</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_text_size</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="UIDCalendarButtonStyle">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">?attr/uidDatePickerButtonTextColor</item>
+    </style>
+
+    <style name="UIDDatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">?attr/uidDatePickerHeaderFillColor</item>
     </style>
 </resources>
