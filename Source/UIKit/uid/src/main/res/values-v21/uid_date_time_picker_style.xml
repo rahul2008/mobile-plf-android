@@ -11,6 +11,7 @@
         <item name="android:datePickerStyle">@style/UIDDatePicker</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/UIDCalendarButtonStyle</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/UIDCalendarButtonStyle</item>
+        <item name="android:textColorSecondary">?attr/uidDatePickerHeaderTextColor</item>
         <item name="android:textColorSecondaryInverse">?attr/uidDatePickerHeaderTextColor</item>
         <item name="android:disabledAlpha">1</item>
         <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
@@ -40,6 +41,7 @@
         <item name="android:dayOfWeekTextAppearance">@style/UIDWeekDayTextAppearance</item>
         <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
         <item name="android:calendarTextColor">?attr/uidDatePickerTextColor</item>
-        <item name="android:yearListSelectorColor">?attr/colorControlActivated</item>
+        <item name="android:yearListItemTextAppearance">@style/UIDWeekDayTextAppearance</item>
+        <item name="android:yearListSelectorColor">@null</item>
     </style>
 </resources>
