@@ -18,10 +18,37 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 	private final String FIRMWAREPORT_NAME = "firmware";
 	private final int FIRMWAREPORT_PRODUCTID = 0;
 
-
 	public FirmwarePort(CommunicationStrategy communicationStrategy){
 		super(communicationStrategy);
 	}
+
+    public void pushLocalFirmwareToAppliance(final byte[] firmwareData) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void pullRemoteFirmwareToAppliance(String version) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void cancel() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void checkForNewerFirmware() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void deployFirmware() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void addFirmwarePortListener(FirmwarePortListener listener) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void removeFirmwarePortListener(FirmwarePortListener listener) {
+        throw new UnsupportedOperationException();
+    }
 
 	@Override
 	public boolean isResponseForThisPort(String jsonResponse) {
