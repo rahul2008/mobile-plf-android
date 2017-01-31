@@ -37,5 +37,9 @@
 
     <style name="UIDDatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
         <item name="android:headerBackground">?attr/uidDatePickerHeaderFillColor</item>
+        <item name="android:dayOfWeekTextAppearance">@style/UIDWeekDayTextAppearance</item>
+        <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
+        <item name="android:calendarTextColor">?attr/uidDatePickerTextColor</item>
+        <item name="android:yearListSelectorColor">?attr/colorControlActivated</item>
     </style>
 </resources>
