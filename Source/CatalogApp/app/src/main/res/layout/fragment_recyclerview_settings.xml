@@ -71,7 +71,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:text="Template selection"/>
+                android:text="Template selection"
+                android:textSize="@dimen/uid_recyclerview_title_text_size"
+                android:textColor="?attr/uidTextPrimaryColor"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -90,14 +92,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="@{frag.isIconTemplateSelected}"
-                    android:text="@string/single_line_with_icon"/>
+                    android:text="@string/single_line_with_icon"
+                    android:textColor="?attr/uidTextPrimaryColor"/>
 
                 <RadioButton
                     android:id="@+id/two_lines"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="@{!frag.isIconTemplateSelected}"
-                    android:text="@string/two_lines"/>
+                    android:text="@string/two_lines"
+                    android:textColor="?attr/uidTextPrimaryColor"/>
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
