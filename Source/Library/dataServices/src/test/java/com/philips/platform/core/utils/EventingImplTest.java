@@ -77,11 +77,10 @@ public class EventingImplTest {
         eventingImpl.postSticky(eventMock);
     }
 
-    /*@Test
+    @Test
     public void ShouldregisterSticky_WhenregisterStickyIsCalled() {
-        eventingImpl.registerSticky(subscriber);
-
-    }*/
+        eventingImpl.register(subscriber);
+    }
 
     @Test
     public void ShouldremoveSticky_WhenremoveStickyIsCalled() {

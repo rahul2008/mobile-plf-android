@@ -111,10 +111,9 @@ public class SettingsMonitor extends EventMonitor {
             UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
             SettingsClient appFrameworkClient = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
             Response response = appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreSettings);
-            eventing.post(new SyncBitUpdateRequest(OrmTableType.SETTINGS, true));
 
             if (isResponseSuccess(response)) {
-                Log.d(getClass().getName(), "Response is :==" + isResponseSuccess(response));
+                eventing.post(new SyncBitUpdateRequest(OrmTableType.SETTINGS, true));
             }
 
         } catch (RetrofitError retrofitError) {

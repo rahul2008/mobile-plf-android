@@ -10,9 +10,9 @@ import com.philips.platform.core.datatypes.UserCharacteristics;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
@@ -48,7 +48,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         try {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
-            updating.updateMoment(ormMoment);
+            updating.refreshMoment(ormMoment);
             notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {

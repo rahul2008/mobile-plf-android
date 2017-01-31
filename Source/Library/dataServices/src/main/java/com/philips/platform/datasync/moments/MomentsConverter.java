@@ -215,7 +215,7 @@ public class MomentsConverter {
             }
 
 //            if (isRoot) {
-            Log.i("****TAG", "ROOT hence entering parent to attach to moment ");
+       //     Log.i("****TAG", "ROOT hence entering parent to attach to moment ");
             uCoreMoment.addMeasurementGroup(parent);
             //          }
         }

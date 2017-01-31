@@ -6,6 +6,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
@@ -19,7 +20,6 @@ import com.philips.platform.core.events.ReadDataFromBackendResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
@@ -45,6 +45,10 @@ public class UpdatingMonitorTest {
 
     @Mock
     DBUpdatingInterface dbUpdatingInterface;
+
+
+    @Mock
+    DBSavingInterface dbSavingInterface;
 
     @Mock
     DBDeletingInterface dbDeletingInterface;
