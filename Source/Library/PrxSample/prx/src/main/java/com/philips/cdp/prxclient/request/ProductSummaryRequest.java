@@ -31,8 +31,6 @@ public class ProductSummaryRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-
         return new SummaryModel().parseJsonResponseData(jsonObject);
     }
-
 }

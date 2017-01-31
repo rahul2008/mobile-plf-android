@@ -1,26 +1,27 @@
 package com.philips.cdp.prxclient.network;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.error.PrxError;
-import com.philips.cdp.prxclient.request.PrxCustomJsonRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Description : This is the Network Wrapper class.
@@ -30,13 +31,10 @@ import org.json.JSONObject;
 public class NetworkWrapper {
 
     private static final String TAG = NetworkWrapper.class.getSimpleName();
-    private RequestQueue mVolleyRequest;
     private PRXDependencies mPrxDependencies;
 
     public NetworkWrapper(PRXDependencies prxDependencies) {
         mPrxDependencies = prxDependencies;
-        VolleyQueue volleyQueue = VolleyQueue.getInstance();
-        mVolleyRequest = volleyQueue.getRequestQueue(prxDependencies.getContext());
     }
 
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
@@ -50,14 +48,48 @@ public class NetworkWrapper {
                 prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
                     @Override
                     public void onSuccess(String url) {
-                        PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(),
-                                url, prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
-                        request.setRetryPolicy(new DefaultRetryPolicy(
-                                prxRequest.getRequestTimeOut(),
-                                prxRequest.getMaxRetries(),
-                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                        request.setShouldCache(true);
-                        mVolleyRequest.add(request);
+                        GsonCustomRequest<JSONObject> request = null;
+                        try {
+                            request = new GsonCustomRequest<JSONObject>(prxRequest.getRequestType(),
+                                    url, null, responseListener, errorListener,
+                                    prxRequest.getHeaders(), prxRequest.getParams(), null) {
+
+                                @Override
+                                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                                    try {
+                                        String jsonString = new String(response.data,
+                                                HttpHeaderParser.parseCharset(response.headers));
+
+                                        JSONObject result = null;
+
+                                        if (jsonString.length() > 0)
+                                            result = new JSONObject(jsonString);
+
+                                        return Response.success(result,
+                                                HttpHeaderParser.parseCacheHeaders(response));
+                                    } catch (UnsupportedEncodingException e) {
+                                        return Response.error(new ParseError(e));
+                                    } catch (JSONException je) {
+                                        return Response.error(new ParseError(je));
+                                    }
+                                }
+                            };
+
+                            request.setRetryPolicy(new DefaultRetryPolicy(
+                                    prxRequest.getRequestTimeOut(),
+                                    prxRequest.getMaxRetries(),
+                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                            request.setShouldCache(true);
+                        } catch (Exception e) {
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
+                        }
+
+                        if (request != null) {
+                            if (mPrxDependencies.getAppInfra().getRestClient() != null) {
+                                mPrxDependencies.getAppInfra().getRestClient().getRequestQueue().add(request);
+                            }
+                        }
+
                     }
 
                     @Override
@@ -102,7 +134,8 @@ public class NetworkWrapper {
     }
 
 
-    private Response.Listener<JSONObject> getVolleyResponseListener(final PrxRequest prxRequest, final ResponseListener listener) {
+    private Response.Listener<JSONObject> getVolleyResponseListener(final PrxRequest prxRequest,
+                                                                    final ResponseListener listener) {
         return new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(final JSONObject response) {
@@ -110,11 +143,8 @@ public class NetworkWrapper {
 
                 if (responseData != null) {
                     listener.onResponseSuccess(responseData);
-                    Log.e("PRX", responseData.toString());
                 } else {
                     listener.onResponseError(new PrxError("Null Response", 00));
-                    Log.e("PRX", "ERROR");
-
                 }
             }
         };

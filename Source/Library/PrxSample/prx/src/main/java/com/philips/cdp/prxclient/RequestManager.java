@@ -1,7 +1,5 @@
 package com.philips.cdp.prxclient;
 
-import android.content.Context;
-
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
