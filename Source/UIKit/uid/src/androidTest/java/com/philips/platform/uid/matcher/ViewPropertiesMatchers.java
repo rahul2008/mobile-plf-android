@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import org.hamcrest.Matcher;
 
+@SuppressWarnings("ReturnOfInnerClass")
 public class ViewPropertiesMatchers {
     public static Matcher<View> isSameLeftPadding(final int expectedValue) {
         return new BaseTypeSafteyMatcher<View>() {
