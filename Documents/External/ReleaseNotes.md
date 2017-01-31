@@ -13,6 +13,8 @@ Version 1.0.0-SNAPSHOT
 * CON-113 It is possible to keep a BLE node connected between requests
     by calling enableCommunication on an appliance. You can switch back
     to disconnecting between requests by calling disableCommunication.
+* CON-126 Request timeouts are now started when the request is executed, instead of when it's inserted into the request queue.
+
 
 ### Bugs fixed
 * None.
