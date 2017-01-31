@@ -298,7 +298,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.AccountSettings);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -324,7 +324,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.MarketingOpt);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.MARKETING_OPT);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -353,7 +353,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.Default);
+                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.DEFAULT);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
                 urInterface = new URInterface();

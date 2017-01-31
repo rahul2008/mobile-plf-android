@@ -51,7 +51,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private static FragmentManager mFragmentManager;
 
-    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.Default;
+    private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
 
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationCoppaUIEventListener;

@@ -20,7 +20,7 @@ public enum Configuration {
 
     private String value;
 
-    private Configuration(final String pValue) {
+    Configuration(final String pValue) {
         value = pValue;
     }
 
