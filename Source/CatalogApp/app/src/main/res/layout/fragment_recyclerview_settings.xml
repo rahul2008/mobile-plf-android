@@ -66,13 +66,13 @@
             android:orientation="horizontal">
 
             <com.philips.platform.uid.view.widget.Label
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 style="@style/UIDLabel.RecyclerViewTitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:text="Template selection"/>
+                android:text="@string/template_selection"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -87,20 +87,16 @@
                 android:orientation="vertical">
 
                 <RadioButton
+                    style="@style/RecyclerViewRadioButton"
                     android:id="@+id/single_line_with_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:checked="@{frag.isIconTemplateSelected}"
-                    android:text="@string/single_line_with_icon"
-                    android:textColor="?attr/uidTextPrimaryColor"/>
+                    android:text="@string/single_line_with_icon"/>
 
                 <RadioButton
+                    style="@style/RecyclerViewRadioButton"
                     android:id="@+id/two_lines"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:checked="@{!frag.isIconTemplateSelected}"
-                    android:text="@string/two_lines"
-                    android:textColor="?attr/uidTextPrimaryColor"/>
+                    android:text="@string/two_lines"/>
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>

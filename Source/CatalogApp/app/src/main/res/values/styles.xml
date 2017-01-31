@@ -53,4 +53,10 @@
         <item name="android:paddingTop">4dp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
+
+    <style name="RecyclerViewRadioButton">
+        <item name="android:textColor">?attr/uidTextPrimaryColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
 </resources>
