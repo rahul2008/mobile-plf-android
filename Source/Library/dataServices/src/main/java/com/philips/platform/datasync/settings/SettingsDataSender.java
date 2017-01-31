@@ -35,7 +35,7 @@ public class SettingsDataSender extends EventMonitor implements DataSender<Setti
     public boolean sendDataToBackend(@NonNull List<? extends Settings> dataToSend) {
 
         if (dataToSend!=null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
-            eventing.post(new SettingsBackendSaveRequest(dataToSend.get(0)));
+            eventing.post(new SettingsBackendSaveRequest(dataToSend.get(0))); //As dataToSend List alsways contains a single setting Object
         }
 
         return false;
