@@ -24,9 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/uid_button_padding_left_right"
-        android:visibility="gone"
-        app:uidProgressBarCircularEndColor="?attr/uidProgressIndicatorButtonProgressColor"
-        app:uidProgressBarCircularProgressColorList="@color/uid_progress_indicator_button_progress_selector"/>
+        android:visibility="gone"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_progress_indicator_button_text"
