@@ -120,6 +120,7 @@ public class BleCommunicationStrategyTestSteps {
             @Override
             protected void dispatchRequest(final BleRequest request) {
                 mRequestQueue.peekLast().request = request;
+                super.dispatchRequest(request);
             }
         };
     }
