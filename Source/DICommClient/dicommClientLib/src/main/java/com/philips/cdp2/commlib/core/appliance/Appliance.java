@@ -52,8 +52,6 @@ public abstract class Appliance {
         addPort(mWifiUIPort);
     }
 
-    // TODO DIComm Refactor - remove from public interface
-
     /**
      * @return DeviceType used by CPP to identify this appliance
      */
@@ -162,6 +160,7 @@ public abstract class Appliance {
         }
     };
 
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("name: ").append(getName())//
@@ -172,5 +171,21 @@ public abstract class Appliance {
                 .append("   connectedState: ").append(getNetworkNode().getConnectionState())//
                 .append("   homeSsid: ").append(getNetworkNode().getHomeSsid());
         return builder.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return mNetworkNode.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (!(other instanceof Appliance)) {
+            return false;
+        }
+        return mNetworkNode.equals(((Appliance) other).getNetworkNode());
     }
 }

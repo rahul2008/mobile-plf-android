@@ -140,7 +140,9 @@ public class NetworkNode extends Observable implements Parcelable {
         }
     }
 
-    public synchronized boolean getHttps() { return mHttps; }
+    public synchronized boolean getHttps() {
+        return mHttps;
+    }
 
     public synchronized void setHttps(boolean mHttps) {
         this.mHttps = mHttps;
@@ -232,5 +234,21 @@ public class NetworkNode extends Observable implements Parcelable {
 
     public void setEncryptionKeyUpdatedListener(EncryptionKeyUpdatedListener encryptionKeyUpdatedListener) {
         this.encryptionKeyUpdatedListener = encryptionKeyUpdatedListener;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        return mCppId.equals(((NetworkNode) other).mCppId);
+    }
+
+    @Override
+    public int hashCode() {
+        return mCppId.hashCode();
     }
 }
