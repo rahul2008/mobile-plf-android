@@ -28,6 +28,7 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeExcep
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
 import static com.philips.cdp.dicommclient.request.Error.PROTOCOL_VIOLATION;
@@ -71,6 +72,8 @@ public abstract class BleRequest implements Runnable {
     final String productId;
     @NonNull
     final String portName;
+    @NonNull
+    final private AtomicBoolean disconnectAfterRequest;
 
     private SHNDevice bleDevice;
     private CapabilityDiComm capability;
@@ -133,22 +136,25 @@ public abstract class BleRequest implements Runnable {
     /**
      * Instantiates a new BleRequest.
      *
-     * @param deviceCache     the device cache
-     * @param cppId           the cppId of the BleDevice
-     * @param portName        the port name
-     * @param productId       the product id
-     * @param responseHandler the response handler
+     * @param deviceCache            the device cache
+     * @param cppId                  the cppId of the BleDevice
+     * @param portName               the port name
+     * @param productId              the product id
+     * @param responseHandler        the response handler
+     * @param disconnectAfterRequest indicates if the request should disconnect from the device after communicating
      */
     BleRequest(@NonNull BleDeviceCache deviceCache,
                @NonNull String cppId,
                @NonNull String portName,
                int productId,
-               @NonNull ResponseHandler responseHandler) {
+               @NonNull ResponseHandler responseHandler,
+               @NonNull AtomicBoolean disconnectAfterRequest) {
         this.responseHandler = responseHandler;
         this.deviceCache = deviceCache;
         this.cppId = cppId;
         this.portName = portName;
         this.productId = Integer.toString(productId);
+        this.disconnectAfterRequest = disconnectAfterRequest;
     }
 
     @Override
@@ -192,7 +198,7 @@ public abstract class BleRequest implements Runnable {
             if (shnDevice.getState() == Connected) {
                 onConnected();
             } else if (shnDevice.getState() == Disconnected) {
-                onDisconnected();
+                completeRequest();
             }
         }
 
@@ -270,18 +276,14 @@ public abstract class BleRequest implements Runnable {
     }
 
     private void finishRequest() {
-        if (bleDevice != null) {
-            if (bleDevice.getState() == Disconnected) {
-                onDisconnected();
-            } else {
-                bleDevice.disconnect();
-            }
+        if (bleDevice != null && bleDevice.getState() != Disconnected && disconnectAfterRequest.get()) {
+            bleDevice.disconnect();
         } else {
-            onDisconnected();
+            completeRequest();
         }
     }
 
-    private void onDisconnected() {
+    private void completeRequest() {
         if (setStateIfStateIs(FINALIZED, COMPLETED)) {
             inProgressLatch.countDown();
         }

@@ -18,4 +18,5 @@
     <string name="btnSetTime">Set Time</string>
     <string name="btnStartDiscovery">Start discovery</string>
     <string name="btnStopDiscovery">Stop discovery</string>
+    <string name="stay_connected">Stay connected</string>
 </resources>
