@@ -39,6 +39,7 @@ public class ErrorMonitor extends EventMonitor {
     }
 
     private void postError(RetrofitError exception) {
+        resetDataServicesFlags();
         if (exception == null) {
             mErrorHandlingInterface.syncError(UNKNOWN);
             return;
@@ -54,6 +55,11 @@ public class ErrorMonitor extends EventMonitor {
         }
 //        if (retrofitError != null)
 //            mErrorHandlingInterface.syncError(retrofitError.getResponse().getStatus());
+    }
+
+    private void resetDataServicesFlags() {
+        DataServicesManager.getInstance().setPushComplete(true);
+        DataServicesManager.getInstance().setPullComplete(true);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

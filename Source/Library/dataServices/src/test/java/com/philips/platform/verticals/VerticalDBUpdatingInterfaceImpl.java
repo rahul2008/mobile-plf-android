@@ -16,9 +16,8 @@ import java.util.List;
 
 public class VerticalDBUpdatingInterfaceImpl implements DBUpdatingInterface {
 
-
     @Override
-    public void updateMoment(Moment ormMoment, DBRequestListener dbRequestListener) throws SQLException {
+    public void updateMoment(final Moment ormMoment, final DBRequestListener dbRequestListener) throws SQLException {
 
     }
 

@@ -4,6 +4,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -24,6 +25,8 @@ public class MomentsSegregator {
     DBFetchingInterface dbFetchingInterface;
     @Inject
     DBDeletingInterface dbDeletingInterface;
+    @Inject
+    DBSavingInterface dbSavingInterface;
 
 
     public MomentsSegregator(){
@@ -143,14 +146,14 @@ public class MomentsSegregator {
             ormMoment.setId(momentInDatabase.getId());
         }
         deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase,ormMoment,dbRequestListener);
-        updatingInterface.updateMoment(ormMoment,dbRequestListener);
+        dbSavingInterface.saveMoment(ormMoment,dbRequestListener);
     }
 
     public void processCreatedMoment(List<? extends Moment> moments,DBRequestListener dbRequestListener) {
         for (final Moment moment : moments) {
                 moment.setSynced(true);
             try {
-                updatingInterface.updateMoment(moment,dbRequestListener);
+                dbSavingInterface.saveMoment(moment,dbRequestListener);
             } catch (SQLException e) {
                 updatingInterface.updateFailed(e,dbRequestListener);
                 e.printStackTrace();

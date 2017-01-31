@@ -92,7 +92,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         }
     }
 
-
     @Override
     public void updateMoment(final Moment moment, DBRequestListener dbRequestListener) throws SQLException {
 
@@ -100,8 +99,8 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         if (ormMoment == null) {
             return;
         }
-        saving.saveMoment(ormMoment);
         updating.updateMoment(ormMoment);
+        updating.refreshMoment(ormMoment);
 
         notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment);
     }

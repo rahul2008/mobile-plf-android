@@ -13,18 +13,21 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.listeners.DBRequestListener;
 
-
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
-import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurementDetail;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroup;
+import cdp.philips.com.mydemoapp.database.table.OrmMeasurementGroupDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMoment;
 import cdp.philips.com.mydemoapp.database.table.OrmMomentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmSettings;
+import cdp.philips.com.mydemoapp.database.table.OrmSynchronisationData;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -44,13 +47,26 @@ public class OrmUpdating {
     private final Dao<OrmSettings, Integer> settingsDao;
 
     @NonNull
+    private final Dao<OrmMeasurementGroup, Integer> measurementGroupDao;
+
+    @NonNull
+    private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailsDao;
+
+    @NonNull
+    private final Dao<OrmSynchronisationData, Integer> synchronisationDataDao;
+
+    @NonNull
     private final Dao<OrmDCSync, Integer> dcSyncDao;
 
     public OrmUpdating(@NonNull final Dao<OrmMoment, Integer> momentDao,
                        @NonNull final Dao<OrmMomentDetail, Integer> momentDetailDao,
                        @NonNull final Dao<OrmMeasurement, Integer> measurementDao,
                        @NonNull final Dao<OrmMeasurementDetail, Integer> measurementDetailDao,
-                       @NonNull final Dao<OrmConsent, Integer> constentDao, @NonNull Dao<OrmSettings, Integer> settingsDao, @NonNull Dao<OrmDCSync, Integer> dcSyncDao) {
+                       @NonNull final Dao<OrmConsent, Integer> constentDao, @NonNull Dao<OrmSettings, Integer> settingsDao,
+                       @NonNull Dao<OrmDCSync, Integer> dcSyncDao,
+                       @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
+                       @NonNull final Dao<OrmSynchronisationData, Integer> synchronisationDataDao,
+                       @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -58,13 +74,16 @@ public class OrmUpdating {
         this.constentDao = constentDao;
         this.settingsDao = settingsDao;
         this.dcSyncDao = dcSyncDao;
+        this.measurementGroupDao = measurementGroup;
+        this.measurementGroupDetailsDao = measurementGroupDetails;
+        this.synchronisationDataDao = synchronisationDataDao;
     }
 
-    public void updateMoment(OrmMoment moment) throws SQLException {
+    public void refreshMoment(OrmMoment moment) throws SQLException {
         momentDao.refresh(moment);
     }
 
-    public void updateMeasurement(OrmMeasurement measurement) throws SQLException {
+    public void refreshMeasurement(OrmMeasurement measurement) throws SQLException {
         measurementDao.refresh(measurement);
     }
 
@@ -72,11 +91,11 @@ public class OrmUpdating {
         constentDao.refresh(consent);
     }
 
-    public void updateMeasurementDetail(OrmMeasurementDetail measurementDetail) throws SQLException {
+    public void refreshMeasurementDetail(OrmMeasurementDetail measurementDetail) throws SQLException {
         measurementDetailDao.refresh(measurementDetail);
     }
 
-    public void updateMomentDetail(OrmMomentDetail momentDetail) throws SQLException {
+    public void refreshMomentDetail(OrmMomentDetail momentDetail) throws SQLException {
         momentDetailDao.refresh(momentDetail);
     }
 
@@ -107,5 +126,95 @@ public class OrmUpdating {
         updateBuilder.where().eq("tableID", tableID);
 
         updateBuilder.update();
+    }
+
+    public void updateMoment(OrmMoment moment) throws SQLException {
+        assureSynchronisationDataIsUpdated(moment.getSynchronisationData());
+        momentDao.update(moment);
+        assureMomentDetailsAreUpdated(moment.getMomentDetails());
+        assureMeasurementGroupsAreUpdated(moment);
+        // assureMeasurementsAreSaved(moment.getMeasurements());
+    }
+
+    private void assureMeasurementGroupsAreUpdated(final OrmMoment moment) throws SQLException {
+        Collection<? extends OrmMeasurementGroup> measurementGroups = moment.getMeasurementGroups();
+        for (OrmMeasurementGroup group : measurementGroups) {
+            updateMeasurementGroup(group);
+            assureMeasurementGroupsInsideAreUpdated(group);
+        }
+    }
+
+    private void assureMeasurementGroupsInsideAreUpdated(final OrmMeasurementGroup measurementGroup) throws SQLException {
+        if(measurementGroup!=null) {
+            ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
+            for (OrmMeasurementGroup group : measurementGroups) {
+                updateMeasurementGroupWithinGroup(group);
+            }
+        }
+    }
+
+    private void updateMeasurementGroupWithinGroup(final OrmMeasurementGroup group) throws SQLException {
+        measurementGroupDao.update(group);
+        assureMeasurementsAreUpdated(group.getMeasurements());
+        assureMeasurementGroupDetailsAreUpdated(group.getMeasurementGroupDetails());
+    }
+
+    private void assureMeasurementGroupDetailsAreUpdated(final Collection<? extends OrmMeasurementGroupDetail> measurementGroupDetails) throws SQLException {
+        for (OrmMeasurementGroupDetail measurementGroupDetail : measurementGroupDetails) {
+            updateMeasurementGroupDetail(measurementGroupDetail);
+        }
+    }
+
+    private void updateMeasurementGroupDetail(final OrmMeasurementGroupDetail measurementGroupDetail) throws SQLException {
+        measurementGroupDetailsDao.update(measurementGroupDetail);
+    }
+
+    private void updateMeasurementGroup(final OrmMeasurementGroup measurementGroup) throws SQLException {
+        if(measurementGroup!=null) {
+            measurementGroupDao.update(measurementGroup);
+            assureMeasurementsAreUpdated(measurementGroup.getMeasurements());
+            assureMeasurementGroupDetailsAreUpdated(measurementGroup.getMeasurementGroupDetails());
+        }
+    }
+
+    private void assureMeasurementsAreUpdated(final Collection<? extends OrmMeasurement> measurements) throws SQLException {
+        for (OrmMeasurement measurement : measurements) {
+            updateMeasurement(measurement);
+        }
+    }
+
+    private void updateMeasurement(final OrmMeasurement measurement) throws SQLException {
+        measurementDao.update(measurement);
+        assureMeasurementDetailsAreUpdated(measurement.getMeasurementDetails());
+    }
+
+    private void assureMeasurementDetailsAreUpdated(final Collection<? extends OrmMeasurementDetail> measurementDetails) throws SQLException {
+        for (OrmMeasurementDetail measurementDetail : measurementDetails) {
+            updateMeasurementDetail(measurementDetail);
+        }
+    }
+
+    private void updateMeasurementDetail(final OrmMeasurementDetail measurementDetail) throws SQLException {
+        measurementDetailDao.update(measurementDetail);
+    }
+
+    private void assureMomentDetailsAreUpdated(final Collection<? extends OrmMomentDetail> momentDetails) throws SQLException {
+        for (OrmMomentDetail momentDetail : momentDetails) {
+            updateMomentDetail(momentDetail);
+        }
+    }
+
+    private void updateMomentDetail(final OrmMomentDetail momentDetail) throws SQLException {
+        momentDetailDao.update(momentDetail);
+    }
+
+    private void assureSynchronisationDataIsUpdated(final OrmSynchronisationData synchronisationData) throws SQLException {
+        if (synchronisationData != null) {
+            updateSynchronisationData(synchronisationData);
+        }
+    }
+
+    private void updateSynchronisationData(final OrmSynchronisationData synchronisationData) throws SQLException {
+        synchronisationDataDao.update(synchronisationData);
     }
 }

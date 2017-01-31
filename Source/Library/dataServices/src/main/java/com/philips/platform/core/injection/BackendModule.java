@@ -285,4 +285,9 @@ public class BackendModule {
     public DBDeletingInterface providesDeletingImplementation() {
         return deletingInterface;
     }
+
+    @Provides
+    public DBSavingInterface providesSavingImplementation() {
+        return savingInterface;
+    }
 }

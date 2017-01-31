@@ -4,6 +4,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
+import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBRequestListener;
@@ -41,6 +42,10 @@ public class MomentsSegregatorTest {
 
     @Mock
     DBUpdatingInterface updatingInterface;
+
+    @Mock
+    DBSavingInterface savingInterface;
+
     @Mock
     DBFetchingInterface dbFetchingInterface;
     @Mock
@@ -92,7 +97,7 @@ public class MomentsSegregatorTest {
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
         momentsSegregator.processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
-        verify(updatingInterface).updateMoment(moment1,dbRequestListener);
+        verify(savingInterface).saveMoment(moment1,dbRequestListener);
     }
 
     /*@Test
