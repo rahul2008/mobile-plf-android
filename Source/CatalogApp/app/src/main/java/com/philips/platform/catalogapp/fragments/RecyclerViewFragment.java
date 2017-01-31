@@ -55,6 +55,7 @@ public class RecyclerViewFragment extends BaseFragment {
 
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
         fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentRecyclerviewBinding.recyclerviewRecyclerview.setHeaderText(R.string.uid_recyclerview_the_header);
 
         return fragmentRecyclerviewBinding.getRoot();
     }

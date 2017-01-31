@@ -5,6 +5,7 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -30,6 +31,14 @@ public class RecyclerView extends RelativeLayout {
     }
 
     public void setHeaderEnabled(boolean enabled) {
-        findViewById(R.id.uid_recyclerview_title).setVisibility(enabled ? View.VISIBLE : View.GONE);
+        findViewById(R.id.uid_recyclerview_header).setVisibility(enabled ? View.VISIBLE : View.GONE);
+    }
+
+    public void setHeaderText(@StringRes int stringResource) {
+        setHeaderText(getContext().getResources().getString(stringResource));
+    }
+
+    public void setHeaderText(String text) {
+        ((com.philips.platform.uid.view.widget.Label) findViewById(R.id.uid_recyclerview_header)).setText(text);
     }
 }

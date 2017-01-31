@@ -6,16 +6,15 @@
                 android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/uid_recyclerview_title"
+        android:id="@+id/uid_recyclerview_header"
         style="@style/UIDLabel.RecyclerViewTitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="@string/uid_recyclerview_the_header"/>
+        android:gravity="center_vertical"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/uid_recyclerview_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/uid_recyclerview_title"/>
+        android:layout_below="@+id/uid_recyclerview_header"/>
 </RelativeLayout>
