@@ -427,17 +427,5 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     public FragmentActivity getFragmentActivity() {
         return this;
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                if (fragment != null) {
-                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                }
-            }
-        }
-    }
+
 }
