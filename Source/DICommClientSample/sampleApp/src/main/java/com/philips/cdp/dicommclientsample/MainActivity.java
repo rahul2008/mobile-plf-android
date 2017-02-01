@@ -28,6 +28,7 @@ import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onApplianceUpdated(@NonNull AirPurifier updatedAppliance) {
-           // NOOP
+            // NOOP
         }
     };
 
@@ -93,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
             this.commCentral.startDiscovery();
         } catch (MissingPermissionException e) {
             Log.e(TAG, "Missing permission for discovery: " + e.getMessage());
+        } catch (TransportUnavailableException e) {
+            Log.e(TAG, "Transport unavailable for discovery: " + e.getMessage());
         }
     }
 

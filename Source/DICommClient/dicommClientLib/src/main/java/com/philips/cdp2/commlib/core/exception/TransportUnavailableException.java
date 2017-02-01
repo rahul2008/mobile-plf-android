@@ -5,6 +5,7 @@
 package com.philips.cdp2.commlib.core.exception;
 
 public final class TransportUnavailableException extends RuntimeException {
-    public TransportUnavailableException(Throwable t) {
+    public TransportUnavailableException(String message) {
+        super(message);
     }
 }

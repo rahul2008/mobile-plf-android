@@ -11,6 +11,7 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -44,7 +45,7 @@ public final class CommCentral {
         this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory);
     }
 
-    public void startDiscovery() throws MissingPermissionException {
+    public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
             strategy.start(applianceFactory.getSupportedModelNames());
         }

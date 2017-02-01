@@ -6,6 +6,7 @@ package com.philips.cdp2.commlib.core.discovery;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
 import java.util.Locale;
 import java.util.Set;
@@ -26,12 +27,12 @@ public class CombinedDiscoveryStrategy extends ObservableDiscoveryStrategy imple
     }
 
     @Override
-    public void start() throws MissingPermissionException {
+    public void start() throws MissingPermissionException, TransportUnavailableException {
         start(null);
     }
 
     @Override
-    public void start(Set<String> deviceTypes) throws MissingPermissionException {
+    public void start(Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
         for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.start(deviceTypes);
         }

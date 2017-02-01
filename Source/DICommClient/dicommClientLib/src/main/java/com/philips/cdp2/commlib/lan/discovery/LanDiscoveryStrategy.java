@@ -14,6 +14,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.lan.NetworkMonitor;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
@@ -63,12 +64,12 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @Override
-    public void start() throws MissingPermissionException {
+    public void start() throws MissingPermissionException, TransportUnavailableException {
         start(null);
     }
 
     @Override
-    public void start(Set<String> deviceTypes) throws MissingPermissionException {
+    public void start(Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
         if (NetworkMonitor.NetworkState.WIFI_WITH_INTERNET.equals(networkMonitor.getLastKnownNetworkState())) {
             ssdpServiceHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
