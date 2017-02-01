@@ -95,18 +95,6 @@ class IAPHandler {
     }
 
     private void setHomeCountry(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-//        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-//            @Override
-//            public void onSuccess(String s, SOURCE source) {
-//                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry " + s);
-//                setLangAndCountry(s);
-//            }
-//
-//            @Override
-//            public void onError(ERRORVALUES errorvalues, String s) {
-//                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry error " + s);
-//            }
-//        });
         serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
             public void onSuccess(String s) {
