@@ -4,21 +4,7 @@
  */
 
 apply plugin: 'com.android.library'
-
 apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
-
-buildscript {
-    repositories {
-        maven { url repos.jcenter }
-        maven { url repos.release }
-    }
-
-    dependencies {
-        classpath(builddeps.dcendents)
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpscm)
-    }
-}
 
 android {
     compileSdkVersion versions.sdk

@@ -1,19 +1,10 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-
 apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
-
-buildscript {
-    repositories {
-        maven { url repos.jcenter }
-        maven { url repos.release }
-    }
-
-    dependencies {
-        classpath(builddeps.dcendents)
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpscm)
-    }
-}
 
 android {
     compileSdkVersion versions.sdk
