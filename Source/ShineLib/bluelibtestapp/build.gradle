@@ -28,8 +28,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-
     compile project(path: ':shinelib')
     compile project(path: ':pluginreferenceboard')
 
