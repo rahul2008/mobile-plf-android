@@ -20,6 +20,7 @@ import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
+import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
 import org.json.JSONObject;
@@ -37,13 +38,15 @@ public class RequestManager {
     private AppInfra mAppInfra;
     private static final String ServiceDiscoveryCacheFile = "SDCacheFile";
     private Context mContext = null;
+    private String mUrl;
 
     public RequestManager(Context context, AppInfra appInfra) {
         mContext = context;
         mAppInfra = appInfra;
     }
 
-    public ServiceDiscovery execute(final String url) {
+    public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {
+        this.mUrl = url;
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, future, future, null, null, null);
         request.setShouldCache(true);
@@ -53,7 +56,7 @@ public class RequestManager {
 
         try {
             JSONObject response = future.get(10, TimeUnit.SECONDS); // Blocks for at most 10 seconds.
-            cacheServiceDiscovery(response, url);
+            cacheServiceDiscovery(response, url, urlType);
             return parseResponse(response);
         } catch (InterruptedException | TimeoutException e) {
             ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
@@ -117,13 +120,21 @@ public class RequestManager {
         }
     }
 
-    private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url) {
+    private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
         SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        prefEditor.putString("SDcache", serviceDiscovery.toString());
-        prefEditor.putString("SDurl", url);
         Date currentDate = new Date();
         long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
+        switch (urlType) {
+            case AISDURLTypeProposition:
+                prefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
+                prefEditor.putString("SDPROPOSITIONURL", url);
+                break;
+            case AISDURLTypePlatform:
+                prefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
+                prefEditor.putString("SDPLATFORMURL", url);
+                break;
+        }
         prefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
         prefEditor.commit();
     }
@@ -149,6 +160,57 @@ public class RequestManager {
         }
         return serviceDiscovery;
     }
+
+    AISDResponse getCachedData() {
+        AISDResponse cachedResponse = null;
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        if (prefs != null) {
+            String propositionCache = prefs.getString("SDPROPOSITION", null);
+            String platformCache = prefs.getString("SDPLATFORM", null);
+            try {
+                JSONObject propositionObject = new JSONObject(propositionCache);
+                ServiceDiscovery propostionService = parseResponse(propositionObject);
+
+                JSONObject platformObject = new JSONObject(platformCache);
+                ServiceDiscovery platformService = parseResponse(platformObject);
+                cachedResponse = new AISDResponse();
+                cachedResponse.setPropositionURLs(propostionService);
+                cachedResponse.setPlatformURLs(platformService);
+                return cachedResponse;
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        return cachedResponse;
+    }
+
+    String getUrlProposition() {
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        if(prefs != null) {
+            return prefs.getString("SDPROPOSITIONURL", null);
+        }
+        return null;
+    }
+
+    String getUrlPlatform() {
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        if(prefs != null) {
+           return prefs.getString("SDPLATFORMURL", null);
+        }
+        return null;
+    }
+
+    boolean isServiceDiscoveryDataExpired() {
+        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
+        if (prefs != null) {
+            final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
+            Date currentDate = new Date();
+            long currentDateLong = currentDate.getTime();
+            return currentDateLong >= refreshTimeExpiry;
+        }
+        return false;
+    }
+
 
     void clearCacheServiceDiscovery() {
         SharedPreferences prefs = getServiceDiscoverySharedPreferences();
