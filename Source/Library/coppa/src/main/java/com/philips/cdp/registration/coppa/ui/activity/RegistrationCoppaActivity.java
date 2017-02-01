@@ -40,7 +40,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         ActionBarListener {
 
-    private boolean isAccountSettings;
     final private Handler mSiteCatalistHandler = new Handler();
     final private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -77,8 +76,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         super.onCreate(savedInstanceState);
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, false);
-            mRegistrationLaunchMode = isAccountSettings?RegistrationLaunchMode.ACCOUNT_SETTINGS:(RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+            mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
             final int sOrientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             setOrientation(sOrientation);
@@ -190,7 +188,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     private void launchRegistrationFragment(RegistrationLaunchMode launchMode, boolean isParentalConsent) {
         CoppaLaunchInput urLaunchInput;
         urLaunchInput = new CoppaLaunchInput();
-        urLaunchInput.setRegistrationLaunchMode(launchMode);
+        urLaunchInput.setEndPointScreen(launchMode);
         urLaunchInput.setParentalFragment(isParentalConsent);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.

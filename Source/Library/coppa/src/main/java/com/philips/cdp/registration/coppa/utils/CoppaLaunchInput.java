@@ -55,11 +55,11 @@ public class CoppaLaunchInput extends UappLaunchInput {
         return this.userRegistrationListener;
     }
 
-    public RegistrationLaunchMode getRegistrationLaunchMode() {
+    public RegistrationLaunchMode getEndPointScreen() {
         return registrationLaunchMode;
     }
 
-    public void setRegistrationLaunchMode(RegistrationLaunchMode registrationLaunchMode) {
+    public void setEndPointScreen(RegistrationLaunchMode registrationLaunchMode) {
         this.registrationLaunchMode = registrationLaunchMode;
     }
 

@@ -59,8 +59,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private int titleResourceID = -99;
 
-    private boolean isAccountSettings;
-
     public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationUIEventListener;
     }
@@ -84,10 +82,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationBaseFragment.mHeight = 0;
         Bundle bundle = getArguments();
         if (bundle != null) {
-            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, false);
-            mRegistrationLaunchMode = isAccountSettings?RegistrationLaunchMode.ACCOUNT_SETTINGS:(RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+            mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
         }
-        RLog.d("RegistrationFragment", "isAccountSettings : " + isAccountSettings);
         RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
         super.onCreate(savedInstanceState);
     }

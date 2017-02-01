@@ -317,7 +317,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 }
-                //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             case R.id.btn_marketing_opt_in:

@@ -95,10 +95,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
 
-
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
-
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         final String restoredText = prefs.getString("reg_environment", null);
@@ -123,7 +121,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             }
 
         }
-
         mLlConfiguration.setVisibility(View.GONE);
         mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
         mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
@@ -142,9 +139,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 UserRegistrationInitializer.getInstance().resetInitializationState();
                 //Logout user
                 clearData();
-
-
-
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected
                 if (checkedId == R.id.Evalution) {
@@ -168,8 +162,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                             Toast.LENGTH_SHORT).show();
                     RegistrationCoppaApplication.getInstance().initRegistration(Configuration.STAGING);
                 }
-
-
             }
         });
         mBtnCancel = (Button) findViewById(R.id.Cancel);
@@ -179,10 +171,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 mLlConfiguration.setVisibility(View.GONE);
             }
         });
-
-
-
-
     }
 
     private void clearData() {
@@ -247,7 +235,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+                urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
                 urLaunchInput.setAccountSettings(true);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -262,7 +250,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.MARKETING_OPT);
+                urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
                 urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -277,7 +265,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.DEFAULT);
+                urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+                urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -285,8 +274,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
                 urInterface = new CoppaInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
-
-             //   RegistrationCoppaLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_user:
@@ -312,7 +299,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                 if(user.isUserSignIn()){
                     urLaunchInput = new CoppaLaunchInput();
                     urLaunchInput.setParentalFragment(true);
-                    urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.DEFAULT);
+                    urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
                     urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                     urLaunchInput.setUserRegistrationUIEventListener(this);
                     activityLauncher = new ActivityLauncher(ActivityLauncher.
