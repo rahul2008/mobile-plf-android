@@ -8,9 +8,9 @@ package com.philips.cdp.dicommclient.port.common;
 public interface FirmwarePortListener {
     void onProgressUpdated(FirmwarePortProgressType type, int progress);
 
-    void onDownloadingFailed(FirmwarePortException exception);
+    void onDownloadFailed(FirmwarePortException exception);
 
-    void onDownloadingFinished();
+    void onDownloadFinished();
 
     void onFirmwareAvailable(String version);
 

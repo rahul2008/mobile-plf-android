@@ -22,11 +22,11 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 		super(communicationStrategy);
 	}
 
-    public void pushLocalFirmwareToAppliance(final byte[] firmwareData) {
+    public void pushLocalFirmware(final byte[] firmwareData) {
         throw new UnsupportedOperationException();
     }
 
-    public void pullRemoteFirmwareToAppliance(String version) {
+    public void pullRemoteFirmware(String version) {
         throw new UnsupportedOperationException();
     }
 
