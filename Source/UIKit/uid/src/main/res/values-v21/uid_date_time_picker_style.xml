@@ -16,6 +16,8 @@
         <item name="android:disabledAlpha">1</item>
         <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
         <item name="android:selectableItemBackground">@null</item>
+        <item name="android:yearListItemTextAppearance">@style/UIDWeekDayTextAppearance</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/uid_selector_transparent</item>
     </style>
 
     <style name="UIDCalendarViewStyle" parent="@android:style/Widget.Material.Light.CalendarView">
@@ -41,7 +43,5 @@
         <item name="android:dayOfWeekTextAppearance">@style/UIDWeekDayTextAppearance</item>
         <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
         <item name="android:calendarTextColor">?attr/uidDatePickerTextColor</item>
-        <item name="android:yearListItemTextAppearance">@style/UIDWeekDayTextAppearance</item>
-        <item name="android:yearListSelectorColor">@null</item>
     </style>
 </resources>
