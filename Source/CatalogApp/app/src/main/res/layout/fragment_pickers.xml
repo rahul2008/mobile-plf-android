@@ -104,7 +104,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedDate(fragment.rangePickerStartDate)}"
-                android:textColor="?attr/uidTextPrimary"
+                android:textColor="@{fragment.getTextColor()}"
                 app:uidLabelTextAlpha="1.0"/>
 
             <com.philips.platform.uid.view.widget.Label
