@@ -55,9 +55,10 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
         {
             AppHomeScreen.Click(AppHomeScreen.Button.Support);
             Thread.Sleep(3000);
-            if (Support.WaitforSupportScreen())
+            bool isPresent = Support.IsVisible1();
+            if (!isPresent)
             {
-                IapReport.Message("Support Screen Visible");
+                IapReport.Fail("The user is not in support screen");
             }
         }
 

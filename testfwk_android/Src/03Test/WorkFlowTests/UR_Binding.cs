@@ -472,5 +472,62 @@ namespace Philips.CDP.Automation.IAP.Tests.Workflows
 
 
         }
+
+        [Then(@"verify that the user is landed to User Registration screen after clicking on phone back button")]
+        public void ThenVerifyThatTheUserIsLandedToUserRegistrationScreenAfterClickingOnPhoneBackButton()
+        {
+            try
+            {
+                MobileDriver.FireKeyEvent(4);
+                bool isPresent = WelcomeScreen.CheckUserRegistration();
+                if (!isPresent)
+                {
+                    Logger.Fail("The User is not in login screen");
+                }
+            }
+            catch (Exception e)
+            {
+                IapReport.Fail("Fail : failed to user registration home screen page", e);
+            }
+        }
+
+
+        [Then(@"verify that the user is landed to User Registration screen after clicking on back arrow")]
+        public void ThenVerifyThatTheUserIsLandedToUserRegistrationScreenAfterClickingOnBackArrow()
+        {
+
+            try
+            {
+                AppHomeScreen.Click(AppHomeScreen.Button.BackTo_UserReg_Homescreen);
+                bool isPresent = WelcomeScreen.CheckUserRegistration();
+                if (!isPresent)
+                {
+                    Logger.Fail("The User is not in login screen");
+                }
+            }
+            catch (Exception e)
+            {
+                IapReport.Fail("Fail : failed to user registration home screen page", e);
+            }
+        }
+
+        [Then(@"verify that the user is landed to My Philips home screen after clicking on back arrow")]
+        public void ThenVerifyThatTheUserIsLandedToMyPhilipsHomeScreenAfterClickingOnBackArrow()
+        {
+            try
+            {
+                AppHomeScreen.Click(AppHomeScreen.Button.BackTo_UserReg_Homescreen);
+                string isPresent = AppHomeScreen.PhilipsAccount_Homescreen();
+                if (isPresent != "Log in with Philips account")
+                {
+                    IapReport.Fail("Fail : failed to My Philips login screen page");
+                }
+            }
+            catch (Exception e)
+            {
+                IapReport.Fail("Fail : failed to My Philips login screen page", e);
+            }
+
+        }
     }
    }
