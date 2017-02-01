@@ -10,7 +10,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
 
         applicationId "com.philips.cdp.dicommclientsample"
