@@ -12,8 +12,10 @@ import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -42,6 +44,7 @@ public class PickersFragment extends BaseFragment {
     public final ObservableField<Date> rangePickerStartDate = new ObservableField<>();
     public final ObservableField<Date> rangePickerEndDate = new ObservableField<>();
     public final ObservableField<Date> timeslotPickerTime = new ObservableField<>();
+    public final ObservableInt disableTimePicker = new ObservableInt(View.GONE);
     private Date date;
     private Calendar calendar;
     public ObservableBoolean isValidRange = new ObservableBoolean(false);

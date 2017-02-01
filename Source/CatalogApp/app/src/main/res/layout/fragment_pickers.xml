@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
@@ -72,7 +72,8 @@
                 android:onClick="@{(v) ->fragment.showTimePicker(dateTimePickerDate, false)}"
                 android:text="@{fragment.getFormattedTime(fragment.dateTimePickerDate)}"
                 android:textColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"/>
+                app:uidLabelTextAlpha="1.0"
+                android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
         <TextView
@@ -83,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
@@ -104,7 +105,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedDate(fragment.rangePickerStartDate)}"
-                android:textColor="@{fragment.getTextColor()}"
+                android:textColor="?attr/uidTextPrimary"
                 app:uidLabelTextAlpha="1.0"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -115,14 +116,15 @@
                 android:onClick="@{(v) ->fragment.showTimePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedTime(fragment.rangePickerStartDate)}"
                 android:textColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"/>
+                app:uidLabelTextAlpha="1.0"
+                android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
@@ -154,18 +156,20 @@
                 android:onClick="@{(v) ->fragment.showTimePicker(rangePickerEndDate, true)}"
                 android:text="@{fragment.getFormattedTime(fragment.rangePickerEndDate)}"
                 android:textColor="@{fragment.isValidRange? Color.RED: fragment.getTextColor()}"
-                />
+                android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 
         <TextView
+            android:visibility="@{fragment.disableTimePicker}"
             style="@style/ButtonsCategoryStyle"
             android:text="@string/timeslot_picker"/>
 
         <LinearLayout
+            android:visibility="@{fragment.disableTimePicker}"
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:onClick="@{(v) ->fragment.showTimePicker(timeslotPickerTime, false)}"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
