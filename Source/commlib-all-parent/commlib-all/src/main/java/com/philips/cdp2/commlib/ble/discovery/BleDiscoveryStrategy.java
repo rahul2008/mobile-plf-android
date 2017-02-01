@@ -16,6 +16,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
@@ -37,17 +38,21 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     }
 
     @Override
-    public void start() throws MissingPermissionException {
+    public void start() throws MissingPermissionException, TransportUnavailableException {
         start(null);
     }
 
     @Override
-    public void start(Set<String> deviceTypes) throws MissingPermissionException {
+    public void start(Set<String> deviceTypes) throws MissingPermissionException, TransportUnavailableException {
         if (checkAndroidPermission(this.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            throw new MissingPermissionException("Discovery over BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
+            throw new MissingPermissionException("Discovery via BLE is missing permission: " + Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis);
-        notifyDiscoveryStarted();
+
+        if (deviceScanner.startScanning(this, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, timeoutMillis)) {
+            notifyDiscoveryStarted();
+        } else {
+            throw new TransportUnavailableException("Error starting scanning via BLE.");
+        }
     }
 
     @VisibleForTesting

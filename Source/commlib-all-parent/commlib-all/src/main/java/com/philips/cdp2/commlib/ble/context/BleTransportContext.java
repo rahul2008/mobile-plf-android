@@ -35,7 +35,7 @@ public class BleTransportContext implements TransportContext {
      *
      * @param context the context
      */
-    public BleTransportContext(@NonNull final Context context) {
+    public BleTransportContext(@NonNull final Context context)  {
         this(context, false);
     }
 
@@ -46,13 +46,13 @@ public class BleTransportContext implements TransportContext {
      * @param showPopupIfBLEIsTurnedOff the show popup if BLE is turned off
      * @throws TransportUnavailableException the transport unavailable exception
      */
-    public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) throws TransportUnavailableException {
+    public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) {
         this.deviceCache = new BleDeviceCache();
         try {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
-            throw new TransportUnavailableException(e);
+            throw new TransportUnavailableException("Bluetooth hardware unavailable.");
         }
         this.shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
         this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner(), BLE_DISCOVERY_TIMEOUT_MS);
