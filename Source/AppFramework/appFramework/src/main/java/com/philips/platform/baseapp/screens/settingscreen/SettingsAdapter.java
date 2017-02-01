@@ -52,6 +52,7 @@ public class SettingsAdapter extends BaseAdapter {
     private boolean isMarketingEnabled=false;
     private AlertDialog logoutAlertDialog;
     private UIKitButton btn_settings_logout = null;
+    private String viewHolderTag = null;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            UIBasePresenter fragmentPresenter,UserRegistrationState userRegistrationState,boolean isUserLoggedIn,boolean isMarketingEnabled) {
@@ -126,7 +127,6 @@ public class SettingsAdapter extends BaseAdapter {
 
     protected void verticalAppView(int position, VerticalViewHolder viewHolder) {
 
-
         SettingListItemType type = settingsItemList.get(position).type;
 
         switch (type) {
@@ -150,6 +150,10 @@ public class SettingsAdapter extends BaseAdapter {
 
     protected UIKitButton getUrButton() {
         return btn_settings_logout;
+    }
+
+    protected String getViewHolderTag() {
+        return viewHolderTag;
     }
 
     protected void loginButtonView(View vi) {
@@ -236,6 +240,8 @@ public class SettingsAdapter extends BaseAdapter {
             viewHolder.description.setVisibility(View.VISIBLE);
             viewHolder.description.setText(descText);
             viewHolder.arrow.setVisibility(View.GONE);
+
+            viewHolderTag = String.valueOf(SettingListItemType.NOTIFICATION);
         }
     }
 
@@ -246,6 +252,7 @@ public class SettingsAdapter extends BaseAdapter {
             viewHolder.description.setVisibility(View.GONE);
             viewHolder.on_off.setVisibility(View.GONE);
             viewHolder.arrow.setVisibility(View.VISIBLE);
+            viewHolderTag = String.valueOf(SettingListItemType.CONTENT);
         }
     }
 
@@ -259,6 +266,7 @@ public class SettingsAdapter extends BaseAdapter {
             viewHolder.number.setVisibility(View.GONE);
             viewHolder.on_off.setVisibility(View.GONE);
             viewHolder.arrow.setVisibility(View.INVISIBLE);
+            viewHolderTag = String.valueOf(SettingListItemType.HEADER);
         }
 
     }
