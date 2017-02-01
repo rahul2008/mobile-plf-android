@@ -8,8 +8,8 @@ class Appliance {
 }
 
 class FirmwarePort {
-    + pushLocalFirmwareToAppliance(final byte[] firmwareData)
-    + pullRemoteFirmwareToAppliance(String version)
+    + pushLocalFirmware(final byte[] firmwareData)
+    + pullRemoteFirmware(String version)
     + cancel()
     + checkForNewerFirmware()
     + deployFirmware()
@@ -19,8 +19,8 @@ class FirmwarePort {
 
 interface FirmwarePortListener {
     + onProgressUpdated(FirmwarePortProgressType type, int progress)
-    + onDownloadingFailed(FirmwarePortException exception)
-    + onDownloadingFinished()
+    + onDownloadFailed(FirmwarePortException exception)
+    + onDownloadFinished()
     + onFirmwareAvailable(String version)
     + onDeployFailed(FirmwarePortException exception)
     + onDeployFinished()
