@@ -57,18 +57,7 @@ public class AppInfraApplication extends Application {
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
 
-        sharedPreferences = getSharedPreferences("com.appinfra", MODE_PRIVATE);
 
-        if (sharedPreferences.getBoolean("firstRun", true)) {
-            mSecureStorage = gAppInfra.getSecureStorage();
-            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-            mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, DATABASE_PASSWORD_KEY, sse);
-
-            editor = sharedPreferences.edit();
-            editor.putBoolean("firstRun", false);
-            editor.commit();
-
-        }
 
     }
 }
