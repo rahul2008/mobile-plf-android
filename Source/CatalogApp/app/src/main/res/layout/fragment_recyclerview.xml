@@ -44,7 +44,8 @@
                 app:srcCompat="@drawable/ic_right_arrow_show_more"/>
         </RelativeLayout>
 
-        <com.philips.platform.uid.view.widget.RecyclerView
+        <include
+            layout="@layout/uid_recyclerview"
             android:id="@+id/recyclerview_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

@@ -28,6 +28,7 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.RecyclerViewSettingsHelper;
 import com.philips.platform.catalogapp.databinding.FragmentRecyclerviewBinding;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 public class RecyclerViewFragment extends BaseFragment {
@@ -47,15 +48,17 @@ public class RecyclerViewFragment extends BaseFragment {
         fragmentRecyclerviewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recyclerview, container, false);
         fragmentRecyclerviewBinding.setFrag(this);
 
-        fragmentRecyclerviewBinding.recyclerviewRecyclerview.setHeaderEnabled(settingsHelper.isHeaderEnabled());
+        fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header).setVisibility(settingsHelper.isHeaderEnabled() ? View.VISIBLE : View.GONE);
+
+        RecyclerView recyclerView = ((RecyclerView)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_recyclerview));
 
         if(settingsHelper.isSeperatorEnabled()) {
-            fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+            recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         }
 
-        fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
-        fragmentRecyclerviewBinding.recyclerviewRecyclerview.getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentRecyclerviewBinding.recyclerviewRecyclerview.setHeaderText(R.string.uid_recyclerview_the_header);
+        recyclerView.setAdapter(new RecyclerViewAdapter(dataHolderView.dataHolders));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ((Label)fragmentRecyclerviewBinding.recyclerviewRecyclerview.findViewById(R.id.uid_recyclerview_header)).setText(R.string.uid_recyclerview_the_header);
 
         return fragmentRecyclerviewBinding.getRoot();
     }
