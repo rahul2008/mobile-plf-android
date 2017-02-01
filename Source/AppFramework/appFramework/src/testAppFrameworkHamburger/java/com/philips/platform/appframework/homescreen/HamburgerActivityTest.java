@@ -6,9 +6,10 @@
 
 package com.philips.platform.appframework.homescreen;
 
+import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
@@ -16,6 +17,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
+import com.philips.cdp.uikit.hamburger.HamburgerItem;
+import com.philips.platform.GradleRunner;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
@@ -26,9 +30,15 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.Locale;
 
-@RunWith(RobolectricTestRunner.class)
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+@RunWith(GradleRunner.class)
 @Config(constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class HamburgerActivityTest {
     private HamburgerActivity hamburgerActivity = null;
@@ -45,7 +55,7 @@ public class HamburgerActivityTest {
     public void setup() {
 //        application = new TestAppFrameworkApplication();
 //        application.setTargetFlowManager();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().get();
+        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
         actionBarTitle = (TextView) hamburgerActivity.findViewById(R.id.af_actionbar_title);
         navigationView = (NavigationView) hamburgerActivity.findViewById(R.id.navigation_view);
         philipsDrawerLayout = (DrawerLayout) hamburgerActivity.findViewById(R.id.philips_drawer_layout);
@@ -58,7 +68,7 @@ public class HamburgerActivityTest {
 
     @Test
     public void titleShouldShouldNotBeEmpty() throws Exception {
-        String title = resource.getString(com.philips.cdp.di.iap.R.string.app_name);
+        String title = resource.getString(R.string.app_name);
         hamburgerActivity.setTitle(title);
 
         assertNotNull(title);
@@ -133,5 +143,30 @@ public class HamburgerActivityTest {
         HamburgerActivityPresenter presenter = new HamburgerActivityPresenter(hamburgerActivity);
         presenter.onEvent(0);
         assertNotNull(presenter);
+    }
+
+    @Test
+    public void onBackPressFragmentCount(){
+        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
+//        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
+        int fragmentCount = fragmentManager.getBackStackEntryCount();
+        if(philipsDrawerLayout.isDrawerOpen(navigationView))
+        {
+            philipsDrawerLayout.closeDrawer(navigationView);
+        }
+
+        hamburgerActivity.onBackPressed();
+
+        HamburgerAdapter adapter = hamburgerActivity.getHamburgerAdapter();
+        HamburgerItem hamburgerItem = (HamburgerItem) adapter.getItem(fragmentCount);
+
+        String menuItem = hamburgerActivity.getResources().getString(R.string.app_home_title);
+
+        if(fragmentCount==0) {
+            assertEquals(hamburgerItem.getTitle(), menuItem);
+        }
+        else{
+            assertNotEquals(hamburgerItem.getTitle(), menuItem);
+        }
     }
 }

@@ -51,6 +51,7 @@ public class SettingsAdapter extends BaseAdapter {
     private boolean isUserLoggedIn=false;
     private boolean isMarketingEnabled=false;
     private AlertDialog logoutAlertDialog;
+    private UIKitButton btn_settings_logout = null;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            UIBasePresenter fragmentPresenter,UserRegistrationState userRegistrationState,boolean isUserLoggedIn,boolean isMarketingEnabled) {
@@ -123,7 +124,7 @@ public class SettingsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void verticalAppView(int position, VerticalViewHolder viewHolder) {
+    protected void verticalAppView(int position, VerticalViewHolder viewHolder) {
 
 
         SettingListItemType type = settingsItemList.get(position).type;
@@ -147,8 +148,12 @@ public class SettingsAdapter extends BaseAdapter {
         public FontIconTextView arrow;
     }
 
-    private void loginButtonView(View vi) {
-        final UIKitButton btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
+    protected UIKitButton getUrButton() {
+        return btn_settings_logout;
+    }
+
+    protected void loginButtonView(View vi) {
+        btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
         if (isUserLoggedIn) {
             btn_settings_logout.setText(getString(R.string.settings_list_item_log_out));
         } else {
@@ -258,7 +263,7 @@ public class SettingsAdapter extends BaseAdapter {
 
     }
 
-    private void logoutAlert() {
+    protected void logoutAlert() {
         if(logoutAlertDialog!=null && logoutAlertDialog.isShowing()){
             return;
         }

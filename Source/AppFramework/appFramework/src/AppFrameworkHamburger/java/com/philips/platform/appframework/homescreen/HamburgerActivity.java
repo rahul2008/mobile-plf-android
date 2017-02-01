@@ -47,7 +47,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPListener, FragmentManager.OnBackStackChangedListener, FragmentView {
+public class HamburgerActivity extends AppFrameworkBaseActivity implements /*IAPListener, */FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HamburgerActivity.class.getSimpleName();
     protected TextView actionBarTitle;
     private HamburgerUtil hamburgerUtil;
@@ -144,7 +144,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-     View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
         hamburgerIcon = (ImageView) mCustomView.findViewById(R.id.af_hamburger_imageview);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.af_hamburger_frame_layout);
@@ -155,7 +155,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
             }
         });
         actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
-        setTitle(getResources().getString(com.philips.cdp.di.iap.R.string.app_name));
+        setTitle(getResources().getString(R.string.app_name));
        /* cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
         shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
         Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
@@ -192,6 +192,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 hamburgerItems, totalCountView, false);
         adapter.notifyDataSetChanged();
         drawerListView.setAdapter(adapter);
+
     }
 
     @Override
@@ -251,7 +252,6 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
             }
         }
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -353,40 +353,40 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 cartCount.setVisibility(View.GONE);
         }
     }*/
-    @Override
-    public void onGetCartCount(int cartCount) {
-        /*setCartItemCount(cartCount);
-        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
-            cartIconVisibility(true);
-        }*/
-    }
-
-    @Override
-    public void onUpdateCartCount() {
-        /*if(userRegistrationState.getUserObject(this).isUserSignIn()){
-            addIapCartCount();
-        }*/
-    }
-
-    @Override
-    public void updateCartIconVisibility(boolean shouldShow) {
-      //  isCartVisible = shouldShow;
-    }
-
-    @Override
-    public void onGetCompleteProductList(ArrayList<String> arrayList) {
-
-    }
-
-    @Override
-    public void onSuccess() {
-
-    }
-
-    @Override
-    public void onFailure(int i) {
-     //   showToast(i);
-    }
+//    @Override
+//    public void onGetCartCount(int cartCount) {
+//        /*setCartItemCount(cartCount);
+//        if(cartCount > 0 && cartIcon.getVisibility() == View.VISIBLE) {
+//            cartIconVisibility(true);
+//        }*/
+//    }
+//
+//    @Override
+//    public void onUpdateCartCount() {
+//        /*if(userRegistrationState.getUserObject(this).isUserSignIn()){
+//            addIapCartCount();
+//        }*/
+//    }
+//
+//    @Override
+//    public void updateCartIconVisibility(boolean shouldShow) {
+//      //  isCartVisible = shouldShow;
+//    }
+//
+//    @Override
+//    public void onGetCompleteProductList(ArrayList<String> arrayList) {
+//
+//    }
+//
+//    @Override
+//    public void onSuccess() {
+//
+//    }
+//
+//    @Override
+//    public void onFailure(int i) {
+//     //   showToast(i);
+//    }
 
     /*private void showToast(int errorCode) {
         String errorText = getResources().getString(R.string.af_iap_server_error);

@@ -34,6 +34,15 @@ allprojects {
         maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
 
     }
+
+    tasks.withType(Test) {
+        maxHeapSize = '4g'
+        scanForTestClasses = false
+        include "**/*Test.class"
+        test { // set JVM arguments for the test JVM(s)
+             jvmArgs '-noverify'
+        }
+    }
 }
 
 apply plugin: 'com.jfrog.artifactory'

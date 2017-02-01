@@ -2,6 +2,7 @@ package com.philips.platform.appframework.homescreen;
 
 import android.content.Context;
 
+import com.philips.platform.GradleRunner;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import org.junit.Test;
@@ -10,7 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(GradleRunner.class)
 public class TestAppFrameworkApplication extends AppFrameworkApplication {
 //    private static AppFrameworkApplication testAppFrameworkApplication = null;
 
@@ -35,5 +36,10 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         } catch (RuntimeException ignored) {
             // Multidex support doesn't play well with Robolectric yet
         }
+    }
+
+    @Override
+    public void onCreate() {
+//        super.onCreate();
     }
 }
