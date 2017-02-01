@@ -169,10 +169,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             platformService = downloadPlatformService();
         }
         AISDResponse response = new AISDResponse();
-        if (platformService != null && propositionService != null &&
-                propositionService.isSuccess() && platformService.isSuccess()) {
-            response.setPlatformURLs(platformService);
-            response.setPropositionURLs(propositionService);
+        if (platformService != null && propositionService != null) {
+
+            if (propositionService.isSuccess() && platformService.isSuccess()) {
+                response.setPlatformURLs(platformService);
+                response.setPropositionURLs(propositionService);
+            } else {
+                AISDResponse ServiceDiscoveryError = new AISDResponse();
+                ServiceDiscoveryError.getPlatformURLs().setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
+                ServiceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
+            }
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
                     "Download failed");
@@ -479,7 +486,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private void getURlMAPwithLanguageOrCountry(final ArrayList<String> serviceIds, final OnGetServiceUrlMapListener listener,
                                                 final Map<String, String> replacement, AISDResponse.AISDPreference preference) {
-
         if (listener == null) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlMapListener is null initialized");
@@ -500,7 +506,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                                     listener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
                                             "ServiceDiscovery cannot find the locale");
                                 }
-
                             } else if (response.getError() != null) {
                                 listener.onError(response.getError().getErrorvalue(), response.getError().getMessage());
                             }
@@ -509,32 +514,53 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 });
             }
         }
-
     }
 
     @Override
     public void getServiceLocaleWithLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        getServiceDiscoveryData(new AISDListener() {
-
-            @Override
-            public void ondataReceived(AISDResponse response) {
-                String locale = response.getLocaleWithPreference(AISDResponse.AISDPreference.AISDLanguagePreference);
-                listener.onSuccess(locale);
-            }
-        });
+        getServiceLocale(serviceId,listener, AISDResponse.AISDPreference.AISDLanguagePreference);
     }
 
     @Override
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        getServiceDiscoveryData(new AISDListener() {
-
-            @Override
-            public void ondataReceived(AISDResponse response) {
-                String locale = response.getLocaleWithPreference(AISDResponse.AISDPreference.AISDCountryPreference);
-                listener.onSuccess(locale);
-            }
-        });
+       getServiceLocale(serviceId,listener, AISDResponse.AISDPreference.AISDCountryPreference);
     }
+
+    private void getServiceLocale(final String serviceId, final OnGetServiceLocaleListener listener,
+                                  final AISDResponse.AISDPreference preference) {
+        if (listener == null) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+                    "OnGetServiceUrlMapListener is null initialized");
+        } else {
+            if (serviceId == null) {
+                listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
+            } else {
+                getServiceDiscoveryData(new AISDListener() {
+                    @Override
+                    public void ondataReceived(AISDResponse response) {
+                        if (response != null) {
+
+                            if (response.isSuccess()) {
+                                String locale = response.getLocaleWithPreference(preference);
+                                if (locale != null) {
+                                    listener.onSuccess(locale);
+                                } else {
+                                    listener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                                            "ServiceDiscovery cannot find the locale");
+                                }
+                            } else if (response.getError() != null) {
+                                listener.onError(response.getError().getErrorvalue(), response.getError().getMessage());
+                            }
+                        } else {
+                            listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
+                                    "INVALID RESPONSE");
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 
     @Override
     public URL applyURLParameters(URL inputURL, Map<String, String> parameters) {
