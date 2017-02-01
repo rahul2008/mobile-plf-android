@@ -94,11 +94,21 @@
         <item name="uidCheckBoxRippleColor">?attr/uidCheckBoxBackgroundCheckedEnabledColor</item>
         <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
 
-        <item name="uidDatePickerButtonTextColor">?attr/uidControlPrimaryDetail</item>
         <item name="uidControlBufferAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlBuffer">?attr/uidControlPrimaryDetail</item>
 
         <item name="uidProgressIndicatorButtonProgressColor">?attr/uidProgressBarProgressColor</item>
+
+        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
+        <item name="uidDatePickerHeaderTextColor">?attr/uidNavigationTextColor</item>
+        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
+        <item name="uidGrayTextTertiary">@color/uid_gray_level_65</item>
+        <item name="uidDatePickerTextColor">?attr/uidDatePickerText</item>
+        <item name="uidDatePickerButtonTextColor">?attr/uidControlPrimaryEnabledColor</item>
+        <item name="uidControlBright">?attr/uidColorLevel45</item>
+        <item name="uidDatePickerSelectedFillColor">?attr/uidControlBright</item>
+        <item name="uidDatePickerWeekDayTextColor">?attr/uidGrayTextTertiary</item>
+        <item name="uidDatePickerText">@color/uid_gray_level_75</item>
     </style>
 
     <style name="UltraLight">
@@ -158,12 +168,6 @@
         <!-- Will be combined later to one uidSeparatorColorWithAlpha -->
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_10</item>
-
-        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor</item>
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
     </style>
@@ -221,13 +225,6 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
-
-        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
-        </item>
 
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel45</item>
@@ -287,13 +284,6 @@
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
 
-        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
-        </item>
-
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlTrackOff">@color/uidColorWhite</item>
     </style>
@@ -350,13 +340,6 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
-
-        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerFillColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerTextColor">@color/uid_gray_level_75</item>
-        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
-        </item>
 
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_25</item>
         <item name="uidControlTrackOff">@color/uidColorWhite</item>
@@ -415,13 +398,6 @@
 
         <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
         <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_15</item>
-
-        <item name="uidDatePickerHeaderFillColor">?attr/uidNavigationPrimaryColor</item>
-        <item name="uidDatePickerHeaderTextColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerFillColor">?attr/uidNavigationSecondaryColor</item>
-        <item name="uidDatePickerTextColor">@color/uidColorWhite</item>
-        <item name="uidDatePickerSelectedFillColor">?attr/uidControlPrimaryEnabledColor
-        </item>
 
         <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
         <item name="uidControlTrackOff">?attr/uidColorLevel30</item>

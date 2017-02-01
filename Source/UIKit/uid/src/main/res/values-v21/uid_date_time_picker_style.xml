@@ -24,7 +24,7 @@
         <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
     </style>
     <style name="UIDWeekDayTextAppearance">
-        <item name="android:textColor">?attr/uidDatePickerTextColor</item>
+        <item name="android:textColor">?attr/uidDatePickerWeekDayTextColor</item>
     </style>
 
     <style name="UIDHeaderMonthAppearance">

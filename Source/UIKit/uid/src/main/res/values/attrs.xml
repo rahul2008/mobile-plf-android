@@ -44,6 +44,9 @@
         <attr name="uidControlTrackOffAlpha" format="reference|float"/>
         <attr name="uidControlBuffer" format="reference|color"/>
         <attr name="uidControlBufferAlpha" format="reference|float"/>
+        <attr name="uidGrayTextTertiary" format="reference|color"/>
+        <attr name="uidControlBright" format="reference|color"/>
+        <attr name="uidDatePickerText" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="DlsColorPallet">

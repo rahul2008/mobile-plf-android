@@ -134,6 +134,7 @@
         <attr name="uidDatePickerHeaderTextColor" format="reference|color"/>
         <attr name="uidDatePickerFillColor" format="reference|color"/>
         <attr name="uidDatePickerTextColor" format="reference|color"/>
+        <attr name="uidDatePickerWeekDayTextColor" format="reference|color"/>
         <attr name="uidDatePickerSelectedFillColor" format="reference|color"/>
         <attr name="uidDatePickerButtonTextColor" format="reference|color"/>
     </declare-styleable>
