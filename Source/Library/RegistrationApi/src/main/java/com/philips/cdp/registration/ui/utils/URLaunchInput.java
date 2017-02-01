@@ -14,6 +14,9 @@ public class URLaunchInput extends UappLaunchInput {
         return isAddToBackStack;
     }
 
+    @Deprecated
+    private boolean isAccountSettings;
+
     public void enableAddtoBackStack(boolean isAddToBackStack) {
         this.isAddToBackStack = isAddToBackStack;
     }
@@ -41,11 +44,22 @@ public class URLaunchInput extends UappLaunchInput {
         return this.userRegistrationListener;
     }
 
-    public RegistrationLaunchMode getRegistrationLaunchMode() {
+    public RegistrationLaunchMode getEndPointScreen() {
         return registrationLaunchMode;
     }
 
-    public void setRegistrationLaunchMode(RegistrationLaunchMode registrationLaunchMode) {
+    public void setEndPointScreen(RegistrationLaunchMode registrationLaunchMode) {
         this.registrationLaunchMode = registrationLaunchMode;
     }
+
+    @Deprecated
+    public void setAccountSettings(boolean isAccountSettings) {
+        this.isAccountSettings = isAccountSettings;
+    }
+
+    @Deprecated
+    public boolean isAccountSettings() {
+        return isAccountSettings;
+    }
+
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -38,8 +39,18 @@ public class URInterface implements UappInterface {
                     getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((URLaunchInput)
-                    uappLaunchInput).getRegistrationLaunchMode());
+
+            RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
+            if(((URLaunchInput) uappLaunchInput).isAccountSettings()){
+                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
+            }
+
+            if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
+                registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
+            }
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
+                    uappLaunchInput).isAccountSettings());
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
@@ -82,8 +93,20 @@ public class URInterface implements UappInterface {
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((URLaunchInput)
-                    uappLaunchInput).getRegistrationLaunchMode());
+
+            RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
+
+            if(((URLaunchInput) uappLaunchInput).isAccountSettings()){
+                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
+            }
+
+            if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
+                registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
+            }
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
+
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
+                    uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
 

@@ -37,8 +37,8 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
     }
 
     public void testIsAccountSettingsTrue(){
-        coppaLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-        assertEquals(RegistrationLaunchMode.ACCOUNT_SETTINGS,coppaLaunchInput.getRegistrationLaunchMode());
+        coppaLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+        assertEquals(RegistrationLaunchMode.ACCOUNT_SETTINGS,coppaLaunchInput.getEndPointScreen());
     }
     public void testIsParentalFragmentTrue(){
         coppaLaunchInput.setParentalFragment(true);

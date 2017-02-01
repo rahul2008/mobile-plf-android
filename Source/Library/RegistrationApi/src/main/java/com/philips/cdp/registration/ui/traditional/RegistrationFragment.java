@@ -82,9 +82,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationBaseFragment.mHeight = 0;
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mRegistrationLaunchMode = (RegistrationLaunchMode)bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+            mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
         }
-
         RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
         super.onCreate(savedInstanceState);
     }

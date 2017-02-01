@@ -8,13 +8,13 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.ui.activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -42,8 +42,18 @@ public class CoppaInterface implements UappInterface {
                     getSupportFragmentManager();
             final RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
             final Bundle bundle = new Bundle();
-            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((CoppaLaunchInput)
-                    uappLaunchInput).getRegistrationLaunchMode());
+
+            RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
+
+            if(((CoppaLaunchInput) uappLaunchInput).isAccountSettings()){
+                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
+            }
+
+            if(((CoppaLaunchInput)uappLaunchInput).getEndPointScreen() !=null){
+                registrationLaunchMode = ((CoppaLaunchInput)
+                        uappLaunchInput).getEndPointScreen();
+            }
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
                     uappLaunchInput).isParentalFragment());
             registrationFragment.setArguments(bundle);
@@ -86,8 +96,20 @@ public class CoppaInterface implements UappInterface {
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationCoppaActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, ((CoppaLaunchInput)
-                    uappLaunchInput).getRegistrationLaunchMode());
+
+            RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
+
+            if(((CoppaLaunchInput) uappLaunchInput).isAccountSettings()){
+                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
+            }
+
+            if(((CoppaLaunchInput)uappLaunchInput).getEndPointScreen() !=null){
+                registrationLaunchMode = ((CoppaLaunchInput)
+                        uappLaunchInput).getEndPointScreen();
+            }
+            bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
+                    uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)

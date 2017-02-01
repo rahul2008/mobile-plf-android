@@ -298,12 +298,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+                urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+                urLaunchInput.setAccountSettings(true);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
-
                 urInterface = new URInterface();
                 urInterface.launch(activityLauncher, urLaunchInput);
                 final UIFlow abStrings=RegUtility.getUiFlow();
@@ -317,14 +317,14 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     Toast.makeText(mContext,"UI Flow Type C",Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING,"UI Flow Type C");
                 }
-                //RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             case R.id.btn_marketing_opt_in:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
                 RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
                 urLaunchInput = new URLaunchInput();
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.MARKETING_OPT);
+                urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
+                urLaunchInput.setAccountSettings(false);
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -353,7 +353,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 urLaunchInput = new URLaunchInput();
                 urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
                 urLaunchInput.setUserRegistrationUIEventListener(this);
-                urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.DEFAULT);
+                urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+                urLaunchInput.setAccountSettings(false);
                 activityLauncher = new ActivityLauncher(ActivityLauncher.
                         ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
                 urInterface = new URInterface();

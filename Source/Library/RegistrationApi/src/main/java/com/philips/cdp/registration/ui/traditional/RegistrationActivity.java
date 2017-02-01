@@ -182,7 +182,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     private void launchRegistrationFragment(RegistrationLaunchMode registrationLaunchMode) {
         URLaunchInput urLaunchInput = new URLaunchInput();
-        urLaunchInput.setRegistrationLaunchMode(registrationLaunchMode);
+        urLaunchInput.setEndPointScreen(registrationLaunchMode);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
         FragmentLauncher fragmentLauncher = new FragmentLauncher

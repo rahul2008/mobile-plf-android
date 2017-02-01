@@ -188,7 +188,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     private void launchRegistrationFragment(RegistrationLaunchMode launchMode, boolean isParentalConsent) {
         CoppaLaunchInput urLaunchInput;
         urLaunchInput = new CoppaLaunchInput();
-        urLaunchInput.setRegistrationLaunchMode(launchMode);
+        urLaunchInput.setEndPointScreen(launchMode);
         urLaunchInput.setParentalFragment(isParentalConsent);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.
