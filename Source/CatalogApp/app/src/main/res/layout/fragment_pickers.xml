@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="left"
+            android:gravity="left|center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="left"
+            android:gravity="left|left|center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
@@ -124,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="left"
+            android:gravity="left|left|center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
