@@ -61,7 +61,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
                 baseState = targetFlowManager.getBackState(targetFlowManager.getCurrentState());
 
             if (baseState != null) {
-                baseState.setUiStateData(getUiStateData());
+                baseState.setUiStateData(setStateData(baseState.getStateID()));
                 baseState.navigate(fragmentLauncher);
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException

@@ -1,6 +1,5 @@
 {
   "appflow": {
-    "firstState": "splash",
     "states": [
       {
         "state": "splash",
@@ -18,12 +17,6 @@
               {
                 "condition": [
                   "isLoggedIn"
-                ],
-                "nextState": "home"
-              },
-              {
-                "condition": [
-                  "isDonePressed"
                 ],
                 "nextState": "home"
               },
