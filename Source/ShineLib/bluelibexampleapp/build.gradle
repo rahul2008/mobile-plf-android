@@ -1,12 +1,32 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
 
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+
+buildscript {
+    repositories {
+        maven { url repos.jcenter }
+        maven { url repos.release }
+    }
+
+    dependencies {
+        classpath(builddeps.dcendents)
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpscm)
+    }
+}
+
 android {
-    compileSdkVersion _compileSdkVersion
-    buildToolsVersion _buildToolsVersion
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion _minSdkVersion
-        targetSdkVersion _targetSdkVersion
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
 
         applicationId "com.example.cdpp.bluelibexampleapp"
         versionCode 1
@@ -38,11 +58,11 @@ dependencies {
     compile project(':shinelib')
 
     compile deps.gson
+    compile deps.support_annotations
 
     compile(name: 'appcompat-v7-24.2.1', ext: 'aar')
     compile(name: 'design-24.2.0', ext: 'aar')
     compile(name: 'recyclerview-v7-24.2.0', ext: 'aar')
-    compile(name: 'support-annotations-24.2.0', ext: 'jar')
     compile(name: 'support-compat-24.2.0', ext: 'aar')
     compile(name: 'support-core-ui-24.2.0', ext: 'aar')
     compile(name: 'support-core-utils-24.2.0', ext: 'aar')
