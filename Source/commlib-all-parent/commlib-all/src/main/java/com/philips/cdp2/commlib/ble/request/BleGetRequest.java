@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.ble.request;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -32,8 +33,9 @@ public class BleGetRequest extends BleRequest {
                          @NonNull final String portName,
                          final int productId,
                          @NonNull final ResponseHandler responseHandler,
+                         @NonNull final Handler handlerToPostResponseOnto,
                          @NonNull AtomicBoolean disconnectAfterRequest) {
-        super(deviceCache, cppId, portName, productId, responseHandler, disconnectAfterRequest);
+        super(deviceCache, cppId, portName, productId, responseHandler, handlerToPostResponseOnto, disconnectAfterRequest);
     }
 
     @Override

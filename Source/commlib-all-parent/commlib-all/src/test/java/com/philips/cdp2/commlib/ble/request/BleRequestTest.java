@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.commlib.ble.request;
 
+import android.os.Handler;
+
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
@@ -15,7 +17,8 @@ import com.philips.pins.shinelib.dicommsupport.DiCommResponse;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InOrder;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -33,7 +36,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -68,6 +70,12 @@ public class BleRequestTest {
 
     SHNDeviceListener stateListener;
 
+    @Mock
+    private Handler handlerMock;
+
+    @Captor
+    private ArgumentCaptor<Runnable> runnableCaptor;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -97,8 +105,16 @@ public class BleRequestTest {
         when(mockDicommResponse.getStatus()).thenReturn(NoError);
         when(mockDicommResponse.getPropertiesAsString()).thenReturn("{}");
 
-        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, new AtomicBoolean(true));
+        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(true));
         request.inProgressLatch = mockInProgressLatch;
+
+        when(handlerMock.post(runnableCaptor.capture())).thenAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(final InvocationOnMock invocation) throws Throwable {
+                runnableCaptor.getValue().run();
+                return null;
+            }
+        });
     }
 
     @Test
@@ -128,26 +144,22 @@ public class BleRequestTest {
     }
 
     @Test
-    public void callsDisconnectAfterOnSuccess() {
+    public void callsOnSuccessOnHandlerAndDisconnects() {
         request.run();
 
-        InOrder inOrder = inOrder(responseHandlerMock, mockDevice);
-        inOrder.verify(responseHandlerMock).onSuccess(anyString());
-        inOrder.verify(mockDevice).disconnect();
+        verify(responseHandlerMock).onSuccess(anyString());
+        verify(mockDevice).disconnect();
     }
 
     @Test
     public void doesntCallDisconnectWhenStayingConnected() {
-        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock,
-                new AtomicBoolean(false)
-        );
+        request = new BleGetRequest(deviceCacheMock, CPP_ID, PORT_NAME, PRODUCT_ID, responseHandlerMock, handlerMock, new AtomicBoolean(false));
         request.inProgressLatch = mockInProgressLatch;
 
         request.run();
 
-        InOrder inOrder = inOrder(responseHandlerMock, mockDevice);
-        inOrder.verify(responseHandlerMock).onSuccess(anyString());
-        inOrder.verify(mockDevice, times(0)).disconnect();
+        verify(responseHandlerMock).onSuccess(anyString());
+        verify(mockDevice, times(0)).disconnect();
     }
 
     @Test
@@ -174,5 +186,10 @@ public class BleRequestTest {
         request.run();
 
         verify(mockDevice).registerSHNDeviceListener(null);
+    }
+
+    @Test
+    public void responseHandlerIsNotifiedOnUiThread() throws Exception {
+
     }
 }
