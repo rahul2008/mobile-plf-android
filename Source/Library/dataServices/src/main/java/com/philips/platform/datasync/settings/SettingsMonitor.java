@@ -81,6 +81,10 @@ public class SettingsMonitor extends EventMonitor {
             return;
         }
 
+        if(uCoreAccessProvider==null){
+            return;
+        }
+
         SettingsClient client = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
 
         try {

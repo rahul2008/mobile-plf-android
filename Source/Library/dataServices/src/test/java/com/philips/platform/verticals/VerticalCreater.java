@@ -20,6 +20,7 @@ import com.philips.testing.verticals.table.OrmCharacteristics;
 import com.philips.testing.verticals.table.OrmConsent;
 import com.philips.testing.verticals.table.OrmMoment;
 import com.philips.testing.verticals.table.OrmMomentType;
+import com.philips.testing.verticals.table.OrmSettings;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
@@ -110,7 +111,7 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public Settings createSettings(String type, String value) {
-        return null;
+        return new OrmSettings(type,value);
     }
 
     @NonNull
