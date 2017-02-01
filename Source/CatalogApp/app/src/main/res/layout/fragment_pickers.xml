@@ -50,6 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/date_time_picker"
+                android:clickable="true"
+                android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
                 app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -91,6 +93,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/date_time_picker"
+                android:clickable="true"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -128,6 +132,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/date_time_picker"
+                android:clickable="true"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerEndDate, true)}"
                 android:tint="@{fragment.isValidRange? Color.RED: fragment.getTextColor()}"
                 app:srcCompat="@drawable/ic_calender"/>
 
