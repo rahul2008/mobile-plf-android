@@ -74,6 +74,8 @@
     <toggleStatus>com.philips.platform.referenceapp:id/switch_button</toggleStatus>
     <Swipe_Welcome>com.philips.platform.referenceapp:id/welcome_pager</Swipe_Welcome>
     <CarouselHighlighted>com.philips.platform.referenceapp:id/uikit_linear</CarouselHighlighted>
+    <BackTo_UserReg_Homescreen>com.philips.platform.referenceapp:id/home_action_bar_arrow_left</BackTo_UserReg_Homescreen>
+    <PhilipsAccount_Homescreen>Log in with Philips account</PhilipsAccount_Homescreen>
   </AppFramework>
 
   <!--IAP-->

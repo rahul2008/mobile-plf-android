@@ -75,3 +75,21 @@ Scenario: Login using Facebook and verify social merge
 	Then Verify the social merge functionality by entering the gmail username as "app32622@gmail.com" and password "Philips123"
 	Then Verify that the user should land to home screen
 
+@URtag
+Scenario: Verify  all the back key behavior in User Registration 	 
+	Given that the application is in logout state
+	Then I click on Skip
+	Then Verify that the user is in User Registration screen
+	Then I click on google+ to login with gmail account
+	Then verify that the user is landed to User Registration screen after clicking on phone back button
+	Then I click on Facebook to login with Facebook account
+	Then verify that the user is landed to User Registration screen after clicking on phone back button
+	Then I click on Philips Account
+	Then verify that the user is landed to User Registration screen after clicking on back arrow
+	Then I click on Philips Account
+	Then enter email as "shuban022013@gmail.com" and password as "Philips123"
+	Then I click on Log In button
+	Then verify that the user is landed to My Philips home screen after clicking on back arrow
+	Then I click on Log In button
+	Then accept terms conditions and click on continue
+	Then Verify that the user should land to home screen

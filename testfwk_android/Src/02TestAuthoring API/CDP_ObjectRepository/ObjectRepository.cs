@@ -2102,6 +2102,22 @@ namespace Philips.SIG.Automation.Mobile.CDP.Repository
                     }
                 }
 
+                public static string PhilipsAccount_Homescreen
+                {
+                    get
+                    {
+                        return GetData("PhilipsAccount_Homescreen");
+                    }
+                }
+
+                public static string BackTo_UserReg_Homescreen
+                {
+                    get
+                    {
+                        return GetData("BackTo_UserReg_Homescreen");
+                    }
+                }
+
                 public static string Login
                 {
                     get
