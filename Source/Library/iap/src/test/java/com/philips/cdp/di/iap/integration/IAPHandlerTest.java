@@ -203,7 +203,7 @@ public class IAPHandlerTest {
 
     @Test
     public void testSetLocale() throws Exception {
-        mMockIAPHandler.setLangAndCountry("US");
+        mMockIAPHandler.setLangAndCountry("en_US");
     }
 
     //Init IAP

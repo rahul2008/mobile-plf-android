@@ -30,7 +30,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -41,7 +40,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 
 class IAPHandler {
     private IAPDependencies mIAPDependencies;
@@ -97,9 +95,21 @@ class IAPHandler {
     }
 
     private void setHomeCountry(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+//        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+//            @Override
+//            public void onSuccess(String s, SOURCE source) {
+//                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry " + s);
+//                setLangAndCountry(s);
+//            }
+//
+//            @Override
+//            public void onError(ERRORVALUES errorvalues, String s) {
+//                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry error " + s);
+//            }
+//        });
+        serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
             @Override
-            public void onSuccess(String s, SOURCE source) {
+            public void onSuccess(String s) {
                 IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry " + s);
                 setLangAndCountry(s);
             }
@@ -109,6 +119,7 @@ class IAPHandler {
                 IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==getHomeCountry error " + s);
             }
         });
+
     }
 
     private String loadConfigParams() {
@@ -134,10 +145,12 @@ class IAPHandler {
         HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
     }
 
-    protected void setLangAndCountry(String country) {
-        CartModelContainer.getInstance().setLanguage(Locale.getDefault().getLanguage());
-        CartModelContainer.getInstance().setCountry(country);
-        HybrisDelegate.getInstance().getStore().setLangAndCountry(Locale.getDefault().getLanguage(),country);
+    protected void setLangAndCountry(String locale) {
+        String[] localeArray;
+        localeArray = locale.split("_");
+        CartModelContainer.getInstance().setLanguage(localeArray[0]);
+        CartModelContainer.getInstance().setCountry(localeArray[1]);
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(localeArray[0], localeArray[1]);
     }
 
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {
