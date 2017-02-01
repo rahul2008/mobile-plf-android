@@ -7,14 +7,6 @@ buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
 }
 
-allprojects {
-    ext._compileSdkVersion = 24
-    ext._buildToolsVersion = '24.0.3'
-    ext._minSdkVersion = 19
-    ext._targetSdkVersion = 23
-    ext._versionCode = 3
-}
-
 subprojects {
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 }
