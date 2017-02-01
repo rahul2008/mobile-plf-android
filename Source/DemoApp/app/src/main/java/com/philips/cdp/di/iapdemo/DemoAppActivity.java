@@ -200,6 +200,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             } catch (RuntimeException exception) {
                 dismissProgressDialog();
             }
+        }else{
+            hideViews();
         }
     }
 
