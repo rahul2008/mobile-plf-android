@@ -58,8 +58,8 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void loadfromDisk() {
         ArrayList<String> testList = new ArrayList<>();
-        mCacheModel = getCachefromPreference();
-        if (mCacheModel != null ) {
+        if (getCachefromPreference() != null ) {
+            mCacheModel = getCachefromPreference();
             if(mCacheModel.getTestValues() != null && mCacheModel.getTestValues().size() > 0) {
                 mCacheStatusValue = mCacheModel.getTestValues();
             }
