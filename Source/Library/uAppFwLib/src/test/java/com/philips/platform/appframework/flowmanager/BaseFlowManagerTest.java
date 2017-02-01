@@ -140,7 +140,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.WELCOME), "welcome_done");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
         flowManagerTest.getBackState(flowManagerTest.getCurrentState());
-        assertEquals(flowManagerTest.getState(AppStates.ON_BOARDING_REGISTRATION), flowManagerTest.getCurrentState());
+        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
 
         flowManagerTest = new FlowManagerTest(context, path);
         try {
@@ -152,7 +152,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "support");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "settings");
         flowManagerTest.getBackState();
-        assertEquals(flowManagerTest.getState(AppStates.SUPPORT), flowManagerTest.getCurrentState());
+        assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
     }
 
     public void testErrorCases() {
