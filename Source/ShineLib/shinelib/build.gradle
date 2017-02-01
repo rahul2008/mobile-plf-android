@@ -2,7 +2,6 @@
  * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
-
 import com.philips.cdp.cdpSCM
 
 apply plugin: 'com.android.library'

@@ -2,7 +2,7 @@
  * Copyright (c) Koninklijke Philips N.V., 2017
  * All rights reserved.
  */
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion versions.sdk
