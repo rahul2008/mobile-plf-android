@@ -53,15 +53,15 @@ node('Android') {
             }
         }
     
-    /* next if-then + stage is mandatory for the platform CI pipeline integration */
-    if (env.triggerBy != "ppc" && (env.BRANCH_NAME =~ /master|develop|release.*/)) {
-        def platform = "android"
-        def project = "CommLibBle"
-        def project_tla = "cml"
-        stage('Trigger Integration Pipeline') {
-            build job: "Platform-Infrastructure/ppc/ppc_${platform}/${env.BRANCH_NAME}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
+        /* next if-then + stage is mandatory for the platform CI pipeline integration */
+        if (env.triggerBy != "ppc" && (env.BRANCH_NAME =~ /master|develop|release.*/)) {
+            def platform = "android"
+            def project = "CommLibBle"
+            def project_tla = "cml"
+            stage('Trigger Integration Pipeline') {
+                build job: "Platform-Infrastructure/ppc/ppc_${platform}/${env.BRANCH_NAME}", propagate: false, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: project_tla], [$class: 'StringParameterValue', name: 'libraryName', value: project]]
+            }
         }
-    }
 
     }
 }
