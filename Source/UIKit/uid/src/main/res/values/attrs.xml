@@ -39,6 +39,11 @@
 
         <attr name="uidProgressIndicatorButtonBackgroundColor" format="reference|color"/>
         <attr name="uidProgressIndicatorButtonBackgroundAlpha" format="reference|float"/>
+
+        <attr name="uidControlTrackOff" format="reference|color"/>
+        <attr name="uidControlTrackOffAlpha" format="reference|float"/>
+        <attr name="uidControlBuffer" format="reference|color"/>
+        <attr name="uidControlBufferAlpha" format="reference|float"/>
     </declare-styleable>
 
     <declare-styleable name="DlsColorPallet">

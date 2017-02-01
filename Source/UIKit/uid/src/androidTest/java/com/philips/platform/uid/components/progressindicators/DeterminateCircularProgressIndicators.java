@@ -133,8 +133,8 @@ public class DeterminateCircularProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryTrackOff);
-        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidControlPrimaryTrackOffAlpha);
+        final int attributeColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidProgressBarBGColor);
+        final float alpha = UIDTestUtils.getAttributeAlpha(activityContext, R.attr.uidProgressBarBGColorAlpha);
         return modulateColorAlpha(attributeColor, alpha);
     }
 

@@ -80,10 +80,11 @@
     </declare-styleable>
 
     <declare-styleable name="UIDProgressBar">
-        <attr name="uidControlPrimaryTrackOff" format="reference|color"/>
-        <attr name="uidControlPrimaryBuffer" format="reference|color"/>
-        <attr name="uidControlPrimaryTrackOffAlpha" format="reference|float"/>
-        <attr name="uidControlPrimaryBufferAlpha" format="reference|float"/>
+        <attr name="uidProgressBarBGColor" format="reference|color"/>
+        <attr name="uidProgressBarBGColorAlpha" format="reference|float"/>
+        <attr name="uidProgressBarSecondaryColor" format="reference|color"/>
+        <attr name="uidProgressBarSecondaryColorAlpha" format="reference|float"/>
+        <attr name="uidProgressBarProgressColor" format="reference|float"/>
         <attr name="uidLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
         <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
