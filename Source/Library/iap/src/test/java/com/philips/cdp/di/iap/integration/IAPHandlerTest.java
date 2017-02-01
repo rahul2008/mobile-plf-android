@@ -28,7 +28,9 @@ import org.mockito.Mock;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -39,6 +41,7 @@ public class IAPHandlerTest {
     AppInfra mAppInfra;
     @Mock
     Context mContext;
+
     @Mock
     ServiceDiscoveryInterface mServiceDiscoveryInterface;
 
@@ -73,7 +76,17 @@ public class IAPHandlerTest {
             }
 
             @Override
+            public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener, Map<String, String> map) {
+
+            }
+
+            @Override
             public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+
+            }
+
+            @Override
+            public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> map) {
 
             }
 
@@ -83,7 +96,17 @@ public class IAPHandlerTest {
             }
 
             @Override
+            public void getServiceUrlWithCountryPreference(String s, OnGetServiceUrlListener onGetServiceUrlListener, Map<String, String> map) {
+
+            }
+
+            @Override
             public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+
+            }
+
+            @Override
+            public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> map) {
 
             }
 
@@ -95,6 +118,11 @@ public class IAPHandlerTest {
             @Override
             public void getServiceLocaleWithCountryPreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
 
+            }
+
+            @Override
+            public URL applyURLParameters(URL url, Map<String, String> map) {
+                return null;
             }
 
             @Override
@@ -168,14 +196,14 @@ public class IAPHandlerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testInitHybrisDelegate(){
+    public void testInitHybrisDelegate() {
         mIAPSettings.setUseLocalData(true);
         mMockIAPHandler.initHybrisDelegate();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSetLocale() throws Exception {
-        mMockIAPHandler.setLangAndCountry();
+        mMockIAPHandler.setLangAndCountry("en_US");
     }
 
     //Init IAP
@@ -402,4 +430,5 @@ public class IAPHandlerTest {
     public void testServiceDiscovery() {
         mMockIAPHandler.fetchBaseUrl(mServiceDiscoveryInterface);
     }
+
 }

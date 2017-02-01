@@ -31,6 +31,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -123,11 +124,11 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
 
         //Integration interface
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
 
         mIAPSettings = new IAPSettings(this);
         mIAPSettings.setUseLocalData(true);
 
+        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
     }
@@ -254,7 +255,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (view == mRegister) {
             RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             URLaunchInput urLaunchInput = new URLaunchInput();
-            urLaunchInput.setAccountSettings(true);
+            urLaunchInput.setRegistrationLaunchMode(RegistrationLaunchMode.ACCOUNT_SETTINGS);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setUserRegistrationUIEventListener(this);
             URInterface urInterface = new URInterface();
@@ -442,9 +443,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     //User Registration interface functions
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        displayViews();
         activity.finish();
+        displayViews();
+
+        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
+        mIapInterface = new IAPInterface();
+        mIapInterface.init(mIapDependencies, mIAPSettings);
+        mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
+        init();
     }
 
     @Override

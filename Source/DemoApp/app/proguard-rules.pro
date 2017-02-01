@@ -98,8 +98,9 @@
 -keep interface com.philips.cdp.di.iap.session.** {*;}
 
 #Prx
--keep class com.philips.cdp.prxclient.** {*;}
+-keep class com.philips.cdp.prxclient.** { *; }
 -keep interface com.philips.cdp.prxclient.** { *; }
+-keep enum com.philips.cdp.prxclient.** { *; }
 
 #LocaleMatch
 -keep class com.philips.cdp.localematch.** {*;}
