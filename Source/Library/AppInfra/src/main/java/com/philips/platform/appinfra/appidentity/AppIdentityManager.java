@@ -100,28 +100,19 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     }
 
-    private void validateServiceDiscoveryEnv() {
-        String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                ("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
-
+    public void validateServiceDiscoveryEnv(String defSevicediscoveryEnv, Object dynServiceDiscoveryEnvironment) {
         if (defSevicediscoveryEnv != null) {
             if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
                 mServiceDiscoveryEnvironment = defSevicediscoveryEnv;
             else {
-                Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
-                        .getPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra",
-                                configError);
                 if (dynServiceDiscoveryEnvironment != null)
                     mServiceDiscoveryEnvironment = dynServiceDiscoveryEnvironment.toString();
                 else
                     mServiceDiscoveryEnvironment = defSevicediscoveryEnv;
             }
-
         }
         Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
         set.addAll(mServiceDiscoveryEnv);
-
-
         if (mServiceDiscoveryEnvironment != null && !mServiceDiscoveryEnvironment.isEmpty()) {
             if (!set.contains(mServiceDiscoveryEnvironment)) {
                 mServiceDiscoveryEnvironment = defSevicediscoveryEnv;
@@ -153,12 +144,11 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     }
 
-    private void validateMicrositeId() {
-        micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                ("appidentity.micrositeId", "appinfra", configError);
-        if (micrositeId != null && !micrositeId.isEmpty()) {
-            if (!micrositeId.matches("[a-zA-Z0-9]+")) {
-                micrositeId = null;
+    public void validateMicrositeId(String micrositeId) {
+        this.micrositeId = micrositeId;
+        if (this.micrositeId != null && !this.micrositeId.isEmpty()) {
+            if (!this.micrositeId.matches("[a-zA-Z0-9]+")) {
+                this.micrositeId = null;
                 throw new IllegalArgumentException("micrositeId must not contain special " +
                         "charectors in appIdentityConfig json file");
             }
@@ -213,7 +203,12 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     @Override
     public String getServiceDiscoveryEnvironment() {
-        validateServiceDiscoveryEnv();
+        String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                ("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
+        Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
+                .getPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra",
+                        configError);
+        validateServiceDiscoveryEnv(defSevicediscoveryEnv, dynServiceDiscoveryEnvironment);
         if (mServiceDiscoveryEnvironment != null) {
             if (mServiceDiscoveryEnvironment.equalsIgnoreCase("TEST")) {
                 mServiceDiscoveryEnvironment = "TEST";
@@ -247,8 +242,9 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     @Override
     public String getMicrositeId() {
-
-        validateMicrositeId();
+        micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+                ("appidentity.micrositeId", "appinfra", configError);
+        validateMicrositeId(micrositeId);
         return micrositeId;
     }
 

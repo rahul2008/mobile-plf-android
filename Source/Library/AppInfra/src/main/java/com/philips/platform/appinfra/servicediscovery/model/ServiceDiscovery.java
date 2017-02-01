@@ -257,7 +257,7 @@ public class ServiceDiscovery {
                         }
                     } else if (preference.equals(AISDCountryPreference)) {
                         String serviceID = getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId);
-                        if(serviceID != null){
+                        if (serviceID != null) {
                             url = new URL(getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
                         }
                     }
@@ -377,12 +377,25 @@ public class ServiceDiscovery {
     }
 
     String getLocaleWithPreference(AISDResponse.AISDPreference preference) {
-        if (preference.equals(AISDLanguagePreference)) {
-            if (getMatchByCountry() != null)
-                return getMatchByCountry().getLocale();
-        } else if (preference.equals(AISDCountryPreference)) {
-            if (getMatchByLanguage() != null)
-                return getMatchByLanguage().getLocale();
+        if (preference.equals(AISDCountryPreference)) {
+            if (getMatchByCountry() != null && getMatchByCountry().getConfigs() != null) {
+                if (getMatchByCountry().getLocale() != null) {
+                    return getMatchByCountry().getLocale();
+                } else {
+                    setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                            "ServiceDiscovery cannot find the locale");
+                }
+            }
+        } else if (preference.equals(AISDLanguagePreference)) {
+            if (getMatchByLanguage() != null && getMatchByLanguage().getConfigs() != null) {
+
+                if (getMatchByLanguage().getLocale() != null) {
+                    return getMatchByLanguage().getLocale();
+                } else {
+                    setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
+                            "ServiceDiscovery cannot find the locale");
+                }
+            }
         }
         return null;
     }

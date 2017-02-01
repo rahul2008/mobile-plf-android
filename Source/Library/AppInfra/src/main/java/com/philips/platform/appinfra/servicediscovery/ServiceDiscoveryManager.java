@@ -14,6 +14,7 @@ import android.telephony.TelephonyManager;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
@@ -144,14 +145,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                 }).start();
             } else {
-                ServiceDiscovery ServiceDiscoveryError = new ServiceDiscovery();
-                ServiceDiscoveryError.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
-                //ServiceDiscoveryError.setSuccess(false);
+                AISDResponse ServiceDiscoveryError = new AISDResponse();
+                ServiceDiscoveryError.getPlatformURLs().setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
+                ServiceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Server is not reachable at the moment,Please try after some time");
-                //listener.onDownloadDone(ServiceDiscoveryError);
+                listener.onDownloadDone(ServiceDiscoveryError);
             }
         } else {
-
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Download already in progress, please wait for response");
         }
         downloadLock.unlock();
@@ -165,12 +165,18 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         ServiceDiscovery platformService = null;
         ServiceDiscovery propositionService;
         propositionService = downloadPropositionService();
-        if (propositionService.isSuccess()) {
+        if (propositionService != null && propositionService.isSuccess()) {
             platformService = downloadPlatformService();
         }
         AISDResponse response = new AISDResponse();
-        response.setPlatformURLs(platformService);
-        response.setPropositionURLs(propositionService);
+        if (platformService != null && propositionService != null &&
+                propositionService.isSuccess() && platformService.isSuccess()) {
+            response.setPlatformURLs(platformService);
+            response.setPropositionURLs(propositionService);
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
+                    "Download failed");
+        }
         return response;
     }
 
@@ -241,10 +247,18 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             switch (aisdurlType) {
                 case AISDURLTypePlatform:
                     sector = "B2C";
+                    AppIdentityManager appIdentityManager = new AppIdentityManager(mAppInfra);
                     micrositeid = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                             ("servicediscovery.platformMicrositeId", "appinfra", null);
+                    appIdentityManager.validateMicrositeId(micrositeid);
+
                     environment = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                             ("servicediscovery.platformMicrositeId", "appinfra", null);
+
+                    Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
+                            .getPropertyForKey("servicediscovery.platformMicrositeId", "appinfra",
+                                    null);
+                    appIdentityManager.validateServiceDiscoveryEnv(environment, dynServiceDiscoveryEnvironment);
                     environment = getSDBaseURLForEnvironment(environment);
                     break;
 
@@ -442,24 +456,24 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void getServicesWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        getURlMAPwithLanguageOrCountry(serviceId ,listener ,null ,AISDResponse.AISDPreference.AISDLanguagePreference);
+        getURlMAPwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDLanguagePreference);
     }
 
     @Override
     public void getServicesWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener,
                                                   final Map<String, String> replacement) {
-        getURlMAPwithLanguageOrCountry(serviceId ,listener ,replacement ,AISDResponse.AISDPreference.AISDLanguagePreference);
+        getURlMAPwithLanguageOrCountry(serviceId, listener, replacement, AISDResponse.AISDPreference.AISDLanguagePreference);
     }
 
     @Override
     public void getServicesWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        getURlMAPwithLanguageOrCountry(serviceId ,listener ,null ,AISDResponse.AISDPreference.AISDCountryPreference);
+        getURlMAPwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDCountryPreference);
     }
 
     @Override
     public void getServicesWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener,
                                                  final Map<String, String> replacement) {
-        getURlMAPwithLanguageOrCountry(serviceId ,listener ,replacement ,AISDResponse.AISDPreference.AISDCountryPreference);
+        getURlMAPwithLanguageOrCountry(serviceId, listener, replacement, AISDResponse.AISDPreference.AISDCountryPreference);
     }
 
 
@@ -473,7 +487,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (serviceIds == null) {
                 listener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
             } else {
-
                 getServiceDiscoveryData(new AISDListener() {
                     @Override
                     public void ondataReceived(AISDResponse response) {
