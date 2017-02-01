@@ -83,7 +83,6 @@ public class NotifyDBRequestListener {
             DBChangeListener dbChangeListener=DataServicesManager.getInstance().getDbChangeListener();
             dbChangeListener.dBChangeSuccess();
         }else {
-            //Callback Not registered
             DSLog.i(DataServicesManager.TAG,"Callback not registered");
         }
     }
