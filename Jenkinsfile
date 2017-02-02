@@ -10,7 +10,7 @@ def getArchiveConfig() {
 		
             bat "espresso.cmd"
             
-            bat "espresso.cmd"
+            bat "cleanup.cmd"
           }
       }
 
