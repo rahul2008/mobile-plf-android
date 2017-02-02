@@ -72,12 +72,6 @@ public class BaseAppCore implements BaseAppDataCreator {
         return database.createMoment(creatorId, subjectId, type);
     }
 
-  /*  @NonNull
-    @Override
-    public Moment createMomentWithoutUUID(@NonNull final String creatorId,
-                                          @NonNull final String subjectId, @NonNull final String type) {
-        return database.createMomentWithoutUUID(creatorId, subjectId, type);
-    }*/
 
     @NonNull
     public MomentDetail createMomentDetail(final String type,

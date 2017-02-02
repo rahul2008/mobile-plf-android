@@ -35,8 +35,6 @@ import retrofit.converter.GsonConverter;
  * All rights reserved.
  */
 public class ConsentsMonitor extends EventMonitor {
-   /* @NonNull
-    private final UCoreAccessProvider accessProvider;*/
 
     @NonNull
     private final UCoreAdapter uCoreAdapter;
@@ -51,9 +49,7 @@ public class ConsentsMonitor extends EventMonitor {
     @NonNull
     private final ConsentsConverter consentsConverter;
 
-    private  DataServicesManager mDataServicesManager;
 
-    //private BaseAppDataCreator mDataCreater;
 
     @Inject
     public ConsentsMonitor(@NonNull final UCoreAdapter uCoreAdapter,
@@ -63,7 +59,6 @@ public class ConsentsMonitor extends EventMonitor {
         this.uCoreAdapter = uCoreAdapter;
         this.consentsConverter = consentsConverter;
         this.gsonConverter = gsonConverter;
-        mDataServicesManager=DataServicesManager.getInstance();
     }
 
     //TODO: Commented part can you clearify with Ajay

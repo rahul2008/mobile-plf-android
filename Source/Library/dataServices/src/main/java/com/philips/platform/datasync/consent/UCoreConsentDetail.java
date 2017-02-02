@@ -1,7 +1,5 @@
 package com.philips.platform.datasync.consent;
 
-import android.support.annotation.NonNull;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.

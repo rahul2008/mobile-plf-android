@@ -32,18 +32,18 @@ public class SavingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final MomentSaveRequest momentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(),momentSaveRequest.getDbRequestListener());
+        boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(), momentSaveRequest.getDbRequestListener());
         if (saved) {
             //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoment()));
         } else {
-            dbInterface.postError(new Exception("Failed to insert"),momentSaveRequest.getDbRequestListener());
+            dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
         Consent consent = consentSaveRequest.getConsent();
-        boolean saved = dbInterface.saveConsent(consent,consentSaveRequest.getDbRequestListener());
+        boolean saved = dbInterface.saveConsent(consent, consentSaveRequest.getDbRequestListener());
 
         if (!saved) {
             dbInterface.postError(new Exception("Failed to insert"), consentSaveRequest.getDbRequestListener());
@@ -57,7 +57,7 @@ public class SavingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final DatabaseSettingsSaveRequest databaseSettingsSaveRequest) throws SQLException {
-        dbInterface.saveSettings(databaseSettingsSaveRequest.getSettings(),databaseSettingsSaveRequest.getDbRequestListener());
+        dbInterface.saveSettings(databaseSettingsSaveRequest.getSettings(), databaseSettingsSaveRequest.getDbRequestListener());
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
@@ -66,13 +66,12 @@ public class SavingMonitor extends EventMonitor {
         if (userCharacteristicsSaveRequest.getUserCharacteristics() == null)
             return;
 
-        boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristics(),userCharacteristicsSaveRequest.getDbRequestListener());
+        boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristics(), userCharacteristicsSaveRequest.getDbRequestListener());
 
 
-
-        DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved ="+isSaved);
-        if(!isSaved){
-            dbInterface.postError(new Exception("Failed to insert"),userCharacteristicsSaveRequest.getDbRequestListener());
+        DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest isSaved =" + isSaved);
+        if (!isSaved) {
+            dbInterface.postError(new Exception("Failed to insert"), userCharacteristicsSaveRequest.getDbRequestListener());
             return;
         }
 

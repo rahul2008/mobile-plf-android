@@ -2,7 +2,6 @@ package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
 
-
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;

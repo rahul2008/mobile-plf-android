@@ -7,7 +7,6 @@
 package com.philips.platform.datasync.moments;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Measurement;

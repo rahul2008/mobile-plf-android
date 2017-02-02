@@ -1,9 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
-
 package com.philips.platform.core.trackers;
 
 import android.content.Context;
@@ -31,10 +29,8 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
-import com.philips.platform.core.events.LoadSettingsRequest;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
+import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -62,15 +58,11 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataServicesManager {
 
@@ -79,8 +71,6 @@ public class DataServicesManager {
     private volatile boolean isPullComplete = true;
 
     private volatile boolean isPushComplete = true;
-
-    private DBRequestListener dbRequestListener;
 
     private DBChangeListener dbChangeListener;
 
@@ -143,14 +133,6 @@ public class DataServicesManager {
         return sDataServicesManager;
     }
 
- /*   public UCoreAccessProvider getUCoreAccessProvider() {
-        return (UCoreAccessProvider) mBackendIdProvider;
-    }*/
-
-  /*  public BaseAppDataCreator getDataCreater() {
-        return mDataCreater;
-    }*/
-
     @NonNull
     public Moment save(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
         DSLog.i("***SPO***", "In DataServicesManager.save for " + moment.toString());
@@ -158,11 +140,6 @@ public class DataServicesManager {
         return moment;
     }
 
-   /* @NonNull
-    public List<Moment> save(@NonNull final List<Moment> momentList, DBRequestListener dbRequestListener) {
-        mEventing.post(new MomentSaveRequest(moment, dbRequestListener));
-        return momentList;
-    }*/
 
     public Moment update(@NonNull final Moment moment, DBRequestListener dbRequestListener) {
         mEventing.post(new MomentUpdateRequest(moment, dbRequestListener));
@@ -179,7 +156,6 @@ public class DataServicesManager {
 
     public void fetchAllData(DBRequestListener dbRequestListener) {
         mEventing.post(new LoadMomentsRequest(dbRequestListener));
-//        Log.d(this.getClass().getName(),"Inside DataService");
     }
 
     @NonNull
@@ -208,18 +184,18 @@ public class DataServicesManager {
         mEventing.post(new DatabaseConsentSaveRequest(consent, false, dbRequestListener));
     }
 
-    public Settings createSettings(String unit,String locale) {
-        Settings settings = mDataCreater.createSettings(unit,locale);
+    public Settings createSettings(String unit, String locale) {
+        Settings settings = mDataCreater.createSettings(unit, locale);
         return settings;
     }
 
     public void saveSettings(Settings settings, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseSettingsSaveRequest(settings,dbRequestListener));
+        mEventing.post(new DatabaseSettingsSaveRequest(settings, dbRequestListener));
     }
 
 
     public void updateSettings(Settings settings, DBRequestListener dbRequestListener) {
-        mEventing.post(new DatabaseSettingsUpdateRequest(settings,dbRequestListener));
+        mEventing.post(new DatabaseSettingsUpdateRequest(settings, dbRequestListener));
     }
 
 
@@ -239,13 +215,6 @@ public class DataServicesManager {
         moment.addMomentDetail(momentDetail);
         return momentDetail;
     }
-
-  /*  @NonNull
-    public Measurement createMeasurement(@NonNull final MeasurementType type, @NonNull final Moment moment) {
-        Measurement measurement = mDataCreater.createMeasurement(type, moment);
-        moment.addMeasurement(measurement);
-        return measurement;
-    }*/
 
     @NonNull
     public Measurement createMeasurement(@NonNull final String type, @NonNull final MeasurementGroup measurementGroup) {
@@ -288,17 +257,6 @@ public class DataServicesManager {
         startMonitors();
     }
 
- /*   private void sendPushEvent() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("***SPO***", "In DataServicesManager.sendPushEvent");
-                mEventing.post(new WriteDataToBackendRequest());
-            }
-        }, 20 * DateTimeConstants.MILLIS_PER_SECOND);
-
-    }*/
-
     private void sendPullDataEvent() {
         synchronized (this) {
             DSLog.i("***SPO***", "In DataServicesManager.sendPullDataEvent");
@@ -332,7 +290,6 @@ public class DataServicesManager {
         this.errorHandlingInterface = errorHandlingInterface;
     }
 
-    //Currently this is same as deleteAllMoment as only moments are there - later will be changed to delete all the tables
     public void deleteAll(DBRequestListener dbRequestListener) {
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
@@ -348,7 +305,6 @@ public class DataServicesManager {
                 fetchers, senders, errorHandlingInterface);
         final ApplicationModule applicationModule = new ApplicationModule(context);
 
-        // initiating all application module events
         mAppComponent = DaggerAppComponent.builder().backendModule(backendModule).applicationModule(applicationModule).build();
         mAppComponent.injectApplication(this);
     }
@@ -366,36 +322,11 @@ public class DataServicesManager {
         }
     }
 
-    /*public void releaseDataServicesInstances() {
-        userRegistrationInterface = null;
-        mBackendIdProvider = null;
-        mDataCreater = null;
-        mAppComponent = null;
-        mDeletingInterface = null;
-        mFetchingInterface = null;
-        mSavingInterface = null;
-        mUpdatingInterface = null;
-        mEventing = null;
-        mCore = null;
-        mSynchronisationMonitor = null;
-        fetchers = null;
-        senders = null;
-        userRegistrationInterface = null;
-        errorHandlingInterface =null;
-        // mCore.stop();
-    }*/
-
-
-  /*  public UserRegistrationInterface getUserRegistrationImpl() {
-        return userRegistrationInterface;
-    }*/
-
 
     public MeasurementGroupDetail createMeasurementGroupDetail(String tempOfDay, MeasurementGroup mMeasurementGroup) {
         return mDataCreater.createMeasurementGroupDetail(tempOfDay, mMeasurementGroup);
     }
 
-    //User UserCharacteristics
     @NonNull
     private UserCharacteristics createUCSync() {
         return mDataCreater.createCharacteristics(userRegistrationInterface.getUserProfile().getGUid());
@@ -403,7 +334,6 @@ public class DataServicesManager {
 
     public void updateCharacteristics(DBRequestListener dbRequestListener) {
 
-        UserCharacteristics userCharacteristics = getUserCharacteristics();
         mEventing.post(new UserCharacteristicsSaveRequest(getUserCharacteristics(), dbRequestListener));
         setUserCharacteristics(null);
     }
@@ -456,14 +386,14 @@ public class DataServicesManager {
 
 
     public void fetchSettings(DBRequestListener dbRequestListener) {
-      mEventing.post(new LoadSettingsRequest(dbRequestListener));
+        mEventing.post(new LoadSettingsRequest(dbRequestListener));
     }
 
-    public AppComponent getAppComponant(){
+    public AppComponent getAppComponant() {
         return mAppComponent;
     }
 
-    public void setAppComponant(AppComponent appComponent){
+    public void setAppComponant(AppComponent appComponent) {
         mAppComponent = appComponent;
     }
 }

@@ -4,9 +4,6 @@ import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 /**
