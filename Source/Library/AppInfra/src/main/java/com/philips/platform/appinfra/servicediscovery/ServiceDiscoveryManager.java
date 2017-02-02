@@ -622,9 +622,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 if (result != null && result.isSuccess()) {
                     listener.onSuccess();
                 } else {
-                    if (result != null) {
+                    if (result != null && result.getError() != null) {
                         ServiceDiscovery.Error err = result.getError();
                         listener.onError(err.getErrorvalue(), err.getMessage());
+                    } else {
+                        listener.onError(OnErrorListener.ERRORVALUES.UNKNOWN_ERROR , "UNKNOWN ERROR");
                     }
                 }
             }
