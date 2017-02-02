@@ -4,17 +4,17 @@
  */
 package com.philips.platform.core.events;
 
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
 
 public class CharacteristicsBackendGetRequest extends Event {
 
-    private UserCharacteristics userCharacteristics;
+    private Characteristics userCharacteristics;
 
-    public CharacteristicsBackendGetRequest(UserCharacteristics userCharacteristics) {
+    public CharacteristicsBackendGetRequest(Characteristics userCharacteristics) {
         this.userCharacteristics = userCharacteristics;
     }
 
-    public UserCharacteristics getUserCharacteristics() {
+    public Characteristics getUserCharacteristics() {
         return userCharacteristics;
     }
 }

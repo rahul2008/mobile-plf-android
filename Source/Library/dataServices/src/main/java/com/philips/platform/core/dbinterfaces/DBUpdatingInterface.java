@@ -1,6 +1,6 @@
 package com.philips.platform.core.dbinterfaces;
 
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -20,7 +20,7 @@ public interface DBUpdatingInterface {
 
     void updateFailed(Exception e, DBRequestListener dbRequestListener);
 
-    boolean updateCharacteristics(final UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
+    boolean updateCharacteristics(final List<Characteristics> userCharacteristics, DBRequestListener dbRequestListener) throws SQLException;
 
     void updateSettings(Settings settings, DBRequestListener dbRequestListener) throws SQLException;
 

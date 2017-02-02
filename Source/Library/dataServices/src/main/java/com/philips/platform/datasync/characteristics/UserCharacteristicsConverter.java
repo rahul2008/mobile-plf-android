@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
@@ -29,61 +28,61 @@ public class UserCharacteristicsConverter {
     }
 
     //DataCore data type To Application type
-    public UserCharacteristics convertToCharacteristics(UCoreUserCharacteristics uCoreUserCharacteristics, @NonNull final String creatorId) {
-        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter");
-        UserCharacteristics mUserCharacteristics = dataCreator.createCharacteristics(creatorId);
-        for (int i = 0; i < uCoreUserCharacteristics.getCharacteristics().size(); i++) {
-            String type = uCoreUserCharacteristics.getCharacteristics().get(i).getType();
-            String value = uCoreUserCharacteristics.getCharacteristics().get(i).getValue();
+    public List<Characteristics> convertToCharacteristics(UCoreUserCharacteristics uCoreUserCharacteristics, @NonNull final String creatorId) {
 
-            Characteristics characteristics = dataCreator.createCharacteristicsDetails(type, value, mUserCharacteristics);
+        List<Characteristics> characteristicsList=new ArrayList<>();
 
-            mUserCharacteristics.addCharacteristicsDetail(characteristics);
+        for (int i = 0; i < uCoreCharacteristicsList.size(); i++) {
+            String type = uCoreCharacteristicsList.get(i).getType();
+            String value = uCoreCharacteristicsList.get(i).getValue();
 
-            convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mUserCharacteristics, characteristics,
-                    uCoreUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
+            Characteristics characteristics = dataCreator.createCharacteristics(type, value);
+
+            characteristicsList.add(characteristics);
+
+            convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList,characteristics,
+                    uCoreCharacteristicsList.get(i).getCharacteristics());
 
         }
-        DSLog.d(DSLog.LOG, "Inder = Inside UC Converter mUserCharacteristics = " + mUserCharacteristics);
-        return mUserCharacteristics;
+
+        return characteristicsList;
 
     }
 
-    private void convertUCoreCharacteristicsToCharacteristicsDetailRecursively(UserCharacteristics mUserCharacteristics, Characteristics parentCharacteristics, List<UCoreCharacteristics> characteristicsList) {
-        if (characteristicsList.size() > 0) {
-            for (int i = 0; i < characteristicsList.size(); i++) {
-                String type = characteristicsList.get(i).getType();
-                String value = characteristicsList.get(i).getValue();
-                Characteristics childCharacteristics = dataCreator.createCharacteristicsDetails(type, value, mUserCharacteristics, parentCharacteristics);
+    private void convertUCoreCharacteristicsToCharacteristicsDetailRecursively(List<Characteristics> characteristicsList,Characteristics parentCharacteristics, List<UCoreCharacteristics> uCoreCharacteristicsList) {
+        if (uCoreCharacteristicsList.size() > 0) {
+            for (int i = 0; i < uCoreCharacteristicsList.size(); i++) {
+                String type = uCoreCharacteristicsList.get(i).getType();
+                String value = uCoreCharacteristicsList.get(i).getValue();
 
-                // parentCharacteristics.setCharacteristicsDetail(childCharacteristics);
-
-                mUserCharacteristics.addCharacteristicsDetail(childCharacteristics);
-
-                convertUCoreCharacteristicsToCharacteristicsDetailRecursively(mUserCharacteristics, childCharacteristics, characteristicsList.get(i).getCharacteristics());
+                Characteristics childCharacteristics = dataCreator.createCharacteristics(type, value,parentCharacteristics);
+                characteristicsList.add(childCharacteristics);
+                convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList,childCharacteristics, uCoreCharacteristicsList.get(i).getCharacteristics());
             }
         }
     }
 
     //Application data type to DataCore type
-    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<UserCharacteristics> userCharacteristicses) {
-        UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
+    public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristicsList) {
+
+        UCoreUserCharacteristics uCoreUserCharacteristics=new UCoreUserCharacteristics();
+
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
         List<Characteristics> mCharacteristicsList;
-        if (userCharacteristicses != null) {
-            mCharacteristicsList = convertToCharacteristicDetail(userCharacteristicses.get(0).getCharacteristicsDetails());
-            List<Characteristics> characteristicsList = new ArrayList<>();
+        if (characteristicsList != null) {
+            mCharacteristicsList = convertToCharacteristicDetail(characteristicsList);
+            List<Characteristics> parentCharacteristicsList = new ArrayList<>();
             for (int i = 0; i < mCharacteristicsList.size(); i++) {
                 if (mCharacteristicsList.get(i).getParent() == 0) {
-                    characteristicsList.add(mCharacteristicsList.get(i));
+                    parentCharacteristicsList.add(mCharacteristicsList.get(i));
                 }
             }
-            for (int i = 0; i < characteristicsList.size(); i++) {
-                if (characteristicsList.size() > 0) {
+            for (int i = 0; i < parentCharacteristicsList.size(); i++) {
+                if (parentCharacteristicsList.size() > 0) {
                     UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
-                    uCoreCharacteristics.setType(characteristicsList.get(i).getType());
-                    uCoreCharacteristics.setValue(characteristicsList.get(i).getValue());
-                    uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(characteristicsList.get(i).getCharacteristicsDetail())));
+                    uCoreCharacteristics.setType(parentCharacteristicsList.get(i).getType());
+                    uCoreCharacteristics.setValue(parentCharacteristicsList.get(i).getValue());
+                    uCoreCharacteristics.setCharacteristics(convertToUCoreCharacteristics(convertToCharacteristicDetail(parentCharacteristicsList.get(i).getCharacteristicsDetail())));
                     uCoreCharacteristicsList.add(uCoreCharacteristics);
                 }
             }

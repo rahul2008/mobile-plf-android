@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -54,7 +53,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
                         mUCoreAccessProvider.getUserId(), API_VERSION);
 
-                UserCharacteristics userCharacteristics =
+
                         mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
                                 mUCoreAccessProvider.getUserId());
 

@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 

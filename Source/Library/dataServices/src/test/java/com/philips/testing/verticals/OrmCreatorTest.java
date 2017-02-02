@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Measurement;
@@ -138,13 +137,13 @@ public class OrmCreatorTest implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
         return new OrmCharacteristicsDetail(type, value, (OrmCharacteristics) userCharacteristics, (OrmCharacteristicsDetail) characteristics);
     }
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
         return new OrmCharacteristicsDetail(type, value, (OrmCharacteristics) userCharacteristics);
     }
 

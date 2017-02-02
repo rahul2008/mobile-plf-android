@@ -7,7 +7,6 @@ package com.philips.testing.verticals.table;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 
 import org.joda.time.DateTime;

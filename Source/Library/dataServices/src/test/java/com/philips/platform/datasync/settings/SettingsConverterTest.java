@@ -5,19 +5,13 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.consent.ConsentsConverter;
-import com.philips.platform.verticals.VerticalCreater;
 import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**

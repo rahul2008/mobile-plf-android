@@ -10,15 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
-import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.listeners.DBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmMeasurement;
@@ -64,7 +61,7 @@ public class OrmSaving {
     private final Dao<OrmCharacteristics, Integer> characteristicsesDao;
 
     @NonNull
-    private final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao;
+    private final Dao<OrmCharacteristics, Integer> characteristicsDetailsDao;
     @NonNull
     private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailsDao;
 
@@ -81,7 +78,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
-                     @NonNull final Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao, @NonNull Dao<OrmSettings, Integer> settingsDao) {
+                     @NonNull final Dao<OrmCharacteristics, Integer> characteristicsDetailsDao, @NonNull Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -207,17 +204,6 @@ public class OrmSaving {
     //User AppUserCharacteristics
     public void saveCharacteristics(OrmCharacteristics ormCharacteristics) throws SQLException {
         characteristicsesDao.createOrUpdate(ormCharacteristics);
-        assureCharacteristicDetailsAreSaved((Collection<? extends OrmCharacteristicsDetail>) ormCharacteristics.getCharacteristicsDetails());
-    }
-
-    private void assureCharacteristicDetailsAreSaved(Collection<? extends OrmCharacteristicsDetail> characteristicsDetails) throws SQLException {
-        for (OrmCharacteristicsDetail characteristicsDetail : characteristicsDetails) {
-            saveCharacteristicsDetail(characteristicsDetail);
-        }
-    }
-
-    public void saveCharacteristicsDetail(OrmCharacteristicsDetail characteristicsDetail) throws SQLException {
-        characteristicsDetailsDao.createOrUpdate(characteristicsDetail);
     }
 
     public void saveSettings(OrmSettings settings) throws SQLException {

@@ -1,6 +1,6 @@
 package cdp.philips.com.mydemoapp.database;
 
-import com.philips.platform.core.datatypes.UserCharacteristics;
+import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -131,12 +131,16 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
 
     //User AppUserCharacteristics
     @Override
-    public boolean updateCharacteristics(UserCharacteristics userCharacteristics, DBRequestListener dbRequestListener) throws SQLException {
-        OrmCharacteristics ormCharacteristics;
+    public boolean updateCharacteristics(List<Characteristics> characteristicsList, DBRequestListener dbRequestListener) throws SQLException {
+
         try {
-            ormCharacteristics = OrmTypeChecking.checkOrmType(userCharacteristics, OrmCharacteristics.class);
+
             deleting.deleteCharacteristics();
-            saving.saveCharacteristics(ormCharacteristics);
+
+            for(Characteristics characteristics:characteristicsList) {
+                OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
+                saving.saveCharacteristics(ormCharacteristics);
+            }
             notifyDBRequestListener.notifySuccess(null);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {

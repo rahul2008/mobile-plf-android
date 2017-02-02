@@ -130,9 +130,7 @@ public class UpdatingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
-            DSLog.i(DSLog.LOG, "Inder Updating Monitor onEventAsync updateMonitor UCDBUpdateFromBackendRequest");
-            boolean isSynced = mUserCharacteristicsSegregator.processCharacteristicsReceivedFromDataCore(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
-            if (isSynced) {
+            if (mUserCharacteristicsSegregator.isUCSynced()) {
                 dbUpdatingInterface.updateCharacteristics(userCharacteristicsSaveBackendRequest.getUserCharacteristics(), null);
             }
         } catch (SQLException e) {

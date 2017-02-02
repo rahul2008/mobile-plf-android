@@ -63,10 +63,10 @@ public class SavingMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
         DSLog.d(DSLog.LOG, "SavingMonitor = UserCharacteristicsSaveRequest onEventAsync");
-        if (userCharacteristicsSaveRequest.getUserCharacteristics() == null)
+        if (userCharacteristicsSaveRequest.getUserCharacteristicsList() == null)
             return;
 
-        boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristics(),userCharacteristicsSaveRequest.getDbRequestListener());
+        boolean isSaved = dbInterface.saveUserCharacteristics(userCharacteristicsSaveRequest.getUserCharacteristicsList(),userCharacteristicsSaveRequest.getDbRequestListener());
 
 
 
@@ -76,10 +76,12 @@ public class SavingMonitor extends EventMonitor {
             return;
         }
 
-        if (!userCharacteristicsSaveRequest.getUserCharacteristics().isSynchronized()) {
+        //
+
+        //if (!userCharacteristicsSaveRequest.getUserCharacteristics().isSynchronized()) {
             eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
-                    userCharacteristicsSaveRequest.getUserCharacteristics()));
-        }
+                    userCharacteristicsSaveRequest.getUserCharacteristicsList()));
+        //}
     }
 
 

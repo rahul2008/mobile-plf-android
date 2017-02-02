@@ -2,7 +2,6 @@ package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -61,8 +60,8 @@ public class UserCharacteristicsConverterTest {
     @Test
     public void ShouldReturnUCoreCharacteristics_WhenAppCharacteristicsIsPassedWithType() throws Exception {
         UserCharacteristics userCharacteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TEST_CREATORID");
-        Characteristics characteristics = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", userCharacteristics);
-        Characteristics characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristicsDetails("TYPE", "VALUE", userCharacteristics, characteristics);
+        Characteristics characteristics = userCharacteristicsConvertor.dataCreator.createCharacteristics("TYPE", "VALUE", userCharacteristics);
+        Characteristics characteristicsDetail1 = userCharacteristicsConvertor.dataCreator.createCharacteristics("TYPE", "VALUE", userCharacteristics, characteristics);
 
         List<UserCharacteristics> userCharacteristicsList = new ArrayList<>();
         characteristics.setCharacteristicsDetail(characteristicsDetail1);

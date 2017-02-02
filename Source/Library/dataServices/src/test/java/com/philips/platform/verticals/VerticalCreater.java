@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Consent;
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -122,13 +121,13 @@ public class VerticalCreater implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics, @NonNull Characteristics characteristics) {
         return null;
     }
 
     @NonNull
     @Override
-    public Characteristics createCharacteristicsDetails(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
+    public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull UserCharacteristics userCharacteristics) {
         return null;
     }
 }

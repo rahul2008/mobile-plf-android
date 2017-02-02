@@ -42,7 +42,6 @@ import cdp.philips.com.mydemoapp.database.OrmSaving;
 import cdp.philips.com.mydemoapp.database.OrmUpdating;
 import cdp.philips.com.mydemoapp.database.table.BaseAppDateTime;
 import cdp.philips.com.mydemoapp.database.table.OrmCharacteristics;
-import cdp.philips.com.mydemoapp.database.table.OrmCharacteristicsDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmConsent;
 import cdp.philips.com.mydemoapp.database.table.OrmConsentDetail;
 import cdp.philips.com.mydemoapp.database.table.OrmDCSync;
@@ -119,7 +118,7 @@ public class DataSyncApplication extends Application {
             Dao<OrmConsent, Integer> consentDao = databaseHelper.getConsentDao();
             Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
             Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
-            Dao<OrmCharacteristicsDetail, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
+            Dao<OrmCharacteristics, Integer> characteristicsDetailsDao = databaseHelper.getCharacteristicsDetailsDao();
 
             Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
 

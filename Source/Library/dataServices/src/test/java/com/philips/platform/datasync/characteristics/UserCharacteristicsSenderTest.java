@@ -1,7 +1,6 @@
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.UserCharacteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
