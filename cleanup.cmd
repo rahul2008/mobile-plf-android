@@ -1,4 +1,4 @@
 @echo off
-exec tskill "java"
-exec tskill "adb"
-exec tskill "aapt"
+call tskill "java"
+call tskill "adb"
+call tskill "aapt"
