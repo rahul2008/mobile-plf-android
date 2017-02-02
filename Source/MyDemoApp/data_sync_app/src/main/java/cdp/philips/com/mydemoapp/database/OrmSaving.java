@@ -61,8 +61,6 @@ public class OrmSaving {
     private final Dao<OrmCharacteristics, Integer> characteristicsesDao;
 
     @NonNull
-    private final Dao<OrmCharacteristics, Integer> characteristicsDetailsDao;
-    @NonNull
     private final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetailsDao;
 
     @NonNull
@@ -78,7 +76,7 @@ public class OrmSaving {
                      @NonNull final Dao<OrmMeasurementGroup, Integer> measurementGroup,
                      @NonNull final Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails,
                      @NonNull final Dao<OrmCharacteristics, Integer> characteristicsesDao,
-                     @NonNull final Dao<OrmCharacteristics, Integer> characteristicsDetailsDao, @NonNull Dao<OrmSettings, Integer> settingsDao) {
+                     @NonNull Dao<OrmSettings, Integer> settingsDao) {
         this.momentDao = momentDao;
         this.momentDetailDao = momentDetailDao;
         this.measurementDao = measurementDao;
@@ -90,7 +88,6 @@ public class OrmSaving {
         this.measurementGroupDao = measurementGroup;
         this.measurementGroupDetailsDao = measurementGroupDetails;
         this.characteristicsesDao = characteristicsesDao;
-        this.characteristicsDetailsDao = characteristicsDetailsDao;
         this.settingsDao = settingsDao;
     }
 
@@ -117,7 +114,7 @@ public class OrmSaving {
     }
 
     public void saveMeasurementGroup(OrmMeasurementGroup measurementGroup) throws SQLException {
-        if(measurementGroup!=null) {
+        if (measurementGroup != null) {
             measurementGroupDao.createOrUpdate(measurementGroup);
             assureMeasurementsAreSaved(measurementGroup.getMeasurements());
             assureMeasurementGroupDetailsAreSaved(measurementGroup.getMeasurementGroupDetails());
@@ -160,7 +157,7 @@ public class OrmSaving {
     }
 
     private void assureMeasurementGroupsInsideAreSaved(OrmMeasurementGroup measurementGroup) throws SQLException {
-        if(measurementGroup!=null) {
+        if (measurementGroup != null) {
             ArrayList<? extends OrmMeasurementGroup> measurementGroups = new ArrayList<>(measurementGroup.getMeasurementGroups());
             for (OrmMeasurementGroup group : measurementGroups) {
                 saveMeasurementGroupWithinGroup(group);

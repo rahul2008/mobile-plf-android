@@ -125,8 +125,8 @@ public class DataServicesManagerTest {
     Context mockContext;
     @Mock
     private ConsentDetail consentDetailMock;
-    @Mock
-    UserCharacteristics userCharacteristicsMock;
+//    @Mock
+    //UserCharacteristics userCharacteristicsMock;
 
 
     UCoreAccessProvider uCoreAccessProvider;

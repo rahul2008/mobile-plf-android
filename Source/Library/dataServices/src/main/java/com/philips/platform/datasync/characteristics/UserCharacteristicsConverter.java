@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,18 +29,18 @@ public class UserCharacteristicsConverter {
     //DataCore data type To Application type
     public List<Characteristics> convertToCharacteristics(UCoreUserCharacteristics uCoreUserCharacteristics, @NonNull final String creatorId) {
 
-        List<Characteristics> characteristicsList=new ArrayList<>();
+        List<Characteristics> characteristicsList = new ArrayList<>();
 
-        for (int i = 0; i < uCoreCharacteristicsList.size(); i++) {
-            String type = uCoreCharacteristicsList.get(i).getType();
-            String value = uCoreCharacteristicsList.get(i).getValue();
+        for (int i = 0; i < uCoreUserCharacteristics.getCharacteristics().size(); i++) {
+            String type = uCoreUserCharacteristics.getCharacteristics().get(i).getType();
+            String value = uCoreUserCharacteristics.getCharacteristics().get(i).getValue();
 
             Characteristics characteristics = dataCreator.createCharacteristics(type, value);
 
             characteristicsList.add(characteristics);
 
-            convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList,characteristics,
-                    uCoreCharacteristicsList.get(i).getCharacteristics());
+            convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList, characteristics,
+                    uCoreUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
 
         }
 
@@ -49,15 +48,15 @@ public class UserCharacteristicsConverter {
 
     }
 
-    private void convertUCoreCharacteristicsToCharacteristicsDetailRecursively(List<Characteristics> characteristicsList,Characteristics parentCharacteristics, List<UCoreCharacteristics> uCoreCharacteristicsList) {
+    private void convertUCoreCharacteristicsToCharacteristicsDetailRecursively(List<Characteristics> characteristicsList, Characteristics parentCharacteristics, List<UCoreCharacteristics> uCoreCharacteristicsList) {
         if (uCoreCharacteristicsList.size() > 0) {
             for (int i = 0; i < uCoreCharacteristicsList.size(); i++) {
                 String type = uCoreCharacteristicsList.get(i).getType();
                 String value = uCoreCharacteristicsList.get(i).getValue();
 
-                Characteristics childCharacteristics = dataCreator.createCharacteristics(type, value,parentCharacteristics);
+                Characteristics childCharacteristics = dataCreator.createCharacteristics(type, value, parentCharacteristics);
                 characteristicsList.add(childCharacteristics);
-                convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList,childCharacteristics, uCoreCharacteristicsList.get(i).getCharacteristics());
+                convertUCoreCharacteristicsToCharacteristicsDetailRecursively(characteristicsList, childCharacteristics, uCoreCharacteristicsList.get(i).getCharacteristics());
             }
         }
     }
@@ -65,7 +64,7 @@ public class UserCharacteristicsConverter {
     //Application data type to DataCore type
     public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristicsList) {
 
-        UCoreUserCharacteristics uCoreUserCharacteristics=new UCoreUserCharacteristics();
+        UCoreUserCharacteristics uCoreUserCharacteristics = new UCoreUserCharacteristics();
 
         List<UCoreCharacteristics> uCoreCharacteristicsList = new ArrayList<>();
         List<Characteristics> mCharacteristicsList;

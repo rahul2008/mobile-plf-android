@@ -59,6 +59,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -385,7 +386,7 @@ public class DataServicesManager {
 
 
 
-    public void updateCharacteristics(ArrayList<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
+    public void updateCharacteristics(List<Characteristics> characteristicses, DBRequestListener dbRequestListener) {
         mEventing.post(new UserCharacteristicsSaveRequest(characteristicses, dbRequestListener));
     }
 

@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.datatypes.Characteristics;
+import com.philips.platform.core.datatypes.OrmTableType;
 import com.philips.platform.core.events.BackendDataRequestFailed;
+import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -17,6 +20,8 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -54,14 +59,16 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                         mUCoreAccessProvider.getUserId(), API_VERSION);
 
 
-                        mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
-                                mUCoreAccessProvider.getUserId());
+                List<Characteristics> characteristicsList = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
+                        mUCoreAccessProvider.getUserId());
 
 
-                userCharacteristics.setSynchronized(true);
+                //userCharacteristics.setSynchronized(true);
 
-                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher "+ userCharacteristics.getCharacteristicsDetails());
-                eventing.post( new UCDBUpdateFromBackendRequest(userCharacteristics,null));
+
+                eventing.post(new SyncBitUpdateRequest(OrmTableType.CHARACTERISTICS, true));
+                DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher " + characteristicsList);
+                eventing.post(new UCDBUpdateFromBackendRequest(characteristicsList, null));
             }
             return null;
         } catch (RetrofitError exception) {
