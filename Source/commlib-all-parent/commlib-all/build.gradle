@@ -68,16 +68,16 @@ dependencies {
         compile project(':bluelib')
         compile 'com.google.code.gson:gson:2.7'
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.0-rc.+')
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: '2.3.1-SNAPSHOT')
     }
 
     if (findProject(':commlib')) {
         println("!!! taking local commlib !!!")
         compile project(':commlib')
-        compile 'com.philips.cdp:cloudcontroller-api:3.0.0'
+        compile 'com.philips.cdp:cloudcontroller-api:3.1.1-SNAPSHOT'
         compile 'com.google.code.gson:gson:2.7'
     } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.0-rc.+')
+        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: '3.1.1-SNAPSHOT')
     }
 
     testCompile "org.mockito:mockito-core:2.5.5"
