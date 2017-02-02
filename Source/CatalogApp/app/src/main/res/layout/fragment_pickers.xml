@@ -52,7 +52,8 @@
                 android:contentDescription="@string/date_time_picker"
                 android:clickable="true"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
-                app:srcCompat="@drawable/ic_calender"/>
+                app:srcCompat="@drawable/ic_calender"
+                android:tint="@color/uidColorWhite"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/datePicker"
@@ -61,7 +62,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
                 android:text="@{fragment.getFormattedDate(fragment.dateTimePickerDate)}"
-                android:textColor="?attr/uidTextPrimary"
+                app:uidLabelTextColor="?attr/uidTextPrimary"
                 app:uidLabelTextAlpha="1.0"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -96,7 +97,8 @@
                 android:contentDescription="@string/date_time_picker"
                 android:clickable="true"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
-                app:srcCompat="@drawable/ic_calender"/>
+                app:srcCompat="@drawable/ic_calender"
+                android:tint="@color/uidColorWhite"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/startDatePicker"
@@ -105,7 +107,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedDate(fragment.rangePickerStartDate)}"
-                android:textColor="?attr/uidTextPrimary"
+                app:uidLabelTextColor="?attr/uidTextPrimary"
                 app:uidLabelTextAlpha="1.0"/>
 
             <com.philips.platform.uid.view.widget.Label
