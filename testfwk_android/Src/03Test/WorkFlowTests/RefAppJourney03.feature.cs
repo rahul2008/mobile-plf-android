@@ -73,11 +73,11 @@ Post-Condition : My Philips Account needs to be deleted", ProgrammingLanguage.CS
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("RefAppJourney03", new string[] {
-                "E2E"}, SourceLine=10)]
+                "E2ETesting"}, SourceLine=10)]
         public virtual void RefAppJourney03()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("RefAppJourney03", new string[] {
-                        "E2E"});
+                        "E2ETesting"});
 #line 11
 this.ScenarioSetup(scenarioInfo);
 #line 12
