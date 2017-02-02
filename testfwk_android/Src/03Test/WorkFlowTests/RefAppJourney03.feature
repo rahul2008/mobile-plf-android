@@ -7,7 +7,7 @@
 	Post-Condition : My Philips Account needs to be deleted  
 
 
-@E2E
+@E2ETesting
 Scenario: RefAppJourney03
 	Given user is on the User Registration screen
 	Given user select the country as "United Kingdom" 

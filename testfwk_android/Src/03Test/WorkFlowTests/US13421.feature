@@ -1,6 +1,6 @@
 ﻿Feature: US13421
 As a User login with MyPhilips login, verify the product infromation in the support and settings screen
-
+@E2ETesting
 Scenario: Enhancement of coverage : App Journey1
  	Given I am on the AppFramework Screen
 	#Given I am on the ReferenceApp Screen
