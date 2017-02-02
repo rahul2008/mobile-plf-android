@@ -1,6 +1,6 @@
-tskill  "java"
-tskill  "aapt"
-tskill  "adb"
+call tskill  "java"
+call tskill  "aapt"
+call tskill  "adb"
 @echo off
 subst Z: .
 Z:
