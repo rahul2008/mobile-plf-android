@@ -7,6 +7,3 @@ call gradlew clean
 echo Calling Gradle uid:createDebugCoverageReport///
 call gradlew uid:createDebugCoverageReport
 subst Z: /d
-tskill "java"
-tskill "aapt"
-tskill "adb"
