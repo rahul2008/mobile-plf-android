@@ -155,10 +155,12 @@
     <dimen name="uid_recyclerview_item_one_line_height">48dp</dimen>
     <dimen name="uid_recyclerview_item_two_lines_height">72dp</dimen>
     <dimen name="uid_recyclerview_item_three_lines_height">88dp</dimen>
+    <dimen name="uid_recyclerview_separator_drawable_padding">32dp</dimen>
 
     <dimen name="uid_social_icons_width">32dp</dimen>
     <dimen name="uid_social_icons_height">32dp</dimen>
     <dimen name="uid_social_icons_padding">0px</dimen>
     <dimen name="uid_social_icons_drawable_padding">0dp</dimen>
+    <dimen name="uid_recyclerview_padding_top_bottom">8dp</dimen>
 
 </resources>

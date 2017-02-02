@@ -8,8 +8,10 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
+import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -21,7 +23,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.Gray75;
 
-public class RecyclerViewTest {
+public class RecyclerViewItemOneLineTest {
     Resources testResources;
     private static final int ULTRA_LIGHT = 0;
 
@@ -33,7 +35,7 @@ public class RecyclerViewTest {
     public void setUp() throws Exception {
         final Intent launchIntent = getLaunchIntent(1, 0);
         activity = testRule.launchActivity(launchIntent);
-        activity.switchTo(com.philips.platform.uid.test.R.layout.layout_recyclerview);
+        activity.switchTo(R.layout.uid_recyclerview_item_one_line_with_icon);
         testResources = activity.getResources();
     }
 
@@ -48,18 +50,36 @@ public class RecyclerViewTest {
     }
 
     @Test
-    public void verifyHeaderTextFontSize() {
-        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_header_text_size);
-        getHeader().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
+    public void verifyTitleTextFontSize() {
+        float expectedFontSize = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_one_line_title_text_size);
+        getOneLineItem().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
     }
 
     @Test
-    public void verifyHeaderTextColor() {
+    public void verifyTitleTextColor() {
         final int expectedTextColor = ContextCompat.getColor(getInstrumentation().getContext(), Gray75);
-        getHeader().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
+        getOneLineItem().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
     }
 
-    private ViewInteraction getHeader() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_recyclerview_header));
+    @Test
+    public void verifyHeight() {
+        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_item_one_line_height);
+        getOneLineItem().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
+    }
+
+    @Test
+    public void verifyLeftMargin() {
+        int expectedLeftMargin = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_one_line_item_margin_left_right));
+        getOneLineItem().check(matches(ViewPropertiesMatchers.isSameLeftMargin(expectedLeftMargin)));
+    }
+
+    @Test
+    public void verifyRightMargin() {
+        int expectedRightMargin = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_one_line_item_margin_left_right));
+        getOneLineItem().check(matches(ViewPropertiesMatchers.isSameRightMargin(expectedRightMargin)));
+    }
+
+    private ViewInteraction getOneLineItem() {
+        return onView(withId(R.id.uid_recyclerview_item_one_line));
     }
 }
