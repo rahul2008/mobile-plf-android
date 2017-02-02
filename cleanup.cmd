@@ -1,4 +1,4 @@
-@echo on
+@echo off
 cd c:\windows\system32
 dir
 #call tskill "java"
