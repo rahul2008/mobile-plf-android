@@ -265,10 +265,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     appIdentityManager.validateMicrositeId(micrositeid);
 
                     environment = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                            ("servicediscovery.platformMicrositeId", "appinfra", error);
+                            ("servicediscovery.platformEnvironment", "appinfra", error);
 
                     Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
-                            .getPropertyForKey("servicediscovery.platformMicrositeId", "appinfra",
+                            .getPropertyForKey("servicediscovery.platformEnvironment", "appinfra",
                                     error);
                     appIdentityManager.validateServiceDiscoveryEnv(environment, dynServiceDiscoveryEnvironment);
                     environment = getSDBaseURLForEnvironment(environment);
