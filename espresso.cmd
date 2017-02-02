@@ -1,3 +1,4 @@
+cd Source/CatalogApp
 subst Z: .
 Z:
 call gradlew clean
