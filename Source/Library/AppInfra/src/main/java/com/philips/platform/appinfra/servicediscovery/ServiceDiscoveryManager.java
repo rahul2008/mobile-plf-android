@@ -579,10 +579,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if (cachedData != null && !cachedURLsExpired()) {
             listener.ondataReceived(cachedData);
         } else {
-//            AISDResponse response = serviceDiscovery;
-//            if (response != null) {
-//                listener.ondataReceived(response);
-//            } else {
             mRequestItemManager.clearCacheServiceDiscovery();
             queueResultListener(false, new DownloadItemListener() {
                 @Override

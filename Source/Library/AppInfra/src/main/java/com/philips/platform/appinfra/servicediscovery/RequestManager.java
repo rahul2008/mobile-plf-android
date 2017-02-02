@@ -27,8 +27,6 @@ import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 
 public class RequestManager {
@@ -51,20 +49,16 @@ public class RequestManager {
         mAppInfra.getRestClient().getRequestQueue().add(request);
 
         ServiceDiscovery result = new ServiceDiscovery();
-        System.out.println("KAVYA"+" "+"IN EXEXUTE");
         try {
-            JSONObject response = future.get(10, TimeUnit.SECONDS); // Blocks for at most 10 seconds.
+            JSONObject response = future.get();
             cacheServiceDiscovery(response, url, urlType);
             return parseResponse(response);
-        } catch (InterruptedException | TimeoutException e) {
-            System.out.println("KAVYA"+" "+"IN EXCEPTION");
-
-            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
+        } catch (InterruptedException e) {
+            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                    .OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "Timed out or interrupted");
             result.setError(err);
             result.setSuccess(false);
         } catch (ExecutionException e) {
-            System.out.println("KAVYA"+" "+"IN EXCEPTION");
-
             Throwable error = e.getCause();
             ServiceDiscovery.Error volleyError;
             if (error instanceof TimeoutError) {
@@ -123,24 +117,16 @@ public class RequestManager {
     }
 
     private void cacheServiceDiscovery(JSONObject serviceDiscovery, String url, ServiceDiscoveryManager.AISDURLType urlType) {
-        System.out.println("KAVYA"+" "+"IN CACHING");
-
         SharedPreferences sharedPreferences = getServiceDiscoverySharedPreferences();
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
         Date currentDate = new Date();
         long refreshTimeExpiry = currentDate.getTime() + 24 * 3600 * 1000;  // current time + 24 hour
         switch (urlType) {
             case AISDURLTypeProposition:
-                System.out.println("KAVYA-proposition"+" "+serviceDiscovery.toString());
-                System.out.println("KAVYA-url"+" "+url);
-
                 prefEditor.putString("SDPROPOSITION", serviceDiscovery.toString());
                 prefEditor.putString("SDPROPOSITIONURL", url);
                 break;
             case AISDURLTypePlatform:
-                System.out.println("KAVYA-platfomr"+" "+serviceDiscovery.toString());
-                System.out.println("KAVYA-pturl"+" "+url);
-
                 prefEditor.putString("SDPLATFORM", serviceDiscovery.toString());
                 prefEditor.putString("SDPLATFORMURL", url);
                 break;
@@ -149,36 +135,13 @@ public class RequestManager {
         prefEditor.commit();
     }
 
-//    ServiceDiscovery getServiceDiscoveryFromCache(String url) {
-//        ServiceDiscovery serviceDiscovery = null;
-//        SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-//        if (null != prefs && prefs.contains("SDurl")) {
-//            final String savedURL = prefs.getString("SDurl", null);
-//            final long refreshTimeExpiry = prefs.getLong("SDrefreshTime", 0);
-//            Date currentDate = new Date();
-//            long currentDateLong = currentDate.getTime();
-//            if (savedURL != null && savedURL.equals(url) && currentDateLong < refreshTimeExpiry) { // cache is VALID  i.e. AppIdentity and locale has not changed
-//                try {
-//                    JSONObject SDjSONObject = new JSONObject(prefs.getString("SDcache", null));
-//                    serviceDiscovery = parseResponse(SDjSONObject);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } else {// cache is INVALID so clear SD Cache
-//                clearCacheServiceDiscovery();
-//            }
-//        }
-//        return serviceDiscovery;
-//    }
 
-    AISDResponse getCachedData() {
+    protected AISDResponse getCachedData() {
         AISDResponse cachedResponse = null;
         SharedPreferences prefs = getServiceDiscoverySharedPreferences();
         if (prefs != null) {
             String propositionCache = prefs.getString("SDPROPOSITION", null);
             String platformCache = prefs.getString("SDPLATFORM", null);
-            System.out.println("KAVYA-procache"+" "+propositionCache);
-            System.out.println("KAVYA-placache"+" "+platformCache);
             try {
                 JSONObject propositionObject = new JSONObject(propositionCache);
                 ServiceDiscovery propostionService = parseResponse(propositionObject);
@@ -188,8 +151,6 @@ public class RequestManager {
                 cachedResponse = new AISDResponse();
                 cachedResponse.setPropositionURLs(propostionService);
                 cachedResponse.setPlatformURLs(platformService);
-                System.out.println("KAVYA-cache"+" "+cachedResponse);
-
                 return cachedResponse;
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -200,7 +161,7 @@ public class RequestManager {
 
     String getUrlProposition() {
         SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-        if(prefs != null) {
+        if (prefs != null) {
             return prefs.getString("SDPROPOSITIONURL", null);
         }
         return null;
@@ -208,8 +169,8 @@ public class RequestManager {
 
     String getUrlPlatform() {
         SharedPreferences prefs = getServiceDiscoverySharedPreferences();
-        if(prefs != null) {
-           return prefs.getString("SDPLATFORMURL", null);
+        if (prefs != null) {
+            return prefs.getString("SDPLATFORMURL", null);
         }
         return null;
     }
