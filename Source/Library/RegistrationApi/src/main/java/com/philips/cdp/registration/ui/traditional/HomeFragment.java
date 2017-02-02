@@ -637,9 +637,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
             scrollViewAutomatically(mRegError, mSvRootLayout);
-            if (!isNetwork){
-             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
-            }
         }
     }
 
@@ -879,11 +876,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo && userRegistrationFailureInfo.getErrorCode()!= LOGIN_FAILURE) {
-            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
-        }
-
-        //Temp fix need to be changed
+           //Temp fix need to be changed
         if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED){
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             scrollViewAutomatically(mRegError,mSvRootLayout);
@@ -980,9 +973,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackSocialProviderPage();
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo) {
+       /* if (null != userRegistrationFailureInfo) {
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
-        }
+        }*/
     }
 
     @Override

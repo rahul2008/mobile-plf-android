@@ -16,6 +16,8 @@ import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
@@ -71,6 +73,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
                     mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 }
             });
@@ -88,6 +91,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFailure(SignInError error) {
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
             String emailId = null;
@@ -107,6 +111,8 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
                     conflictingIdentityProvider, conflictingIdpNameLocalized,
                     existingIdpNameLocalized, emailId);
+            userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
+            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isTwoStepRegFlowError()) {
 
@@ -114,14 +120,14 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
             mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
                     socialRegistrationToken);
-
+            userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
+            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
         } else {
-
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
             mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 
         }
+        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
 
     private Activity mActivity;

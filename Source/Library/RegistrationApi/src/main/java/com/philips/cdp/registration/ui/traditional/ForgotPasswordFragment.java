@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -359,7 +360,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             mEtEmail.showErrPopUp();
         }
         scrollViewAutomatically(mEtEmail, mSvRootLayout);
-        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
+        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
     }
 
     private View.OnClickListener mContinueBtnClick = new View.OnClickListener() {

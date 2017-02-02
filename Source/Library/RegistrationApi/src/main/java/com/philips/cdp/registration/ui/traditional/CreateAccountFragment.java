@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -563,7 +564,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         if(userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT){
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         }
-        trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnCreateAccount.setEnabled(false);
     }

@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
@@ -382,7 +383,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 
         }
-        trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         scrollViewAutomatically(mRegError, mSvRootLayout);
     }
 
@@ -429,9 +429,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
                     mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
                     return;
                 }
-                trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
                 mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
                 scrollViewAutomatically(mRegError, mSvRootLayout);
+                AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
             }
         });
 

@@ -377,7 +377,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         hideMergeSpinner();
         if (null != userRegistrationFailureInfo) {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
@@ -425,9 +424,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             public void run() {
                 RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginFailure");
                 hideMergeSpinner();
-                if (null != userRegistrationFailureInfo) {
-                    trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
-                }
             }
         });
     }

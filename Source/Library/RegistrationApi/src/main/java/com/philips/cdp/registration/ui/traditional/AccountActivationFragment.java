@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -294,11 +295,14 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             launchWelcomeFragment();
 
         } else {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);
+            userRegistrationFailureInfo.setErrorCode(AppTagingConstants.EMAIL_NOT_VERIFIED);
             mEMailVerifiedError.setVisibility(View.VISIBLE);
             mEMailVerifiedError.setError(mContext.getResources().getString(
                     R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
-            trackActionLoginError(AppTagingConstants.EMAIL_NOT_VERIFIED);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
+            AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
         }
     }
 
@@ -415,7 +419,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK,"AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
+        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
         try {
             mRegError.setError(userRegistrationFailureInfo.getError().raw_response.getString("message"));
         } catch (JSONException e) {

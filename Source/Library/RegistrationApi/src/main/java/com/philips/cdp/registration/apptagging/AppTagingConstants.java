@@ -74,9 +74,9 @@ public class AppTagingConstants {
 
 	public static final String PREVIOUS_PAGE_NAME = "previousPageName";
 
-	public static final String TECHNICAL_ERROR = "technicalError";
+	public static final String TECHNICAL_ERROR = "error";
 
-	public static final String USER_ERROR = "userError";
+	public static final String USER_ERROR = "error";
 
 	public static final String RESET_PASSWORD_SUCCESS = "A link is sent to your email to reset the password of your Philips Account";
 
@@ -132,5 +132,16 @@ public class AppTagingConstants {
 
     public static final String AB_TEST = "abtest";
 
+	public static final String USER_REGISTRATION = "UR";
+
+	public static final String LOGIN_FAILED = "Loginfailed";
+
+	public static final String JANRAIN = "Janrain";
+
+	public static final String HSDP = "HSDP";
+
+	public static final String EMAIL_VERIFICATION = "Please verify your email address through the activation link sent to your email account";
+
+	public static final String NETWORK_ERROR = "Network Error";
 
 }
