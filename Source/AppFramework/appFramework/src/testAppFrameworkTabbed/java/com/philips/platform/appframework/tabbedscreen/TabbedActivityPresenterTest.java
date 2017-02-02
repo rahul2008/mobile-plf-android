@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -98,7 +97,7 @@ public class TabbedActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIStateData setStateData(final int componentID) {
+            protected UIStateData setStateData(final String componentID) {
                 return uiStateData;
             }
 

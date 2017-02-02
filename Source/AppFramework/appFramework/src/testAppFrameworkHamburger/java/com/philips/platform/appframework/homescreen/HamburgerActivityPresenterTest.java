@@ -96,7 +96,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIStateData setStateData(final int componentID) {
+            protected UIStateData setStateData(final String componentID) {
                 return uiStateData;
             }
 
@@ -134,7 +134,7 @@ public class HamburgerActivityPresenterTest extends TestCase {
 
             @NonNull
             @Override
-            protected UIStateData setStateData(final int componentID) {
+            protected UIStateData setStateData(final String componentID) {
                 return uiStateData;
             }
 
