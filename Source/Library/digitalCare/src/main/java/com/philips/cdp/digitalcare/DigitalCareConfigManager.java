@@ -295,8 +295,8 @@ public class DigitalCareConfigManager {
     public AppTaggingInterface getTaggingInterface() {
         AppTaggingInterface taggingInterface =
                 getAPPInfraInstance().getTagging().createInstanceForComponent
-                        ("com.philips.cdp.digitalcare", "6.1.0");
-        taggingInterface.setPreviousPage("vertical:digitalcare:home");
+                        ("com.philips.cdp.digitalcare", "7.2.0");
+        //taggingInterface.setPreviousPage("vertical:digitalcare:home");
         return taggingInterface;
     }
 
