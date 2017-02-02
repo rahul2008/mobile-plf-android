@@ -29,9 +29,21 @@
     </style>
 
     <style name="UIDHeaderMonthAppearance">
-        <item name="android:textColor">?attr/uidDatePickerHeaderTextColor</item>
+        <item name="android:textColor">@color/uid_datepicker_header_selector</item>
         <item name="android:textSize">@dimen/uid_date_picker_header_text_size</item>
         <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="UIDHeaderDayOfMonthAppearance">
+        <item name="android:textColor">@color/uid_datepicker_header_selector</item>
+        <item name="android:textSize">88dp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="UIDHeaderYearAppearance">
+        <item name="android:textColor">@color/uid_datepicker_header_selector</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="UIDCalendarButtonStyle">
@@ -41,7 +53,7 @@
 
     <style name="UIDDayOfWeekTextAppearance" parent="android:TextAppearance.Material">
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textColor">?attr/uidDatePickerDayOfWeekTextColor</item>
+        <item name="android:textColor">?attr/uidDatePickerHeaderTextColor</item>
         <item name="android:textSize">14dp</item>
     </style>
 
@@ -50,5 +62,8 @@
         <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
         <item name="android:calendarTextColor">?attr/uidDatePickerTextColor</item>
         <item name="android:dayOfWeekTextAppearance">@style/UIDDayOfWeekTextAppearance</item>
+        <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
+        <item name="android:headerDayOfMonthTextAppearance">@style/UIDHeaderDayOfMonthAppearance</item>
+        <item name="android:headerYearTextAppearance">@style/UIDHeaderYearAppearance</item>
     </style>
 </resources>
