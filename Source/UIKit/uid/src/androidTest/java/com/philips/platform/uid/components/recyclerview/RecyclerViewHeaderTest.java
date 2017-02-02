@@ -2,22 +2,17 @@ package com.philips.platform.uid.components.recyclerview;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
-import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.BaseTypeSafteyMatcher;
-import com.philips.platform.uid.matcher.DrawableMatcher;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,9 +20,9 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.Gray75;
+import static com.philips.platform.uid.test.R.color.Gray65;
 import static com.philips.platform.uid.test.R.color.GroupBlue05;
-import static junit.framework.Assert.assertTrue;
+import static com.philips.platform.uid.utils.UIDTestUtils.modulateColorAlpha;
 
 public class RecyclerViewHeaderTest {
     Resources testResources;
@@ -63,11 +58,10 @@ public class RecyclerViewHeaderTest {
 
     @Test
     public void verifyHeaderTextColor() {
-        final int expectedTextColor = ContextCompat.getColor(getInstrumentation().getContext(), Gray75);
+        final int expectedTextColor = modulateColorAlpha(ContextCompat.getColor(getInstrumentation().getContext(), Gray65), 0.70f);
         getHeader().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
     }
 
-    @Ignore
     @Test
     public void verifyHeaderBGColor() {
         final int expectedBGColor = ContextCompat.getColor(getInstrumentation().getContext(), GroupBlue05);
@@ -92,23 +86,7 @@ public class RecyclerViewHeaderTest {
         getHeader().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 
-    @Test
-    public void verifyRecyclerViewTopPadding() {
-        int expectedPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_padding_top_bottom));
-        getRecyclerView().check(matches(ViewPropertiesMatchers.isSameTopPadding(expectedPadding)));
-    }
-
-    @Test
-    public void verifyRecyclerViewBottomPadding() {
-        int expectedPadding = (int) Math.ceil(testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_padding_top_bottom));
-        getRecyclerView().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedPadding)));
-    }
-
     private ViewInteraction getHeader() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_recyclerview_header));
-    }
-
-    private ViewInteraction getRecyclerView() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_recyclerview_recyclerview));
     }
 }
