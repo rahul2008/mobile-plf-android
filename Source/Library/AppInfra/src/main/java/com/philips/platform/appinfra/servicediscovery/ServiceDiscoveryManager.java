@@ -641,7 +641,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
         String homeCountry = fetchFromSecureStorage(COUNTRY);
         String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
-        if (homeCountry == null) {
+        if (homeCountry == null && countrySource == null) {
             String countryCode = getCountryCodeFromSim();
             if (countryCode != null) {
                 saveToSecureStore(countryCode, COUNTRY);
@@ -673,7 +673,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 });
             }
         } else {
-            listener.onSuccess(countryCode, OnGetHomeCountryListener.SOURCE.valueOf(countrySource));
+            listener.onSuccess(homeCountry, OnGetHomeCountryListener.SOURCE.valueOf(countrySource));
         }
     }
 
