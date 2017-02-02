@@ -3,7 +3,7 @@ subst Z: .
 Z:
 cd Source/CatalogApp
 echo Calling Gradle clean...
-call gradle clean
+call gradlew clean
 echo Calling Gradle uid:createDebugCoverageReport///
-call gradle uid:createDebugCoverageReport
+call gradlew uid:createDebugCoverageReport
 subst Z: /d
